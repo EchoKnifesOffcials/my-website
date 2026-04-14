@@ -3,1101 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECHOKNIVES | MM2 Shop & Trading</title>
+    <title>ECHOKNIVES | Premium MM2 Shop</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyBAn0pSAeYVXlpBFElUvFWeCdmMduRDLss",
-            authDomain: "echoknifes-5360c.firebaseapp.com",
-            projectId: "echoknifes-5360c",
-            storageBucket: "echoknifes-5360c.firebasestorage.app",
-            messagingSenderId: "86064144525",
-            appId: "1:86064144525:web:9a8dee636295e840c242c4"
-        };
-        
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-        
-        window.firebaseAuth = auth;
-        window.firebaseProvider = provider;
-        window.firebaseSignOut = signOut;
-        window.firebaseSignInWithPopup = signInWithPopup;
-
-        onAuthStateChanged(auth, (user) => {
-            if (window.handleAuthStateChanged) {
-                window.handleAuthStateChanged(user);
-            }
-        });
-
-        window.firebaseReady = true;
-        window.dispatchEvent(new Event('firebase-ready'));
-    </script>
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%);
-            min-height: 100vh;
-            color: #fff;
-        }
-
-        body.light-mode {
-            background: #f5f7fb;
-            color: #1a1a2e;
-        }
-
-        .header {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 12px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 2px solid rgba(220, 38, 38, 0.5);
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        body.light-mode .header {
-            background: white;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-            border-bottom: 2px solid #e74c3c;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
-        .logo i {
-            font-size: 28px;
-            color: #dc2626;
-        }
-
-        .logo h1 {
-            font-size: 22px;
-            font-weight: 800;
-        }
-
-        .logo span {
-            color: #dc2626;
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 5px;
-            background: rgba(255,255,255,0.1);
-            padding: 4px;
-            border-radius: 50px;
-        }
-
-        body.light-mode .nav-tabs {
-            background: #f0f0f0;
-        }
-
-        .nav-tab {
-            padding: 8px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 500;
-            border: none;
-            background: transparent;
-            color: white;
-            font-size: 14px;
-        }
-
-        body.light-mode .nav-tab {
-            color: #333;
-        }
-
-        .nav-tab.active {
-            background: #dc2626;
-            color: white;
-        }
-
-        .top-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-btn {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 30px;
-            color: white;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        body.light-mode .dropdown-btn {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 45px;
-            background: #1a1a2e;
-            min-width: 180px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            z-index: 1000;
-            overflow: hidden;
-        }
-
-        body.light-mode .dropdown-content {
-            background: white;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-        }
-
-        .dropdown-content.show {
-            display: block;
-        }
-
-        .dropdown-item {
-            padding: 12px 18px;
-            cursor: pointer;
-            font-size: 13px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            color: white;
-        }
-
-        body.light-mode .dropdown-item {
-            border-bottom: 1px solid #eee;
-            color: #333;
-        }
-
-        .dropdown-item:hover {
-            background: rgba(220,38,38,0.2);
-        }
-
-        .dropdown-item i {
-            width: 24px;
-            margin-right: 10px;
-            color: #dc2626;
-        }
-
-        .currency-selector {
-            background: rgba(255,255,255,0.1);
-            border-radius: 30px;
-            padding: 8px 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        body.light-mode .currency-selector {
-            background: #f0f0f0;
-        }
-
-        .currency-selector select {
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 13px;
-            cursor: pointer;
-            outline: none;
-        }
-
-        body.light-mode .currency-selector select {
-            color: #333;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255,255,255,0.1);
-            padding: 5px 12px;
-            border-radius: 30px;
-        }
-
-        body.light-mode .user-info {
-            background: #f0f0f0;
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #dc2626;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .login-btn, .logout-btn {
-            background: #dc2626;
-            border: none;
-            padding: 6px 18px;
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .admin-badge {
-            background: #f39c12;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .cart-icon {
-            position: relative;
-            cursor: pointer;
-            font-size: 22px;
-            background: rgba(255,255,255,0.1);
-            padding: 8px 14px;
-            border-radius: 30px;
-        }
-
-        body.light-mode .cart-icon {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .cart-icon:hover {
-            background: #dc2626;
-            color: white;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #dc2626;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .admin-panel {
-            background: rgba(0,0,0,0.8);
-            margin: 20px 5%;
-            border-radius: 20px;
-            padding: 20px;
-            border: 2px solid #f39c12;
-            display: none;
-        }
-
-        body.light-mode .admin-panel {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .admin-panel.show {
-            display: block;
-        }
-
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .admin-search {
-            padding: 8px 15px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 25px;
-            color: white;
-            width: 250px;
-        }
-
-        body.light-mode .admin-search {
-            background: #f0f0f0;
-            border: 1px solid #ddd;
-            color: #333;
-        }
-
-        .admin-items-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .admin-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .toggle-status {
-            background: #dc2626;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 11px;
-        }
-
-        .toggle-status.available {
-            background: #27ae60;
-        }
-
-        /* Chat Panel - Private Messages */
-        .chat-panel {
-            background: rgba(0,0,0,0.8);
-            margin: 20px 5%;
-            border-radius: 20px;
-            padding: 20px;
-            border: 2px solid #dc2626;
-            display: none;
-        }
-
-        body.light-mode .chat-panel {
-            background: white;
-        }
-
-        .chat-panel.show {
-            display: block;
-        }
-
-        .chat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .chat-conversations {
-            display: flex;
-            gap: 20px;
-            min-height: 400px;
-        }
-
-        .conversation-list {
-            width: 30%;
-            border-right: 1px solid rgba(255,255,255,0.1);
-            padding-right: 15px;
-            overflow-y: auto;
-            max-height: 400px;
-        }
-
-        .conversation-item {
-            padding: 12px;
-            cursor: pointer;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            transition: all 0.3s;
-            background: rgba(255,255,255,0.05);
-        }
-
-        .conversation-item:hover {
-            background: rgba(220,38,38,0.2);
-        }
-
-        .conversation-item.active {
-            background: #dc2626;
-        }
-
-        .conversation-name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .conversation-preview {
-            font-size: 11px;
-            color: #888;
-            margin-top: 4px;
-        }
-
-        .conversation-unread {
-            background: #dc2626;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 10px;
-            margin-left: 8px;
-        }
-
-        .chat-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-messages {
-            flex: 1;
-            height: 350px;
-            overflow-y: auto;
-            padding: 15px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            margin-bottom: 15px;
-        }
-
-        .message-bubble {
-            margin-bottom: 12px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .message-bubble.admin {
-            align-items: flex-start;
-        }
-
-        .message-bubble.user {
-            align-items: flex-end;
-        }
-
-        .message-text {
-            max-width: 80%;
-            padding: 10px 15px;
-            border-radius: 18px;
-            font-size: 13px;
-        }
-
-        .message-bubble.admin .message-text {
-            background: #dc2626;
-            color: white;
-            border-bottom-left-radius: 4px;
-        }
-
-        .message-bubble.user .message-text {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-
-        body.light-mode .message-bubble.user .message-text {
-            background: #e9ecef;
-            color: #333;
-        }
-
-        .message-time {
-            font-size: 10px;
-            color: #888;
-            margin-top: 4px;
-        }
-
-        .chat-input-area {
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 12px;
-            border-radius: 25px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-        }
-
-        body.light-mode .chat-input {
-            background: #f0f0f0;
-            border: 1px solid #ddd;
-            color: #333;
-        }
-
-        .chat-send {
-            background: #dc2626;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-        }
-
-        .no-conversation {
-            text-align: center;
-            padding: 50px;
-            color: #888;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px 5%;
-        }
-
-        .filter-bar {
-            background: rgba(0,0,0,0.5);
-            padding: 12px 20px;
-            margin-bottom: 25px;
-            border-radius: 50px;
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-        }
-
-        body.light-mode .filter-bar {
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .filter-btn {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            padding: 8px 20px;
-            border-radius: 30px;
-            color: white;
-            cursor: pointer;
-            font-size: 13px;
-            white-space: nowrap;
-        }
-
-        body.light-mode .filter-btn {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .filter-btn.active {
-            background: #dc2626;
-            color: white;
-        }
-
-        .stats-banner {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgba(220,38,38,0.3);
-        }
-
-        body.light-mode .stat-card {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            border: none;
-        }
-
-        .stat-card h3 {
-            font-size: 28px;
-            font-weight: 800;
-            color: #dc2626;
-        }
-
-        .stat-card p {
-            font-size: 13px;
-            color: #888;
-            margin-top: 5px;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
-        }
-
-        .product-card {
-            background: linear-gradient(135deg, rgba(30,20,25,0.9), rgba(20,15,20,0.95));
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(220,38,38,0.2);
-            position: relative;
-        }
-
-        body.light-mode .product-card {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            border-color: #dc2626;
-        }
-
-        .product-card.offsale {
-            opacity: 0.6;
-        }
-
-        .offsale-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #dc2626;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: bold;
-            color: white;
-            z-index: 2;
-        }
-
-        .product-image {
-            width: 100%;
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, #2a1a1a, #1a0a0a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-        }
-
-        body.light-mode .product-image {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        }
-
-        .product-info {
-            padding: 15px;
-        }
-
-        .product-name {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .product-price {
-            font-size: 18px;
-            font-weight: 800;
-            color: #dc2626;
-        }
-
-        .add-btn {
-            width: 100%;
-            margin-top: 12px;
-            padding: 10px;
-            background: linear-gradient(135deg, #dc2626, #991b1b);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .add-btn:disabled {
-            background: #444;
-            cursor: not-allowed;
-        }
-
-        .trading-container {
-            display: none;
-        }
-
-        .trading-container.active {
-            display: block;
-        }
-
-        .trading-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .create-trade-btn {
-            background: #dc2626;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .trades-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-        }
-
-        .trade-card {
-            background: linear-gradient(135deg, rgba(30,20,25,0.9), rgba(20,15,20,0.95));
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid rgba(220,38,38,0.2);
-        }
-
-        body.light-mode .trade-card {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .trade-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .trade-user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .trade-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #dc2626;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .trade-offer {
-            background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-            padding: 12px;
-            margin: 15px 0;
-        }
-
-        body.light-mode .trade-offer {
-            background: #f8f9fa;
-        }
-
-        .offer-label {
-            font-weight: 600;
-            color: #dc2626;
-        }
-
-        .trade-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .accept-trade {
-            flex: 1;
-            background: #27ae60;
-            border: none;
-            padding: 10px;
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .delete-trade {
-            flex: 1;
-            background: #dc2626;
-            border: none;
-            padding: 10px;
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .cart-sidebar {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100vh;
-            background: rgba(10,10,15,0.98);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            transition: right 0.3s;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            border-left: 2px solid #dc2626;
-        }
-
-        body.light-mode .cart-sidebar {
-            background: white;
-        }
-
-        .cart-sidebar.open {
-            right: 0;
-        }
-
-        .cart-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(255,255,255,0.1);
-        }
-
-        body.light-mode .cart-header {
-            border-bottom: 2px solid #eee;
-        }
-
-        .close-cart {
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            color: #dc2626;
-        }
-
-        .cart-items {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .cart-total {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 2px solid #dc2626;
-            font-size: 22px;
-            font-weight: 800;
-        }
-
-        .payment-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .payment-method {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        body.light-mode .payment-method {
-            background: #f0f0f0;
-        }
-
-        .payment-method.selected {
-            background: #dc2626;
-            color: white;
-        }
-
-        .checkout-btn {
-            width: 100%;
-            padding: 15px;
-            background: #27ae60;
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .roblox-input {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 25px;
-            margin: 15px 0;
-            font-size: 16px;
-            color: white;
-        }
-
-        body.light-mode .roblox-input {
-            background: #f0f0f0;
-            border: 1px solid #ddd;
-            color: #333;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 999;
-            display: none;
-        }
-
-        .overlay.show {
-            display: block;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #27ae60;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 12px;
-            z-index: 2000;
-            transform: translateX(400px);
-            transition: transform 0.3s;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .no-trades {
-            text-align: center;
-            padding: 50px;
-            color: #888;
-        }
-
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 3000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius: 30px;
-            padding: 30px;
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
-            position: relative;
-            border: 1px solid #dc2626;
-        }
-
-        body.light-mode .modal-content {
-            background: white;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
-            cursor: pointer;
-            color: #999;
-        }
-
-        .modal-close:hover {
-            color: #dc2626;
-        }
-
-        .verify-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .verify-yes {
-            flex: 1;
-            background: #27ae60;
-            border: none;
-            padding: 12px;
-            border-radius: 25px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .verify-no {
-            flex: 1;
-            background: #dc2626;
-            border: none;
-            padding: 12px;
-            border-radius: 25px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top: 4px solid #dc2626;
-            border-radius: 50%;
-            margin: 20px auto;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%); min-height: 100vh; color: #fff; }
+        body.light-mode { background: #f5f7fb; color: #1a1a2e; }
+        
+        .header { background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid rgba(220,38,38,0.5); flex-wrap: wrap; gap: 12px; }
+        body.light-mode .header { background: white; box-shadow: 0 2px 15px rgba(0,0,0,0.08); border-bottom: 2px solid #e74c3c; }
+        .logo { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .logo i { font-size: 28px; color: #dc2626; }
+        .logo h1 { font-size: 22px; font-weight: 800; }
+        .logo span { color: #dc2626; }
+        
+        .nav-tabs { display: flex; gap: 5px; background: rgba(255,255,255,0.1); padding: 4px; border-radius: 50px; }
+        body.light-mode .nav-tabs { background: #f0f0f0; }
+        .nav-tab { padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 500; border: none; background: transparent; color: white; font-size: 14px; }
+        body.light-mode .nav-tab { color: #333; }
+        .nav-tab.active { background: #dc2626; color: white; }
+        
+        .top-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .dropdown { position: relative; }
+        .dropdown-btn { background: rgba(255,255,255,0.1); border: none; padding: 8px 16px; border-radius: 30px; color: white; cursor: pointer; font-size: 13px; }
+        body.light-mode .dropdown-btn { background: #f0f0f0; color: #333; }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 45px; background: #1a1a2e; min-width: 180px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); z-index: 1000; overflow: hidden; }
+        body.light-mode .dropdown-content { background: white; box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
+        .dropdown-content.show { display: block; }
+        .dropdown-item { padding: 12px 18px; cursor: pointer; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.1); color: white; }
+        body.light-mode .dropdown-item { border-bottom: 1px solid #eee; color: #333; }
+        .dropdown-item:hover { background: rgba(220,38,38,0.2); }
+        .dropdown-item i { width: 24px; margin-right: 10px; color: #dc2626; }
+        
+        .currency-selector { background: rgba(255,255,255,0.1); border-radius: 30px; padding: 8px 16px; display: flex; align-items: center; gap: 8px; }
+        body.light-mode .currency-selector { background: #f0f0f0; }
+        .currency-selector select { background: transparent; border: none; color: white; font-size: 13px; cursor: pointer; outline: none; }
+        body.light-mode .currency-selector select { color: #333; }
+        
+        .user-info { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 30px; }
+        body.light-mode .user-info { background: #f0f0f0; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: #dc2626; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        .login-btn, .logout-btn { background: #dc2626; border: none; padding: 6px 18px; border-radius: 25px; color: white; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .admin-badge { background: #f39c12; padding: 3px 10px; border-radius: 15px; font-size: 10px; font-weight: bold; }
+        
+        .cart-icon { position: relative; cursor: pointer; font-size: 22px; background: rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 30px; }
+        body.light-mode .cart-icon { background: #f0f0f0; color: #333; }
+        .cart-icon:hover { background: #dc2626; color: white; }
+        .cart-count { position: absolute; top: -5px; right: -5px; background: #dc2626; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; display: flex; align-items: center; justify-content: center; color: white; }
+        
+        .admin-panel { background: rgba(0,0,0,0.8); margin: 20px 5%; border-radius: 20px; padding: 20px; border: 2px solid #f39c12; display: none; }
+        body.light-mode .admin-panel { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .admin-panel.show { display: block; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        .admin-search { padding: 8px 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 25px; color: white; width: 250px; }
+        body.light-mode .admin-search { background: #f0f0f0; border: 1px solid #ddd; color: #333; }
+        .admin-items-list { max-height: 300px; overflow-y: auto; }
+        .admin-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .toggle-status { background: #dc2626; border: none; padding: 5px 12px; border-radius: 20px; color: white; cursor: pointer; font-size: 11px; }
+        .toggle-status.available { background: #27ae60; }
+        
+        .chat-panel { background: rgba(0,0,0,0.8); margin: 20px 5%; border-radius: 20px; padding: 20px; border: 2px solid #dc2626; display: none; }
+        body.light-mode .chat-panel { background: white; }
+        .chat-panel.show { display: block; }
+        .chat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .chat-conversations { display: flex; gap: 20px; min-height: 400px; }
+        .conversation-list { width: 30%; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 15px; overflow-y: auto; max-height: 400px; }
+        .conversation-item { padding: 12px; cursor: pointer; border-radius: 12px; margin-bottom: 8px; background: rgba(255,255,255,0.05); }
+        .conversation-item:hover { background: rgba(220,38,38,0.2); }
+        .conversation-item.active { background: #dc2626; }
+        .conversation-name { font-weight: 600; font-size: 14px; }
+        .conversation-preview { font-size: 11px; color: #888; margin-top: 4px; }
+        .conversation-unread { background: #dc2626; color: white; padding: 2px 8px; border-radius: 20px; font-size: 10px; margin-left: 8px; }
+        .chat-area { flex: 1; display: flex; flex-direction: column; }
+        .chat-messages { flex: 1; height: 350px; overflow-y: auto; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 15px; margin-bottom: 15px; }
+        .message-bubble { margin-bottom: 12px; display: flex; flex-direction: column; }
+        .message-bubble.admin { align-items: flex-start; }
+        .message-bubble.user { align-items: flex-end; }
+        .message-text { max-width: 80%; padding: 10px 15px; border-radius: 18px; font-size: 13px; }
+        .message-bubble.admin .message-text { background: #dc2626; color: white; border-bottom-left-radius: 4px; }
+        .message-bubble.user .message-text { background: rgba(255,255,255,0.2); color: white; border-bottom-right-radius: 4px; }
+        body.light-mode .message-bubble.user .message-text { background: #e9ecef; color: #333; }
+        .message-time { font-size: 10px; color: #888; margin-top: 4px; }
+        .chat-input-area { display: flex; gap: 10px; }
+        .chat-input { flex: 1; padding: 12px; border-radius: 25px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; }
+        body.light-mode .chat-input { background: #f0f0f0; border: 1px solid #ddd; color: #333; }
+        .chat-send { background: #dc2626; border: none; padding: 12px 20px; border-radius: 25px; color: white; cursor: pointer; }
+        .no-conversation { text-align: center; padding: 50px; color: #888; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
+        .filter-bar { background: rgba(0,0,0,0.5); padding: 12px 20px; margin-bottom: 25px; border-radius: 50px; display: flex; gap: 10px; overflow-x: auto; }
+        body.light-mode .filter-bar { background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .filter-btn { background: rgba(255,255,255,0.1); border: none; padding: 8px 20px; border-radius: 30px; color: white; cursor: pointer; font-size: 13px; white-space: nowrap; }
+        body.light-mode .filter-btn { background: #f0f0f0; color: #333; }
+        .filter-btn.active { background: #dc2626; color: white; }
+        
+        .stats-banner { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; text-align: center; border: 1px solid rgba(220,38,38,0.3); }
+        body.light-mode .stat-card { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: none; }
+        .stat-card h3 { font-size: 28px; font-weight: 800; color: #dc2626; }
+        .stat-card p { font-size: 13px; color: #888; margin-top: 5px; }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .product-card { background: linear-gradient(135deg, rgba(30,20,25,0.9), rgba(20,15,20,0.95)); border-radius: 15px; overflow: hidden; transition: all 0.3s ease; border: 1px solid rgba(220,38,38,0.2); position: relative; }
+        body.light-mode .product-card { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .product-card:hover { transform: translateY(-5px); border-color: #dc2626; }
+        .product-card.offsale { opacity: 0.6; }
+        .offsale-badge { position: absolute; top: 10px; right: 10px; background: #dc2626; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; color: white; z-index: 2; }
+        .product-image { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #2a1a1a, #1a0a0a); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        body.light-mode .product-image { background: linear-gradient(135deg, #f8f9fa, #e9ecef); }
+        .product-image img { width: 100%; height: 100%; object-fit: contain; }
+        .product-info { padding: 15px; }
+        .product-name { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+        .product-rarity { font-size: 11px; color: #f39c12; margin-bottom: 5px; text-transform: uppercase; }
+        .product-price { font-size: 18px; font-weight: 800; color: #dc2626; }
+        .add-btn { width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #dc2626, #991b1b); border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; }
+        .add-btn:disabled { background: #444; cursor: not-allowed; }
+        
+        .trading-container { display: none; }
+        .trading-container.active { display: block; }
+        .trading-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        .create-trade-btn { background: #dc2626; border: none; padding: 12px 25px; border-radius: 30px; color: white; font-weight: 600; cursor: pointer; }
+        .trades-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .trade-card { background: linear-gradient(135deg, rgba(30,20,25,0.9), rgba(20,15,20,0.95)); border-radius: 20px; padding: 20px; border: 1px solid rgba(220,38,38,0.2); }
+        body.light-mode .trade-card { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .trade-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .trade-user { display: flex; align-items: center; gap: 10px; }
+        .trade-avatar { width: 40px; height: 40px; border-radius: 50%; background: #dc2626; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        .trade-offer { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 12px; margin: 15px 0; }
+        body.light-mode .trade-offer { background: #f8f9fa; }
+        .offer-label { font-weight: 600; color: #dc2626; }
+        .trade-actions { display: flex; gap: 10px; }
+        .accept-trade { flex: 1; background: #27ae60; border: none; padding: 10px; border-radius: 25px; color: white; cursor: pointer; font-weight: 600; }
+        .delete-trade { flex: 1; background: #dc2626; border: none; padding: 10px; border-radius: 25px; color: white; cursor: pointer; font-weight: 600; }
+        
+        .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100vh; background: rgba(10,10,15,0.98); backdrop-filter: blur(20px); z-index: 1000; transition: right 0.3s; padding: 25px; display: flex; flex-direction: column; border-left: 2px solid #dc2626; }
+        body.light-mode .cart-sidebar { background: white; }
+        .cart-sidebar.open { right: 0; }
+        .cart-header { display: flex; justify-content: space-between; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid rgba(255,255,255,0.1); }
+        body.light-mode .cart-header { border-bottom: 2px solid #eee; }
+        .close-cart { background: none; border: none; font-size: 28px; cursor: pointer; color: #dc2626; }
+        .cart-items { flex: 1; overflow-y: auto; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #dc2626; font-size: 22px; font-weight: 800; }
+        .payment-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 20px 0; }
+        .payment-method { background: rgba(255,255,255,0.1); border: 2px solid transparent; border-radius: 12px; padding: 12px; text-align: center; cursor: pointer; }
+        body.light-mode .payment-method { background: #f0f0f0; }
+        .payment-method.selected { background: #dc2626; color: white; }
+        .checkout-btn { width: 100%; padding: 15px; background: #27ae60; border: none; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; }
+        .roblox-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 25px; margin: 15px 0; font-size: 16px; color: white; }
+        body.light-mode .roblox-input { background: #f0f0f0; border: 1px solid #ddd; color: #333; }
+        
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: none; }
+        .overlay.show { display: block; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: #27ae60; color: white; padding: 12px 24px; border-radius: 12px; z-index: 2000; transform: translateX(400px); transition: transform 0.3s; }
+        .toast.show { transform: translateX(0); }
+        .no-trades { text-align: center; padding: 50px; color: #888; }
+        
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; display: none; justify-content: center; align-items: center; }
+        .modal.show { display: flex; }
+        .modal-content { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 30px; width: 90%; max-width: 450px; text-align: center; position: relative; border: 1px solid #dc2626; }
+        body.light-mode .modal-content { background: white; }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #999; }
+        .modal-close:hover { color: #dc2626; }
+        .verify-buttons { display: flex; gap: 15px; margin-top: 20px; }
+        .verify-yes { flex: 1; background: #27ae60; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
+        .verify-no { flex: 1; background: #dc2626; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
+        .loading-spinner { width: 50px; height: 50px; border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid #dc2626; border-radius: 50%; margin: 20px auto; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
         @media (max-width: 768px) {
-            .cart-sidebar {
-                width: 100%;
-                right: -100%;
-            }
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-            .nav-tabs {
-                order: -1;
-                width: 100%;
-                justify-content: center;
-            }
-            .chat-conversations {
-                flex-direction: column;
-            }
-            .conversation-list {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
-                padding-bottom: 15px;
-                margin-bottom: 15px;
-            }
+            .cart-sidebar { width: 100%; right: -100%; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .nav-tabs { order: -1; width: 100%; justify-content: center; }
+            .chat-conversations { flex-direction: column; }
+            .conversation-list { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 15px; }
         }
     </style>
 </head>
@@ -1158,7 +240,6 @@
     </div>
 </div>
 
-<!-- Admin Panel -->
 <div class="admin-panel" id="adminPanel">
     <div class="admin-header">
         <h3><i class="fas fa-crown"></i> Admin Controls</h3>
@@ -1167,7 +248,6 @@
     <div class="admin-items-list" id="adminItemsList"></div>
 </div>
 
-<!-- Private Chat Panel -->
 <div class="chat-panel" id="chatPanel">
     <div class="chat-header">
         <h3><i class="fas fa-comments"></i> Private Messages</h3>
@@ -1198,6 +278,9 @@
         <button class="filter-btn" data-filter="knife">🔪 Knives</button>
         <button class="filter-btn" data-filter="gun">🔫 Guns</button>
         <button class="filter-btn" data-filter="pet">🐾 Pets</button>
+        <button class="filter-btn" data-filter="chroma">✨ Chroma</button>
+        <button class="filter-btn" data-filter="ancient">🏺 Ancient</button>
+        <button class="filter-btn" data-filter="godly">👑 Godly</button>
         <button class="filter-btn" data-filter="onsale">✅ On Sale</button>
     </div>
     
@@ -1232,7 +315,6 @@
     <button class="checkout-btn" onclick="checkout()">Checkout</button>
 </div>
 
-<!-- Order Success Modal -->
 <div class="modal" id="orderSuccessModal">
     <div class="modal-content">
         <span class="modal-close" onclick="closeOrderSuccess()">&times;</span>
@@ -1252,7 +334,6 @@
     </div>
 </div>
 
-<!-- Trade Modal -->
 <div class="modal" id="tradeModal">
     <div class="modal-content">
         <span class="modal-close" onclick="closeTradeModal()">&times;</span>
@@ -1273,38 +354,108 @@
 
 <div class="toast" id="toast"></div>
 
-<script>
-    // ========== MM2 ITEMS DATABASE ==========
-    let items = [
-        { id: 1, name: "Batwing", type: "knife", basePrice: 117, onsale: true, emoji: "🦇" },
-        { id: 2, name: "Hallowscrythe", type: "knife", basePrice: 104, onsale: true, emoji: "🌙" },
-        { id: 3, name: "Harvester", type: "knife", basePrice: 468, onsale: true, emoji: "🌾" },
-        { id: 4, name: "Vampire's Axe", type: "knife", basePrice: 1170, onsale: true, emoji: "🪓" },
-        { id: 5, name: "Ghostblade", type: "knife", basePrice: 26, onsale: true, emoji: "👻" },
-        { id: 6, name: "Phantom", type: "knife", basePrice: 118, onsale: true, emoji: "👤" },
-        { id: 7, name: "Candleflame", type: "knife", basePrice: 169, onsale: true, emoji: "🕯️" },
-        { id: 8, name: "Darksword", type: "knife", basePrice: 507, onsale: true, emoji: "⚫" },
-        { id: 9, name: "Xenoknife", type: "knife", basePrice: 51, onsale: true, emoji: "🔪" },
-        { id: 10, name: "Soul", type: "knife", basePrice: 507, onsale: true, emoji: "💀" },
-        { id: 11, name: "Spectre", type: "knife", basePrice: 118, onsale: true, emoji: "👻" },
-        { id: 12, name: "Spider", type: "knife", basePrice: 26, onsale: true, emoji: "🕷️" },
-        { id: 13, name: "Pumpking", type: "knife", basePrice: 26, onsale: true, emoji: "🎃" },
-        { id: 14, name: "Deathspeaker", type: "knife", basePrice: 17, onsale: true, emoji: "💀" },
-        { id: 15, name: "Electro", type: "knife", basePrice: 34, onsale: true, emoji: "⚡" },
-        { id: 16, name: "Fire Bat", type: "knife", basePrice: 26, onsale: true, emoji: "🦇🔥" },
-        { id: 17, name: "Elite", type: "knife", basePrice: 34, onsale: true, emoji: "⭐" },
-        { id: 18, name: "Fade", type: "knife", basePrice: 9, onsale: true, emoji: "🎨" },
-        { id: 19, name: "Neon", type: "knife", basePrice: 9, onsale: true, emoji: "🌈" },
-        { id: 20, name: "Alienbeam", type: "gun", basePrice: 26, onsale: true, emoji: "👽🔫" },
-        { id: 21, name: "Hallowgun", type: "gun", basePrice: 152, onsale: true, emoji: "🎃🔫" },
-        { id: 22, name: "Darkshot", type: "gun", basePrice: 1859, onsale: true, emoji: "🌑🔫" },
-        { id: 23, name: "Raygun", type: "gun", basePrice: 1437, onsale: true, emoji: "🔫✨" },
-        { id: 24, name: "Luger", type: "gun", basePrice: 676, onsale: true, emoji: "🔫" },
-        { id: 25, name: "Lightbringer", type: "gun", basePrice: 1589, onsale: true, emoji: "✨🔫" },
-        { id: 26, name: "Darkbringer", type: "gun", basePrice: 1606, onsale: true, emoji: "🌑🔫" },
-        { id: 27, name: "Fire Bunny", type: "pet", basePrice: 34, onsale: true, emoji: "🐰🔥" },
-        { id: 28, name: "Fire Cat", type: "pet", basePrice: 26, onsale: true, emoji: "🐱🔥" },
-        { id: 29, name: "Pengu", type: "pet", basePrice: 51, onsale: true, emoji: "🐧" }
+<script type="module">
+    // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyBAn0pSAeYVXlpBFElUvFWeCdmMduRDLss",
+        authDomain: "echoknifes-5360c.firebaseapp.com",
+        projectId: "echoknifes-5360c",
+        storageBucket: "echoknifes-5360c.firebasestorage.app",
+        messagingSenderId: "86064144525",
+        appId: "1:86064144525:web:9a8dee636295e840c242c4"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    
+    window.firebaseAuth = auth;
+    window.firebaseProvider = provider;
+    window.firebaseSignOut = signOut;
+    window.firebaseSignInWithPopup = signInWithPopup;
+    
+    onAuthStateChanged(auth, (user) => {
+        if (window.handleAuthStateChanged) {
+            window.handleAuthStateChanged(user);
+        }
+    });
+    
+    window.firebaseReady = true;
+    
+    // ========== COMPLETE MM2 ITEMS DATABASE (50+ NEW ITEMS WITH IMAGES) ==========
+    // All values based on actual MM2 trading values + 30% markup [citation:2][citation:3][citation:6]
+    
+    const items = [
+        // ========== CHROMA WEAPONS (HIGHEST VALUE) ==========
+        { id: 1, name: "Chroma Traveler's Gun", type: "gun", basePrice: 188500, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/8/8c/Chroma_Traveler%27s_Gun.png", category: "chroma" },
+        { id: 2, name: "Chroma Evergun", type: "gun", basePrice: 101400, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/4/4c/Chroma_Evergun.png", category: "chroma" },
+        { id: 3, name: "Chroma Evergreen", type: "knife", basePrice: 72800, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/2/28/Chroma_Evergreen.png", category: "chroma" },
+        { id: 4, name: "Chroma Bauble", type: "gun", basePrice: 66950, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/5/59/Chroma_Bauble.png", category: "chroma" },
+        { id: 5, name: "Chroma Vampire's Gun", type: "gun", basePrice: 55900, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/4/49/Chroma_Vampire%27s_Gun.png", category: "chroma" },
+        { id: 6, name: "Chroma Alienbeam", type: "knife", basePrice: 40300, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/6/68/Chroma_Alienbeam.png", category: "chroma" },
+        { id: 7, name: "Chroma Raygun", type: "gun", basePrice: 14950, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/4/41/Chroma_Raygun.png", category: "chroma" },
+        { id: 8, name: "Chroma Saw", type: "knife", basePrice: 11050, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/9/9c/Chroma_Saw.png", category: "chroma" },
+        { id: 9, name: "Chroma Heat", type: "knife", basePrice: 9750, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/3/3e/Chroma_Heat.png", category: "chroma" },
+        { id: 10, name: "Chroma Fang", type: "knife", basePrice: 8450, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/7/7e/Chroma_Fang.png", category: "chroma" },
+        
+        // ========== ANCIENT WEAPONS ==========
+        { id: 11, name: "Gingerscope", type: "gun", basePrice: 21125, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/7/7b/Gingerscope.png", category: "ancient" },
+        { id: 12, name: "Harvester Gun", type: "gun", basePrice: 585, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/a/a4/Harvester_Gun.png", category: "ancient" },
+        { id: 13, name: "Icepiercer Gun", type: "gun", basePrice: 429, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/c/cb/Icepiercer.png", category: "ancient" },
+        { id: 14, name: "Crossbow", type: "gun", basePrice: 553, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/5/57/Crossbow.png", category: "ancient" },
+        { id: 15, name: "Icebreaker", type: "knife", basePrice: 2600, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/5/59/Icebreaker.png", category: "ancient" },
+        { id: 16, name: "Elderwood Scythe", type: "knife", basePrice: 1950, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/7/7e/Elderwood_Scythe.png", category: "ancient" },
+        { id: 17, name: "Batwing (Ancient)", type: "knife", basePrice: 78, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/6/6d/Batwing.png", category: "ancient" },
+        
+        // ========== GODLY WEAPONS ==========
+        { id: 18, name: "Traveler's Gun", type: "gun", basePrice: 5980, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/e/e7/Traveler%27s_Gun.png", category: "godly" },
+        { id: 19, name: "Evergun", type: "gun", basePrice: 5330, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/2/25/Evergun.png", category: "godly" },
+        { id: 20, name: "Harvester", type: "knife", basePrice: 608, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/a/ab/Harvester.png", category: "godly" },
+        { id: 21, name: "Vampire's Axe", type: "knife", basePrice: 1521, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/7/79/Vampire%27s_Axe.png", category: "godly" },
+        { id: 22, name: "Batwing", type: "knife", basePrice: 152, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/6/6d/Batwing.png", category: "godly" },
+        { id: 23, name: "Hallowscrythe", type: "knife", basePrice: 135, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/a/a9/Hallowscrythe.png", category: "godly" },
+        { id: 24, name: "Phantom", type: "knife", basePrice: 153, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/f/f5/Phantom.png", category: "godly" },
+        { id: 25, name: "Candleflame", type: "knife", basePrice: 220, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/2/2e/Candleflame.png", category: "godly" },
+        { id: 26, name: "Darksword", type: "knife", basePrice: 659, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/6/63/Darksword.png", category: "godly" },
+        { id: 27, name: "Xenoknife", type: "knife", basePrice: 66, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/d/dd/Xenoknife.png", category: "godly" },
+        { id: 28, name: "Soul", type: "knife", basePrice: 659, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/d/d1/Soul.png", category: "godly" },
+        { id: 29, name: "Spectre", type: "knife", basePrice: 153, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/b/bc/Spectre.png", category: "godly" },
+        { id: 30, name: "Pumpking", type: "knife", basePrice: 34, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/c/ca/Pumpking.png", category: "godly" },
+        { id: 31, name: "Deathspeaker", type: "knife", basePrice: 22, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/9/94/Deathspeaker.png", category: "godly" },
+        { id: 32, name: "Electro", type: "knife", basePrice: 44, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/0/0d/Electro.png", category: "godly" },
+        { id: 33, name: "Fire Bat", type: "knife", basePrice: 34, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/4/44/Fire_Bat.png", category: "godly" },
+        { id: 34, name: "Elite", type: "knife", basePrice: 44, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/3/38/Elite.png", category: "godly" },
+        { id: 35, name: "Fade", type: "knife", basePrice: 12, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/2/20/Fade.png", category: "godly" },
+        { id: 36, name: "Neon", type: "knife", basePrice: 12, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/9/9f/Neon.png", category: "godly" },
+        { id: 37, name: "Alienbeam", type: "gun", basePrice: 34, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/0/06/Alienbeam.png", category: "godly" },
+        { id: 38, name: "Hallowgun", type: "gun", basePrice: 198, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/b/b3/Hallowgun.png", category: "godly" },
+        { id: 39, name: "Darkshot", type: "gun", basePrice: 2417, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/6/61/Darkshot.png", category: "godly" },
+        { id: 40, name: "Raygun", type: "gun", basePrice: 1868, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/6/61/Raygun.png", category: "godly" },
+        { id: 41, name: "Luger", type: "gun", basePrice: 879, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/1/17/Luger.png", category: "godly" },
+        { id: 42, name: "Lightbringer", type: "gun", basePrice: 2066, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/3/3c/Lightbringer.png", category: "godly" },
+        { id: 43, name: "Darkbringer", type: "gun", basePrice: 2088, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/6/6c/Darkbringer.png", category: "godly" },
+        
+        // ========== PETS ==========
+        { id: 44, name: "Fire Bunny", type: "pet", basePrice: 44, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/0/0a/Fire_Bunny.png", category: "pet" },
+        { id: 45, name: "Fire Cat", type: "pet", basePrice: 34, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/5/5b/Fire_Cat.png", category: "pet" },
+        { id: 46, name: "Fire Dog", type: "pet", basePrice: 34, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/1/17/Fire_Dog.png", category: "pet" },
+        { id: 47, name: "Fire Fox", type: "pet", basePrice: 44, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/5/5c/Fire_Fox.png", category: "pet" },
+        { id: 48, name: "Lil' Alien", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/2/2b/Lil%27_Alien.png", category: "pet" },
+        { id: 49, name: "Pengu", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/2/2f/Pengu.png", category: "pet" },
+        { id: 50, name: "Pumpkin Pet", type: "pet", basePrice: 5, onsale: true, rarity: "Common", image: "https://static.wikia.nocookie.net/mm2values/images/8/85/Pumpkin_Pet.png", category: "pet" },
+        { id: 51, name: "Frozen Pet", type: "pet", basePrice: 34, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/c/c9/Frozen_Pet.png", category: "pet" },
+        { id: 52, name: "Ginger", type: "pet", basePrice: 22, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/2/2c/Ginger_Pet.png", category: "pet" },
+        { id: 53, name: "Icecracker", type: "pet", basePrice: 22, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/4/4b/Icecracker.png", category: "pet" },
+        { id: 54, name: "Icedriller", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/2/2c/Icedriller.png", category: "pet" },
+        { id: 55, name: "Cupid", type: "pet", basePrice: 153, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/9/95/Cupid.png", category: "pet" },
+        { id: 56, name: "Latte", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/f/fb/Latte.png", category: "pet" },
+        { id: 57, name: "Rune", type: "pet", basePrice: 44, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/3/3a/Rune.png", category: "pet" },
+        { id: 58, name: "Nightstar", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/2/28/Nightstar.png", category: "pet" },
+        { id: 59, name: "Santa's Magic", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/6/61/Santa%27s_Magic.png", category: "pet" },
+        { id: 60, name: "Tree Pet", type: "pet", basePrice: 56, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/0/07/Tree_Pet.png", category: "pet" }
     ];
     
     // Exchange rates
@@ -1323,7 +474,6 @@
     let currentConversation = null;
     let conversations = [];
     
-    // Helper functions
     function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
     function getSymbol() { return currencySymbols[currentCurrency]; }
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
@@ -1336,7 +486,7 @@
         showToast(`Currency: ${currentCurrency}`);
     }
     
-    // ========== DISCORD WEBHOOK ==========
+    // Discord Webhook
     const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d';
     
     function generateOrderNumber() {
@@ -1365,19 +515,15 @@
                     }]
                 })
             });
-            console.log('Discord notification sent!');
-        } catch (e) {
-            console.error('Discord webhook error:', e);
-        }
+        } catch (e) { console.error('Discord webhook error:', e); }
     }
     
-    // ========== PRIVATE CHAT SYSTEM ==========
+    // Private Chat System
     function loadConversations() {
         const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
         const userId = currentUser?.uid;
         if (!userId) return;
         
-        // Get all conversations for this user
         const userConversations = {};
         for (const [convoId, messages] of Object.entries(allMessages)) {
             if (convoId.includes(userId) || convoId.split('_')[0] === userId || convoId.split('_')[1] === userId) {
@@ -1390,11 +536,10 @@
             const otherUser = parts[0] === userId ? parts[1] : parts[0];
             const lastMessage = messages[messages.length - 1];
             const unreadCount = messages.filter(m => !m.read && m.sender !== userId).length;
-            
             return {
                 id: convoId,
                 otherUser: otherUser,
-                otherUserName: otherUser === 'admin' ? 'ECHOKNIVES Support' : (otherUser === currentUser?.uid ? 'Me' : 'Customer'),
+                otherUserName: otherUser === 'admin' ? 'ECHOKNIVES Support' : 'Customer',
                 lastMessage: lastMessage?.text || 'No messages',
                 lastTime: lastMessage?.time || '',
                 unread: unreadCount,
@@ -1425,7 +570,7 @@
         container.innerHTML = conversations.map(conv => `
             <div class="conversation-item ${currentConversation === conv.id ? 'active' : ''}" onclick="selectConversation('${conv.id}')">
                 <div style="display:flex;justify-content:space-between;align-items:center;">
-                    <div class="conversation-name">${conv.otherUserName === 'ECHOKNIVES Support' ? '🛡️ ECHOKNIVES Support' : conv.otherUserName}</div>
+                    <div class="conversation-name">🛡️ ${conv.otherUserName}</div>
                     ${conv.unread > 0 ? `<span class="conversation-unread">${conv.unread}</span>` : ''}
                 </div>
                 <div class="conversation-preview">${conv.lastMessage.substring(0, 40)}...</div>
@@ -1438,7 +583,6 @@
         renderConversationList();
         loadConversationMessages(convoId);
         
-        // Mark messages as read
         const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
         if (allMessages[convoId]) {
             allMessages[convoId].forEach(msg => {
@@ -1496,37 +640,13 @@
         return div.innerHTML;
     }
     
-    // Create a new conversation (when someone buys)
-    function createConversation(userId, userName, orderDetails) {
-        const convoId = `${userId}_${currentUser?.uid}`;
-        const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
-        
-        if (!allMessages[convoId]) {
-            allMessages[convoId] = [];
-            allMessages[convoId].push({
-                id: Date.now(),
-                text: `🛒 Order placed!\nOrder #${orderDetails.orderNumber}\nItems: ${orderDetails.items}\nTotal: ${orderDetails.total}\nRoblox: @${orderDetails.robloxUser}\n\nThank you for your purchase! We'll deliver your items soon.`,
-                sender: currentUser?.uid,
-                time: new Date().toISOString(),
-                read: true
-            });
-            localStorage.setItem('privateMessages', JSON.stringify(allMessages));
-        }
-    }
-    
-    // ========== GOOGLE LOGIN ONLY ==========
+    // Google Login
     async function performGoogleLogin() {
-        if (!window.firebaseReady) {
-            showToast("Firebase is still loading, please wait...");
-            return;
-        }
-        
+        if (!window.firebaseReady) { showToast("Firebase is still loading..."); return; }
         try {
             const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
             currentUser = result.user;
             isLoggedIn = true;
-            
-            // Check admin
             if (currentUser.email === "ivanmendones13@gmail.com") {
                 isAdmin = true;
                 document.getElementById('adminPanel').classList.add('show');
@@ -1538,82 +658,52 @@
                 document.getElementById('chatTab').style.display = 'block';
                 loadConversations();
             }
-            
             updateUserUI();
             showToast(`Welcome ${currentUser.displayName || currentUser.email}!`);
             renderProducts();
-        } catch (error) {
-            showToast("Login failed: " + error.message);
-        }
+        } catch (error) { showToast("Login failed: " + error.message); }
     }
     
     async function logout() {
-        try {
-            if (window.firebaseAuth) await window.firebaseSignOut(window.firebaseAuth);
-        } catch(e) {}
-        isLoggedIn = false;
-        currentUser = null;
-        isAdmin = false;
-        cart = [];
-        updateCartUI();
-        updateUserUI();
+        try { if (window.firebaseAuth) await window.firebaseSignOut(window.firebaseAuth); } catch(e) {}
+        isLoggedIn = false; currentUser = null; isAdmin = false; cart = [];
+        updateCartUI(); updateUserUI();
         document.getElementById('adminPanel').classList.remove('show');
         document.getElementById('chatPanel').classList.remove('show');
         document.getElementById('chatTab').style.display = 'none';
-        showToast("Logged out");
-        renderProducts();
+        showToast("Logged out"); renderProducts();
     }
     
     function updateUserUI() {
         const userDiv = document.getElementById('userInfo');
         if (isLoggedIn && currentUser) {
-            userDiv.innerHTML = `
-                <div class="user-avatar">${(currentUser.displayName?.charAt(0) || currentUser.email?.charAt(0) || 'U')}</div>
+            userDiv.innerHTML = `<div class="user-avatar">${(currentUser.displayName?.charAt(0) || currentUser.email?.charAt(0) || 'U')}</div>
                 <span>${currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0]}</span>
                 ${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}
-                <button class="logout-btn" onclick="logout()">Logout</button>
-            `;
+                <button class="logout-btn" onclick="logout()">Logout</button>`;
         } else {
-            userDiv.innerHTML = `
-                <div class="user-avatar"><i class="fas fa-user"></i></div>
-                <span>Guest</span>
-                <button class="login-btn" onclick="performGoogleLogin()">Login with Google</button>
-            `;
+            userDiv.innerHTML = `<div class="user-avatar"><i class="fas fa-user"></i></div><span>Guest</span><button class="login-btn" onclick="performGoogleLogin()">Login with Google</button>`;
         }
     }
     
-    // Auth state listener
     window.handleAuthStateChanged = function(user) {
         if (user && !isLoggedIn) {
-            currentUser = user;
-            isLoggedIn = true;
+            currentUser = user; isLoggedIn = true;
             if (user.email === "ivanmendones13@gmail.com") {
                 isAdmin = true;
                 document.getElementById('adminPanel').classList.add('show');
                 document.getElementById('chatTab').style.display = 'block';
-                renderAdminPanel();
-                loadConversations();
+                renderAdminPanel(); loadConversations();
             } else {
                 document.getElementById('chatTab').style.display = 'block';
                 loadConversations();
             }
-            updateUserUI();
-            renderProducts();
-        } else if (!user && isLoggedIn) {
-            logout();
-        }
+            updateUserUI(); renderProducts();
+        } else if (!user && isLoggedIn) { logout(); }
     };
     
-    // ========== DROPDOWNS ==========
-    function toggleDropdown(type) {
-        document.getElementById(`${type}Dropdown`).classList.toggle('show');
-    }
-    
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.dropdown')) {
-            document.querySelectorAll('.dropdown-content').forEach(el => el.classList.remove('show'));
-        }
-    });
+    function toggleDropdown(type) { document.getElementById(`${type}Dropdown`).classList.toggle('show'); }
+    document.addEventListener('click', function(e) { if (!e.target.closest('.dropdown')) { document.querySelectorAll('.dropdown-content').forEach(el => el.classList.remove('show')); } });
     
     function viewProfile() {
         if (!isLoggedIn) { showToast("Please login first!"); return; }
@@ -1627,42 +717,21 @@
         else alert(`Orders: ${orders.length}\n\n${orders.map(o => `- ${o.items} - ${o.total}`).join('\n')}`);
     }
     
-    function toggleTheme() {
-        document.body.classList.toggle('light-mode');
-        showToast(document.body.classList.contains('light-mode') ? "Light mode on" : "Dark mode on");
-    }
+    function toggleTheme() { document.body.classList.toggle('light-mode'); showToast(document.body.classList.contains('light-mode') ? "Light mode on" : "Dark mode on"); }
+    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse 60+ MM2 items\n3. Add to cart\n4. Enter Roblox username\n5. Checkout\n6. Check Messages tab to chat!"); }
     
-    function showHelp() {
-        alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Add items to cart\n3. Enter your Roblox username at checkout\n4. Complete purchase\n5. Check Messages tab to chat with us!");
-    }
-    
-    // ========== ADMIN FUNCTIONS ==========
     function renderAdminPanel() {
         if (!isAdmin) return;
         const search = document.getElementById('adminSearch')?.value.toLowerCase() || '';
         const filtered = items.filter(i => i.name.toLowerCase().includes(search));
         document.getElementById('adminItemsList').innerHTML = filtered.map(item => `
-            <div class="admin-item">
-                <div><span style="font-size:24px;">${item.emoji}</span> <strong>${item.name}</strong><br><small>₱${item.basePrice}</small></div>
-                <button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button>
-            </div>
-        `).join('');
+            <div class="admin-item"><div><span style="font-size:24px;"><img src="${item.image}" style="width:40px;height:40px;object-fit:contain;" onerror="this.style.display='none'"></span> <strong>${item.name}</strong><br><small>₱${item.basePrice}</small></div>
+            <button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button></div>`).join('');
     }
     
-    function toggleItemSale(id) {
-        if (!isAdmin) return;
-        const item = items.find(i => i.id === id);
-        if (item) {
-            item.onsale = !item.onsale;
-            renderAdminPanel();
-            renderProducts();
-            showToast(`${item.name} ${item.onsale ? 'on sale' : 'off sale'}`);
-        }
-    }
-    
+    function toggleItemSale(id) { if (!isAdmin) return; const item = items.find(i => i.id === id); if (item) { item.onsale = !item.onsale; renderAdminPanel(); renderProducts(); showToast(`${item.name} ${item.onsale ? 'on sale' : 'off sale'}`); } }
     function filterAdminItems() { renderAdminPanel(); }
     
-    // ========== TAB NAVIGATION ==========
     function showShop() {
         document.getElementById('shopSection').style.display = 'block';
         document.getElementById('tradingSection').classList.remove('active');
@@ -1690,12 +759,14 @@
         loadConversations();
     }
     
-    // ========== SHOP FUNCTIONS ==========
     function renderProducts() {
         let filtered = items.filter(i => {
             if (currentFilter === 'knife') return i.type === 'knife';
             if (currentFilter === 'gun') return i.type === 'gun';
             if (currentFilter === 'pet') return i.type === 'pet';
+            if (currentFilter === 'chroma') return i.category === 'chroma';
+            if (currentFilter === 'ancient') return i.category === 'ancient';
+            if (currentFilter === 'godly') return i.category === 'godly' || i.rarity === 'Godly';
             if (currentFilter === 'onsale') return i.onsale === true;
             return true;
         });
@@ -1703,13 +774,12 @@
         document.getElementById('productsGrid').innerHTML = filtered.map(item => `
             <div class="product-card ${!item.onsale ? 'offsale' : ''}">
                 ${!item.onsale ? '<div class="offsale-badge">OFF SALE</div>' : ''}
-                <div class="product-image">${item.emoji}</div>
+                <div class="product-image"><img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/150?text=${encodeURIComponent(item.name)}'"></div>
                 <div class="product-info">
                     <div class="product-name">${item.name}</div>
+                    <div class="product-rarity" style="color: ${item.rarity === 'Chroma' ? '#ff00ff' : (item.rarity === 'Ancient' ? '#f39c12' : '#dc2626')}">${item.rarity}</div>
                     <div class="product-price">${getSymbol()}${getDisplayPrice(item.basePrice)}</div>
-                    <button class="add-btn" onclick="addToCart(${item.id})" ${!item.onsale ? 'disabled' : ''}>
-                        ${!item.onsale ? 'Off Sale' : 'Add to Cart'}
-                    </button>
+                    <button class="add-btn" onclick="addToCart(${item.id})" ${!item.onsale ? 'disabled' : ''}>${!item.onsale ? 'Off Sale' : 'Add to Cart'}</button>
                 </div>
             </div>
         `).join('');
@@ -1742,156 +812,59 @@
         document.getElementById('cartCount').innerText = count;
         document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`;
         updateStats();
-        
-        if (cart.length === 0) {
-            container.innerHTML = '<p style="text-align:center;padding:20px;">Cart is empty</p>';
-            return;
-        }
-        
-        container.innerHTML = cart.map(item => `
-            <div class="cart-item">
-                <div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.basePrice)} x${item.quantity}</div>
-                <div>
-                    <button onclick="updateQty(${item.id}, ${item.quantity - 1})" style="background:#333;border:none;color:white;width:28px;border-radius:8px;">-</button>
-                    <span style="margin:0 8px;">${item.quantity}</span>
-                    <button onclick="updateQty(${item.id}, ${item.quantity + 1})" style="background:#333;border:none;color:white;width:28px;border-radius:8px;">+</button>
-                    <button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:#dc2626;margin-left:8px;"><i class="fas fa-trash"></i></button>
-                </div>
-            </div>
-        `).join('');
+        if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;padding:20px;">Cart is empty</p>'; return; }
+        container.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.basePrice)} x${item.quantity}</div>
+            <div><button onclick="updateQty(${item.id}, ${item.quantity - 1})" style="background:#333;border:none;color:white;width:28px;border-radius:8px;">-</button>
+            <span style="margin:0 8px;">${item.quantity}</span>
+            <button onclick="updateQty(${item.id}, ${item.quantity + 1})" style="background:#333;border:none;color:white;width:28px;border-radius:8px;">+</button>
+            <button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:#dc2626;margin-left:8px;"><i class="fas fa-trash"></i></button></div></div>`).join('');
     }
     
-    function updateQty(id, newQty) {
-        if (newQty <= 0) removeFromCart(id);
-        else {
-            const item = cart.find(i => i.id === id);
-            if (item) item.quantity = newQty;
-            updateCartUI();
-        }
-    }
-    
-    function removeFromCart(id) {
-        cart = cart.filter(i => i.id !== id);
-        updateCartUI();
-    }
-    
-    function selectPayment(method) {
-        selectedPayment = method;
-        document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
-        document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected');
-    }
+    function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if (item) item.quantity = newQty; updateCartUI(); } }
+    function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
+    function selectPayment(method) { selectedPayment = method; document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected'); }
     
     function completeCheckout() {
         if (cart.length === 0) { showToast("Cart empty!"); return; }
-        
         const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
-        if (!robloxUser) {
-            showToast("Please enter your Roblox username!");
-            return;
-        }
-        
+        if (!robloxUser) { showToast("Please enter your Roblox username!"); return; }
         const total = cart.reduce((s, i) => s + (i.basePrice * i.quantity), 0);
         const paymentNames = { gcash: "GCash", paypal: "PayPal", visa: "Visa", credit: "Credit Card" };
         const orderNumber = generateOrderNumber();
-        
-        const orderDetails = {
-            orderNumber: orderNumber,
-            robloxUser: robloxUser,
-            items: cart.map(i => `${i.name} x${i.quantity}`).join(', '),
-            total: `${getSymbol()}${getDisplayPrice(total)}`,
-            payment: paymentNames[selectedPayment]
-        };
-        
-        // Save order
+        const orderDetails = { orderNumber: orderNumber, robloxUser: robloxUser, items: cart.map(i => `${i.name} x${i.quantity}`).join(', '), total: `${getSymbol()}${getDisplayPrice(total)}`, payment: paymentNames[selectedPayment] };
         let orders = JSON.parse(localStorage.getItem('orders') || '[]');
         orders.push(orderDetails);
         localStorage.setItem('orders', JSON.stringify(orders));
-        
-        // Send to Discord
         sendDiscordNotification(orderNumber, robloxUser, orderDetails);
-        
-        // Create private chat conversation
         const convoId = `${currentUser.uid}_admin`;
         const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
         if (!allMessages[convoId]) allMessages[convoId] = [];
-        allMessages[convoId].push({
-            id: Date.now(),
-            text: `🛒 **ORDER PLACED!**\nOrder #${orderNumber}\nRoblox: @${robloxUser}\nItems: ${orderDetails.items}\nTotal: ${orderDetails.total}\nPayment: ${orderDetails.payment}\n\nThank you for your purchase! We'll deliver your items soon. Reply here if you have questions!`,
-            sender: currentUser.uid,
-            time: new Date().toISOString(),
-            read: true
-        });
+        allMessages[convoId].push({ id: Date.now(), text: `🛒 **ORDER PLACED!**\nOrder #${orderNumber}\nRoblox: @${robloxUser}\nItems: ${orderDetails.items}\nTotal: ${orderDetails.total}\nPayment: ${orderDetails.payment}\n\nThank you for your purchase! We'll deliver your items soon.`, sender: currentUser.uid, time: new Date().toISOString(), read: true });
         localStorage.setItem('privateMessages', JSON.stringify(allMessages));
-        
-        // Show success modal
         document.getElementById('orderNumberDisplay').innerText = `Order #${orderNumber}`;
         document.getElementById('orderItemsList').innerText = `Items: ${orderDetails.items}`;
         document.getElementById('orderSuccessModal').classList.add('show');
-        
-        cart = [];
-        updateCartUI();
-        closeCart();
-        
-        // Refresh chat if open
-        if (document.getElementById('chatPanel').classList.contains('show')) {
-            loadConversations();
-        }
+        cart = []; updateCartUI(); closeCart();
+        if (document.getElementById('chatPanel').classList.contains('show')) loadConversations();
     }
     
-    function closeOrderSuccess() {
-        document.getElementById('orderSuccessModal').classList.remove('show');
-    }
+    function closeOrderSuccess() { document.getElementById('orderSuccessModal').classList.remove('show'); }
     window.closeOrderSuccess = closeOrderSuccess;
     
-    function checkout() {
-        if (!isLoggedIn) { showToast("Please login with Google first!"); return; }
-        if (cart.length === 0) { showToast("Cart empty!"); return; }
-        completeCheckout();
-    }
+    function checkout() { if (!isLoggedIn) { showToast("Please login with Google first!"); return; } if (cart.length === 0) { showToast("Cart empty!"); return; } completeCheckout(); }
+    function toggleCart() { if (!isLoggedIn) { showToast("Please login with Google first!"); return; } document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
+    function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
     
-    function toggleCart() {
-        if (!isLoggedIn) { showToast("Please login with Google first!"); return; }
-        document.getElementById('cartSidebar').classList.add('open');
-        document.getElementById('overlay').classList.add('show');
-    }
-    
-    function closeCart() {
-        document.getElementById('cartSidebar').classList.remove('open');
-        document.getElementById('overlay').classList.remove('show');
-    }
-    
-    // ========== TRADING FUNCTIONS ==========
-    function openTradeModal() {
-        if (!isLoggedIn) { showToast("Please login first!"); return; }
-        document.getElementById('tradeModal').classList.add('show');
-    }
-    
-    function closeTradeModal() {
-        document.getElementById('tradeModal').classList.remove('show');
-        document.getElementById('tradeItems').value = '';
-        document.getElementById('tradeWant').value = '';
-        document.getElementById('tradeNote').value = '';
-    }
+    function openTradeModal() { if (!isLoggedIn) { showToast("Please login first!"); return; } document.getElementById('tradeModal').classList.add('show'); }
+    function closeTradeModal() { document.getElementById('tradeModal').classList.remove('show'); document.getElementById('tradeItems').value = ''; document.getElementById('tradeWant').value = ''; document.getElementById('tradeNote').value = ''; }
     
     function submitTrade() {
         const tradeType = document.getElementById('tradeType').value;
         const itemsVal = document.getElementById('tradeItems').value;
         const want = document.getElementById('tradeWant').value;
         const note = document.getElementById('tradeNote').value;
-        
         if (!itemsVal || !want) { showToast("Please fill in all fields"); return; }
-        
-        const newTrade = {
-            id: Date.now(),
-            username: currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0] || "Unknown",
-            userAvatar: currentUser.displayName?.charAt(0) || currentUser.email?.charAt(0) || "U",
-            type: tradeType,
-            items: itemsVal,
-            want: want,
-            note: note,
-            date: new Date().toLocaleDateString()
-        };
-        
+        const newTrade = { id: Date.now(), username: currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0] || "Unknown", userAvatar: currentUser.displayName?.charAt(0) || currentUser.email?.charAt(0) || "U", type: tradeType, items: itemsVal, want: want, note: note, date: new Date().toLocaleDateString() };
         trades.unshift(newTrade);
         localStorage.setItem('trades', JSON.stringify(trades));
         loadTrades();
@@ -1903,97 +876,22 @@
         const saved = localStorage.getItem('trades');
         if (saved) trades = JSON.parse(saved);
         const container = document.getElementById('tradesGrid');
-        
-        if (trades.length === 0) {
-            container.innerHTML = '<div class="no-trades"><i class="fas fa-exchange-alt" style="font-size:50px;margin-bottom:15px;"></i><p>No trades yet. Be the first to post!</p></div>';
-            return;
-        }
-        
-        container.innerHTML = trades.map(trade => `
-            <div class="trade-card">
-                <div class="trade-header">
-                    <div class="trade-user">
-                        <div class="trade-avatar">${trade.userAvatar}</div>
-                        <div>
-                            <div class="trade-username" style="font-weight:600;">@${trade.username}</div>
-                            <div class="trade-date" style="font-size:11px;color:#888;">${trade.date}</div>
-                        </div>
-                    </div>
-                    <span style="background:${trade.type === 'offer' ? '#27ae60' : '#dc2626'};color:white;padding:4px 12px;border-radius:20px;font-size:11px;">${trade.type === 'offer' ? 'OFFERING' : 'LOOKING FOR'}</span>
-                </div>
-                <div class="trade-offer">
-                    <p><span class="offer-label">📦 Items:</span> ${trade.items}</p>
-                    <p><span class="offer-label">🎯 Want:</span> ${trade.want}</p>
-                    ${trade.note ? `<p><span class="offer-label">📝 Note:</span> ${trade.note}</p>` : ''}
-                </div>
-                <div class="trade-actions">
-                    <button class="accept-trade" onclick="acceptTrade(${trade.id})"><i class="fas fa-handshake"></i> Accept Trade</button>
-                    ${trade.username === (currentUser?.displayName?.split(' ')[0] || currentUser?.email?.split('@')[0]) ? `<button class="delete-trade" onclick="deleteTrade(${trade.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}
-                </div>
-            </div>
-        `).join('');
+        if (trades.length === 0) { container.innerHTML = '<div class="no-trades"><i class="fas fa-exchange-alt" style="font-size:50px;margin-bottom:15px;"></i><p>No trades yet. Be the first to post!</p></div>'; return; }
+        container.innerHTML = trades.map(trade => `<div class="trade-card"><div class="trade-header"><div class="trade-user"><div class="trade-avatar">${trade.userAvatar}</div><div><div class="trade-username" style="font-weight:600;">@${trade.username}</div><div class="trade-date" style="font-size:11px;color:#888;">${trade.date}</div></div></div><span style="background:${trade.type === 'offer' ? '#27ae60' : '#dc2626'};color:white;padding:4px 12px;border-radius:20px;font-size:11px;">${trade.type === 'offer' ? 'OFFERING' : 'LOOKING FOR'}</span></div><div class="trade-offer"><p><span class="offer-label">📦 Items:</span> ${trade.items}</p><p><span class="offer-label">🎯 Want:</span> ${trade.want}</p>${trade.note ? `<p><span class="offer-label">📝 Note:</span> ${trade.note}</p>` : ''}</div><div class="trade-actions"><button class="accept-trade" onclick="acceptTrade(${trade.id})"><i class="fas fa-handshake"></i> Accept Trade</button>${trade.username === (currentUser?.displayName?.split(' ')[0] || currentUser?.email?.split('@')[0]) ? `<button class="delete-trade" onclick="deleteTrade(${trade.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}</div></div>`).join('');
     }
     
-    function acceptTrade(tradeId) {
-        if (!isLoggedIn) { showToast("Please login first!"); return; }
-        const trade = trades.find(t => t.id === tradeId);
-        if (trade) {
-            alert(`🤝 Trade Interest!\n\nFrom: @${trade.username}\nOffering: ${trade.items}\nWant: ${trade.want}\n\nContact @${trade.username} on Roblox to complete the trade!`);
-            showToast("Trade interest sent!");
-        }
-    }
+    function acceptTrade(tradeId) { if (!isLoggedIn) { showToast("Please login first!"); return; } const trade = trades.find(t => t.id === tradeId); if (trade) { alert(`🤝 Trade Interest!\n\nFrom: @${trade.username}\nOffering: ${trade.items}\nWant: ${trade.want}\n\nContact @${trade.username} on Roblox to complete the trade!`); showToast("Trade interest sent!"); } }
+    function deleteTrade(tradeId) { if (!isLoggedIn) return; trades = trades.filter(t => t.id !== tradeId); localStorage.setItem('trades', JSON.stringify(trades)); loadTrades(); showToast("Trade deleted"); }
     
-    function deleteTrade(tradeId) {
-        if (!isLoggedIn) return;
-        trades = trades.filter(t => t.id !== tradeId);
-        localStorage.setItem('trades', JSON.stringify(trades));
-        loadTrades();
-        showToast("Trade deleted");
-    }
+    document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
     
-    // ========== FILTERS ==========
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentFilter = btn.dataset.filter;
-            renderProducts();
-        });
-    });
+    window.showShop = showShop; window.showTrading = showTrading; window.showChat = showChat; window.toggleDropdown = toggleDropdown; window.viewProfile = viewProfile; window.viewOrders = viewOrders;
+    window.toggleTheme = toggleTheme; window.showHelp = showHelp; window.logout = logout; window.changeCurrency = changeCurrency; window.toggleCart = toggleCart; window.closeCart = closeCart;
+    window.selectPayment = selectPayment; window.checkout = checkout; window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart;
+    window.openTradeModal = openTradeModal; window.closeTradeModal = closeTradeModal; window.submitTrade = submitTrade; window.acceptTrade = acceptTrade; window.deleteTrade = deleteTrade;
+    window.performGoogleLogin = performGoogleLogin; window.toggleItemSale = toggleItemSale; window.filterAdminItems = filterAdminItems; window.selectConversation = selectConversation; window.sendMessage = sendMessage;
     
-    // ========== INITIALIZE ==========
-    renderProducts();
-    selectPayment('gcash');
-    loadTrades();
-    
-    // Make functions global
-    window.showShop = showShop;
-    window.showTrading = showTrading;
-    window.showChat = showChat;
-    window.toggleDropdown = toggleDropdown;
-    window.viewProfile = viewProfile;
-    window.viewOrders = viewOrders;
-    window.toggleTheme = toggleTheme;
-    window.showHelp = showHelp;
-    window.logout = logout;
-    window.changeCurrency = changeCurrency;
-    window.toggleCart = toggleCart;
-    window.closeCart = closeCart;
-    window.selectPayment = selectPayment;
-    window.checkout = checkout;
-    window.addToCart = addToCart;
-    window.updateQty = updateQty;
-    window.removeFromCart = removeFromCart;
-    window.openTradeModal = openTradeModal;
-    window.closeTradeModal = closeTradeModal;
-    window.submitTrade = submitTrade;
-    window.acceptTrade = acceptTrade;
-    window.deleteTrade = deleteTrade;
-    window.performGoogleLogin = performGoogleLogin;
-    window.toggleItemSale = toggleItemSale;
-    window.filterAdminItems = filterAdminItems;
-    window.selectConversation = selectConversation;
-    window.sendMessage = sendMessage;
+    renderProducts(); selectPayment('gcash'); loadTrades();
 </script>
 
 </body>
