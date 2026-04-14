@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ECHOKNIVES | MM2 Shop & Trading</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fb;
+            min-height: 100vh;
+            color: #1a1a2e;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: #1a1a2e;
+            color: #f0f0f0;
+        }
+
+        .header {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            padding: 12px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        body.dark-mode .header {
+            background: #16213e;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .logo i {
+            font-size: 28px;
+            color: #e74c3c;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: #e74c3c;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            background: #f0f0f0;
+            padding: 4px;
+            border-radius: 50px;
+        }
+
+        body.dark-mode .nav-tabs {
+            background: #0f3460;
+        }
+
+        .nav-tab {
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            background: transparent;
+        }
+
+        .nav-tab.active {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            color: #333;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        body.dark-mode .dropdown-btn {
+            background: #0f3460;
+            color: white;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 45px;
+            background: white;
+            min-width: 180px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        body.dark-mode .dropdown-content {
+            background: #1a1a2e;
+            border: 1px solid #333;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark-mode .dropdown-item {
+            border-bottom-color: #333;
+        }
+
+        .dropdown-item:hover {
+            background: #f0f0f0;
+        }
+
+        body.dark-mode .dropdown-item:hover {
+            background: #0f3460;
+        }
+
+        .currency-selector {
+            background: #f0f0f0;
+            border-radius: 30px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        body.dark-mode .currency-selector {
+            background: #0f3460;
+        }
+
+        .currency-selector select {
+            background: transparent;
+            border: none;
+            font-size: 13px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        body.dark-mode .currency-selector select {
+            color: white;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 30px;
+        }
+
+        body.dark-mode .user-info {
+            background: #0f3460;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e74c3c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .login-btn, .logout-btn {
+            background: #e74c3c;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .admin-badge {
+            background: #f39c12;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 22px;
+            background: #f0f0f0;
+            padding: 8px 14px;
+            border-radius: 30px;
+        }
+
+        body.dark-mode .cart-icon {
+            background: #0f3460;
+        }
+
+        .cart-icon:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e74c3c;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .admin-panel {
+            background: white;
+            margin: 20px 5%;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 2px solid #f39c12;
+            display: none;
+        }
+
+        body.dark-mode .admin-panel {
+            background: #16213e;
+        }
+
+        .admin-panel.show {
+            display: block;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .admin-search {
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            width: 250px;
+        }
+
+        body.dark-mode .admin-search {
+            background: #0f3460;
+            border-color: #333;
+            color: white;
+        }
+
+        .admin-items-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .admin-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark-mode .admin-item {
+            border-bottom-color: #333;
+        }
+
+        .toggle-status {
+            background: #e74c3c;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .toggle-status.available {
+            background: #27ae60;
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 5%;
+        }
+
+        .filter-bar {
+            background: white;
+            padding: 12px 20px;
+            margin-bottom: 25px;
+            border-radius: 50px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        body.dark-mode .filter-bar {
+            background: #16213e;
+        }
+
+        .filter-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            color: #333;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        body.dark-mode .filter-btn {
+            background: #0f3460;
+            color: #ddd;
+        }
+
+        .filter-btn.active {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .stats-banner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        body.dark-mode .stat-card {
+            background: #16213e;
+        }
+
+        .stat-card h3 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #e74c3c;
+        }
+
+        .stat-card p {
+            font-size: 13px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        body.dark-mode .product-card {
+            background: #16213e;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-card.offsale {
+            opacity: 0.6;
+        }
+
+        .offsale-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e74c3c;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+            z-index: 2;
+        }
+
+        .product-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+
+        body.dark-mode .product-image {
+            background: #0f3460;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .product-type {
+            font-size: 11px;
+            color: #f39c12;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 800;
+            color: #e74c3c;
+        }
+
+        .add-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 10px;
+            background: #e74c3c;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .add-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .trading-container {
+            display: none;
+        }
+
+        .trading-container.active {
+            display: block;
+        }
+
+        .trading-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .create-trade-btn {
+            background: #e74c3c;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .trades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .trade-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        body.dark-mode .trade-card {
+            background: #16213e;
+        }
+
+        .trade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark-mode .trade-header {
+            border-bottom-color: #333;
+        }
+
+        .trade-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .trade-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e74c3c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .trade-offer {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 15px 0;
+        }
+
+        body.dark-mode .trade-offer {
+            background: #0f3460;
+        }
+
+        .trade-offer p {
+            margin: 5px 0;
+            font-size: 13px;
+        }
+
+        .offer-label {
+            font-weight: 600;
+            color: #e74c3c;
+        }
+
+        .trade-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .accept-trade {
+            flex: 1;
+            background: #27ae60;
+            border: none;
+            padding: 10px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .decline-trade {
+            flex: 1;
+            background: #e74c3c;
+            border: none;
+            padding: 10px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        body.dark-mode .modal-content {
+            background: #1a1a2e;
+        }
+
+        .modal-content input, .modal-content textarea, .modal-content select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+        }
+
+        body.dark-mode .modal-content input,
+        body.dark-mode .modal-content textarea,
+        body.dark-mode .modal-content select {
+            background: #0f3460;
+            border-color: #333;
+            color: white;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .submit-trade {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            z-index: 1000;
+            transition: right 0.3s ease;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .cart-sidebar {
+            background: #1a1a2e;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #e74c3c;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-qty-btn {
+            background: #f0f0f0;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .cart-remove {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #e74c3c;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .payment-method {
+            background: #f0f0f0;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        body.dark-mode .payment-method {
+            background: #0f3460;
+        }
+
+        .payment-method.selected {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: #27ae60;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #27ae60;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            z-index: 2000;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .no-trades {
+            text-align: center;
+            padding: 50px;
+            color: #888
