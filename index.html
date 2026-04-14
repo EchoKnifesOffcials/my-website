@@ -6,7 +6,7 @@
     <title>ECHOKNIVES | MM2 Shop & Trading</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Firebase SDK -->
     <script type="module">
@@ -26,11 +26,19 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
         
-        window.auth = auth;
-        window.provider = provider;
-        window.signOut = signOut;
-        window.onAuthStateChanged = onAuthStateChanged;
-        window.signInWithPopup = signInWithPopup;
+        window.firebaseAuth = auth;
+        window.firebaseProvider = provider;
+        window.firebaseSignOut = signOut;
+        window.firebaseSignInWithPopup = signInWithPopup;
+
+        onAuthStateChanged(auth, (user) => {
+            if (window.handleAuthStateChanged) {
+                window.handleAuthStateChanged(user);
+            }
+        });
+
+        window.firebaseReady = true;
+        window.dispatchEvent(new Event('firebase-ready'));
     </script>
     
     <style>
@@ -41,20 +49,20 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: #f5f7fb;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%);
             min-height: 100vh;
+            color: #fff;
+        }
+
+        body.light-mode {
+            background: #f5f7fb;
             color: #1a1a2e;
         }
 
-        body.dark-mode {
-            background: #1a1a2e;
-            color: #f0f0f0;
-        }
-
         .header {
-            background: white;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
             padding: 12px 5%;
             display: flex;
             justify-content: space-between;
@@ -62,12 +70,15 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 2px solid rgba(220, 38, 38, 0.5);
             flex-wrap: wrap;
             gap: 12px;
         }
 
-        body.dark-mode .header {
-            background: #16213e;
+        body.light-mode .header {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border-bottom: 2px solid #e74c3c;
         }
 
         .logo {
@@ -79,28 +90,28 @@
 
         .logo i {
             font-size: 28px;
-            color: #e74c3c;
+            color: #dc2626;
         }
 
         .logo h1 {
             font-size: 22px;
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .logo span {
-            color: #e74c3c;
+            color: #dc2626;
         }
 
         .nav-tabs {
             display: flex;
             gap: 5px;
-            background: #f0f0f0;
+            background: rgba(255,255,255,0.1);
             padding: 4px;
             border-radius: 50px;
         }
 
-        body.dark-mode .nav-tabs {
-            background: #0f3460;
+        body.light-mode .nav-tabs {
+            background: #f0f0f0;
         }
 
         .nav-tab {
@@ -110,11 +121,16 @@
             font-weight: 500;
             border: none;
             background: transparent;
+            color: white;
             font-size: 14px;
         }
 
+        body.light-mode .nav-tab {
+            color: #333;
+        }
+
         .nav-tab.active {
-            background: #e74c3c;
+            background: #dc2626;
             color: white;
         }
 
@@ -130,18 +146,18 @@
         }
 
         .dropdown-btn {
-            background: #f0f0f0;
+            background: rgba(255,255,255,0.1);
             border: none;
             padding: 8px 16px;
             border-radius: 30px;
-            color: #333;
+            color: white;
             cursor: pointer;
             font-size: 13px;
         }
 
-        body.dark-mode .dropdown-btn {
-            background: #0f3460;
-            color: white;
+        body.light-mode .dropdown-btn {
+            background: #f0f0f0;
+            color: #333;
         }
 
         .dropdown-content {
@@ -149,17 +165,17 @@
             position: absolute;
             right: 0;
             top: 45px;
-            background: white;
+            background: #1a1a2e;
             min-width: 180px;
             border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
             z-index: 1000;
             overflow: hidden;
         }
 
-        body.dark-mode .dropdown-content {
-            background: #1a1a2e;
-            border: 1px solid #333;
+        body.light-mode .dropdown-content {
+            background: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
         }
 
         .dropdown-content.show {
@@ -170,25 +186,27 @@
             padding: 12px 18px;
             cursor: pointer;
             font-size: 13px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: white;
         }
 
-        body.dark-mode .dropdown-item {
-            border-bottom-color: #333;
+        body.light-mode .dropdown-item {
+            border-bottom: 1px solid #eee;
+            color: #333;
         }
 
         .dropdown-item:hover {
-            background: #f0f0f0;
+            background: rgba(220,38,38,0.2);
         }
 
         .dropdown-item i {
             width: 24px;
             margin-right: 10px;
-            color: #e74c3c;
+            color: #dc2626;
         }
 
         .currency-selector {
-            background: #f0f0f0;
+            background: rgba(255,255,255,0.1);
             border-radius: 30px;
             padding: 8px 16px;
             display: flex;
@@ -196,40 +214,41 @@
             gap: 8px;
         }
 
-        body.dark-mode .currency-selector {
-            background: #0f3460;
+        body.light-mode .currency-selector {
+            background: #f0f0f0;
         }
 
         .currency-selector select {
             background: transparent;
             border: none;
+            color: white;
             font-size: 13px;
             cursor: pointer;
             outline: none;
         }
 
-        body.dark-mode .currency-selector select {
-            color: white;
+        body.light-mode .currency-selector select {
+            color: #333;
         }
 
         .user-info {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: #f0f0f0;
+            background: rgba(255,255,255,0.1);
             padding: 5px 12px;
             border-radius: 30px;
         }
 
-        body.dark-mode .user-info {
-            background: #0f3460;
+        body.light-mode .user-info {
+            background: #f0f0f0;
         }
 
         .user-avatar {
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: #e74c3c;
+            background: #dc2626;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -238,7 +257,7 @@
         }
 
         .login-btn, .logout-btn {
-            background: #e74c3c;
+            background: #dc2626;
             border: none;
             padding: 6px 18px;
             border-radius: 25px;
@@ -260,13 +279,18 @@
             position: relative;
             cursor: pointer;
             font-size: 22px;
-            background: #f0f0f0;
+            background: rgba(255,255,255,0.1);
             padding: 8px 14px;
             border-radius: 30px;
         }
 
+        body.light-mode .cart-icon {
+            background: #f0f0f0;
+            color: #333;
+        }
+
         .cart-icon:hover {
-            background: #e74c3c;
+            background: #dc2626;
             color: white;
         }
 
@@ -274,7 +298,7 @@
             position: absolute;
             top: -5px;
             right: -5px;
-            background: #e74c3c;
+            background: #dc2626;
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -286,7 +310,7 @@
         }
 
         .admin-panel {
-            background: white;
+            background: rgba(0,0,0,0.8);
             margin: 20px 5%;
             border-radius: 20px;
             padding: 20px;
@@ -294,8 +318,9 @@
             display: none;
         }
 
-        body.dark-mode .admin-panel {
-            background: #16213e;
+        body.light-mode .admin-panel {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .admin-panel.show {
@@ -313,10 +338,17 @@
 
         .admin-search {
             padding: 8px 15px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            color: white;
+            width: 250px;
+        }
+
+        body.light-mode .admin-search {
             background: #f0f0f0;
             border: 1px solid #ddd;
-            border-radius: 25px;
-            width: 250px;
+            color: #333;
         }
 
         .admin-items-list {
@@ -329,11 +361,11 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .toggle-status {
-            background: #e74c3c;
+            background: #dc2626;
             border: none;
             padding: 5px 12px;
             border-radius: 20px;
@@ -346,77 +378,187 @@
             background: #27ae60;
         }
 
-        .messages-panel {
-            background: white;
+        /* Chat Panel - Private Messages */
+        .chat-panel {
+            background: rgba(0,0,0,0.8);
             margin: 20px 5%;
             border-radius: 20px;
             padding: 20px;
-            border: 2px solid #e74c3c;
+            border: 2px solid #dc2626;
             display: none;
         }
 
-        body.dark-mode .messages-panel {
-            background: #16213e;
+        body.light-mode .chat-panel {
+            background: white;
         }
 
-        .messages-panel.show {
+        .chat-panel.show {
             display: block;
         }
 
-        .messages-header {
+        .chat-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        .message-list {
-            max-height: 400px;
+        .chat-conversations {
+            display: flex;
+            gap: 20px;
+            min-height: 400px;
+        }
+
+        .conversation-list {
+            width: 30%;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            padding-right: 15px;
             overflow-y: auto;
+            max-height: 400px;
         }
 
-        .message-item {
-            background: #f8f9fa;
-            border-radius: 15px;
+        .conversation-item {
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .conversation-item:hover {
+            background: rgba(220,38,38,0.2);
+        }
+
+        .conversation-item.active {
+            background: #dc2626;
+        }
+
+        .conversation-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .conversation-preview {
+            font-size: 11px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .conversation-unread {
+            background: #dc2626;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            margin-left: 8px;
+        }
+
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            height: 350px;
+            overflow-y: auto;
             padding: 15px;
-            margin-bottom: 10px;
-            border-left: 4px solid #e74c3c;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            margin-bottom: 15px;
         }
 
-        body.dark-mode .message-item {
-            background: #0f3460;
+        .message-bubble {
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .reply-area {
+        .message-bubble.admin {
+            align-items: flex-start;
+        }
+
+        .message-bubble.user {
+            align-items: flex-end;
+        }
+
+        .message-text {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 13px;
+        }
+
+        .message-bubble.admin .message-text {
+            background: #dc2626;
+            color: white;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-bubble.user .message-text {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        body.light-mode .message-bubble.user .message-text {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .message-time {
+            font-size: 10px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .chat-input-area {
             display: flex;
             gap: 10px;
-            margin-top: 10px;
         }
 
-        .reply-input {
+        .chat-input {
             flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
         }
 
-        .reply-btn {
-            background: #e74c3c;
+        body.light-mode .chat-input {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+
+        .chat-send {
+            background: #dc2626;
             border: none;
-            padding: 10px 20px;
-            border-radius: 12px;
+            padding: 12px 20px;
+            border-radius: 25px;
             color: white;
             cursor: pointer;
         }
 
-        .main-content {
+        .no-conversation {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+        }
+
+        .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px 5%;
         }
 
         .filter-bar {
-            background: white;
+            background: rgba(0,0,0,0.5);
             padding: 12px 20px;
             margin-bottom: 25px;
             border-radius: 50px;
@@ -425,22 +567,29 @@
             overflow-x: auto;
         }
 
-        body.dark-mode .filter-bar {
-            background: #16213e;
+        body.light-mode .filter-bar {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .filter-btn {
-            background: #f0f0f0;
+            background: rgba(255,255,255,0.1);
             border: none;
             padding: 8px 20px;
             border-radius: 30px;
-            color: #333;
+            color: white;
             cursor: pointer;
             font-size: 13px;
+            white-space: nowrap;
+        }
+
+        body.light-mode .filter-btn {
+            background: #f0f0f0;
+            color: #333;
         }
 
         .filter-btn.active {
-            background: #e74c3c;
+            background: #dc2626;
             color: white;
         }
 
@@ -452,20 +601,30 @@
         }
 
         .stat-card {
-            background: white;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 20px;
             text-align: center;
+            border: 1px solid rgba(220,38,38,0.3);
         }
 
-        body.dark-mode .stat-card {
-            background: #16213e;
+        body.light-mode .stat-card {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: none;
         }
 
         .stat-card h3 {
             font-size: 28px;
             font-weight: 800;
-            color: #e74c3c;
+            color: #dc2626;
+        }
+
+        .stat-card p {
+            font-size: 13px;
+            color: #888;
+            margin-top: 5px;
         }
 
         .products-grid {
@@ -475,19 +634,22 @@
         }
 
         .product-card {
-            background: white;
-            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(30,20,25,0.9), rgba(20,15,20,0.95));
+            border-radius: 15px;
             overflow: hidden;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(220,38,38,0.2);
             position: relative;
         }
 
-        body.dark-mode .product-card {
-            background: #16213e;
+        body.light-mode .product-card {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .product-card:hover {
             transform: translateY(-5px);
+            border-color: #dc2626;
         }
 
         .product-card.offsale {
@@ -498,21 +660,27 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #e74c3c;
+            background: #dc2626;
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 10px;
+            font-weight: bold;
             color: white;
+            z-index: 2;
         }
 
         .product-image {
             width: 100%;
             aspect-ratio: 1;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            background: linear-gradient(135deg, #2a1a1a, #1a0a0a);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 50px;
+        }
+
+        body.light-mode .product-image {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
         }
 
         .product-info {
@@ -522,19 +690,20 @@
         .product-name {
             font-size: 14px;
             font-weight: 600;
+            margin-bottom: 5px;
         }
 
         .product-price {
             font-size: 18px;
             font-weight: 800;
-            color: #e74c3c;
+            color: #dc2626;
         }
 
         .add-btn {
             width: 100%;
             margin-top: 12px;
             padding: 10px;
-            background: #e74c3c;
+            background: linear-gradient(135deg, #dc2626, #991b1b);
             border: none;
             border-radius: 12px;
             color: white;
@@ -543,7 +712,7 @@
         }
 
         .add-btn:disabled {
-            background: #bdc3c7;
+            background: #444;
             cursor: not-allowed;
         }
 
@@ -565,7 +734,7 @@
         }
 
         .create-trade-btn {
-            background: #e74c3c;
+            background: #dc2626;
             border: none;
             padding: 12px 25px;
             border-radius: 30px;
@@ -581,13 +750,15 @@
         }
 
         .trade-card {
-            background: white;
+            background: linear-gradient(135deg, rgba(30,20,25,0.9), rgba(20,15,20,0.95));
             border-radius: 20px;
             padding: 20px;
+            border: 1px solid rgba(220,38,38,0.2);
         }
 
-        body.dark-mode .trade-card {
-            background: #16213e;
+        body.light-mode .trade-card {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .trade-header {
@@ -596,7 +767,7 @@
             align-items: center;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .trade-user {
@@ -609,7 +780,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #e74c3c;
+            background: #dc2626;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -618,19 +789,19 @@
         }
 
         .trade-offer {
-            background: #f8f9fa;
+            background: rgba(0,0,0,0.3);
             border-radius: 12px;
             padding: 12px;
             margin: 15px 0;
         }
 
-        body.dark-mode .trade-offer {
-            background: #0f3460;
+        body.light-mode .trade-offer {
+            background: #f8f9fa;
         }
 
         .offer-label {
             font-weight: 600;
-            color: #e74c3c;
+            color: #dc2626;
         }
 
         .trade-actions {
@@ -646,6 +817,18 @@
             border-radius: 25px;
             color: white;
             cursor: pointer;
+            font-weight: 600;
+        }
+
+        .delete-trade {
+            flex: 1;
+            background: #dc2626;
+            border: none;
+            padding: 10px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
         }
 
         .cart-sidebar {
@@ -654,16 +837,18 @@
             right: -400px;
             width: 400px;
             height: 100vh;
-            background: white;
+            background: rgba(10,10,15,0.98);
+            backdrop-filter: blur(20px);
             z-index: 1000;
             transition: right 0.3s;
             padding: 25px;
             display: flex;
             flex-direction: column;
+            border-left: 2px solid #dc2626;
         }
 
-        body.dark-mode .cart-sidebar {
-            background: #1a1a2e;
+        body.light-mode .cart-sidebar {
+            background: white;
         }
 
         .cart-sidebar.open {
@@ -675,6 +860,10 @@
             justify-content: space-between;
             margin-bottom: 20px;
             padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        body.light-mode .cart-header {
             border-bottom: 2px solid #eee;
         }
 
@@ -683,7 +872,7 @@
             border: none;
             font-size: 28px;
             cursor: pointer;
-            color: #e74c3c;
+            color: #dc2626;
         }
 
         .cart-items {
@@ -696,13 +885,13 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .cart-total {
             margin-top: 20px;
             padding-top: 15px;
-            border-top: 2px solid #e74c3c;
+            border-top: 2px solid #dc2626;
             font-size: 22px;
             font-weight: 800;
         }
@@ -715,7 +904,7 @@
         }
 
         .payment-method {
-            background: #f0f0f0;
+            background: rgba(255,255,255,0.1);
             border: 2px solid transparent;
             border-radius: 12px;
             padding: 12px;
@@ -723,8 +912,12 @@
             cursor: pointer;
         }
 
+        body.light-mode .payment-method {
+            background: #f0f0f0;
+        }
+
         .payment-method.selected {
-            background: #e74c3c;
+            background: #dc2626;
             color: white;
         }
 
@@ -739,13 +932,30 @@
             cursor: pointer;
         }
 
+        .roblox-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            margin: 15px 0;
+            font-size: 16px;
+            color: white;
+        }
+
+        body.light-mode .roblox-input {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             z-index: 999;
             display: none;
         }
@@ -783,7 +993,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.95);
             z-index: 3000;
             display: none;
             justify-content: center;
@@ -795,43 +1005,31 @@
         }
 
         .modal-content {
-            background: white;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             border-radius: 30px;
             padding: 30px;
             width: 90%;
             max-width: 450px;
             text-align: center;
+            position: relative;
+            border: 1px solid #dc2626;
         }
 
-        body.dark-mode .modal-content {
-            background: #1a1a2e;
+        body.light-mode .modal-content {
+            background: white;
         }
 
-        .roblox-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            margin: 20px auto;
-            background: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
         }
 
-        .roblox-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .roblox-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            margin: 15px 0;
-            font-size: 16px;
+        .modal-close:hover {
+            color: #dc2626;
         }
 
         .verify-buttons {
@@ -853,13 +1051,28 @@
 
         .verify-no {
             flex: 1;
-            background: #e74c3c;
+            background: #dc2626;
             border: none;
             padding: 12px;
             border-radius: 25px;
             color: white;
             font-weight: 600;
             cursor: pointer;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid #dc2626;
+            border-radius: 50%;
+            margin: 20px auto;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @media (max-width: 768px) {
@@ -875,6 +1088,16 @@
                 width: 100%;
                 justify-content: center;
             }
+            .chat-conversations {
+                flex-direction: column;
+            }
+            .conversation-list {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                padding-bottom: 15px;
+                margin-bottom: 15px;
+            }
         }
     </style>
 </head>
@@ -889,7 +1112,7 @@
     <div class="nav-tabs">
         <button class="nav-tab active" onclick="showShop()">🛒 Shop</button>
         <button class="nav-tab" onclick="showTrading()">🤝 Trading</button>
-        <button class="nav-tab" id="messagesTab" onclick="showMessages()" style="display:none;">💬 Messages</button>
+        <button class="nav-tab" id="chatTab" onclick="showChat()" style="display:none;">💬 Messages</button>
     </div>
     
     <div class="top-right">
@@ -917,13 +1140,15 @@
                 <option value="USD">🇺🇸 USD</option>
                 <option value="EUR">🇪🇺 EUR</option>
                 <option value="GBP">🇬🇧 GBP</option>
+                <option value="JPY">🇯🇵 JPY</option>
+                <option value="KRW">🇰🇷 KRW</option>
             </select>
         </div>
         
         <div class="user-info" id="userInfo">
             <div class="user-avatar"><i class="fas fa-user"></i></div>
             <span>Guest</span>
-            <button class="login-btn" onclick="startLogin()">Login</button>
+            <button class="login-btn" onclick="performGoogleLogin()">Login with Google</button>
         </div>
         
         <div class="cart-icon" onclick="toggleCart()">
@@ -933,6 +1158,7 @@
     </div>
 </div>
 
+<!-- Admin Panel -->
 <div class="admin-panel" id="adminPanel">
     <div class="admin-header">
         <h3><i class="fas fa-crown"></i> Admin Controls</h3>
@@ -941,18 +1167,29 @@
     <div class="admin-items-list" id="adminItemsList"></div>
 </div>
 
-<div class="messages-panel" id="messagesPanel">
-    <div class="messages-header">
-        <h3><i class="fas fa-comments"></i> Customer Messages</h3>
-        <span id="unreadCount" style="background:#e74c3c;padding:4px 12px;border-radius:20px;">0</span>
+<!-- Private Chat Panel -->
+<div class="chat-panel" id="chatPanel">
+    <div class="chat-header">
+        <h3><i class="fas fa-comments"></i> Private Messages</h3>
+        <span id="chatUnreadCount" style="background:#dc2626;padding:4px 12px;border-radius:20px;">0</span>
     </div>
-    <div class="message-list" id="messageList"></div>
+    <div class="chat-conversations">
+        <div class="conversation-list" id="conversationList"></div>
+        <div class="chat-area" id="chatArea">
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input-area">
+                <input type="text" id="chatMessageInput" class="chat-input" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button class="chat-send" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div id="shopSection" class="main-content">
+<div class="container" id="shopSection">
     <div class="stats-banner">
         <div class="stat-card"><h3 id="totalItems">0</h3><p>Total Items</p></div>
         <div class="stat-card"><h3 id="onsaleCount">0</h3><p>On Sale</p></div>
+        <div class="stat-card"><h3 id="offsaleCount">0</h3><p>Off Sale</p></div>
         <div class="stat-card"><h3 id="cartValue">₱0</h3><p>Cart Total</p></div>
     </div>
     
@@ -967,12 +1204,14 @@
     <div class="products-grid" id="productsGrid"></div>
 </div>
 
-<div id="tradingSection" class="main-content trading-container">
-    <div class="trading-header">
-        <h2><i class="fas fa-exchange-alt"></i> Trading Hub</h2>
-        <button class="create-trade-btn" onclick="openTradeModal()"><i class="fas fa-plus"></i> Create Trade</button>
+<div id="tradingSection" class="trading-container">
+    <div class="container">
+        <div class="trading-header">
+            <h2><i class="fas fa-exchange-alt"></i> Trading Hub</h2>
+            <button class="create-trade-btn" onclick="openTradeModal()"><i class="fas fa-plus"></i> Create Trade Offer</button>
+        </div>
+        <div class="trades-grid" id="tradesGrid"></div>
     </div>
-    <div class="trades-grid" id="tradesGrid"></div>
 </div>
 
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
@@ -989,13 +1228,36 @@
         <div class="payment-method" data-method="visa" onclick="selectPayment('visa')">💳 Visa</div>
         <div class="payment-method" data-method="credit" onclick="selectPayment('credit')">💳 Credit</div>
     </div>
+    <input type="text" id="checkoutRobloxUsername" class="roblox-input" placeholder="Enter your Roblox Username (required)">
     <button class="checkout-btn" onclick="checkout()">Checkout</button>
 </div>
 
+<!-- Order Success Modal -->
+<div class="modal" id="orderSuccessModal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeOrderSuccess()">&times;</span>
+        <i class="fas fa-check-circle" style="font-size:60px;color:#27ae60;"></i>
+        <h2 style="margin-top:15px;">Order Placed!</h2>
+        <p id="orderNumberDisplay" style="font-size:20px;font-weight:800;color:#dc2626;margin:15px 0;"></p>
+        <div style="background:rgba(255,255,255,0.1);border-radius:15px;padding:15px;margin:15px 0;text-align:left;">
+            <p style="font-size:14px;margin-bottom:8px;">📋 <strong>What happens next:</strong></p>
+            <p style="font-size:13px;color:#ccc;margin-bottom:6px;">1. Add our bot on Roblox: <strong style="color:#dc2626;">EchoKnivesBot</strong></p>
+            <p style="font-size:13px;color:#ccc;margin-bottom:6px;">2. The bot will add you back automatically</p>
+            <p style="font-size:13px;color:#ccc;margin-bottom:6px;">3. Join the bot's game and say <strong style="color:#27ae60;">!hi</strong></p>
+            <p style="font-size:13px;color:#ccc;margin-bottom:6px;">4. The bot will trade you your items!</p>
+            <p style="font-size:13px;color:#ffd700;margin-top:10px;">💬 Check the Messages tab to chat with us!</p>
+        </div>
+        <p id="orderItemsList" style="font-size:13px;color:#888;margin-bottom:10px;"></p>
+        <button class="verify-yes" style="width:100%;" onclick="closeOrderSuccess()">Got it! ✅</button>
+    </div>
+</div>
+
+<!-- Trade Modal -->
 <div class="modal" id="tradeModal">
     <div class="modal-content">
+        <span class="modal-close" onclick="closeTradeModal()">&times;</span>
         <h2>Create Trade Offer</h2>
-        <select id="tradeType" style="width:100%;padding:10px;margin:10px 0;border-radius:12px;">
+        <select id="tradeType" style="width:100%;padding:10px;margin:10px 0;border-radius:12px;background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);">
             <option value="offer">📦 I'm Offering</option>
             <option value="looking">🎯 I'm Looking For</option>
         </select>
@@ -1009,64 +1271,45 @@
     </div>
 </div>
 
-<div class="modal" id="robloxModal">
-    <div class="modal-content">
-        <i class="fas fa-robot" style="font-size:50px;color:#e74c3c;"></i>
-        <h2>Verify Your Roblox Account</h2>
-        <p>Enter your Roblox username to continue</p>
-        <input type="text" id="robloxUsername" class="roblox-input" placeholder="Roblox Username">
-        <div id="robloxPreview" style="display:none;">
-            <div class="roblox-avatar" id="robloxAvatar"></div>
-            <p id="robloxDisplayName"></p>
-            <p id="robloxUsernameDisplay"></p>
-            <div class="verify-buttons">
-                <button class="verify-yes" onclick="confirmRoblox()">✅ Yes, that's me</button>
-                <button class="verify-no" onclick="resetRoblox()">❌ No, that's not me</button>
-            </div>
-        </div>
-        <button id="checkRobloxBtn" class="login-btn" style="margin-top:15px;width:100%;" onclick="checkRobloxUser()">Check & Verify</button>
-    </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
     // ========== MM2 ITEMS DATABASE ==========
     let items = [
-        { id: 1, name: "Batwing", type: "knife", basePrice: 117, onsale: true, emoji: "🦇", rarity: "Godly" },
-        { id: 2, name: "Hallowscrythe", type: "knife", basePrice: 104, onsale: true, emoji: "🌙", rarity: "Godly" },
-        { id: 3, name: "Harvester", type: "knife", basePrice: 468, onsale: true, emoji: "🌾", rarity: "Godly" },
-        { id: 4, name: "Vampire's Axe", type: "knife", basePrice: 1170, onsale: true, emoji: "🪓", rarity: "Godly" },
-        { id: 5, name: "Ghostblade", type: "knife", basePrice: 26, onsale: true, emoji: "👻", rarity: "Godly" },
-        { id: 6, name: "Phantom", type: "knife", basePrice: 118, onsale: true, emoji: "👤", rarity: "Godly" },
-        { id: 7, name: "Candleflame", type: "knife", basePrice: 169, onsale: true, emoji: "🕯️", rarity: "Godly" },
-        { id: 8, name: "Darksword", type: "knife", basePrice: 507, onsale: true, emoji: "⚫", rarity: "Godly" },
-        { id: 9, name: "Xenoknife", type: "knife", basePrice: 51, onsale: true, emoji: "🔪", rarity: "Godly" },
-        { id: 10, name: "Soul", type: "knife", basePrice: 507, onsale: true, emoji: "💀", rarity: "Ancient" },
-        { id: 11, name: "Spectre", type: "knife", basePrice: 118, onsale: true, emoji: "👻", rarity: "Vintage" },
-        { id: 12, name: "Spider", type: "knife", basePrice: 26, onsale: true, emoji: "🕷️", rarity: "Vintage" },
-        { id: 13, name: "Pumpking", type: "knife", basePrice: 26, onsale: true, emoji: "🎃", rarity: "Vintage" },
-        { id: 14, name: "Deathspeaker", type: "knife", basePrice: 17, onsale: true, emoji: "💀", rarity: "Rare" },
-        { id: 15, name: "Electro", type: "knife", basePrice: 34, onsale: true, emoji: "⚡", rarity: "Rare" },
-        { id: 16, name: "Fire Bat", type: "knife", basePrice: 26, onsale: true, emoji: "🦇🔥", rarity: "Rare" },
-        { id: 17, name: "Elite", type: "knife", basePrice: 34, onsale: true, emoji: "⭐", rarity: "Rare" },
-        { id: 18, name: "Fade", type: "knife", basePrice: 9, onsale: true, emoji: "🎨", rarity: "Common" },
-        { id: 19, name: "Neon", type: "knife", basePrice: 9, onsale: true, emoji: "🌈", rarity: "Common" },
-        { id: 20, name: "Alienbeam", type: "gun", basePrice: 26, onsale: true, emoji: "👽🔫", rarity: "Godly" },
-        { id: 21, name: "Hallowgun", type: "gun", basePrice: 152, onsale: true, emoji: "🎃🔫", rarity: "Godly" },
-        { id: 22, name: "Darkshot", type: "gun", basePrice: 1859, onsale: true, emoji: "🌑🔫", rarity: "Godly" },
-        { id: 23, name: "Raygun", type: "gun", basePrice: 1437, onsale: true, emoji: "🔫✨", rarity: "Ancient" },
-        { id: 24, name: "Luger", type: "gun", basePrice: 676, onsale: true, emoji: "🔫", rarity: "Godly" },
-        { id: 25, name: "Lightbringer", type: "gun", basePrice: 1589, onsale: true, emoji: "✨🔫", rarity: "Godly" },
-        { id: 26, name: "Darkbringer", type: "gun", basePrice: 1606, onsale: true, emoji: "🌑🔫", rarity: "Godly" },
-        { id: 27, name: "Fire Bunny", type: "pet", basePrice: 34, onsale: true, emoji: "🐰🔥", rarity: "Rare" },
-        { id: 28, name: "Fire Cat", type: "pet", basePrice: 26, onsale: true, emoji: "🐱🔥", rarity: "Rare" },
-        { id: 29, name: "Pengu", type: "pet", basePrice: 51, onsale: true, emoji: "🐧", rarity: "Rare" }
+        { id: 1, name: "Batwing", type: "knife", basePrice: 117, onsale: true, emoji: "🦇" },
+        { id: 2, name: "Hallowscrythe", type: "knife", basePrice: 104, onsale: true, emoji: "🌙" },
+        { id: 3, name: "Harvester", type: "knife", basePrice: 468, onsale: true, emoji: "🌾" },
+        { id: 4, name: "Vampire's Axe", type: "knife", basePrice: 1170, onsale: true, emoji: "🪓" },
+        { id: 5, name: "Ghostblade", type: "knife", basePrice: 26, onsale: true, emoji: "👻" },
+        { id: 6, name: "Phantom", type: "knife", basePrice: 118, onsale: true, emoji: "👤" },
+        { id: 7, name: "Candleflame", type: "knife", basePrice: 169, onsale: true, emoji: "🕯️" },
+        { id: 8, name: "Darksword", type: "knife", basePrice: 507, onsale: true, emoji: "⚫" },
+        { id: 9, name: "Xenoknife", type: "knife", basePrice: 51, onsale: true, emoji: "🔪" },
+        { id: 10, name: "Soul", type: "knife", basePrice: 507, onsale: true, emoji: "💀" },
+        { id: 11, name: "Spectre", type: "knife", basePrice: 118, onsale: true, emoji: "👻" },
+        { id: 12, name: "Spider", type: "knife", basePrice: 26, onsale: true, emoji: "🕷️" },
+        { id: 13, name: "Pumpking", type: "knife", basePrice: 26, onsale: true, emoji: "🎃" },
+        { id: 14, name: "Deathspeaker", type: "knife", basePrice: 17, onsale: true, emoji: "💀" },
+        { id: 15, name: "Electro", type: "knife", basePrice: 34, onsale: true, emoji: "⚡" },
+        { id: 16, name: "Fire Bat", type: "knife", basePrice: 26, onsale: true, emoji: "🦇🔥" },
+        { id: 17, name: "Elite", type: "knife", basePrice: 34, onsale: true, emoji: "⭐" },
+        { id: 18, name: "Fade", type: "knife", basePrice: 9, onsale: true, emoji: "🎨" },
+        { id: 19, name: "Neon", type: "knife", basePrice: 9, onsale: true, emoji: "🌈" },
+        { id: 20, name: "Alienbeam", type: "gun", basePrice: 26, onsale: true, emoji: "👽🔫" },
+        { id: 21, name: "Hallowgun", type: "gun", basePrice: 152, onsale: true, emoji: "🎃🔫" },
+        { id: 22, name: "Darkshot", type: "gun", basePrice: 1859, onsale: true, emoji: "🌑🔫" },
+        { id: 23, name: "Raygun", type: "gun", basePrice: 1437, onsale: true, emoji: "🔫✨" },
+        { id: 24, name: "Luger", type: "gun", basePrice: 676, onsale: true, emoji: "🔫" },
+        { id: 25, name: "Lightbringer", type: "gun", basePrice: 1589, onsale: true, emoji: "✨🔫" },
+        { id: 26, name: "Darkbringer", type: "gun", basePrice: 1606, onsale: true, emoji: "🌑🔫" },
+        { id: 27, name: "Fire Bunny", type: "pet", basePrice: 34, onsale: true, emoji: "🐰🔥" },
+        { id: 28, name: "Fire Cat", type: "pet", basePrice: 26, onsale: true, emoji: "🐱🔥" },
+        { id: 29, name: "Pengu", type: "pet", basePrice: 51, onsale: true, emoji: "🐧" }
     ];
     
     // Exchange rates
-    const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013 };
-    const currencySymbols = { PHP: "₱", USD: "$", EUR: "€", GBP: "£" };
+    const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, KRW: 24.5 };
+    const currencySymbols = { PHP: "₱", USD: "$", EUR: "€", GBP: "£", JPY: "¥", KRW: "₩" };
     
     // App State
     let cart = [];
@@ -1077,24 +1320,13 @@
     let isAdmin = false;
     let currentCurrency = "PHP";
     let trades = [];
-    let robloxData = null;
-    let pendingAction = null;
+    let currentConversation = null;
+    let conversations = [];
     
     // Helper functions
-    function getDisplayPrice(price) {
-        return (price * exchangeRates[currentCurrency]).toFixed(2);
-    }
-    
-    function getSymbol() {
-        return currencySymbols[currentCurrency];
-    }
-    
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        toast.innerText = msg;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
-    }
+    function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
+    function getSymbol() { return currencySymbols[currentCurrency]; }
+    function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
     
     function changeCurrency() {
         currentCurrency = document.getElementById('currencySelect').value;
@@ -1104,95 +1336,193 @@
         showToast(`Currency: ${currentCurrency}`);
     }
     
-    // ========== ROBLOX VERIFICATION ==========
-    async function checkRobloxUser() {
-        const username = document.getElementById('robloxUsername').value.trim();
-        if (!username) {
-            showToast("Enter your Roblox username!");
+    // ========== DISCORD WEBHOOK ==========
+    const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d';
+    
+    function generateOrderNumber() {
+        return 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+    }
+    
+    async function sendDiscordNotification(orderNumber, robloxUser, orderDetails) {
+        try {
+            await fetch(DISCORD_WEBHOOK, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    embeds: [{
+                        title: '🛒 NEW ORDER!',
+                        color: 0xdc2626,
+                        fields: [
+                            { name: '📋 Order Number', value: `\`${orderNumber}\``, inline: true },
+                            { name: '🎮 Roblox Username', value: `@${robloxUser}`, inline: true },
+                            { name: '💰 Total', value: orderDetails.total, inline: true },
+                            { name: '📦 Items', value: orderDetails.items, inline: false },
+                            { name: '💳 Payment Method', value: orderDetails.payment, inline: true },
+                            { name: '👤 Customer Email', value: currentUser?.email || 'Not logged in', inline: true }
+                        ],
+                        footer: { text: 'ECHOKNIVES Order System - Check website chat to reply!' },
+                        timestamp: new Date().toISOString()
+                    }]
+                })
+            });
+            console.log('Discord notification sent!');
+        } catch (e) {
+            console.error('Discord webhook error:', e);
+        }
+    }
+    
+    // ========== PRIVATE CHAT SYSTEM ==========
+    function loadConversations() {
+        const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
+        const userId = currentUser?.uid;
+        if (!userId) return;
+        
+        // Get all conversations for this user
+        const userConversations = {};
+        for (const [convoId, messages] of Object.entries(allMessages)) {
+            if (convoId.includes(userId) || convoId.split('_')[0] === userId || convoId.split('_')[1] === userId) {
+                userConversations[convoId] = messages;
+            }
+        }
+        
+        conversations = Object.entries(userConversations).map(([convoId, messages]) => {
+            const parts = convoId.split('_');
+            const otherUser = parts[0] === userId ? parts[1] : parts[0];
+            const lastMessage = messages[messages.length - 1];
+            const unreadCount = messages.filter(m => !m.read && m.sender !== userId).length;
+            
+            return {
+                id: convoId,
+                otherUser: otherUser,
+                otherUserName: otherUser === 'admin' ? 'ECHOKNIVES Support' : (otherUser === currentUser?.uid ? 'Me' : 'Customer'),
+                lastMessage: lastMessage?.text || 'No messages',
+                lastTime: lastMessage?.time || '',
+                unread: unreadCount,
+                messages: messages
+            };
+        });
+        
+        conversations.sort((a, b) => new Date(b.lastTime) - new Date(a.lastTime));
+        renderConversationList();
+        
+        const totalUnread = conversations.reduce((sum, c) => sum + c.unread, 0);
+        document.getElementById('chatUnreadCount').innerText = totalUnread;
+        
+        if (currentConversation && conversations.find(c => c.id === currentConversation)) {
+            loadConversationMessages(currentConversation);
+        } else if (conversations.length > 0) {
+            selectConversation(conversations[0].id);
+        }
+    }
+    
+    function renderConversationList() {
+        const container = document.getElementById('conversationList');
+        if (conversations.length === 0) {
+            container.innerHTML = '<div class="no-conversation">No conversations yet.<br>Buy something to start chatting!</div>';
             return;
         }
         
-        showToast("Checking Roblox user...");
+        container.innerHTML = conversations.map(conv => `
+            <div class="conversation-item ${currentConversation === conv.id ? 'active' : ''}" onclick="selectConversation('${conv.id}')">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div class="conversation-name">${conv.otherUserName === 'ECHOKNIVES Support' ? '🛡️ ECHOKNIVES Support' : conv.otherUserName}</div>
+                    ${conv.unread > 0 ? `<span class="conversation-unread">${conv.unread}</span>` : ''}
+                </div>
+                <div class="conversation-preview">${conv.lastMessage.substring(0, 40)}...</div>
+            </div>
+        `).join('');
+    }
+    
+    function selectConversation(convoId) {
+        currentConversation = convoId;
+        renderConversationList();
+        loadConversationMessages(convoId);
+        
+        // Mark messages as read
+        const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
+        if (allMessages[convoId]) {
+            allMessages[convoId].forEach(msg => {
+                if (msg.sender !== currentUser?.uid) msg.read = true;
+            });
+            localStorage.setItem('privateMessages', JSON.stringify(allMessages));
+        }
+        loadConversations();
+    }
+    
+    function loadConversationMessages(convoId) {
+        const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
+        const messages = allMessages[convoId] || [];
+        const container = document.getElementById('chatMessages');
+        
+        if (messages.length === 0) {
+            container.innerHTML = '<div class="no-conversation">No messages yet. Start the conversation!</div>';
+            return;
+        }
+        
+        container.innerHTML = messages.map(msg => `
+            <div class="message-bubble ${msg.sender === currentUser?.uid ? 'user' : 'admin'}">
+                <div class="message-text">${escapeHtml(msg.text)}</div>
+                <div class="message-time">${new Date(msg.time).toLocaleString()}</div>
+            </div>
+        `).join('');
+        container.scrollTop = container.scrollHeight;
+    }
+    
+    function sendMessage() {
+        const input = document.getElementById('chatMessageInput');
+        const text = input.value.trim();
+        if (!text || !currentConversation) return;
+        
+        const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
+        if (!allMessages[currentConversation]) allMessages[currentConversation] = [];
+        
+        allMessages[currentConversation].push({
+            id: Date.now(),
+            text: text,
+            sender: currentUser?.uid,
+            time: new Date().toISOString(),
+            read: false
+        });
+        
+        localStorage.setItem('privateMessages', JSON.stringify(allMessages));
+        input.value = '';
+        loadConversationMessages(currentConversation);
+        loadConversations();
+    }
+    
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    // Create a new conversation (when someone buys)
+    function createConversation(userId, userName, orderDetails) {
+        const convoId = `${userId}_${currentUser?.uid}`;
+        const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
+        
+        if (!allMessages[convoId]) {
+            allMessages[convoId] = [];
+            allMessages[convoId].push({
+                id: Date.now(),
+                text: `🛒 Order placed!\nOrder #${orderDetails.orderNumber}\nItems: ${orderDetails.items}\nTotal: ${orderDetails.total}\nRoblox: @${orderDetails.robloxUser}\n\nThank you for your purchase! We'll deliver your items soon.`,
+                sender: currentUser?.uid,
+                time: new Date().toISOString(),
+                read: true
+            });
+            localStorage.setItem('privateMessages', JSON.stringify(allMessages));
+        }
+    }
+    
+    // ========== GOOGLE LOGIN ONLY ==========
+    async function performGoogleLogin() {
+        if (!window.firebaseReady) {
+            showToast("Firebase is still loading, please wait...");
+            return;
+        }
         
         try {
-            const response = await fetch(`https://users.roblox.com/v1/users/search?keyword=${username}&limit=1`);
-            const data = await response.json();
-            
-            if (!data.data || data.data.length === 0) {
-                showToast("Roblox user not found!");
-                return;
-            }
-            
-            const user = data.data[0];
-            if (user.name.toLowerCase() !== username.toLowerCase()) {
-                showToast("Username not found exactly!");
-                return;
-            }
-            
-            const avatarResponse = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${user.id}&size=420x420&format=Png`);
-            const avatarData = await avatarResponse.json();
-            
-            robloxData = {
-                id: user.id,
-                username: user.name,
-                displayName: user.displayName,
-                avatarUrl: avatarData.data?.[0]?.imageUrl || `https://www.roblox.com/headshot-thumbnail/image?userId=${user.id}&width=420&height=420&format=png`
-            };
-            
-            document.getElementById('robloxAvatar').innerHTML = `<img src="${robloxData.avatarUrl}" style="width:100%;height:100%;object-fit:cover;">`;
-            document.getElementById('robloxDisplayName').innerHTML = `<strong>Display Name:</strong> ${robloxData.displayName}`;
-            document.getElementById('robloxUsernameDisplay').innerHTML = `<strong>Username:</strong> @${robloxData.username}`;
-            document.getElementById('robloxPreview').style.display = 'block';
-            document.getElementById('checkRobloxBtn').style.display = 'none';
-            
-        } catch (error) {
-            showToast("Error checking Roblox user!");
-        }
-    }
-    
-    function confirmRoblox() {
-        if (robloxData) {
-            localStorage.setItem('robloxVerified', JSON.stringify(robloxData));
-            document.getElementById('robloxModal').classList.remove('show');
-            showToast(`Verified as @${robloxData.username}!`);
-            
-            if (pendingAction === 'login') {
-                pendingAction = null;
-                showGoogleLogin();
-            } else if (pendingAction === 'checkout') {
-                pendingAction = null;
-                completeCheckout();
-            } else if (pendingAction === 'trade') {
-                pendingAction = null;
-                document.getElementById('tradeModal').classList.add('show');
-            }
-        }
-    }
-    
-    function resetRoblox() {
-        robloxData = null;
-        document.getElementById('robloxPreview').style.display = 'none';
-        document.getElementById('checkRobloxBtn').style.display = 'block';
-        document.getElementById('robloxUsername').value = '';
-    }
-    
-    function requireRobloxVerification(action) {
-        const saved = localStorage.getItem('robloxVerified');
-        if (saved) {
-            robloxData = JSON.parse(saved);
-            if (action === 'login') showGoogleLogin();
-            else if (action === 'checkout') completeCheckout();
-            else if (action === 'trade') document.getElementById('tradeModal').classList.add('show');
-        } else {
-            pendingAction = action;
-            document.getElementById('robloxModal').classList.add('show');
-        }
-    }
-    
-    // ========== GOOGLE LOGIN ==========
-    async function showGoogleLogin() {
-        try {
-            const result = await window.signInWithPopup(window.auth, window.provider);
+            const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
             currentUser = result.user;
             isLoggedIn = true;
             
@@ -1200,32 +1530,27 @@
             if (currentUser.email === "ivanmendones13@gmail.com") {
                 isAdmin = true;
                 document.getElementById('adminPanel').classList.add('show');
-                document.getElementById('messagesTab').style.display = 'block';
+                document.getElementById('chatTab').style.display = 'block';
                 renderAdminPanel();
-                loadMessages();
+                loadConversations();
                 showToast("👑 Admin access granted!");
+            } else {
+                document.getElementById('chatTab').style.display = 'block';
+                loadConversations();
             }
             
             updateUserUI();
-            showToast(`Welcome ${robloxData?.username || currentUser.displayName}!`);
+            showToast(`Welcome ${currentUser.displayName || currentUser.email}!`);
             renderProducts();
         } catch (error) {
             showToast("Login failed: " + error.message);
         }
     }
     
-    function startLogin() {
-        if (isLoggedIn) {
-            logout();
-        } else {
-            requireRobloxVerification('login');
-        }
-    }
-    
     async function logout() {
-        if (window.auth) {
-            await window.signOut(window.auth);
-        }
+        try {
+            if (window.firebaseAuth) await window.firebaseSignOut(window.firebaseAuth);
+        } catch(e) {}
         isLoggedIn = false;
         currentUser = null;
         isAdmin = false;
@@ -1233,8 +1558,8 @@
         updateCartUI();
         updateUserUI();
         document.getElementById('adminPanel').classList.remove('show');
-        document.getElementById('messagesPanel').classList.remove('show');
-        document.getElementById('messagesTab').style.display = 'none';
+        document.getElementById('chatPanel').classList.remove('show');
+        document.getElementById('chatTab').style.display = 'none';
         showToast("Logged out");
         renderProducts();
     }
@@ -1243,46 +1568,45 @@
         const userDiv = document.getElementById('userInfo');
         if (isLoggedIn && currentUser) {
             userDiv.innerHTML = `
-                <div class="user-avatar">${robloxData?.username?.charAt(0) || 'U'}</div>
-                <span>@${robloxData?.username || 'Player'}</span>
+                <div class="user-avatar">${(currentUser.displayName?.charAt(0) || currentUser.email?.charAt(0) || 'U')}</div>
+                <span>${currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0]}</span>
                 ${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}
-                <button class="logout-btn" onclick="startLogin()">Logout</button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
             `;
         } else {
             userDiv.innerHTML = `
                 <div class="user-avatar"><i class="fas fa-user"></i></div>
                 <span>Guest</span>
-                <button class="login-btn" onclick="startLogin()">Login</button>
+                <button class="login-btn" onclick="performGoogleLogin()">Login with Google</button>
             `;
         }
     }
     
     // Auth state listener
-    if (window.onAuthStateChanged) {
-        window.onAuthStateChanged(window.auth, (user) => {
-            if (user && !isLoggedIn) {
-                // Auto sync if Firebase user exists but our state doesn't
-                currentUser = user;
-                isLoggedIn = true;
-                if (user.email === "ivanmendones13@gmail.com") {
-                    isAdmin = true;
-                    document.getElementById('adminPanel').classList.add('show');
-                    document.getElementById('messagesTab').style.display = 'block';
-                    renderAdminPanel();
-                    loadMessages();
-                }
-                updateUserUI();
-                renderProducts();
-            } else if (!user && isLoggedIn) {
-                logout();
+    window.handleAuthStateChanged = function(user) {
+        if (user && !isLoggedIn) {
+            currentUser = user;
+            isLoggedIn = true;
+            if (user.email === "ivanmendones13@gmail.com") {
+                isAdmin = true;
+                document.getElementById('adminPanel').classList.add('show');
+                document.getElementById('chatTab').style.display = 'block';
+                renderAdminPanel();
+                loadConversations();
+            } else {
+                document.getElementById('chatTab').style.display = 'block';
+                loadConversations();
             }
-        });
-    }
+            updateUserUI();
+            renderProducts();
+        } else if (!user && isLoggedIn) {
+            logout();
+        }
+    };
     
     // ========== DROPDOWNS ==========
     function toggleDropdown(type) {
-        const el = document.getElementById(`${type}Dropdown`);
-        el.classList.toggle('show');
+        document.getElementById(`${type}Dropdown`).classList.toggle('show');
     }
     
     document.addEventListener('click', function(e) {
@@ -1293,7 +1617,7 @@
     
     function viewProfile() {
         if (!isLoggedIn) { showToast("Please login first!"); return; }
-        alert(`👤 Profile\n\nRoblox: @${robloxData?.username || 'Not verified'}\nGoogle: ${currentUser?.email || 'Not linked'}`);
+        alert(`👤 Profile\n\nName: ${currentUser.displayName || 'Not set'}\nEmail: ${currentUser.email}`);
     }
     
     function viewOrders() {
@@ -1304,12 +1628,12 @@
     }
     
     function toggleTheme() {
-        document.body.classList.toggle('dark-mode');
-        showToast(document.body.classList.contains('dark-mode') ? "Dark mode on" : "Light mode on");
+        document.body.classList.toggle('light-mode');
+        showToast(document.body.classList.contains('light-mode') ? "Light mode on" : "Dark mode on");
     }
     
     function showHelp() {
-        alert("ECHOKNIVES Help\n\n1. Verify Roblox account first\n2. Login with Google\n3. Shop or Trade\n4. Checkout sends message to admin");
+        alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Add items to cart\n3. Enter your Roblox username at checkout\n4. Complete purchase\n5. Check Messages tab to chat with us!");
     }
     
     // ========== ADMIN FUNCTIONS ==========
@@ -1338,84 +1662,11 @@
     
     function filterAdminItems() { renderAdminPanel(); }
     
-    // ========== MESSAGES ==========
-    function sendMessageToAdmin(orderDetails) {
-        let messages = JSON.parse(localStorage.getItem('adminMessages') || '[]');
-        const newMessage = {
-            id: Date.now(),
-            robloxUser: robloxData?.username || "Unknown",
-            order: orderDetails,
-            timestamp: new Date().toLocaleString(),
-            read: false,
-            replies: []
-        };
-        messages.unshift(newMessage);
-        localStorage.setItem('adminMessages', JSON.stringify(messages));
-        
-        if (isAdmin) {
-            showToast(`📬 New message from @${robloxData?.username}!`);
-            loadMessages();
-        }
-    }
-    
-    function loadMessages() {
-        if (!isAdmin) return;
-        const messages = JSON.parse(localStorage.getItem('adminMessages') || '[]');
-        const unread = messages.filter(m => !m.read).length;
-        document.getElementById('unreadCount').innerText = unread;
-        
-        if (messages.length === 0) {
-            document.getElementById('messageList').innerHTML = '<p style="text-align:center;color:#888;">No messages yet.</p>';
-            return;
-        }
-        
-        document.getElementById('messageList').innerHTML = messages.map(msg => `
-            <div class="message-item">
-                <div><strong>🎮 @${msg.robloxUser}</strong> <span style="font-size:11px;color:#888;">${msg.timestamp}</span></div>
-                <div><strong>Purchase:</strong> ${msg.order.items}</div>
-                <div><strong>Total:</strong> ${msg.order.total}</div>
-                <div class="reply-area">
-                    <input type="text" id="reply-${msg.id}" class="reply-input" placeholder="Reply...">
-                    <button class="reply-btn" onclick="sendReply(${msg.id})">Send</button>
-                </div>
-                ${msg.replies && msg.replies.length > 0 ? `<div style="margin-top:10px;padding-left:15px;border-left:2px solid #e74c3c;">
-                    ${msg.replies.map(r => `<p style="font-size:12px;"><strong>Admin:</strong> ${r.text}</p>`).join('')}
-                </div>` : ''}
-            </div>
-        `).join('');
-        
-        messages.forEach(m => m.read = true);
-        localStorage.setItem('adminMessages', JSON.stringify(messages));
-    }
-    
-    function sendReply(messageId) {
-        const replyText = document.getElementById(`reply-${messageId}`).value;
-        if (!replyText) return;
-        
-        let messages = JSON.parse(localStorage.getItem('adminMessages') || '[]');
-        const msgIndex = messages.findIndex(m => m.id === messageId);
-        if (msgIndex !== -1) {
-            if (!messages[msgIndex].replies) messages[msgIndex].replies = [];
-            messages[msgIndex].replies.push({ text: replyText, time: new Date().toLocaleString() });
-            localStorage.setItem('adminMessages', JSON.stringify(messages));
-            document.getElementById(`reply-${messageId}`).value = '';
-            loadMessages();
-            showToast("Reply sent!");
-        }
-    }
-    
-    function showMessages() {
-        document.getElementById('shopSection').style.display = 'none';
-        document.getElementById('tradingSection').classList.remove('active');
-        document.getElementById('messagesPanel').classList.add('show');
-        loadMessages();
-    }
-    
     // ========== TAB NAVIGATION ==========
     function showShop() {
         document.getElementById('shopSection').style.display = 'block';
         document.getElementById('tradingSection').classList.remove('active');
-        document.getElementById('messagesPanel').classList.remove('show');
+        document.getElementById('chatPanel').classList.remove('show');
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         document.querySelector('.nav-tab:first-child').classList.add('active');
         renderProducts();
@@ -1424,10 +1675,19 @@
     function showTrading() {
         document.getElementById('shopSection').style.display = 'none';
         document.getElementById('tradingSection').classList.add('active');
-        document.getElementById('messagesPanel').classList.remove('show');
+        document.getElementById('chatPanel').classList.remove('show');
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         document.querySelector('.nav-tab:nth-child(2)').classList.add('active');
         loadTrades();
+    }
+    
+    function showChat() {
+        document.getElementById('shopSection').style.display = 'none';
+        document.getElementById('tradingSection').classList.remove('active');
+        document.getElementById('chatPanel').classList.add('show');
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector('.nav-tab:nth-child(3)').classList.add('active');
+        loadConversations();
     }
     
     // ========== SHOP FUNCTIONS ==========
@@ -1459,11 +1719,13 @@
     function updateStats() {
         document.getElementById('totalItems').innerText = items.length;
         document.getElementById('onsaleCount').innerText = items.filter(i => i.onsale).length;
+        document.getElementById('offsaleCount').innerText = items.filter(i => !i.onsale).length;
         const total = cart.reduce((s, i) => s + (i.basePrice * i.quantity), 0);
         document.getElementById('cartValue').innerHTML = `${getSymbol()}${getDisplayPrice(total)}`;
     }
     
     function addToCart(id) {
+        if (!isLoggedIn) { showToast("Please login with Google first!"); return; }
         const item = items.find(i => i.id === id);
         if (!item || !item.onsale) return;
         const existing = cart.find(i => i.id === id);
@@ -1490,10 +1752,10 @@
             <div class="cart-item">
                 <div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.basePrice)} x${item.quantity}</div>
                 <div>
-                    <button onclick="updateQty(${item.id}, ${item.quantity - 1})" style="background:#f0f0f0;border:none;width:28px;border-radius:8px;">-</button>
+                    <button onclick="updateQty(${item.id}, ${item.quantity - 1})" style="background:#333;border:none;color:white;width:28px;border-radius:8px;">-</button>
                     <span style="margin:0 8px;">${item.quantity}</span>
-                    <button onclick="updateQty(${item.id}, ${item.quantity + 1})" style="background:#f0f0f0;border:none;width:28px;border-radius:8px;">+</button>
-                    <button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:#e74c3c;"><i class="fas fa-trash"></i></button>
+                    <button onclick="updateQty(${item.id}, ${item.quantity + 1})" style="background:#333;border:none;color:white;width:28px;border-radius:8px;">+</button>
+                    <button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:#dc2626;margin-left:8px;"><i class="fas fa-trash"></i></button>
                 </div>
             </div>
         `).join('');
@@ -1521,34 +1783,74 @@
     
     function completeCheckout() {
         if (cart.length === 0) { showToast("Cart empty!"); return; }
+        
+        const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
+        if (!robloxUser) {
+            showToast("Please enter your Roblox username!");
+            return;
+        }
+        
         const total = cart.reduce((s, i) => s + (i.basePrice * i.quantity), 0);
         const paymentNames = { gcash: "GCash", paypal: "PayPal", visa: "Visa", credit: "Credit Card" };
+        const orderNumber = generateOrderNumber();
         
         const orderDetails = {
+            orderNumber: orderNumber,
+            robloxUser: robloxUser,
             items: cart.map(i => `${i.name} x${i.quantity}`).join(', '),
             total: `${getSymbol()}${getDisplayPrice(total)}`,
             payment: paymentNames[selectedPayment]
         };
         
+        // Save order
         let orders = JSON.parse(localStorage.getItem('orders') || '[]');
         orders.push(orderDetails);
         localStorage.setItem('orders', JSON.stringify(orders));
         
-        sendMessageToAdmin(orderDetails);
+        // Send to Discord
+        sendDiscordNotification(orderNumber, robloxUser, orderDetails);
         
-        showToast(`✅ Order placed! Admin notified.`);
+        // Create private chat conversation
+        const convoId = `${currentUser.uid}_admin`;
+        const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
+        if (!allMessages[convoId]) allMessages[convoId] = [];
+        allMessages[convoId].push({
+            id: Date.now(),
+            text: `🛒 **ORDER PLACED!**\nOrder #${orderNumber}\nRoblox: @${robloxUser}\nItems: ${orderDetails.items}\nTotal: ${orderDetails.total}\nPayment: ${orderDetails.payment}\n\nThank you for your purchase! We'll deliver your items soon. Reply here if you have questions!`,
+            sender: currentUser.uid,
+            time: new Date().toISOString(),
+            read: true
+        });
+        localStorage.setItem('privateMessages', JSON.stringify(allMessages));
+        
+        // Show success modal
+        document.getElementById('orderNumberDisplay').innerText = `Order #${orderNumber}`;
+        document.getElementById('orderItemsList').innerText = `Items: ${orderDetails.items}`;
+        document.getElementById('orderSuccessModal').classList.add('show');
+        
         cart = [];
         updateCartUI();
         closeCart();
+        
+        // Refresh chat if open
+        if (document.getElementById('chatPanel').classList.contains('show')) {
+            loadConversations();
+        }
     }
     
+    function closeOrderSuccess() {
+        document.getElementById('orderSuccessModal').classList.remove('show');
+    }
+    window.closeOrderSuccess = closeOrderSuccess;
+    
     function checkout() {
-        if (!isLoggedIn) { showToast("Please login first!"); return; }
+        if (!isLoggedIn) { showToast("Please login with Google first!"); return; }
         if (cart.length === 0) { showToast("Cart empty!"); return; }
-        requireRobloxVerification('checkout');
+        completeCheckout();
     }
     
     function toggleCart() {
+        if (!isLoggedIn) { showToast("Please login with Google first!"); return; }
         document.getElementById('cartSidebar').classList.add('open');
         document.getElementById('overlay').classList.add('show');
     }
@@ -1561,7 +1863,7 @@
     // ========== TRADING FUNCTIONS ==========
     function openTradeModal() {
         if (!isLoggedIn) { showToast("Please login first!"); return; }
-        requireRobloxVerification('trade');
+        document.getElementById('tradeModal').classList.add('show');
     }
     
     function closeTradeModal() {
@@ -1581,8 +1883,8 @@
         
         const newTrade = {
             id: Date.now(),
-            username: robloxData?.username || "Unknown",
-            userAvatar: robloxData?.username?.charAt(0) || "U",
+            username: currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0] || "Unknown",
+            userAvatar: currentUser.displayName?.charAt(0) || currentUser.email?.charAt(0) || "U",
             type: tradeType,
             items: itemsVal,
             want: want,
@@ -1603,7 +1905,7 @@
         const container = document.getElementById('tradesGrid');
         
         if (trades.length === 0) {
-            container.innerHTML = '<div class="no-trades"><i class="fas fa-exchange-alt" style="font-size:50px;"></i><p>No trades yet. Be the first!</p></div>';
+            container.innerHTML = '<div class="no-trades"><i class="fas fa-exchange-alt" style="font-size:50px;margin-bottom:15px;"></i><p>No trades yet. Be the first to post!</p></div>';
             return;
         }
         
@@ -1612,9 +1914,12 @@
                 <div class="trade-header">
                     <div class="trade-user">
                         <div class="trade-avatar">${trade.userAvatar}</div>
-                        <div><strong>@${trade.username}</strong><br><span style="font-size:11px;">${trade.date}</span></div>
+                        <div>
+                            <div class="trade-username" style="font-weight:600;">@${trade.username}</div>
+                            <div class="trade-date" style="font-size:11px;color:#888;">${trade.date}</div>
+                        </div>
                     </div>
-                    <span style="background:${trade.type === 'offer' ? '#27ae60' : '#e74c3c'};color:white;padding:4px 12px;border-radius:20px;font-size:11px;">${trade.type === 'offer' ? 'OFFERING' : 'WANTED'}</span>
+                    <span style="background:${trade.type === 'offer' ? '#27ae60' : '#dc2626'};color:white;padding:4px 12px;border-radius:20px;font-size:11px;">${trade.type === 'offer' ? 'OFFERING' : 'LOOKING FOR'}</span>
                 </div>
                 <div class="trade-offer">
                     <p><span class="offer-label">📦 Items:</span> ${trade.items}</p>
@@ -1622,7 +1927,8 @@
                     ${trade.note ? `<p><span class="offer-label">📝 Note:</span> ${trade.note}</p>` : ''}
                 </div>
                 <div class="trade-actions">
-                    <button class="accept-trade" onclick="acceptTrade(${trade.id})">Accept</button>
+                    <button class="accept-trade" onclick="acceptTrade(${trade.id})"><i class="fas fa-handshake"></i> Accept Trade</button>
+                    ${trade.username === (currentUser?.displayName?.split(' ')[0] || currentUser?.email?.split('@')[0]) ? `<button class="delete-trade" onclick="deleteTrade(${trade.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}
                 </div>
             </div>
         `).join('');
@@ -1635,6 +1941,14 @@
             alert(`🤝 Trade Interest!\n\nFrom: @${trade.username}\nOffering: ${trade.items}\nWant: ${trade.want}\n\nContact @${trade.username} on Roblox to complete the trade!`);
             showToast("Trade interest sent!");
         }
+    }
+    
+    function deleteTrade(tradeId) {
+        if (!isLoggedIn) return;
+        trades = trades.filter(t => t.id !== tradeId);
+        localStorage.setItem('trades', JSON.stringify(trades));
+        loadTrades();
+        showToast("Trade deleted");
     }
     
     // ========== FILTERS ==========
@@ -1652,16 +1966,15 @@
     selectPayment('gcash');
     loadTrades();
     
-    // Make functions global for HTML onclick
+    // Make functions global
     window.showShop = showShop;
     window.showTrading = showTrading;
-    window.showMessages = showMessages;
+    window.showChat = showChat;
     window.toggleDropdown = toggleDropdown;
     window.viewProfile = viewProfile;
     window.viewOrders = viewOrders;
     window.toggleTheme = toggleTheme;
     window.showHelp = showHelp;
-    window.startLogin = startLogin;
     window.logout = logout;
     window.changeCurrency = changeCurrency;
     window.toggleCart = toggleCart;
@@ -1675,12 +1988,12 @@
     window.closeTradeModal = closeTradeModal;
     window.submitTrade = submitTrade;
     window.acceptTrade = acceptTrade;
-    window.checkRobloxUser = checkRobloxUser;
-    window.confirmRoblox = confirmRoblox;
-    window.resetRoblox = resetRoblox;
+    window.deleteTrade = deleteTrade;
+    window.performGoogleLogin = performGoogleLogin;
     window.toggleItemSale = toggleItemSale;
     window.filterAdminItems = filterAdminItems;
-    window.sendReply = sendReply;
+    window.selectConversation = selectConversation;
+    window.sendMessage = sendMessage;
 </script>
 
 </body>
