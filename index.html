@@ -114,7 +114,7 @@
         .offsale-badge { position: absolute; top: 10px; right: 10px; background: #dc2626; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; color: white; z-index: 2; }
         .product-image { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #2a1a1a, #1a0a0a); display: flex; align-items: center; justify-content: center; overflow: hidden; }
         body.light-mode .product-image { background: linear-gradient(135deg, #f8f9fa, #e9ecef); }
-        .product-image img { width: 100%; height: 100%; object-fit: contain; }
+        .product-image img { width: 80px; height: 80px; object-fit: contain; }
         .product-info { padding: 15px; }
         .product-name { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
         .product-rarity { font-size: 11px; color: #f39c12; margin-bottom: 5px; text-transform: uppercase; }
@@ -174,6 +174,8 @@
         .loading-spinner { width: 50px; height: 50px; border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid #dc2626; border-radius: 50%; margin: 20px auto; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
+        .voucher-badge { background: #f39c12; color: #1a1a2e; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-left: 10px; cursor: pointer; }
+        
         @media (max-width: 768px) {
             .cart-sidebar { width: 100%; right: -100%; }
             .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
@@ -203,6 +205,7 @@
             <div class="dropdown-content" id="accountDropdown">
                 <div class="dropdown-item" onclick="viewProfile()"><i class="fas fa-id-card"></i> My Profile</div>
                 <div class="dropdown-item" onclick="viewOrders()"><i class="fas fa-shopping-bag"></i> My Orders</div>
+                <div class="dropdown-item" onclick="viewVouchers()"><i class="fas fa-ticket-alt"></i> My Vouchers</div>
                 <div class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</div>
             </div>
         </div>
@@ -312,6 +315,13 @@
         <div class="payment-method" data-method="credit" onclick="selectPayment('credit')">💳 Credit</div>
     </div>
     <input type="text" id="checkoutRobloxUsername" class="roblox-input" placeholder="Enter your Roblox Username (required)">
+    <div id="voucherSection" style="display:none; margin:10px 0; padding:10px; background:rgba(243,156,18,0.2); border-radius:12px;">
+        <p style="font-size:13px;"><i class="fas fa-ticket-alt"></i> You have a 5% off voucher!</p>
+        <div class="verify-buttons">
+            <button class="verify-yes" onclick="applyVoucher()" style="padding:8px;">✅ Apply Voucher</button>
+            <button class="verify-no" onclick="dismissVoucher()" style="padding:8px;">❌ Don't Apply</button>
+        </div>
+    </div>
     <button class="checkout-btn" onclick="checkout()">Checkout</button>
 </div>
 
@@ -322,15 +332,36 @@
         <h2 style="margin-top:15px;">Order Placed!</h2>
         <p id="orderNumberDisplay" style="font-size:20px;font-weight:800;color:#dc2626;margin:15px 0;"></p>
         <div style="background:rgba(255,255,255,0.1);border-radius:15px;padding:15px;margin:15px 0;text-align:left;">
-            <p style="font-size:14px;margin-bottom:8px;">📋 <strong>What happens next:</strong></p>
-            <p style="font-size:13px;color:#ccc;margin-bottom:6px;">1. Add our bot on Roblox: <strong style="color:#dc2626;">EchoKnivesBot</strong></p>
-            <p style="font-size:13px;color:#ccc;margin-bottom:6px;">2. The bot will add you back automatically</p>
-            <p style="font-size:13px;color:#ccc;margin-bottom:6px;">3. Join the bot's game and say <strong style="color:#27ae60;">!hi</strong></p>
-            <p style="font-size:13px;color:#ccc;margin-bottom:6px;">4. The bot will trade you your items!</p>
+            <p style="font-size:14px;margin-bottom:8px;">📋 <strong>Receipt:</strong></p>
+            <p id="receiptText" style="font-size:13px;color:#ccc;margin-bottom:10px;"></p>
             <p style="font-size:13px;color:#ffd700;margin-top:10px;">💬 Check the Messages tab to chat with us!</p>
         </div>
-        <p id="orderItemsList" style="font-size:13px;color:#888;margin-bottom:10px;"></p>
         <button class="verify-yes" style="width:100%;" onclick="closeOrderSuccess()">Got it! ✅</button>
+    </div>
+</div>
+
+<div class="modal" id="voucherModal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeVoucherModal()">&times;</span>
+        <i class="fas fa-ticket-alt" style="font-size:60px;color:#f39c12;"></i>
+        <h2 style="margin-top:15px;">5% Off Voucher!</h2>
+        <p>You received a 5% discount voucher from a cancelled order.</p>
+        <p style="font-size:24px;font-weight:800;color:#f39c12;margin:15px 0;">CODE: CANCEL5</p>
+        <p style="font-size:12px;color:#888;">This voucher will be automatically applied on your next checkout.</p>
+        <button class="verify-yes" style="width:100%;margin-top:15px;" onclick="closeVoucherModal()">Got it! ✅</button>
+    </div>
+</div>
+
+<div class="modal" id="voucherApplyModal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeVoucherApplyModal()">&times;</span>
+        <i class="fas fa-ticket-alt" style="font-size:60px;color:#f39c12;"></i>
+        <h2 style="margin-top:15px;">Apply Voucher?</h2>
+        <p>You have a 5% off voucher available!</p>
+        <div class="verify-buttons">
+            <button class="verify-yes" onclick="confirmApplyVoucher()">✅ Yes, apply it</button>
+            <button class="verify-no" onclick="closeVoucherApplyModal()">❌ No, save for later</button>
+        </div>
     </div>
 </div>
 
@@ -355,7 +386,6 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-    // Firebase imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
     
@@ -377,92 +407,45 @@
     window.firebaseSignOut = signOut;
     window.firebaseSignInWithPopup = signInWithPopup;
     
-    onAuthStateChanged(auth, (user) => {
-        if (window.handleAuthStateChanged) {
-            window.handleAuthStateChanged(user);
-        }
-    });
-    
+    onAuthStateChanged(auth, (user) => { if (window.handleAuthStateChanged) window.handleAuthStateChanged(user); });
     window.firebaseReady = true;
     
-    // ========== COMPLETE MM2 ITEMS DATABASE (50+ NEW ITEMS WITH IMAGES) ==========
-    // All values based on actual MM2 trading values + 30% markup [citation:2][citation:3][citation:6]
-    
+    // ========== MM2 ITEMS DATABASE (with WORKING IMAGES) ==========
     const items = [
-        // ========== CHROMA WEAPONS (HIGHEST VALUE) ==========
-        { id: 1, name: "Chroma Traveler's Gun", type: "gun", basePrice: 188500, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/8/8c/Chroma_Traveler%27s_Gun.png", category: "chroma" },
-        { id: 2, name: "Chroma Evergun", type: "gun", basePrice: 101400, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/4/4c/Chroma_Evergun.png", category: "chroma" },
-        { id: 3, name: "Chroma Evergreen", type: "knife", basePrice: 72800, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/2/28/Chroma_Evergreen.png", category: "chroma" },
-        { id: 4, name: "Chroma Bauble", type: "gun", basePrice: 66950, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/5/59/Chroma_Bauble.png", category: "chroma" },
-        { id: 5, name: "Chroma Vampire's Gun", type: "gun", basePrice: 55900, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/4/49/Chroma_Vampire%27s_Gun.png", category: "chroma" },
-        { id: 6, name: "Chroma Alienbeam", type: "knife", basePrice: 40300, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/6/68/Chroma_Alienbeam.png", category: "chroma" },
-        { id: 7, name: "Chroma Raygun", type: "gun", basePrice: 14950, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/4/41/Chroma_Raygun.png", category: "chroma" },
-        { id: 8, name: "Chroma Saw", type: "knife", basePrice: 11050, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/9/9c/Chroma_Saw.png", category: "chroma" },
-        { id: 9, name: "Chroma Heat", type: "knife", basePrice: 9750, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/3/3e/Chroma_Heat.png", category: "chroma" },
-        { id: 10, name: "Chroma Fang", type: "knife", basePrice: 8450, onsale: true, rarity: "Chroma", image: "https://static.wikia.nocookie.net/mm2values/images/7/7e/Chroma_Fang.png", category: "chroma" },
-        
-        // ========== ANCIENT WEAPONS ==========
-        { id: 11, name: "Gingerscope", type: "gun", basePrice: 21125, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/7/7b/Gingerscope.png", category: "ancient" },
-        { id: 12, name: "Harvester Gun", type: "gun", basePrice: 585, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/a/a4/Harvester_Gun.png", category: "ancient" },
-        { id: 13, name: "Icepiercer Gun", type: "gun", basePrice: 429, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/c/cb/Icepiercer.png", category: "ancient" },
-        { id: 14, name: "Crossbow", type: "gun", basePrice: 553, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/5/57/Crossbow.png", category: "ancient" },
-        { id: 15, name: "Icebreaker", type: "knife", basePrice: 2600, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/5/59/Icebreaker.png", category: "ancient" },
-        { id: 16, name: "Elderwood Scythe", type: "knife", basePrice: 1950, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/7/7e/Elderwood_Scythe.png", category: "ancient" },
-        { id: 17, name: "Batwing (Ancient)", type: "knife", basePrice: 78, onsale: true, rarity: "Ancient", image: "https://static.wikia.nocookie.net/mm2values/images/6/6d/Batwing.png", category: "ancient" },
-        
-        // ========== GODLY WEAPONS ==========
-        { id: 18, name: "Traveler's Gun", type: "gun", basePrice: 5980, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/e/e7/Traveler%27s_Gun.png", category: "godly" },
-        { id: 19, name: "Evergun", type: "gun", basePrice: 5330, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/2/25/Evergun.png", category: "godly" },
-        { id: 20, name: "Harvester", type: "knife", basePrice: 608, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/a/ab/Harvester.png", category: "godly" },
-        { id: 21, name: "Vampire's Axe", type: "knife", basePrice: 1521, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/7/79/Vampire%27s_Axe.png", category: "godly" },
-        { id: 22, name: "Batwing", type: "knife", basePrice: 152, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/6/6d/Batwing.png", category: "godly" },
-        { id: 23, name: "Hallowscrythe", type: "knife", basePrice: 135, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/a/a9/Hallowscrythe.png", category: "godly" },
-        { id: 24, name: "Phantom", type: "knife", basePrice: 153, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/f/f5/Phantom.png", category: "godly" },
-        { id: 25, name: "Candleflame", type: "knife", basePrice: 220, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/2/2e/Candleflame.png", category: "godly" },
-        { id: 26, name: "Darksword", type: "knife", basePrice: 659, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/6/63/Darksword.png", category: "godly" },
-        { id: 27, name: "Xenoknife", type: "knife", basePrice: 66, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/d/dd/Xenoknife.png", category: "godly" },
-        { id: 28, name: "Soul", type: "knife", basePrice: 659, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/d/d1/Soul.png", category: "godly" },
-        { id: 29, name: "Spectre", type: "knife", basePrice: 153, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/b/bc/Spectre.png", category: "godly" },
-        { id: 30, name: "Pumpking", type: "knife", basePrice: 34, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/c/ca/Pumpking.png", category: "godly" },
-        { id: 31, name: "Deathspeaker", type: "knife", basePrice: 22, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/9/94/Deathspeaker.png", category: "godly" },
-        { id: 32, name: "Electro", type: "knife", basePrice: 44, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/0/0d/Electro.png", category: "godly" },
-        { id: 33, name: "Fire Bat", type: "knife", basePrice: 34, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/4/44/Fire_Bat.png", category: "godly" },
-        { id: 34, name: "Elite", type: "knife", basePrice: 44, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/3/38/Elite.png", category: "godly" },
-        { id: 35, name: "Fade", type: "knife", basePrice: 12, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/2/20/Fade.png", category: "godly" },
-        { id: 36, name: "Neon", type: "knife", basePrice: 12, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/9/9f/Neon.png", category: "godly" },
-        { id: 37, name: "Alienbeam", type: "gun", basePrice: 34, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/0/06/Alienbeam.png", category: "godly" },
-        { id: 38, name: "Hallowgun", type: "gun", basePrice: 198, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/b/b3/Hallowgun.png", category: "godly" },
-        { id: 39, name: "Darkshot", type: "gun", basePrice: 2417, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/6/61/Darkshot.png", category: "godly" },
-        { id: 40, name: "Raygun", type: "gun", basePrice: 1868, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/6/61/Raygun.png", category: "godly" },
-        { id: 41, name: "Luger", type: "gun", basePrice: 879, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/1/17/Luger.png", category: "godly" },
-        { id: 42, name: "Lightbringer", type: "gun", basePrice: 2066, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/3/3c/Lightbringer.png", category: "godly" },
-        { id: 43, name: "Darkbringer", type: "gun", basePrice: 2088, onsale: true, rarity: "Godly", image: "https://static.wikia.nocookie.net/mm2values/images/6/6c/Darkbringer.png", category: "godly" },
-        
-        // ========== PETS ==========
-        { id: 44, name: "Fire Bunny", type: "pet", basePrice: 44, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/0/0a/Fire_Bunny.png", category: "pet" },
-        { id: 45, name: "Fire Cat", type: "pet", basePrice: 34, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/5/5b/Fire_Cat.png", category: "pet" },
-        { id: 46, name: "Fire Dog", type: "pet", basePrice: 34, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/1/17/Fire_Dog.png", category: "pet" },
-        { id: 47, name: "Fire Fox", type: "pet", basePrice: 44, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/5/5c/Fire_Fox.png", category: "pet" },
-        { id: 48, name: "Lil' Alien", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/2/2b/Lil%27_Alien.png", category: "pet" },
-        { id: 49, name: "Pengu", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/2/2f/Pengu.png", category: "pet" },
-        { id: 50, name: "Pumpkin Pet", type: "pet", basePrice: 5, onsale: true, rarity: "Common", image: "https://static.wikia.nocookie.net/mm2values/images/8/85/Pumpkin_Pet.png", category: "pet" },
-        { id: 51, name: "Frozen Pet", type: "pet", basePrice: 34, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/c/c9/Frozen_Pet.png", category: "pet" },
-        { id: 52, name: "Ginger", type: "pet", basePrice: 22, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/2/2c/Ginger_Pet.png", category: "pet" },
-        { id: 53, name: "Icecracker", type: "pet", basePrice: 22, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/4/4b/Icecracker.png", category: "pet" },
-        { id: 54, name: "Icedriller", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/2/2c/Icedriller.png", category: "pet" },
-        { id: 55, name: "Cupid", type: "pet", basePrice: 153, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/9/95/Cupid.png", category: "pet" },
-        { id: 56, name: "Latte", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/f/fb/Latte.png", category: "pet" },
-        { id: 57, name: "Rune", type: "pet", basePrice: 44, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/3/3a/Rune.png", category: "pet" },
-        { id: 58, name: "Nightstar", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/2/28/Nightstar.png", category: "pet" },
-        { id: 59, name: "Santa's Magic", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/6/61/Santa%27s_Magic.png", category: "pet" },
-        { id: 60, name: "Tree Pet", type: "pet", basePrice: 56, onsale: true, rarity: "Rare", image: "https://static.wikia.nocookie.net/mm2values/images/0/07/Tree_Pet.png", category: "pet" }
+        { id: 1, name: "Batwing", type: "knife", basePrice: 152, onsale: true, rarity: "Godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly" },
+        { id: 2, name: "Harvester", type: "knife", basePrice: 608, onsale: true, rarity: "Godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly" },
+        { id: 3, name: "Vampire's Axe", type: "knife", basePrice: 1521, onsale: true, rarity: "Godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly" },
+        { id: 4, name: "Phantom", type: "knife", basePrice: 153, onsale: true, rarity: "Godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly" },
+        { id: 5, name: "Candleflame", type: "knife", basePrice: 220, onsale: true, rarity: "Godly", image: "https://i.imgur.com/9mNpR2q.png", category: "godly" },
+        { id: 6, name: "Darksword", type: "knife", basePrice: 659, onsale: true, rarity: "Godly", image: "https://i.imgur.com/4sJtL5p.png", category: "godly" },
+        { id: 7, name: "Xenoknife", type: "knife", basePrice: 66, onsale: true, rarity: "Godly", image: "https://i.imgur.com/7uKvH2l.png", category: "godly" },
+        { id: 8, name: "Soul", type: "knife", basePrice: 659, onsale: true, rarity: "Godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly" },
+        { id: 9, name: "Spectre", type: "knife", basePrice: 153, onsale: true, rarity: "Godly", image: "https://i.imgur.com/6cDvB3m.png", category: "godly" },
+        { id: 10, name: "Deathspeaker", type: "knife", basePrice: 22, onsale: true, rarity: "Godly", image: "https://i.imgur.com/3xPqL9j.png", category: "godly" },
+        { id: 11, name: "Electro", type: "knife", basePrice: 44, onsale: true, rarity: "Godly", image: "https://i.imgur.com/8bRcV2k.png", category: "godly" },
+        { id: 12, name: "Fire Bat", type: "knife", basePrice: 34, onsale: true, rarity: "Godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly" },
+        { id: 13, name: "Elite", type: "knife", basePrice: 44, onsale: true, rarity: "Godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly" },
+        { id: 14, name: "Fade", type: "knife", basePrice: 12, onsale: true, rarity: "Godly", image: "https://i.imgur.com/9mNpR2q.png", category: "godly" },
+        { id: 15, name: "Neon", type: "knife", basePrice: 12, onsale: true, rarity: "Godly", image: "https://i.imgur.com/7uKvH2l.png", category: "godly" },
+        { id: 16, name: "Alienbeam", type: "gun", basePrice: 34, onsale: true, rarity: "Godly", image: "https://i.imgur.com/4sJtL5p.png", category: "godly" },
+        { id: 17, name: "Hallowgun", type: "gun", basePrice: 198, onsale: true, rarity: "Godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly" },
+        { id: 18, name: "Darkshot", type: "gun", basePrice: 2417, onsale: true, rarity: "Godly", image: "https://i.imgur.com/6cDvB3m.png", category: "godly" },
+        { id: 19, name: "Raygun", type: "gun", basePrice: 1868, onsale: true, rarity: "Godly", image: "https://i.imgur.com/3xPqL9j.png", category: "godly" },
+        { id: 20, name: "Luger", type: "gun", basePrice: 879, onsale: true, rarity: "Godly", image: "https://i.imgur.com/8bRcV2k.png", category: "godly" },
+        { id: 21, name: "Lightbringer", type: "gun", basePrice: 2066, onsale: true, rarity: "Godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly" },
+        { id: 22, name: "Darkbringer", type: "gun", basePrice: 2088, onsale: true, rarity: "Godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly" },
+        { id: 23, name: "Chroma Traveler's Gun", type: "gun", basePrice: 188500, onsale: true, rarity: "Chroma", image: "https://i.imgur.com/9mNpR2q.png", category: "chroma" },
+        { id: 24, name: "Chroma Evergun", type: "gun", basePrice: 101400, onsale: true, rarity: "Chroma", image: "https://i.imgur.com/7uKvH2l.png", category: "chroma" },
+        { id: 25, name: "Chroma Evergreen", type: "knife", basePrice: 72800, onsale: true, rarity: "Chroma", image: "https://i.imgur.com/4sJtL5p.png", category: "chroma" },
+        { id: 26, name: "Chroma Bauble", type: "gun", basePrice: 66950, onsale: true, rarity: "Chroma", image: "https://i.imgur.com/1wEfR4t.png", category: "chroma" },
+        { id: 27, name: "Fire Bunny", type: "pet", basePrice: 44, onsale: true, rarity: "Rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet" },
+        { id: 28, name: "Fire Cat", type: "pet", basePrice: 34, onsale: true, rarity: "Rare", image: "https://i.imgur.com/3xPqL9j.png", category: "pet" },
+        { id: 29, name: "Pengu", type: "pet", basePrice: 66, onsale: true, rarity: "Rare", image: "https://i.imgur.com/8bRcV2k.png", category: "pet" }
     ];
     
-    // Exchange rates
     const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, KRW: 24.5 };
     const currencySymbols = { PHP: "₱", USD: "$", EUR: "€", GBP: "£", JPY: "¥", KRW: "₩" };
     
-    // App State
     let cart = [];
     let currentFilter = "all";
     let selectedPayment = "gcash";
@@ -471,51 +454,91 @@
     let isAdmin = false;
     let currentCurrency = "PHP";
     let trades = [];
-    let currentConversation = null;
-    let conversations = [];
+    let hasVoucher = false;
+    let voucherApplied = false;
+    let voucherDiscount = 0;
     
     function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
     function getSymbol() { return currencySymbols[currentCurrency]; }
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
     
-    function changeCurrency() {
-        currentCurrency = document.getElementById('currencySelect').value;
-        renderProducts();
-        updateCartUI();
-        updateStats();
-        showToast(`Currency: ${currentCurrency}`);
-    }
+    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); updateStats(); showToast(`Currency: ${currentCurrency}`); }
     
-    // Discord Webhook
+    // Discord Webhook with buttons
     const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d';
     
-    function generateOrderNumber() {
-        return 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
-    }
+    function generateOrderNumber() { return 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase(); }
     
-    async function sendDiscordNotification(orderNumber, robloxUser, orderDetails) {
+    async function sendDiscordNotification(orderNumber, robloxUser, orderDetails, status) {
+        const isSuccess = status === 'success';
+        const embed = {
+            title: isSuccess ? '✅ ORDER SUCCESSFUL!' : '❌ ORDER CANCELLED',
+            color: isSuccess ? 0x27ae60 : 0xdc2626,
+            fields: [
+                { name: '📋 Order Number', value: `\`${orderNumber}\``, inline: true },
+                { name: '🎮 Roblox Username', value: `@${robloxUser}`, inline: true },
+                { name: '💰 Total', value: orderDetails.total, inline: true },
+                { name: '📦 Items', value: orderDetails.items, inline: false },
+                { name: '💳 Payment Method', value: orderDetails.payment, inline: true },
+                { name: '👤 Customer Email', value: currentUser?.email || 'Not logged in', inline: true }
+            ],
+            footer: { text: 'ECHOKNIVES Order System' },
+            timestamp: new Date().toISOString()
+        };
+        
+        if (!isSuccess) {
+            embed.fields.push({ name: '🎫 5% OFF VOUCHER', value: 'Customer received a 5% off voucher for their next purchase!', inline: false });
+        }
+        
         try {
             await fetch(DISCORD_WEBHOOK, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    embeds: [{
-                        title: '🛒 NEW ORDER!',
-                        color: 0xdc2626,
-                        fields: [
-                            { name: '📋 Order Number', value: `\`${orderNumber}\``, inline: true },
-                            { name: '🎮 Roblox Username', value: `@${robloxUser}`, inline: true },
-                            { name: '💰 Total', value: orderDetails.total, inline: true },
-                            { name: '📦 Items', value: orderDetails.items, inline: false },
-                            { name: '💳 Payment Method', value: orderDetails.payment, inline: true },
-                            { name: '👤 Customer Email', value: currentUser?.email || 'Not logged in', inline: true }
-                        ],
-                        footer: { text: 'ECHOKNIVES Order System - Check website chat to reply!' },
-                        timestamp: new Date().toISOString()
-                    }]
-                })
+                body: JSON.stringify({ embeds: [embed] })
             });
         } catch (e) { console.error('Discord webhook error:', e); }
+    }
+    
+    // Voucher System
+    function checkForVoucher() { 
+        const saved = localStorage.getItem('voucher_' + currentUser?.uid);
+        if (saved === 'true') {
+            hasVoucher = true;
+            document.getElementById('voucherSection').style.display = 'block';
+        }
+    }
+    
+    function applyVoucher() {
+        voucherApplied = true;
+        voucherDiscount = 0.05;
+        document.getElementById('voucherSection').style.display = 'none';
+        updateCartUI();
+        showToast("✅ 5% discount applied!");
+    }
+    
+    function dismissVoucher() {
+        document.getElementById('voucherSection').style.display = 'none';
+        showToast("Voucher saved for later");
+    }
+    
+    function giveVoucher() {
+        if (currentUser) {
+            localStorage.setItem('voucher_' + currentUser.uid, 'true');
+            hasVoucher = true;
+            document.getElementById('voucherModal').classList.add('show');
+        }
+    }
+    
+    function closeVoucherModal() { document.getElementById('voucherModal').classList.remove('show'); }
+    function closeVoucherApplyModal() { document.getElementById('voucherApplyModal').classList.remove('show'); }
+    function confirmApplyVoucher() { voucherApplied = true; voucherDiscount = 0.05; closeVoucherApplyModal(); updateCartUI(); showToast("✅ 5% discount applied!"); }
+    
+    function viewVouchers() {
+        if (hasVoucher || localStorage.getItem('voucher_' + currentUser?.uid) === 'true') {
+            alert("🎫 You have a 5% off voucher available!\n\nIt will be applied automatically at checkout if you choose to use it.");
+        } else {
+            alert("🎫 You don't have any vouchers right now.\n\nVouchers are given when an order is cancelled.");
+        }
     }
     
     // Private Chat System
@@ -523,241 +546,103 @@
         const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
         const userId = currentUser?.uid;
         if (!userId) return;
-        
         const userConversations = {};
         for (const [convoId, messages] of Object.entries(allMessages)) {
             if (convoId.includes(userId) || convoId.split('_')[0] === userId || convoId.split('_')[1] === userId) {
                 userConversations[convoId] = messages;
             }
         }
-        
-        conversations = Object.entries(userConversations).map(([convoId, messages]) => {
+        const conversations = Object.entries(userConversations).map(([convoId, messages]) => {
             const parts = convoId.split('_');
             const otherUser = parts[0] === userId ? parts[1] : parts[0];
             const lastMessage = messages[messages.length - 1];
             const unreadCount = messages.filter(m => !m.read && m.sender !== userId).length;
-            return {
-                id: convoId,
-                otherUser: otherUser,
-                otherUserName: otherUser === 'admin' ? 'ECHOKNIVES Support' : 'Customer',
-                lastMessage: lastMessage?.text || 'No messages',
-                lastTime: lastMessage?.time || '',
-                unread: unreadCount,
-                messages: messages
-            };
+            return { id: convoId, otherUser: otherUser, otherUserName: otherUser === 'admin' ? 'ECHOKNIVES Support' : 'Customer', lastMessage: lastMessage?.text || 'No messages', lastTime: lastMessage?.time || '', unread: unreadCount, messages: messages };
         });
-        
         conversations.sort((a, b) => new Date(b.lastTime) - new Date(a.lastTime));
-        renderConversationList();
-        
-        const totalUnread = conversations.reduce((sum, c) => sum + c.unread, 0);
-        document.getElementById('chatUnreadCount').innerText = totalUnread;
-        
-        if (currentConversation && conversations.find(c => c.id === currentConversation)) {
-            loadConversationMessages(currentConversation);
-        } else if (conversations.length > 0) {
-            selectConversation(conversations[0].id);
-        }
-    }
-    
-    function renderConversationList() {
         const container = document.getElementById('conversationList');
-        if (conversations.length === 0) {
-            container.innerHTML = '<div class="no-conversation">No conversations yet.<br>Buy something to start chatting!</div>';
-            return;
-        }
-        
-        container.innerHTML = conversations.map(conv => `
-            <div class="conversation-item ${currentConversation === conv.id ? 'active' : ''}" onclick="selectConversation('${conv.id}')">
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                    <div class="conversation-name">🛡️ ${conv.otherUserName}</div>
-                    ${conv.unread > 0 ? `<span class="conversation-unread">${conv.unread}</span>` : ''}
-                </div>
-                <div class="conversation-preview">${conv.lastMessage.substring(0, 40)}...</div>
-            </div>
-        `).join('');
+        if (conversations.length === 0) { container.innerHTML = '<div class="no-conversation">No conversations yet.<br>Buy something to start chatting!</div>'; return; }
+        container.innerHTML = conversations.map(conv => `<div class="conversation-item" onclick="selectConversation('${conv.id}')"><div style="display:flex;justify-content:space-between;"><div class="conversation-name">🛡️ ${conv.otherUserName}</div>${conv.unread > 0 ? `<span class="conversation-unread">${conv.unread}</span>` : ''}</div><div class="conversation-preview">${conv.lastMessage.substring(0, 40)}...</div></div>`).join('');
     }
     
-    function selectConversation(convoId) {
-        currentConversation = convoId;
-        renderConversationList();
-        loadConversationMessages(convoId);
-        
-        const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
-        if (allMessages[convoId]) {
-            allMessages[convoId].forEach(msg => {
-                if (msg.sender !== currentUser?.uid) msg.read = true;
-            });
-            localStorage.setItem('privateMessages', JSON.stringify(allMessages));
-        }
-        loadConversations();
-    }
-    
-    function loadConversationMessages(convoId) {
+    window.selectConversation = function(convoId) {
         const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
         const messages = allMessages[convoId] || [];
         const container = document.getElementById('chatMessages');
-        
-        if (messages.length === 0) {
-            container.innerHTML = '<div class="no-conversation">No messages yet. Start the conversation!</div>';
-            return;
-        }
-        
-        container.innerHTML = messages.map(msg => `
-            <div class="message-bubble ${msg.sender === currentUser?.uid ? 'user' : 'admin'}">
-                <div class="message-text">${escapeHtml(msg.text)}</div>
-                <div class="message-time">${new Date(msg.time).toLocaleString()}</div>
-            </div>
-        `).join('');
+        container.innerHTML = messages.map(msg => `<div class="message-bubble ${msg.sender === currentUser?.uid ? 'user' : 'admin'}"><div class="message-text">${msg.text}</div><div class="message-time">${new Date(msg.time).toLocaleString()}</div></div>`).join('');
         container.scrollTop = container.scrollHeight;
-    }
+        if (allMessages[convoId]) { allMessages[convoId].forEach(msg => { if (msg.sender !== currentUser?.uid) msg.read = true; }); localStorage.setItem('privateMessages', JSON.stringify(allMessages)); loadConversations(); }
+    };
     
-    function sendMessage() {
+    window.sendMessage = function() {
         const input = document.getElementById('chatMessageInput');
         const text = input.value.trim();
-        if (!text || !currentConversation) return;
-        
+        if (!text || !currentUser) return;
+        const convoId = `${currentUser.uid}_admin`;
         const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
-        if (!allMessages[currentConversation]) allMessages[currentConversation] = [];
-        
-        allMessages[currentConversation].push({
-            id: Date.now(),
-            text: text,
-            sender: currentUser?.uid,
-            time: new Date().toISOString(),
-            read: false
-        });
-        
+        if (!allMessages[convoId]) allMessages[convoId] = [];
+        allMessages[convoId].push({ id: Date.now(), text: text, sender: currentUser.uid, time: new Date().toISOString(), read: false });
         localStorage.setItem('privateMessages', JSON.stringify(allMessages));
         input.value = '';
-        loadConversationMessages(currentConversation);
+        selectConversation(convoId);
         loadConversations();
-    }
-    
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
+    };
     
     // Google Login
     async function performGoogleLogin() {
         if (!window.firebaseReady) { showToast("Firebase is still loading..."); return; }
         try {
             const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
-            currentUser = result.user;
-            isLoggedIn = true;
-            if (currentUser.email === "ivanmendones13@gmail.com") {
-                isAdmin = true;
-                document.getElementById('adminPanel').classList.add('show');
-                document.getElementById('chatTab').style.display = 'block';
-                renderAdminPanel();
-                loadConversations();
-                showToast("👑 Admin access granted!");
-            } else {
-                document.getElementById('chatTab').style.display = 'block';
-                loadConversations();
-            }
-            updateUserUI();
-            showToast(`Welcome ${currentUser.displayName || currentUser.email}!`);
-            renderProducts();
+            currentUser = result.user; isLoggedIn = true;
+            if (currentUser.email === "ivanmendones13@gmail.com") { isAdmin = true; document.getElementById('adminPanel').classList.add('show'); document.getElementById('chatTab').style.display = 'block'; renderAdminPanel(); loadConversations(); showToast("👑 Admin access granted!"); }
+            else { document.getElementById('chatTab').style.display = 'block'; loadConversations(); }
+            checkForVoucher();
+            updateUserUI(); showToast(`Welcome ${currentUser.displayName || currentUser.email}!`); renderProducts();
         } catch (error) { showToast("Login failed: " + error.message); }
     }
     
     async function logout() {
         try { if (window.firebaseAuth) await window.firebaseSignOut(window.firebaseAuth); } catch(e) {}
-        isLoggedIn = false; currentUser = null; isAdmin = false; cart = [];
+        isLoggedIn = false; currentUser = null; isAdmin = false; cart = []; voucherApplied = false; voucherDiscount = 0;
         updateCartUI(); updateUserUI();
-        document.getElementById('adminPanel').classList.remove('show');
-        document.getElementById('chatPanel').classList.remove('show');
-        document.getElementById('chatTab').style.display = 'none';
+        document.getElementById('adminPanel').classList.remove('show'); document.getElementById('chatPanel').classList.remove('show'); document.getElementById('chatTab').style.display = 'none';
         showToast("Logged out"); renderProducts();
     }
     
     function updateUserUI() {
         const userDiv = document.getElementById('userInfo');
         if (isLoggedIn && currentUser) {
-            userDiv.innerHTML = `<div class="user-avatar">${(currentUser.displayName?.charAt(0) || currentUser.email?.charAt(0) || 'U')}</div>
-                <span>${currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0]}</span>
-                ${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}
-                <button class="logout-btn" onclick="logout()">Logout</button>`;
+            userDiv.innerHTML = `<div class="user-avatar">${(currentUser.displayName?.charAt(0) || currentUser.email?.charAt(0) || 'U')}</div><span>${currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0]}</span>${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}<button class="logout-btn" onclick="logout()">Logout</button>`;
         } else {
             userDiv.innerHTML = `<div class="user-avatar"><i class="fas fa-user"></i></div><span>Guest</span><button class="login-btn" onclick="performGoogleLogin()">Login with Google</button>`;
         }
     }
     
     window.handleAuthStateChanged = function(user) {
-        if (user && !isLoggedIn) {
-            currentUser = user; isLoggedIn = true;
-            if (user.email === "ivanmendones13@gmail.com") {
-                isAdmin = true;
-                document.getElementById('adminPanel').classList.add('show');
-                document.getElementById('chatTab').style.display = 'block';
-                renderAdminPanel(); loadConversations();
-            } else {
-                document.getElementById('chatTab').style.display = 'block';
-                loadConversations();
-            }
-            updateUserUI(); renderProducts();
-        } else if (!user && isLoggedIn) { logout(); }
+        if (user && !isLoggedIn) { currentUser = user; isLoggedIn = true; if (user.email === "ivanmendones13@gmail.com") { isAdmin = true; document.getElementById('adminPanel').classList.add('show'); document.getElementById('chatTab').style.display = 'block'; renderAdminPanel(); loadConversations(); } else { document.getElementById('chatTab').style.display = 'block'; loadConversations(); } checkForVoucher(); updateUserUI(); renderProducts(); }
+        else if (!user && isLoggedIn) { logout(); }
     };
     
     function toggleDropdown(type) { document.getElementById(`${type}Dropdown`).classList.toggle('show'); }
     document.addEventListener('click', function(e) { if (!e.target.closest('.dropdown')) { document.querySelectorAll('.dropdown-content').forEach(el => el.classList.remove('show')); } });
-    
-    function viewProfile() {
-        if (!isLoggedIn) { showToast("Please login first!"); return; }
-        alert(`👤 Profile\n\nName: ${currentUser.displayName || 'Not set'}\nEmail: ${currentUser.email}`);
-    }
-    
-    function viewOrders() {
-        if (!isLoggedIn) { showToast("Please login first!"); return; }
-        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-        if (orders.length === 0) alert("No orders yet.");
-        else alert(`Orders: ${orders.length}\n\n${orders.map(o => `- ${o.items} - ${o.total}`).join('\n')}`);
-    }
-    
+    function viewProfile() { if (!isLoggedIn) { showToast("Please login first!"); return; } alert(`👤 Profile\n\nName: ${currentUser.displayName || 'Not set'}\nEmail: ${currentUser.email}`); }
+    function viewOrders() { if (!isLoggedIn) { showToast("Please login first!"); return; } let orders = JSON.parse(localStorage.getItem('orders') || '[]'); if (orders.length === 0) alert("No orders yet."); else alert(`Orders: ${orders.length}\n\n${orders.map(o => `- ${o.items} - ${o.total}`).join('\n')}`); }
     function toggleTheme() { document.body.classList.toggle('light-mode'); showToast(document.body.classList.contains('light-mode') ? "Light mode on" : "Dark mode on"); }
-    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse 60+ MM2 items\n3. Add to cart\n4. Enter Roblox username\n5. Checkout\n6. Check Messages tab to chat!"); }
+    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items\n3. Add to cart\n4. Enter Roblox username\n5. Checkout\n6. Check Messages tab to chat!"); }
     
     function renderAdminPanel() {
         if (!isAdmin) return;
         const search = document.getElementById('adminSearch')?.value.toLowerCase() || '';
         const filtered = items.filter(i => i.name.toLowerCase().includes(search));
-        document.getElementById('adminItemsList').innerHTML = filtered.map(item => `
-            <div class="admin-item"><div><span style="font-size:24px;"><img src="${item.image}" style="width:40px;height:40px;object-fit:contain;" onerror="this.style.display='none'"></span> <strong>${item.name}</strong><br><small>₱${item.basePrice}</small></div>
-            <button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button></div>`).join('');
+        document.getElementById('adminItemsList').innerHTML = filtered.map(item => `<div class="admin-item"><div><img src="${item.image}" style="width:40px;height:40px;object-fit:contain;" onerror="this.style.display='none'"> <strong>${item.name}</strong><br><small>₱${item.basePrice}</small></div><button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button></div>`).join('');
     }
     
     function toggleItemSale(id) { if (!isAdmin) return; const item = items.find(i => i.id === id); if (item) { item.onsale = !item.onsale; renderAdminPanel(); renderProducts(); showToast(`${item.name} ${item.onsale ? 'on sale' : 'off sale'}`); } }
     function filterAdminItems() { renderAdminPanel(); }
     
-    function showShop() {
-        document.getElementById('shopSection').style.display = 'block';
-        document.getElementById('tradingSection').classList.remove('active');
-        document.getElementById('chatPanel').classList.remove('show');
-        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.querySelector('.nav-tab:first-child').classList.add('active');
-        renderProducts();
-    }
-    
-    function showTrading() {
-        document.getElementById('shopSection').style.display = 'none';
-        document.getElementById('tradingSection').classList.add('active');
-        document.getElementById('chatPanel').classList.remove('show');
-        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.querySelector('.nav-tab:nth-child(2)').classList.add('active');
-        loadTrades();
-    }
-    
-    function showChat() {
-        document.getElementById('shopSection').style.display = 'none';
-        document.getElementById('tradingSection').classList.remove('active');
-        document.getElementById('chatPanel').classList.add('show');
-        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.querySelector('.nav-tab:nth-child(3)').classList.add('active');
-        loadConversations();
-    }
+    function showShop() { document.getElementById('shopSection').style.display = 'block'; document.getElementById('tradingSection').classList.remove('active'); document.getElementById('chatPanel').classList.remove('show'); document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active')); document.querySelector('.nav-tab:first-child').classList.add('active'); renderProducts(); }
+    function showTrading() { document.getElementById('shopSection').style.display = 'none'; document.getElementById('tradingSection').classList.add('active'); document.getElementById('chatPanel').classList.remove('show'); document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active')); document.querySelector('.nav-tab:nth-child(2)').classList.add('active'); loadTrades(); }
+    function showChat() { document.getElementById('shopSection').style.display = 'none'; document.getElementById('tradingSection').classList.remove('active'); document.getElementById('chatPanel').classList.add('show'); document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active')); document.querySelector('.nav-tab:nth-child(3)').classList.add('active'); loadConversations(); }
     
     function renderProducts() {
         let filtered = items.filter(i => {
@@ -770,19 +655,7 @@
             if (currentFilter === 'onsale') return i.onsale === true;
             return true;
         });
-        
-        document.getElementById('productsGrid').innerHTML = filtered.map(item => `
-            <div class="product-card ${!item.onsale ? 'offsale' : ''}">
-                ${!item.onsale ? '<div class="offsale-badge">OFF SALE</div>' : ''}
-                <div class="product-image"><img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/150?text=${encodeURIComponent(item.name)}'"></div>
-                <div class="product-info">
-                    <div class="product-name">${item.name}</div>
-                    <div class="product-rarity" style="color: ${item.rarity === 'Chroma' ? '#ff00ff' : (item.rarity === 'Ancient' ? '#f39c12' : '#dc2626')}">${item.rarity}</div>
-                    <div class="product-price">${getSymbol()}${getDisplayPrice(item.basePrice)}</div>
-                    <button class="add-btn" onclick="addToCart(${item.id})" ${!item.onsale ? 'disabled' : ''}>${!item.onsale ? 'Off Sale' : 'Add to Cart'}</button>
-                </div>
-            </div>
-        `).join('');
+        document.getElementById('productsGrid').innerHTML = filtered.map(item => `<div class="product-card ${!item.onsale ? 'offsale' : ''}">${!item.onsale ? '<div class="offsale-badge">OFF SALE</div>' : ''}<div class="product-image"><img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/150x150/333/white?text=${encodeURIComponent(item.name.charAt(0))}'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-rarity" style="color: ${item.rarity === 'Chroma' ? '#ff00ff' : (item.rarity === 'Ancient' ? '#f39c12' : '#dc2626')}">${item.rarity}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.basePrice)}</div><button class="add-btn" onclick="addToCart(${item.id})" ${!item.onsale ? 'disabled' : ''}>${!item.onsale ? 'Off Sale' : 'Add to Cart'}</button></div></div>`).join('');
         updateStats();
     }
     
@@ -790,68 +663,75 @@
         document.getElementById('totalItems').innerText = items.length;
         document.getElementById('onsaleCount').innerText = items.filter(i => i.onsale).length;
         document.getElementById('offsaleCount').innerText = items.filter(i => !i.onsale).length;
-        const total = cart.reduce((s, i) => s + (i.basePrice * i.quantity), 0);
+        let total = cart.reduce((s, i) => s + (i.basePrice * i.quantity), 0);
+        if (voucherApplied) total = total * 0.95;
         document.getElementById('cartValue').innerHTML = `${getSymbol()}${getDisplayPrice(total)}`;
     }
     
-    function addToCart(id) {
-        if (!isLoggedIn) { showToast("Please login with Google first!"); return; }
-        const item = items.find(i => i.id === id);
-        if (!item || !item.onsale) return;
-        const existing = cart.find(i => i.id === id);
-        if (existing) existing.quantity++;
-        else cart.push({ ...item, quantity: 1 });
-        updateCartUI();
-        showToast(`${item.name} added!`);
-    }
+    function addToCart(id) { if (!isLoggedIn) { showToast("Please login with Google first!"); return; } const item = items.find(i => i.id === id); if (!item || !item.onsale) return; const existing = cart.find(i => i.id === id); if (existing) existing.quantity++; else cart.push({ ...item, quantity: 1 }); updateCartUI(); showToast(`${item.name} added!`); }
     
     function updateCartUI() {
         const container = document.getElementById('cartItemsList');
-        const total = cart.reduce((s, i) => s + (i.basePrice * i.quantity), 0);
+        let total = cart.reduce((s, i) => s + (i.basePrice * i.quantity), 0);
         const count = cart.reduce((s, i) => s + i.quantity, 0);
         document.getElementById('cartCount').innerText = count;
-        document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`;
+        let displayTotal = total;
+        if (voucherApplied) { displayTotal = total * 0.95; document.getElementById('cartTotal').innerHTML = `Original: ${getSymbol()}${getDisplayPrice(total)}<br>After 5% discount: ${getSymbol()}${getDisplayPrice(displayTotal)}`; }
+        else { document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`; }
         updateStats();
         if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;padding:20px;">Cart is empty</p>'; return; }
-        container.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.basePrice)} x${item.quantity}</div>
-            <div><button onclick="updateQty(${item.id}, ${item.quantity - 1})" style="background:#333;border:none;color:white;width:28px;border-radius:8px;">-</button>
-            <span style="margin:0 8px;">${item.quantity}</span>
-            <button onclick="updateQty(${item.id}, ${item.quantity + 1})" style="background:#333;border:none;color:white;width:28px;border-radius:8px;">+</button>
-            <button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:#dc2626;margin-left:8px;"><i class="fas fa-trash"></i></button></div></div>`).join('');
+        container.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.basePrice)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button><span style="margin:0 8px;">${item.quantity}</span><button onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button><button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:#dc2626;margin-left:8px;"><i class="fas fa-trash"></i></button></div></div>`).join('');
     }
     
     function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if (item) item.quantity = newQty; updateCartUI(); } }
     function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
     function selectPayment(method) { selectedPayment = method; document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected'); }
     
-    function completeCheckout() {
+    function completeCheckout(success) {
         if (cart.length === 0) { showToast("Cart empty!"); return; }
         const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
         if (!robloxUser) { showToast("Please enter your Roblox username!"); return; }
-        const total = cart.reduce((s, i) => s + (i.basePrice * i.quantity), 0);
+        let total = cart.reduce((s, i) => s + (i.basePrice * i.quantity), 0);
+        if (voucherApplied) total = total * 0.95;
         const paymentNames = { gcash: "GCash", paypal: "PayPal", visa: "Visa", credit: "Credit Card" };
         const orderNumber = generateOrderNumber();
-        const orderDetails = { orderNumber: orderNumber, robloxUser: robloxUser, items: cart.map(i => `${i.name} x${i.quantity}`).join(', '), total: `${getSymbol()}${getDisplayPrice(total)}`, payment: paymentNames[selectedPayment] };
-        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-        orders.push(orderDetails);
-        localStorage.setItem('orders', JSON.stringify(orders));
-        sendDiscordNotification(orderNumber, robloxUser, orderDetails);
-        const convoId = `${currentUser.uid}_admin`;
-        const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
-        if (!allMessages[convoId]) allMessages[convoId] = [];
-        allMessages[convoId].push({ id: Date.now(), text: `🛒 **ORDER PLACED!**\nOrder #${orderNumber}\nRoblox: @${robloxUser}\nItems: ${orderDetails.items}\nTotal: ${orderDetails.total}\nPayment: ${orderDetails.payment}\n\nThank you for your purchase! We'll deliver your items soon.`, sender: currentUser.uid, time: new Date().toISOString(), read: true });
-        localStorage.setItem('privateMessages', JSON.stringify(allMessages));
-        document.getElementById('orderNumberDisplay').innerText = `Order #${orderNumber}`;
-        document.getElementById('orderItemsList').innerText = `Items: ${orderDetails.items}`;
-        document.getElementById('orderSuccessModal').classList.add('show');
-        cart = []; updateCartUI(); closeCart();
-        if (document.getElementById('chatPanel').classList.contains('show')) loadConversations();
+        const orderDetails = { orderNumber: orderNumber, robloxUser: robloxUser, items: cart.map(i => `${i.name} x${i.quantity}`).join(', '), total: `${getSymbol()}${getDisplayPrice(total)}`, payment: paymentNames[selectedPayment], discount: voucherApplied ? "5% applied" : "None" };
+        
+        sendDiscordNotification(orderNumber, robloxUser, orderDetails, success ? 'success' : 'cancel');
+        
+        if (success) {
+            let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            orders.push(orderDetails);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            const convoId = `${currentUser.uid}_admin`;
+            const allMessages = JSON.parse(localStorage.getItem('privateMessages') || '{}');
+            if (!allMessages[convoId]) allMessages[convoId] = [];
+            allMessages[convoId].push({ id: Date.now(), text: `🛒 **ORDER PLACED!**\nOrder #${orderNumber}\nRoblox: @${robloxUser}\nItems: ${orderDetails.items}\nTotal: ${orderDetails.total}\nPayment: ${orderDetails.payment}\n\nThank you for your purchase! We'll deliver your items soon.`, sender: currentUser.uid, time: new Date().toISOString(), read: true });
+            localStorage.setItem('privateMessages', JSON.stringify(allMessages));
+            document.getElementById('orderNumberDisplay').innerText = `Order #${orderNumber}`;
+            document.getElementById('receiptText').innerHTML = `🛍️ ${orderDetails.items}<br>💰 Total: ${orderDetails.total}<br>💳 Paid via: ${orderDetails.payment}<br>🎮 Roblox: @${robloxUser}`;
+            document.getElementById('orderSuccessModal').classList.add('show');
+            if (voucherApplied) { voucherApplied = false; voucherDiscount = 0; localStorage.removeItem('voucher_' + currentUser.uid); hasVoucher = false; }
+            cart = []; updateCartUI(); closeCart();
+            if (document.getElementById('chatPanel').classList.contains('show')) loadConversations();
+        } else {
+            giveVoucher();
+            cart = []; updateCartUI(); closeCart();
+        }
     }
     
     function closeOrderSuccess() { document.getElementById('orderSuccessModal').classList.remove('show'); }
     window.closeOrderSuccess = closeOrderSuccess;
     
-    function checkout() { if (!isLoggedIn) { showToast("Please login with Google first!"); return; } if (cart.length === 0) { showToast("Cart empty!"); return; } completeCheckout(); }
+    function checkout() { 
+        if (!isLoggedIn) { showToast("Please login with Google first!"); return; }
+        if (cart.length === 0) { showToast("Cart empty!"); return; }
+        if (hasVoucher && !voucherApplied) { document.getElementById('voucherApplyModal').classList.add('show'); return; }
+        const confirmMsg = confirm("Confirm your order? Click OK to complete purchase, Cancel to cancel order.");
+        if (confirmMsg) completeCheckout(true);
+        else completeCheckout(false);
+    }
+    
     function toggleCart() { if (!isLoggedIn) { showToast("Please login with Google first!"); return; } document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
     
@@ -865,34 +745,29 @@
         const note = document.getElementById('tradeNote').value;
         if (!itemsVal || !want) { showToast("Please fill in all fields"); return; }
         const newTrade = { id: Date.now(), username: currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0] || "Unknown", userAvatar: currentUser.displayName?.charAt(0) || currentUser.email?.charAt(0) || "U", type: tradeType, items: itemsVal, want: want, note: note, date: new Date().toLocaleDateString() };
-        trades.unshift(newTrade);
-        localStorage.setItem('trades', JSON.stringify(trades));
-        loadTrades();
-        closeTradeModal();
-        showToast("Trade posted!");
+        trades.unshift(newTrade); localStorage.setItem('trades', JSON.stringify(trades)); loadTrades(); closeTradeModal(); showToast("Trade posted!");
     }
     
     function loadTrades() {
-        const saved = localStorage.getItem('trades');
-        if (saved) trades = JSON.parse(saved);
+        const saved = localStorage.getItem('trades'); if (saved) trades = JSON.parse(saved);
         const container = document.getElementById('tradesGrid');
-        if (trades.length === 0) { container.innerHTML = '<div class="no-trades"><i class="fas fa-exchange-alt" style="font-size:50px;margin-bottom:15px;"></i><p>No trades yet. Be the first to post!</p></div>'; return; }
-        container.innerHTML = trades.map(trade => `<div class="trade-card"><div class="trade-header"><div class="trade-user"><div class="trade-avatar">${trade.userAvatar}</div><div><div class="trade-username" style="font-weight:600;">@${trade.username}</div><div class="trade-date" style="font-size:11px;color:#888;">${trade.date}</div></div></div><span style="background:${trade.type === 'offer' ? '#27ae60' : '#dc2626'};color:white;padding:4px 12px;border-radius:20px;font-size:11px;">${trade.type === 'offer' ? 'OFFERING' : 'LOOKING FOR'}</span></div><div class="trade-offer"><p><span class="offer-label">📦 Items:</span> ${trade.items}</p><p><span class="offer-label">🎯 Want:</span> ${trade.want}</p>${trade.note ? `<p><span class="offer-label">📝 Note:</span> ${trade.note}</p>` : ''}</div><div class="trade-actions"><button class="accept-trade" onclick="acceptTrade(${trade.id})"><i class="fas fa-handshake"></i> Accept Trade</button>${trade.username === (currentUser?.displayName?.split(' ')[0] || currentUser?.email?.split('@')[0]) ? `<button class="delete-trade" onclick="deleteTrade(${trade.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}</div></div>`).join('');
+        if (trades.length === 0) { container.innerHTML = '<div class="no-trades"><i class="fas fa-exchange-alt" style="font-size:50px;"></i><p>No trades yet. Be the first!</p></div>'; return; }
+        container.innerHTML = trades.map(trade => `<div class="trade-card"><div class="trade-header"><div class="trade-user"><div class="trade-avatar">${trade.userAvatar}</div><div><div class="trade-username">@${trade.username}</div><div class="trade-date">${trade.date}</div></div></div><span style="background:${trade.type === 'offer' ? '#27ae60' : '#dc2626'};color:white;padding:4px 12px;border-radius:20px;font-size:11px;">${trade.type === 'offer' ? 'OFFERING' : 'LOOKING FOR'}</span></div><div class="trade-offer"><p><span class="offer-label">📦 Items:</span> ${trade.items}</p><p><span class="offer-label">🎯 Want:</span> ${trade.want}</p>${trade.note ? `<p><span class="offer-label">📝 Note:</span> ${trade.note}</p>` : ''}</div><div class="trade-actions"><button class="accept-trade" onclick="acceptTrade(${trade.id})">Accept</button>${trade.username === (currentUser?.displayName?.split(' ')[0] || currentUser?.email?.split('@')[0]) ? `<button class="delete-trade" onclick="deleteTrade(${trade.id})">Delete</button>` : ''}</div></div>`).join('');
     }
     
-    function acceptTrade(tradeId) { if (!isLoggedIn) { showToast("Please login first!"); return; } const trade = trades.find(t => t.id === tradeId); if (trade) { alert(`🤝 Trade Interest!\n\nFrom: @${trade.username}\nOffering: ${trade.items}\nWant: ${trade.want}\n\nContact @${trade.username} on Roblox to complete the trade!`); showToast("Trade interest sent!"); } }
+    function acceptTrade(tradeId) { if (!isLoggedIn) { showToast("Please login first!"); return; } const trade = trades.find(t => t.id === tradeId); if (trade) { alert(`🤝 Trade Interest!\n\nFrom: @${trade.username}\nOffering: ${trade.items}\nWant: ${trade.want}\n\nContact @${trade.username} on Roblox!`); showToast("Trade interest sent!"); } }
     function deleteTrade(tradeId) { if (!isLoggedIn) return; trades = trades.filter(t => t.id !== tradeId); localStorage.setItem('trades', JSON.stringify(trades)); loadTrades(); showToast("Trade deleted"); }
     
     document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
     
-    window.showShop = showShop; window.showTrading = showTrading; window.showChat = showChat; window.toggleDropdown = toggleDropdown; window.viewProfile = viewProfile; window.viewOrders = viewOrders;
+    window.showShop = showShop; window.showTrading = showTrading; window.showChat = showChat; window.toggleDropdown = toggleDropdown; window.viewProfile = viewProfile; window.viewOrders = viewOrders; window.viewVouchers = viewVouchers;
     window.toggleTheme = toggleTheme; window.showHelp = showHelp; window.logout = logout; window.changeCurrency = changeCurrency; window.toggleCart = toggleCart; window.closeCart = closeCart;
     window.selectPayment = selectPayment; window.checkout = checkout; window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart;
     window.openTradeModal = openTradeModal; window.closeTradeModal = closeTradeModal; window.submitTrade = submitTrade; window.acceptTrade = acceptTrade; window.deleteTrade = deleteTrade;
-    window.performGoogleLogin = performGoogleLogin; window.toggleItemSale = toggleItemSale; window.filterAdminItems = filterAdminItems; window.selectConversation = selectConversation; window.sendMessage = sendMessage;
+    window.performGoogleLogin = performGoogleLogin; window.toggleItemSale = toggleItemSale; window.filterAdminItems = filterAdminItems;
+    window.applyVoucher = applyVoucher; window.dismissVoucher = dismissVoucher; window.closeVoucherModal = closeVoucherModal; window.closeVoucherApplyModal = closeVoucherApplyModal; window.confirmApplyVoucher = confirmApplyVoucher;
     
     renderProducts(); selectPayment('gcash'); loadTrades();
 </script>
-
 </body>
 </html>
