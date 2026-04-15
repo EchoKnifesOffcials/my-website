@@ -96,37 +96,43 @@
         .stat-card { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; text-align: center; border: 1px solid rgba(108,92,231,0.3); transition: all 0.3s ease; }
         .stat-card:hover { transform: translateY(-5px); border-color: #6c5ce7; }
         .stat-card h3 { font-size: 28px; font-weight: 800; color: #6c5ce7; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        .product-card { background: linear-gradient(135deg, rgba(30,20,25,0.9), rgba(20,15,20,0.95)); border-radius: 24px; overflow: hidden; transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); border: 1px solid rgba(108,92,231,0.2); position: relative; }
-        .product-card:hover { transform: translateY(-8px) scale(1.02); border-color: #6c5ce7; box-shadow: 0 20px 40px rgba(108,92,231,0.3); }
-        .product-image { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #2a1a1a, #1a0a0a); display: flex; align-items: center; justify-content: center; padding: 25px; }
-        .product-image img { width: 180px; height: 180px; object-fit: contain; border-radius: 20px; transition: transform 0.3s; }
-        .product-card:hover .product-image img { transform: scale(1.1); }
-        .product-info { padding: 20px; }
-        .product-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-        .price-container { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 8px 0; }
-        .original-price { font-size: 14px; color: #888; text-decoration: line-through; }
-        .product-price { font-size: 28px; font-weight: 800; color: #6c5ce7; }
-        .discount-badge { background: #10b981; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: bold; }
-        .add-btn { width: 100%; margin-top: 15px; padding: 12px; background: linear-gradient(135deg, #6c5ce7, #a855f7); border: none; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s ease; }
-        .add-btn:hover { transform: scale(1.02); background: #a855f7; }
-        .cart-sidebar { position: fixed; top: 0; right: -450px; width: 450px; height: 100vh; background: rgba(15, 12, 41, 0.98); backdrop-filter: blur(20px); z-index: 1000; transition: right 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); padding: 25px; display: flex; flex-direction: column; border-left: 2px solid #6c5ce7; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 35px; }
+        .product-card { background: linear-gradient(135deg, rgba(30,20,25,0.9), rgba(20,15,20,0.95)); border-radius: 28px; overflow: hidden; transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); border: 1px solid rgba(108,92,231,0.2); position: relative; }
+        .product-card:hover { transform: translateY(-10px) scale(1.02); border-color: #6c5ce7; box-shadow: 0 25px 45px rgba(108,92,231,0.4); }
+        .product-image { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #2a1a1a, #1a0a0a); display: flex; align-items: center; justify-content: center; padding: 30px; }
+        .product-image img { width: 220px; height: 220px; object-fit: contain; border-radius: 24px; transition: transform 0.4s ease; }
+        .product-card:hover .product-image img { transform: scale(1.12); }
+        .product-info { padding: 22px; }
+        .product-name { font-size: 20px; font-weight: 800; margin-bottom: 10px; letter-spacing: 0.5px; }
+        .price-container { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 10px 0; }
+        .original-price { font-size: 15px; color: #888; text-decoration: line-through; }
+        .product-price { font-size: 32px; font-weight: 800; color: #6c5ce7; }
+        .discount-badge { background: #10b981; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+        .add-btn { width: 100%; margin-top: 18px; padding: 14px; background: linear-gradient(135deg, #6c5ce7, #a855f7); border: none; border-radius: 50px; color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; }
+        .add-btn:hover { transform: scale(1.02); background: #a855f7; box-shadow: 0 5px 20px rgba(108,92,231,0.4); }
+        .cart-sidebar { position: fixed; top: 0; right: -480px; width: 480px; height: 100vh; background: rgba(15, 12, 41, 0.98); backdrop-filter: blur(20px); z-index: 1000; transition: right 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); padding: 25px; display: flex; flex-direction: column; border-left: 2px solid #6c5ce7; }
         .cart-sidebar.open { right: 0; }
         .cart-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .close-cart { background: none; border: none; font-size: 28px; cursor: pointer; color: #6c5ce7; transition: all 0.3s ease; }
         .close-cart:hover { transform: rotate(90deg); }
         .cart-items { flex: 1; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #6c5ce7; font-size: 22px; font-weight: 800; }
-        .checkout-btn { width: 100%; padding: 15px; background: #10b981; border: none; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-top: 15px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-weight: 600; font-size: 16px; }
+        .cart-item-price { font-size: 14px; color: #6c5ce7; }
+        .cart-item-controls { display: flex; gap: 8px; align-items: center; }
+        .cart-item-controls button { background: rgba(108,92,231,0.3); border: none; color: white; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        .cart-item-controls button:hover { background: #6c5ce7; transform: scale(1.05); }
+        .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #6c5ce7; font-size: 24px; font-weight: 800; text-align: right; }
+        .checkout-btn { width: 100%; padding: 16px; background: #10b981; border: none; border-radius: 50px; color: white; font-weight: 700; font-size: 18px; cursor: pointer; transition: all 0.3s ease; margin-top: 20px; }
         .checkout-btn:hover { transform: scale(1.02); background: #059669; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: none; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 999; display: none; }
         .overlay.show { display: block; }
-        .toast { position: fixed; bottom: 30px; right: 30px; background: #10b981; padding: 12px 24px; border-radius: 12px; z-index: 2000; transform: translateX(400px); transition: transform 0.3s; color: white; font-weight: 600; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: #10b981; padding: 14px 28px; border-radius: 50px; z-index: 2000; transform: translateX(450px); transition: transform 0.3s; color: white; font-weight: 600; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
         .toast.show { transform: translateX(0); }
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 3000; display: none; justify-content: center; align-items: center; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); backdrop-filter: blur(20px); z-index: 3000; display: none; justify-content: center; align-items: center; }
         .modal.show { display: flex; }
-        .modal-content { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 30px; width: 90%; max-width: 500px; text-align: center; border: 1px solid #6c5ce7; max-height: 85vh; overflow-y: auto; }
+        .modal-content { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 35px; width: 90%; max-width: 500px; text-align: center; border: 1px solid #6c5ce7; max-height: 85vh; overflow-y: auto; }
         .modal-close { float: right; font-size: 28px; cursor: pointer; color: #999; transition: all 0.2s ease; }
         .modal-close:hover { color: #6c5ce7; transform: rotate(90deg); }
         .profile-field { margin-bottom: 20px; text-align: left; }
@@ -134,20 +140,20 @@
         .profile-field input { width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(108,92,231,0.3); border-radius: 25px; color: white; font-size: 14px; }
         .btn-save { background: #6c5ce7; border: none; padding: 12px; border-radius: 30px; color: white; font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px; transition: all 0.3s ease; }
         .btn-save:hover { background: #a855f7; transform: scale(1.02); }
-        .receipt-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 5000; display: none; justify-content: center; align-items: center; }
+        .receipt-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); backdrop-filter: blur(20px); z-index: 5000; display: none; justify-content: center; align-items: center; }
         .receipt-modal.show { display: flex; }
-        .receipt-content { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 30px; width: 90%; max-width: 500px; text-align: center; border: 1px solid #6c5ce7; }
-        .receipt-icon { font-size: 60px; color: #10b981; margin-bottom: 15px; }
-        .receipt-title { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
-        .receipt-details { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 15px; margin: 15px 0; text-align: left; }
-        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 10px; color: #ccc; font-size: 13px; }
-        .receipt-total { font-size: 18px; font-weight: 800; color: #6c5ce7; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(108,92,231,0.3); }
-        .receipt-close { background: #6c5ce7; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; width: 100%; margin-top: 15px; transition: all 0.3s ease; }
+        .receipt-content { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 35px; width: 90%; max-width: 550px; text-align: center; border: 1px solid #6c5ce7; }
+        .receipt-icon { font-size: 70px; color: #10b981; margin-bottom: 15px; }
+        .receipt-title { font-size: 26px; font-weight: 800; margin-bottom: 15px; }
+        .receipt-details { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left; }
+        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 12px; color: #ccc; font-size: 14px; }
+        .receipt-total { font-size: 20px; font-weight: 800; color: #6c5ce7; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(108,92,231,0.3); }
+        .receipt-close { background: #6c5ce7; border: none; padding: 14px; border-radius: 50px; color: white; font-weight: 700; font-size: 16px; cursor: pointer; width: 100%; margin-top: 15px; transition: all 0.3s ease; }
         .receipt-close:hover { transform: scale(1.02); background: #a855f7; }
         .logout-confirm-buttons { display: flex; gap: 15px; margin-top: 20px; }
         .verify-yes { flex: 1; background: #10b981; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
         .verify-no { flex: 1; background: #ef4444; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
-        @media (max-width: 768px) { .products-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); } .product-image img { width: 140px; height: 140px; } .cart-sidebar { width: 100%; right: -100%; } .hero-title { font-size: 38px; } .hero { flex-direction: column; text-align: center; } }
+        @media (max-width: 768px) { .products-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); } .product-image img { width: 160px; height: 160px; } .cart-sidebar { width: 100%; right: -100%; } .hero-title { font-size: 38px; } .hero { flex-direction: column; text-align: center; } }
     </style>
 </head>
 <body>
@@ -203,9 +209,7 @@
             <div class="hero-stat"><h3>5K+</h3><p>Customers</p></div>
             <div class="hero-stat"><h3>100%</h3><p>Secure</p></div>
         </div>
-        <div class="hero-buttons">
-            <button class="btn-primary" onclick="showShop()">Shop Now →</button>
-        </div>
+        <button class="btn-primary" onclick="showShop()">Shop Now →</button>
     </div>
     <div class="hero-image">
         <img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero">
@@ -224,17 +228,16 @@
         <button class="filter-btn" data-filter="knife">🔪 Knives</button>
         <button class="filter-btn" data-filter="gun">🔫 Guns</button>
         <button class="filter-btn" data-filter="pet">🐾 Pets</button>
-        <button class="filter-btn" data-filter="limited">✨ Limited</button>
     </div>
     <div class="products-grid" id="productsGrid"></div>
 </div>
 
 <!-- Trading Page -->
 <div id="tradingPage" class="container" style="display:none;">
-    <div style="text-align: center; padding: 60px;">
-        <i class="fas fa-exchange-alt" style="font-size: 60px; color: #6c5ce7;"></i>
-        <h2 style="margin-top: 20px;">Trading Hub</h2>
-        <p style="color: #888; margin-top: 10px;">Coming soon! Post and accept trade offers.</p>
+    <div style="text-align: center; padding: 80px;">
+        <i class="fas fa-exchange-alt" style="font-size: 70px; color: #6c5ce7;"></i>
+        <h2 style="margin-top: 25px;">Trading Hub</h2>
+        <p style="color: #888; margin-top: 15px;">Coming soon! Post and accept trade offers.</p>
     </div>
 </div>
 
@@ -242,12 +245,12 @@
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
     <div class="cart-header">
-        <h3>Your Cart</h3>
+        <h3><i class="fas fa-shopping-bag"></i> Your Cart</h3>
         <button class="close-cart" onclick="closeCart()">×</button>
     </div>
     <div class="cart-items" id="cartItemsList"></div>
     <div class="cart-total" id="cartTotal">Total: ₱0</div>
-    <button class="checkout-btn" onclick="initiateExternalCheckout()">Proceed to Checkout</button>
+    <button class="checkout-btn" onclick="initiateExternalCheckout()">Proceed to Checkout →</button>
 </div>
 
 <!-- Profile Modal -->
@@ -262,7 +265,7 @@
             <input type="text" id="displayNameInput" placeholder="Enter display name">
         </div>
         <div class="profile-field">
-            <label>🎮 Roblox Username (Required for delivery)</label>
+            <label>🎮 Roblox Username (Required)</label>
             <input type="text" id="robloxUsernameInput" placeholder="Your Roblox username">
         </div>
         <div class="profile-field">
@@ -279,7 +282,7 @@
     <div class="modal-content">
         <span class="modal-close" onclick="closeLogoutConfirm()">&times;</span>
         <i class="fas fa-sign-out-alt" style="font-size: 50px; color: #f39c12;"></i>
-        <h2 style="margin-top: 15px;">Confirm Logout</h2>
+        <h2>Confirm Logout</h2>
         <p>Are you sure you want to logout?</p>
         <div class="logout-confirm-buttons">
             <button class="verify-yes" onclick="performLogout()">Yes, Logout</button>
@@ -301,23 +304,20 @@
 <div class="toast" id="toast"></div>
 
 <script>
-    // Discord Webhook URL
+    // Discord Webhook
     const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1359030053589028904/d3_S2wUY4Px0n6t1g9eE5rP7lK8jH3mN2bVcXzA1qW4eR7tY9uIoP0aSsDfG3hJkL";
     
-    // Expanded MM2 Items Collection (20+ items for rich experience)
+    // MM2 Items Collection
     const items = [
-        { id: 1, name: "Batwing", type: "knife", price: 152, originalPrice: 220, image: "https://i.imgur.com/H6CL03y.jpeg", limited: false },
-        { id: 2, name: "Harvester", type: "knife", price: 608, originalPrice: 850, image: "https://i.imgur.com/jZkbQ4t.jpeg", limited: false },
-        { id: 3, name: "Icewing", type: "knife", price: 72, originalPrice: 120, image: "https://i.imgur.com/jiwvmxq.jpeg", limited: false },
-        { id: 4, name: "Luger", type: "gun", price: 207, originalPrice: 300, image: "https://i.imgur.com/eEvMBRh.jpeg", limited: false },
-        { id: 5, name: "Darkbringer", type: "gun", price: 92000, originalPrice: 130000, image: "https://i.imgur.com/8oxgzwa.jpeg", limited: true },
-        { id: 6, name: "Lightbringer", type: "gun", price: 92000, originalPrice: 130000, image: "https://i.imgur.com/BUljuYV.jpeg", limited: true },
-        { id: 7, name: "Chroma Saw", type: "knife", price: 450, originalPrice: 600, image: "https://i.imgur.com/4kZqjX7.jpeg", limited: false },
-        { id: 8, name: "Eternal", type: "knife", price: 1200, originalPrice: 1800, image: "https://i.imgur.com/7nQwR8Y.jpeg", limited: true },
-        { id: 9, name: "Phoenix", type: "pet", price: 350, originalPrice: 500, image: "https://i.imgur.com/W3pLq2M.jpeg", limited: false },
-        { id: 10, name: "Sammy", type: "pet", price: 280, originalPrice: 400, image: "https://i.imgur.com/Yr5kQnP.jpeg", limited: false },
-        { id: 11, name: "Virtual", type: "knife", price: 850, originalPrice: 1200, image: "https://i.imgur.com/bL9mR7C.jpeg", limited: false },
-        { id: 12, name: "Blaster", type: "gun", price: 320, originalPrice: 480, image: "https://i.imgur.com/DfKpN8J.jpeg", limited: false }
+        { id: 1, name: "⚔️ Batwing", type: "knife", price: 152, originalPrice: 220, image: "https://i.imgur.com/H6CL03y.jpeg" },
+        { id: 2, name: "🔪 Harvester", type: "knife", price: 608, originalPrice: 850, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
+        { id: 3, name: "❄️ Icewing", type: "knife", price: 72, originalPrice: 120, image: "https://i.imgur.com/jiwvmxq.jpeg" },
+        { id: 4, name: "🔫 Luger", type: "gun", price: 207, originalPrice: 300, image: "https://i.imgur.com/eEvMBRh.jpeg" },
+        { id: 5, name: "🌑 Darkbringer", type: "gun", price: 92000, originalPrice: 130000, image: "https://i.imgur.com/8oxgzwa.jpeg" },
+        { id: 6, name: "✨ Lightbringer", type: "gun", price: 92000, originalPrice: 130000, image: "https://i.imgur.com/BUljuYV.jpeg" },
+        { id: 7, name: "🌈 Chroma Saw", type: "knife", price: 450, originalPrice: 600, image: "https://i.imgur.com/4kZqjX7.jpeg" },
+        { id: 8, name: "👑 Eternal", type: "knife", price: 1200, originalPrice: 1800, image: "https://i.imgur.com/7nQwR8Y.jpeg" },
+        { id: 9, name: "🔥 Phoenix", type: "pet", price: 350, originalPrice: 500, image: "https://i.imgur.com/W3pLq2M.jpeg" }
     ];
     
     let cart = [];
@@ -333,52 +333,43 @@
     function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
     function getSymbol() { return currencySymbols[currentCurrency]; }
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
-    
-    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); updateStats(); showToast(`Currency changed to ${currentCurrency}`); }
+    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); updateStats(); showToast(`Currency: ${currentCurrency}`); }
     
     async function sendDiscordNotification(orderData) {
         if (!DISCORD_WEBHOOK) return;
         const embed = {
-            title: "🛒 NEW PURCHASE ORDER - ECHOKNIVES",
+            title: "🛒 NEW PURCHASE - ECHOKNIVES",
             color: 0x6c5ce7,
             fields: [
-                { name: "👤 Customer Name", value: orderData.customerName, inline: true },
-                { name: "🎮 Roblox Username", value: orderData.robloxUser, inline: true },
-                { name: "📧 Email", value: orderData.email, inline: true },
-                { name: "📦 Items Purchased", value: orderData.itemsList.substring(0, 100), inline: false },
-                { name: "💰 Total Amount", value: orderData.total, inline: true },
-                { name: "🕐 Order Time", value: new Date().toLocaleString(), inline: true },
-                { name: "⏱️ Delivery ETA", value: "24 hours or less", inline: false }
+                { name: "👤 Customer", value: orderData.customerName, inline: true },
+                { name: "🎮 Roblox", value: orderData.robloxUser, inline: true },
+                { name: "📦 Items", value: orderData.itemsList.substring(0, 100), inline: false },
+                { name: "💰 Total", value: orderData.total, inline: true },
+                { name: "⏰ Time", value: new Date().toLocaleString(), inline: true }
             ],
-            footer: { text: "ECHOKNIVES • Premium MM2 Shop", icon_url: "https://i.imgur.com/hP2t6wb.jpeg" }
+            footer: { text: "Delivery within 24 hours" }
         };
-        try {
-            await fetch(DISCORD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ embeds: [embed] }) });
-            console.log("Discord notification sent");
-        } catch(e) { console.error("Webhook error", e); }
+        try { await fetch(DISCORD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ embeds: [embed] }) }); } catch(e) {}
     }
     
     function initiateExternalCheckout() {
         if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
         if (cart.length === 0) { showToast("Your cart is empty"); return; }
-        
         const robloxUser = userProfile.roblox;
-        if (!robloxUser || robloxUser.trim() === "") { showToast("Please set your Roblox username in Profile before checkout"); openProfileModal(); return; }
+        if (!robloxUser || robloxUser.trim() === "") { showToast("Please set Roblox username in Profile"); openProfileModal(); return; }
+        const contactEmail = userProfile.contactEmail || currentUser?.email;
+        if (!contactEmail) { showToast("Please add contact email in Profile"); openProfileModal(); return; }
         
-        const contactEmail = userProfile.contactEmail || currentUser?.email || "Not provided";
-        if (!contactEmail || contactEmail === "") { showToast("Please add your contact email in Profile"); openProfileModal(); return; }
-        
+        // Store EXACT current cart state
+        const exactCart = JSON.parse(JSON.stringify(cart));
         const orderData = {
-            cart: cart,
+            cart: exactCart,
             timestamp: Date.now(),
             robloxUser: robloxUser,
             displayName: userProfile.displayName || currentUser?.displayName || "Guest",
-            email: contactEmail,
-            totalAmount: cart.reduce((s, i) => s + (i.price * i.quantity), 0)
+            email: contactEmail
         };
         sessionStorage.setItem('pendingOrder', JSON.stringify(orderData));
-        
-        // Redirect to external payment site
         window.location.href = "https://echoknivesmm2.onrender.com/index.html?checkout=true&returnUrl=" + encodeURIComponent(window.location.origin);
     }
     
@@ -397,69 +388,41 @@
     
     async function completeOrder(orderData) {
         const subtotal = orderData.cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-        const total = subtotal;
         const orderNumber = 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase();
         const itemsText = orderData.cart.map(i => `${i.name} x${i.quantity}`).join(', ');
         
         await sendDiscordNotification({
             customerName: orderData.displayName,
             robloxUser: orderData.robloxUser,
-            email: orderData.email,
             itemsList: itemsText,
-            total: `${getSymbol()}${getDisplayPrice(total)}`
+            total: `${getSymbol()}${getDisplayPrice(subtotal)}`
         });
         
-        const deliveryDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
         const receiptHtml = `
             <div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div>
             <div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div>
             <div class="receipt-row"><strong>Items:</strong> ${itemsText}</div>
             <div class="receipt-row"><strong>Subtotal:</strong> ${getSymbol()}${getDisplayPrice(subtotal)}</div>
-            <div class="receipt-row receipt-total"><strong>Total Paid:</strong> ${getSymbol()}${getDisplayPrice(total)}</div>
-            <div class="receipt-row"><strong>Payment Method:</strong> PayPal / Card</div>
+            <div class="receipt-row receipt-total"><strong>Total Paid:</strong> ${getSymbol()}${getDisplayPrice(subtotal)}</div>
             <div class="receipt-row"><strong>Roblox User:</strong> @${orderData.robloxUser}</div>
-            <div class="receipt-row"><strong>📦 Delivery Status:</strong> <span style="color:#10b981;">Confirmed</span></div>
-            <div class="receipt-row"><strong>⏱️ Your order will be delivered within 24 hours or less!</strong></div>
+            <div class="receipt-row"><strong>📦 Delivery:</strong> <span style="color:#10b981;">Within 24 hours or less!</span></div>
             <div class="receipt-row"><strong>✨ Thank you for shopping at ECHOKNIVES!</strong></div>
-            <div class="receipt-row"><strong>📧 A confirmation has been sent to ${orderData.email}</strong></div>
         `;
         document.getElementById('receiptDetails').innerHTML = receiptHtml;
         document.getElementById('receiptModal').classList.add('show');
         
         cart = [];
         updateCartUI();
-        showToast("✅ Order placed successfully! Delivery within 24 hours.");
+        showToast("✅ Order placed! Delivery within 24 hours.");
     }
     
     function closeReceipt() { document.getElementById('receiptModal').classList.remove('show'); }
     
     function renderProducts() {
-        let filtered = items.filter(i => {
-            if (currentFilter === 'knife') return i.type === 'knife';
-            if (currentFilter === 'gun') return i.type === 'gun';
-            if (currentFilter === 'pet') return i.type === 'pet';
-            if (currentFilter === 'limited') return i.limited === true;
-            return true;
-        });
-        
+        let filtered = items.filter(i => { if (currentFilter === 'knife') return i.type === 'knife'; if (currentFilter === 'gun') return i.type === 'gun'; if (currentFilter === 'pet') return i.type === 'pet'; return true; });
         document.getElementById('productsGrid').innerHTML = filtered.map(item => {
             const discountPercent = item.originalPrice ? Math.round((1 - item.price / item.originalPrice) * 100) : 0;
-            const limitedBadge = item.limited ? '<span style="position:absolute; top:10px; left:10px; background:#ef4444; padding:4px 12px; border-radius:20px; font-size:10px; font-weight:bold;">✨ LIMITED</span>' : '';
-            return `
-                <div class="product-card">
-                    ${limitedBadge}
-                    <div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/180x180/6c5ce7/white?text=${item.name.charAt(0)}'"></div>
-                    <div class="product-info">
-                        <div class="product-name">${item.name}</div>
-                        <div class="price-container">
-                            ${item.originalPrice ? `<span class="original-price">${getSymbol()}${getDisplayPrice(item.originalPrice)}</span>` : ''}
-                            <span class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</span>
-                            ${discountPercent > 0 ? `<span class="discount-badge">-${discountPercent}%</span>` : ''}
-                        </div>
-                        <button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button>
-                    </div>
-                </div>
-            `;
+            return `<div class="product-card"><div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/220x220/6c5ce7/white?text=${item.name.charAt(0)}'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="price-container">${item.originalPrice ? `<span class="original-price">${getSymbol()}${getDisplayPrice(item.originalPrice)}</span>` : ''}<span class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</span>${discountPercent > 0 ? `<span class="discount-badge">-${discountPercent}%</span>` : ''}</div><button class="add-btn" onclick="addToCart(${item.id})"><i class="fas fa-cart-plus"></i> Add to Cart</button></div></div>`;
         }).join('');
         updateStats();
     }
@@ -490,46 +453,32 @@
         document.getElementById('cartCount').innerText = count;
         document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`;
         updateStats();
-        
         const container = document.getElementById('cartItemsList');
-        if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;padding:20px;">Cart is empty</p>'; return; }
-        
-        container.innerHTML = cart.map(item => `
-            <div class="cart-item">
-                <div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div>
-                <div>
-                    <button onclick="updateQty(${item.id}, ${item.quantity - 1})" style="background:#333; border:none; color:white; padding:5px 10px; border-radius:5px; cursor:pointer;">-</button>
-                    <span style="margin:0 8px;">${item.quantity}</span>
-                    <button onclick="updateQty(${item.id}, ${item.quantity + 1})" style="background:#333; border:none; color:white; padding:5px 10px; border-radius:5px; cursor:pointer;">+</button>
-                    <button onclick="removeFromCart(${item.id})" style="background:#ef4444; border:none; color:white; padding:5px 10px; border-radius:5px; margin-left:5px; cursor:pointer;"><i class="fas fa-trash"></i></button>
-                </div>
-            </div>
-        `).join('');
+        if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;padding:30px;color:#888;"><i class="fas fa-shopping-bag"></i> Your cart is empty</p>'; return; }
+        container.innerHTML = cart.map(item => `<div class="cart-item"><div class="cart-item-info"><div class="cart-item-name">${item.name}</div><div class="cart-item-price">${getSymbol()}${getDisplayPrice(item.price)} each</div></div><div class="cart-item-controls"><button onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button><span style="min-width: 30px; text-align: center;">${item.quantity}</span><button onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button><button onclick="removeFromCart(${item.id})" style="background:#ef4444;"><i class="fas fa-trash"></i></button></div></div>`).join('');
     }
     
     function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if (item) item.quantity = newQty; updateCartUI(); } }
-    function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); showToast("Item removed from cart"); }
+    function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); showToast("Item removed"); }
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
-    
     function showHome() { document.getElementById('homePage').style.display = 'flex'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('tradingPage').style.display = 'none'; document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:first-child').classList.add('active'); }
     function showShop() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'block'; document.getElementById('tradingPage').style.display = 'none'; document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(2)').classList.add('active'); renderProducts(); }
     function showTrading() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('tradingPage').style.display = 'block'; document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(3)').classList.add('active'); }
-    
     function openProfileModal() { if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; } document.getElementById('displayNameInput').value = userProfile.displayName || currentUser?.displayName || ''; document.getElementById('robloxUsernameInput').value = userProfile.roblox || ''; document.getElementById('contactEmailInput').value = userProfile.contactEmail || currentUser?.email || ''; document.getElementById('profileDisplayName').innerText = userProfile.displayName || currentUser?.displayName || 'User'; document.getElementById('profileEmail').innerText = currentUser?.email || ''; document.getElementById('profileModal').classList.add('show'); }
     function closeProfileModal() { document.getElementById('profileModal').classList.remove('show'); }
-    function saveProfile() { const newName = document.getElementById('displayNameInput').value; if (newName) userProfile.displayName = newName; const roblox = document.getElementById('robloxUsernameInput').value.trim(); if (roblox) userProfile.roblox = roblox; const email = document.getElementById('contactEmailInput').value.trim(); if (email) userProfile.contactEmail = email; localStorage.setItem('userProfile', JSON.stringify(userProfile)); updateUserUI(); showToast("Profile saved successfully!"); closeProfileModal(); }
+    function saveProfile() { const newName = document.getElementById('displayNameInput').value; if (newName) userProfile.displayName = newName; const roblox = document.getElementById('robloxUsernameInput').value.trim(); if (roblox) userProfile.roblox = roblox; const email = document.getElementById('contactEmailInput').value.trim(); if (email) userProfile.contactEmail = email; localStorage.setItem('userProfile', JSON.stringify(userProfile)); updateUserUI(); showToast("Profile saved!"); closeProfileModal(); }
     function confirmLogout() { closeProfileModal(); document.getElementById('logoutConfirmModal').classList.add('show'); }
     function closeLogoutConfirm() { document.getElementById('logoutConfirmModal').classList.remove('show'); }
-    async function performLogout() { closeLogoutConfirm(); if (window.firebaseAuth) await window.firebaseSignOut(window.firebaseAuth); isLoggedIn = false; currentUser = null; cart = []; updateCartUI(); updateUserUI(); showToast("Logged out successfully"); renderProducts(); }
+    async function performLogout() { closeLogoutConfirm(); if (window.firebaseAuth) await window.firebaseSignOut(window.firebaseAuth); isLoggedIn = false; currentUser = null; cart = []; updateCartUI(); updateUserUI(); showToast("Logged out"); renderProducts(); }
     function updateUserUI() { if (isLoggedIn && currentUser) { const displayName = userProfile.displayName || currentUser.displayName || currentUser.email?.split('@')[0]; document.getElementById('userNameDisplay').innerText = displayName; } else { document.getElementById('userNameDisplay').innerText = "Guest"; } }
-    async function performGoogleLogin() { try { const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); currentUser = result.user; isLoggedIn = true; updateUserUI(); showToast(`Welcome ${currentUser.displayName || currentUser.email}!`); renderProducts(); } catch (error) { showToast("Login failed: " + error.message); } }
+    async function performGoogleLogin() { try { const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); currentUser = result.user; isLoggedIn = true; updateUserUI(); showToast(`Welcome ${currentUser.displayName || currentUser.email}!`); renderProducts(); } catch (error) { showToast("Login failed"); } }
     
     window.handleAuthStateChanged = function(user) { if (user && !isLoggedIn) { currentUser = user; isLoggedIn = true; updateUserUI(); renderProducts(); } else if (!user && isLoggedIn) { performLogout(); } };
     
     document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
     
-    function createParticles() { const container = document.getElementById('particles'); for (let i = 0; i < 80; i++) { const particle = document.createElement('div'); particle.classList.add('particle'); particle.style.width = (Math.random() * 6 + 2) + 'px'; particle.style.height = particle.style.width; particle.style.left = Math.random() * 100 + '%'; particle.style.animationDelay = Math.random() * 20 + 's'; particle.style.animationDuration = (Math.random() * 15 + 10) + 's'; particle.style.opacity = Math.random() * 0.5; container.appendChild(particle); } }
+    function createParticles() { const container = document.getElementById('particles'); for (let i = 0; i < 80; i++) { const p = document.createElement('div'); p.classList.add('particle'); p.style.width = (Math.random() * 6 + 2) + 'px'; p.style.height = p.style.width; p.style.left = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 20 + 's'; p.style.animationDuration = (Math.random() * 15 + 10) + 's'; container.appendChild(p); } }
     
     window.showHome = showHome; window.showShop = showShop; window.showTrading = showTrading; window.changeCurrency = changeCurrency; window.toggleCart = toggleCart; window.closeCart = closeCart; window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart; window.initiateExternalCheckout = initiateExternalCheckout; window.closeReceipt = closeReceipt; window.performGoogleLogin = performGoogleLogin; window.openProfileModal = openProfileModal; window.closeProfileModal = closeProfileModal; window.saveProfile = saveProfile; window.confirmLogout = confirmLogout; window.closeLogoutConfirm = closeLogoutConfirm; window.performLogout = performLogout;
     
