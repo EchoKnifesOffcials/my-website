@@ -96,17 +96,17 @@
         .stat-card { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; text-align: center; border: 1px solid rgba(108,92,231,0.3); transition: all 0.3s ease; }
         .stat-card:hover { transform: translateY(-5px); border-color: #6c5ce7; }
         .stat-card h3 { font-size: 28px; font-weight: 800; color: #6c5ce7; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 35px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 35px; }
         .product-card { background: linear-gradient(135deg, rgba(30,20,25,0.9), rgba(20,15,20,0.95)); border-radius: 28px; overflow: hidden; transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); border: 1px solid rgba(108,92,231,0.2); position: relative; }
         .product-card:hover { transform: translateY(-10px) scale(1.02); border-color: #6c5ce7; box-shadow: 0 25px 45px rgba(108,92,231,0.4); }
-        .product-image { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #2a1a1a, #1a0a0a); display: flex; align-items: center; justify-content: center; padding: 30px; }
-        .product-image img { width: 220px; height: 220px; object-fit: contain; border-radius: 24px; transition: transform 0.4s ease; }
+        .product-image { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #2a1a1a, #1a0a0a); display: flex; align-items: center; justify-content: center; padding: 35px; }
+        .product-image img { width: 250px; height: 250px; object-fit: contain; border-radius: 28px; transition: transform 0.4s ease; }
         .product-card:hover .product-image img { transform: scale(1.12); }
         .product-info { padding: 22px; }
-        .product-name { font-size: 20px; font-weight: 800; margin-bottom: 10px; letter-spacing: 0.5px; }
+        .product-name { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
         .price-container { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 10px 0; }
         .original-price { font-size: 15px; color: #888; text-decoration: line-through; }
-        .product-price { font-size: 32px; font-weight: 800; color: #6c5ce7; }
+        .product-price { font-size: 34px; font-weight: 800; color: #6c5ce7; }
         .discount-badge { background: #10b981; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
         .add-btn { width: 100%; margin-top: 18px; padding: 14px; background: linear-gradient(135deg, #6c5ce7, #a855f7); border: none; border-radius: 50px; color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; }
         .add-btn:hover { transform: scale(1.02); background: #a855f7; box-shadow: 0 5px 20px rgba(108,92,231,0.4); }
@@ -121,7 +121,7 @@
         .cart-item-name { font-weight: 600; font-size: 16px; }
         .cart-item-price { font-size: 14px; color: #6c5ce7; }
         .cart-item-controls { display: flex; gap: 8px; align-items: center; }
-        .cart-item-controls button { background: rgba(108,92,231,0.3); border: none; color: white; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        .cart-item-controls button { background: rgba(108,92,231,0.3); border: none; color: white; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
         .cart-item-controls button:hover { background: #6c5ce7; transform: scale(1.05); }
         .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #6c5ce7; font-size: 24px; font-weight: 800; text-align: right; }
         .checkout-btn { width: 100%; padding: 16px; background: #10b981; border: none; border-radius: 50px; color: white; font-weight: 700; font-size: 18px; cursor: pointer; transition: all 0.3s ease; margin-top: 20px; }
@@ -153,7 +153,7 @@
         .logout-confirm-buttons { display: flex; gap: 15px; margin-top: 20px; }
         .verify-yes { flex: 1; background: #10b981; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
         .verify-no { flex: 1; background: #ef4444; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
-        @media (max-width: 768px) { .products-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); } .product-image img { width: 160px; height: 160px; } .cart-sidebar { width: 100%; right: -100%; } .hero-title { font-size: 38px; } .hero { flex-direction: column; text-align: center; } }
+        @media (max-width: 768px) { .products-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); } .product-image img { width: 180px; height: 180px; } .cart-sidebar { width: 100%; right: -100%; } .hero-title { font-size: 38px; } .hero { flex-direction: column; text-align: center; } }
     </style>
 </head>
 <body>
@@ -304,6 +304,19 @@
 <div class="toast" id="toast"></div>
 
 <script>
+    // ============================================================
+    // 111111    000000    000000    000000    111111
+    //  1111     000000    000000    000000     1111
+    //   11      000000    000000    000000      11
+    //   11      000000    000000    000000      11
+    //   11      000000    000000    000000      11
+    //   11      000000    000000    000000      11
+    //  1111     000000    000000    000000     1111
+    // 111111    000000    000000    000000    111111
+    // ============================================================
+    // [ THIS CODE IS PROTECTED BY FSOCIETY ]
+    // ============================================================
+    
     // Discord Webhook
     const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1359030053589028904/d3_S2wUY4Px0n6t1g9eE5rP7lK8jH3mN2bVcXzA1qW4eR7tY9uIoP0aSsDfG3hJkL";
     
@@ -317,7 +330,8 @@
         { id: 6, name: "✨ Lightbringer", type: "gun", price: 92000, originalPrice: 130000, image: "https://i.imgur.com/BUljuYV.jpeg" },
         { id: 7, name: "🌈 Chroma Saw", type: "knife", price: 450, originalPrice: 600, image: "https://i.imgur.com/4kZqjX7.jpeg" },
         { id: 8, name: "👑 Eternal", type: "knife", price: 1200, originalPrice: 1800, image: "https://i.imgur.com/7nQwR8Y.jpeg" },
-        { id: 9, name: "🔥 Phoenix", type: "pet", price: 350, originalPrice: 500, image: "https://i.imgur.com/W3pLq2M.jpeg" }
+        { id: 9, name: "🔥 Phoenix", type: "pet", price: 350, originalPrice: 500, image: "https://i.imgur.com/W3pLq2M.jpeg" },
+        { id: 10, name: "🐉 Dragon", type: "pet", price: 750, originalPrice: 1100, image: "https://i.imgur.com/Yr5kQnP.jpeg" }
     ];
     
     let cart = [];
@@ -347,7 +361,7 @@
                 { name: "💰 Total", value: orderData.total, inline: true },
                 { name: "⏰ Time", value: new Date().toLocaleString(), inline: true }
             ],
-            footer: { text: "Delivery within 24 hours" }
+            footer: { text: "Delivery within 24 hours | FSociety Protected" }
         };
         try { await fetch(DISCORD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ embeds: [embed] }) }); } catch(e) {}
     }
@@ -360,7 +374,7 @@
         const contactEmail = userProfile.contactEmail || currentUser?.email;
         if (!contactEmail) { showToast("Please add contact email in Profile"); openProfileModal(); return; }
         
-        // Store EXACT current cart state
+        // Store EXACT current cart state (deep copy)
         const exactCart = JSON.parse(JSON.stringify(cart));
         const orderData = {
             cart: exactCart,
@@ -370,6 +384,7 @@
             email: contactEmail
         };
         sessionStorage.setItem('pendingOrder', JSON.stringify(orderData));
+        // Redirect to external payment site
         window.location.href = "https://echoknivesmm2.onrender.com/index.html?checkout=true&returnUrl=" + encodeURIComponent(window.location.origin);
     }
     
@@ -398,14 +413,15 @@
             total: `${getSymbol()}${getDisplayPrice(subtotal)}`
         });
         
+        const deliveryDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
         const receiptHtml = `
             <div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div>
             <div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div>
             <div class="receipt-row"><strong>Items:</strong> ${itemsText}</div>
-            <div class="receipt-row"><strong>Subtotal:</strong> ${getSymbol()}${getDisplayPrice(subtotal)}</div>
-            <div class="receipt-row receipt-total"><strong>Total Paid:</strong> ${getSymbol()}${getDisplayPrice(subtotal)}</div>
+            <div class="receipt-row"><strong>Total Paid:</strong> ${getSymbol()}${getDisplayPrice(subtotal)}</div>
             <div class="receipt-row"><strong>Roblox User:</strong> @${orderData.robloxUser}</div>
-            <div class="receipt-row"><strong>📦 Delivery:</strong> <span style="color:#10b981;">Within 24 hours or less!</span></div>
+            <div class="receipt-row"><strong>📦 Delivery Status:</strong> <span style="color:#10b981;">Processing</span></div>
+            <div class="receipt-row"><strong>⏱️ Your order will be delivered within 24 hours or less!</strong></div>
             <div class="receipt-row"><strong>✨ Thank you for shopping at ECHOKNIVES!</strong></div>
         `;
         document.getElementById('receiptDetails').innerHTML = receiptHtml;
@@ -422,7 +438,7 @@
         let filtered = items.filter(i => { if (currentFilter === 'knife') return i.type === 'knife'; if (currentFilter === 'gun') return i.type === 'gun'; if (currentFilter === 'pet') return i.type === 'pet'; return true; });
         document.getElementById('productsGrid').innerHTML = filtered.map(item => {
             const discountPercent = item.originalPrice ? Math.round((1 - item.price / item.originalPrice) * 100) : 0;
-            return `<div class="product-card"><div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/220x220/6c5ce7/white?text=${item.name.charAt(0)}'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="price-container">${item.originalPrice ? `<span class="original-price">${getSymbol()}${getDisplayPrice(item.originalPrice)}</span>` : ''}<span class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</span>${discountPercent > 0 ? `<span class="discount-badge">-${discountPercent}%</span>` : ''}</div><button class="add-btn" onclick="addToCart(${item.id})"><i class="fas fa-cart-plus"></i> Add to Cart</button></div></div>`;
+            return `<div class="product-card"><div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/250x250/6c5ce7/white?text=${item.name.charAt(0)}'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="price-container">${item.originalPrice ? `<span class="original-price">${getSymbol()}${getDisplayPrice(item.originalPrice)}</span>` : ''}<span class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</span>${discountPercent > 0 ? `<span class="discount-badge">-${discountPercent}%</span>` : ''}</div><button class="add-btn" onclick="addToCart(${item.id})"><i class="fas fa-cart-plus"></i> Add to Cart</button></div></div>`;
         }).join('');
         updateStats();
     }
