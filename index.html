@@ -449,10 +449,11 @@
             object-fit: cover;
         }
         .roblox-username-display {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 700;
             margin-bottom: 20px;
             color: #a855f7;
+            line-height: 1.4;
         }
         .roblox-input {
             width: 100%;
@@ -604,12 +605,12 @@
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar"><div style="display:flex; justify-content:space-between;"><h3>Your Cart</h3><button style="background:none; border:none; font-size:28px; color:#6c5ce7;" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItemsList"></div><div class="cart-total" id="cartTotal" style="margin-top:20px; font-size:22px;">Total: ₱0</div><button class="checkout-btn" onclick="openRobloxVerification()">Proceed to Checkout →</button></div>
 
-<!-- ROBLOX VERIFICATION MODAL - FIXED AVATAR DISPLAY -->
+<!-- ROBLOX VERIFICATION MODAL -->
 <div class="roblox-modal" id="robloxModal">
     <div class="roblox-content">
         <h2><i class="fab fa-roblox"></i> Verify Your Roblox Account</h2>
         <div class="roblox-avatar" id="robloxAvatarContainer">
-            <img id="robloxAvatarImg" src="https://www.roblox.com/avatar-thumbnail?userId=1&width=120&height=120&format=png" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
+            <img id="robloxAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120" alt="Avatar">
         </div>
         <div id="robloxDisplayName" class="roblox-username-display">Enter your username</div>
         <input type="text" id="robloxUsernameInput" class="roblox-input" placeholder="Roblox Username (e.g., Builderman)" autocomplete="off">
@@ -736,66 +737,85 @@
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
     
-    // ========== ROBLOX AVATAR FETCH - FIXED TO SHOW ACTUAL IMAGES ==========
-    // This function now properly fetches and displays REAL Roblox avatar images
+    // ========== ROBLOX AVATAR FETCH - FIXED WITH YOUR CODE ==========
+    // This is the FIXED function that actually shows real Roblox avatars
     
-    async function fetchAndDisplayRobloxAvatar(username) {
-        if(!username || username.trim() === "") {
-            return false;
-        }
-        
+    window.robloxVerifiedUser = null;
+    
+    async function fetchRobloxAvatar(username) {
+        if (!username || username.trim() === "") return;
+
         const imgElement = document.getElementById('robloxAvatarImg');
         const displayElement = document.getElementById('robloxDisplayName');
-        const usernameClean = username.trim();
-        
-        // Show loading state
-        displayElement.innerHTML = `🔍 Looking up @${usernameClean}...`;
-        
+
+        // loading state
+        imgElement.src = "https://ui-avatars.com/api/?name=Loading&background=6c5ce7&color=fff&size=120";
+        displayElement.innerHTML = `Checking @${username}...`;
+
         try {
-            // STEP 1: Get userId using Roblox API
-            const response = await fetch('https://users.roblox.com/v1/usernames/users', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ usernames: [usernameClean], excludeBannedUsers: false })
+            // STEP 1: username → userId (FIXED & RELIABLE)
+            const res = await fetch("https://users.roblox.com/v1/usernames/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    usernames: [username],
+                    excludeBannedUsers: true
+                })
             });
-            
-            const data = await response.json();
-            
-            if (data.data && data.data.length > 0) {
-                const userId = data.data[0].id;
-                const foundUsername = data.data[0].name;
-                
-                // STEP 2: Get avatar image URL - Using the CORRECT endpoint
-                // This URL returns an actual image that displays properly
-                const avatarUrl = `https://www.roblox.com/headshot-thumbnail/image?userId=${userId}&width=120&height=120&format=png`;
-                
-                // Set the image source
-                imgElement.src = avatarUrl;
-                imgElement.onload = () => {
-                    displayElement.innerHTML = `✅ @${foundUsername}`;
-                };
-                imgElement.onerror = () => {
-                    // Fallback to another working endpoint
-                    imgElement.src = `https://tr.rbxcdn.com/${userId}/Avatar/120`;
-                    displayElement.innerHTML = `@${foundUsername}`;
-                };
-                
-                return true;
-            } else {
-                // User not found
-                displayElement.innerHTML = `❌ User "${usernameClean}" not found`;
-                imgElement.src = "https://ui-avatars.com/api/?name=NotFound&background=ef4444&color=fff&size=120";
-                return false;
+
+            const data = await res.json();
+
+            if (!data.data || data.data.length === 0) {
+                imgElement.src = "https://ui-avatars.com/api/?name=Not+Found&background=ef4444&color=fff&size=120";
+                displayElement.innerHTML = "User not found ❌";
+                window.robloxVerifiedUser = null;
+                return;
             }
-        } catch(error) {
-            console.error("Avatar fetch error:", error);
-            displayElement.innerHTML = `⚠️ Error loading avatar`;
+
+            const user = data.data[0];
+            const userId = user.id;
+
+            // STEP 2: avatar (ROBLOX THUMBNAIL API - CORRECT)
+            const avatarUrl = `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=150x150&format=Png&isCircular=true`;
+
+            const avatarRes = await fetch(avatarUrl);
+            const avatarData = await avatarRes.json();
+
+            const imageUrl = avatarData.data?.[0]?.imageUrl;
+
+            if (imageUrl) {
+                imgElement.src = imageUrl;
+            } else {
+                imgElement.src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(username);
+            }
+
+            // STEP 3: display info
+            displayElement.innerHTML = `
+                ✔ @${user.name}
+                <br>
+                <span style="font-size:12px;color:#aaa;">
+                    Display: ${user.displayName}
+                </span>
+            `;
+
+            // STORE VERIFIED USER
+            window.robloxVerifiedUser = {
+                userId: userId,
+                username: user.name,
+                displayName: user.displayName
+            };
+
+        } catch (err) {
+            console.error("Roblox fetch error:", err);
+
             imgElement.src = "https://ui-avatars.com/api/?name=Error&background=ef4444&color=fff&size=120";
-            return false;
+            displayElement.innerHTML = "Failed to load ❌";
+            window.robloxVerifiedUser = null;
         }
     }
     
-    let pendingRobloxUsername = "";
     let debounceTimer;
     
     function openRobloxVerification() {
@@ -806,12 +826,11 @@
         document.getElementById('robloxUsernameInput').value = saved;
         
         if(saved && saved.trim() !== "") {
-            fetchAndDisplayRobloxAvatar(saved);
-            pendingRobloxUsername = saved;
+            fetchRobloxAvatar(saved);
         } else {
-            document.getElementById('robloxAvatarImg').src = "https://www.roblox.com/avatar-thumbnail?userId=1&width=120&height=120&format=png";
+            document.getElementById('robloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120";
             document.getElementById('robloxDisplayName').innerHTML = "Enter your Roblox username";
-            pendingRobloxUsername = "";
+            window.robloxVerifiedUser = null;
         }
         
         document.getElementById('robloxModal').classList.add('show');
@@ -826,15 +845,14 @@
             
             debounceTimer = setTimeout(() => {
                 if(val && val.length > 2) {
-                    fetchAndDisplayRobloxAvatar(val);
-                    pendingRobloxUsername = val;
+                    fetchRobloxAvatar(val);
                 } else if(val && val.length <= 2) {
                     document.getElementById('robloxDisplayName').innerHTML = "Type more characters...";
-                    pendingRobloxUsername = "";
+                    window.robloxVerifiedUser = null;
                 } else {
-                    document.getElementById('robloxAvatarImg').src = "https://www.roblox.com/avatar-thumbnail?userId=1&width=120&height=120&format=png";
+                    document.getElementById('robloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120";
                     document.getElementById('robloxDisplayName').innerHTML = "Enter your Roblox username";
-                    pendingRobloxUsername = "";
+                    window.robloxVerifiedUser = null;
                 }
             }, 500);
         };
@@ -842,9 +860,9 @@
     
     function resetRobloxUsername() {
         document.getElementById('robloxUsernameInput').value = '';
-        document.getElementById('robloxAvatarImg').src = "https://www.roblox.com/avatar-thumbnail?userId=1&width=120&height=120&format=png";
+        document.getElementById('robloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120";
         document.getElementById('robloxDisplayName').innerHTML = "Enter your Roblox username";
-        pendingRobloxUsername = "";
+        window.robloxVerifiedUser = null;
         showToast("Please enter your correct Roblox username");
     }
     
@@ -856,7 +874,12 @@
         }
         
         // Verify the username exists before proceeding
-        await fetchAndDisplayRobloxAvatar(username);
+        await fetchRobloxAvatar(username);
+        
+        if (!window.robloxVerifiedUser) {
+            showToast("Please enter a valid Roblox username");
+            return;
+        }
         
         localStorage.setItem('roblox_username', username);
         document.getElementById('robloxModal').classList.remove('show');
@@ -876,7 +899,7 @@
             <div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div>
             <div class="receipt-row"><strong>Items:</strong> ${itemsList}</div>
             <div class="receipt-row"><strong>Total:</strong> ${getSymbol()}${getDisplayPrice(total)}</div>
-            <div class="receipt-row"><strong>Roblox User:</strong> @${username}</div>
+            <div class="receipt-row"><strong>Roblox User:</strong> @${window.robloxVerifiedUser?.username || username}</div>
             <div class="receipt-row"><strong>Status:</strong> <span style="color:#10b981;">✓ Verified & Processing</span></div>
             <div class="receipt-row"><strong>Points Earned:</strong> +100 from First Purchase Quest!</div>
         `;
