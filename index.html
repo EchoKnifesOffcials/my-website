@@ -121,18 +121,22 @@
         .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #6c5ce7; font-size: 22px; font-weight: 800; }
         .checkout-btn { width: 100%; padding: 15px; background: #10b981; border: none; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-top: 15px; }
 
-        .quests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin-top: 20px; }
-        .quest-card, .profile-card { background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border-radius: 24px; padding: 24px; border: 1px solid rgba(108,92,231,0.4); transition: all 0.3s ease; }
-        .quest-card:hover, .profile-card:hover { transform: translateY(-5px); border-color: #6c5ce7; }
+        .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
+        @media (max-width: 768px) { .two-columns { grid-template-columns: 1fr; } }
+        
+        .quests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+        .quest-card, .profile-card, .promo-card { background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border-radius: 24px; padding: 24px; border: 1px solid rgba(108,92,231,0.4); transition: all 0.3s ease; }
+        .quest-card:hover, .profile-card:hover, .promo-card:hover { transform: translateY(-5px); border-color: #6c5ce7; }
         .claim-btn, .redeem-btn, .unlink-btn { background: #10b981; border: none; padding: 12px 24px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; margin-top: 15px; width: 100%; transition: all 0.2s; }
         .claim-btn:disabled, .redeem-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .unlink-btn { background: #ef4444; }
         .completed { color: #10b981; }
-        .admin-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 40px; color: white; margin: 10px 0; }
+        .admin-input, .promo-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 40px; color: white; margin: 10px 0; text-align: center; letter-spacing: 1px; }
         .candy-redeem { background: linear-gradient(135deg, #f59e0b, #d97706); text-align: center; }
+        .promo-card { background: linear-gradient(135deg, #1e1e3a, #2a2a4a); text-align: center; }
         
-        /* Confirmation Modal */
-        .confirmation-modal {
+        /* Modal Styles */
+        .confirmation-modal, .promo-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -146,8 +150,8 @@
             align-items: center;
             animation: fadeIn 0.3s ease;
         }
-        .confirmation-modal.show { display: flex; }
-        .confirmation-container {
+        .confirmation-modal.show, .promo-modal.show { display: flex; }
+        .confirmation-container, .promo-container {
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             border-radius: 40px;
             padding: 35px;
@@ -204,7 +208,7 @@
     <div class="nav-links">
         <button class="nav-link active" onclick="showHome()">⚫ Home</button>
         <button class="nav-link" onclick="showShop()">⬛ Shop</button>
-        <button class="nav-link" onclick="showQuests()">◼️ Quests</button>
+        <button class="nav-link" onclick="showQuests()">◼️ Quests & Promo</button>
         <button class="nav-link" id="adminNavBtn" style="display: none;" onclick="showAdmin()">▪️ Admin</button>
     </div>
     <div class="top-right">
@@ -226,53 +230,23 @@
 </div>
 
 <div id="questsPage" class="container" style="display:none;">
-    <h2><i class="fas fa-tasks"></i> Daily & Special Quests</h2>
-    <div class="quests-grid" id="questsGrid"></div>
-    <div class="quests-grid" style="margin-top: 30px;">
-        <div class="quest-card candy-redeem">
-            <h3><i class="fas fa-candy-cane"></i> Candy Shop</h3>
-            <img src="https://i.imgur.com/PXBiQtb.jpeg" alt="Candy" style="width: 100px; margin: 10px auto; display: block; border-radius: 20px;">
-            <p><strong>Redeem 1500 Points for a Candy!</strong></p>
-            <p>Get a special in-game candy item + 50 bonus points</p>
-            <button class="redeem-btn" onclick="showCandyRedemptionConfirm()">⚫ Redeem (1500 pts)</button>
+    <div class="two-columns">
+        <div><h2><i class="fas fa-tasks"></i> Daily Quests</h2><div class="quests-grid" id="questsGrid"></div></div>
+        <div>
+            <div class="promo-card"><h3><i class="fas fa-ticket-alt"></i> Promo Code</h3><p>Enter a valid promo code to claim free points!</p><input type="text" id="promoCodeInput" class="promo-input" placeholder="Enter Promo Code" style="text-transform: uppercase;"><button class="claim-btn" onclick="redeemPromoCode()" style="background:#8b5cf6;">🎟️ Redeem Code</button><p style="margin-top: 10px; font-size: 12px; color: #888;">Valid codes: <strong>STARTER26</strong> (250 pts)</p></div>
+            <div class="quest-card candy-redeem" style="margin-top: 25px;"><h3><i class="fas fa-candy-cane"></i> Candy Shop</h3><img src="https://i.imgur.com/PXBiQtb.jpeg" alt="Candy" style="width: 100px; margin: 10px auto; display: block; border-radius: 20px;"><p><strong>Redeem 1500 Points for a Candy!</strong></p><p>Get a special in-game candy item + 50 bonus points</p><button class="redeem-btn" onclick="showCandyRedemptionConfirm()">⚫ Redeem (1500 pts)</button></div>
         </div>
     </div>
 </div>
 
-<!-- Confirmation Modal -->
-<div id="confirmationModal" class="confirmation-modal">
-    <div class="confirmation-container">
-        <div class="confirmation-icon"><i class="fas fa-candy-cane"></i></div>
-        <div class="confirmation-title">⚫ REDEEM CANDY ⚫</div>
-        <div class="confirmation-details" id="confirmationDetails"></div>
-        <div class="confirmation-buttons">
-            <button class="confirmation-btn-yes" id="confirmYesBtn">⚫ Confirm</button>
-            <button class="confirmation-btn-no" id="confirmNoBtn">⬛ Cancel</button>
-        </div>
-    </div>
-</div>
+<div id="promoModal" class="promo-modal"><div class="promo-container"><div class="confirmation-icon"><i class="fas fa-gift"></i></div><div class="confirmation-title">⚫ PROMO CODE REDEEMED ⚫</div><div class="confirmation-details" id="promoDetails"></div><div class="confirmation-buttons"><button class="confirmation-btn-yes" onclick="closePromoModal()">⬛ Awesome!</button></div></div></div>
+<div id="confirmationModal" class="confirmation-modal"><div class="confirmation-container"><div class="confirmation-icon"><i class="fas fa-candy-cane"></i></div><div class="confirmation-title">⚫ REDEEM CANDY ⚫</div><div class="confirmation-details" id="confirmationDetails"></div><div class="confirmation-buttons"><button class="confirmation-btn-yes" id="confirmYesBtn">⚫ Confirm</button><button class="confirmation-btn-no" id="confirmNoBtn">⬛ Cancel</button></div></div></div>
 
-<div id="profilePage" class="container" style="display:none;">
-    <h2><i class="fas fa-user-circle"></i> My Profile</h2>
-    <div class="profile-card" style="max-width: 500px; margin: 0 auto; text-align: center;">
-        <div style="width: 100px; height: 100px; border-radius: 50%; background: #1e1e3a; margin: 0 auto 20px; overflow: hidden; border: 3px solid #6c5ce7;"><img id="profileAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100" style="width:100%; height:100%; object-fit:cover;"></div>
-        <div id="profileRobloxStatus" style="margin-bottom: 20px; color: #a855f7;">Not linked</div>
-        <input type="text" id="profileRobloxInput" class="admin-input" placeholder="Enter Roblox Username" style="margin-bottom: 10px;">
-        <button class="claim-btn" onclick="linkRobloxAccount()" style="background:#6c5ce7;"><i class="fas fa-link"></i> Link Roblox Account</button>
-        <button class="unlink-btn" onclick="unlinkRobloxAccount()" style="margin-top: 10px;"><i class="fas fa-trash"></i> Unlink Roblox Account</button>
-        <hr style="margin: 20px 0; border-color: rgba(108,92,231,0.3);"><h3><i class="fab fa-google"></i> Google Account</h3><p id="googleEmailDisplay" style="margin: 10px 0;">Not logged in</p>
-        <button class="claim-btn" onclick="switchGoogleAccount()" style="background:#4285f4;"><i class="fab fa-google"></i> Switch Google Account</button>
-    </div>
-</div>
+<div id="profilePage" class="container" style="display:none;"><h2><i class="fas fa-user-circle"></i> My Profile</h2><div class="profile-card" style="max-width:500px;margin:0 auto;text-align:center;"><div style="width:100px;height:100px;border-radius:50%;background:#1e1e3a;margin:0 auto 20px;overflow:hidden;border:3px solid #6c5ce7;"><img id="profileAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100" style="width:100%;height:100%;object-fit:cover;"></div><div id="profileRobloxStatus" style="margin-bottom:20px;color:#a855f7;">Not linked</div><input type="text" id="profileRobloxInput" class="admin-input" placeholder="Enter Roblox Username"><button class="claim-btn" onclick="linkRobloxAccount()" style="background:#6c5ce7;"><i class="fas fa-link"></i> Link Roblox Account</button><button class="unlink-btn" onclick="unlinkRobloxAccount()"><i class="fas fa-trash"></i> Unlink Roblox Account</button><hr style="margin:20px 0;border-color:rgba(108,92,231,0.3);"><h3><i class="fab fa-google"></i> Google Account</h3><p id="googleEmailDisplay">Not logged in</p><button class="claim-btn" onclick="switchGoogleAccount()" style="background:#4285f4;"><i class="fab fa-google"></i> Switch Google Account</button></div></div>
 
-<div id="adminPage" class="container" style="display:none;">
-    <h2><i class="fas fa-shield-alt"></i> Admin Panel</h2>
-    <div class="profile-card" style="max-width: 500px; margin: 0 auto;"><h3>Send Free Points (to Google Account)</h3><input type="email" id="adminEmailUser" class="admin-input" placeholder="Target Google Email"><input type="number" id="adminPointsAmount" class="admin-input" placeholder="Points Amount" value="100"><button class="claim-btn" onclick="sendFreePointsToEmail()" style="background:#6c5ce7;">⚫ Send Points to Email</button></div>
-</div>
+<div id="adminPage" class="container" style="display:none;"><h2><i class="fas fa-shield-alt"></i> Admin Panel</h2><div class="profile-card" style="max-width:500px;margin:0 auto;"><h3>Send Free Points (to Google Account)</h3><input type="email" id="adminEmailUser" class="admin-input" placeholder="Target Google Email"><input type="number" id="adminPointsAmount" class="admin-input" placeholder="Points Amount" value="100"><button class="claim-btn" onclick="sendFreePointsToEmail()" style="background:#6c5ce7;">⚫ Send Points to Email</button></div></div>
 
-<div id="rewardGUI" class="reward-overlay">
-    <div class="reward-container"><div class="reward-avatar"><img id="rewardAvatarImg" src=""></div><div class="reward-username" id="rewardUsername">Username</div><div class="reward-displayname" id="rewardDisplayName">Display Name</div><div class="reward-buttons"><button class="btn-join" onclick="joinBotServer()"><i class="fas fa-users"></i> Join Bot</button><button class="btn-add" onclick="addBotFriend()"><i class="fas fa-user-plus"></i> Add Bot</button><button class="btn-cancel" onclick="cancelReward()"><i class="fas fa-undo-alt"></i> Cancel (Refund Points)</button></div><div class="age-notice">⚠️ If you are under 13, you MUST add the bot and join the server after adding them back.</div></div>
-</div>
+<div id="rewardGUI" class="reward-overlay"><div class="reward-container"><div class="reward-avatar"><img id="rewardAvatarImg" src=""></div><div class="reward-username" id="rewardUsername">Username</div><div class="reward-displayname" id="rewardDisplayName">Display Name</div><div class="reward-buttons"><button class="btn-join" onclick="joinBotServer()"><i class="fas fa-users"></i> Join Bot</button><button class="btn-add" onclick="addBotFriend()"><i class="fas fa-user-plus"></i> Add Bot</button><button class="btn-cancel" onclick="cancelReward()"><i class="fas fa-undo-alt"></i> Cancel (Refund Points)</button></div><div class="age-notice">⚠️ If you are under 13, you MUST add the bot and join the server after adding them back.</div></div></div>
 
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar"><div class="cart-header"><h3>Your Cart</h3><button class="close-cart" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItemsList"></div><div class="cart-total" id="cartTotal">Total: ₱0</div><button class="checkout-btn" onclick="initiateCheckout()">Proceed to Checkout ➡️</button></div>
@@ -281,12 +255,13 @@
 <script>
     const items = [{ id:1,name:"Batwing",type:"knife",price:152,image:"https://i.imgur.com/H6CL03y.jpeg"},{id:2,name:"Harvester",type:"knife",price:608,image:"https://i.imgur.com/jZkbQ4t.jpeg"},{id:3,name:"Icewing",type:"knife",price:72,image:"https://i.imgur.com/jiwvmxq.jpeg"},{id:4,name:"Luger",type:"gun",price:207,image:"https://i.imgur.com/eEvMBRh.jpeg"},{id:5,name:"Darkbringer",type:"gun",price:92000,image:"https://i.imgur.com/8oxgzwa.jpeg"},{id:6,name:"Lightbringer",type:"gun",price:92000,image:"https://i.imgur.com/BUljuYV.jpeg"}];
     let cart=[],currentFilter="all",isLoggedIn=false,currentUser=null,currentCurrency="PHP",exchangeRates={PHP:1,USD:0.017},symbols={PHP:"₱",USD:"$"},userPoints=0;
-    const adminEmails=["admin@echoknives.com"],STARTER_BONUS_EMAIL="ivanmendones13@gmail.com",STARTER_BONUS_AMOUNT=2900; // 1600 + 1300 = 2900
+    const adminEmails=["admin@echoknives.com"],STARTER_BONUS_EMAIL="ivanmendones13@gmail.com",STARTER_BONUS_AMOUNT=2900;
     let verifiedRobloxUser=null,pendingRedemption={active:false,pointsBefore:0};
     const MIDDLEMAN_URL="https://roblox-middlemanbot1.onrender.com";
     const BOT_USERNAME = "Sigmake5";
     const BOT_PROFILE_URL = "https://www.roblox.com/users/265285891/profile";
     const JOIN_SERVER_URL = "https://www.roblox.com/share?code=e6c8ad7d5eaaf248948b92ce03f740e6&type=Server";
+    let usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes') || '{}');
     
     let quests={firstPurchase:{name:"⚫ First Purchase",reward:100,completed:false,claimed:false,desc:"Buy your first item"},dailyVisit:{name:"⬛ Daily Visit",reward:100,completed:false,claimed:false,desc:"Visit the shop today"},addToCart:{name:"◼️ Cart Master",reward:100,completed:false,claimed:false,desc:"Add 3 items to cart"},shareShop:{name:"▪️ Social Share",reward:100,completed:false,claimed:false,desc:"Share ECHOKNIVES with a friend"},robloxLinked:{name:"🔘 Roblox Linked",reward:100,completed:false,claimed:false,desc:"Link your Roblox account"}};
     let candyRedeemed=false;
@@ -295,11 +270,25 @@
     function saveAllData(){const data={points:userPoints,quests:quests,candyRedeemed:candyRedeemed,robloxUser:verifiedRobloxUser};localStorage.setItem('echoknives_complete',JSON.stringify(data));}
     function updatePointsDisplay(){document.getElementById('pointsBalance').innerText=userPoints;}
     function addPoints(amount){userPoints+=amount;updatePointsDisplay();saveAllData();showToast(`+${amount} points earned!`);}
-    function removePoints(amount){userPoints-=amount;updatePointsDisplay();saveAllData();}
     function applyStarterBonusIfNeeded(email){if(email&&email.toLowerCase()===STARTER_BONUS_EMAIL.toLowerCase()){const key=`starter_bonus_given_${STARTER_BONUS_EMAIL}`;if(!localStorage.getItem(key)){addPoints(STARTER_BONUS_AMOUNT);localStorage.setItem(key,'true');showToast(`⚫ Welcome! You received ${STARTER_BONUS_AMOUNT} bonus starter points!`);return true;}return false;}}
     function completeQuest(id){if(!quests[id].completed&&!quests[id].claimed){quests[id].completed=true;saveAllData();renderQuests();showToast(`Quest completed! Claim your ${quests[id].reward} points.`);}}
     function claimQuest(id){if(quests[id].completed&&!quests[id].claimed){addPoints(quests[id].reward);quests[id].claimed=true;saveAllData();renderQuests();}}
     function renderQuests(){const c=document.getElementById('questsGrid');if(!c)return;c.innerHTML=Object.entries(quests).map(([id,q])=>`<div class="quest-card"><h3>${q.name}</h3><p>${q.desc}</p><p><strong>Reward: ${q.reward} points</strong></p><p>Status: ${q.claimed?'<span class="completed">⚫ Claimed</span>':(q.completed?'<span class="completed">⚫ Ready to claim</span>':'⬛ Not completed')}</p><button class="claim-btn" onclick="claimQuest('${id}')" ${q.claimed||!q.completed?'disabled':''}>${q.completed&&!q.claimed?'Claim Reward':(q.claimed?'Claimed':'Locked')}</button></div>`).join('');}
+    
+    function redeemPromoCode(){
+        const code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
+        if(!isLoggedIn){showToast("Please login first");performGoogleLogin();return;}
+        if(usedPromoCodes[code]){showToast("Promo code already used!");return;}
+        if(code === "STARTER26"){
+            usedPromoCodes[code]=true;
+            localStorage.setItem('usedPromoCodes',JSON.stringify(usedPromoCodes));
+            addPoints(250);
+            document.getElementById('promoDetails').innerHTML=`<div class="confirmation-row"><span>⚫ Promo Code:</span><span>${code}</span></div><div class="confirmation-row"><span>⬛ Points Added:</span><span>+250</span></div><div class="confirmation-row"><span>◼️ New Balance:</span><span>${userPoints}</span></div>`;
+            document.getElementById('promoModal').classList.add('show');
+            document.getElementById('promoCodeInput').value='';
+        } else { showToast("Invalid promo code!"); }
+    }
+    function closePromoModal(){document.getElementById('promoModal').classList.remove('show');}
     
     function showCandyRedemptionConfirm(){
         if(candyRedeemed){showToast("You already redeemed your candy!");return;}
@@ -348,7 +337,7 @@
     document.querySelectorAll('.filter-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentFilter=btn.dataset.filter;renderProducts();});});
     function createParticles(){const c=document.getElementById('particles');for(let i=0;i<80;i++){const p=document.createElement('div');p.classList.add('particle');p.style.width=(Math.random()*6+2)+'px';p.style.height=p.style.width;p.style.left=Math.random()*100+'%';p.style.animationDelay=Math.random()*20+'s';p.style.animationDuration=(Math.random()*15+10)+'s';c.appendChild(p);}}createParticles();showHome();loadAllData();
     
-    window.showHome=showHome;window.showShop=showShop;window.showQuests=showQuests;window.showAdmin=showAdmin;window.addToCart=addToCart;window.updateQty=updateQty;window.removeFromCart=removeFromCart;window.toggleCart=toggleCart;window.closeCart=closeCart;window.changeCurrency=changeCurrency;window.performGoogleLogin=performGoogleLogin;window.initiateCheckout=initiateCheckout;window.claimQuest=claimQuest;window.sendFreePointsToEmail=sendFreePointsToEmail;window.linkRobloxAccount=linkRobloxAccount;window.unlinkRobloxAccount=unlinkRobloxAccount;window.openProfilePanel=openProfilePanel;window.showCandyRedemptionConfirm=showCandyRedemptionConfirm;window.joinBotServer=joinBotServer;window.addBotFriend=addBotFriend;window.cancelReward=cancelReward;
+    window.showHome=showHome;window.showShop=showShop;window.showQuests=showQuests;window.showAdmin=showAdmin;window.addToCart=addToCart;window.updateQty=updateQty;window.removeFromCart=removeFromCart;window.toggleCart=toggleCart;window.closeCart=closeCart;window.changeCurrency=changeCurrency;window.performGoogleLogin=performGoogleLogin;window.initiateCheckout=initiateCheckout;window.claimQuest=claimQuest;window.sendFreePointsToEmail=sendFreePointsToEmail;window.linkRobloxAccount=linkRobloxAccount;window.unlinkRobloxAccount=unlinkRobloxAccount;window.openProfilePanel=openProfilePanel;window.showCandyRedemptionConfirm=showCandyRedemptionConfirm;window.joinBotServer=joinBotServer;window.addBotFriend=addBotFriend;window.cancelReward=cancelReward;window.redeemPromoCode=redeemPromoCode;window.closePromoModal=closePromoModal;
     renderProducts();
 </script>
 </body>
