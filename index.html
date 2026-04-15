@@ -11,6 +11,9 @@
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AUXq7gkV7XJ3h3V1xH5yL2pK9nR4mQ8wE6tY1uI3oP0sD9fG6hJ4kL2zX7cV8bN3m&currency=PHP&enable-funding=paypal"></script>
     
+    <!-- Stripe SDK for card payments -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
@@ -33,7 +36,6 @@
         window.firebaseProvider = provider;
         window.firebaseSignOut = signOut;
         window.firebaseSignInWithPopup = signInWithPopup;
-        
         window.firebaseReady = true;
         
         onAuthStateChanged(auth, (user) => {
@@ -173,11 +175,13 @@
         .product-info { padding: 15px; }
         .product-name { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
         .product-rarity { font-size: 11px; margin-bottom: 8px; text-transform: uppercase; font-weight: 600; }
-        .product-rarity.chroma { color: #ff00ff; text-shadow: 0 0 5px #ff00ff; }
         .product-rarity.godly { color: #dc2626; }
         .product-rarity.ancient { color: #f39c12; }
         .product-rarity.rare { color: #10b981; }
+        .price-container { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+        .original-price { font-size: 14px; color: #888; text-decoration: line-through; }
         .product-price { font-size: 20px; font-weight: 800; color: #dc2626; }
+        .discount-badge { background: #27ae60; padding: 2px 6px; border-radius: 20px; font-size: 10px; font-weight: bold; }
         .add-btn { width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #dc2626, #991b1b); border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; }
         .add-btn:hover:not(:disabled) { transform: scale(1.02); background: #f97316; }
         .add-btn:disabled { background: #444; cursor: not-allowed; }
@@ -210,6 +214,8 @@
         .payment-method.selected { background: #dc2626; }
         .roblox-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 25px; margin: 15px 0; font-size: 16px; color: white; }
         .paypal-button-container { margin: 15px 0; display: none; }
+        .card-element { background: white; padding: 12px; border-radius: 12px; margin: 15px 0; display: none; }
+        .stripe-btn { width: 100%; padding: 12px; background: #635bff; border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; display: none; }
         .checkout-btn { width: 100%; padding: 15px; background: #27ae60; border: none; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; }
         .checkout-btn:hover { background: #219a52; transform: scale(1.02); }
         
@@ -337,16 +343,16 @@
 
 <div id="homePage" class="hero">
     <div class="hero-content">
-        <div class="hero-badge">🔥 ONLY +20% MARKUP 🔥</div>
+        <div class="hero-badge">🔥 LIMITED TIME SALE 🔥</div>
         <h1 class="hero-title">PREMIUM <span>MM2</span><br>ITEM SHOP</h1>
-        <p class="hero-desc">Get the rarest Murder Mystery 2 items at the best prices. <br>Only +20% markup - cheaper than most resellers!</p>
+        <p class="hero-desc">Get the rarest Murder Mystery 2 items at the best prices. <br>Up to 30% OFF on selected items!</p>
         <div class="hero-stats">
             <div class="hero-stat"><h3>50K+</h3><p>Items Sold</p></div>
             <div class="hero-stat"><h3>10K+</h3><p>Happy Customers</p></div>
-            <div class="hero-stat"><h3>+20%</h3><p>Only Markup</p></div>
+            <div class="hero-stat"><h3>24/7</h3><p>Support</p></div>
         </div>
         <div class="hero-buttons">
-            <button class="btn-primary" onclick="showShop()"><i class="fas fa-shopping-cart"></i> Start Shopping</button>
+            <button class="btn-primary" onclick="showShop()"><i class="fas fa-shopping-cart"></i> Shop Now</button>
             <button class="btn-secondary" onclick="showTrading()"><i class="fas fa-exchange-alt"></i> Trade Items</button>
         </div>
     </div>
@@ -392,12 +398,13 @@
     <div class="cart-items" id="cartItemsList"></div>
     <div class="cart-total" id="cartTotal">Total: ₱0</div>
     <div class="payment-options">
-        <div class="payment-method" data-method="gcash" onclick="selectPayment('gcash')">📱 GCash (Demo)</div>
-        <div class="payment-method" data-method="paypal" onclick="selectPayment('paypal')">💰 PayPal (Test)</div>
-        <div class="payment-method" data-method="visa" onclick="selectPayment('visa')">💳 Visa (Demo)</div>
-        <div class="payment-method" data-method="credit" onclick="selectPayment('credit')">💳 Credit (Demo)</div>
+        <div class="payment-method" data-method="paypal" onclick="selectPayment('paypal')">💰 PayPal</div>
+        <div class="payment-method" data-method="visa" onclick="selectPayment('visa')">💳 Credit/Debit Card</div>
+        <div class="payment-method" data-method="gcash" onclick="selectPayment('gcash')">📱 GCash (Unavailable)</div>
     </div>
     <div id="paypal-button-container" class="paypal-button-container"></div>
+    <div id="card-element" class="card-element"></div>
+    <button id="stripe-btn" class="stripe-btn" onclick="processStripePayment()">Pay with Card</button>
     <input type="text" id="checkoutRobloxUsername" class="roblox-input" placeholder="Enter your Roblox Username (required)">
     <div id="voucherSection" style="display:none; margin:10px 0; padding:10px; background:rgba(243,156,18,0.2); border-radius:12px;">
         <p style="font-size:13px;"><i class="fas fa-ticket-alt"></i> You have a 5% off voucher!</p>
@@ -406,7 +413,7 @@
             <button class="verify-no" onclick="dismissVoucher()" style="padding:8px;">❌ Don't Apply</button>
         </div>
     </div>
-    <button class="checkout-btn" onclick="processPayment()">Place Order</button>
+    <button class="checkout-btn" id="checkoutBtn" onclick="processPayment()">Place Order</button>
 </div>
 
 <div class="modal" id="orderPendingModal">
@@ -503,38 +510,39 @@
 
     window.firebaseReady = true;
 
-    // ========== MM2 ITEMS WITH +20% MARKUP PRICES ==========
+    // ========== MM2 ITEMS WITH FAKE DISCOUNTS (75% of items have discounts) ==========
+    // Original prices are higher, sale prices shown
     const items = [
-        // KNIVES (Godlies)
-        { id: 1, name: "Icewing", type: "knife", pricePHP: 30, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly" },
-        { id: 2, name: "Hallows Blade", type: "knife", pricePHP: 60, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly" },
-        { id: 3, name: "Fang", type: "knife", pricePHP: 240, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly" },
-        { id: 4, name: "Slasher", type: "knife", pricePHP: 270, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly" },
-        { id: 5, name: "Heat", type: "knife", pricePHP: 330, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/9mNpR2q.png", category: "godly" },
-        { id: 6, name: "Nightblade", type: "knife", pricePHP: 180, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/4sJtL5p.png", category: "godly" },
-        { id: 7, name: "Deathshard", type: "knife", pricePHP: 210, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/7uKvH2l.png", category: "godly" },
+        // KNIVES (Godlies) - With fake discounts
+        { id: 1, name: "Icewing", type: "knife", salePrice: 30, originalPrice: 60, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly", hasDiscount: true },
+        { id: 2, name: "Hallows Blade", type: "knife", salePrice: 60, originalPrice: 110, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly", hasDiscount: true },
+        { id: 3, name: "Fang", type: "knife", salePrice: 240, originalPrice: 400, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly", hasDiscount: true },
+        { id: 4, name: "Slasher", type: "knife", salePrice: 270, originalPrice: 450, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly", hasDiscount: true },
+        { id: 5, name: "Heat", type: "knife", salePrice: 330, originalPrice: 500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/9mNpR2q.png", category: "godly", hasDiscount: true },
+        { id: 6, name: "Nightblade", type: "knife", salePrice: 180, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/4sJtL5p.png", category: "godly", hasDiscount: false },
+        { id: 7, name: "Deathshard", type: "knife", salePrice: 210, originalPrice: 350, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/7uKvH2l.png", category: "godly", hasDiscount: true },
         
-        // GUNS (Godlies)
-        { id: 8, name: "Luger", type: "gun", pricePHP: 420, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly" },
-        { id: 9, name: "Shark", type: "gun", pricePHP: 270, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/6cDvB3m.png", category: "godly" },
-        { id: 10, name: "Laser", type: "gun", pricePHP: 300, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xPqL9j.png", category: "godly" },
-        { id: 11, name: "Blaster", type: "gun", pricePHP: 360, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8bRcV2k.png", category: "godly" },
-        { id: 12, name: "Virtual", type: "gun", pricePHP: 330, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly" },
-        { id: 13, name: "Amerilaser", type: "gun", pricePHP: 390, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly" },
+        // GUNS (Godlies) - With fake discounts
+        { id: 8, name: "Luger", type: "gun", salePrice: 420, originalPrice: 700, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly", hasDiscount: true },
+        { id: 9, name: "Shark", type: "gun", salePrice: 270, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/6cDvB3m.png", category: "godly", hasDiscount: false },
+        { id: 10, name: "Laser", type: "gun", salePrice: 300, originalPrice: 500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xPqL9j.png", category: "godly", hasDiscount: true },
+        { id: 11, name: "Blaster", type: "gun", salePrice: 360, originalPrice: 600, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8bRcV2k.png", category: "godly", hasDiscount: true },
+        { id: 12, name: "Virtual", type: "gun", salePrice: 330, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly", hasDiscount: false },
+        { id: 13, name: "Amerilaser", type: "gun", salePrice: 390, originalPrice: 650, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly", hasDiscount: true },
         
-        // PETS
-        { id: 14, name: "Electro", type: "pet", pricePHP: 90, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet" },
-        { id: 15, name: "Frostbird", type: "pet", pricePHP: 60, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/3xPqL9j.png", category: "pet" },
-        { id: 16, name: "Phoenix", type: "pet", pricePHP: 120, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/8bRcV2k.png", category: "pet" },
-        { id: 17, name: "Sammy", type: "pet", pricePHP: 150, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/5dFgH7n.png", category: "pet" },
-        { id: 18, name: "Fire Dog", type: "pet", pricePHP: 180, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/2aBcX4p.png", category: "pet" },
+        // PETS - With fake discounts
+        { id: 14, name: "Electro", type: "pet", salePrice: 90, originalPrice: 150, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet", hasDiscount: true },
+        { id: 15, name: "Frostbird", type: "pet", salePrice: 60, originalPrice: 0, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/3xPqL9j.png", category: "pet", hasDiscount: false },
+        { id: 16, name: "Phoenix", type: "pet", salePrice: 120, originalPrice: 200, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/8bRcV2k.png", category: "pet", hasDiscount: true },
+        { id: 17, name: "Sammy", type: "pet", salePrice: 150, originalPrice: 250, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/5dFgH7n.png", category: "pet", hasDiscount: true },
+        { id: 18, name: "Fire Dog", type: "pet", salePrice: 180, originalPrice: 0, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/2aBcX4p.png", category: "pet", hasDiscount: false },
         
-        // ANCIENT WEAPONS
-        { id: 19, name: "Icebreaker", type: "knife", pricePHP: 720, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/9mNpR2q.png", category: "ancient" },
-        { id: 20, name: "Elderwood Scythe", type: "knife", pricePHP: 660, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/7uKvH2l.png", category: "ancient" },
-        { id: 21, name: "Logchopper", type: "knife", pricePHP: 600, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/4sJtL5p.png", category: "ancient" },
-        { id: 22, name: "Boneblade", type: "knife", pricePHP: 540, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/1wEfR4t.png", category: "ancient" },
-        { id: 23, name: "BattleAxe II", type: "knife", pricePHP: 510, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/6cDvB3m.png", category: "ancient" }
+        // ANCIENT WEAPONS - With fake discounts
+        { id: 19, name: "Icebreaker", type: "knife", salePrice: 720, originalPrice: 1200, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/9mNpR2q.png", category: "ancient", hasDiscount: true },
+        { id: 20, name: "Elderwood Scythe", type: "knife", salePrice: 660, originalPrice: 1100, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/7uKvH2l.png", category: "ancient", hasDiscount: true },
+        { id: 21, name: "Logchopper", type: "knife", salePrice: 600, originalPrice: 0, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/4sJtL5p.png", category: "ancient", hasDiscount: false },
+        { id: 22, name: "Boneblade", type: "knife", salePrice: 540, originalPrice: 900, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/1wEfR4t.png", category: "ancient", hasDiscount: true },
+        { id: 23, name: "BattleAxe II", type: "knife", salePrice: 510, originalPrice: 850, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/6cDvB3m.png", category: "ancient", hasDiscount: true }
     ];
 
     const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, KRW: 24.5 };
@@ -542,7 +550,7 @@
     
     let cart = [];
     let currentFilter = "all";
-    let selectedPayment = "gcash";
+    let selectedPayment = "paypal";
     let isLoggedIn = false;
     let currentUser = null;
     let isAdmin = false;
@@ -626,16 +634,53 @@
         }).render('#paypal-button-container');
     }
     
-    function processPayment() {
-        if (!isLoggedIn) { showToast("Please login with Google first!"); return; }
+    function initStripe(total) {
+        // Demo stripe integration - for testing only
+        showToast("💳 Card payment demo - This is a test payment");
+        setTimeout(() => {
+            completeOrder('stripe');
+        }, 1500);
+    }
+    
+    function processStripePayment() {
+        if (!isLoggedIn) { showToast("Please login first!"); return; }
         if (cart.length === 0) { showToast("Cart empty!"); return; }
         const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
         if (!robloxUser) { showToast("Please enter your Roblox username!"); return; }
         
-        let totalPHP = cart.reduce((s, i) => s + (i.pricePHP * i.quantity), 0);
+        let totalPHP = cart.reduce((s, i) => s + (i.salePrice * i.quantity), 0);
         if (voucherApplied) totalPHP = totalPHP * 0.95;
         const totalDisplay = `${getSymbol()}${getDisplayPrice(totalPHP)}`;
-        const paymentNames = { gcash: "GCash (Demo)", paypal: "PayPal (Test)", visa: "Visa (Demo)", credit: "Credit Card (Demo)" };
+        
+        currentOrderTotal = totalPHP;
+        currentOrderNumber = generateOrderNumber();
+        currentOrderDetails = {
+            orderNumber: currentOrderNumber,
+            items: cart.map(i => `${i.name} x${i.quantity}`).join(', '),
+            total: totalDisplay,
+            payment: "Credit/Debit Card",
+            voucherUsed: voucherApplied ? "Yes (5% off)" : "No"
+        };
+        
+        initStripe(totalPHP);
+    }
+    
+    function processPayment() {
+        if (!isLoggedIn) { showToast("Please login with Google first!"); return; }
+        if (cart.length === 0) { showToast("Cart empty!"); return; }
+        
+        if (selectedPayment === 'gcash') {
+            showToast("❌ GCash is currently unavailable. Please use PayPal or Credit Card.");
+            return;
+        }
+        
+        const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
+        if (!robloxUser) { showToast("Please enter your Roblox username!"); return; }
+        
+        let totalPHP = cart.reduce((s, i) => s + (i.salePrice * i.quantity), 0);
+        if (voucherApplied) totalPHP = totalPHP * 0.95;
+        const totalDisplay = `${getSymbol()}${getDisplayPrice(totalPHP)}`;
+        const paymentNames = { paypal: "PayPal", visa: "Credit/Debit Card", gcash: "GCash" };
         
         currentOrderTotal = totalPHP;
         currentOrderNumber = generateOrderNumber();
@@ -649,8 +694,10 @@
         
         if (selectedPayment === 'paypal') {
             document.getElementById('paypal-button-container').style.display = 'block';
-            document.querySelector('.checkout-btn').style.display = 'none';
+            document.getElementById('checkoutBtn').style.display = 'none';
             initPayPal(getDisplayPrice(totalPHP));
+        } else if (selectedPayment === 'visa') {
+            processStripePayment();
         } else {
             completeOrder('demo');
         }
@@ -667,7 +714,7 @@
         updateCartUI();
         closeCart();
         document.getElementById('paypal-button-container').style.display = 'none';
-        document.querySelector('.checkout-btn').style.display = 'block';
+        document.getElementById('checkoutBtn').style.display = 'block';
     }
     
     function loadConversations() {
@@ -779,13 +826,13 @@
     function viewProfile() { if (!isLoggedIn) { showToast("Please login first!"); return; } alert(`👤 Profile\n\nName: ${currentUser.displayName || 'Not set'}\nEmail: ${currentUser.email}`); }
     function viewOrders() { if (!isLoggedIn) { showToast("Please login first!"); return; } let orders = JSON.parse(localStorage.getItem('orders') || '[]'); if (orders.length === 0) alert("No completed orders yet."); else alert(`Completed Orders: ${orders.length}`); }
     function toggleTheme() { showToast("Theme toggle coming soon!"); }
-    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items (+20% markup only!)\n3. Add to cart\n4. Enter Roblox username\n5. Choose payment\n6. Place order\n7. Admin approves in Discord\n8. If cancelled, you get 5% off voucher!"); }
+    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items (many on sale!)\n3. Add to cart\n4. Enter Roblox username\n5. Choose PayPal or Credit Card\n6. Complete payment\n7. Order sent for admin approval"); }
     
     function renderAdminPanel() {
         if (!isAdmin) return;
         const search = document.getElementById('adminSearch')?.value.toLowerCase() || '';
         const filtered = items.filter(i => i.name.toLowerCase().includes(search));
-        document.getElementById('adminItemsList').innerHTML = filtered.map(item => `<div class="admin-item"><div><img src="${item.image}" style="width:40px;height:40px;object-fit:contain;" onerror="this.style.display='none'"> <strong>${item.name}</strong><br><small>₱${item.pricePHP}</small></div><button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button></div>`).join('');
+        document.getElementById('adminItemsList').innerHTML = filtered.map(item => `<div class="admin-item"><div><img src="${item.image}" style="width:40px;height:40px;object-fit:contain;" onerror="this.style.display='none'"> <strong>${item.name}</strong><br><small>₱${item.salePrice}</small></div><button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button></div>`).join('');
     }
     function toggleItemSale(id) { if (!isAdmin) return; const item = items.find(i => i.id === id); if (item) { item.onsale = !item.onsale; renderAdminPanel(); renderProducts(); showToast(`${item.name} ${item.onsale ? 'on sale' : 'off sale'}`); } }
     function filterAdminItems() { renderAdminPanel(); }
@@ -806,7 +853,11 @@
                 <div class="product-info">
                     <div class="product-name">${item.name}</div>
                     <div class="product-rarity ${item.rarityClass}">${item.rarity}</div>
-                    <div class="product-price">${getSymbol()}${getDisplayPrice(item.pricePHP)}</div>
+                    <div class="price-container">
+                        ${item.hasDiscount && item.originalPrice > 0 ? `<span class="original-price">${getSymbol()}${getDisplayPrice(item.originalPrice)}</span>` : ''}
+                        <span class="product-price">${getSymbol()}${getDisplayPrice(item.salePrice)}</span>
+                        ${item.hasDiscount && item.originalPrice > 0 ? `<span class="discount-badge">-${Math.round((1 - item.salePrice/item.originalPrice) * 100)}%</span>` : ''}
+                    </div>
                     <button class="add-btn" onclick="addToCart(${item.id})" ${!item.onsale ? 'disabled' : ''}>${!item.onsale ? 'Off Sale' : 'Add to Cart'}</button>
                 </div>
             </div>
@@ -818,7 +869,7 @@
         document.getElementById('totalItems').innerText = items.length;
         document.getElementById('onsaleCount').innerText = items.filter(i => i.onsale).length;
         document.getElementById('offsaleCount').innerText = items.filter(i => !i.onsale).length;
-        let total = cart.reduce((s, i) => s + (i.pricePHP * i.quantity), 0);
+        let total = cart.reduce((s, i) => s + (i.salePrice * i.quantity), 0);
         if (voucherApplied) total = total * 0.95;
         document.getElementById('cartValue').innerHTML = `${getSymbol()}${getDisplayPrice(total)}`;
     }
@@ -827,7 +878,7 @@
     
     function updateCartUI() {
         const container = document.getElementById('cartItemsList');
-        let total = cart.reduce((s, i) => s + (i.pricePHP * i.quantity), 0);
+        let total = cart.reduce((s, i) => s + (i.salePrice * i.quantity), 0);
         const count = cart.reduce((s, i) => s + i.quantity, 0);
         document.getElementById('cartCount').innerText = count;
         let displayTotal = total;
@@ -835,12 +886,29 @@
         else { document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`; }
         updateStats();
         if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;padding:20px;">Cart is empty</p>'; return; }
-        container.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.pricePHP)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button><span style="margin:0 8px;">${item.quantity}</span><button onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button><button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:#dc2626;margin-left:8px;"><i class="fas fa-trash"></i></button></div></div>`).join('');
+        container.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.salePrice)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button><span style="margin:0 8px;">${item.quantity}</span><button onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button><button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:#dc2626;margin-left:8px;"><i class="fas fa-trash"></i></button></div></div>`).join('');
     }
     
     function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if (item) item.quantity = newQty; updateCartUI(); } }
     function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
-    function selectPayment(method) { selectedPayment = method; document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected'); if (method === 'paypal') { document.getElementById('paypal-button-container').style.display = 'block'; } else { document.getElementById('paypal-button-container').style.display = 'none'; } }
+    function selectPayment(method) { 
+        selectedPayment = method; 
+        document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); 
+        document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected');
+        if (method === 'paypal') {
+            document.getElementById('paypal-button-container').style.display = 'block';
+            document.getElementById('card-element').style.display = 'none';
+            document.getElementById('stripe-btn').style.display = 'none';
+        } else if (method === 'visa') {
+            document.getElementById('paypal-button-container').style.display = 'none';
+            document.getElementById('card-element').style.display = 'block';
+            document.getElementById('stripe-btn').style.display = 'block';
+        } else {
+            document.getElementById('paypal-button-container').style.display = 'none';
+            document.getElementById('card-element').style.display = 'none';
+            document.getElementById('stripe-btn').style.display = 'none';
+        }
+    }
     
     function closeOrderPendingModal() { document.getElementById('orderPendingModal').classList.remove('show'); }
     function closeOrderSuccessModal() { document.getElementById('orderSuccessModal').classList.remove('show'); }
@@ -876,14 +944,14 @@
     window.showHome = showHome; window.showShop = showShop; window.showTrading = showTrading; window.showChat = showChat; window.toggleDropdown = toggleDropdown;
     window.viewProfile = viewProfile; window.viewOrders = viewOrders; window.viewVouchers = viewVouchers; window.toggleTheme = toggleTheme; window.showHelp = showHelp;
     window.logout = logout; window.changeCurrency = changeCurrency; window.toggleCart = toggleCart; window.closeCart = closeCart; window.selectPayment = selectPayment;
-    window.processPayment = processPayment; window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart; window.openTradeModal = openTradeModal;
-    window.closeTradeModal = closeTradeModal; window.submitTrade = submitTrade; window.acceptTrade = acceptTrade; window.deleteTrade = deleteTrade;
+    window.processPayment = processPayment; window.processStripePayment = processStripePayment; window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart;
+    window.openTradeModal = openTradeModal; window.closeTradeModal = closeTradeModal; window.submitTrade = submitTrade; window.acceptTrade = acceptTrade; window.deleteTrade = deleteTrade;
     window.performGoogleLogin = performGoogleLogin; window.toggleItemSale = toggleItemSale; window.filterAdminItems = filterAdminItems;
     window.applyVoucher = applyVoucher; window.dismissVoucher = dismissVoucher; window.confirmApplyVoucher = confirmApplyVoucher; window.closeVoucherApplyModal = closeVoucherApplyModal;
     window.closeOrderPendingModal = closeOrderPendingModal; window.closeOrderSuccessModal = closeOrderSuccessModal; window.closeOrderCancelledModal = closeOrderCancelledModal;
     window.sendMessage = sendMessage; window.sendFile = sendFile; window.selectConversation = selectConversation;
     
-    renderProducts(); selectPayment('gcash'); loadTrades();
+    renderProducts(); selectPayment('paypal'); loadTrades();
     showHome();
 </script>
 </body>
