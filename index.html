@@ -762,7 +762,10 @@
     let currentCurrency = "PHP";
     let currentCategory = "all";
     let searchQuery = "";
-    let conversations = {};  // { userId: [{ with, messages }] }
+    let conversations = {};
+
+    // Discord Webhook URL
+    const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d";
 
     // ---------- ITEMS DATABASE ----------
     const items = [
@@ -784,6 +787,36 @@
     function convertPrice(phpPrice) { return (phpPrice * exchange[currentCurrency]).toFixed(2); }
     function getSymbol() { return symbols[currentCurrency]; }
     function showToast(msg) { const t = document.getElementById("toastMsg"); t.innerText = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
+
+    // Discord notification function
+    async function sendDiscordNotification(orderDetails) {
+        const embed = {
+            title: "🛒 NEW ORDER!",
+            color: 0x6366f1,
+            fields: [
+                { name: "📋 Order Number", value: orderDetails.orderNumber, inline: true },
+                { name: "👤 Customer", value: orderDetails.customerName, inline: true },
+                { name: "🎮 Roblox", value: orderDetails.robloxUser, inline: true },
+                { name: "📦 Items", value: orderDetails.items, inline: false },
+                { name: "💰 Total", value: orderDetails.total, inline: true },
+                { name: "💳 Payment", value: "Demo (simulated)", inline: true },
+                { name: "📅 Date", value: new Date().toLocaleString(), inline: true }
+            ],
+            footer: { text: "ECHOKNIVES Order System" },
+            timestamp: new Date().toISOString()
+        };
+
+        try {
+            await fetch(DISCORD_WEBHOOK, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ embeds: [embed] })
+            });
+            console.log("Discord notification sent");
+        } catch (err) {
+            console.error("Discord webhook error:", err);
+        }
+    }
 
     // ---------- AUTH ----------
     function handleLogin() {
@@ -878,7 +911,9 @@
         `).join("");
     }
     function removeItem(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
-    function checkout() {
+
+    // Checkout with Discord notification
+    async function checkout() {
         if (!isLoggedIn) { showToast("Please login first"); handleLogin(); return; }
         const robloxUser = document.getElementById("robloxUser").value.trim();
         if (!robloxUser) { showToast("Enter Roblox username"); return; }
@@ -895,6 +930,18 @@
         `;
         document.getElementById("receiptDetails").innerHTML = receiptHTML;
         document.getElementById("receiptModal").classList.add("show");
+
+        // Prepare order details for Discord
+        const orderDetails = {
+            orderNumber: orderNumber,
+            customerName: currentUser.displayName || currentUser.email,
+            robloxUser: robloxUser,
+            items: cart.map(i => `${i.name} x${i.qty}`).join(', '),
+            total: `${getSymbol()}${convertPrice(total)}`
+        };
+        
+        // Send Discord notification
+        await sendDiscordNotification(orderDetails);
         
         // Send receipt message to chat (private)
         if (!conversations[currentUser.uid]) conversations[currentUser.uid] = [];
