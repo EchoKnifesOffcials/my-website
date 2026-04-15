@@ -55,7 +55,6 @@
             min-height: 100vh;
         }
 
-        /* Animated Background VFX */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -114,7 +113,6 @@
         ::-webkit-scrollbar-track { background: #1a1a3e; }
         ::-webkit-scrollbar-thumb { background: #6c5ce7; border-radius: 10px; }
 
-        /* Header */
         .header {
             background: rgba(15, 12, 41, 0.85);
             backdrop-filter: blur(10px);
@@ -181,13 +179,7 @@
             font-size: 14px;
         }
 
-        .nav-link:hover {
-            color: white;
-            background: rgba(108, 92, 231, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .nav-link.active {
+        .nav-link:hover, .nav-link.active {
             background: #6c5ce7;
             color: white;
             box-shadow: 0 0 15px rgba(108,92,231,0.4);
@@ -205,10 +197,6 @@
             border: 1px solid rgba(108, 92, 231, 0.3);
             border-radius: 30px;
             padding: 8px 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
         }
         .currency-selector select {
             background: transparent;
@@ -228,11 +216,6 @@
             padding: 5px 15px;
             border-radius: 40px;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .user-info:hover {
-            background: rgba(108,92,231,0.3);
-            transform: translateY(-2px);
         }
         .user-avatar {
             width: 32px;
@@ -244,11 +227,6 @@
             justify-content: center;
             overflow: hidden;
         }
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
 
         .cart-icon {
             position: relative;
@@ -258,11 +236,6 @@
             border: 1px solid rgba(108, 92, 231, 0.3);
             padding: 8px 16px;
             border-radius: 40px;
-            transition: all 0.3s ease;
-        }
-        .cart-icon:hover { 
-            background: #6c5ce7; 
-            transform: scale(1.05);
         }
         .cart-count {
             position: absolute;
@@ -278,7 +251,6 @@
             justify-content: center;
         }
 
-        /* Hero Section */
         .hero {
             min-height: 85vh;
             display: flex;
@@ -293,47 +265,12 @@
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(108, 92, 231, 0.2);
-            padding: 8px 25px;
-            border-radius: 40px;
-            font-size: 14px;
-            color: #a855f7;
-            margin-bottom: 25px;
-            border: 1px solid rgba(108,92,231,0.3);
-        }
         .hero-title {
             font-size: 58px;
             font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 25px;
             font-family: 'Orbitron', monospace;
         }
-        .hero-title span {
-            background: linear-gradient(135deg, #6c5ce7, #a855f7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .hero-desc {
-            font-size: 18px;
-            color: #aaa;
-            margin-bottom: 35px;
-            line-height: 1.6;
-        }
-        .hero-stats {
-            display: flex;
-            gap: 40px;
-            margin-bottom: 45px;
-        }
-        .hero-stat h3 { font-size: 36px; font-weight: 800; color: #6c5ce7; }
-        .hero-stat p { font-size: 12px; color: #888; }
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
+        .hero-title span { background: linear-gradient(135deg, #6c5ce7, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .btn-primary {
             background: linear-gradient(135deg, #6c5ce7, #a855f7);
             border: none;
@@ -342,23 +279,9 @@
             color: white;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 16px;
         }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(108,92,231,0.4);
-        }
-        .hero-image { flex: 1; min-width: 300px; text-align: center; }
-        .hero-image img {
-            max-width: 100%;
-            filter: drop-shadow(0 0 40px rgba(108,92,231,0.3));
-            animation: floatImage 4s ease-in-out infinite;
-            border-radius: 20px;
-        }
-        @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .hero-image img { max-width: 100%; filter: drop-shadow(0 0 40px rgba(108,92,231,0.3)); border-radius: 20px; }
 
-        /* Shop Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -380,35 +303,9 @@
             border-radius: 30px;
             color: white;
             cursor: pointer;
-            font-size: 13px;
-            white-space: nowrap;
-            transition: all 0.3s ease;
         }
-        .filter-btn:hover { transform: translateY(-2px); background: rgba(108,92,231,0.5); }
-        .filter-btn.active {
-            background: #6c5ce7;
-            color: white;
-        }
+        .filter-btn.active { background: #6c5ce7; }
 
-        .stats-banner {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .stat-card {
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgba(108,92,231,0.3);
-            transition: all 0.3s ease;
-        }
-        .stat-card:hover { transform: translateY(-5px); border-color: #6c5ce7; }
-        .stat-card h3 { font-size: 28px; font-weight: 800; color: #6c5ce7; }
-
-        /* Products Grid */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -418,39 +315,14 @@
             background: linear-gradient(135deg, rgba(30,20,25,0.9), rgba(20,15,20,0.95));
             border-radius: 20px;
             overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             border: 1px solid rgba(108,92,231,0.2);
-            position: relative;
+            transition: all 0.3s ease;
         }
-        .product-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: #6c5ce7;
-            box-shadow: 0 20px 40px rgba(108,92,231,0.3);
-        }
-        .product-image {
-            width: 100%;
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, #2a1a1a, #1a0a0a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .product-image img {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            border-radius: 12px;
-            transition: transform 0.3s;
-        }
-        .product-card:hover .product-image img { transform: scale(1.05); }
+        .product-card:hover { transform: translateY(-8px); border-color: #6c5ce7; }
+        .product-image { padding: 20px; text-align: center; }
+        .product-image img { width: 100px; height: 100px; object-fit: contain; }
         .product-info { padding: 18px; }
-        .product-name { font-size: 16px; font-weight: 700; margin-bottom: 5px; }
-        .product-price {
-            font-size: 22px;
-            font-weight: 800;
-            color: #6c5ce7;
-        }
+        .product-price { font-size: 22px; font-weight: 800; color: #6c5ce7; }
         .add-btn {
             width: 100%;
             margin-top: 12px;
@@ -461,11 +333,8 @@
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
-        .add-btn:hover { transform: scale(1.02); background: #a855f7; }
 
-        /* Cart Sidebar */
         .cart-sidebar {
             position: fixed;
             top: 0;
@@ -482,11 +351,7 @@
             border-left: 2px solid #6c5ce7;
         }
         .cart-sidebar.open { right: 0; }
-        .cart-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
-        .close-cart { background: none; border: none; font-size: 28px; cursor: pointer; color: #6c5ce7; }
         .cart-items { flex: 1; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #6c5ce7; font-size: 22px; font-weight: 800; }
         .checkout-btn {
             width: 100%;
             padding: 15px;
@@ -496,12 +361,105 @@
             color: white;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 15px;
         }
-        .checkout-btn:hover { transform: scale(1.02); background: #059669; }
 
-        /* Receipt Modal */
+        /* Roblox Verification Modal */
+        .roblox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 3000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .roblox-modal.show { display: flex; }
+        .roblox-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 30px;
+            padding: 35px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            border: 1px solid #6c5ce7;
+            animation: modalPop 0.3s ease;
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .roblox-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #1e1e3a;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 3px solid #6c5ce7;
+        }
+        .roblox-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .roblox-username-display {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #a855f7;
+        }
+        .roblox-input-group {
+            margin: 20px 0;
+        }
+        .roblox-input {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(108,92,231,0.3);
+            border-radius: 60px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+        }
+        .roblox-input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .btn-blue {
+            flex: 1;
+            background: #3b82f6;
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-blue:hover { transform: scale(1.02); background: #2563eb; }
+        .btn-red {
+            flex: 1;
+            background: #ef4444;
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-red:hover { transform: scale(1.02); background: #dc2626; }
+        .loading-avatar {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+        }
+
         .receipt-modal {
             position: fixed;
             top: 0;
@@ -514,78 +472,20 @@
             display: none;
             justify-content: center;
             align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
         }
-        .receipt-modal.show {
-            display: flex;
-            opacity: 1;
-        }
+        .receipt-modal.show { display: flex; }
         .receipt-content {
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             border-radius: 30px;
             padding: 30px;
             width: 90%;
             max-width: 550px;
-            text-align: center;
             border: 1px solid #6c5ce7;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-            max-height: 85vh;
-            overflow-y: auto;
         }
-        .receipt-modal.show .receipt-content {
-            transform: scale(1);
-        }
-        .receipt-icon { font-size: 60px; color: #10b981; margin-bottom: 15px; }
-        .receipt-title { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
-        .receipt-details {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: left;
-        }
-        .receipt-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            color: #ccc;
-            font-size: 13px;
-        }
-        .system-message-box {
-            background: #0a0a14;
-            padding: 12px;
-            border-radius: 12px;
-            margin: 10px 0;
-            font-size: 13px;
-            color: #a5f7c0;
-            border-left: 3px solid #10b981;
-        }
-        .receipt-close {
-            background: #6c5ce7;
-            border: none;
-            padding: 12px;
-            border-radius: 25px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-        }
-        .chat-support-btn {
-            background: #10b981;
-            width: 100%;
-            padding: 12px;
-            margin-top: 12px;
-            border: none;
-            border-radius: 25px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
+        .receipt-icon { font-size: 60px; color: #10b981; text-align: center; }
+        .receipt-details { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 15px; margin: 15px 0; }
+        .system-message-box { background: #0a0a14; padding: 12px; border-radius: 12px; margin: 10px 0; color: #a5f7c0; }
 
-        /* Chat Support Panel */
         .chat-support-panel {
             position: fixed;
             bottom: 20px;
@@ -597,8 +497,6 @@
             z-index: 2000;
             display: none;
             flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            backdrop-filter: blur(12px);
         }
         .chat-support-panel.open { display: flex; }
         .chat-header {
@@ -607,67 +505,22 @@
             border-radius: 20px 20px 0 0;
             display: flex;
             justify-content: space-between;
-            cursor: pointer;
         }
         .chat-messages {
             height: 280px;
             overflow-y: auto;
             padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
         }
-        .message-buyer, .message-support {
-            max-width: 85%;
-            padding: 8px 12px;
-            border-radius: 18px;
-            font-size: 13px;
-        }
-        .message-buyer { background: #2d2d44; align-self: flex-end; }
-        .message-support { background: #1e1e3a; align-self: flex-start; border-left: 3px solid #6c5ce7; }
-        .chat-input-area {
-            display: flex;
-            padding: 12px;
-            border-top: 1px solid #2a2a3a;
-        }
-        .chat-input {
-            flex: 1;
-            background: #1a1a2e;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 30px;
-            color: white;
-        }
-        .chat-send {
-            background: #6c5ce7;
-            border: none;
-            margin-left: 8px;
-            padding: 8px 15px;
-            border-radius: 30px;
-            color: white;
-            cursor: pointer;
-        }
+        .message-buyer { background: #2d2d44; align-self: flex-end; padding: 8px 12px; border-radius: 18px; margin: 5px 0; text-align: right; }
+        .message-support { background: #1e1e3a; padding: 8px 12px; border-radius: 18px; margin: 5px 0; }
+        .chat-input-area { display: flex; padding: 12px; border-top: 1px solid #2a2a3a; }
+        .chat-input { flex: 1; background: #1a1a2e; border: none; padding: 8px 12px; border-radius: 30px; color: white; }
+        .chat-send { background: #6c5ce7; border: none; margin-left: 8px; padding: 8px 15px; border-radius: 30px; color: white; cursor: pointer; }
 
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background: #10b981;
-            padding: 12px 24px;
-            border-radius: 12px;
-            z-index: 2000;
-            transform: translateX(-400px);
-            transition: transform 0.3s;
-        }
+        .toast { position: fixed; bottom: 30px; left: 30px; background: #10b981; padding: 12px 24px; border-radius: 12px; z-index: 2000; transform: translateX(-400px); transition: transform 0.3s; }
         .toast.show { transform: translateX(0); }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: none; }
         .overlay.show { display: block; }
-
-        @media (max-width: 768px) {
-            .cart-sidebar { width: 100%; right: -100%; }
-            .hero-title { font-size: 38px; }
-            .products-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
-        }
     </style>
 </head>
 <body>
@@ -675,123 +528,82 @@
 <div class="animated-bg"></div>
 <div class="glow-orb orb-1"></div>
 <div class="glow-orb orb-2"></div>
-<div class="glow-orb orb-3"></div>
 <div class="particles" id="particles"></div>
 
 <div class="header">
     <div class="logo" onclick="showHome()">
         <i class="fas fa-gem logo-icon"></i>
-        <div>
-            <div class="logo-text">ECHOKNIVES</div>
-            <div class="logo-sub">PREMIUM MM2 SHOP</div>
-        </div>
+        <div><div class="logo-text">ECHOKNIVES</div><div class="logo-sub">PREMIUM MM2 SHOP</div></div>
     </div>
-    
     <div class="nav-links">
         <button class="nav-link active" onclick="showHome()">🏠 Home</button>
         <button class="nav-link" onclick="showShop()">🛒 Shop</button>
     </div>
-    
     <div class="top-right">
-        <div class="currency-selector">
-            <i class="fas fa-money-bill-wave"></i>
-            <select id="currencySelect" onchange="changeCurrency()">
-                <option value="PHP">🇵🇭 PHP</option>
-                <option value="USD">🇺🇸 USD</option>
-            </select>
-        </div>
-        
-        <div class="user-info" id="userInfo" onclick="performGoogleLogin()">
-            <div class="user-avatar" id="userAvatarDisplay"><i class="fas fa-user"></i></div>
-            <span id="userNameDisplay">Guest</span>
-        </div>
-        
-        <div class="cart-icon" onclick="toggleCart()">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="cart-count" id="cartCount">0</span>
-        </div>
+        <div class="currency-selector"><i class="fas fa-money-bill-wave"></i><select id="currencySelect" onchange="changeCurrency()"><option value="PHP">🇵🇭 PHP</option><option value="USD">🇺🇸 USD</option></select></div>
+        <div class="user-info" id="userInfo" onclick="performGoogleLogin()"><div class="user-avatar" id="userAvatarDisplay"><i class="fas fa-user"></i></div><span id="userNameDisplay">Guest</span></div>
+        <div class="cart-icon" onclick="toggleCart()"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></div>
     </div>
 </div>
 
-<!-- HOME PAGE -->
 <div id="homePage" class="hero">
-    <div class="hero-content">
-        <div class="hero-badge">✨ PREMIUM MM2 SHOP ✨</div>
-        <h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1>
-        <p class="hero-desc">Get the rarest Murder Mystery 2 items instantly.<br>Secure payments, fast delivery, 24/7 support.</p>
-        <div class="hero-stats">
-            <div class="hero-stat"><h3>10K+</h3><p>Items Sold</p></div>
-            <div class="hero-stat"><h3>5K+</h3><p>Customers</p></div>
-            <div class="hero-stat"><h3>100%</h3><p>Secure</p></div>
-        </div>
-        <div class="hero-buttons">
-            <button class="btn-primary" onclick="showShop()">Shop Now →</button>
-        </div>
-    </div>
-    <div class="hero-image">
-        <img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero">
-    </div>
+    <div class="hero-content"><h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1><p class="hero-desc" style="color:#aaa; margin:20px 0;">Secure payments, fast delivery, 24/7 support.</p><button class="btn-primary" onclick="showShop()">Shop Now →</button></div>
+    <div class="hero-image"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero"></div>
 </div>
 
-<!-- SHOP PAGE -->
 <div id="shopPage" class="container" style="display:none;">
-    <div class="stats-banner">
-        <div class="stat-card"><h3 id="totalItems">0</h3><p>Total Items</p></div>
-        <div class="stat-card"><h3 id="cartValue">₱0</h3><p>Cart Total</p></div>
-    </div>
-    
-    <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">All Items</button>
-        <button class="filter-btn" data-filter="knife">🔪 Knives</button>
-        <button class="filter-btn" data-filter="gun">🔫 Guns</button>
-    </div>
-    
+    <div class="filter-bar"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="knife">🔪 Knives</button><button class="filter-btn" data-filter="gun">🔫 Guns</button></div>
     <div class="products-grid" id="productsGrid"></div>
 </div>
 
-<!-- CART SIDEBAR -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
-    <div class="cart-header">
-        <h3>Your Cart</h3>
-        <button class="close-cart" onclick="closeCart()">×</button>
-    </div>
+    <div style="display:flex; justify-content:space-between;"><h3>Your Cart</h3><button style="background:none; border:none; font-size:28px; color:#6c5ce7;" onclick="closeCart()">×</button></div>
     <div class="cart-items" id="cartItemsList"></div>
-    <div class="cart-total" id="cartTotal">Total: ₱0</div>
-    <button class="checkout-btn" onclick="redirectToPaymentGateway()">Proceed to Checkout →</button>
+    <div class="cart-total" id="cartTotal" style="margin-top:20px; font-size:22px;">Total: ₱0</div>
+    <button class="checkout-btn" onclick="openRobloxVerification()">Proceed to Checkout →</button>
+</div>
+
+<!-- ROBLOX VERIFICATION MODAL -->
+<div class="roblox-modal" id="robloxModal">
+    <div class="roblox-content">
+        <h2 style="margin-bottom: 20px;"><i class="fab fa-roblox"></i> Verify Roblox Account</h2>
+        <div id="robloxAvatarContainer" class="roblox-avatar">
+            <img id="robloxAvatarImg" src="https://www.roblox.com/avatar-thumbnail?userId=1&width=120&height=120&format=png" alt="Avatar">
+        </div>
+        <div id="robloxDisplayName" class="roblox-username-display">Loading...</div>
+        <div class="roblox-input-group">
+            <input type="text" id="robloxUsernameInput" class="roblox-input" placeholder="Enter Roblox Username" value="">
+        </div>
+        <div class="button-group">
+            <button class="btn-blue" id="confirmYesBtn" onclick="confirmRobloxAndCheckout()"><i class="fas fa-check"></i> Yes, That's me! Proceed</button>
+            <button class="btn-red" id="confirmNoBtn" onclick="resetRobloxUsername()"><i class="fas fa-times"></i> No, that's not me</button>
+        </div>
+        <p style="font-size: 12px; color: #888; margin-top: 15px;">Your Roblox username will be used for item delivery.</p>
+    </div>
 </div>
 
 <!-- RECEIPT MODAL -->
 <div class="receipt-modal" id="receiptModal">
     <div class="receipt-content">
         <div class="receipt-icon"><i class="fas fa-check-circle"></i></div>
-        <div class="receipt-title">Payment Successful!</div>
+        <div class="receipt-title" style="font-size:24px; font-weight:800; text-align:center;">Payment Successful!</div>
         <div id="receiptDetails" class="receipt-details"></div>
         <div id="systemMessageBox" class="system-message-box"></div>
-        <button class="receipt-close" onclick="closeReceipt()">Done</button>
-        <button class="chat-support-btn" onclick="openChatSupport()"><i class="fas fa-headset"></i> Contact Support</button>
+        <button onclick="closeReceipt()" style="background:#6c5ce7; width:100%; padding:12px; border:none; border-radius:30px; color:white;">Done</button>
+        <button onclick="openChatSupport()" style="background:#10b981; width:100%; padding:12px; margin-top:12px; border:none; border-radius:30px; color:white;"><i class="fas fa-headset"></i> Contact Support</button>
     </div>
 </div>
 
-<!-- CHAT SUPPORT PANEL -->
 <div class="chat-support-panel" id="chatPanel">
-    <div class="chat-header">
-        <span><i class="fas fa-comment-dots"></i> ECHO SUPPORT</span>
-        <span style="cursor:pointer;" onclick="closeChatPanel()">✕</span>
-    </div>
-    <div class="chat-messages" id="chatMessages">
-        <div class="message-support">👋 Welcome! An agent will assist you shortly. Please share your Order ID for faster support.</div>
-    </div>
-    <div class="chat-input-area">
-        <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
-        <button class="chat-send" onclick="sendBuyerMessage()"><i class="fas fa-paper-plane"></i></button>
-    </div>
+    <div class="chat-header"><span><i class="fas fa-comment-dots"></i> ECHO SUPPORT</span><span style="cursor:pointer;" onclick="closeChatPanel()">✕</span></div>
+    <div class="chat-messages" id="chatMessages"><div class="message-support">👋 Welcome! An agent will assist you shortly.</div></div>
+    <div class="chat-input-area"><input type="text" class="chat-input" id="chatInput" placeholder="Type your message..."><button class="chat-send" onclick="sendBuyerMessage()"><i class="fas fa-paper-plane"></i></button></div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-    // ========== MM2 ITEMS ==========
     const items = [
         { id: 1, name: "Batwing", type: "knife", price: 152, image: "https://i.imgur.com/H6CL03y.jpeg" },
         { id: 2, name: "Harvester", type: "knife", price: 608, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
@@ -806,237 +618,198 @@
     let isLoggedIn = false;
     let currentUser = null;
     let currentCurrency = "PHP";
+    let pendingRobloxUsername = "";
     const exchangeRates = { PHP: 1, USD: 0.017 };
-    const currencySymbols = { PHP: "₱", USD: "$" };
+    const symbols = { PHP: "₱", USD: "$" };
     
     function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
-    function getSymbol() { return currencySymbols[currentCurrency]; }
+    function getSymbol() { return symbols[currentCurrency]; }
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
-    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); updateStats(); }
-    
-    function updateStats() {
-        let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-        document.getElementById('totalItems').innerText = items.length;
-        document.getElementById('cartValue').innerHTML = `${getSymbol()}${getDisplayPrice(total)}`;
-    }
-    
-    function showHome() { document.getElementById('homePage').style.display = 'flex'; document.getElementById('shopPage').style.display = 'none'; document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:first-child').classList.add('active'); }
-    function showShop() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'block'; document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(2)').classList.add('active'); renderProducts(); }
-    
+    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); }
+
+    function showHome() { document.getElementById('homePage').style.display = 'flex'; document.getElementById('shopPage').style.display = 'none'; }
+    function showShop() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'block'; renderProducts(); }
+
     function renderProducts() {
-        let filtered = items.filter(i => { if (currentFilter === 'knife') return i.type === 'knife'; if (currentFilter === 'gun') return i.type === 'gun'; return true; });
+        let filtered = items.filter(i => currentFilter === 'all' ? true : i.type === currentFilter);
         document.getElementById('productsGrid').innerHTML = filtered.map(item => `
-            <div class="product-card">
-                <div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/150x150/6c5ce7/white?text=${item.name.charAt(0)}'"></div>
-                <div class="product-info">
-                    <div class="product-name">${item.name}</div>
-                    <div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div>
-                    <button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button>
-                </div>
-            </div>
-        `).join('');
-        updateStats();
-    }
-    
-    function addToCart(id) {
-        if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
-        const item = items.find(i => i.id === id);
-        const existing = cart.find(i => i.id === id);
-        if (existing) existing.quantity++;
-        else cart.push({ ...item, quantity: 1 });
-        updateCartUI();
-        showToast(`${item.name} added to cart`);
-        const cartIcon = document.querySelector('.cart-icon');
-        cartIcon.style.transform = 'scale(1.2)';
-        setTimeout(() => cartIcon.style.transform = '', 200);
-    }
-    
-    function updateCartUI() {
-        let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-        const count = cart.reduce((s, i) => s + i.quantity, 0);
-        document.getElementById('cartCount').innerText = count;
-        document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`;
-        updateStats();
-        const container = document.getElementById('cartItemsList');
-        if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;padding:20px;">Cart is empty</p>'; return; }
-        container.innerHTML = cart.map(item => `
-            <div class="cart-item">
-                <div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div>
-                <div>
-                    <button onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button>
-                    <span style="margin:0 8px;">${item.quantity}</span>
-                    <button onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button>
-                    <button onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button>
-                </div>
-            </div>
+            <div class="product-card"><div class="product-image"><img src="${item.image}"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div><button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button></div></div>
         `).join('');
     }
-    
-    function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if (item) item.quantity = newQty; updateCartUI(); } }
+
+    function addToCart(id) { if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; } const item = items.find(i => i.id === id); const existing = cart.find(i => i.id === id); if (existing) existing.quantity++; else cart.push({ ...item, quantity: 1 }); updateCartUI(); showToast(`${item.name} added`); }
+    function updateCartUI() { let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0); const count = cart.reduce((s, i) => s + i.quantity, 0); document.getElementById('cartCount').innerText = count; document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`; const container = document.getElementById('cartItemsList'); if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;">Cart empty</p>'; return; } container.innerHTML = cart.map(item => `<div style="display:flex; justify-content:space-between; margin-bottom:12px;"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity-1})">-</button> <button onclick="updateQty(${item.id}, ${item.quantity+1})">+</button> <button onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button></div></div>`).join(''); }
+    function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if(item) item.quantity = newQty; updateCartUI(); } }
     function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+
+    // Roblox Verification Logic
+    let storedRobloxUsername = localStorage.getItem('roblox_username') || '';
     
-    // ========== CHECKOUT WITH CART DATA TO PAYMENT GATEWAY ==========
-    function redirectToPaymentGateway() {
+    function fetchRobloxAvatar(username) {
+        return new Promise((resolve) => {
+            if (!username) { resolve(null); return; }
+            // Using Roblox thumbnail API
+            const imgUrl = `https://www.roblox.com/avatar-thumbnail?userId=1&width=120&height=120&format=png`; // Placeholder, but we'll use a better approach
+            // For demo, we'll use a dynamic render. Since we can't fetch userId directly without CORS, we'll use a proxy-friendly approach
+            // We'll just show a default with username text
+            document.getElementById('robloxAvatarImg').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=6c5ce7&color=fff&size=120`;
+            document.getElementById('robloxDisplayName').innerText = `@${username}`;
+            resolve(true);
+        });
+    }
+    
+    function openRobloxVerification() {
         if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
         if (cart.length === 0) { showToast("Your cart is empty"); return; }
         
-        // Save cart data to sessionStorage to be retrieved after payment return
+        const savedUsername = localStorage.getItem('roblox_username') || '';
+        document.getElementById('robloxUsernameInput').value = savedUsername;
+        
+        if (savedUsername) {
+            fetchRobloxAvatar(savedUsername);
+            pendingRobloxUsername = savedUsername;
+        } else {
+            document.getElementById('robloxAvatarImg').src = `https://ui-avatars.com/api/?name=Guest&background=6c5ce7&color=fff&size=120`;
+            document.getElementById('robloxDisplayName').innerHTML = 'Enter your Roblox username above';
+        }
+        
+        document.getElementById('robloxModal').classList.add('show');
+        closeCart();
+        
+        // Add real-time input preview
+        const inputField = document.getElementById('robloxUsernameInput');
+        inputField.oninput = function() {
+            const val = this.value.trim();
+            if (val) {
+                document.getElementById('robloxAvatarImg').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(val)}&background=6c5ce7&color=fff&size=120`;
+                document.getElementById('robloxDisplayName').innerHTML = `@${val}`;
+                pendingRobloxUsername = val;
+            } else {
+                document.getElementById('robloxAvatarImg').src = `https://ui-avatars.com/api/?name=Guest&background=6c5ce7&color=fff&size=120`;
+                document.getElementById('robloxDisplayName').innerHTML = 'Enter your Roblox username';
+            }
+        };
+    }
+    
+    function resetRobloxUsername() {
+        document.getElementById('robloxUsernameInput').value = '';
+        document.getElementById('robloxAvatarImg').src = `https://ui-avatars.com/api/?name=Guest&background=6c5ce7&color=fff&size=120`;
+        document.getElementById('robloxDisplayName').innerHTML = 'Enter your Roblox username above';
+        pendingRobloxUsername = '';
+        showToast("Please enter your correct Roblox username");
+    }
+    
+    function confirmRobloxAndCheckout() {
+        const username = document.getElementById('robloxUsernameInput').value.trim();
+        if (!username) {
+            showToast("Please enter your Roblox username");
+            return;
+        }
+        // Save to localStorage for future
+        localStorage.setItem('roblox_username', username);
+        pendingRobloxUsername = username;
+        document.getElementById('robloxModal').classList.remove('show');
+        
+        // Now proceed to payment gateway with username included
+        redirectToPaymentGatewayWithRoblox(username);
+    }
+    
+    function redirectToPaymentGatewayWithRoblox(robloxUser) {
+        // Save cart data with roblox username
         const orderData = {
             items: cart.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity })),
             total: cart.reduce((s, i) => s + (i.price * i.quantity), 0),
-            timestamp: Date.now(),
-            user: currentUser?.email || 'guest@example.com'
+            robloxUsername: robloxUser,
+            customerEmail: currentUser?.email || 'guest@example.com',
+            timestamp: Date.now()
         };
         sessionStorage.setItem('echoknives_pending_order', JSON.stringify(orderData));
         
-        // Redirect to external payment site with cart data as URL parameters
         const cartParam = encodeURIComponent(JSON.stringify(orderData.items));
-        window.location.href = `https://echoknivesmm2.onrender.com?cart=${cartParam}&return=${encodeURIComponent(window.location.origin + window.location.pathname)}`;
+        const returnUrl = encodeURIComponent(window.location.origin + window.location.pathname);
+        // Redirect to payment site with roblox username
+        window.location.href = `https://echoknivesmm2.onrender.com?cart=${cartParam}&return=${returnUrl}&roblox=${encodeURIComponent(robloxUser)}`;
     }
     
-    // Check for return from payment gateway
+    // Handle return from payment
     function checkPaymentReturn() {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('payment') === 'success') {
             const pendingRaw = sessionStorage.getItem('echoknives_pending_order');
             if (pendingRaw) {
                 const order = JSON.parse(pendingRaw);
-                // Restore cart from snapshot
-                cart = order.items.map(i => ({ ...i, image: items.find(it => it.id === i.id)?.image || '' }));
-                updateCartUI();
                 showReceipt(order);
                 sessionStorage.removeItem('echoknives_pending_order');
+                cart = [];
+                updateCartUI();
                 window.history.replaceState({}, document.title, window.location.pathname);
             } else {
-                showToast("No pending order found");
+                showToast("Order completed! Please contact support if items not delivered.");
             }
         }
     }
     
     function showReceipt(order) {
-        const subtotal = order.total;
-        const orderNumber = 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+        const orderNumber = 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase();
         const itemsList = order.items.map(i => `${i.name} x${i.quantity}`).join(', ');
+        const total = order.total;
         
-        const receiptHtml = `
+        document.getElementById('receiptDetails').innerHTML = `
             <div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div>
             <div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div>
             <div class="receipt-row"><strong>Items:</strong> ${itemsList}</div>
-            <div class="receipt-row"><strong>Total Paid:</strong> ${getSymbol()}${getDisplayPrice(subtotal)}</div>
-            <div class="receipt-row"><strong>Payment Method:</strong> PayPal (Demo)</div>
-            <div class="receipt-row"><strong>Status:</strong> <span style="color:#10b981;">✓ Completed</span></div>
+            <div class="receipt-row"><strong>Total Paid:</strong> ${getSymbol()}${getDisplayPrice(total)}</div>
+            <div class="receipt-row"><strong>Roblox User:</strong> @${order.robloxUsername || 'Not specified'}</div>
         `;
-        document.getElementById('receiptDetails').innerHTML = receiptHtml;
         document.getElementById('systemMessageBox').innerHTML = `📢 System: Order #${orderNumber} received. Please wait for delivery (5-15 mins). A support agent is ready to assist you via chat.`;
-        
         localStorage.setItem('lastOrderId', orderNumber);
         document.getElementById('receiptModal').classList.add('show');
-        
-        // Clear cart after successful order
-        cart = [];
-        updateCartUI();
-        closeCart();
         showToast("Order placed successfully!");
     }
     
     function closeReceipt() { document.getElementById('receiptModal').classList.remove('show'); }
     
-    // ========== CHAT SUPPORT ==========
-    function openChatSupport() {
-        document.getElementById('chatPanel').classList.add('open');
-        const lastOrder = localStorage.getItem('lastOrderId');
-        if(lastOrder) {
-            const msgsDiv = document.getElementById('chatMessages');
-            if(!document.querySelector('.order-ref-note')) {
-                const note = document.createElement('div');
-                note.className = 'message-support order-ref-note';
-                note.innerHTML = `📦 Order reference: #${lastOrder}. An agent will help you shortly.`;
-                msgsDiv.appendChild(note);
-                msgsDiv.scrollTop = msgsDiv.scrollHeight;
-            }
-        }
-    }
+    // Chat Support
+    function openChatSupport() { document.getElementById('chatPanel').classList.add('open'); }
     function closeChatPanel() { document.getElementById('chatPanel').classList.remove('open'); }
     function sendBuyerMessage() {
         const input = document.getElementById('chatInput');
         const msg = input.value.trim();
         if(!msg) return;
         const msgsDiv = document.getElementById('chatMessages');
-        const buyerMsg = document.createElement('div');
-        buyerMsg.className = 'message-buyer';
-        buyerMsg.innerText = msg;
+        const buyerMsg = document.createElement('div'); buyerMsg.className = 'message-buyer'; buyerMsg.innerText = msg;
         msgsDiv.appendChild(buyerMsg);
         input.value = '';
         msgsDiv.scrollTop = msgsDiv.scrollHeight;
-        
         setTimeout(() => {
-            const reply = document.createElement('div');
-            reply.className = 'message-support';
-            reply.innerHTML = `🛡️ Support: Thank you for your message! We're processing order #${localStorage.getItem('lastOrderId') || 'pending'}. Delivery will be completed soon.`;
+            const reply = document.createElement('div'); reply.className = 'message-support';
+            reply.innerHTML = `🛡️ Support: Thank you! We'll deliver your items shortly. Order #${localStorage.getItem('lastOrderId') || 'pending'}`;
             msgsDiv.appendChild(reply);
             msgsDiv.scrollTop = msgsDiv.scrollHeight;
         }, 1500);
     }
     
-    // ========== AUTHENTICATION ==========
+    // Auth
     window.handleAuthStateChanged = function(user) {
-        if(user) {
-            currentUser = user;
-            isLoggedIn = true;
-            document.getElementById('userNameDisplay').innerText = user.displayName || user.email?.split('@')[0];
-            document.getElementById('userAvatarDisplay').innerHTML = user.photoURL ? `<img src="${user.photoURL}">` : `<i class="fas fa-user"></i>`;
-            showToast(`Welcome ${user.displayName || 'User'}!`);
-        } else {
-            isLoggedIn = false;
-            currentUser = null;
-            document.getElementById('userNameDisplay').innerText = 'Guest';
-            document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`;
-        }
+        if(user) { isLoggedIn = true; currentUser = user; document.getElementById('userNameDisplay').innerText = user.displayName || user.email?.split('@')[0]; document.getElementById('userAvatarDisplay').innerHTML = user.photoURL ? `<img src="${user.photoURL}">` : `<i class="fas fa-user"></i>`; showToast(`Welcome ${user.displayName || 'User'}!`); } 
+        else { isLoggedIn = false; currentUser = null; document.getElementById('userNameDisplay').innerText = 'Guest'; document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`; }
         renderProducts();
     };
-    
-    async function performGoogleLogin() {
-        if(!window.firebaseAuth) { showToast("Loading authentication..."); return; }
-        try {
-            await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
-        } catch(e) { showToast("Login failed"); }
-    }
+    async function performGoogleLogin() { if(window.firebaseAuth) { try { await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } catch(e) { showToast("Login failed"); } } else { showToast("Loading..."); } }
     
     // Filters & Particles
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentFilter = btn.dataset.filter;
-            renderProducts();
-        });
-    });
-    
-    function createParticles() {
-        const container = document.getElementById('particles');
-        for (let i = 0; i < 80; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.width = (Math.random() * 6 + 2) + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
-            container.appendChild(particle);
-        }
-    }
+    document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
+    function createParticles() { const container = document.getElementById('particles'); for (let i = 0; i < 60; i++) { const p = document.createElement('div'); p.classList.add('particle'); p.style.width = (Math.random() * 6 + 2) + 'px'; p.style.left = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 20 + 's'; p.style.animationDuration = (Math.random() * 15 + 10) + 's'; container.appendChild(p); } }
     createParticles();
     checkPaymentReturn();
     showHome();
     
-    // Make functions global
-    window.showHome = showHome; window.showShop = showShop; window.addToCart = addToCart;
-    window.updateQty = updateQty; window.removeFromCart = removeFromCart; window.toggleCart = toggleCart;
-    window.closeCart = closeCart; window.changeCurrency = changeCurrency; window.performGoogleLogin = performGoogleLogin;
-    window.redirectToPaymentGateway = redirectToPaymentGateway; window.closeReceipt = closeReceipt;
-    window.openChatSupport = openChatSupport; window.closeChatPanel = closeChatPanel; window.sendBuyerMessage = sendBuyerMessage;
+    window.showHome = showHome; window.showShop = showShop; window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart;
+    window.toggleCart = toggleCart; window.closeCart = closeCart; window.changeCurrency = changeCurrency; window.performGoogleLogin = performGoogleLogin;
+    window.openRobloxVerification = openRobloxVerification; window.resetRobloxUsername = resetRobloxUsername; window.confirmRobloxAndCheckout = confirmRobloxAndCheckout;
+    window.closeReceipt = closeReceipt; window.openChatSupport = openChatSupport; window.closeChatPanel = closeChatPanel; window.sendBuyerMessage = sendBuyerMessage;
     renderProducts();
 </script>
 </body>
