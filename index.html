@@ -1,293 +1,210 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ECHOKNIVES | Premium MM2 Shop</title>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<style>
-body{
-margin:0;
-font-family:Arial;
-background:#0f0c29;
-color:white;
-}
-
-/* HEADER */
-.header{
-display:flex;
-justify-content:space-between;
-padding:15px;
-background:#1a1a3e;
-align-items:center;
-}
-
-.search{
-padding:8px;
-border-radius:6px;
-border:none;
-}
-
-/* GRID */
-.products-grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-gap:20px;
-padding:20px;
-}
-
-.product-card{
-background:#1a1a2e;
-padding:15px;
-border-radius:12px;
-transition:.2s;
-}
-.product-card:hover{
-transform:scale(1.03);
-}
-
-.product-image img{
-width:100%;
-height:180px;
-object-fit:contain;
-}
-
-.add-btn{
-background:#6c5ce7;
-border:none;
-padding:10px;
-color:white;
-width:100%;
-cursor:pointer;
-margin-top:10px;
-border-radius:6px;
-}
-
-/* CART */
-.cart{
-position:fixed;
-right:0;
-top:0;
-width:320px;
-height:100%;
-background:#111;
-padding:20px;
-overflow:auto;
-display:none;
-}
-
-.cart-item{
-margin-bottom:10px;
-}
-
-/* FILTER */
-.filters{
-display:flex;
-gap:10px;
-padding:10px;
-}
-
-.filter-btn{
-background:#333;
-color:white;
-border:none;
-padding:6px 12px;
-cursor:pointer;
-border-radius:6px;
-}
-
-.active{
-background:#6c5ce7;
-}
-
-/* TOAST */
-.toast{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#6c5ce7;
-padding:10px 20px;
-border-radius:20px;
-display:none;
-}
-
-/* MODAL */
-.modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-display:none;
-align-items:center;
-justify-content:center;
-}
-
-.modal-box{
-background:#1a1a2e;
-padding:20px;
-border-radius:10px;
-width:300px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="header">
-<h2>ECHOKNIVES</h2>
-<input class="search" placeholder="Search..." oninput="searchItems(this.value)">
-<div onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
-</div>
-
-<div class="filters">
-<button class="filter-btn active" onclick="setFilter('all')">All</button>
-<button class="filter-btn" onclick="setFilter('knife')">Knives</button>
-<button class="filter-btn" onclick="setFilter('gun')">Guns</button>
-<button class="filter-btn" onclick="setFilter('pet')">Pets</button>
-</div>
-
-<div class="products-grid" id="productsGrid"></div>
-
-<div class="cart" id="cartBox">
-<h3>Cart</h3>
-<div id="cartItems"></div>
-<h4 id="cartTotal">₱0</h4>
-<button onclick="checkout()">Checkout</button>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<div class="modal" id="receiptModal">
-<div class="modal-box">
-<h3>Receipt</h3>
-<div id="receiptContent"></div>
-<button onclick="closeReceipt()">Close</button>
-</div>
-</div>
-
 <script>
+/* ================== ORIGINAL SYSTEM (FIXED ONLY) ================== */
 
-/* ================= DATA ================= */
-const items=[
-{ id:1,name:"Batwing",type:"knife",price:152,image:"https://i.imgur.com/H6CL03y.jpeg"},
-{ id:2,name:"Harvester",type:"knife",price:608,image:"https://i.imgur.com/jZkbQ4t.jpeg"},
-{ id:3,name:"Icewing",type:"knife",price:72,image:"https://i.imgur.com/jiwvmxq.jpeg"},
-{ id:4,name:"Luger",type:"gun",price:207,image:"https://i.imgur.com/eEvMBRh.jpeg"},
-{ id:5,name:"Darkbringer",type:"gun",price:920,image:"https://i.imgur.com/8oxgzwa.jpeg"},
-{ id:6,name:"Lightbringer",type:"gun",price:920,image:"https://i.imgur.com/BUljuYV.jpeg"},
-{ id:7,name:"Chroma Saw",type:"knife",price:450,image:"https://i.imgur.com/4kZqjX7.jpeg"},
-{ id:8,name:"Eternal",type:"knife",price:1200,image:"https://i.imgur.com/7nQwR8Y.jpeg"},
-{ id:9,name:"Phoenix",type:"pet",price:350,image:"https://i.imgur.com/W3pLq2M.jpeg"},
-{ id:10,name:"Dragon",type:"pet",price:750,image:"https://i.imgur.com/Yr5kQnP.jpeg"}
+const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1359030053589028904/d3_S2wUY4Px0n6t1g9eE5rP7lK8jH3mN2bVcXzA1qW4eR7tY9uIoP0aSsDfG3hJkL";
+
+const items = [
+{ id:1,name:"⚔️ Batwing",type:"knife",price:152,originalPrice:220,image:"https://i.imgur.com/H6CL03y.jpeg"},
+{ id:2,name:"🔪 Harvester",type:"knife",price:608,originalPrice:850,image:"https://i.imgur.com/jZkbQ4t.jpeg"},
+{ id:3,name:"❄️ Icewing",type:"knife",price:72,originalPrice:120,image:"https://i.imgur.com/jiwvmxq.jpeg"},
+{ id:4,name:"🔫 Luger",type:"gun",price:207,originalPrice:300,image:"https://i.imgur.com/eEvMBRh.jpeg"},
+{ id:5,name:"🌑 Darkbringer",type:"gun",price:920,originalPrice:1300,image:"https://i.imgur.com/8oxgzwa.jpeg"},
+{ id:6,name:"✨ Lightbringer",type:"gun",price:920,originalPrice:1300,image:"https://i.imgur.com/BUljuYV.jpeg"},
+{ id:7,name:"🌈 Chroma Saw",type:"knife",price:450,originalPrice:600,image:"https://i.imgur.com/4kZqjX7.jpeg"},
+{ id:8,name:"👑 Eternal",type:"knife",price:1200,originalPrice:1800,image:"https://i.imgur.com/7nQwR8Y.jpeg"},
+{ id:9,name:"🔥 Phoenix",type:"pet",price:350,originalPrice:500,image:"https://i.imgur.com/W3pLq2M.jpeg"},
+{ id:10,name:"🐉 Dragon",type:"pet",price:750,originalPrice:1100,image:"https://i.imgur.com/Yr5kQnP.jpeg"},
+{ id:11,name:"💀 Skull",type:"knife",price:280,originalPrice:400,image:"https://i.imgur.com/jiwvmxq.jpeg"},
+{ id:12,name:"⚡ Shock",type:"gun",price:180,originalPrice:250,image:"https://i.imgur.com/eEvMBRh.jpeg"},
+{ id:13,name:"🦅 Eagle",type:"pet",price:420,originalPrice:600,image:"https://i.imgur.com/W3pLq2M.jpeg"},
+{ id:14,name:"🔮 Nebula",type:"knife",price:890,originalPrice:1300,image:"https://i.imgur.com/jZkbQ4t.jpeg"},
+{ id:15,name:"💎 Gemstone",type:"gun",price:1500,originalPrice:2200,image:"https://i.imgur.com/8oxgzwa.jpeg"}
 ];
 
-/* ================= STATE ================= */
-let cart=JSON.parse(localStorage.getItem("cart")||"[]");
-let filter="all";
-let searchQuery="";
+/* ================== STATE ================== */
 
-/* ================= FUNCTIONS ================= */
+let cart = JSON.parse(localStorage.getItem("cart") || "[]"); // ✅ FIX
+let currentFilter = "all";
+let isLoggedIn = false;
+let currentUser = null;
+let currentCurrency = "PHP";
 
-function renderProducts(){
-let filtered=items.filter(i=>{
-return (filter==="all"||i.type===filter) &&
-i.name.toLowerCase().includes(searchQuery.toLowerCase());
-});
+let userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
 
-document.getElementById("productsGrid").innerHTML=filtered.map(i=>`
-<div class="product-card">
-<div class="product-image">
-<img src="${i.image}">
+const exchangeRates = { PHP:1, USD:0.017, EUR:0.016, GBP:0.013 };
+const currencySymbols = { PHP:"₱", USD:"$", EUR:"€", GBP:"£" };
+
+/* ================== HELPERS ================== */
+
+function getDisplayPrice(price){
+return (price * exchangeRates[currentCurrency]).toFixed(2);
+}
+
+function getSymbol(){
+return currencySymbols[currentCurrency];
+}
+
+function showToast(msg){
+const t = document.getElementById('toast');
+t.innerText = msg;
+t.classList.add('show');
+setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+/* ================== CART ================== */
+
+function addToCart(id){ // ✅ removed forced login
+const item = items.find(i=>i.id===id);
+const existing = cart.find(i=>i.id===id);
+
+if(existing){
+existing.quantity++;
+}else{
+cart.push({...item,quantity:1});
+}
+
+saveCart();
+updateCartUI();
+showToast(item.name + " added");
+}
+
+function updateCartUI(){
+localStorage.setItem("cart", JSON.stringify(cart)); // ✅ persist
+
+let total = cart.reduce((s,i)=>s + (i.price*i.quantity),0);
+let count = cart.reduce((s,i)=>s + i.quantity,0);
+
+document.getElementById('cartCount').innerText = count;
+document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`;
+
+const container = document.getElementById('cartItemsList');
+
+if(!cart || cart.length===0){
+container.innerHTML = '<p style="text-align:center;color:#888;">Cart empty</p>';
+return;
+}
+
+container.innerHTML = cart.map(item=>`
+<div class="cart-item">
+<div>${item.name}</div>
+<div>${getSymbol()}${getDisplayPrice(item.price)}</div>
+<div>
+<button onclick="updateQty(${item.id},${item.quantity-1})">-</button>
+${item.quantity}
+<button onclick="updateQty(${item.id},${item.quantity+1})">+</button>
+<button onclick="removeFromCart(${item.id})">x</button>
 </div>
-<h3>${i.name}</h3>
-<p>₱${i.price}</p>
-<button class="add-btn" onclick="addToCart(${i.id})">Add</button>
 </div>
 `).join("");
 }
 
-function addToCart(id){
-let item=items.find(i=>i.id===id);
-let existing=cart.find(i=>i.id===id);
-
-if(existing){existing.qty++;}
-else{cart.push({...item,qty:1});}
-
-saveCart();
-updateCart();
-toast("Added to cart");
+function updateQty(id,newQty){
+if(newQty < 1){
+removeFromCart(id);
+return;
+}
+const item = cart.find(i=>i.id===id);
+if(item) item.quantity = newQty;
+updateCartUI();
 }
 
-function updateCart(){
-let total=0,count=0;
-
-document.getElementById("cartItems").innerHTML=cart.map(i=>{
-total+=i.price*i.qty;
-count+=i.qty;
-
-return `<div class="cart-item">${i.name} x${i.qty}</div>`;
-}).join("");
-
-document.getElementById("cartTotal").innerText="₱"+total;
-document.getElementById("cartCount").innerText=count;
+function removeFromCart(id){
+cart = cart.filter(i=>i.id!==id);
+updateCartUI();
 }
 
-function saveCart(){
-localStorage.setItem("cart",JSON.stringify(cart));
+/* ================== PRODUCTS ================== */
+
+function renderProducts(){
+let filtered = items.filter(i=>{
+if(currentFilter==="knife") return i.type==="knife";
+if(currentFilter==="gun") return i.type==="gun";
+if(currentFilter==="pet") return i.type==="pet";
+return true;
+});
+
+document.getElementById("productsGrid").innerHTML = filtered.map(item=>`
+<div class="product-card">
+<div class="product-image">
+<img src="${item.image}" onerror="this.src='https://placehold.co/250x250?text=Item'">
+</div>
+<div class="product-info">
+<div class="product-name">${item.name}</div>
+<div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div>
+<button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button>
+</div>
+</div>
+`).join("");
 }
+
+/* ================== CHECKOUT ================== */
+
+function initiateExternalCheckout(){
+
+if(!isLoggedIn){
+showToast("Login required");
+performGoogleLogin();
+return;
+}
+
+if(cart.length===0){
+showToast("Cart empty");
+return;
+}
+
+const robloxUser = userProfile.roblox;
+if(!robloxUser || robloxUser.length < 3){
+showToast("Set Roblox username");
+return;
+}
+
+const orderData = {
+cart: JSON.parse(JSON.stringify(cart)),
+currency: currentCurrency // ✅ FIX
+};
+
+sessionStorage.setItem("pendingOrder", JSON.stringify(orderData));
+
+completeOrder(orderData); // demo direct
+}
+
+function completeOrder(orderData){
+
+const symbol = currencySymbols[orderData.currency];
+const rate = exchangeRates[orderData.currency];
+
+const subtotal = orderData.cart.reduce((s,i)=>s+(i.price*i.quantity),0);
+const total = (subtotal * rate).toFixed(2);
+
+document.getElementById("receiptDetails").innerHTML = `
+<div>Total: ${symbol}${total}</div>
+<div>Items: ${orderData.cart.map(i=>i.name+" x"+i.quantity).join(", ").substring(0,120)}</div>
+`;
+
+document.getElementById("receiptModal").classList.add("show");
+
+cart = [];
+localStorage.removeItem("cart"); // ✅ FIX
+updateCartUI();
+
+showToast("Order complete");
+}
+
+/* ================== UI ================== */
 
 function toggleCart(){
-let c=document.getElementById("cartBox");
-c.style.display=c.style.display==="block"?"none":"block";
+document.getElementById('cartSidebar').classList.toggle('open');
+document.getElementById('overlay').classList.toggle('show');
 }
 
-function checkout(){
-if(cart.length===0)return toast("Cart empty");
-
-let total=cart.reduce((s,i)=>s+i.price*i.qty,0);
-
-document.getElementById("receiptContent").innerHTML=
-"Total: ₱"+total+"<br>"+cart.map(i=>i.name+" x"+i.qty).join("<br>");
-
-document.getElementById("receiptModal").style.display="flex";
-
-cart=[];
-saveCart();
-updateCart();
+function closeCart(){
+document.getElementById('cartSidebar').classList.remove('open');
+document.getElementById('overlay').classList.remove('show');
 }
 
-function closeReceipt(){
-document.getElementById("receiptModal").style.display="none";
-}
+/* ================== INIT ================== */
 
-function toast(msg){
-let t=document.getElementById("toast");
-t.innerText=msg;
-t.style.display="block";
-setTimeout(()=>t.style.display="none",2000);
-}
-
-function setFilter(f){
-filter=f;
-document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
-event.target.classList.add("active");
 renderProducts();
-}
-
-function searchItems(q){
-searchQuery=q;
-renderProducts();
-}
-
-/* INIT */
-renderProducts();
-updateCart();
+updateCartUI();
 
 </script>
-
-</body>
-</html>
