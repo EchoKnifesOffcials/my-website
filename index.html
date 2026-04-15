@@ -972,18 +972,19 @@
     }
     createParticles();
 
-    // ========== MM2 ITEMS WITH YOUR NEW IMAGES ==========
+    // ========== MM2 ITEMS WITH ALL YOUR IMAGES ==========
     let items = [
         { id: 1, name: "Icewing", type: "knife", price: 100, originalPrice: 180, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/jiwvmxq.jpeg", category: "godly", hasDiscount: true },
         { id: 2, name: "Batwing", type: "knife", price: 152, originalPrice: 220, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/gRFVidm.jpeg", category: "godly", hasDiscount: true },
         { id: 3, name: "Harvester", type: "knife", price: 608, originalPrice: 850, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/l1O8Mpg.jpeg", category: "godly", hasDiscount: true },
         { id: 4, name: "Luger", type: "gun", price: 420, originalPrice: 600, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/eEvMBRh.jpeg", category: "godly", hasDiscount: true },
-        { id: 5, name: "Vampire's Axe", type: "knife", price: 1521, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly", hasDiscount: false },
-        { id: 6, name: "Phantom", type: "knife", price: 153, originalPrice: 220, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly", hasDiscount: true },
-        { id: 7, name: "Lightbringer", type: "gun", price: 92000, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly", hasDiscount: false },
-        { id: 8, name: "Darkbringer", type: "gun", price: 92000, originalPrice: 130000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly", hasDiscount: true },
-        { id: 9, name: "Fire Bunny", type: "pet", price: 2800, originalPrice: 0, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet", hasDiscount: false },
-        { id: 10, name: "Frostbird", type: "pet", price: 100, originalPrice: 160, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/3xPqL9j.png", category: "pet", hasDiscount: true }
+        { id: 5, name: "Candy", type: "knife", price: 100, originalPrice: 160, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/Q98x0PE.jpeg", category: "godly", hasDiscount: true },
+        { id: 6, name: "Darkbringer", type: "gun", price: 92000, originalPrice: 130000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/eX5RuVN.jpeg", category: "godly", hasDiscount: true },
+        { id: 7, name: "Lightbringer", type: "gun", price: 92000, originalPrice: 130000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1z1CKex.jpeg", category: "godly", hasDiscount: true },
+        { id: 8, name: "Vampire's Axe", type: "knife", price: 1521, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly", hasDiscount: false },
+        { id: 9, name: "Phantom", type: "knife", price: 153, originalPrice: 220, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly", hasDiscount: true },
+        { id: 10, name: "Fire Bunny", type: "pet", price: 2800, originalPrice: 0, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet", hasDiscount: false },
+        { id: 11, name: "Frostbird", type: "pet", price: 100, originalPrice: 160, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/3xPqL9j.png", category: "pet", hasDiscount: true }
     ];
 
     const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, KRW: 24.5 };
@@ -1004,7 +1005,7 @@
     let orders = JSON.parse(localStorage.getItem('orders') || '[]');
     let conversations = JSON.parse(localStorage.getItem('conversations') || '{}');
     let currentConversation = null;
-    let nextId = 11;
+    let nextId = 12;
     
     function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
     function getSymbol() { return currencySymbols[currentCurrency]; }
@@ -1169,7 +1170,7 @@
     function addCustomItem() { if (!isAdmin) return; const name = document.getElementById('newItemName').value.trim(); const image = document.getElementById('newItemImage').value.trim(); const type = document.getElementById('newItemType').value; const rarity = document.getElementById('newItemRarity').value; let price = parseInt(document.getElementById('newItemPrice').value); if (!name || !price) { showToast("Please fill in all fields"); return; } if (price < 100) price = 100; items.push({ id: nextId++, name: name, type: type, price: price, originalPrice: 0, onsale: true, rarity: rarity, rarityClass: "custom", image: image || "https://i.imgur.com/8QZ7VcL.png", category: type, hasDiscount: false }); renderProducts(); renderAdminPanel(); showToast(`Added ${name} for ₱${price}`); saveItems(); document.getElementById('newItemName').value = ''; document.getElementById('newItemImage').value = ''; document.getElementById('newItemPrice').value = ''; }
     function toggleItemSale(id) { if (!isAdmin) return; const item = items.find(i => i.id === id); if (item) { item.onsale = !item.onsale; renderAdminPanel(); renderProducts(); showToast(`${item.name} ${item.onsale ? 'on sale' : 'off sale'}`); saveItems(); } }
     function saveItems() { localStorage.setItem('customItems', JSON.stringify(items)); }
-    function loadSavedItems() { const saved = localStorage.getItem('customItems'); if (saved) { const parsed = JSON.parse(saved); items.length = 0; parsed.forEach(i => items.push(i)); nextId = Math.max(...items.map(i => i.id), 10) + 1; } renderProducts(); renderAdminPanel(); }
+    function loadSavedItems() { const saved = localStorage.getItem('customItems'); if (saved) { const parsed = JSON.parse(saved); items.length = 0; parsed.forEach(i => items.push(i)); nextId = Math.max(...items.map(i => i.id), 11) + 1; } renderProducts(); renderAdminPanel(); }
     function renderAdminPanel() {
         if (!isAdmin) return;
         const search = document.getElementById('adminSearch')?.value.toLowerCase() || '';
