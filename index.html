@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECHOKNIVES | Premium MM2 Shop</title>
+    <title>ECHOKNIVES | Premium MM2 Shop - FIXED</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -737,8 +737,8 @@
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
     
-    // ========== ROBLOX AVATAR FETCH - FIXED WITH YOUR CODE ==========
-    // This is the FIXED function that actually shows real Roblox avatars
+    // ========== ROBLOX AVATAR FETCH - WITH CORS PROXY ==========
+    // This uses a free CORS proxy to bypass browser restrictions
     
     window.robloxVerifiedUser = null;
     
@@ -750,14 +750,17 @@
 
         // loading state
         imgElement.src = "https://ui-avatars.com/api/?name=Loading&background=6c5ce7&color=fff&size=120";
-        displayElement.innerHTML = `Checking @${username}...`;
+        displayElement.innerHTML = `🔍 Checking @${username}...`;
 
         try {
-            // STEP 1: username → userId (FIXED & RELIABLE)
-            const res = await fetch("https://users.roblox.com/v1/usernames/users", {
-                method: "POST",
+            // Use CORS proxy to avoid browser blocking
+            const proxyUrl = 'https://api.allorigins.win/raw?url=';
+            const apiUrl = `https://users.roblox.com/v1/usernames/users`;
+            
+            const response = await fetch(proxyUrl + encodeURIComponent(apiUrl), {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     usernames: [username],
@@ -765,11 +768,11 @@
                 })
             });
 
-            const data = await res.json();
+            const data = await response.json();
 
             if (!data.data || data.data.length === 0) {
                 imgElement.src = "https://ui-avatars.com/api/?name=Not+Found&background=ef4444&color=fff&size=120";
-                displayElement.innerHTML = "User not found ❌";
+                displayElement.innerHTML = "❌ User not found";
                 window.robloxVerifiedUser = null;
                 return;
             }
@@ -777,30 +780,22 @@
             const user = data.data[0];
             const userId = user.id;
 
-            // STEP 2: avatar (ROBLOX THUMBNAIL API - CORRECT)
+            // Get avatar - this URL works directly (images are not CORS blocked)
             const avatarUrl = `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=150x150&format=Png&isCircular=true`;
-
-            const avatarRes = await fetch(avatarUrl);
-            const avatarData = await avatarRes.json();
+            
+            const avatarResponse = await fetch(proxyUrl + encodeURIComponent(avatarUrl));
+            const avatarData = await avatarResponse.json();
 
             const imageUrl = avatarData.data?.[0]?.imageUrl;
 
             if (imageUrl) {
                 imgElement.src = imageUrl;
             } else {
-                imgElement.src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(username);
+                imgElement.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=6c5ce7&color=fff&size=120`;
             }
 
-            // STEP 3: display info
-            displayElement.innerHTML = `
-                ✔ @${user.name}
-                <br>
-                <span style="font-size:12px;color:#aaa;">
-                    Display: ${user.displayName}
-                </span>
-            `;
+            displayElement.innerHTML = `✅ @${user.name}<br><span style="font-size:12px;color:#aaa;">${user.displayName}</span>`;
 
-            // STORE VERIFIED USER
             window.robloxVerifiedUser = {
                 userId: userId,
                 username: user.name,
@@ -809,9 +804,8 @@
 
         } catch (err) {
             console.error("Roblox fetch error:", err);
-
             imgElement.src = "https://ui-avatars.com/api/?name=Error&background=ef4444&color=fff&size=120";
-            displayElement.innerHTML = "Failed to load ❌";
+            displayElement.innerHTML = "❌ Failed to load - Try again";
             window.robloxVerifiedUser = null;
         }
     }
@@ -836,7 +830,6 @@
         document.getElementById('robloxModal').classList.add('show');
         closeCart();
         
-        // Real-time preview when typing
         const inputField = document.getElementById('robloxUsernameInput');
         
         inputField.oninput = function() {
@@ -873,7 +866,6 @@
             return;
         }
         
-        // Verify the username exists before proceeding
         await fetchRobloxAvatar(username);
         
         if (!window.robloxVerifiedUser) {
@@ -884,12 +876,10 @@
         localStorage.setItem('roblox_username', username);
         document.getElementById('robloxModal').classList.remove('show');
         
-        // Mark first purchase quest as complete
         if(cart.length > 0) {
             markFirstPurchaseComplete();
         }
         
-        // Show receipt
         const orderNumber = 'ECHO-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4);
         const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
         const itemsList = cart.map(i => `${i.name} x${i.quantity}`).join(', ');
@@ -899,13 +889,12 @@
             <div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div>
             <div class="receipt-row"><strong>Items:</strong> ${itemsList}</div>
             <div class="receipt-row"><strong>Total:</strong> ${getSymbol()}${getDisplayPrice(total)}</div>
-            <div class="receipt-row"><strong>Roblox User:</strong> @${window.robloxVerifiedUser?.username || username}</div>
+            <div class="receipt-row"><strong>Roblox User:</strong> @${window.robloxVerifiedUser.username}</div>
             <div class="receipt-row"><strong>Status:</strong> <span style="color:#10b981;">✓ Verified & Processing</span></div>
             <div class="receipt-row"><strong>Points Earned:</strong> +100 from First Purchase Quest!</div>
         `;
         document.getElementById('receiptModal').classList.add('show');
         
-        // Clear cart
         cart = [];
         updateCartUI();
         showToast(`✅ Order placed! Items will be sent to @${username}`);
@@ -960,7 +949,6 @@
         } else { showToast("Loading..."); }
     }
     
-    // Filters & Particles
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -987,7 +975,6 @@
     showHome();
     loadPointsAndQuests();
     
-    // Global exports
     window.showHome = showHome; window.showShop = showShop; window.showQuests = showQuests; window.showTrading = showTrading;
     window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart;
     window.toggleCart = toggleCart; window.closeCart = closeCart; window.changeCurrency = changeCurrency;
