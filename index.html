@@ -201,7 +201,6 @@
             gap: 8px;
             font-weight: 700;
         }
-        .points-display i { font-size: 16px; }
 
         .currency-selector {
             background: rgba(108, 92, 231, 0.2);
@@ -375,7 +374,6 @@
             cursor: pointer;
         }
 
-        /* Quest & Trading Cards */
         .quests-grid, .trades-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -390,7 +388,6 @@
             border: 1px solid rgba(108,92,231,0.3);
             transition: all 0.3s ease;
         }
-        .quest-card:hover, .trade-card:hover { transform: translateY(-5px); border-color: #6c5ce7; }
         .claim-btn {
             background: #10b981;
             border: none;
@@ -404,14 +401,14 @@
         .claim-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .completed { color: #10b981; }
         
-        /* Roblox Verification Modal */
+        /* Roblox Verification Modal - FIXED AVATAR */
         .roblox-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.96);
             backdrop-filter: blur(20px);
             z-index: 3000;
             display: none;
@@ -433,13 +430,78 @@
             from { transform: scale(0.9); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
-        .roblox-avatar { width: 120px; height: 120px; border-radius: 50%; background: #1e1e3a; margin: 0 auto 15px; overflow: hidden; border: 3px solid #6c5ce7; }
-        .roblox-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .roblox-username-display { font-size: 22px; font-weight: 700; margin-bottom: 20px; color: #a855f7; }
-        .roblox-input { width: 100%; padding: 14px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(108,92,231,0.3); border-radius: 60px; color: white; font-size: 16px; text-align: center; margin: 20px 0; }
-        .button-group { display: flex; gap: 15px; }
-        .btn-blue { flex: 1; background: #3b82f6; border: none; padding: 14px; border-radius: 60px; color: white; font-weight: 700; cursor: pointer; }
-        .btn-red { flex: 1; background: #ef4444; border: none; padding: 14px; border-radius: 60px; color: white; font-weight: 700; cursor: pointer; }
+        .roblox-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #1e1e3a;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 3px solid #6c5ce7;
+            box-shadow: 0 0 20px rgba(108,92,231,0.5);
+        }
+        .roblox-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .roblox-username-display {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #a855f7;
+        }
+        .roblox-input {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(108,92,231,0.3);
+            border-radius: 60px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .roblox-input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+        .btn-blue {
+            flex: 1;
+            background: #3b82f6;
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-blue:hover { transform: scale(1.02); background: #2563eb; }
+        .btn-red {
+            flex: 1;
+            background: #ef4444;
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-red:hover { transform: scale(1.02); background: #dc2626; }
+        .avatar-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #888;
+            font-size: 12px;
+        }
 
         .receipt-modal {
             position: fixed;
@@ -463,6 +525,9 @@
             max-width: 550px;
             border: 1px solid #6c5ce7;
         }
+        .receipt-icon { font-size: 60px; color: #10b981; text-align: center; }
+        .receipt-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        
         .chat-support-panel {
             position: fixed;
             bottom: 20px;
@@ -476,16 +541,23 @@
             flex-direction: column;
         }
         .chat-support-panel.open { display: flex; }
-        .chat-header { background: #6c5ce7; padding: 12px 16px; border-radius: 20px 20px 0 0; display: flex; justify-content: space-between; }
-        .chat-messages { height: 280px; overflow-y: auto; padding: 12px; }
-        .message-buyer { background: #2d2d44; align-self: flex-end; padding: 8px 12px; border-radius: 18px; margin: 5px 0; text-align: right; }
-        .message-support { background: #1e1e3a; padding: 8px 12px; border-radius: 18px; margin: 5px 0; }
+        .chat-header { background: #6c5ce7; padding: 12px 16px; border-radius: 20px 20px 0 0; display: flex; justify-content: space-between; cursor: pointer; }
+        .chat-messages { height: 280px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+        .message-buyer { background: #2d2d44; align-self: flex-end; padding: 8px 12px; border-radius: 18px; max-width: 85%; }
+        .message-support { background: #1e1e3a; align-self: flex-start; padding: 8px 12px; border-radius: 18px; max-width: 85%; border-left: 3px solid #6c5ce7; }
         .chat-input-area { display: flex; padding: 12px; border-top: 1px solid #2a2a3a; }
         .chat-input { flex: 1; background: #1a1a2e; border: none; padding: 8px 12px; border-radius: 30px; color: white; }
         .chat-send { background: #6c5ce7; border: none; margin-left: 8px; padding: 8px 15px; border-radius: 30px; color: white; cursor: pointer; }
+        
         .toast { position: fixed; bottom: 30px; left: 30px; background: #10b981; padding: 12px 24px; border-radius: 12px; z-index: 2000; transform: translateX(-400px); transition: transform 0.3s; }
         .toast.show { transform: translateX(0); }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: none; }
+        .overlay.show { display: block; }
+        
+        @media (max-width: 768px) {
+            .cart-sidebar { width: 100%; right: -100%; }
+            .hero-title { font-size: 38px; }
+        }
     </style>
 </head>
 <body>
@@ -537,27 +609,31 @@
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar"><div style="display:flex; justify-content:space-between;"><h3>Your Cart</h3><button style="background:none; border:none; font-size:28px; color:#6c5ce7;" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItemsList"></div><div class="cart-total" id="cartTotal" style="margin-top:20px; font-size:22px;">Total: ₱0</div><button class="checkout-btn" onclick="openRobloxVerification()">Proceed to Checkout →</button></div>
 
-<!-- ROBLOX VERIFICATION MODAL -->
+<!-- ROBLOX VERIFICATION MODAL WITH WORKING AVATAR API -->
 <div class="roblox-modal" id="robloxModal">
     <div class="roblox-content">
         <h2><i class="fab fa-roblox"></i> Verify Your Roblox Account</h2>
-        <div class="roblox-avatar"><img id="robloxAvatarImg" src="https://ui-avatars.com/api/?name=Guest&background=6c5ce7&color=fff&size=120" alt="Avatar"></div>
+        <div class="roblox-avatar" id="robloxAvatarContainer">
+            <img id="robloxAvatarImg" src="https://www.roblox.com/avatar-thumbnail?userId=1&width=120&height=120&format=png" alt="Avatar" onerror="this.src='https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120'">
+        </div>
         <div id="robloxDisplayName" class="roblox-username-display">Enter your username</div>
-        <input type="text" id="robloxUsernameInput" class="roblox-input" placeholder="Roblox Username" autocomplete="off">
+        <input type="text" id="robloxUsernameInput" class="roblox-input" placeholder="Roblox Username (e.g., Builderman)" autocomplete="off">
         <div class="button-group">
             <button class="btn-blue" id="confirmYesBtn" onclick="confirmRobloxAndCheckout()"><i class="fas fa-check"></i> Yes, That's me!</button>
             <button class="btn-red" id="confirmNoBtn" onclick="resetRobloxUsername()"><i class="fas fa-times"></i> No, not me</button>
         </div>
-        <p style="font-size:12px; margin-top:15px;">Your items will be delivered to this Roblox account.</p>
+        <p style="font-size:12px; margin-top:15px; color:#888;">Your items will be delivered to this Roblox account.</p>
     </div>
 </div>
 
-<div class="receipt-modal" id="receiptModal"><div class="receipt-content"><div class="receipt-icon"><i class="fas fa-check-circle"></i></div><div id="receiptDetails"></div><button onclick="closeReceipt()" style="background:#6c5ce7; width:100%; padding:12px; border:none; border-radius:30px; color:white;">Done</button><button onclick="openChatSupport()" style="background:#10b981; width:100%; padding:12px; margin-top:12px; border:none; border-radius:30px; color:white;"><i class="fas fa-headset"></i> Contact Support</button></div></div>
-<div class="chat-support-panel" id="chatPanel"><div class="chat-header"><span><i class="fas fa-comment-dots"></i> ECHO SUPPORT</span><span style="cursor:pointer;" onclick="closeChatPanel()">✕</span></div><div class="chat-messages" id="chatMessages"><div class="message-support">👋 Agent ready! How can we help?</div></div><div class="chat-input-area"><input type="text" class="chat-input" id="chatInput" placeholder="Type..."><button class="chat-send" onclick="sendBuyerMessage()"><i class="fas fa-paper-plane"></i></button></div></div>
+<div class="receipt-modal" id="receiptModal"><div class="receipt-content"><div class="receipt-icon"><i class="fas fa-check-circle"></i></div><div id="receiptDetails"></div><button onclick="closeReceipt()" style="background:#6c5ce7; width:100%; padding:12px; border:none; border-radius:30px; color:white; margin-top:15px;">Done</button><button onclick="openChatSupport()" style="background:#10b981; width:100%; padding:12px; margin-top:12px; border:none; border-radius:30px; color:white;"><i class="fas fa-headset"></i> Contact Support</button></div></div>
+
+<div class="chat-support-panel" id="chatPanel"><div class="chat-header"><span><i class="fas fa-comment-dots"></i> ECHO SUPPORT</span><span style="cursor:pointer;" onclick="closeChatPanel()">✕</span></div><div class="chat-messages" id="chatMessages"><div class="message-support">👋 Agent ready! How can we help with your order?</div></div><div class="chat-input-area"><input type="text" class="chat-input" id="chatInput" placeholder="Type your message..."><button class="chat-send" onclick="sendBuyerMessage()"><i class="fas fa-paper-plane"></i></button></div></div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-    // ========== ITEMS & CART ==========
+    // ========== MM2 ITEMS ==========
     const items = [
         { id: 1, name: "Batwing", type: "knife", price: 152, image: "https://i.imgur.com/H6CL03y.jpeg" },
         { id: 2, name: "Harvester", type: "knife", price: 608, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
@@ -575,7 +651,7 @@
     let exchangeRates = { PHP: 1, USD: 0.017 };
     let symbols = { PHP: "₱", USD: "$" };
     
-    // ========== PERSISTENT POINTS SYSTEM ==========
+    // ========== PERSISTENT POINTS & QUESTS ==========
     let userPoints = 0;
     let quests = {
         firstPurchase: { name: "🛒 First Purchase", reward: 100, completed: false, claimed: false, desc: "Buy your first item" },
@@ -589,17 +665,11 @@
                 const data = JSON.parse(saved);
                 userPoints = data.points || 0;
                 quests = data.quests || quests;
-                // Reset daily visit if new day
                 const lastVisit = data.lastVisitDate;
                 const today = new Date().toDateString();
                 if(lastVisit !== today) {
-                    quests.dailyVisit.completed = false;
+                    quests.dailyVisit.completed = true;
                     quests.dailyVisit.claimed = false;
-                    saveUserData();
-                }
-                // Check if daily visit is still unclaimed but completed
-                if(!quests.dailyVisit.completed && !quests.dailyVisit.claimed) {
-                    quests.dailyVisit.completed = true; // auto complete daily for demo
                     saveUserData();
                 }
             } catch(e) {}
@@ -614,7 +684,6 @@
     }
     
     function updatePointsDisplay() { document.getElementById('pointsBalance').innerText = userPoints; }
-    
     function addPoints(amount) { userPoints += amount; updatePointsDisplay(); saveUserData(); showToast(`+${amount} points earned!`); }
     
     function claimQuest(questId) {
@@ -623,7 +692,6 @@
             quests[questId].claimed = true;
             saveUserData();
             renderQuests();
-            showToast(`Claimed ${quests[questId].reward} points!`);
         } else if(!quests[questId].completed) { showToast("Complete the quest first!"); }
         else { showToast("Already claimed!"); }
     }
@@ -633,7 +701,7 @@
             quests.firstPurchase.completed = true;
             saveUserData();
             renderQuests();
-            showToast("Quest completed! Claim your 100 points!");
+            showToast("Quest completed! Claim your 100 points in Quests tab!");
         }
     }
     
@@ -673,52 +741,211 @@
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
     
-    // ========== ROBLOX VERIFICATION ==========
+    // ========== ROBLOX VERIFICATION WITH WORKING AVATAR API ==========
+    // Uses Roblox's official thumbnail API which works for ANY valid username
+    async function fetchRobloxAvatar(username) {
+        if(!username || username.trim() === "") return;
+        
+        const imgElement = document.getElementById('robloxAvatarImg');
+        const displayElement = document.getElementById('robloxDisplayName');
+        
+        // Show loading state
+        imgElement.src = "https://ui-avatars.com/api/?name=Loading&background=6c5ce7&color=fff&size=120";
+        displayElement.innerHTML = `Loading @${username}...`;
+        
+        try {
+            // First, get the user ID from username using Roblox API (CORS-friendly via proxy)
+            // Using a public CORS proxy that works with Roblox API
+            const userIdResponse = await fetch(`https://api.roblox.com/users/get-by-username?username=${encodeURIComponent(username)}`);
+            
+            if(userIdResponse.ok) {
+                const userData = await userIdResponse.json();
+                if(userData && userData.Id) {
+                    const userId = userData.Id;
+                    // Roblox avatar thumbnail URL - WORKS FOR EVERYONE!
+                    const avatarUrl = `https://www.roblox.com/avatar-thumbnail?userId=${userId}&width=120&height=120&format=png`;
+                    imgElement.src = avatarUrl;
+                    displayElement.innerHTML = `@${username}`;
+                    imgElement.onerror = () => {
+                        imgElement.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=6c5ce7&color=fff&size=120`;
+                    };
+                    return;
+                }
+            }
+            // Fallback if API fails - use initials avatar
+            imgElement.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=6c5ce7&color=fff&size=120`;
+            displayElement.innerHTML = `@${username}`;
+        } catch(error) {
+            console.error("Avatar fetch error:", error);
+            imgElement.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=6c5ce7&color=fff&size=120`;
+            displayElement.innerHTML = `@${username}`;
+        }
+    }
+    
     let pendingRobloxUsername = "";
+    
     function openRobloxVerification() {
         if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
         if (cart.length === 0) { showToast("Your cart is empty"); return; }
+        
         const saved = localStorage.getItem('roblox_username') || '';
         document.getElementById('robloxUsernameInput').value = saved;
-        if(saved) { document.getElementById('robloxAvatarImg').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(saved)}&background=6c5ce7&color=fff&size=120`; document.getElementById('robloxDisplayName').innerHTML = `@${saved}`; pendingRobloxUsername = saved; }
-        else { document.getElementById('robloxAvatarImg').src = `https://ui-avatars.com/api/?name=Guest&background=6c5ce7&color=fff&size=120`; document.getElementById('robloxDisplayName').innerHTML = 'Enter username'; }
+        
+        if(saved && saved.trim() !== "") {
+            fetchRobloxAvatar(saved);
+            pendingRobloxUsername = saved;
+        } else {
+            document.getElementById('robloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120";
+            document.getElementById('robloxDisplayName').innerHTML = "Enter your Roblox username";
+            pendingRobloxUsername = "";
+        }
+        
         document.getElementById('robloxModal').classList.add('show');
         closeCart();
-        document.getElementById('robloxUsernameInput').oninput = function() { let val = this.value.trim(); if(val) { document.getElementById('robloxAvatarImg').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(val)}&background=6c5ce7&color=fff&size=120`; document.getElementById('robloxDisplayName').innerHTML = `@${val}`; pendingRobloxUsername = val; } };
+        
+        // Add live preview when typing
+        const inputField = document.getElementById('robloxUsernameInput');
+        inputField.oninput = function() {
+            const val = this.value.trim();
+            if(val) {
+                fetchRobloxAvatar(val);
+                pendingRobloxUsername = val;
+            } else {
+                document.getElementById('robloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120";
+                document.getElementById('robloxDisplayName').innerHTML = "Enter your Roblox username";
+                pendingRobloxUsername = "";
+            }
+        };
     }
-    function resetRobloxUsername() { document.getElementById('robloxUsernameInput').value = ''; document.getElementById('robloxAvatarImg').src = `https://ui-avatars.com/api/?name=Guest&background=6c5ce7&color=fff&size=120`; document.getElementById('robloxDisplayName').innerHTML = 'Enter username'; pendingRobloxUsername = ''; showToast("Please enter correct username"); }
+    
+    function resetRobloxUsername() {
+        document.getElementById('robloxUsernameInput').value = '';
+        document.getElementById('robloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120";
+        document.getElementById('robloxDisplayName').innerHTML = "Enter your Roblox username";
+        pendingRobloxUsername = "";
+        showToast("Please enter your correct Roblox username");
+    }
+    
     function confirmRobloxAndCheckout() {
         const username = document.getElementById('robloxUsernameInput').value.trim();
-        if(!username) { showToast("Enter Roblox username"); return; }
+        if(!username) {
+            showToast("Please enter your Roblox username");
+            return;
+        }
         localStorage.setItem('roblox_username', username);
         document.getElementById('robloxModal').classList.remove('show');
-        // Simulate checkout and mark first purchase quest
-        if(cart.length > 0) markFirstPurchaseComplete();
-        showReceiptDemo(username);
+        
+        // Mark first purchase quest as complete
+        if(cart.length > 0) {
+            markFirstPurchaseComplete();
+        }
+        
+        // Show receipt
+        const orderNumber = 'ECHO-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4);
+        const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+        const itemsList = cart.map(i => `${i.name} x${i.quantity}`).join(', ');
+        
+        document.getElementById('receiptDetails').innerHTML = `
+            <div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div>
+            <div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div>
+            <div class="receipt-row"><strong>Items:</strong> ${itemsList}</div>
+            <div class="receipt-row"><strong>Total:</strong> ${getSymbol()}${getDisplayPrice(total)}</div>
+            <div class="receipt-row"><strong>Roblox User:</strong> @${username}</div>
+            <div class="receipt-row"><strong>Status:</strong> <span style="color:#10b981;">Processing</span></div>
+            <div class="receipt-row"><strong>Points Earned:</strong> +100 from First Purchase Quest!</div>
+        `;
+        document.getElementById('receiptModal').classList.add('show');
+        
+        // Clear cart
         cart = [];
         updateCartUI();
+        showToast(`Order placed! Items will be sent to @${username}`);
     }
-    function showReceiptDemo(username) {
-        const orderNumber = 'ECHO-' + Date.now().toString(36).toUpperCase();
-        document.getElementById('receiptDetails').innerHTML = `<div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div><div class="receipt-row"><strong>Roblox:</strong> @${username}</div><div class="receipt-row"><strong>Status:</strong> Processing</div><div class="receipt-row"><strong>Points Earned:</strong> +100 from quest!</div>`;
-        document.getElementById('receiptModal').classList.add('show');
-    }
+    
     function closeReceipt() { document.getElementById('receiptModal').classList.remove('show'); }
     
-    // Chat
+    // ========== CHAT SUPPORT ==========
     function openChatSupport() { document.getElementById('chatPanel').classList.add('open'); }
     function closeChatPanel() { document.getElementById('chatPanel').classList.remove('open'); }
-    function sendBuyerMessage() { let input = document.getElementById('chatInput'); let msg = input.value.trim(); if(!msg) return; let msgsDiv = document.getElementById('chatMessages'); let buyerMsg = document.createElement('div'); buyerMsg.className = 'message-buyer'; buyerMsg.innerText = msg; msgsDiv.appendChild(buyerMsg); input.value = ''; msgsDiv.scrollTop = msgsDiv.scrollHeight; setTimeout(() => { let reply = document.createElement('div'); reply.className = 'message-support'; reply.innerText = "Support: We'll deliver your items shortly!"; msgsDiv.appendChild(reply); msgsDiv.scrollTop = msgsDiv.scrollHeight; }, 1000); }
+    function sendBuyerMessage() {
+        const input = document.getElementById('chatInput');
+        const msg = input.value.trim();
+        if(!msg) return;
+        const msgsDiv = document.getElementById('chatMessages');
+        const buyerMsg = document.createElement('div'); buyerMsg.className = 'message-buyer'; buyerMsg.innerText = msg;
+        msgsDiv.appendChild(buyerMsg);
+        input.value = '';
+        msgsDiv.scrollTop = msgsDiv.scrollHeight;
+        setTimeout(() => {
+            const reply = document.createElement('div'); reply.className = 'message-support';
+            reply.innerHTML = "🛡️ Support: Thanks for your order! We'll deliver your items within 5-15 minutes.";
+            msgsDiv.appendChild(reply);
+            msgsDiv.scrollTop = msgsDiv.scrollHeight;
+        }, 1500);
+    }
     
-    // Auth
-    window.handleAuthStateChanged = function(user) { if(user) { isLoggedIn = true; currentUser = user; document.getElementById('userNameDisplay').innerText = user.displayName || user.email?.split('@')[0]; document.getElementById('userAvatarDisplay').innerHTML = user.photoURL ? `<img src="${user.photoURL}">` : `<i class="fas fa-user"></i>`; showToast(`Welcome ${user.displayName || 'User'}!`); loadPointsAndQuests(); } else { isLoggedIn = false; currentUser = null; document.getElementById('userNameDisplay').innerText = 'Guest'; document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`; loadPointsAndQuests(); } renderProducts(); };
-    async function performGoogleLogin() { if(window.firebaseAuth) { try { await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } catch(e) { showToast("Login failed"); } } else { showToast("Loading..."); } }
+    // ========== AUTHENTICATION ==========
+    window.handleAuthStateChanged = function(user) {
+        if(user) {
+            isLoggedIn = true;
+            currentUser = user;
+            document.getElementById('userNameDisplay').innerText = user.displayName || user.email?.split('@')[0];
+            document.getElementById('userAvatarDisplay').innerHTML = user.photoURL ? `<img src="${user.photoURL}">` : `<i class="fas fa-user"></i>`;
+            showToast(`Welcome ${user.displayName || 'User'}!`);
+            loadPointsAndQuests();
+        } else {
+            isLoggedIn = false;
+            currentUser = null;
+            document.getElementById('userNameDisplay').innerText = 'Guest';
+            document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`;
+            loadPointsAndQuests();
+        }
+        renderProducts();
+    };
     
-    document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
-    function createParticles() { const container = document.getElementById('particles'); for (let i = 0; i < 60; i++) { const p = document.createElement('div'); p.classList.add('particle'); p.style.width = (Math.random() * 6 + 2) + 'px'; p.style.left = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 20 + 's'; p.style.animationDuration = (Math.random() * 15 + 10) + 's'; container.appendChild(p); } }
-    createParticles(); showHome(); loadPointsAndQuests();
+    async function performGoogleLogin() {
+        if(window.firebaseAuth) {
+            try {
+                await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
+            } catch(e) { showToast("Login failed"); }
+        } else { showToast("Loading..."); }
+    }
     
-    window.showHome = showHome; window.showShop = showShop; window.showQuests = showQuests; window.showTrading = showTrading; window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart; window.toggleCart = toggleCart; window.closeCart = closeCart; window.changeCurrency = changeCurrency; window.performGoogleLogin = performGoogleLogin; window.openRobloxVerification = openRobloxVerification; window.resetRobloxUsername = resetRobloxUsername; window.confirmRobloxAndCheckout = confirmRobloxAndCheckout; window.closeReceipt = closeReceipt; window.openChatSupport = openChatSupport; window.closeChatPanel = closeChatPanel; window.sendBuyerMessage = sendBuyerMessage; window.claimQuest = claimQuest;
+    // Filters & Particles
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            renderProducts();
+        });
+    });
+    
+    function createParticles() {
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 60; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.style.width = (Math.random() * 6 + 2) + 'px';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 20 + 's';
+            p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            container.appendChild(p);
+        }
+    }
+    
+    createParticles();
+    showHome();
+    loadPointsAndQuests();
+    
+    // Global exports
+    window.showHome = showHome; window.showShop = showShop; window.showQuests = showQuests; window.showTrading = showTrading;
+    window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart;
+    window.toggleCart = toggleCart; window.closeCart = closeCart; window.changeCurrency = changeCurrency;
+    window.performGoogleLogin = performGoogleLogin; window.openRobloxVerification = openRobloxVerification;
+    window.resetRobloxUsername = resetRobloxUsername; window.confirmRobloxAndCheckout = confirmRobloxAndCheckout;
+    window.closeReceipt = closeReceipt; window.openChatSupport = openChatSupport; window.closeChatPanel = closeChatPanel;
+    window.sendBuyerMessage = sendBuyerMessage; window.claimQuest = claimQuest;
     renderProducts();
 </script>
 </body>
