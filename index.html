@@ -59,7 +59,6 @@
             min-height: 100vh;
         }
 
-        /* Animated Background */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -118,7 +117,6 @@
         ::-webkit-scrollbar-track { background: #1a1a3e; }
         ::-webkit-scrollbar-thumb { background: #6c5ce7; border-radius: 10px; }
 
-        /* Header */
         .header {
             background: rgba(15, 12, 41, 0.8);
             backdrop-filter: blur(15px);
@@ -319,7 +317,6 @@
             justify-content: center;
         }
 
-        /* Hero Section */
         .hero {
             min-height: 85vh;
             display: flex;
@@ -408,7 +405,6 @@
         }
         @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }
 
-        /* Admin Panel */
         .admin-panel {
             background: rgba(15, 12, 41, 0.9);
             backdrop-filter: blur(15px);
@@ -434,7 +430,6 @@
         .add-item-form input, .add-item-form select { background: rgba(108,92,231,0.2); border: 1px solid rgba(108,92,231,0.3); padding: 10px; border-radius: 20px; color: white; }
         .add-item-btn { background: #6c5ce7; border: none; padding: 10px 20px; border-radius: 30px; color: white; cursor: pointer; }
 
-        /* Chat Panel */
         .chat-panel {
             background: rgba(15, 12, 41, 0.9);
             backdrop-filter: blur(15px);
@@ -469,7 +464,6 @@
         .attach-btn:hover { background: #6c5ce7; }
         .chat-send { background: #6c5ce7; border: none; padding: 12px 25px; border-radius: 30px; color: white; cursor: pointer; }
 
-        /* Contact Modal */
         .contact-modal {
             position: fixed;
             top: 0;
@@ -502,7 +496,6 @@
             color: white;
         }
 
-        /* Shop Container */
         .shop-container { display: none; padding: 40px 5%; }
         .shop-container.active { display: block; }
         
@@ -549,7 +542,6 @@
         .stat-card h3 { font-size: 32px; font-weight: 800; color: #6c5ce7; }
         .stat-card p { font-size: 13px; color: #888; margin-top: 5px; }
 
-        /* PRODUCTS GRID - LARGER IMAGES */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -581,7 +573,6 @@
             font-weight: bold;
             z-index: 2;
         }
-        /* LARGER PRODUCT IMAGE */
         .product-image {
             width: 100%;
             aspect-ratio: 1;
@@ -624,7 +615,6 @@
         .add-btn:hover:not(:disabled) { transform: scale(1.02); background: #a855f7; }
         .add-btn:disabled { background: #444; cursor: not-allowed; }
 
-        /* Trading Section */
         .trading-container { display: none; padding: 40px 5%; }
         .trading-container.active { display: block; }
         .trading-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
@@ -648,7 +638,6 @@
         .accept-trade { flex: 1; background: #10b981; border: none; padding: 10px; border-radius: 30px; color: white; cursor: pointer; font-weight: 600; }
         .delete-trade { flex: 1; background: #dc2626; border: none; padding: 10px; border-radius: 30px; color: white; cursor: pointer; font-weight: 600; }
 
-        /* Cart Sidebar */
         .cart-sidebar {
             position: fixed;
             top: 0;
@@ -685,7 +674,6 @@
         .toast.show { transform: translateX(0); }
         .no-trades { text-align: center; padding: 50px; color: #888; }
 
-        /* Receipt Modal */
         .receipt-modal {
             position: fixed;
             top: 0;
@@ -720,7 +708,6 @@
         .receipt-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
         .receipt-close { background: #6c5ce7; border: none; padding: 14px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; width: 100%; }
 
-        /* Reviews Modal */
         .reviews-modal {
             position: fixed;
             top: 0;
@@ -750,7 +737,6 @@
         .star-rating i { font-size: 28px; cursor: pointer; color: #555; transition: all 0.2s; }
         .star-rating i.active { color: #f39c12; }
 
-        /* History Modal */
         .history-modal {
             position: fixed;
             top: 0;
@@ -863,7 +849,6 @@
     </div>
 </div>
 
-<!-- Admin Panel -->
 <div class="admin-panel" id="adminPanel">
     <div class="admin-header">
         <h3><i class="fas fa-crown"></i> Admin Controls</h3>
@@ -880,7 +865,6 @@
     </div>
 </div>
 
-<!-- Chat Panel -->
 <div class="chat-panel" id="chatPanel">
     <div class="chat-header">
         <h3><i class="fas fa-comments"></i> Messages</h3>
@@ -900,7 +884,6 @@
     </div>
 </div>
 
-<!-- Contact Modal -->
 <div class="contact-modal" id="contactModal">
     <div class="contact-content">
         <h2><i class="fas fa-envelope"></i> Contact Support</h2>
@@ -965,13 +948,10 @@
     <button class="checkout-btn" id="checkoutBtn" onclick="processPayment()">Place Order</button>
 </div>
 
-<!-- Receipt Modal -->
 <div class="receipt-modal" id="receiptModal"><div class="receipt-content"><div class="receipt-icon"><i class="fas fa-check-circle"></i></div><div class="receipt-title">Order Confirmed!</div><div class="receipt-details"><div class="receipt-row"><strong>Order #:</strong> <span id="receiptOrderNumber"></span></div><div class="receipt-row"><strong>Date:</strong> <span id="receiptDate"></span></div><div class="receipt-row"><strong>Payment:</strong> <span id="receiptPayment"></span></div><div class="receipt-row"><strong>Total:</strong> <span id="receiptTotal"></span></div><div class="receipt-row"><strong>Items:</strong> <span id="receiptItems"></span></div><div class="receipt-row"><strong>Roblox:</strong> <span id="receiptRoblox"></span></div></div><button class="receipt-close" onclick="closeReceipt()">Done</button></div></div>
 
-<!-- Reviews Modal -->
 <div class="reviews-modal" id="reviewsModal"><div class="reviews-content"><h3><i class="fas fa-star"></i> Customer Reviews</h3><div id="reviewsList"></div><div class="write-review"><h4>Write a Review</h4><div class="star-rating" id="starRating"><i class="far fa-star" data-rating="1"></i><i class="far fa-star" data-rating="2"></i><i class="far fa-star" data-rating="3"></i><i class="far fa-star" data-rating="4"></i><i class="far fa-star" data-rating="5"></i></div><textarea id="reviewText" rows="3" placeholder="Share your experience..."></textarea><button class="btn-primary" onclick="submitReview()" style="width:100%;">Submit Review</button></div><button class="btn-secondary" onclick="closeReviews()" style="width:100%; margin-top:15px;">Close</button></div></div>
 
-<!-- History Modal -->
 <div class="history-modal" id="historyModal"><div class="history-content"><h3><i class="fas fa-shopping-bag"></i> Purchase History</h3><div id="historyList"></div><button class="btn-secondary" onclick="closeHistory()" style="width:100%; margin-top:15px;">Close</button></div></div>
 
 <div class="toast" id="toast"></div>
@@ -992,14 +972,14 @@
     }
     createParticles();
 
-    // ========== MM2 ITEMS WITH FAKE DISCOUNTS (75% have discounts) ==========
+    // ========== MM2 ITEMS WITH YOUR NEW IMAGES ==========
     let items = [
         { id: 1, name: "Icewing", type: "knife", price: 100, originalPrice: 180, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/jiwvmxq.jpeg", category: "godly", hasDiscount: true },
         { id: 2, name: "Batwing", type: "knife", price: 152, originalPrice: 220, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/gRFVidm.jpeg", category: "godly", hasDiscount: true },
-        { id: 3, name: "Harvester", type: "knife", price: 608, originalPrice: 850, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly", hasDiscount: true },
-        { id: 4, name: "Vampire's Axe", type: "knife", price: 1521, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly", hasDiscount: false },
-        { id: 5, name: "Phantom", type: "knife", price: 153, originalPrice: 220, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly", hasDiscount: true },
-        { id: 6, name: "Luger", type: "gun", price: 420, originalPrice: 600, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly", hasDiscount: true },
+        { id: 3, name: "Harvester", type: "knife", price: 608, originalPrice: 850, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/l1O8Mpg.jpeg", category: "godly", hasDiscount: true },
+        { id: 4, name: "Luger", type: "gun", price: 420, originalPrice: 600, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/eEvMBRh.jpeg", category: "godly", hasDiscount: true },
+        { id: 5, name: "Vampire's Axe", type: "knife", price: 1521, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly", hasDiscount: false },
+        { id: 6, name: "Phantom", type: "knife", price: 153, originalPrice: 220, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly", hasDiscount: true },
         { id: 7, name: "Lightbringer", type: "gun", price: 92000, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly", hasDiscount: false },
         { id: 8, name: "Darkbringer", type: "gun", price: 92000, originalPrice: 130000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly", hasDiscount: true },
         { id: 9, name: "Fire Bunny", type: "pet", price: 2800, originalPrice: 0, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet", hasDiscount: false },
