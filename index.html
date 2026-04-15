@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Google reCAPTCHA -->
+    <!-- Google reCAPTCHA (no red text styling) -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     
     <!-- PayPal SDK -->
@@ -67,6 +67,7 @@
             color: #1a1a2e;
         }
 
+        /* Animated Background */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -263,6 +264,7 @@
         .dropdown-item:hover { background: rgba(108,92,231,0.3); }
         .dropdown-item i { width: 24px; margin-right: 10px; color: #6c5ce7; }
 
+        /* Currency Selector with Search */
         .currency-selector {
             background: rgba(108, 92, 231, 0.2);
             border: 1px solid rgba(108, 92, 231, 0.3);
@@ -271,6 +273,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            position: relative;
         }
         .currency-selector select {
             background: transparent;
@@ -279,6 +282,31 @@
             font-size: 13px;
             cursor: pointer;
             outline: none;
+        }
+        body.light-mode .currency-selector select {
+            color: #333;
+        }
+        .currency-search {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 8px;
+            display: none;
+            z-index: 200;
+            min-width: 150px;
+        }
+        .currency-search input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 20px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        .currency-search.show {
+            display: block;
         }
 
         .user-info {
@@ -433,6 +461,7 @@
             max-width: 100%;
             filter: drop-shadow(0 0 40px rgba(108,92,231,0.3));
             animation: floatImage 4s ease-in-out infinite;
+            border-radius: 20px;
         }
         @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
@@ -582,6 +611,7 @@
         .stat-card h3 { font-size: 28px; font-weight: 800; color: #6c5ce7; }
         .stat-card p { font-size: 13px; color: #888; margin-top: 5px; }
 
+        /* Products Grid with Smooth Images */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -623,12 +653,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 50px;
+            padding: 20px;
         }
         body.light-mode .product-image {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
         }
-        .product-image img { width: 100px; height: 100px; object-fit: contain; }
+        .product-image img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 12px;
+            transition: transform 0.3s, filter 0.3s;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+            filter: drop-shadow(0 8px 15px rgba(108,92,231,0.3));
+        }
         .product-info { padding: 15px; }
         .product-name { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
         .product-rarity { font-size: 11px; color: #f39c12; margin-bottom: 5px; text-transform: uppercase; }
@@ -700,7 +741,7 @@
         .paypal-button-container { margin: 15px 0; display: none; }
         .checkout-btn { width: 100%; padding: 15px; background: #10b981; border: none; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; }
 
-        /* CHECKOUT PAGE (Full Screen) */
+        /* CHECKOUT PAGE */
         .checkout-page {
             position: fixed;
             top: 0;
@@ -732,35 +773,12 @@
         }
         .checkout-header h2 { font-size: 24px; font-weight: 700; }
         .close-checkout { background: none; border: none; font-size: 28px; cursor: pointer; color: #94a3b8; }
-        .checkout-two-col {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .checkout-left {
-            flex: 1.2;
-            padding: 28px 32px;
-            border-right: 1px solid #262633;
-        }
-        .checkout-right {
-            flex: 0.8;
-            padding: 28px 32px;
-            background: #0c0c12;
-        }
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #6c5ce7;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #cbd5e1;
-        }
+        .checkout-two-col { display: flex; flex-wrap: wrap; }
+        .checkout-left { flex: 1.2; padding: 28px 32px; border-right: 1px solid #262633; }
+        .checkout-right { flex: 0.8; padding: 28px 32px; background: #0c0c12; }
+        .section-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; color: #6c5ce7; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #cbd5e1; }
         .form-group input, .form-group select {
             width: 100%;
             padding: 14px 16px;
@@ -771,17 +789,8 @@
             font-size: 14px;
             outline: none;
         }
-        .row-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        .payment-methods {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .payment-methods { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
         .payment-option {
             flex: 1;
             background: #1e1e2a;
@@ -792,17 +801,9 @@
             cursor: pointer;
             transition: 0.2s;
         }
-        .payment-option.selected {
-            border-color: #6c5ce7;
-            background: #6c5ce7;
-        }
+        .payment-option.selected { border-color: #6c5ce7; background: #6c5ce7; }
         .payment-option i { font-size: 20px; margin-right: 8px; }
-        .tip-options {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
+        .tip-options { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
         .tip-btn {
             background: #1e1e2a;
             border: 1px solid #2a2a36;
@@ -814,22 +815,10 @@
         .tip-btn.selected { background: #6c5ce7; border-color: #6c5ce7; }
         .tip-custom { flex: 1; min-width: 100px; }
         .order-items { margin-bottom: 20px; }
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #262633;
-        }
+        .order-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #262633; }
         .order-total { padding-top: 15px; border-top: 2px solid #6c5ce7; }
         .order-total div { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .grand-total {
-            font-size: 20px;
-            font-weight: 800;
-            color: #6c5ce7;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #262633;
-        }
+        .grand-total { font-size: 20px; font-weight: 800; color: #6c5ce7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #262633; }
         .btn-pay {
             width: 100%;
             padding: 16px;
@@ -847,8 +836,52 @@
             display: flex;
             justify-content: center;
         }
+        /* Hide reCAPTCHA red text warnings */
+        .grecaptcha-badge { visibility: hidden; }
 
-        /* OLD RECEIPT STYLE */
+        /* PROCESSING LOADING GUI */
+        .processing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 6000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .processing-overlay.show { display: flex; }
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 4px solid rgba(108,92,231,0.2);
+            border-top: 4px solid #6c5ce7;
+            border-right: 4px solid #a855f7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .processing-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-top: 20px;
+        }
+        .processing-subtext {
+            font-size: 13px;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        /* Receipt Modal */
         .receipt-modal {
             position: fixed;
             top: 0;
@@ -871,10 +904,9 @@
             max-width: 500px;
             text-align: center;
             border: 1px solid #6c5ce7;
-            position: relative;
         }
         .receipt-icon { font-size: 60px; color: #10b981; margin-bottom: 15px; }
-        .receipt-title { font-size: 24px; font-weight: 800; margin-bottom: 10px; color: #fff; }
+        .receipt-title { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
         .receipt-details {
             background: rgba(255,255,255,0.05);
             border-radius: 15px;
@@ -974,6 +1006,39 @@
         .history-status.cancelled { background: #ef4444; }
         .history-status.pending { background: #f39c12; }
 
+        /* Currency Dropdown */
+        .currency-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 10px;
+            display: none;
+            z-index: 200;
+            min-width: 180px;
+            border: 1px solid rgba(108,92,231,0.3);
+        }
+        .currency-dropdown.show { display: block; }
+        .currency-dropdown input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 30px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            margin-bottom: 8px;
+        }
+        .currency-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: 0.2s;
+        }
+        .currency-option:hover {
+            background: rgba(108,92,231,0.3);
+        }
+
         @media (max-width: 768px) {
             .cart-sidebar { width: 100%; right: -100%; }
             .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
@@ -1028,16 +1093,15 @@
             </div>
         </div>
         
-        <div class="currency-selector">
+        <!-- Currency Selector with USD first, PHP middle -->
+        <div class="currency-selector" id="currencySelector">
             <i class="fas fa-money-bill-wave"></i>
-            <select id="currencySelect" onchange="changeCurrency()">
-                <option value="PHP">🇵🇭 PHP</option>
-                <option value="USD">🇺🇸 USD</option>
-                <option value="EUR">🇪🇺 EUR</option>
-                <option value="GBP">🇬🇧 GBP</option>
-                <option value="JPY">🇯🇵 JPY</option>
-                <option value="KRW">🇰🇷 KRW</option>
-            </select>
+            <span id="selectedCurrencyDisplay">USD</span>
+            <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
+            <div class="currency-dropdown" id="currencyDropdown">
+                <input type="text" id="currencySearch" placeholder="Search currency..." onkeyup="filterCurrencies()">
+                <div id="currencyList"></div>
+            </div>
         </div>
         
         <div class="user-info" id="userInfo">
@@ -1238,7 +1302,7 @@
                     <input type="number" id="customTipAmount" class="tip-custom" placeholder="Custom ₱" min="0" step="5" oninput="onCustomTip()">
                 </div>
                 
-                <!-- reCAPTCHA -->
+                <!-- reCAPTCHA (red text hidden) -->
                 <div class="recaptcha-box">
                     <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
                 </div>
@@ -1259,7 +1323,14 @@
     </div>
 </div>
 
-<!-- OLD RECEIPT MODAL -->
+<!-- PROCESSING LOADING GUI -->
+<div class="processing-overlay" id="processingOverlay">
+    <div class="spinner"></div>
+    <div class="processing-text">Processing Payment...</div>
+    <div class="processing-subtext">Verifying payment method eligibility</div>
+</div>
+
+<!-- RECEIPT MODAL -->
 <div class="receipt-modal" id="receiptModal">
     <div class="receipt-content">
         <div class="receipt-icon"><i class="fas fa-check-circle"></i></div>
@@ -1337,26 +1408,93 @@
     }
     createParticles();
 
+    // ========== CURRENCY SYSTEM (USD first, PHP middle) ==========
+    const currencies = [
+        { code: "USD", symbol: "$", name: "US Dollar", rate: 0.017 },
+        { code: "PHP", symbol: "₱", name: "Philippine Peso", rate: 1 },
+        { code: "EUR", symbol: "€", name: "Euro", rate: 0.016 },
+        { code: "GBP", symbol: "£", name: "British Pound", rate: 0.013 },
+        { code: "JPY", symbol: "¥", name: "Japanese Yen", rate: 2.65 },
+        { code: "KRW", symbol: "₩", name: "South Korean Won", rate: 24.5 },
+        { code: "CAD", symbol: "C$", name: "Canadian Dollar", rate: 0.023 },
+        { code: "AUD", symbol: "A$", name: "Australian Dollar", rate: 0.025 },
+        { code: "SGD", symbol: "S$", name: "Singapore Dollar", rate: 0.023 },
+        { code: "MYR", symbol: "RM", name: "Malaysian Ringgit", rate: 0.075 }
+    ];
+    
+    let currentCurrency = "USD"; // Start with USD
+    let currentCurrencySymbol = "$";
+    let currentRate = 0.017;
+    
+    function loadCurrencies() {
+        const container = document.getElementById('currencyList');
+        container.innerHTML = currencies.map(c => `
+            <div class="currency-option" onclick="setCurrency('${c.code}', '${c.symbol}', ${c.rate})">
+                ${c.code} - ${c.name} (${c.symbol})
+            </div>
+        `).join('');
+        document.getElementById('selectedCurrencyDisplay').innerText = currentCurrency;
+    }
+    
+    function filterCurrencies() {
+        const search = document.getElementById('currencySearch').value.toLowerCase();
+        const filtered = currencies.filter(c => 
+            c.code.toLowerCase().includes(search) || 
+            c.name.toLowerCase().includes(search)
+        );
+        document.getElementById('currencyList').innerHTML = filtered.map(c => `
+            <div class="currency-option" onclick="setCurrency('${c.code}', '${c.symbol}', ${c.rate})">
+                ${c.code} - ${c.name} (${c.symbol})
+            </div>
+        `).join('');
+    }
+    
+    function setCurrency(code, symbol, rate) {
+        currentCurrency = code;
+        currentCurrencySymbol = symbol;
+        currentRate = rate;
+        document.getElementById('selectedCurrencyDisplay').innerText = code;
+        document.getElementById('currencyDropdown').classList.remove('show');
+        renderProducts();
+        updateCartUI();
+        updateStats();
+        showToast(`Currency changed to ${code} (${symbol})`);
+    }
+    
+    // Toggle currency dropdown
+    document.getElementById('currencySelector')?.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const dropdown = document.getElementById('currencyDropdown');
+        dropdown.classList.toggle('show');
+    });
+    
+    document.addEventListener('click', function() {
+        document.getElementById('currencyDropdown')?.classList.remove('show');
+    });
+    
+    function getDisplayPrice(pricePHP) {
+        return (pricePHP * currentRate).toFixed(2);
+    }
+    function getSymbol() {
+        return currentCurrencySymbol;
+    }
+    
     // ========== MM2 ITEMS ==========
     let items = [
-        { id: 1, name: "Batwing", type: "knife", price: 152, onsale: true, rarity: "Godly", image: "https://i.imgur.com/H6CL03y.jpeg" },
-        { id: 2, name: "Harvester", type: "knife", price: 608, onsale: true, rarity: "Godly", image: "https://i.imgur.com/jZkbQ4t.jpeg" },
-        { id: 3, name: "Icewing", type: "knife", price: 72, onsale: true, rarity: "Godly", image: "https://i.imgur.com/jiwvmxq.jpeg" },
-        { id: 4, name: "Luger", type: "gun", price: 207, onsale: true, rarity: "Godly", image: "https://i.imgur.com/eEvMBRh.jpeg" },
-        { id: 5, name: "Darkbringer", type: "gun", price: 92000, onsale: true, rarity: "Godly", image: "https://i.imgur.com/8oxgzwa.jpeg" },
-        { id: 6, name: "Lightbringer", type: "gun", price: 92000, onsale: true, rarity: "Godly", image: "https://i.imgur.com/BUljuYV.jpeg" }
+        { id: 1, name: "Batwing", type: "knife", pricePHP: 152, onsale: true, rarity: "Godly", image: "https://i.imgur.com/H6CL03y.jpeg" },
+        { id: 2, name: "Harvester", type: "knife", pricePHP: 608, onsale: true, rarity: "Godly", image: "https://i.imgur.com/jZkbQ4t.jpeg" },
+        { id: 3, name: "Icewing", type: "knife", pricePHP: 72, onsale: true, rarity: "Godly", image: "https://i.imgur.com/jiwvmxq.jpeg" },
+        { id: 4, name: "Luger", type: "gun", pricePHP: 207, onsale: true, rarity: "Godly", image: "https://i.imgur.com/eEvMBRh.jpeg" },
+        { id: 5, name: "Darkbringer", type: "gun", pricePHP: 92000, onsale: true, rarity: "Godly", image: "https://i.imgur.com/8oxgzwa.jpeg" },
+        { id: 6, name: "Lightbringer", type: "gun", pricePHP: 92000, onsale: true, rarity: "Godly", image: "https://i.imgur.com/BUljuYV.jpeg" }
     ];
 
-    const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, KRW: 24.5 };
-    const currencySymbols = { PHP: "₱", USD: "$", EUR: "€", GBP: "£", JPY: "¥", KRW: "₩" };
-    
     let cart = [];
     let currentFilter = "all";
     let selectedPayment = "paypal";
     let isLoggedIn = false;
     let currentUser = null;
     let isAdmin = false;
-    let currentCurrency = "PHP";
     let trades = [];
     let hasVoucher = false;
     let voucherApplied = false;
@@ -1370,10 +1508,7 @@
     let checkoutSelectedPayment = "paypal";
     let checkoutSelectedTip = 0;
     
-    function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
-    function getSymbol() { return currencySymbols[currentCurrency]; }
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
-    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); updateStats(); showToast(`Currency: ${currentCurrency}`); }
     
     // Navigation
     function showHome() {
@@ -1591,10 +1726,10 @@
         if (!isAdmin) return;
         const search = document.getElementById('adminSearch')?.value.toLowerCase() || '';
         const filtered = items.filter(i => i.name.toLowerCase().includes(search));
-        document.getElementById('adminItemsList').innerHTML = filtered.map(item => `<div class="admin-item"><div><img src="${item.image}" style="width:40px;height:40px;object-fit:contain;"> <strong>${item.name}</strong><br><small>₱${item.price}</small></div><button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button></div>`).join('');
+        document.getElementById('adminItemsList').innerHTML = filtered.map(item => `<div class="admin-item"><div><img src="${item.image}" style="width:40px;height:40px;object-fit:contain;border-radius:8px;"> <strong>${item.name}</strong><br><small>₱${item.pricePHP}</small></div><button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button></div>`).join('');
     }
     function toggleItemSale(id) { if (!isAdmin) return; const item = items.find(i => i.id === id); if (item) { item.onsale = !item.onsale; renderAdminPanel(); renderProducts(); showToast(`${item.name} ${item.onsale ? 'on sale' : 'off sale'}`); saveItems(); } }
-    function addCustomItem() { if (!isAdmin) return; const name = document.getElementById('newItemName').value; const img = document.getElementById('newItemImage').value; const type = document.getElementById('newItemType').value; const rarity = document.getElementById('newItemRarity').value; let price = parseInt(document.getElementById('newItemPrice').value); if (!name || !price) { showToast("Fill name and price"); return; } items.push({ id: Date.now(), name, type, price: Math.max(100, price), onsale: true, rarity, image: img || "https://i.imgur.com/8QZ7VcL.png" }); renderProducts(); renderAdminPanel(); showToast(`Added ${name}`); saveItems(); }
+    function addCustomItem() { if (!isAdmin) return; const name = document.getElementById('newItemName').value; const img = document.getElementById('newItemImage').value; const type = document.getElementById('newItemType').value; const rarity = document.getElementById('newItemRarity').value; let price = parseInt(document.getElementById('newItemPrice').value); if (!name || !price) { showToast("Fill name and price"); return; } items.push({ id: Date.now(), name, type, pricePHP: Math.max(100, price), onsale: true, rarity, image: img || "https://i.imgur.com/8QZ7VcL.png" }); renderProducts(); renderAdminPanel(); showToast(`Added ${name}`); saveItems(); }
     function saveItems() { localStorage.setItem('customItems', JSON.stringify(items)); }
     function filterAdminItems() { renderAdminPanel(); }
     
@@ -1610,11 +1745,11 @@
         document.getElementById('productsGrid').innerHTML = filtered.map(item => `
             <div class="product-card ${!item.onsale ? 'offsale' : ''}">
                 ${!item.onsale ? '<div class="offsale-badge">OFF SALE</div>' : ''}
-                <div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/150x150/6c5ce7/white?text=${item.name.charAt(0)}'"></div>
+                <div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/150x150/6c5ce7/white?text=${item.name.charAt(0)}'" style="border-radius:12px;"></div>
                 <div class="product-info">
                     <div class="product-name">${item.name}</div>
                     <div class="product-rarity" style="color: ${item.rarity === 'Chroma' ? '#ff00ff' : '#f39c12'}">${item.rarity}</div>
-                    <div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div>
+                    <div class="product-price">${getSymbol()}${getDisplayPrice(item.pricePHP)}</div>
                     <button class="add-btn" onclick="addToCart(${item.id})" ${!item.onsale ? 'disabled' : ''}>Add to Cart</button>
                 </div>
             </div>
@@ -1626,23 +1761,23 @@
         document.getElementById('totalItems').innerText = items.length;
         document.getElementById('onsaleCount').innerText = items.filter(i => i.onsale).length;
         document.getElementById('offsaleCount').innerText = items.filter(i => !i.onsale).length;
-        let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-        if (voucherApplied) total = total * 0.95;
-        document.getElementById('cartValue').innerHTML = `${getSymbol()}${getDisplayPrice(total)}`;
+        let totalPHP = cart.reduce((s, i) => s + (i.pricePHP * i.quantity), 0);
+        if (voucherApplied) totalPHP = totalPHP * 0.95;
+        document.getElementById('cartValue').innerHTML = `${getSymbol()}${getDisplayPrice(totalPHP)}`;
     }
     
     function addToCart(id) { if (!isLoggedIn) { showToast("Please login with Google first!"); return; } const item = items.find(i => i.id === id); if (!item || !item.onsale) return; const existing = cart.find(i => i.id === id); if (existing) existing.quantity++; else cart.push({ ...item, quantity: 1 }); updateCartUI(); showToast(`${item.name} added!`); }
     
     function updateCartUI() {
         const container = document.getElementById('cartItemsList');
-        let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+        let totalPHP = cart.reduce((s, i) => s + (i.pricePHP * i.quantity), 0);
         const count = cart.reduce((s, i) => s + i.quantity, 0);
         document.getElementById('cartCount').innerText = count;
-        if (voucherApplied) { let discounted = total * 0.95; document.getElementById('cartTotal').innerHTML = `Original: ${getSymbol()}${getDisplayPrice(total)}<br>After 5% discount: ${getSymbol()}${getDisplayPrice(discounted)}`; }
-        else { document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`; }
+        if (voucherApplied) { let discounted = totalPHP * 0.95; document.getElementById('cartTotal').innerHTML = `Original: ${getSymbol()}${getDisplayPrice(totalPHP)}<br>After 5% discount: ${getSymbol()}${getDisplayPrice(discounted)}`; }
+        else { document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(totalPHP)}`; }
         updateStats();
         if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;padding:20px;">Cart is empty</p>'; return; }
-        container.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button><span>${item.quantity}</span><button onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button><button onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button></div></div>`).join('');
+        container.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.pricePHP)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button><span>${item.quantity}</span><button onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button><button onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button></div></div>`).join('');
     }
     
     function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if (item) item.quantity = newQty; updateCartUI(); } }
@@ -1654,10 +1789,10 @@
         if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
         if (cart.length === 0) { showToast("Your cart is empty"); return; }
         
-        const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+        const subtotalPHP = cart.reduce((s, i) => s + (i.pricePHP * i.quantity), 0);
         const container = document.getElementById('checkoutOrderItems');
-        container.innerHTML = cart.map(item => `<div class="order-item"><span>${item.name} x${item.quantity}</span><span>₱${(item.price * item.quantity).toLocaleString()}</span></div>`).join('');
-        document.getElementById('checkoutSubtotal').innerHTML = `₱${subtotal.toLocaleString()}`;
+        container.innerHTML = cart.map(item => `<div class="order-item"><span>${item.name} x${item.quantity}</span><span>${getSymbol()}${getDisplayPrice(item.pricePHP * item.quantity)}</span></div>`).join('');
+        document.getElementById('checkoutSubtotal').innerHTML = `${getSymbol()}${getDisplayPrice(subtotalPHP)}`;
         updateCheckoutTotal();
         
         if (currentUser) {
@@ -1703,12 +1838,13 @@
     }
     
     function updateCheckoutTotal() {
-        const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-        const total = subtotal + checkoutSelectedTip;
-        document.getElementById('checkoutTipAmount').innerHTML = `₱${checkoutSelectedTip.toLocaleString()}`;
-        document.getElementById('checkoutGrandTotal').innerHTML = `₱${total.toLocaleString()}`;
+        const subtotalPHP = cart.reduce((s, i) => s + (i.pricePHP * i.quantity), 0);
+        const totalPHP = subtotalPHP + checkoutSelectedTip;
+        document.getElementById('checkoutTipAmount').innerHTML = `${getSymbol()}${getDisplayPrice(checkoutSelectedTip)}`;
+        document.getElementById('checkoutGrandTotal').innerHTML = `${getSymbol()}${getDisplayPrice(totalPHP)}`;
     }
     
+    // PROCESSING LOADING & PAYMENT VERIFICATION
     function processCheckout() {
         const firstName = document.getElementById('firstName').value.trim();
         const lastName = document.getElementById('lastName').value.trim();
@@ -1731,34 +1867,53 @@
             return;
         }
         
-        const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-        const total = subtotal + checkoutSelectedTip;
-        const orderNumber = generateOrderNumber();
-        const paymentNames = { paypal: "PayPal", gcash: "GCash", visa: "Visa", credit: "Credit Card" };
+        // Show processing loading GUI
+        const processingOverlay = document.getElementById('processingOverlay');
+        processingOverlay.classList.add('show');
         
-        const orderDetails = {
-            orderNumber: orderNumber,
-            items: cart.map(i => `${i.name} x${i.quantity}`).join(', '),
-            total: `₱${total.toLocaleString()}`,
-            payment: paymentNames[checkoutSelectedPayment] || checkoutSelectedPayment,
-            tip: `₱${checkoutSelectedTip.toLocaleString()}`,
-            subtotal: `₱${subtotal.toLocaleString()}`
-        };
-        
-        sendDiscordNotification(orderNumber, robloxUser, orderDetails);
-        
-        orders.push({ ...orderDetails, userId: currentUser.uid, status: 'pending', date: new Date().toLocaleString() });
-        localStorage.setItem('orders', JSON.stringify(orders));
-        
-        const receiptHtml = `<div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div><div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div><div class="receipt-row"><strong>Items:</strong> ${orderDetails.items}</div><div class="receipt-row"><strong>Subtotal:</strong> ${orderDetails.subtotal}</div><div class="receipt-row"><strong>Tip:</strong> ${orderDetails.tip}</div><div class="receipt-row"><strong>Total:</strong> ${orderDetails.total}</div><div class="receipt-row"><strong>Payment:</strong> ${orderDetails.payment}</div><div class="receipt-row"><strong>Roblox:</strong> @${robloxUser}</div><div class="receipt-row receipt-total"><strong>Status: Pending Admin Approval</strong></div>`;
-        document.getElementById('receiptDetails').innerHTML = receiptHtml;
-        document.getElementById('receiptModal').classList.add('show');
-        
-        cart = [];
-        if (voucherApplied) { voucherApplied = false; localStorage.removeItem('voucher_' + currentUser.uid); hasVoucher = false; }
-        updateCartUI();
-        closeCheckoutPage();
-        grecaptcha.reset();
+        // Simulate payment verification (2 seconds)
+        setTimeout(() => {
+            // Verify payment method eligibility
+            const eligibleMethods = ['paypal', 'gcash', 'visa', 'credit'];
+            if (!eligibleMethods.includes(checkoutSelectedPayment)) {
+                processingOverlay.classList.remove('show');
+                showToast("Payment method not eligible. Please try another method.");
+                return;
+            }
+            
+            // Payment verification successful
+            const subtotalPHP = cart.reduce((s, i) => s + (i.pricePHP * i.quantity), 0);
+            const totalPHP = subtotalPHP + checkoutSelectedTip;
+            const orderNumber = generateOrderNumber();
+            const paymentNames = { paypal: "PayPal", gcash: "GCash", visa: "Visa", credit: "Credit Card" };
+            
+            const orderDetails = {
+                orderNumber: orderNumber,
+                items: cart.map(i => `${i.name} x${i.quantity}`).join(', '),
+                total: `${getSymbol()}${getDisplayPrice(totalPHP)}`,
+                payment: paymentNames[checkoutSelectedPayment] || checkoutSelectedPayment,
+                tip: `${getSymbol()}${getDisplayPrice(checkoutSelectedTip)}`,
+                subtotal: `${getSymbol()}${getDisplayPrice(subtotalPHP)}`
+            };
+            
+            sendDiscordNotification(orderNumber, robloxUser, orderDetails);
+            
+            orders.push({ ...orderDetails, userId: currentUser.uid, status: 'pending', date: new Date().toLocaleString() });
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            const receiptHtml = `<div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div><div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div><div class="receipt-row"><strong>Items:</strong> ${orderDetails.items}</div><div class="receipt-row"><strong>Subtotal:</strong> ${orderDetails.subtotal}</div><div class="receipt-row"><strong>Tip:</strong> ${orderDetails.tip}</div><div class="receipt-row"><strong>Total:</strong> ${orderDetails.total}</div><div class="receipt-row"><strong>Payment:</strong> ${orderDetails.payment}</div><div class="receipt-row"><strong>Roblox:</strong> @${robloxUser}</div><div class="receipt-row receipt-total"><strong>Status: Pending Admin Approval</strong></div>`;
+            document.getElementById('receiptDetails').innerHTML = receiptHtml;
+            
+            // Hide processing overlay, show receipt
+            processingOverlay.classList.remove('show');
+            document.getElementById('receiptModal').classList.add('show');
+            
+            cart = [];
+            if (voucherApplied) { voucherApplied = false; localStorage.removeItem('voucher_' + currentUser.uid); hasVoucher = false; }
+            updateCartUI();
+            closeCheckoutPage();
+            grecaptcha.reset();
+        }, 2000);
     }
     
     function closeReceipt() { document.getElementById('receiptModal').classList.remove('show'); }
@@ -1795,7 +1950,7 @@
     window.toggleDropdown = toggleDropdown; window.viewProfile = viewProfile; window.showPurchaseHistory = showPurchaseHistory;
     window.showReviews = showReviews; window.closeReviews = closeReviews; window.closeHistory = closeHistory;
     window.viewVouchers = viewVouchers; window.toggleTheme = toggleTheme; window.showHelp = showHelp; window.logout = logout;
-    window.changeCurrency = changeCurrency; window.toggleCart = toggleCart; window.closeCart = closeCart; window.selectPayment = selectPayment;
+    window.toggleCart = toggleCart; window.closeCart = closeCart; window.selectPayment = selectPayment;
     window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart;
     window.openTradeModal = openTradeModal; window.closeTradeModal = closeTradeModal; window.submitTrade = submitTrade;
     window.performGoogleLogin = performGoogleLogin; window.toggleItemSale = toggleItemSale; window.filterAdminItems = filterAdminItems;
@@ -1804,7 +1959,9 @@
     window.submitReview = submitReview; window.showContactModal = showContactModal; window.closeContactModal = closeContactModal;
     window.sendContactEmail = sendContactEmail; window.openCheckoutPage = openCheckoutPage; window.closeCheckoutPage = closeCheckoutPage;
     window.selectCheckoutPayment = selectCheckoutPayment; window.selectCheckoutTip = selectCheckoutTip; window.processCheckout = processCheckout;
+    window.setCurrency = setCurrency; window.filterCurrencies = filterCurrencies;
     
+    loadCurrencies();
     renderProducts(); selectPayment('paypal'); loadTrades(); showHome();
 </script>
 </body>
