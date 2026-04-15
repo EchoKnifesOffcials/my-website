@@ -427,25 +427,11 @@
         .admin-item-info img { width: 45px; height: 45px; object-fit: contain; }
         .admin-price-input { width: 100px; padding: 6px; border-radius: 20px; background: rgba(108,92,231,0.2); border: 1px solid #6c5ce7; color: white; text-align: center; }
         .update-price-btn { background: #10b981; border: none; padding: 6px 12px; border-radius: 20px; color: white; cursor: pointer; }
-        .delete-item-btn { background: #dc2626; border: none; padding: 6px 12px; border-radius: 20px; color: white; cursor: pointer; margin-left: 5px; }
+        .delete-item-btn { background: #dc2626; border: none; padding: 6px 12px; border-radius: 20px; color: white; cursor: pointer; }
         .toggle-status { background: #6c5ce7; border: none; padding: 5px 15px; border-radius: 25px; color: white; cursor: pointer; font-size: 11px; }
         .toggle-status.available { background: #10b981; }
-
-        /* Add Custom Item Form */
-        .add-item-form {
-            background: rgba(108, 92, 231, 0.1);
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        .add-item-form input, .add-item-form select {
-            background: rgba(108, 92, 231, 0.2);
-            border: 1px solid rgba(108, 92, 231, 0.3);
-            padding: 10px;
-            border-radius: 20px;
-            color: white;
-            margin: 5px;
-        }
+        .add-item-form { background: rgba(108,92,231,0.1); border-radius: 20px; padding: 20px; margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+        .add-item-form input, .add-item-form select { background: rgba(108,92,231,0.2); border: 1px solid rgba(108,92,231,0.3); padding: 10px; border-radius: 20px; color: white; }
         .add-item-btn { background: #6c5ce7; border: none; padding: 10px 20px; border-radius: 30px; color: white; cursor: pointer; }
 
         /* Chat Panel */
@@ -482,6 +468,39 @@
         .attach-btn { background: rgba(108, 92, 231, 0.2); border: none; padding: 12px; border-radius: 50%; cursor: pointer; transition: all 0.3s; }
         .attach-btn:hover { background: #6c5ce7; }
         .chat-send { background: #6c5ce7; border: none; padding: 12px 25px; border-radius: 30px; color: white; cursor: pointer; }
+
+        /* Contact Modal */
+        .contact-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(20px);
+            z-index: 4000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .contact-modal.show { display: flex; }
+        .contact-content {
+            background: rgba(15, 12, 41, 0.95);
+            border-radius: 30px;
+            padding: 35px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid #6c5ce7;
+        }
+        .contact-content input, .contact-content textarea {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 16px;
+            color: white;
+        }
 
         /* Shop Container */
         .shop-container { display: none; padding: 40px 5%; }
@@ -530,10 +549,11 @@
         .stat-card h3 { font-size: 32px; font-weight: 800; color: #6c5ce7; }
         .stat-card p { font-size: 13px; color: #888; margin-top: 5px; }
 
+        /* PRODUCTS GRID - LARGER IMAGES */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
         }
         .product-card {
             background: rgba(15, 12, 41, 0.7);
@@ -561,6 +581,7 @@
             font-weight: bold;
             z-index: 2;
         }
+        /* LARGER PRODUCT IMAGE */
         .product-image {
             width: 100%;
             aspect-ratio: 1;
@@ -568,23 +589,26 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 25px;
+            padding: 20px;
         }
         .product-image img {
-            width: 110px;
-            height: 110px;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
             transition: transform 0.3s;
         }
-        .product-card:hover .product-image img { transform: scale(1.1); }
+        .product-card:hover .product-image img { transform: scale(1.05); }
         .product-info { padding: 18px; }
-        .product-name { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
-        .product-rarity { font-size: 11px; margin-bottom: 10px; text-transform: uppercase; font-weight: 600; }
+        .product-name { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+        .product-rarity { font-size: 12px; margin-bottom: 10px; text-transform: uppercase; font-weight: 600; }
         .product-rarity.godly { color: #dc2626; }
         .product-rarity.ancient { color: #f39c12; }
         .product-rarity.rare { color: #10b981; }
         .product-rarity.custom { color: #a855f7; }
-        .product-price { font-size: 22px; font-weight: 800; color: #6c5ce7; }
+        .price-container { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 5px; }
+        .original-price { font-size: 14px; color: #888; text-decoration: line-through; }
+        .product-price { font-size: 24px; font-weight: 800; color: #6c5ce7; }
+        .discount-badge { background: #10b981; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: bold; }
         .add-btn {
             width: 100%;
             margin-top: 15px;
@@ -757,13 +781,15 @@
 
         @media (max-width: 768px) {
             .cart-sidebar { width: 100%; right: -100%; }
-            .products-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
             .hero-title { font-size: 42px; }
             .hero { flex-direction: column; text-align: center; }
             .hero-stats { justify-content: center; }
             .hero-buttons { justify-content: center; }
             .chat-conversations { flex-direction: column; }
             .conversation-list { width: 100%; border-right: none; border-bottom: 1px solid rgba(108, 92, 231, 0.2); padding-bottom: 15px; margin-bottom: 15px; }
+            .add-item-form { flex-direction: column; }
+            .add-item-form input, .add-item-form select { width: 100%; }
         }
     </style>
 </head>
@@ -799,6 +825,7 @@
                 <div class="dropdown-item" onclick="showPurchaseHistory()"><i class="fas fa-shopping-bag"></i> Purchase History</div>
                 <div class="dropdown-item" onclick="showReviews()"><i class="fas fa-star"></i> Reviews</div>
                 <div class="dropdown-item" onclick="viewVouchers()"><i class="fas fa-ticket-alt"></i> My Vouchers</div>
+                <div class="dropdown-item" onclick="showContactModal()"><i class="fas fa-envelope"></i> Contact Us</div>
                 <div class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</div>
             </div>
         </div>
@@ -836,6 +863,7 @@
     </div>
 </div>
 
+<!-- Admin Panel -->
 <div class="admin-panel" id="adminPanel">
     <div class="admin-header">
         <h3><i class="fas fa-crown"></i> Admin Controls</h3>
@@ -843,25 +871,16 @@
     </div>
     <div class="admin-items-list" id="adminItemsList"></div>
     <div class="add-item-form">
-        <h4><i class="fas fa-plus"></i> Add Custom Item</h4>
         <input type="text" id="newItemName" placeholder="Item Name">
         <input type="text" id="newItemImage" placeholder="Image URL">
-        <select id="newItemType">
-            <option value="knife">🔪 Knife</option>
-            <option value="gun">🔫 Gun</option>
-            <option value="pet">🐾 Pet</option>
-        </select>
-        <select id="newItemRarity">
-            <option value="Godly">Godly</option>
-            <option value="Ancient">Ancient</option>
-            <option value="Rare">Rare</option>
-            <option value="Custom">Custom</option>
-        </select>
+        <select id="newItemType"><option value="knife">🔪 Knife</option><option value="gun">🔫 Gun</option><option value="pet">🐾 Pet</option></select>
+        <select id="newItemRarity"><option value="Godly">Godly</option><option value="Ancient">Ancient</option><option value="Rare">Rare</option><option value="Custom">Custom</option></select>
         <input type="number" id="newItemPrice" placeholder="Price (PHP)">
         <button class="add-item-btn" onclick="addCustomItem()">Add Item</button>
     </div>
 </div>
 
+<!-- Chat Panel -->
 <div class="chat-panel" id="chatPanel">
     <div class="chat-header">
         <h3><i class="fas fa-comments"></i> Messages</h3>
@@ -881,24 +900,28 @@
     </div>
 </div>
 
+<!-- Contact Modal -->
+<div class="contact-modal" id="contactModal">
+    <div class="contact-content">
+        <h2><i class="fas fa-envelope"></i> Contact Support</h2>
+        <input type="text" id="contactName" placeholder="Your Name">
+        <input type="email" id="contactEmail" placeholder="Your Email">
+        <input type="text" id="contactSubject" placeholder="Subject">
+        <textarea id="contactMessage" rows="4" placeholder="Your message..."></textarea>
+        <button class="btn-primary" onclick="sendContactEmail()" style="width:100%;">Send Message</button>
+        <button class="btn-secondary" onclick="closeContactModal()" style="width:100%; margin-top:10px;">Cancel</button>
+    </div>
+</div>
+
 <div id="homePage" class="hero">
     <div class="hero-content">
         <div class="hero-badge">✨ PREMIUM MM2 SHOP ✨</div>
         <h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1>
         <p class="hero-desc">Get the rarest Murder Mystery 2 items instantly.<br>Secure payments, fast delivery, 24/7 support.</p>
-        <div class="hero-stats">
-            <div class="hero-stat"><h3>10K+</h3><p>Items Sold</p></div>
-            <div class="hero-stat"><h3>5K+</h3><p>Happy Customers</p></div>
-            <div class="hero-stat"><h3>100%</h3><p>Secure</p></div>
-        </div>
-        <div class="hero-buttons">
-            <button class="btn-primary" onclick="showShop()"><i class="fas fa-shopping-cart"></i> Shop Now</button>
-            <button class="btn-secondary" onclick="showTrading()"><i class="fas fa-exchange-alt"></i> Trade Items</button>
-        </div>
+        <div class="hero-stats"><div class="hero-stat"><h3>10K+</h3><p>Items Sold</p></div><div class="hero-stat"><h3>5K+</h3><p>Happy Customers</p></div><div class="hero-stat"><h3>100%</h3><p>Secure</p></div></div>
+        <div class="hero-buttons"><button class="btn-primary" onclick="showShop()"><i class="fas fa-shopping-cart"></i> Shop Now</button><button class="btn-secondary" onclick="showTrading()"><i class="fas fa-exchange-alt"></i> Trade Items</button></div>
     </div>
-    <div class="hero-image">
-        <img src="https://i.imgur.com/8QZ7VcL.png" alt="MM2 Knife">
-    </div>
+    <div class="hero-image"><img src="https://i.imgur.com/8QZ7VcL.png" alt="MM2 Knife"></div>
 </div>
 
 <div id="shopPage" class="shop-container">
@@ -908,7 +931,6 @@
         <div class="stat-card"><h3 id="offsaleCount">0</h3><p>Off Sale</p></div>
         <div class="stat-card"><h3 id="cartValue">₱0</h3><p>Cart Total</p></div>
     </div>
-    
     <div class="filter-bar">
         <button class="filter-btn active" data-filter="all">All Items</button>
         <button class="filter-btn" data-filter="knife">🔪 Knives</button>
@@ -916,24 +938,17 @@
         <button class="filter-btn" data-filter="pet">🐾 Pets</button>
         <button class="filter-btn" data-filter="onsale">✅ On Sale</button>
     </div>
-    
     <div class="products-grid" id="productsGrid"></div>
 </div>
 
 <div id="tradingPage" class="trading-container">
-    <div class="trading-header">
-        <h2><i class="fas fa-exchange-alt"></i> Trading Hub</h2>
-        <button class="create-trade-btn" onclick="openTradeModal()"><i class="fas fa-plus"></i> Create Trade</button>
-    </div>
+    <div class="trading-header"><h2><i class="fas fa-exchange-alt"></i> Trading Hub</h2><button class="create-trade-btn" onclick="openTradeModal()"><i class="fas fa-plus"></i> Create Trade</button></div>
     <div class="trades-grid" id="tradesGrid"></div>
 </div>
 
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
-    <div class="cart-header">
-        <h3>Your Cart</h3>
-        <button class="close-cart" onclick="closeCart()">×</button>
-    </div>
+    <div class="cart-header"><h3>Your Cart</h3><button class="close-cart" onclick="closeCart()">×</button></div>
     <div class="cart-items" id="cartItemsList"></div>
     <div class="cart-total" id="cartTotal">Total: ₱0</div>
     <div class="payment-options">
@@ -946,67 +961,22 @@
     <input type="text" id="otherPaymentMethod" class="other-payment-input" placeholder="Enter payment method...">
     <div id="paypal-button-container" class="paypal-button-container"></div>
     <input type="text" id="checkoutRobloxUsername" class="roblox-input" placeholder="Roblox Username (required)">
-    <div id="voucherSection" style="display:none; margin:10px 0; padding:12px; background:rgba(108,92,231,0.2); border-radius:16px;">
-        <p><i class="fas fa-ticket-alt"></i> 5% off voucher available!</p>
-        <div style="display:flex; gap:10px; margin-top:10px;">
-            <button class="verify-yes" onclick="applyVoucher()" style="flex:1; background:#10b981; border:none; padding:8px; border-radius:25px; color:white; cursor:pointer;">Apply</button>
-            <button class="verify-no" onclick="dismissVoucher()" style="flex:1; background:#dc2626; border:none; padding:8px; border-radius:25px; color:white; cursor:pointer;">Dismiss</button>
-        </div>
-    </div>
+    <div id="voucherSection" style="display:none; margin:10px 0; padding:12px; background:rgba(108,92,231,0.2); border-radius:16px;"><p><i class="fas fa-ticket-alt"></i> 5% off voucher available!</p><div style="display:flex; gap:10px; margin-top:10px;"><button class="verify-yes" onclick="applyVoucher()" style="flex:1; background:#10b981; border:none; padding:8px; border-radius:25px; color:white; cursor:pointer;">Apply</button><button class="verify-no" onclick="dismissVoucher()" style="flex:1; background:#dc2626; border:none; padding:8px; border-radius:25px; color:white; cursor:pointer;">Dismiss</button></div></div>
     <button class="checkout-btn" id="checkoutBtn" onclick="processPayment()">Place Order</button>
 </div>
 
 <!-- Receipt Modal -->
-<div class="receipt-modal" id="receiptModal">
-    <div class="receipt-content">
-        <div class="receipt-icon"><i class="fas fa-check-circle"></i></div>
-        <div class="receipt-title">Order Confirmed!</div>
-        <div class="receipt-details">
-            <div class="receipt-row"><strong>Order #:</strong> <span id="receiptOrderNumber"></span></div>
-            <div class="receipt-row"><strong>Date:</strong> <span id="receiptDate"></span></div>
-            <div class="receipt-row"><strong>Payment:</strong> <span id="receiptPayment"></span></div>
-            <div class="receipt-row"><strong>Total:</strong> <span id="receiptTotal"></span></div>
-            <div class="receipt-row"><strong>Items:</strong> <span id="receiptItems"></span></div>
-            <div class="receipt-row"><strong>Roblox:</strong> <span id="receiptRoblox"></span></div>
-        </div>
-        <button class="receipt-close" onclick="closeReceipt()">Done</button>
-    </div>
-</div>
+<div class="receipt-modal" id="receiptModal"><div class="receipt-content"><div class="receipt-icon"><i class="fas fa-check-circle"></i></div><div class="receipt-title">Order Confirmed!</div><div class="receipt-details"><div class="receipt-row"><strong>Order #:</strong> <span id="receiptOrderNumber"></span></div><div class="receipt-row"><strong>Date:</strong> <span id="receiptDate"></span></div><div class="receipt-row"><strong>Payment:</strong> <span id="receiptPayment"></span></div><div class="receipt-row"><strong>Total:</strong> <span id="receiptTotal"></span></div><div class="receipt-row"><strong>Items:</strong> <span id="receiptItems"></span></div><div class="receipt-row"><strong>Roblox:</strong> <span id="receiptRoblox"></span></div></div><button class="receipt-close" onclick="closeReceipt()">Done</button></div></div>
 
 <!-- Reviews Modal -->
-<div class="reviews-modal" id="reviewsModal">
-    <div class="reviews-content">
-        <h3><i class="fas fa-star"></i> Customer Reviews</h3>
-        <div id="reviewsList"></div>
-        <div class="write-review">
-            <h4>Write a Review</h4>
-            <div class="star-rating" id="starRating">
-                <i class="far fa-star" data-rating="1"></i>
-                <i class="far fa-star" data-rating="2"></i>
-                <i class="far fa-star" data-rating="3"></i>
-                <i class="far fa-star" data-rating="4"></i>
-                <i class="far fa-star" data-rating="5"></i>
-            </div>
-            <textarea id="reviewText" rows="3" placeholder="Share your experience..."></textarea>
-            <button class="btn-primary" onclick="submitReview()" style="width:100%;">Submit Review</button>
-        </div>
-        <button class="btn-secondary" onclick="closeReviews()" style="width:100%; margin-top:15px;">Close</button>
-    </div>
-</div>
+<div class="reviews-modal" id="reviewsModal"><div class="reviews-content"><h3><i class="fas fa-star"></i> Customer Reviews</h3><div id="reviewsList"></div><div class="write-review"><h4>Write a Review</h4><div class="star-rating" id="starRating"><i class="far fa-star" data-rating="1"></i><i class="far fa-star" data-rating="2"></i><i class="far fa-star" data-rating="3"></i><i class="far fa-star" data-rating="4"></i><i class="far fa-star" data-rating="5"></i></div><textarea id="reviewText" rows="3" placeholder="Share your experience..."></textarea><button class="btn-primary" onclick="submitReview()" style="width:100%;">Submit Review</button></div><button class="btn-secondary" onclick="closeReviews()" style="width:100%; margin-top:15px;">Close</button></div></div>
 
 <!-- History Modal -->
-<div class="history-modal" id="historyModal">
-    <div class="history-content">
-        <h3><i class="fas fa-shopping-bag"></i> Purchase History</h3>
-        <div id="historyList"></div>
-        <button class="btn-secondary" onclick="closeHistory()" style="width:100%; margin-top:15px;">Close</button>
-    </div>
-</div>
+<div class="history-modal" id="historyModal"><div class="history-content"><h3><i class="fas fa-shopping-bag"></i> Purchase History</h3><div id="historyList"></div><button class="btn-secondary" onclick="closeHistory()" style="width:100%; margin-top:15px;">Close</button></div></div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-    // Create particles
     function createParticles() {
         const container = document.getElementById('particles');
         for (let i = 0; i < 60; i++) {
@@ -1022,39 +992,18 @@
     }
     createParticles();
 
-    // ========== MM2 ITEMS WITH ACCURATE PRICES ==========
-    // Rule: Items under 50 PHP are raised to 100 PHP
+    // ========== MM2 ITEMS WITH FAKE DISCOUNTS (75% have discounts) ==========
     let items = [
-        { id: 1, name: "Icewing", type: "knife", price: 100, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/jiwvmxq.jpeg", category: "godly" },
-        { id: 2, name: "Hallows Blade", type: "knife", price: 100, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly" },
-        { id: 3, name: "Fang", type: "knife", price: 240, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly" },
-        { id: 4, name: "Slasher", type: "knife", price: 270, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly" },
-        { id: 5, name: "Heat", type: "knife", price: 330, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/9mNpR2q.png", category: "godly" },
-        { id: 6, name: "Nightblade", type: "knife", price: 180, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/4sJtL5p.png", category: "godly" },
-        { id: 7, name: "Deathshard", type: "knife", price: 210, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/7uKvH2l.png", category: "godly" },
-        { id: 8, name: "Luger", type: "gun", price: 420, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly" },
-        { id: 9, name: "Shark", type: "gun", price: 270, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/6cDvB3m.png", category: "godly" },
-        { id: 10, name: "Laser", type: "gun", price: 300, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xPqL9j.png", category: "godly" },
-        { id: 11, name: "Blaster", type: "gun", price: 360, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8bRcV2k.png", category: "godly" },
-        { id: 12, name: "Virtual", type: "gun", price: 330, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly" },
-        { id: 13, name: "Amerilaser", type: "gun", price: 390, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly" },
-        { id: 14, name: "Electro", type: "pet", price: 100, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet" },
-        { id: 15, name: "Frostbird", type: "pet", price: 100, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/3xPqL9j.png", category: "pet" },
-        { id: 16, name: "Phoenix", type: "pet", price: 120, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/8bRcV2k.png", category: "pet" },
-        { id: 17, name: "Sammy", type: "pet", price: 150, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/5dFgH7n.png", category: "pet" },
-        { id: 18, name: "Fire Dog", type: "pet", price: 180, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/2aBcX4p.png", category: "pet" },
-        { id: 19, name: "Icebreaker", type: "knife", price: 720, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/9mNpR2q.png", category: "ancient" },
-        { id: 20, name: "Elderwood Scythe", type: "knife", price: 660, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/7uKvH2l.png", category: "ancient" },
-        { id: 21, name: "Logchopper", type: "knife", price: 600, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/4sJtL5p.png", category: "ancient" },
-        { id: 22, name: "Boneblade", type: "knife", price: 540, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/1wEfR4t.png", category: "ancient" },
-        { id: 23, name: "BattleAxe II", type: "knife", price: 510, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/6cDvB3m.png", category: "ancient" },
-        { id: 24, name: "Batwing", type: "knife", price: 152, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly" },
-        { id: 25, name: "Harvester", type: "knife", price: 608, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly" },
-        { id: 26, name: "Vampire's Axe", type: "knife", price: 1521, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly" },
-        { id: 27, name: "Phantom", type: "knife", price: 153, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly" },
-        { id: 28, name: "Candleflame", type: "knife", price: 220, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/9mNpR2q.png", category: "godly" },
-        { id: 29, name: "Darksword", type: "knife", price: 659, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/4sJtL5p.png", category: "godly" },
-        { id: 30, name: "Xenoknife", type: "knife", price: 66, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/7uKvH2l.png", category: "godly" }
+        { id: 1, name: "Icewing", type: "knife", price: 100, originalPrice: 180, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/jiwvmxq.jpeg", category: "godly", hasDiscount: true },
+        { id: 2, name: "Batwing", type: "knife", price: 152, originalPrice: 220, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly", hasDiscount: true },
+        { id: 3, name: "Harvester", type: "knife", price: 608, originalPrice: 850, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly", hasDiscount: true },
+        { id: 4, name: "Vampire's Axe", type: "knife", price: 1521, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly", hasDiscount: false },
+        { id: 5, name: "Phantom", type: "knife", price: 153, originalPrice: 220, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly", hasDiscount: true },
+        { id: 6, name: "Luger", type: "gun", price: 420, originalPrice: 600, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly", hasDiscount: true },
+        { id: 7, name: "Lightbringer", type: "gun", price: 92000, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly", hasDiscount: false },
+        { id: 8, name: "Darkbringer", type: "gun", price: 92000, originalPrice: 130000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly", hasDiscount: true },
+        { id: 9, name: "Fire Bunny", type: "pet", price: 2800, originalPrice: 0, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet", hasDiscount: false },
+        { id: 10, name: "Frostbird", type: "pet", price: 100, originalPrice: 160, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/3xPqL9j.png", category: "pet", hasDiscount: true }
     ];
 
     const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, KRW: 24.5 };
@@ -1073,7 +1022,9 @@
     let pendingOrders = JSON.parse(localStorage.getItem('pendingOrders') || '{}');
     let reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
     let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-    let nextId = 31;
+    let conversations = JSON.parse(localStorage.getItem('conversations') || '{}');
+    let currentConversation = null;
+    let nextId = 11;
     
     function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
     function getSymbol() { return currencySymbols[currentCurrency]; }
@@ -1084,6 +1035,19 @@
     function showShop() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').classList.add('active'); document.getElementById('tradingPage').classList.remove('active'); document.getElementById('chatPanel').classList.remove('show'); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(2)').classList.add('active'); renderProducts(); }
     function showTrading() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').classList.remove('active'); document.getElementById('tradingPage').classList.add('active'); document.getElementById('chatPanel').classList.remove('show'); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(3)').classList.add('active'); loadTrades(); }
     function showChat() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').classList.remove('active'); document.getElementById('tradingPage').classList.remove('active'); document.getElementById('chatPanel').classList.add('show'); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(4)').classList.add('active'); loadConversations(); }
+    
+    function showContactModal() { document.getElementById('contactModal').classList.add('show'); }
+    function closeContactModal() { document.getElementById('contactModal').classList.remove('show'); }
+    function sendContactEmail() {
+        const name = document.getElementById('contactName').value;
+        const email = document.getElementById('contactEmail').value;
+        const subject = document.getElementById('contactSubject').value;
+        const message = document.getElementById('contactMessage').value;
+        if (!name || !email || !subject || !message) { showToast("Please fill in all fields!"); return; }
+        window.location.href = `mailto:EchoKnivesOfficial@gmail.com?subject=Contact from ${name}: ${subject}&body=Name: ${name}%0AEmail: ${email}%0A%0AMessage:%0A${message}`;
+        showToast("Opening your email app...");
+        closeContactModal();
+    }
     
     function showReviews() { loadReviews(); document.getElementById('reviewsModal').classList.add('show'); }
     function closeReviews() { document.getElementById('reviewsModal').classList.remove('show'); }
@@ -1119,45 +1083,24 @@
     
     function viewVouchers() { if (hasVoucher) alert("🎫 You have a 5% off voucher (never expires)!"); else alert("🎫 No vouchers available."); }
     
-    // Discord Webhook with buttons + website chat link
     const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d';
     const WEBSITE_URL = window.location.origin;
-    
     function generateOrderNumber() { return 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase(); }
     
     async function sendDiscordNotification(orderNumber, robloxUser, orderDetails) {
         const chatLink = `${WEBSITE_URL}/?chat=${orderNumber}&user=${robloxUser}`;
-        const embed = { 
-            title: '🛒 NEW ORDER!', 
-            color: 0x6c5ce7, 
-            fields: [
-                { name: '📋 Order Number', value: `\`${orderNumber}\``, inline: true },
-                { name: '🎮 Roblox', value: `@${robloxUser}`, inline: true },
-                { name: '💰 Total', value: orderDetails.total, inline: true },
-                { name: '📦 Items', value: orderDetails.items, inline: false },
-                { name: '💳 Payment', value: orderDetails.payment, inline: true },
-                { name: '💬 Chat with Buyer', value: `[Click here to chat](${chatLink})`, inline: false }
-            ], 
-            footer: { text: 'ECHOKNIVES Order System' }, 
-            timestamp: new Date().toISOString() 
-        };
+        const embed = { title: '🛒 NEW ORDER!', color: 0x6c5ce7, fields: [
+            { name: '📋 Order Number', value: `\`${orderNumber}\``, inline: true },
+            { name: '🎮 Roblox', value: `@${robloxUser}`, inline: true },
+            { name: '💰 Total', value: orderDetails.total, inline: true },
+            { name: '📦 Items', value: orderDetails.items, inline: false },
+            { name: '💳 Payment', value: orderDetails.payment, inline: true },
+            { name: '💬 Chat with Buyer', value: `[Click here to chat](${chatLink})`, inline: false }
+        ], footer: { text: 'ECHOKNIVES Order System' }, timestamp: new Date().toISOString() };
         try {
             pendingOrders[orderNumber] = { orderNumber, robloxUser, orderDetails, userId: currentUser?.uid, userEmail: currentUser?.email, timestamp: Date.now(), status: 'pending' };
             localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
-            await fetch(DISCORD_WEBHOOK, { 
-                method: 'POST', 
-                headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify({ 
-                    embeds: [embed], 
-                    components: [{ 
-                        type: 1, 
-                        components: [
-                            { type: 2, style: 3, label: '✅ Take Order', custom_id: `take_${orderNumber}`, emoji: { name: '✅' } },
-                            { type: 2, style: 4, label: '❌ Cancel Order', custom_id: `cancel_${orderNumber}`, emoji: { name: '❌' } }
-                        ] 
-                    }] 
-                }) 
-            });
+            await fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ embeds: [embed], components: [{ type: 1, components: [{ type: 2, style: 3, label: '✅ Take Order', custom_id: `take_${orderNumber}` }, { type: 2, style: 4, label: '❌ Cancel Order', custom_id: `cancel_${orderNumber}` }] }] }) });
         } catch(e) { console.error(e); }
     }
     
@@ -1190,7 +1133,7 @@
         const container = document.getElementById('paypal-button-container');
         container.style.display = 'block';
         container.innerHTML = '';
-        paypal.Buttons({ createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: total, currency_code: 'PHP' }, description: 'ECHOKNIVES MM2 Purchase' }] }), onApprove: (data, actions) => actions.order.capture().then(() => { showToast("Payment successful!"); completeOrder('paypal'); }), onError: () => showToast('Payment failed') }).render('#paypal-button-container');
+        paypal.Buttons({ createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: total, currency_code: 'PHP' }, description: 'ECHOKNIVES MM2 Purchase' }] }), onApprove: (data, actions) => actions.order.capture().then(() => { showToast("Payment successful!"); completeOrder(); }), onError: () => showToast('Payment failed') }).render('#paypal-button-container');
     }
     
     function processPayment() {
@@ -1198,38 +1141,22 @@
         if (cart.length === 0) { showToast("Cart empty!"); return; }
         const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
         if (!robloxUser) { showToast("Enter Roblox username!"); return; }
-        
         let paymentMethod = selectedPayment;
-        if (selectedPayment === 'other') {
-            paymentMethod = document.getElementById('otherPaymentMethod').value.trim();
-            if (!paymentMethod) { showToast("Please enter your payment method!"); return; }
-        }
+        if (selectedPayment === 'other') { paymentMethod = document.getElementById('otherPaymentMethod').value.trim(); if (!paymentMethod) { showToast("Enter payment method!"); return; } }
         const paymentNames = { paypal: "PayPal", credit: "Credit Card", debit: "Debit Card", gcash: "GCash", other: paymentMethod };
-        
         let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
         if (voucherApplied) total = total * 0.95;
         const totalDisplay = `${getSymbol()}${getDisplayPrice(total)}`;
-        currentOrderTotal = total;
         currentOrderNumber = generateOrderNumber();
         currentOrderDetails = { orderNumber: currentOrderNumber, items: cart.map(i => `${i.name} x${i.quantity}`).join(', '), total: totalDisplay, payment: paymentNames[selectedPayment], voucherUsed: voucherApplied ? "Yes" : "No", robloxUser: robloxUser };
-        
-        if (selectedPayment === 'paypal') { 
-            document.getElementById('paypal-button-container').style.display = 'block'; 
-            document.getElementById('checkoutBtn').style.display = 'none'; 
-            initPayPal(getDisplayPrice(total)); 
-        } else { 
-            completeOrder('other'); 
-        }
+        if (selectedPayment === 'paypal') { document.getElementById('paypal-button-container').style.display = 'block'; document.getElementById('checkoutBtn').style.display = 'none'; initPayPal(getDisplayPrice(total)); }
+        else { completeOrder(); }
     }
     
     function completeOrder() {
         const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
         sendDiscordNotification(currentOrderNumber, robloxUser, currentOrderDetails);
-        showToast(`Order #${currentOrderNumber} placed! Waiting for admin approval.`);
-        
-        // Show receipt immediately
         showReceipt({ ...currentOrderDetails, orderNumber: currentOrderNumber, robloxUser: robloxUser });
-        
         cart = [];
         if (voucherApplied) { voucherApplied = false; localStorage.removeItem('voucher_' + currentUser.uid); hasVoucher = false; }
         updateCartUI();
@@ -1257,113 +1184,28 @@
         localStorage.setItem('notifications_' + currentUser?.uid, '[]');
     }
     
-    // Admin Functions
-    function updateItemPrice(itemId, newPrice) {
-        if (!isAdmin) return;
-        const item = items.find(i => i.id === itemId);
-        if (item) {
-            item.price = Math.max(100, newPrice);
-            renderProducts();
-            renderAdminPanel();
-            showToast(`${item.name} price updated to ₱${item.price}`);
-            saveItems();
-        }
-    }
-    
-    function deleteItem(itemId) {
-        if (!isAdmin) return;
-        items = items.filter(i => i.id !== itemId);
-        renderProducts();
-        renderAdminPanel();
-        showToast("Item deleted");
-        saveItems();
-    }
-    
-    function addCustomItem() {
-        if (!isAdmin) return;
-        const name = document.getElementById('newItemName').value.trim();
-        const image = document.getElementById('newItemImage').value.trim();
-        const type = document.getElementById('newItemType').value;
-        const rarity = document.getElementById('newItemRarity').value;
-        let price = parseInt(document.getElementById('newItemPrice').value);
-        if (!name || !price) { showToast("Please fill in all fields"); return; }
-        if (price < 100) price = 100;
-        items.push({
-            id: nextId++,
-            name: name,
-            type: type,
-            price: price,
-            onsale: true,
-            rarity: rarity,
-            rarityClass: "custom",
-            image: image || "https://i.imgur.com/8QZ7VcL.png",
-            category: type
-        });
-        renderProducts();
-        renderAdminPanel();
-        showToast(`Added ${name} for ₱${price}`);
-        saveItems();
-        document.getElementById('newItemName').value = '';
-        document.getElementById('newItemImage').value = '';
-        document.getElementById('newItemPrice').value = '';
-    }
-    
-    function toggleItemSale(id) {
-        if (!isAdmin) return;
-        const item = items.find(i => i.id === id);
-        if (item) {
-            item.onsale = !item.onsale;
-            renderAdminPanel();
-            renderProducts();
-            showToast(`${item.name} ${item.onsale ? 'on sale' : 'off sale'}`);
-            saveItems();
-        }
-    }
-    
-    function saveItems() {
-        localStorage.setItem('customItems', JSON.stringify(items));
-    }
-    
-    function loadSavedItems() {
-        const saved = localStorage.getItem('customItems');
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            items.length = 0;
-            parsed.forEach(i => items.push(i));
-            nextId = Math.max(...items.map(i => i.id), 30) + 1;
-        }
-        renderProducts();
-        renderAdminPanel();
-    }
-    
+    function updateItemPrice(itemId, newPrice) { if (!isAdmin) return; const item = items.find(i => i.id === itemId); if (item) { item.price = Math.max(100, newPrice); renderProducts(); renderAdminPanel(); showToast(`${item.name} price updated to ₱${item.price}`); saveItems(); } }
+    function deleteItem(itemId) { if (!isAdmin) return; items = items.filter(i => i.id !== itemId); renderProducts(); renderAdminPanel(); showToast("Item deleted"); saveItems(); }
+    function addCustomItem() { if (!isAdmin) return; const name = document.getElementById('newItemName').value.trim(); const image = document.getElementById('newItemImage').value.trim(); const type = document.getElementById('newItemType').value; const rarity = document.getElementById('newItemRarity').value; let price = parseInt(document.getElementById('newItemPrice').value); if (!name || !price) { showToast("Please fill in all fields"); return; } if (price < 100) price = 100; items.push({ id: nextId++, name: name, type: type, price: price, originalPrice: 0, onsale: true, rarity: rarity, rarityClass: "custom", image: image || "https://i.imgur.com/8QZ7VcL.png", category: type, hasDiscount: false }); renderProducts(); renderAdminPanel(); showToast(`Added ${name} for ₱${price}`); saveItems(); document.getElementById('newItemName').value = ''; document.getElementById('newItemImage').value = ''; document.getElementById('newItemPrice').value = ''; }
+    function toggleItemSale(id) { if (!isAdmin) return; const item = items.find(i => i.id === id); if (item) { item.onsale = !item.onsale; renderAdminPanel(); renderProducts(); showToast(`${item.name} ${item.onsale ? 'on sale' : 'off sale'}`); saveItems(); } }
+    function saveItems() { localStorage.setItem('customItems', JSON.stringify(items)); }
+    function loadSavedItems() { const saved = localStorage.getItem('customItems'); if (saved) { const parsed = JSON.parse(saved); items.length = 0; parsed.forEach(i => items.push(i)); nextId = Math.max(...items.map(i => i.id), 10) + 1; } renderProducts(); renderAdminPanel(); }
     function renderAdminPanel() {
         if (!isAdmin) return;
         const search = document.getElementById('adminSearch')?.value.toLowerCase() || '';
         const filtered = items.filter(i => i.name.toLowerCase().includes(search));
         document.getElementById('adminItemsList').innerHTML = filtered.map(item => `
             <div class="admin-item">
-                <div class="admin-item-info">
-                    <img src="${item.image}" onerror="this.src='https://placehold.co/45x45/6c5ce7/white?text=${item.name.charAt(0)}'">
-                    <div>
-                        <strong>${item.name}</strong><br>
-                        <small>${item.type} | ${item.rarity}</small>
-                    </div>
-                </div>
+                <div class="admin-item-info"><img src="${item.image}" onerror="this.src='https://placehold.co/45x45/6c5ce7/white?text=${item.name.charAt(0)}'"><div><strong>${item.name}</strong><br><small>${item.type} | ${item.rarity}</small></div></div>
                 <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
                     <input type="number" id="price-${item.id}" class="admin-price-input" value="${item.price}" min="100" step="10">
                     <button class="update-price-btn" onclick="updateItemPrice(${item.id}, parseInt(document.getElementById('price-${item.id}').value))">Update</button>
                     <button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button>
                     <button class="delete-item-btn" onclick="deleteItem(${item.id})">Delete</button>
                 </div>
-            </div>
-        `).join('');
+            </div>`).join('');
     }
-    
     function filterAdminItems() { renderAdminPanel(); }
-    
-    // Chat System
-    let conversations = JSON.parse(localStorage.getItem('conversations') || '{}');
-    let currentConversation = null;
     
     function loadConversations() {
         if (!currentUser) return;
@@ -1372,7 +1214,6 @@
         if (userConv.length === 0) { container.innerHTML = '<div class="no-conversation">No messages yet.</div>'; return; }
         container.innerHTML = userConv.map(c => `<div class="conversation-item" onclick="selectConversation('${c.id}')"><div class="conversation-name">ECHOKNIVES Support</div><div class="conversation-preview">${c.lastMessage?.substring(0, 40) || 'No messages'}</div></div>`).join('');
     }
-    
     window.selectConversation = function(id) {
         currentConversation = id;
         const msgs = conversations[currentUser.uid]?.find(c => c.id === id)?.messages || [];
@@ -1380,7 +1221,6 @@
         container.innerHTML = msgs.map(m => `<div class="message-bubble ${m.sender === currentUser.uid ? 'user' : 'admin'}"><div class="message-text">${m.text}${m.image ? `<img src="${m.image}" class="message-image" onclick="window.open('${m.image}')" style="max-width:150px; border-radius:12px; margin-top:8px;">` : ''}${m.video ? `<video src="${m.video}" class="message-video" controls style="max-width:150px; border-radius:12px; margin-top:8px;"></video>` : ''}</div><div class="message-time">${new Date(m.time).toLocaleString()}</div></div>`).join('');
         container.scrollTop = container.scrollHeight;
     };
-    
     window.sendMessage = function() {
         const input = document.getElementById('chatMessageInput');
         const text = input.value.trim();
@@ -1396,39 +1236,20 @@
         selectConversation('support');
         loadConversations();
     };
-    
     let currentFileData = null, currentFileType = null;
-    window.sendFile = function() {
-        const file = document.getElementById('fileInput').files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = e => { currentFileData = e.target.result; currentFileType = file.type.startsWith('image/') ? 'image' : 'video'; sendMessage(); };
-        reader.readAsDataURL(file);
-    };
+    window.sendFile = function() { const file = document.getElementById('fileInput').files[0]; if (!file) return; const reader = new FileReader(); reader.onload = e => { currentFileData = e.target.result; currentFileType = file.type.startsWith('image/') ? 'image' : 'video'; sendMessage(); }; reader.readAsDataURL(file); };
     
-    // Voucher
     function checkForVoucher() { if (localStorage.getItem('voucher_' + currentUser?.uid) === 'true') { hasVoucher = true; document.getElementById('voucherSection').style.display = 'block'; } }
     function applyVoucher() { voucherApplied = true; document.getElementById('voucherSection').style.display = 'none'; updateCartUI(); showToast("✅ 5% discount applied!"); }
     function dismissVoucher() { document.getElementById('voucherSection').style.display = 'none'; }
-    function giveVoucher() { if (currentUser) localStorage.setItem('voucher_' + currentUser.uid, 'true'); }
     
-    // Google Login
     async function performGoogleLogin() {
         try {
             const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
             currentUser = result.user; isLoggedIn = true;
-            if (currentUser.email === "ivanmendones13@gmail.com") { 
-                isAdmin = true; 
-                document.getElementById('adminPanel').classList.add('show'); 
-                document.getElementById('chatTabBtn').style.display = 'block'; 
-                renderAdminPanel(); 
-                loadSavedItems();
-                showToast("👑 Admin access granted! You can now edit prices and add items."); 
-            } else { 
-                document.getElementById('chatTabBtn').style.display = 'block'; 
-            }
-            checkForVoucher(); updateUserUI(); showToast(`Welcome ${currentUser.displayName || currentUser.email}!`); renderProducts();
-            checkNotifications();
+            if (currentUser.email === "ivanmendones13@gmail.com") { isAdmin = true; document.getElementById('adminPanel').classList.add('show'); document.getElementById('chatTabBtn').style.display = 'block'; renderAdminPanel(); loadSavedItems(); showToast("👑 Admin access granted!"); }
+            else { document.getElementById('chatTabBtn').style.display = 'block'; }
+            checkForVoucher(); updateUserUI(); showToast(`Welcome ${currentUser.displayName || currentUser.email}!`); renderProducts(); checkNotifications();
         } catch (error) { showToast("Login failed: " + error.message); }
     }
     
@@ -1458,30 +1279,27 @@
     document.addEventListener('click', e => { if (!e.target.closest('.dropdown')) document.querySelectorAll('.dropdown-content').forEach(el => el.classList.remove('show')); });
     function viewProfile() { if (!isLoggedIn) { showToast("Login first!"); return; } alert(`👤 Profile\n\nName: ${currentUser.displayName}\nEmail: ${currentUser.email}`); }
     function toggleTheme() { showToast("Theme toggle coming soon!"); }
-    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items\n3. Add to cart\n4. Enter Roblox username\n5. Choose payment method\n6. Complete payment\n7. Admin approves in Discord\n8. Receipt appears when approved!\n\nAdmin (ivanmendones13@gmail.com) can edit prices and add items!"); }
+    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items\n3. Add to cart\n4. Enter Roblox username\n5. Choose payment method\n6. Complete payment\n7. Admin approves in Discord\n8. Receipt appears when approved!\n\nAdmin can edit prices and add items!"); }
     
-    function selectPayment(method) { 
-        selectedPayment = method; 
-        document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); 
-        document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected');
-        document.getElementById('otherPaymentMethod').style.display = method === 'other' ? 'block' : 'none';
-        document.getElementById('paypal-button-container').style.display = method === 'paypal' ? 'block' : 'none';
-    }
+    function selectPayment(method) { selectedPayment = method; document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected'); document.getElementById('otherPaymentMethod').style.display = method === 'other' ? 'block' : 'none'; document.getElementById('paypal-button-container').style.display = method === 'paypal' ? 'block' : 'none'; }
     
     function renderProducts() {
         let filtered = items.filter(i => { if (currentFilter === 'knife') return i.type === 'knife'; if (currentFilter === 'gun') return i.type === 'gun'; if (currentFilter === 'pet') return i.type === 'pet'; if (currentFilter === 'onsale') return i.onsale === true; return true; });
         document.getElementById('productsGrid').innerHTML = filtered.map(item => `
             <div class="product-card ${!item.onsale ? 'offsale' : ''}">
                 ${!item.onsale ? '<div class="offsale-badge">OFF SALE</div>' : ''}
-                <div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/150x150/6c5ce7/white?text=${item.name.charAt(0)}'"></div>
+                <div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/200x200/6c5ce7/white?text=${item.name.charAt(0)}'"></div>
                 <div class="product-info">
                     <div class="product-name">${item.name}</div>
                     <div class="product-rarity ${item.rarityClass}">${item.rarity}</div>
-                    <div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div>
+                    <div class="price-container">
+                        ${item.hasDiscount && item.originalPrice > 0 ? `<span class="original-price">${getSymbol()}${getDisplayPrice(item.originalPrice)}</span>` : ''}
+                        <span class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</span>
+                        ${item.hasDiscount && item.originalPrice > 0 ? `<span class="discount-badge">-${Math.round((1 - item.price/item.originalPrice) * 100)}%</span>` : ''}
+                    </div>
                     <button class="add-btn" onclick="addToCart(${item.id})" ${!item.onsale ? 'disabled' : ''}>Add to Cart</button>
                 </div>
-            </div>
-        `).join('');
+            </div>`).join('');
         updateStats();
     }
     
@@ -1536,12 +1354,9 @@
         container.innerHTML = trades.map(t => `<div class="trade-card"><div class="trade-header"><div class="trade-user"><div class="trade-avatar">${t.userAvatar}</div><div><strong>@${t.username}</strong><br><span style="font-size:11px;">${t.date}</span></div></div><span style="background:${t.type === 'offer' ? '#10b981' : '#6c5ce7'};padding:4px 15px; border-radius:30px; font-size:11px;">${t.type === 'offer' ? 'OFFERING' : 'WANTED'}</span></div><div class="trade-offer"><p><span class="offer-label">📦 ${t.type === 'offer' ? 'Offering:' : 'Looking for:'}</span> ${t.items}</p><p><span class="offer-label">🎯 Want:</span> ${t.want}</p>${t.note ? `<p><span class="offer-label">📝 Note:</span> ${t.note}</p>` : ''}</div><button class="accept-trade" onclick="alert('Contact @${t.username} on Roblox to trade!')">Accept Trade</button></div>`).join('');
     }
     
-    // Star rating
     document.querySelectorAll('.star-rating i').forEach(star => { star.addEventListener('click', function() { let rating = parseInt(this.dataset.rating); document.querySelectorAll('.star-rating i').forEach((s, i) => { if (i < rating) s.classList.add('active'); else s.classList.remove('active'); }); }); });
-    
     document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
     
-    // Make functions global
     window.showHome = showHome; window.showShop = showShop; window.showTrading = showTrading; window.showChat = showChat; window.toggleDropdown = toggleDropdown;
     window.viewProfile = viewProfile; window.showPurchaseHistory = showPurchaseHistory; window.showReviews = showReviews; window.closeReviews = closeReviews; window.closeHistory = closeHistory;
     window.viewVouchers = viewVouchers; window.toggleTheme = toggleTheme; window.showHelp = showHelp; window.logout = logout; window.changeCurrency = changeCurrency;
@@ -1551,6 +1366,7 @@
     window.applyVoucher = applyVoucher; window.dismissVoucher = dismissVoucher; window.closeReceipt = closeReceipt; window.sendMessage = sendMessage; window.sendFile = sendFile;
     window.selectConversation = selectConversation; window.submitReview = submitReview; window.handleDiscordAction = handleDiscordAction;
     window.updateItemPrice = updateItemPrice; window.deleteItem = deleteItem; window.addCustomItem = addCustomItem;
+    window.showContactModal = showContactModal; window.closeContactModal = closeContactModal; window.sendContactEmail = sendContactEmail;
     
     renderProducts(); selectPayment('paypal'); loadTrades(); loadSavedItems();
     showHome();
