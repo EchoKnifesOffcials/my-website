@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECHOKNIVES | Safe & Secure MM2 Shop</title>
+    <title>ECHOKNIVES | Premium MM2 Shop</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AUXq7gkV7XJ3h3V1xH5yL2pK9nR4mQ8wE6tY1uI3oP0sD9fG6hJ4kL2zX7cV8bN3m&currency=PHP&enable-funding=paypal"></script>
@@ -64,7 +67,6 @@
             color: #1a1a2e;
         }
 
-        /* Animated Background */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -336,7 +338,7 @@
             justify-content: center;
         }
 
-        /* NEW HOME UI - Safe & Secure */
+        /* Hero */
         .hero {
             min-height: 85vh;
             display: flex;
@@ -451,6 +453,9 @@
         .admin-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid rgba(108,92,231,0.1); }
         .toggle-status { background: #6c5ce7; border: none; padding: 5px 12px; border-radius: 20px; color: white; cursor: pointer; font-size: 11px; }
         .toggle-status.available { background: #10b981; }
+        .add-item-form { margin-top:20px; display:flex; gap:10px; flex-wrap:wrap; }
+        .add-item-form input, .add-item-form select { background: rgba(108,92,231,0.2); border: 1px solid rgba(108,92,231,0.3); padding: 10px; border-radius: 20px; color: white; }
+        .add-item-btn { background: #6c5ce7; border: none; padding: 10px 20px; border-radius: 30px; color: white; cursor: pointer; }
 
         /* Chat Panel */
         .chat-panel {
@@ -487,7 +492,37 @@
         .attach-btn:hover { background: #6c5ce7; }
         .chat-send { background: #6c5ce7; border: none; padding: 12px 20px; border-radius: 25px; color: white; cursor: pointer; }
 
-        /* Shop Container (ORIGINAL restored) */
+        /* Contact Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.show { display: flex; }
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 30px;
+            padding: 30px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            border: 1px solid #6c5ce7;
+        }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #999; }
+        .modal-close:hover { color: #6c5ce7; }
+        .verify-buttons { display: flex; gap: 15px; margin-top: 20px; }
+        .verify-yes { flex: 1; background: #10b981; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
+        .verify-no { flex: 1; background: #ef4444; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
+
+        /* Shop Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -665,50 +700,162 @@
         .paypal-button-container { margin: 15px 0; display: none; }
         .checkout-btn { width: 100%; padding: 15px; background: #10b981; border: none; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; }
 
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: none; }
-        .overlay.show { display: block; }
-        .toast { position: fixed; bottom: 30px; right: 30px; background: #10b981; color: white; padding: 12px 24px; border-radius: 12px; z-index: 2000; transform: translateX(400px); transition: transform 0.3s; }
-        .toast.show { transform: translateX(0); }
-        .no-trades { text-align: center; padding: 50px; color: #888; }
-
-        /* Modal */
-        .modal {
+        /* CHECKOUT PAGE (Full Screen) */
+        .checkout-page {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 3000;
+            background: #0a0a0f;
+            z-index: 2000;
             display: none;
-            justify-content: center;
+            overflow-y: auto;
+            padding: 40px 5%;
+        }
+        .checkout-page.show { display: block; }
+        .checkout-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #111117;
+            border-radius: 48px;
+            border: 1px solid #262633;
+            overflow: hidden;
+        }
+        .checkout-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid #262633;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
+            background: #0f0f17;
         }
-        .modal.show { display: flex; }
-        .modal-content {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius: 30px;
-            padding: 30px;
-            width: 90%;
-            max-width: 450px;
+        .checkout-header h2 { font-size: 24px; font-weight: 700; }
+        .close-checkout { background: none; border: none; font-size: 28px; cursor: pointer; color: #94a3b8; }
+        .checkout-two-col {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .checkout-left {
+            flex: 1.2;
+            padding: 28px 32px;
+            border-right: 1px solid #262633;
+        }
+        .checkout-right {
+            flex: 0.8;
+            padding: 28px 32px;
+            background: #0c0c12;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #6c5ce7;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #cbd5e1;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            background: #1e1e2a;
+            border: 1px solid #2a2a36;
+            border-radius: 60px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .payment-methods {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .payment-option {
+            flex: 1;
+            background: #1e1e2a;
+            border: 2px solid #2a2a36;
+            border-radius: 60px;
+            padding: 14px;
             text-align: center;
-            position: relative;
-            border: 1px solid #6c5ce7;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #999; }
-        .modal-close:hover { color: #6c5ce7; }
-        .verify-buttons { display: flex; gap: 15px; margin-top: 20px; }
-        .verify-yes { flex: 1; background: #10b981; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
-        .verify-no { flex: 1; background: #ef4444; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
+        .payment-option.selected {
+            border-color: #6c5ce7;
+            background: #6c5ce7;
+        }
+        .payment-option i { font-size: 20px; margin-right: 8px; }
+        .tip-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .tip-btn {
+            background: #1e1e2a;
+            border: 1px solid #2a2a36;
+            padding: 10px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .tip-btn.selected { background: #6c5ce7; border-color: #6c5ce7; }
+        .tip-custom { flex: 1; min-width: 100px; }
+        .order-items { margin-bottom: 20px; }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #262633;
+        }
+        .order-total { padding-top: 15px; border-top: 2px solid #6c5ce7; }
+        .order-total div { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .grand-total {
+            font-size: 20px;
+            font-weight: 800;
+            color: #6c5ce7;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #262633;
+        }
+        .btn-pay {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .recaptcha-box {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
 
-        /* Receipt Modal */
+        /* OLD RECEIPT STYLE */
         .receipt-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255,255,255,0.98);
+            background: rgba(0,0,0,0.95);
             backdrop-filter: blur(20px);
             z-index: 5000;
             display: none;
@@ -717,18 +864,56 @@
         }
         .receipt-modal.show { display: flex; }
         .receipt-content {
-            background: white;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             border-radius: 30px;
             padding: 30px;
             width: 90%;
-            max-width: 450px;
+            max-width: 500px;
             text-align: center;
-            color: #1a1a2e;
+            border: 1px solid #6c5ce7;
+            position: relative;
         }
         .receipt-icon { font-size: 60px; color: #10b981; margin-bottom: 15px; }
-        .receipt-title { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
-        .receipt-details { background: #f8f9fa; border-radius: 15px; padding: 15px; margin: 15px 0; text-align: left; }
-        .receipt-close { background: #6c5ce7; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; width: 100%; }
+        .receipt-title { font-size: 24px; font-weight: 800; margin-bottom: 10px; color: #fff; }
+        .receipt-details {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #ccc;
+            font-size: 13px;
+        }
+        .receipt-total {
+            font-size: 18px;
+            font-weight: 800;
+            color: #6c5ce7;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(108,92,231,0.3);
+        }
+        .receipt-close {
+            background: #6c5ce7;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: none; }
+        .overlay.show { display: block; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: #10b981; color: white; padding: 12px 24px; border-radius: 12px; z-index: 2000; transform: translateX(400px); transition: transform 0.3s; }
+        .toast.show { transform: translateX(0); }
+        .no-trades { text-align: center; padding: 50px; color: #888; }
 
         /* Reviews Modal */
         .reviews-modal {
@@ -792,9 +977,9 @@
         @media (max-width: 768px) {
             .cart-sidebar { width: 100%; right: -100%; }
             .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-            .nav-tabs { order: -1; width: 100%; justify-content: center; }
-            .chat-conversations { flex-direction: column; }
-            .conversation-list { width: 100%; border-right: none; border-bottom: 1px solid rgba(108,92,231,0.2); padding-bottom: 15px; margin-bottom: 15px; }
+            .checkout-two-col { flex-direction: column; }
+            .checkout-left { border-right: none; border-bottom: 1px solid #262633; }
+            .row-2 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -875,7 +1060,7 @@
         <input type="text" class="admin-search" id="adminSearch" placeholder="Search item..." onkeyup="filterAdminItems()">
     </div>
     <div class="admin-items-list" id="adminItemsList"></div>
-    <div class="add-item-form" style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
+    <div class="add-item-form">
         <input type="text" id="newItemName" placeholder="Item Name">
         <input type="text" id="newItemImage" placeholder="Image URL">
         <select id="newItemType"><option>knife</option><option>gun</option><option>pet</option></select>
@@ -921,7 +1106,7 @@
     </div>
 </div>
 
-<!-- NEW HOME PAGE (Safe & Secure) -->
+<!-- HOME PAGE -->
 <div id="homePage" class="hero">
     <div class="hero-content">
         <div class="hero-badge">✨ 100% SAFE & SECURE ✨</div>
@@ -947,7 +1132,7 @@
     </div>
 </div>
 
-<!-- SHOP PAGE (ORIGINAL RESTORED) -->
+<!-- SHOP PAGE -->
 <div id="shopPage" class="container" style="display:none;">
     <div class="stats-banner">
         <div class="stat-card"><h3 id="totalItems">0</h3><p>Total Items</p></div>
@@ -979,7 +1164,7 @@
     </div>
 </div>
 
-<!-- Cart Sidebar -->
+<!-- CART SIDEBAR -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
     <div class="cart-header">
@@ -995,7 +1180,6 @@
         <div class="payment-method" data-method="credit" onclick="selectPayment('credit')">💳 Credit</div>
     </div>
     <div id="paypal-button-container" class="paypal-button-container"></div>
-    <input type="text" id="checkoutRobloxUsername" class="roblox-input" placeholder="Enter your Roblox Username (required)">
     <div id="voucherSection" style="display:none; margin:10px 0; padding:10px; background:rgba(243,156,18,0.2); border-radius:12px;">
         <p><i class="fas fa-ticket-alt"></i> You have a 5% off voucher!</p>
         <div class="verify-buttons">
@@ -1003,10 +1187,79 @@
             <button class="verify-no" onclick="dismissVoucher()">❌ Don't Apply</button>
         </div>
     </div>
-    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+    <button class="checkout-btn" onclick="openCheckoutPage()">Proceed to Checkout</button>
 </div>
 
-<!-- Receipt Modal -->
+<!-- CHECKOUT PAGE -->
+<div id="checkoutPage" class="checkout-page">
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <h2><i class="fas fa-credit-card"></i> Complete Your Order</h2>
+            <button class="close-checkout" onclick="closeCheckoutPage()">×</button>
+        </div>
+        <div class="checkout-two-col">
+            <div class="checkout-left">
+                <div class="section-title">📋 Contact Information</div>
+                <div class="row-2">
+                    <div class="form-group"><label>First Name</label><input type="text" id="firstName" placeholder="John"></div>
+                    <div class="form-group"><label>Last Name</label><input type="text" id="lastName" placeholder="Doe"></div>
+                </div>
+                <div class="row-2">
+                    <div class="form-group"><label>Email Address</label><input type="email" id="emailAddress" placeholder="your@email.com"></div>
+                    <div class="form-group"><label>🎮 Roblox Username</label><input type="text" id="robloxUsername" placeholder="Your Roblox username"></div>
+                </div>
+                
+                <div class="section-title" style="margin-top: 24px;">📍 Billing Address</div>
+                <div class="row-2">
+                    <div class="form-group"><label>Country</label><select id="country"><option value="PH">🇵🇭 Philippines</option><option value="US">🇺🇸 US</option><option value="GB">🇬🇧 UK</option></select></div>
+                    <div class="form-group"><label>State</label><input type="text" id="state" placeholder="State"></div>
+                </div>
+                <div class="form-group"><label>Street Address</label><input type="text" id="address" placeholder="Street address"></div>
+                <div class="row-2">
+                    <div class="form-group"><label>ZIP Code</label><input type="text" id="zip" placeholder="ZIP"></div>
+                    <div class="form-group"><label>City</label><input type="text" id="city" placeholder="City"></div>
+                </div>
+                
+                <div class="section-title" style="margin-top: 24px;">💳 Payment Method</div>
+                <div class="payment-methods">
+                    <div class="payment-option" data-payment="paypal" onclick="selectCheckoutPayment('paypal')"><i class="fab fa-paypal"></i> PayPal</div>
+                    <div class="payment-option" data-payment="gcash" onclick="selectCheckoutPayment('gcash')"><i class="fas fa-mobile-alt"></i> GCash</div>
+                    <div class="payment-option" data-payment="visa" onclick="selectCheckoutPayment('visa')"><i class="fab fa-cc-visa"></i> Visa</div>
+                    <div class="payment-option" data-payment="credit" onclick="selectCheckoutPayment('credit')"><i class="fab fa-cc-mastercard"></i> Credit</div>
+                </div>
+                
+                <div class="section-title" style="margin-top: 24px;">💝 Support the Team - Add a Tip</div>
+                <div class="tip-options">
+                    <button type="button" class="tip-btn" data-tip="0" onclick="selectCheckoutTip(0)">No tip</button>
+                    <button type="button" class="tip-btn" data-tip="5" onclick="selectCheckoutTip(5)">₱5</button>
+                    <button type="button" class="tip-btn" data-tip="10" onclick="selectCheckoutTip(10)">₱10</button>
+                    <button type="button" class="tip-btn" data-tip="25" onclick="selectCheckoutTip(25)">₱25</button>
+                    <button type="button" class="tip-btn" data-tip="50" onclick="selectCheckoutTip(50)">₱50</button>
+                    <input type="number" id="customTipAmount" class="tip-custom" placeholder="Custom ₱" min="0" step="5" oninput="onCustomTip()">
+                </div>
+                
+                <!-- reCAPTCHA -->
+                <div class="recaptcha-box">
+                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                </div>
+            </div>
+            
+            <div class="checkout-right">
+                <div class="section-title">🛒 Order Summary</div>
+                <div id="checkoutOrderItems" class="order-items"></div>
+                <div class="order-total">
+                    <div><span>Subtotal:</span><span id="checkoutSubtotal">₱0</span></div>
+                    <div><span>Tip:</span><span id="checkoutTipAmount">₱0</span></div>
+                </div>
+                <div class="grand-total"><span>Total:</span><span id="checkoutGrandTotal">₱0</span></div>
+                <button class="btn-pay" onclick="processCheckout()"><i class="fas fa-lock"></i> Complete Payment</button>
+                <div class="terms" style="font-size: 11px; text-align: center; margin-top: 12px; color: #64748b;">By completing your purchase, you agree to our Terms of Service</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- OLD RECEIPT MODAL -->
 <div class="receipt-modal" id="receiptModal">
     <div class="receipt-content">
         <div class="receipt-icon"><i class="fas fa-check-circle"></i></div>
@@ -1084,18 +1337,14 @@
     }
     createParticles();
 
-    // ========== MM2 ITEMS DATABASE ==========
+    // ========== MM2 ITEMS ==========
     let items = [
         { id: 1, name: "Batwing", type: "knife", price: 152, onsale: true, rarity: "Godly", image: "https://i.imgur.com/H6CL03y.jpeg" },
         { id: 2, name: "Harvester", type: "knife", price: 608, onsale: true, rarity: "Godly", image: "https://i.imgur.com/jZkbQ4t.jpeg" },
         { id: 3, name: "Icewing", type: "knife", price: 72, onsale: true, rarity: "Godly", image: "https://i.imgur.com/jiwvmxq.jpeg" },
         { id: 4, name: "Luger", type: "gun", price: 207, onsale: true, rarity: "Godly", image: "https://i.imgur.com/eEvMBRh.jpeg" },
         { id: 5, name: "Darkbringer", type: "gun", price: 92000, onsale: true, rarity: "Godly", image: "https://i.imgur.com/8oxgzwa.jpeg" },
-        { id: 6, name: "Lightbringer", type: "gun", price: 92000, onsale: true, rarity: "Godly", image: "https://i.imgur.com/BUljuYV.jpeg" },
-        { id: 7, name: "Candy", type: "knife", price: 100, onsale: true, rarity: "Godly", image: "https://i.imgur.com/Q98x0PE.jpeg" },
-        { id: 8, name: "Fang", type: "knife", price: 228, onsale: true, rarity: "Godly", image: "https://i.imgur.com/5hJkL9o.png" },
-        { id: 9, name: "Heat", type: "knife", price: 323, onsale: true, rarity: "Godly", image: "https://i.imgur.com/9mNpR2q.png" },
-        { id: 10, name: "Phantom", type: "knife", price: 153, onsale: true, rarity: "Godly", image: "https://i.imgur.com/2fGtH7k.png" }
+        { id: 6, name: "Lightbringer", type: "gun", price: 92000, onsale: true, rarity: "Godly", image: "https://i.imgur.com/BUljuYV.jpeg" }
     ];
 
     const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, KRW: 24.5 };
@@ -1116,6 +1365,10 @@
     let orders = JSON.parse(localStorage.getItem('orders') || '[]');
     let conversations = JSON.parse(localStorage.getItem('conversations') || '{}');
     let currentConversation = null;
+    
+    // Checkout variables
+    let checkoutSelectedPayment = "paypal";
+    let checkoutSelectedTip = 0;
     
     function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
     function getSymbol() { return currencySymbols[currentCurrency]; }
@@ -1162,7 +1415,7 @@
         loadConversations();
     }
     
-    // Contact Modal
+    // Contact
     function showContactModal() { document.getElementById('contactModal').classList.add('show'); }
     function closeContactModal() { document.getElementById('contactModal').classList.remove('show'); }
     function sendContactEmail() {
@@ -1271,10 +1524,10 @@
         reader.readAsDataURL(file);
     };
     
-    // Voucher System
+    // Voucher
     function checkForVoucher() { if (localStorage.getItem('voucher_' + currentUser?.uid) === 'true') { hasVoucher = true; document.getElementById('voucherSection').style.display = 'block'; } }
     function applyVoucher() { voucherApplied = true; document.getElementById('voucherSection').style.display = 'none'; updateCartUI(); showToast("✅ 5% discount applied!"); }
-    function dismissVoucher() { document.getElementById('voucherSection').style.display = 'none'; showToast("Voucher saved for later"); }
+    function dismissVoucher() { document.getElementById('voucherSection').style.display = 'none'; }
     function giveVoucher() { if (currentUser) { localStorage.setItem('voucher_' + currentUser.uid, 'true'); hasVoucher = true; } }
     
     // Google Login
@@ -1292,7 +1545,8 @@
         const userPending = Object.values(pendingOrders).filter(o => o.userId === currentUser?.uid);
         userPending.forEach(order => {
             if (order.status === 'approved') {
-                document.getElementById('receiptDetails').innerHTML = `✅ Order #${order.orderNumber} approved!<br>Items: ${order.orderDetails.items}<br>Total: ${order.orderDetails.total}`;
+                const receiptHtml = `<div class="receipt-row"><strong>Order #:</strong> ${order.orderNumber}</div><div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div><div class="receipt-row"><strong>Items:</strong> ${order.orderDetails.items}</div><div class="receipt-row"><strong>Total:</strong> ${order.orderDetails.total}</div><div class="receipt-row"><strong>Status:</strong> <span style="color:#10b981;">Delivered</span></div><div class="receipt-row receipt-total"><strong>Thank you for shopping at ECHOKNIVES!</strong></div>`;
+                document.getElementById('receiptDetails').innerHTML = receiptHtml;
                 document.getElementById('receiptModal').classList.add('show');
                 delete pendingOrders[order.orderNumber];
                 localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
@@ -1331,7 +1585,7 @@
     document.addEventListener('click', e => { if (!e.target.closest('.dropdown')) document.querySelectorAll('.dropdown-content').forEach(el => el.classList.remove('show')); });
     function viewProfile() { if (!isLoggedIn) { showToast("Please login first!"); return; } alert(`👤 Profile\n\nName: ${currentUser.displayName || 'Not set'}\nEmail: ${currentUser.email}`); }
     function toggleTheme() { document.body.classList.toggle('light-mode'); showToast(document.body.classList.contains('light-mode') ? "Light mode on" : "Dark mode on"); }
-    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items\n3. Add to cart\n4. Enter Roblox username\n5. Choose payment method\n6. Complete payment\n7. Admin approves in Discord\n8. Receipt appears when approved!"); }
+    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items\n3. Add to cart\n4. Checkout\n5. Fill billing info & tip\n6. Complete reCAPTCHA\n7. Place order\n8. Admin approves in Discord\n9. Receipt appears!"); }
     
     function renderAdminPanel() {
         if (!isAdmin) return;
@@ -1395,32 +1649,119 @@
     function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
     function selectPayment(method) { selectedPayment = method; document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected'); }
     
-    function completeCheckout() {
-        if (cart.length === 0) { showToast("Cart empty!"); return; }
-        const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
-        if (!robloxUser) { showToast("Please enter your Roblox username!"); return; }
-        let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-        if (voucherApplied) total = total * 0.95;
-        const paymentNames = { paypal: "PayPal", gcash: "GCash", visa: "Visa", credit: "Credit Card" };
+    // Checkout Functions
+    function openCheckoutPage() {
+        if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
+        if (cart.length === 0) { showToast("Your cart is empty"); return; }
+        
+        const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+        const container = document.getElementById('checkoutOrderItems');
+        container.innerHTML = cart.map(item => `<div class="order-item"><span>${item.name} x${item.quantity}</span><span>₱${(item.price * item.quantity).toLocaleString()}</span></div>`).join('');
+        document.getElementById('checkoutSubtotal').innerHTML = `₱${subtotal.toLocaleString()}`;
+        updateCheckoutTotal();
+        
+        if (currentUser) {
+            document.getElementById('emailAddress').value = currentUser.email || "";
+            const nameParts = currentUser.displayName?.split(' ') || [];
+            document.getElementById('firstName').value = nameParts[0] || "";
+            document.getElementById('lastName').value = nameParts.slice(1).join(' ') || "";
+        }
+        
+        checkoutSelectedTip = 0;
+        checkoutSelectedPayment = "paypal";
+        document.querySelectorAll('.tip-btn').forEach(btn => btn.classList.remove('selected'));
+        document.querySelector('.tip-btn[data-tip="0"]')?.classList.add('selected');
+        document.getElementById('customTipAmount').value = "";
+        document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+        document.querySelector('.payment-option[data-payment="paypal"]')?.classList.add('selected');
+        
+        document.getElementById('checkoutPage').classList.add('show');
+        closeCart();
+    }
+    
+    function closeCheckoutPage() { document.getElementById('checkoutPage').classList.remove('show'); }
+    
+    function selectCheckoutPayment(payment) {
+        checkoutSelectedPayment = payment;
+        document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+        document.querySelector(`.payment-option[data-payment="${payment}"]`).classList.add('selected');
+    }
+    
+    function selectCheckoutTip(amount) {
+        checkoutSelectedTip = amount;
+        document.querySelectorAll('.tip-btn').forEach(btn => btn.classList.remove('selected'));
+        document.querySelector(`.tip-btn[data-tip="${amount}"]`).classList.add('selected');
+        document.getElementById('customTipAmount').value = "";
+        updateCheckoutTotal();
+    }
+    
+    function onCustomTip() {
+        const val = parseInt(document.getElementById('customTipAmount').value) || 0;
+        checkoutSelectedTip = val;
+        document.querySelectorAll('.tip-btn').forEach(btn => btn.classList.remove('selected'));
+        updateCheckoutTotal();
+    }
+    
+    function updateCheckoutTotal() {
+        const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+        const total = subtotal + checkoutSelectedTip;
+        document.getElementById('checkoutTipAmount').innerHTML = `₱${checkoutSelectedTip.toLocaleString()}`;
+        document.getElementById('checkoutGrandTotal').innerHTML = `₱${total.toLocaleString()}`;
+    }
+    
+    function processCheckout() {
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const email = document.getElementById('emailAddress').value.trim();
+        const robloxUser = document.getElementById('robloxUsername').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const state = document.getElementById('state').value.trim();
+        const zip = document.getElementById('zip').value.trim();
+        
+        if (!firstName || !lastName || !email || !robloxUser || !address || !city || !state || !zip) {
+            showToast("Please fill in all required fields");
+            return;
+        }
+        
+        // Verify reCAPTCHA
+        const recaptchaResponse = grecaptcha.getResponse();
+        if (!recaptchaResponse) {
+            showToast("Please complete the reCAPTCHA verification");
+            return;
+        }
+        
+        const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+        const total = subtotal + checkoutSelectedTip;
         const orderNumber = generateOrderNumber();
-        const orderDetails = { orderNumber: orderNumber, robloxUser: robloxUser, items: cart.map(i => `${i.name} x${i.quantity}`).join(', '), total: `${getSymbol()}${getDisplayPrice(total)}`, payment: paymentNames[selectedPayment] };
+        const paymentNames = { paypal: "PayPal", gcash: "GCash", visa: "Visa", credit: "Credit Card" };
+        
+        const orderDetails = {
+            orderNumber: orderNumber,
+            items: cart.map(i => `${i.name} x${i.quantity}`).join(', '),
+            total: `₱${total.toLocaleString()}`,
+            payment: paymentNames[checkoutSelectedPayment] || checkoutSelectedPayment,
+            tip: `₱${checkoutSelectedTip.toLocaleString()}`,
+            subtotal: `₱${subtotal.toLocaleString()}`
+        };
         
         sendDiscordNotification(orderNumber, robloxUser, orderDetails);
+        
         orders.push({ ...orderDetails, userId: currentUser.uid, status: 'pending', date: new Date().toLocaleString() });
         localStorage.setItem('orders', JSON.stringify(orders));
         
-        document.getElementById('receiptDetails').innerHTML = `✅ Order #${orderNumber}<br>Items: ${orderDetails.items}<br>Total: ${orderDetails.total}<br>Roblox: @${robloxUser}<br>Status: Pending Admin Approval`;
+        const receiptHtml = `<div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div><div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div><div class="receipt-row"><strong>Items:</strong> ${orderDetails.items}</div><div class="receipt-row"><strong>Subtotal:</strong> ${orderDetails.subtotal}</div><div class="receipt-row"><strong>Tip:</strong> ${orderDetails.tip}</div><div class="receipt-row"><strong>Total:</strong> ${orderDetails.total}</div><div class="receipt-row"><strong>Payment:</strong> ${orderDetails.payment}</div><div class="receipt-row"><strong>Roblox:</strong> @${robloxUser}</div><div class="receipt-row receipt-total"><strong>Status: Pending Admin Approval</strong></div>`;
+        document.getElementById('receiptDetails').innerHTML = receiptHtml;
         document.getElementById('receiptModal').classList.add('show');
         
         cart = [];
         if (voucherApplied) { voucherApplied = false; localStorage.removeItem('voucher_' + currentUser.uid); hasVoucher = false; }
         updateCartUI();
-        closeCart();
+        closeCheckoutPage();
+        grecaptcha.reset();
     }
     
     function closeReceipt() { document.getElementById('receiptModal').classList.remove('show'); }
-    function checkout() { if (!isLoggedIn) { showToast("Please login with Google first!"); return; } if (cart.length === 0) { showToast("Cart empty!"); return; } completeCheckout(); }
-    
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
     
@@ -1446,19 +1787,23 @@
         if (trades.length === 0) { container.innerHTML = '<div class="no-trades"><i class="fas fa-exchange-alt" style="font-size:50px;"></i><p>No trades yet. Be the first!</p></div>'; return; }
         container.innerHTML = trades.map(trade => `<div class="trade-card"><div class="trade-header"><div class="trade-user"><div class="trade-avatar">${trade.userAvatar}</div><div><strong>@${trade.username}</strong><br><span>${trade.date}</span></div></div><span style="background:${trade.type === 'offer' ? '#10b981' : '#6c5ce7'};padding:4px 12px;border-radius:20px;">${trade.type === 'offer' ? 'OFFERING' : 'LOOKING FOR'}</span></div><div class="trade-offer"><p><span class="offer-label">📦 Items:</span> ${trade.items}</p><p><span class="offer-label">🎯 Want:</span> ${trade.want}</p>${trade.note ? `<p><span class="offer-label">📝 Note:</span> ${trade.note}</p>` : ''}</div><button class="accept-trade" onclick="alert('Contact @${trade.username} on Roblox to trade!')">Accept Trade</button></div>`).join('');
     }
-    function acceptTrade(tradeId) { if (!isLoggedIn) { showToast("Please login first!"); return; } const trade = trades.find(t => t.id === tradeId); if (trade) { alert(`🤝 Trade Interest!\n\nFrom: @${trade.username}\nOffering: ${trade.items}\nWant: ${trade.want}\n\nContact @${trade.username} on Roblox!`); showToast("Trade interest sent!"); } }
     
     document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
     
-    window.showHome = showHome; window.showShop = showShop; window.showTrading = showTrading; window.showChat = showChat; window.toggleDropdown = toggleDropdown;
-    window.viewProfile = viewProfile; window.showPurchaseHistory = showPurchaseHistory; window.showReviews = showReviews; window.closeReviews = closeReviews; window.closeHistory = closeHistory;
-    window.viewVouchers = viewVouchers; window.toggleTheme = toggleTheme; window.showHelp = showHelp; window.logout = logout; window.changeCurrency = changeCurrency;
-    window.toggleCart = toggleCart; window.closeCart = closeCart; window.selectPayment = selectPayment; window.checkout = checkout; window.addToCart = addToCart;
-    window.updateQty = updateQty; window.removeFromCart = removeFromCart; window.openTradeModal = openTradeModal; window.closeTradeModal = closeTradeModal;
-    window.submitTrade = submitTrade; window.acceptTrade = acceptTrade; window.performGoogleLogin = performGoogleLogin; window.toggleItemSale = toggleItemSale;
-    window.filterAdminItems = filterAdminItems; window.applyVoucher = applyVoucher; window.dismissVoucher = dismissVoucher; window.closeReceipt = closeReceipt;
-    window.sendMessage = sendMessage; window.sendFile = sendFile; window.selectConversation = selectConversation; window.submitReview = submitReview;
-    window.showContactModal = showContactModal; window.closeContactModal = closeContactModal; window.sendContactEmail = sendContactEmail;
+    // Make functions global
+    window.showHome = showHome; window.showShop = showShop; window.showTrading = showTrading; window.showChat = showChat;
+    window.toggleDropdown = toggleDropdown; window.viewProfile = viewProfile; window.showPurchaseHistory = showPurchaseHistory;
+    window.showReviews = showReviews; window.closeReviews = closeReviews; window.closeHistory = closeHistory;
+    window.viewVouchers = viewVouchers; window.toggleTheme = toggleTheme; window.showHelp = showHelp; window.logout = logout;
+    window.changeCurrency = changeCurrency; window.toggleCart = toggleCart; window.closeCart = closeCart; window.selectPayment = selectPayment;
+    window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart;
+    window.openTradeModal = openTradeModal; window.closeTradeModal = closeTradeModal; window.submitTrade = submitTrade;
+    window.performGoogleLogin = performGoogleLogin; window.toggleItemSale = toggleItemSale; window.filterAdminItems = filterAdminItems;
+    window.applyVoucher = applyVoucher; window.dismissVoucher = dismissVoucher; window.closeReceipt = closeReceipt;
+    window.sendMessage = sendMessage; window.sendFile = sendFile; window.selectConversation = selectConversation;
+    window.submitReview = submitReview; window.showContactModal = showContactModal; window.closeContactModal = closeContactModal;
+    window.sendContactEmail = sendContactEmail; window.openCheckoutPage = openCheckoutPage; window.closeCheckoutPage = closeCheckoutPage;
+    window.selectCheckoutPayment = selectCheckoutPayment; window.selectCheckoutTip = selectCheckoutTip; window.processCheckout = processCheckout;
     
     renderProducts(); selectPayment('paypal'); loadTrades(); showHome();
 </script>
