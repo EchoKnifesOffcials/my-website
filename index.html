@@ -708,7 +708,7 @@
         }
         .checkout-btn:hover { transform: scale(1.02); background: #059669; }
 
-        /* CHECKOUT PAGE (Full Screen) */
+        /* CHECKOUT PAGE */
         .checkout-page {
             position: fixed;
             top: 0;
@@ -804,15 +804,14 @@
         }
         .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         
-        /* Payment Methods */
-        .payment-methods {
-            display: flex;
+        /* Payment Methods Grid */
+        .payment-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            flex-wrap: wrap;
             margin-top: 8px;
         }
         .payment-option {
-            flex: 1;
             background: #1e1e2a;
             border: 2px solid #2a2a36;
             border-radius: 60px;
@@ -821,7 +820,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        .payment-option:hover { transform: scale(1.02); }
+        .payment-option:hover { transform: scale(1.02); background: rgba(108,92,231,0.2); }
         .payment-option.selected { border-color: #6c5ce7; background: #6c5ce7; }
         .payment-option i { font-size: 20px; margin-right: 8px; }
         
@@ -844,7 +843,7 @@
         .tip-btn.selected { background: #6c5ce7; border-color: #6c5ce7; }
         .tip-custom { flex: 1; min-width: 100px; }
         
-        /* Promo Code Section on Checkout */
+        /* Promo Code Section */
         .promo-section {
             margin: 20px 0;
             padding: 15px;
@@ -914,8 +913,8 @@
         }
         .btn-pay:hover { transform: scale(1.02); background: #059669; }
 
-        /* Processing Overlay */
-        .processing-overlay {
+        /* Fake PayPal Modal */
+        .paypal-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -923,42 +922,99 @@
             height: 100%;
             background: rgba(0,0,0,0.95);
             backdrop-filter: blur(20px);
-            z-index: 6000;
+            z-index: 4000;
             display: none;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        .processing-overlay.show {
+        .paypal-modal.show {
             display: flex;
             opacity: 1;
         }
-        .spinner {
-            width: 70px;
-            height: 70px;
-            border: 4px solid rgba(108,92,231,0.2);
-            border-top: 4px solid #6c5ce7;
-            border-right: 4px solid #a855f7;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+        .paypal-container {
+            background: white;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 450px;
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            color: #1a1a2e;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .paypal-modal.show .paypal-container {
+            transform: scale(1);
         }
-        .processing-text {
-            font-size: 18px;
-            font-weight: 600;
+        .paypal-header {
+            background: #0070ba;
+            padding: 20px;
+            text-align: center;
             color: white;
+        }
+        .paypal-header i { font-size: 40px; margin-right: 10px; }
+        .paypal-body {
+            padding: 25px;
+        }
+        .paypal-amount {
+            font-size: 36px;
+            font-weight: 800;
+            text-align: center;
+            margin: 20px 0;
+            color: #0070ba;
+        }
+        .paypal-card {
+            background: #f5f5f5;
+            border-radius: 16px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .paypal-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .paypal-buttons {
+            display: flex;
+            gap: 15px;
             margin-top: 20px;
         }
-        .processing-subtext {
-            font-size: 13px;
-            color: #888;
-            margin-top: 8px;
+        .paypal-pay {
+            flex: 1;
+            background: #0070ba;
+            border: none;
+            padding: 14px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .paypal-cancel {
+            flex: 1;
+            background: #ddd;
+            border: none;
+            padding: 14px;
+            border-radius: 30px;
+            color: #333;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .paypal-loading {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+        .paypal-loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0070ba;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
         }
 
         /* Receipt Modal */
@@ -1046,6 +1102,7 @@
             .checkout-two-col { flex-direction: column; }
             .checkout-left { border-right: none; border-bottom: 1px solid #262633; }
             .row-2 { grid-template-columns: 1fr; }
+            .payment-methods-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -1140,18 +1197,37 @@
     </div>
 </div>
 
-<!-- Processing Overlay -->
-<div class="processing-overlay" id="processingOverlay">
-    <div class="spinner"></div>
-    <div class="processing-text">Processing Order...</div>
-    <div class="processing-subtext">Please wait while we confirm your payment</div>
+<!-- Fake PayPal Modal -->
+<div class="paypal-modal" id="paypalModal">
+    <div class="paypal-container">
+        <div class="paypal-header">
+            <i class="fab fa-paypal"></i> PayPal
+        </div>
+        <div class="paypal-body">
+            <div id="paypalLoginView">
+                <p style="text-align:center; margin-bottom:20px;">Log in to your PayPal account</p>
+                <div class="paypal-card">
+                    <input type="email" id="paypalEmail" placeholder="Email or mobile number" value="test@example.com">
+                    <input type="password" id="paypalPassword" placeholder="Password" value="test123">
+                </div>
+                <div class="paypal-buttons">
+                    <button class="paypal-cancel" onclick="closePaypalModal()">Cancel</button>
+                    <button class="paypal-pay" onclick="processPaypalPayment()">Log In</button>
+                </div>
+            </div>
+            <div id="paypalLoadingView" class="paypal-loading">
+                <div class="spinner"></div>
+                <p>Processing payment...</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Receipt Modal -->
 <div class="receipt-modal" id="receiptModal">
     <div class="receipt-content">
         <div class="receipt-icon"><i class="fas fa-check-circle"></i></div>
-        <div class="receipt-title">Order Placed!</div>
+        <div class="receipt-title">Payment Successful!</div>
         <div id="receiptDetails" class="receipt-details"></div>
         <button class="receipt-close" onclick="closeReceipt()">Done</button>
     </div>
@@ -1247,11 +1323,12 @@
                 </div>
                 
                 <div class="section-title" style="margin-top: 24px;">💳 Payment Method</div>
-                <div class="payment-methods">
-                    <div class="payment-option" data-payment="paypal" onclick="selectPayment('paypal')"><i class="fab fa-paypal"></i> PayPal</div>
+                <div class="payment-methods-grid">
+                    <div class="payment-option" data-payment="credit" onclick="selectPayment('credit')"><i class="fab fa-cc-visa"></i> Credit Card</div>
+                    <div class="payment-option" data-payment="debit" onclick="selectPayment('debit')"><i class="fas fa-credit-card"></i> Debit Card</div>
                     <div class="payment-option" data-payment="gcash" onclick="selectPayment('gcash')"><i class="fas fa-mobile-alt"></i> GCash</div>
-                    <div class="payment-option" data-payment="visa" onclick="selectPayment('visa')"><i class="fab fa-cc-visa"></i> Visa</div>
-                    <div class="payment-option" data-payment="credit" onclick="selectPayment('credit')"><i class="fab fa-cc-mastercard"></i> Credit</div>
+                    <div class="payment-option" data-payment="paypal" onclick="selectPayment('paypal')"><i class="fab fa-paypal"></i> PayPal</div>
+                    <div class="payment-option" data-payment="mastercard" onclick="selectPayment('mastercard')"><i class="fab fa-cc-mastercard"></i> Mastercard</div>
                 </div>
                 
                 <div class="section-title" style="margin-top: 24px;">💝 Support the Team - Add a Tip</div>
@@ -1264,7 +1341,7 @@
                     <input type="number" id="customTip" class="tip-custom" placeholder="Custom ₱" min="0" step="10" oninput="onCustomTip()">
                 </div>
                 
-                <!-- PROMO CODE SECTION (on checkout page) -->
+                <!-- PROMO CODE SECTION -->
                 <div class="section-title" style="margin-top: 24px;">🎟️ Promo Code</div>
                 <div class="promo-section">
                     <div class="promo-input-group">
@@ -1284,7 +1361,7 @@
                     <div><span>Tip:</span><span id="checkoutTipAmount">₱0</span></div>
                 </div>
                 <div class="grand-total"><span>Total:</span><span id="checkoutGrandTotal">₱0</span></div>
-                <button class="btn-pay" onclick="processOrder()"><i class="fas fa-lock"></i> Complete Order</button>
+                <button class="btn-pay" onclick="processOrder()"><i class="fas fa-lock"></i> Proceed to Pay</button>
                 <div class="terms" style="font-size: 11px; text-align: center; margin-top: 12px; color: #64748b;">By completing your purchase, you agree to our Terms of Service</div>
             </div>
         </div>
@@ -1327,6 +1404,7 @@
     let currentUser = null;
     let currentCurrency = "PHP";
     let userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+    let usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes') || '[]');
     
     // Promo code variables
     let promoApplied = false;
@@ -1346,15 +1424,32 @@
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
     function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); updateStats(); showToast(`Currency: ${currentCurrency}`); }
     
-    // Promo Code Function
+    // Promo Code Function (One-time use per account)
     function applyPromoCode() {
         const code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
         const messageDiv = document.getElementById('promoMessage');
+        
+        // Check if user is logged in
+        if (!isLoggedIn) {
+            messageDiv.innerHTML = `<i class="fas fa-times-circle"></i> Please login to use promo codes!`;
+            messageDiv.className = "promo-message error";
+            return;
+        }
+        
+        // Check if code has been used before
+        if (usedPromoCodes.includes(code)) {
+            messageDiv.innerHTML = `<i class="fas fa-times-circle"></i> This promo code has already been redeemed!`;
+            messageDiv.className = "promo-message error";
+            return;
+        }
         
         if (validPromoCodes[code]) {
             promoApplied = true;
             promoDiscount = validPromoCodes[code];
             promoCodeEntered = code;
+            // Mark as used
+            usedPromoCodes.push(code);
+            localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
             messageDiv.innerHTML = `<i class="fas fa-check-circle"></i> Promo code "${code}" applied! ${promoDiscount * 100}% discount.`;
             messageDiv.className = "promo-message success";
             updateCheckoutSummary();
@@ -1438,7 +1533,6 @@
         else cart.push({ ...item, quantity: 1 });
         updateCartUI();
         showToast(`${item.name} added to cart`);
-        // Bounce animation
         const cartIcon = document.querySelector('.cart-icon');
         cartIcon.style.transform = 'scale(1.2)';
         setTimeout(() => cartIcon.style.transform = '', 200);
@@ -1477,12 +1571,6 @@
         if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
         if (cart.length === 0) { showToast("Your cart is empty"); return; }
         
-        // Reset promo on new checkout
-        promoApplied = false;
-        promoDiscount = 0;
-        document.getElementById('promoCodeInput').value = '';
-        document.getElementById('promoMessage').innerHTML = '';
-        
         updateCheckoutSummary();
         
         if (currentUser) {
@@ -1492,12 +1580,15 @@
             document.getElementById('lastName').value = nameParts.slice(1).join(' ') || "";
         }
         
-        // Reset form fields
         document.getElementById('robloxUsername').value = userProfile.roblox || "";
         document.getElementById('address').value = "";
         document.getElementById('city').value = "";
         document.getElementById('state').value = "";
         document.getElementById('zip').value = "";
+        document.getElementById('promoCodeInput').value = "";
+        document.getElementById('promoMessage').innerHTML = "";
+        promoApplied = false;
+        promoDiscount = 0;
         
         selectedTip = 0;
         selectedPayment = "paypal";
@@ -1505,7 +1596,7 @@
         document.querySelector('.tip-btn[data-tip="0"]')?.classList.add('selected');
         document.getElementById('customTip').value = "";
         document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
-        document.querySelector('.payment-option[data-payment="paypal"]')?.classList.add('selected');
+        document.querySelector(`.payment-option[data-payment="${selectedPayment}"]`)?.classList.add('selected');
         
         document.getElementById('checkoutPage').classList.add('show');
         closeCart();
@@ -1570,39 +1661,81 @@
             return;
         }
         
-        // Show processing overlay
-        const processingOverlay = document.getElementById('processingOverlay');
-        processingOverlay.classList.add('show');
+        const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+        const discountAmount = total * promoDiscount;
+        const finalTotal = (total - discountAmount) + selectedTip;
         
-        // Simulate processing
+        // For PayPal, show fake PayPal UI
+        if (selectedPayment === 'paypal') {
+            openPaypalModal(finalTotal);
+        } else {
+            // For other payments, show success directly
+            showReceipt(finalTotal, robloxUser);
+        }
+    }
+    
+    function openPaypalModal(amount) {
+        document.getElementById('paypalModal').classList.add('show');
+    }
+    
+    function closePaypalModal() {
+        document.getElementById('paypalModal').classList.remove('show');
+    }
+    
+    function processPaypalPayment() {
+        const email = document.getElementById('paypalEmail').value;
+        const password = document.getElementById('paypalPassword').value;
+        
+        if (!email || !password) {
+            showToast("Please enter PayPal email and password");
+            return;
+        }
+        
+        // Show loading
+        document.getElementById('paypalLoginView').style.display = 'none';
+        document.getElementById('paypalLoadingView').style.display = 'block';
+        
+        // Simulate payment processing
         setTimeout(() => {
-            const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-            const discountAmount = subtotal * promoDiscount;
-            const total = (subtotal - discountAmount) + selectedTip;
-            const orderNumber = 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+            const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const discountAmount = total * promoDiscount;
+            const finalTotal = (total - discountAmount) + selectedTip;
+            const robloxUser = document.getElementById('robloxUsername').value.trim();
             
-            const receiptHtml = `
-                <div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div>
-                <div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div>
-                <div class="receipt-row"><strong>Items:</strong> ${cart.map(i => `${i.name} x${i.quantity}`).join(', ')}</div>
-                <div class="receipt-row"><strong>Subtotal:</strong> ${getSymbol()}${getDisplayPrice(subtotal)}</div>
-                ${promoApplied ? `<div class="receipt-row"><strong>Discount (${promoDiscount*100}%):</strong> -${getSymbol()}${getDisplayPrice(discountAmount)}</div>` : ''}
-                <div class="receipt-row"><strong>Tip:</strong> ${getSymbol()}${getDisplayPrice(selectedTip)}</div>
-                <div class="receipt-row receipt-total"><strong>Total Paid:</strong> ${getSymbol()}${getDisplayPrice(total)}</div>
-                <div class="receipt-row"><strong>Payment:</strong> ${selectedPayment.toUpperCase()}</div>
-                <div class="receipt-row"><strong>Roblox User:</strong> @${robloxUser}</div>
-                <div class="receipt-row"><strong>Delivery Status:</strong> <span style="color:#10b981;">Processing</span></div>
-            `;
-            document.getElementById('receiptDetails').innerHTML = receiptHtml;
+            closePaypalModal();
+            showReceipt(finalTotal, robloxUser);
             
-            processingOverlay.classList.remove('show');
-            document.getElementById('receiptModal').classList.add('show');
-            
-            // Clear cart
-            cart = [];
-            updateCartUI();
-            closeCheckoutPage();
+            // Reset PayPal view
+            document.getElementById('paypalLoginView').style.display = 'block';
+            document.getElementById('paypalLoadingView').style.display = 'none';
         }, 2000);
+    }
+    
+    function showReceipt(total, robloxUser) {
+        const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+        const discountAmount = subtotal * promoDiscount;
+        const orderNumber = 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+        
+        const receiptHtml = `
+            <div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div>
+            <div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div>
+            <div class="receipt-row"><strong>Items:</strong> ${cart.map(i => `${i.name} x${i.quantity}`).join(', ')}</div>
+            <div class="receipt-row"><strong>Subtotal:</strong> ${getSymbol()}${getDisplayPrice(subtotal)}</div>
+            ${promoApplied ? `<div class="receipt-row"><strong>Discount (${promoDiscount*100}%):</strong> -${getSymbol()}${getDisplayPrice(discountAmount)}</div>` : ''}
+            <div class="receipt-row"><strong>Tip:</strong> ${getSymbol()}${getDisplayPrice(selectedTip)}</div>
+            <div class="receipt-row receipt-total"><strong>Total Paid:</strong> ${getSymbol()}${getDisplayPrice(total)}</div>
+            <div class="receipt-row"><strong>Payment:</strong> ${selectedPayment.toUpperCase()}</div>
+            <div class="receipt-row"><strong>Roblox User:</strong> @${robloxUser}</div>
+            <div class="receipt-row"><strong>Delivery Status:</strong> <span style="color:#10b981;">Processing</span></div>
+            <div class="receipt-row"><strong>Thank you for shopping at ECHOKNIVES!</strong></div>
+        `;
+        document.getElementById('receiptDetails').innerHTML = receiptHtml;
+        document.getElementById('receiptModal').classList.add('show');
+        
+        // Clear cart
+        cart = [];
+        updateCartUI();
+        closeCheckoutPage();
     }
     
     function closeReceipt() { document.getElementById('receiptModal').classList.remove('show'); }
@@ -1766,6 +1899,8 @@
     window.confirmLogout = confirmLogout;
     window.closeLogoutConfirm = closeLogoutConfirm;
     window.performLogout = performLogout;
+    window.closePaypalModal = closePaypalModal;
+    window.processPaypalPayment = processPaypalPayment;
     
     renderProducts();
     showHome();
