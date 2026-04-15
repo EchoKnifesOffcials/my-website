@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AUXq7gkV7XJ3h3V1xH5yL2pK9nR4mQ8wE6tY1uI3oP0sD9fG6hJ4kL2zX7cV8bN3m&currency=PHP&enable-funding=paypal"></script>
+    
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
@@ -56,7 +59,7 @@
             min-height: 100vh;
         }
 
-        /* Enhanced Animated Background */
+        /* Animated Background */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -86,7 +89,6 @@
             66% { transform: translate(-30px, 30px) scale(0.9); }
         }
 
-        /* Floating Particles */
         .particles {
             position: fixed;
             top: 0;
@@ -106,40 +108,17 @@
         }
 
         @keyframes particleFloat {
-            0% {
-                transform: translateY(100vh) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
             10% { opacity: 0.5; }
             90% { opacity: 0.5; }
-            100% {
-                transform: translateY(-100vh) translateX(100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Floating Stars */
-        .star {
-            position: fixed;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 10px;
-            pointer-events: none;
-            animation: starFloat 15s infinite linear;
-            z-index: -1;
-        }
-
-        @keyframes starFloat {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 0.5; }
-            90% { opacity: 0.5; }
-            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+            100% { transform: translateY(-100vh) translateX(100px) rotate(360deg); opacity: 0; }
         }
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #1a1a3e; }
         ::-webkit-scrollbar-thumb { background: #6c5ce7; border-radius: 10px; }
 
-        /* Header - Modern Clean */
+        /* Header */
         .header {
             background: rgba(15, 12, 41, 0.8);
             backdrop-filter: blur(15px);
@@ -436,16 +415,38 @@
             margin: 20px 5%;
             border-radius: 24px;
             padding: 20px;
-            border: 1px solid #a855f7;
+            border: 2px solid #a855f7;
             display: none;
         }
         .admin-panel.show { display: block; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .admin-search { padding: 10px 18px; background: rgba(108, 92, 231, 0.2); border: 1px solid rgba(108, 92, 231, 0.3); border-radius: 30px; color: white; width: 250px; }
-        .admin-items-list { max-height: 300px; overflow-y: auto; }
-        .admin-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid rgba(108, 92, 231, 0.1); }
+        .admin-items-list { max-height: 400px; overflow-y: auto; }
+        .admin-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid rgba(108, 92, 231, 0.1); flex-wrap: wrap; gap: 10px; }
+        .admin-item-info { display: flex; align-items: center; gap: 15px; }
+        .admin-item-info img { width: 45px; height: 45px; object-fit: contain; }
+        .admin-price-input { width: 100px; padding: 6px; border-radius: 20px; background: rgba(108,92,231,0.2); border: 1px solid #6c5ce7; color: white; text-align: center; }
+        .update-price-btn { background: #10b981; border: none; padding: 6px 12px; border-radius: 20px; color: white; cursor: pointer; }
+        .delete-item-btn { background: #dc2626; border: none; padding: 6px 12px; border-radius: 20px; color: white; cursor: pointer; margin-left: 5px; }
         .toggle-status { background: #6c5ce7; border: none; padding: 5px 15px; border-radius: 25px; color: white; cursor: pointer; font-size: 11px; }
         .toggle-status.available { background: #10b981; }
+
+        /* Add Custom Item Form */
+        .add-item-form {
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .add-item-form input, .add-item-form select {
+            background: rgba(108, 92, 231, 0.2);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            padding: 10px;
+            border-radius: 20px;
+            color: white;
+            margin: 5px;
+        }
+        .add-item-btn { background: #6c5ce7; border: none; padding: 10px 20px; border-radius: 30px; color: white; cursor: pointer; }
 
         /* Chat Panel */
         .chat-panel {
@@ -466,7 +467,6 @@
         .conversation-item.active { background: #6c5ce7; }
         .conversation-name { font-weight: 600; font-size: 14px; }
         .conversation-preview { font-size: 11px; color: #888; margin-top: 4px; }
-        .conversation-unread { background: #a855f7; padding: 2px 8px; border-radius: 20px; font-size: 10px; margin-left: 8px; }
         .chat-area { flex: 1; display: flex; flex-direction: column; }
         .chat-messages { flex: 1; height: 350px; overflow-y: auto; padding: 15px; background: rgba(108, 92, 231, 0.05); border-radius: 20px; margin-bottom: 15px; }
         .message-bubble { margin-bottom: 12px; display: flex; flex-direction: column; }
@@ -583,6 +583,7 @@
         .product-rarity.godly { color: #dc2626; }
         .product-rarity.ancient { color: #f39c12; }
         .product-rarity.rare { color: #10b981; }
+        .product-rarity.custom { color: #a855f7; }
         .product-price { font-size: 22px; font-weight: 800; color: #6c5ce7; }
         .add-btn {
             width: 100%;
@@ -648,6 +649,7 @@
         .payment-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 20px 0; }
         .payment-method { background: rgba(108, 92, 231, 0.2); border: 2px solid transparent; border-radius: 16px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.3s; }
         .payment-method.selected { background: #6c5ce7; border-color: #6c5ce7; }
+        .other-payment-input { width: 100%; padding: 10px; margin-top: 10px; background: rgba(108,92,231,0.2); border: 1px solid rgba(108,92,231,0.3); border-radius: 20px; color: white; display: none; }
         .roblox-input { width: 100%; padding: 12px; background: rgba(108, 92, 231, 0.1); border: 1px solid rgba(108, 92, 231, 0.3); border-radius: 30px; margin: 15px 0; font-size: 16px; color: white; }
         .paypal-button-container { margin: 15px 0; display: none; }
         .checkout-btn { width: 100%; padding: 15px; background: #10b981; border: none; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; }
@@ -658,40 +660,6 @@
         .toast { position: fixed; bottom: 30px; right: 30px; background: #10b981; padding: 14px 28px; border-radius: 16px; z-index: 2000; transform: translateX(400px); transition: transform 0.3s; font-weight: 600; }
         .toast.show { transform: translateX(0); }
         .no-trades { text-align: center; padding: 50px; color: #888; }
-
-        /* Contact Modal */
-        .contact-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(20px);
-            z-index: 4000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-        .contact-modal.show { display: flex; }
-        .contact-content {
-            background: rgba(15, 12, 41, 0.95);
-            border-radius: 30px;
-            padding: 35px;
-            width: 90%;
-            max-width: 500px;
-            border: 1px solid #6c5ce7;
-        }
-        .contact-content input, .contact-content textarea {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            background: rgba(108, 92, 231, 0.1);
-            border: 1px solid rgba(108, 92, 231, 0.3);
-            border-radius: 16px;
-            color: white;
-        }
-        .contact-content textarea { resize: vertical; }
 
         /* Receipt Modal */
         .receipt-modal {
@@ -806,7 +774,6 @@
 <div class="glow-orb orb-2"></div>
 <div class="glow-orb orb-3"></div>
 <div class="particles" id="particles"></div>
-<div class="stars" id="stars"></div>
 
 <div class="header">
     <div class="logo" onclick="showHome()">
@@ -832,7 +799,6 @@
                 <div class="dropdown-item" onclick="showPurchaseHistory()"><i class="fas fa-shopping-bag"></i> Purchase History</div>
                 <div class="dropdown-item" onclick="showReviews()"><i class="fas fa-star"></i> Reviews</div>
                 <div class="dropdown-item" onclick="viewVouchers()"><i class="fas fa-ticket-alt"></i> My Vouchers</div>
-                <div class="dropdown-item" onclick="showContactModal()"><i class="fas fa-envelope"></i> Need Help? Contact Us</div>
                 <div class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</div>
             </div>
         </div>
@@ -876,6 +842,24 @@
         <input type="text" class="admin-search" id="adminSearch" placeholder="Search item..." onkeyup="filterAdminItems()">
     </div>
     <div class="admin-items-list" id="adminItemsList"></div>
+    <div class="add-item-form">
+        <h4><i class="fas fa-plus"></i> Add Custom Item</h4>
+        <input type="text" id="newItemName" placeholder="Item Name">
+        <input type="text" id="newItemImage" placeholder="Image URL">
+        <select id="newItemType">
+            <option value="knife">🔪 Knife</option>
+            <option value="gun">🔫 Gun</option>
+            <option value="pet">🐾 Pet</option>
+        </select>
+        <select id="newItemRarity">
+            <option value="Godly">Godly</option>
+            <option value="Ancient">Ancient</option>
+            <option value="Rare">Rare</option>
+            <option value="Custom">Custom</option>
+        </select>
+        <input type="number" id="newItemPrice" placeholder="Price (PHP)">
+        <button class="add-item-btn" onclick="addCustomItem()">Add Item</button>
+    </div>
 </div>
 
 <div class="chat-panel" id="chatPanel">
@@ -930,7 +914,6 @@
         <button class="filter-btn" data-filter="knife">🔪 Knives</button>
         <button class="filter-btn" data-filter="gun">🔫 Guns</button>
         <button class="filter-btn" data-filter="pet">🐾 Pets</button>
-        <button class="filter-btn" data-filter="ancient">🏺 Ancient</button>
         <button class="filter-btn" data-filter="onsale">✅ On Sale</button>
     </div>
     
@@ -955,8 +938,12 @@
     <div class="cart-total" id="cartTotal">Total: ₱0</div>
     <div class="payment-options">
         <div class="payment-method" data-method="paypal" onclick="selectPayment('paypal')">💰 PayPal</div>
-        <div class="payment-method" data-method="visa" onclick="selectPayment('visa')">💳 Card</div>
+        <div class="payment-method" data-method="credit" onclick="selectPayment('credit')">💳 Credit</div>
+        <div class="payment-method" data-method="debit" onclick="selectPayment('debit')">💳 Debit</div>
+        <div class="payment-method" data-method="gcash" onclick="selectPayment('gcash')">📱 GCash</div>
+        <div class="payment-method" data-method="other" onclick="selectPayment('other')">🔧 Other</div>
     </div>
+    <input type="text" id="otherPaymentMethod" class="other-payment-input" placeholder="Enter payment method...">
     <div id="paypal-button-container" class="paypal-button-container"></div>
     <input type="text" id="checkoutRobloxUsername" class="roblox-input" placeholder="Roblox Username (required)">
     <div id="voucherSection" style="display:none; margin:10px 0; padding:12px; background:rgba(108,92,231,0.2); border-radius:16px;">
@@ -967,21 +954,6 @@
         </div>
     </div>
     <button class="checkout-btn" id="checkoutBtn" onclick="processPayment()">Place Order</button>
-</div>
-
-<!-- Contact Modal -->
-<div class="contact-modal" id="contactModal">
-    <div class="contact-content">
-        <span class="modal-close" onclick="closeContactModal()" style="position:absolute; top:20px; right:25px; font-size:28px; cursor:pointer;">&times;</span>
-        <h2 style="margin-bottom:20px;"><i class="fas fa-envelope"></i> Contact Support</h2>
-        <p style="margin-bottom:15px; color:#aaa;">Send us a message and we'll get back to you within 24 hours.</p>
-        <input type="text" id="contactName" placeholder="Your Name">
-        <input type="email" id="contactEmail" placeholder="Your Email">
-        <input type="text" id="contactSubject" placeholder="Subject">
-        <textarea id="contactMessage" rows="4" placeholder="Your message..."></textarea>
-        <button class="btn-primary" onclick="sendContactEmail()" style="width:100%; margin-top:15px;">Send Message</button>
-        <button class="btn-secondary" onclick="closeContactModal()" style="width:100%; margin-top:10px;">Cancel</button>
-    </div>
 </div>
 
 <!-- Receipt Modal -->
@@ -1034,7 +1006,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-    // Create particles and stars
+    // Create particles
     function createParticles() {
         const container = document.getElementById('particles');
         for (let i = 0; i < 60; i++) {
@@ -1047,57 +1019,42 @@
             particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
             container.appendChild(particle);
         }
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.innerHTML = '★';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.fontSize = (Math.random() * 8 + 6) + 'px';
-            star.style.animationDelay = Math.random() * 20 + 's';
-            star.style.animationDuration = (Math.random() * 20 + 10) + 's';
-            starsContainer.appendChild(star);
-        }
     }
     createParticles();
 
-    // Contact form - sends to EchoKnivesOfficial@gmail.com
-    function showContactModal() { document.getElementById('contactModal').classList.add('show'); }
-    function closeContactModal() { document.getElementById('contactModal').classList.remove('show'); }
-    
-    function sendContactEmail() {
-        const name = document.getElementById('contactName').value;
-        const email = document.getElementById('contactEmail').value;
-        const subject = document.getElementById('contactSubject').value;
-        const message = document.getElementById('contactMessage').value;
-        
-        if (!name || !email || !subject || !message) {
-            showToast("Please fill in all fields!");
-            return;
-        }
-        
-        // Create mailto link
-        const mailtoLink = `mailto:EchoKnivesOfficial@gmail.com?subject=Contact from ${name}: ${subject}&body=Name: ${name}%0AEmail: ${email}%0A%0AMessage:%0A${message}`;
-        window.location.href = mailtoLink;
-        
-        showToast("Opening your email app...");
-        closeContactModal();
-        document.getElementById('contactName').value = '';
-        document.getElementById('contactEmail').value = '';
-        document.getElementById('contactSubject').value = '';
-        document.getElementById('contactMessage').value = '';
-    }
-
-    // MM2 Items
-    const items = [
-        { id: 1, name: "Batwing", type: "knife", price: 8500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly" },
-        { id: 2, name: "Harvester", type: "knife", price: 27000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly" },
-        { id: 3, name: "Vampire's Axe", type: "knife", price: 68000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly" },
-        { id: 4, name: "Phantom", type: "knife", price: 7500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly" },
-        { id: 5, name: "Luger", type: "gun", price: 42000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly" },
-        { id: 6, name: "Lightbringer", type: "gun", price: 92000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly" },
-        { id: 7, name: "Darkbringer", type: "gun", price: 92000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly" },
-        { id: 8, name: "Fire Bunny", type: "pet", price: 2800, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet" }
+    // ========== MM2 ITEMS WITH ACCURATE PRICES ==========
+    // Rule: Items under 50 PHP are raised to 100 PHP
+    let items = [
+        { id: 1, name: "Icewing", type: "knife", price: 100, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly" },
+        { id: 2, name: "Hallows Blade", type: "knife", price: 100, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly" },
+        { id: 3, name: "Fang", type: "knife", price: 240, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly" },
+        { id: 4, name: "Slasher", type: "knife", price: 270, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly" },
+        { id: 5, name: "Heat", type: "knife", price: 330, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/9mNpR2q.png", category: "godly" },
+        { id: 6, name: "Nightblade", type: "knife", price: 180, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/4sJtL5p.png", category: "godly" },
+        { id: 7, name: "Deathshard", type: "knife", price: 210, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/7uKvH2l.png", category: "godly" },
+        { id: 8, name: "Luger", type: "gun", price: 420, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly" },
+        { id: 9, name: "Shark", type: "gun", price: 270, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/6cDvB3m.png", category: "godly" },
+        { id: 10, name: "Laser", type: "gun", price: 300, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xPqL9j.png", category: "godly" },
+        { id: 11, name: "Blaster", type: "gun", price: 360, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8bRcV2k.png", category: "godly" },
+        { id: 12, name: "Virtual", type: "gun", price: 330, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly" },
+        { id: 13, name: "Amerilaser", type: "gun", price: 390, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly" },
+        { id: 14, name: "Electro", type: "pet", price: 100, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet" },
+        { id: 15, name: "Frostbird", type: "pet", price: 100, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/3xPqL9j.png", category: "pet" },
+        { id: 16, name: "Phoenix", type: "pet", price: 120, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/8bRcV2k.png", category: "pet" },
+        { id: 17, name: "Sammy", type: "pet", price: 150, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/5dFgH7n.png", category: "pet" },
+        { id: 18, name: "Fire Dog", type: "pet", price: 180, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/2aBcX4p.png", category: "pet" },
+        { id: 19, name: "Icebreaker", type: "knife", price: 720, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/9mNpR2q.png", category: "ancient" },
+        { id: 20, name: "Elderwood Scythe", type: "knife", price: 660, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/7uKvH2l.png", category: "ancient" },
+        { id: 21, name: "Logchopper", type: "knife", price: 600, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/4sJtL5p.png", category: "ancient" },
+        { id: 22, name: "Boneblade", type: "knife", price: 540, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/1wEfR4t.png", category: "ancient" },
+        { id: 23, name: "BattleAxe II", type: "knife", price: 510, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/6cDvB3m.png", category: "ancient" },
+        { id: 24, name: "Batwing", type: "knife", price: 152, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly" },
+        { id: 25, name: "Harvester", type: "knife", price: 608, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly" },
+        { id: 26, name: "Vampire's Axe", type: "knife", price: 1521, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly" },
+        { id: 27, name: "Phantom", type: "knife", price: 153, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly" },
+        { id: 28, name: "Candleflame", type: "knife", price: 220, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/9mNpR2q.png", category: "godly" },
+        { id: 29, name: "Darksword", type: "knife", price: 659, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/4sJtL5p.png", category: "godly" },
+        { id: 30, name: "Xenoknife", type: "knife", price: 66, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/7uKvH2l.png", category: "godly" }
     ];
 
     const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, KRW: 24.5 };
@@ -1116,6 +1073,7 @@
     let pendingOrders = JSON.parse(localStorage.getItem('pendingOrders') || '{}');
     let reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
     let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    let nextId = 31;
     
     function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
     function getSymbol() { return currencySymbols[currentCurrency]; }
@@ -1161,21 +1119,45 @@
     
     function viewVouchers() { if (hasVoucher) alert("🎫 You have a 5% off voucher (never expires)!"); else alert("🎫 No vouchers available."); }
     
+    // Discord Webhook with buttons + website chat link
     const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d';
+    const WEBSITE_URL = window.location.origin;
+    
     function generateOrderNumber() { return 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase(); }
     
     async function sendDiscordNotification(orderNumber, robloxUser, orderDetails) {
-        const embed = { title: '🛒 NEW ORDER!', color: 0x6c5ce7, fields: [
-            { name: '📋 Order Number', value: `\`${orderNumber}\``, inline: true },
-            { name: '🎮 Roblox', value: `@${robloxUser}`, inline: true },
-            { name: '💰 Total', value: orderDetails.total, inline: true },
-            { name: '📦 Items', value: orderDetails.items, inline: false },
-            { name: '💳 Payment', value: orderDetails.payment, inline: true }
-        ], footer: { text: 'ECHOKNIVES Order System' }, timestamp: new Date().toISOString() };
+        const chatLink = `${WEBSITE_URL}/?chat=${orderNumber}&user=${robloxUser}`;
+        const embed = { 
+            title: '🛒 NEW ORDER!', 
+            color: 0x6c5ce7, 
+            fields: [
+                { name: '📋 Order Number', value: `\`${orderNumber}\``, inline: true },
+                { name: '🎮 Roblox', value: `@${robloxUser}`, inline: true },
+                { name: '💰 Total', value: orderDetails.total, inline: true },
+                { name: '📦 Items', value: orderDetails.items, inline: false },
+                { name: '💳 Payment', value: orderDetails.payment, inline: true },
+                { name: '💬 Chat with Buyer', value: `[Click here to chat](${chatLink})`, inline: false }
+            ], 
+            footer: { text: 'ECHOKNIVES Order System' }, 
+            timestamp: new Date().toISOString() 
+        };
         try {
             pendingOrders[orderNumber] = { orderNumber, robloxUser, orderDetails, userId: currentUser?.uid, userEmail: currentUser?.email, timestamp: Date.now(), status: 'pending' };
             localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
-            await fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ embeds: [embed], components: [{ type: 1, components: [{ type: 2, style: 3, label: '✅ Take Order', custom_id: `take_${orderNumber}` }, { type: 2, style: 4, label: '❌ Cancel Order', custom_id: `cancel_${orderNumber}` }] }] }) });
+            await fetch(DISCORD_WEBHOOK, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify({ 
+                    embeds: [embed], 
+                    components: [{ 
+                        type: 1, 
+                        components: [
+                            { type: 2, style: 3, label: '✅ Take Order', custom_id: `take_${orderNumber}`, emoji: { name: '✅' } },
+                            { type: 2, style: 4, label: '❌ Cancel Order', custom_id: `cancel_${orderNumber}`, emoji: { name: '❌' } }
+                        ] 
+                    }] 
+                }) 
+            });
         } catch(e) { console.error(e); }
     }
     
@@ -1216,20 +1198,38 @@
         if (cart.length === 0) { showToast("Cart empty!"); return; }
         const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
         if (!robloxUser) { showToast("Enter Roblox username!"); return; }
+        
+        let paymentMethod = selectedPayment;
+        if (selectedPayment === 'other') {
+            paymentMethod = document.getElementById('otherPaymentMethod').value.trim();
+            if (!paymentMethod) { showToast("Please enter your payment method!"); return; }
+        }
+        const paymentNames = { paypal: "PayPal", credit: "Credit Card", debit: "Debit Card", gcash: "GCash", other: paymentMethod };
+        
         let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
         if (voucherApplied) total = total * 0.95;
         const totalDisplay = `${getSymbol()}${getDisplayPrice(total)}`;
         currentOrderTotal = total;
         currentOrderNumber = generateOrderNumber();
-        currentOrderDetails = { orderNumber: currentOrderNumber, items: cart.map(i => `${i.name} x${i.quantity}`).join(', '), total: totalDisplay, payment: selectedPayment === 'paypal' ? 'PayPal' : 'Credit Card', voucherUsed: voucherApplied ? "Yes" : "No" };
-        if (selectedPayment === 'paypal') { document.getElementById('paypal-button-container').style.display = 'block'; document.getElementById('checkoutBtn').style.display = 'none'; initPayPal(getDisplayPrice(total)); }
-        else { completeOrder('card'); }
+        currentOrderDetails = { orderNumber: currentOrderNumber, items: cart.map(i => `${i.name} x${i.quantity}`).join(', '), total: totalDisplay, payment: paymentNames[selectedPayment], voucherUsed: voucherApplied ? "Yes" : "No", robloxUser: robloxUser };
+        
+        if (selectedPayment === 'paypal') { 
+            document.getElementById('paypal-button-container').style.display = 'block'; 
+            document.getElementById('checkoutBtn').style.display = 'none'; 
+            initPayPal(getDisplayPrice(total)); 
+        } else { 
+            completeOrder('other'); 
+        }
     }
     
     function completeOrder() {
         const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
         sendDiscordNotification(currentOrderNumber, robloxUser, currentOrderDetails);
         showToast(`Order #${currentOrderNumber} placed! Waiting for admin approval.`);
+        
+        // Show receipt immediately
+        showReceipt({ ...currentOrderDetails, orderNumber: currentOrderNumber, robloxUser: robloxUser });
+        
         cart = [];
         if (voucherApplied) { voucherApplied = false; localStorage.removeItem('voucher_' + currentUser.uid); hasVoucher = false; }
         updateCartUI();
@@ -1253,9 +1253,113 @@
     
     function checkNotifications() {
         const notifs = JSON.parse(localStorage.getItem('notifications_' + currentUser?.uid) || '[]');
-        notifs.forEach(n => { if (n.type === 'order_approved') showReceipt({ ...n.orderDetails, orderNumber: n.orderNumber, robloxUser: n.orderDetails.robloxUser }); });
+        notifs.forEach(n => { if (n.type === 'order_approved') showReceipt({ ...n.orderDetails, orderNumber: n.orderNumber }); });
         localStorage.setItem('notifications_' + currentUser?.uid, '[]');
     }
+    
+    // Admin Functions
+    function updateItemPrice(itemId, newPrice) {
+        if (!isAdmin) return;
+        const item = items.find(i => i.id === itemId);
+        if (item) {
+            item.price = Math.max(100, newPrice);
+            renderProducts();
+            renderAdminPanel();
+            showToast(`${item.name} price updated to ₱${item.price}`);
+            saveItems();
+        }
+    }
+    
+    function deleteItem(itemId) {
+        if (!isAdmin) return;
+        items = items.filter(i => i.id !== itemId);
+        renderProducts();
+        renderAdminPanel();
+        showToast("Item deleted");
+        saveItems();
+    }
+    
+    function addCustomItem() {
+        if (!isAdmin) return;
+        const name = document.getElementById('newItemName').value.trim();
+        const image = document.getElementById('newItemImage').value.trim();
+        const type = document.getElementById('newItemType').value;
+        const rarity = document.getElementById('newItemRarity').value;
+        let price = parseInt(document.getElementById('newItemPrice').value);
+        if (!name || !price) { showToast("Please fill in all fields"); return; }
+        if (price < 100) price = 100;
+        items.push({
+            id: nextId++,
+            name: name,
+            type: type,
+            price: price,
+            onsale: true,
+            rarity: rarity,
+            rarityClass: "custom",
+            image: image || "https://i.imgur.com/8QZ7VcL.png",
+            category: type
+        });
+        renderProducts();
+        renderAdminPanel();
+        showToast(`Added ${name} for ₱${price}`);
+        saveItems();
+        document.getElementById('newItemName').value = '';
+        document.getElementById('newItemImage').value = '';
+        document.getElementById('newItemPrice').value = '';
+    }
+    
+    function toggleItemSale(id) {
+        if (!isAdmin) return;
+        const item = items.find(i => i.id === id);
+        if (item) {
+            item.onsale = !item.onsale;
+            renderAdminPanel();
+            renderProducts();
+            showToast(`${item.name} ${item.onsale ? 'on sale' : 'off sale'}`);
+            saveItems();
+        }
+    }
+    
+    function saveItems() {
+        localStorage.setItem('customItems', JSON.stringify(items));
+    }
+    
+    function loadSavedItems() {
+        const saved = localStorage.getItem('customItems');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            items.length = 0;
+            parsed.forEach(i => items.push(i));
+            nextId = Math.max(...items.map(i => i.id), 30) + 1;
+        }
+        renderProducts();
+        renderAdminPanel();
+    }
+    
+    function renderAdminPanel() {
+        if (!isAdmin) return;
+        const search = document.getElementById('adminSearch')?.value.toLowerCase() || '';
+        const filtered = items.filter(i => i.name.toLowerCase().includes(search));
+        document.getElementById('adminItemsList').innerHTML = filtered.map(item => `
+            <div class="admin-item">
+                <div class="admin-item-info">
+                    <img src="${item.image}" onerror="this.src='https://placehold.co/45x45/6c5ce7/white?text=${item.name.charAt(0)}'">
+                    <div>
+                        <strong>${item.name}</strong><br>
+                        <small>${item.type} | ${item.rarity}</small>
+                    </div>
+                </div>
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <input type="number" id="price-${item.id}" class="admin-price-input" value="${item.price}" min="100" step="10">
+                    <button class="update-price-btn" onclick="updateItemPrice(${item.id}, parseInt(document.getElementById('price-${item.id}').value))">Update</button>
+                    <button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button>
+                    <button class="delete-item-btn" onclick="deleteItem(${item.id})">Delete</button>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function filterAdminItems() { renderAdminPanel(); }
     
     // Chat System
     let conversations = JSON.parse(localStorage.getItem('conversations') || '{}');
@@ -1313,8 +1417,16 @@
         try {
             const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
             currentUser = result.user; isLoggedIn = true;
-            if (currentUser.email === "ivanmendones13@gmail.com") { isAdmin = true; document.getElementById('adminPanel').classList.add('show'); document.getElementById('chatTabBtn').style.display = 'block'; renderAdminPanel(); showToast("Admin access granted!"); }
-            else { document.getElementById('chatTabBtn').style.display = 'block'; }
+            if (currentUser.email === "ivanmendones13@gmail.com") { 
+                isAdmin = true; 
+                document.getElementById('adminPanel').classList.add('show'); 
+                document.getElementById('chatTabBtn').style.display = 'block'; 
+                renderAdminPanel(); 
+                loadSavedItems();
+                showToast("👑 Admin access granted! You can now edit prices and add items."); 
+            } else { 
+                document.getElementById('chatTabBtn').style.display = 'block'; 
+            }
             checkForVoucher(); updateUserUI(); showToast(`Welcome ${currentUser.displayName || currentUser.email}!`); renderProducts();
             checkNotifications();
         } catch (error) { showToast("Login failed: " + error.message); }
@@ -1338,7 +1450,7 @@
     }
     
     window.handleAuthStateChanged = function(user) {
-        if (user && !isLoggedIn) { currentUser = user; isLoggedIn = true; if (user.email === "ivanmendones13@gmail.com") { isAdmin = true; document.getElementById('adminPanel').classList.add('show'); document.getElementById('chatTabBtn').style.display = 'block'; renderAdminPanel(); } else { document.getElementById('chatTabBtn').style.display = 'block'; } checkForVoucher(); updateUserUI(); renderProducts(); checkNotifications(); }
+        if (user && !isLoggedIn) { currentUser = user; isLoggedIn = true; if (user.email === "ivanmendones13@gmail.com") { isAdmin = true; document.getElementById('adminPanel').classList.add('show'); document.getElementById('chatTabBtn').style.display = 'block'; renderAdminPanel(); loadSavedItems(); } else { document.getElementById('chatTabBtn').style.display = 'block'; } checkForVoucher(); updateUserUI(); renderProducts(); checkNotifications(); }
         else if (!user && isLoggedIn) { logout(); }
     };
     
@@ -1346,20 +1458,30 @@
     document.addEventListener('click', e => { if (!e.target.closest('.dropdown')) document.querySelectorAll('.dropdown-content').forEach(el => el.classList.remove('show')); });
     function viewProfile() { if (!isLoggedIn) { showToast("Login first!"); return; } alert(`👤 Profile\n\nName: ${currentUser.displayName}\nEmail: ${currentUser.email}`); }
     function toggleTheme() { showToast("Theme toggle coming soon!"); }
-    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items\n3. Add to cart\n4. Enter Roblox username\n5. Complete payment\n6. Admin approves in Discord\n7. Receipt appears when approved!\n\nNeed help? Click 'Need Help? Contact Us' in Account menu."); }
+    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items\n3. Add to cart\n4. Enter Roblox username\n5. Choose payment method\n6. Complete payment\n7. Admin approves in Discord\n8. Receipt appears when approved!\n\nAdmin (ivanmendones13@gmail.com) can edit prices and add items!"); }
     
-    function renderAdminPanel() {
-        if (!isAdmin) return;
-        const search = document.getElementById('adminSearch')?.value.toLowerCase() || '';
-        const filtered = items.filter(i => i.name.toLowerCase().includes(search));
-        document.getElementById('adminItemsList').innerHTML = filtered.map(item => `<div class="admin-item"><div><img src="${item.image}" style="width:45px;height:45px;object-fit:contain;"> <strong>${item.name}</strong><br><small>₱${item.price}</small></div><button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button></div>`).join('');
+    function selectPayment(method) { 
+        selectedPayment = method; 
+        document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); 
+        document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected');
+        document.getElementById('otherPaymentMethod').style.display = method === 'other' ? 'block' : 'none';
+        document.getElementById('paypal-button-container').style.display = method === 'paypal' ? 'block' : 'none';
     }
-    function toggleItemSale(id) { if (!isAdmin) return; const item = items.find(i => i.id === id); if (item) { item.onsale = !item.onsale; renderAdminPanel(); renderProducts(); showToast(`${item.name} ${item.onsale ? 'on sale' : 'off sale'}`); } }
-    function filterAdminItems() { renderAdminPanel(); }
     
     function renderProducts() {
         let filtered = items.filter(i => { if (currentFilter === 'knife') return i.type === 'knife'; if (currentFilter === 'gun') return i.type === 'gun'; if (currentFilter === 'pet') return i.type === 'pet'; if (currentFilter === 'onsale') return i.onsale === true; return true; });
-        document.getElementById('productsGrid').innerHTML = filtered.map(item => `<div class="product-card ${!item.onsale ? 'offsale' : ''}">${!item.onsale ? '<div class="offsale-badge">OFF SALE</div>' : ''}<div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/150x150/6c5ce7/white?text=${item.name.charAt(0)}'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-rarity ${item.rarityClass}">${item.rarity}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div><button class="add-btn" onclick="addToCart(${item.id})" ${!item.onsale ? 'disabled' : ''}>Add to Cart</button></div></div>`).join('');
+        document.getElementById('productsGrid').innerHTML = filtered.map(item => `
+            <div class="product-card ${!item.onsale ? 'offsale' : ''}">
+                ${!item.onsale ? '<div class="offsale-badge">OFF SALE</div>' : ''}
+                <div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/150x150/6c5ce7/white?text=${item.name.charAt(0)}'"></div>
+                <div class="product-info">
+                    <div class="product-name">${item.name}</div>
+                    <div class="product-rarity ${item.rarityClass}">${item.rarity}</div>
+                    <div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div>
+                    <button class="add-btn" onclick="addToCart(${item.id})" ${!item.onsale ? 'disabled' : ''}>Add to Cart</button>
+                </div>
+            </div>
+        `).join('');
         updateStats();
     }
     
@@ -1388,7 +1510,6 @@
     
     function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if (item) item.quantity = newQty; updateCartUI(); } }
     function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
-    function selectPayment(method) { selectedPayment = method; document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected'); document.getElementById('paypal-button-container').style.display = method === 'paypal' ? 'block' : 'none'; }
     
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
@@ -1420,6 +1541,7 @@
     
     document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
     
+    // Make functions global
     window.showHome = showHome; window.showShop = showShop; window.showTrading = showTrading; window.showChat = showChat; window.toggleDropdown = toggleDropdown;
     window.viewProfile = viewProfile; window.showPurchaseHistory = showPurchaseHistory; window.showReviews = showReviews; window.closeReviews = closeReviews; window.closeHistory = closeHistory;
     window.viewVouchers = viewVouchers; window.toggleTheme = toggleTheme; window.showHelp = showHelp; window.logout = logout; window.changeCurrency = changeCurrency;
@@ -1428,9 +1550,9 @@
     window.submitTrade = submitTrade; window.performGoogleLogin = performGoogleLogin; window.toggleItemSale = toggleItemSale; window.filterAdminItems = filterAdminItems;
     window.applyVoucher = applyVoucher; window.dismissVoucher = dismissVoucher; window.closeReceipt = closeReceipt; window.sendMessage = sendMessage; window.sendFile = sendFile;
     window.selectConversation = selectConversation; window.submitReview = submitReview; window.handleDiscordAction = handleDiscordAction;
-    window.showContactModal = showContactModal; window.closeContactModal = closeContactModal; window.sendContactEmail = sendContactEmail;
+    window.updateItemPrice = updateItemPrice; window.deleteItem = deleteItem; window.addCustomItem = addCustomItem;
     
-    renderProducts(); selectPayment('paypal'); loadTrades();
+    renderProducts(); selectPayment('paypal'); loadTrades(); loadSavedItems();
     showHome();
 </script>
 </body>
