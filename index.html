@@ -3,10 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECHOKNIVES | Verify Roblox</title>
+    <title>ECHOKNIVES | Premium MM2 Shop</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK (Authentication) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyBAn0pSAeYVXlpBFElUvFWeCdmMduRDLss",
+            authDomain: "echoknifes-5360c.firebaseapp.com",
+            projectId: "echoknifes-5360c",
+            storageBucket: "echoknifes-5360c.firebasestorage.app",
+            messagingSenderId: "86064144525",
+            appId: "1:86064144525:web:9a8dee636295e840c242c4"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+        
+        window.firebaseAuth = auth;
+        window.firebaseProvider = provider;
+        window.firebaseSignOut = signOut;
+        window.firebaseSignInWithPopup = signInWithPopup;
+        
+        onAuthStateChanged(auth, (user) => {
+            if (window.handleAuthStateChanged) {
+                window.handleAuthStateChanged(user);
+            }
+        });
+        
+        window.dispatchEvent(new Event('firebase-ready'));
+    </script>
     
     <style>
         * {
@@ -19,14 +51,10 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%);
             color: #fff;
+            overflow-x: hidden;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
         }
 
-        /* Animated Background */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -46,12 +74,14 @@
             animation: float 25s infinite ease-in-out;
         }
 
-        .orb-1 { width: 400px; height: 400px; background: #6c5ce7; top: -200px; left: -200px; }
-        .orb-2 { width: 350px; height: 350px; background: #a855f7; bottom: -150px; right: -150px; animation-delay: 5s; }
+        .orb-1 { width: 600px; height: 600px; background: #6c5ce7; top: -300px; left: -300px; }
+        .orb-2 { width: 500px; height: 500px; background: #a855f7; bottom: -250px; right: -250px; animation-delay: 5s; }
+        .orb-3 { width: 400px; height: 400px; background: #ec4899; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 10s; opacity: 0.15; }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, -30px); }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
         }
 
         .particles {
@@ -68,192 +98,551 @@
             position: absolute;
             background: rgba(108, 92, 231, 0.3);
             border-radius: 50%;
-            animation: particleFloat 15s infinite linear;
+            pointer-events: none;
+            animation: particleFloat 20s infinite linear;
         }
 
         @keyframes particleFloat {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
             10% { opacity: 0.5; }
             90% { opacity: 0.5; }
-            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+            100% { transform: translateY(-100vh) translateX(100px) rotate(360deg); opacity: 0; }
         }
 
-        .card {
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a1a3e; }
+        ::-webkit-scrollbar-thumb { background: #6c5ce7; border-radius: 10px; }
+
+        .header {
             background: rgba(15, 12, 41, 0.85);
-            backdrop-filter: blur(20px);
-            border-radius: 40px;
-            padding: 40px 30px;
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
-            border: 1px solid rgba(108, 92, 231, 0.3);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 0.6s ease;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.3);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .logo {
-            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
+        .logo:hover { transform: scale(1.02); }
 
         .logo-icon {
-            font-size: 48px;
+            font-size: 32px;
             color: #6c5ce7;
-            filter: drop-shadow(0 0 15px rgba(108, 92, 231, 0.5));
+            filter: drop-shadow(0 0 10px rgba(108,92,231,0.5));
         }
 
-        h1 {
+        .logo-text {
             font-family: 'Orbitron', monospace;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 800;
             background: linear-gradient(135deg, #fff, #a855f7);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 5px;
         }
 
-        .subtitle {
+        .logo-sub {
+            font-size: 10px;
             color: #888;
-            font-size: 12px;
-            margin-bottom: 30px;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
-        /* Avatar Circle */
-        .avatar-container {
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 25px;
-            border-radius: 50%;
-            background: #1e1e3a;
-            border: 3px solid #6c5ce7;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(108, 92, 231, 0.4);
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            background: rgba(108, 92, 231, 0.1);
+            padding: 5px;
+            border-radius: 50px;
+        }
+
+        .nav-link {
+            padding: 8px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #ccc;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(108, 92, 231, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: #6c5ce7;
+            color: white;
+            box-shadow: 0 0 15px rgba(108,92,231,0.4);
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .currency-selector {
+            background: rgba(108, 92, 231, 0.2);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 30px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .currency-selector select {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(108, 92, 231, 0.2);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            padding: 5px 15px;
+            border-radius: 40px;
+            cursor: pointer;
             transition: all 0.3s ease;
         }
-
-        .avatar-container img {
+        .user-info:hover {
+            background: rgba(108,92,231,0.3);
+            transform: translateY(-2px);
+        }
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #6c5ce7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .user-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        /* Input Field - Just type, no button needed! */
-        .input-wrapper {
-            position: relative;
-            margin-bottom: 20px;
+        .points-display {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            padding: 8px 16px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 14px;
         }
 
-        .input-icon {
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 22px;
+            background: rgba(108, 92, 231, 0.2);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            padding: 8px 16px;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+        }
+        .cart-icon:hover { 
+            background: #6c5ce7; 
+            transform: scale(1.05);
+        }
+        .cart-count {
             position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c5ce7;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 5%;
+            flex-wrap: wrap;
+            gap: 50px;
+        }
+        .hero-content { flex: 1; min-width: 300px; animation: fadeInUp 0.6s ease; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(108, 92, 231, 0.2);
+            padding: 8px 25px;
+            border-radius: 40px;
+            font-size: 14px;
+            color: #a855f7;
+            margin-bottom: 25px;
+            border: 1px solid rgba(108,92,231,0.3);
+        }
+        .hero-title {
+            font-size: 58px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            font-family: 'Orbitron', monospace;
+        }
+        .hero-title span {
+            background: linear-gradient(135deg, #6c5ce7, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero-desc {
+            font-size: 18px;
+            color: #aaa;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 45px;
+        }
+        .hero-stat h3 { font-size: 36px; font-weight: 800; color: #6c5ce7; }
+        .hero-stat p { font-size: 12px; color: #888; }
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6c5ce7, #a855f7);
+            border: none;
+            padding: 14px 35px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
             font-size: 16px;
         }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(108,92,231,0.4);
+        }
+        .hero-image { flex: 1; min-width: 300px; text-align: center; }
+        .hero-image img {
+            max-width: 100%;
+            filter: drop-shadow(0 0 40px rgba(108,92,231,0.3));
+            animation: floatImage 4s ease-in-out infinite;
+            border-radius: 20px;
+        }
+        @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-        input {
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 5%;
+        }
+        .filter-bar {
+            background: rgba(0,0,0,0.5);
+            padding: 12px 20px;
+            margin-bottom: 25px;
+            border-radius: 50px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+        .filter-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        .filter-btn:hover { transform: translateY(-2px); background: rgba(108,92,231,0.5); }
+        .filter-btn.active {
+            background: #6c5ce7;
+            color: white;
+        }
+
+        .stats-banner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(108,92,231,0.3);
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-5px); border-color: #6c5ce7; }
+        .stat-card h3 { font-size: 28px; font-weight: 800; color: #6c5ce7; }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+        .product-card {
+            background: linear-gradient(135deg, rgba(30,20,25,0.9), rgba(20,15,20,0.95));
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(108,92,231,0.2);
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: #6c5ce7;
+            box-shadow: 0 20px 40px rgba(108,92,231,0.3);
+        }
+        .product-image {
             width: 100%;
-            padding: 16px 20px 16px 50px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(108, 92, 231, 0.3);
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #2a1a1a, #1a0a0a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .product-image img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 12px;
+            transition: transform 0.3s;
+        }
+        .product-card:hover .product-image img { transform: scale(1.05); }
+        .product-info { padding: 18px; }
+        .product-name { font-size: 16px; font-weight: 700; margin-bottom: 5px; }
+        .product-price {
+            font-size: 22px;
+            font-weight: 800;
+            color: #6c5ce7;
+        }
+        .add-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 10px;
+            background: linear-gradient(135deg, #6c5ce7, #a855f7);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .add-btn:hover { transform: scale(1.02); background: #a855f7; }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            height: 100vh;
+            background: rgba(15, 12, 41, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: right 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            border-left: 2px solid #6c5ce7;
+        }
+        .cart-sidebar.open { right: 0; }
+        .cart-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .close-cart { background: none; border: none; font-size: 28px; cursor: pointer; color: #6c5ce7; }
+        .cart-items { flex: 1; overflow-y: auto; }
+        .cart-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #6c5ce7; font-size: 22px; font-weight: 800; }
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: #10b981;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+        .checkout-btn:hover { transform: scale(1.02); background: #059669; }
+
+        /* Roblox Verification Modal */
+        .roblox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.96);
+            backdrop-filter: blur(20px);
+            z-index: 3000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .roblox-modal.show { display: flex; }
+        .roblox-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 30px;
+            padding: 35px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            border: 1px solid #6c5ce7;
+            animation: modalPop 0.3s ease;
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .roblox-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #1e1e3a;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 3px solid #6c5ce7;
+            box-shadow: 0 0 20px rgba(108,92,231,0.5);
+        }
+        .roblox-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .roblox-username-display {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #a855f7;
+        }
+        .roblox-input {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(108,92,231,0.3);
             border-radius: 60px;
             color: white;
             font-size: 16px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            text-align: center;
+            margin: 20px 0;
         }
-
-        input:focus {
+        .roblox-input:focus {
             outline: none;
             border-color: #6c5ce7;
-            background: rgba(108, 92, 231, 0.1);
-            box-shadow: 0 0 15px rgba(108, 92, 231, 0.2);
         }
-
-        input::placeholder {
-            color: #666;
-            font-weight: 400;
+        .button-group {
+            display: flex;
+            gap: 15px;
         }
-
-        /* Status Message */
-        .status {
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 30px;
-            font-size: 13px;
-            transition: all 0.3s ease;
-        }
-
-        .status-loading {
-            background: rgba(245, 158, 11, 0.15);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .status-success {
-            background: rgba(16, 185, 129, 0.15);
-            color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .status-error {
-            background: rgba(239, 68, 68, 0.15);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        /* Username Display */
-        .username-display {
-            margin-top: 15px;
-            font-size: 18px;
-            font-weight: 600;
-            color: #a855f7;
-        }
-
-        /* Continue Button (appears after verification) */
-        .continue-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #10b981, #059669);
+        .btn-blue {
+            flex: 1;
+            background: #3b82f6;
             border: none;
+            padding: 14px;
             border-radius: 60px;
             color: white;
             font-weight: 700;
-            font-size: 16px;
             cursor: pointer;
-            margin-top: 20px;
             transition: all 0.3s ease;
+        }
+        .btn-blue:hover { transform: scale(1.02); background: #2563eb; }
+        .btn-red {
+            flex: 1;
+            background: #ef4444;
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-red:hover { transform: scale(1.02); background: #dc2626; }
+
+        .receipt-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 5000;
             display: none;
+            justify-content: center;
+            align-items: center;
         }
-
-        .continue-btn.show {
-            display: block;
-            animation: fadeInUp 0.3s ease;
+        .receipt-modal.show { display: flex; }
+        .receipt-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 30px;
+            padding: 30px;
+            width: 90%;
+            max-width: 550px;
+            border: 1px solid #6c5ce7;
         }
+        .receipt-icon { font-size: 60px; color: #10b981; text-align: center; }
+        .receipt-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
 
-        .continue-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #10b981;
+            padding: 12px 24px;
+            border-radius: 12px;
+            z-index: 2000;
+            transform: translateX(-400px);
+            transition: transform 0.3s;
         }
+        .toast.show { transform: translateX(0); }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: none; }
+        .overlay.show { display: block; }
 
-        /* Hint text */
-        .hint {
-            font-size: 11px;
-            color: #555;
-            margin-top: 15px;
+        @media (max-width: 768px) {
+            .cart-sidebar { width: 100%; right: -100%; }
+            .hero-title { font-size: 38px; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
         }
     </style>
 </head>
@@ -262,213 +651,488 @@
 <div class="animated-bg"></div>
 <div class="glow-orb orb-1"></div>
 <div class="glow-orb orb-2"></div>
+<div class="glow-orb orb-3"></div>
 <div class="particles" id="particles"></div>
 
-<div class="card">
-    <div class="logo">
+<div class="header">
+    <div class="logo" onclick="showHome()">
         <i class="fas fa-gem logo-icon"></i>
-        <h1>ECHOKNIVES</h1>
-        <div class="subtitle">VERIFY YOUR ROBLOX ACCOUNT</div>
+        <div>
+            <div class="logo-text">ECHOKNIVES</div>
+            <div class="logo-sub">PREMIUM MM2 SHOP</div>
+        </div>
     </div>
-
-    <!-- Avatar Circle -->
-    <div class="avatar-container">
-        <img id="avatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=140" alt="Avatar">
+    
+    <div class="nav-links">
+        <button class="nav-link active" onclick="showHome()">🏠 Home</button>
+        <button class="nav-link" onclick="showShop()">🛒 Shop</button>
+        <button class="nav-link" onclick="showQuests()">⭐ Quests</button>
     </div>
-
-    <!-- Username Display -->
-    <div id="usernameDisplay" class="username-display"></div>
-
-    <!-- Input - Just type your username! -->
-    <div class="input-wrapper">
-        <i class="fab fa-roblox input-icon"></i>
-        <input type="text" id="usernameInput" placeholder="Type your Roblox username..." autocomplete="off" spellcheck="false">
-    </div>
-
-    <!-- Status Message -->
-    <div id="status" class="status"></div>
-
-    <!-- Continue Button (appears after successful verification) -->
-    <button id="continueBtn" class="continue-btn" onclick="continueToCheckout()">
-        <i class="fas fa-check-circle"></i> Yes, That's me! Continue →
-    </button>
-
-    <div class="hint">
-        <i class="fas fa-magic"></i> Just type your username - avatar loads automatically!
+    
+    <div class="top-right">
+        <div class="points-display"><i class="fas fa-star"></i> <span id="pointsBalance">0</span> pts</div>
+        <div class="currency-selector">
+            <i class="fas fa-money-bill-wave"></i>
+            <select id="currencySelect" onchange="changeCurrency()">
+                <option value="PHP">🇵🇭 PHP</option>
+                <option value="USD">🇺🇸 USD</option>
+            </select>
+        </div>
+        
+        <div class="user-info" id="userInfo" onclick="performGoogleLogin()">
+            <div class="user-avatar" id="userAvatarDisplay"><i class="fas fa-user"></i></div>
+            <span id="userNameDisplay">Guest</span>
+        </div>
+        
+        <div class="cart-icon" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+        </div>
     </div>
 </div>
 
-<script>
-    // 👇 CHANGE THIS TO YOUR RENDER MIDDLEMAN URL!
-    const MIDDLEMAN_URL = "https://roblox-middleman.onrender.com";
+<div id="homePage" class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">✨ PREMIUM MM2 SHOP ✨</div>
+        <h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1>
+        <p class="hero-desc">Get the rarest Murder Mystery 2 items instantly.<br>Secure payments, fast delivery, earn points!</p>
+        <div class="hero-stats">
+            <div class="hero-stat"><h3>10K+</h3><p>Items Sold</p></div>
+            <div class="hero-stat"><h3>5K+</h3><p>Customers</p></div>
+            <div class="hero-stat"><h3>100%</h3><p>Secure</p></div>
+        </div>
+        <div class="hero-buttons">
+            <button class="btn-primary" onclick="showShop()">Shop Now →</button>
+        </div>
+    </div>
+    <div class="hero-image">
+        <img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero">
+    </div>
+</div>
+
+<div id="shopPage" class="container" style="display:none;">
+    <div class="stats-banner">
+        <div class="stat-card"><h3 id="totalItems">0</h3><p>Total Items</p></div>
+        <div class="stat-card"><h3 id="cartValue">₱0</h3><p>Cart Total</p></div>
+    </div>
     
-    // If you don't have a middleman yet, use the free proxy (works but slower)
-    // const MIDDLEMAN_URL = "https://api.allorigins.win/raw?url=";
-    // Then the fetch URL would be different. Let me know if you need the proxy version.
+    <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All Items</button>
+        <button class="filter-btn" data-filter="knife">🔪 Knives</button>
+        <button class="filter-btn" data-filter="gun">🔫 Guns</button>
+    </div>
+    
+    <div class="products-grid" id="productsGrid"></div>
+</div>
 
-    let currentVerifiedUser = null;
-    let debounceTimer = null;
+<div id="questsPage" class="container" style="display:none;">
+    <h2><i class="fas fa-tasks"></i> Daily Quests</h2>
+    <div id="questsGrid" style="display:grid; gap:20px; margin-top:20px;"></div>
+</div>
 
-    // Get DOM elements
-    const usernameInput = document.getElementById('usernameInput');
-    const avatarImg = document.getElementById('avatarImg');
-    const usernameDisplay = document.getElementById('usernameDisplay');
-    const statusDiv = document.getElementById('status');
-    const continueBtn = document.getElementById('continueBtn');
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+        <h3>Your Cart</h3>
+        <button class="close-cart" onclick="closeCart()">×</button>
+    </div>
+    <div class="cart-items" id="cartItemsList"></div>
+    <div class="cart-total" id="cartTotal">Total: ₱0</div>
+    <button class="checkout-btn" onclick="initiateCheckout()">Proceed to Checkout →</button>
+</div>
 
-    // Auto-load saved user
-    const saved = localStorage.getItem('verifiedRoblox');
-    if (saved) {
-        try {
-            const data = JSON.parse(saved);
-            usernameInput.value = data.username;
-            if (data.avatarUrl) {
-                avatarImg.src = data.avatarUrl;
-            }
-            usernameDisplay.innerHTML = `<i class="fas fa-user-check"></i> @${data.username}`;
-            statusDiv.innerHTML = "✅ Verified! You can continue to checkout.";
-            statusDiv.className = "status status-success";
-            currentVerifiedUser = data;
-            continueBtn.classList.add('show');
-        } catch(e) {}
+<!-- ROBLOX VERIFICATION MODAL - ONLY APPEARS WHEN CHECKING OUT -->
+<div class="roblox-modal" id="robloxModal">
+    <div class="roblox-content">
+        <h2><i class="fab fa-roblox"></i> Verify Your Roblox Account</h2>
+        <div class="roblox-avatar">
+            <img id="robloxAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120" alt="Avatar">
+        </div>
+        <div id="robloxDisplayName" class="roblox-username-display">Enter your username</div>
+        <input type="text" id="robloxUsernameInput" class="roblox-input" placeholder="Roblox Username" autocomplete="off">
+        <div class="button-group">
+            <button class="btn-blue" id="confirmYesBtn" onclick="confirmRobloxAndCheckout()"><i class="fas fa-check"></i> Yes, That's me!</button>
+            <button class="btn-red" id="confirmNoBtn" onclick="resetRobloxUsername()"><i class="fas fa-times"></i> No, not me</button>
+        </div>
+        <p style="font-size:12px; margin-top:15px; color:#888;">Your items will be delivered to this Roblox account.</p>
+    </div>
+</div>
+
+<div class="receipt-modal" id="receiptModal">
+    <div class="receipt-content">
+        <div class="receipt-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="receipt-title" style="font-size:24px; font-weight:800; text-align:center;">Payment Successful!</div>
+        <div id="receiptDetails" class="receipt-details"></div>
+        <button onclick="closeReceipt()" style="background:#6c5ce7; width:100%; padding:12px; border:none; border-radius:30px; color:white; margin-top:15px;">Done</button>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    // ========== MM2 ITEMS ==========
+    const items = [
+        { id: 1, name: "Batwing", type: "knife", price: 152, image: "https://i.imgur.com/H6CL03y.jpeg" },
+        { id: 2, name: "Harvester", type: "knife", price: 608, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
+        { id: 3, name: "Icewing", type: "knife", price: 72, image: "https://i.imgur.com/jiwvmxq.jpeg" },
+        { id: 4, name: "Luger", type: "gun", price: 207, image: "https://i.imgur.com/eEvMBRh.jpeg" },
+        { id: 5, name: "Darkbringer", type: "gun", price: 92000, image: "https://i.imgur.com/8oxgzwa.jpeg" },
+        { id: 6, name: "Lightbringer", type: "gun", price: 92000, image: "https://i.imgur.com/BUljuYV.jpeg" }
+    ];
+
+    let cart = [];
+    let currentFilter = "all";
+    let isLoggedIn = false;
+    let currentUser = null;
+    let currentCurrency = "PHP";
+    let exchangeRates = { PHP: 1, USD: 0.017 };
+    let symbols = { PHP: "₱", USD: "$" };
+    
+    // ========== POINTS SYSTEM ==========
+    let userPoints = 0;
+    let quests = {
+        firstPurchase: { name: "🛒 First Purchase", reward: 100, completed: false, claimed: false, desc: "Buy your first item" },
+        dailyVisit: { name: "📅 Daily Visit", reward: 10, completed: false, claimed: false, desc: "Visit the shop today" }
+    };
+    
+    function loadPointsAndQuests() {
+        const saved = localStorage.getItem('echoknives_user_data');
+        if(saved) {
+            try {
+                const data = JSON.parse(saved);
+                userPoints = data.points || 0;
+                quests = data.quests || quests;
+                const today = new Date().toDateString();
+                if(data.lastVisitDate !== today) {
+                    quests.dailyVisit.completed = true;
+                    quests.dailyVisit.claimed = false;
+                    saveUserData();
+                }
+            } catch(e) {}
+        }
+        updatePointsDisplay();
+        renderQuests();
     }
-
-    // Fetch Roblox avatar using middleman
+    
+    function saveUserData() {
+        const data = { points: userPoints, quests: quests, lastVisitDate: new Date().toDateString() };
+        localStorage.setItem('echoknives_user_data', JSON.stringify(data));
+    }
+    
+    function updatePointsDisplay() { document.getElementById('pointsBalance').innerText = userPoints; }
+    function addPoints(amount) { userPoints += amount; updatePointsDisplay(); saveUserData(); showToast(`+${amount} points earned!`); }
+    
+    function claimQuest(questId) {
+        if(quests[questId].completed && !quests[questId].claimed) {
+            addPoints(quests[questId].reward);
+            quests[questId].claimed = true;
+            saveUserData();
+            renderQuests();
+        } else if(!quests[questId].completed) { showToast("Complete the quest first!"); }
+        else { showToast("Already claimed!"); }
+    }
+    
+    function markFirstPurchaseComplete() {
+        if(!quests.firstPurchase.completed) {
+            quests.firstPurchase.completed = true;
+            saveUserData();
+            renderQuests();
+            showToast("Quest completed! Claim your 100 points in Quests tab!");
+        }
+    }
+    
+    function renderQuests() {
+        const container = document.getElementById('questsGrid');
+        if(!container) return;
+        container.innerHTML = Object.entries(quests).map(([id, q]) => `
+            <div style="background:rgba(0,0,0,0.5); border-radius:20px; padding:20px;">
+                <h3>${q.name}</h3>
+                <p>${q.desc}</p>
+                <p><strong>Reward: ${q.reward} points</strong></p>
+                <p>Status: ${q.claimed ? '<span style="color:#10b981;">✓ Claimed</span>' : (q.completed ? '<span style="color:#10b981;">✓ Ready to claim</span>' : '🔒 Not completed')}</p>
+                <button class="claim-btn" onclick="claimQuest('${id}')" style="background:#10b981; border:none; padding:10px 20px; border-radius:30px; color:white; margin-top:15px; cursor:pointer;" ${q.claimed || !q.completed ? 'disabled' : ''}>${q.completed && !q.claimed ? 'Claim Reward' : (q.claimed ? 'Claimed' : 'Locked')}</button>
+            </div>
+        `).join('');
+    }
+    
+    // ========== SHOP FUNCTIONS ==========
+    function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
+    function getSymbol() { return symbols[currentCurrency]; }
+    function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); updateStats(); }
+    
+    function updateStats() {
+        let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+        document.getElementById('totalItems').innerText = items.length;
+        document.getElementById('cartValue').innerHTML = `${getSymbol()}${getDisplayPrice(total)}`;
+    }
+    
+    function showHome() { document.getElementById('homePage').style.display = 'flex'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:first-child').classList.add('active'); }
+    function showShop() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'block'; document.getElementById('questsPage').style.display = 'none'; document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(2)').classList.add('active'); renderProducts(); }
+    function showQuests() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'block'; document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(3)').classList.add('active'); renderQuests(); }
+    
+    function renderProducts() {
+        let filtered = items.filter(i => { if (currentFilter === 'knife') return i.type === 'knife'; if (currentFilter === 'gun') return i.type === 'gun'; return true; });
+        document.getElementById('productsGrid').innerHTML = filtered.map(item => `
+            <div class="product-card">
+                <div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/150x150/6c5ce7/white?text=${item.name.charAt(0)}'"></div>
+                <div class="product-info">
+                    <div class="product-name">${item.name}</div>
+                    <div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div>
+                    <button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button>
+                </div>
+            </div>
+        `).join('');
+        updateStats();
+    }
+    
+    function addToCart(id) {
+        if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
+        const item = items.find(i => i.id === id);
+        const existing = cart.find(i => i.id === id);
+        if (existing) existing.quantity++;
+        else cart.push({ ...item, quantity: 1 });
+        updateCartUI();
+        showToast(`${item.name} added to cart`);
+        const cartIcon = document.querySelector('.cart-icon');
+        cartIcon.style.transform = 'scale(1.2)';
+        setTimeout(() => cartIcon.style.transform = '', 200);
+    }
+    
+    function updateCartUI() {
+        let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+        const count = cart.reduce((s, i) => s + i.quantity, 0);
+        document.getElementById('cartCount').innerText = count;
+        document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`;
+        updateStats();
+        const container = document.getElementById('cartItemsList');
+        if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;padding:20px;">Cart is empty</p>'; return; }
+        container.innerHTML = cart.map(item => `
+            <div class="cart-item">
+                <div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div>
+                <div>
+                    <button onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button>
+                    <span style="margin:0 8px;">${item.quantity}</span>
+                    <button onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button>
+                    <button onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if (item) item.quantity = newQty; updateCartUI(); } }
+    function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
+    function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
+    function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+    
+    // ========== CHECKOUT WITH ROBLOX VERIFICATION ==========
+    // MIDDLEMAN URL - YOUR RENDER MIDDLEMAN
+    const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
+    
+    let pendingCheckout = false;
+    let verifiedRobloxUser = null;
+    
+    function initiateCheckout() {
+        if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
+        if (cart.length === 0) { showToast("Your cart is empty"); return; }
+        
+        // Check if user already verified Roblox
+        const savedRoblox = localStorage.getItem('verifiedRobloxUser');
+        if (savedRoblox) {
+            try {
+                const user = JSON.parse(savedRoblox);
+                verifiedRobloxUser = user;
+                completeCheckout(user);
+                return;
+            } catch(e) {}
+        }
+        
+        // Show verification modal
+        pendingCheckout = true;
+        openRobloxVerification();
+    }
+    
+    function openRobloxVerification() {
+        const saved = localStorage.getItem('verifiedRobloxUser');
+        if(saved) {
+            try {
+                const user = JSON.parse(saved);
+                document.getElementById('robloxUsernameInput').value = user.username;
+                fetchRobloxAvatar(user.username);
+                return;
+            } catch(e) {}
+        }
+        
+        document.getElementById('robloxUsernameInput').value = '';
+        document.getElementById('robloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120";
+        document.getElementById('robloxDisplayName').innerHTML = "Enter your Roblox username";
+        
+        document.getElementById('robloxModal').classList.add('show');
+        closeCart();
+        
+        let debounceTimer;
+        const inputField = document.getElementById('robloxUsernameInput');
+        inputField.oninput = function() {
+            clearTimeout(debounceTimer);
+            const val = this.value.trim();
+            debounceTimer = setTimeout(() => {
+                if(val && val.length > 2) {
+                    fetchRobloxAvatar(val);
+                }
+            }, 500);
+        };
+    }
+    
     async function fetchRobloxAvatar(username) {
-        if (!username || username.trim() === "") {
-            // Reset to default
-            avatarImg.src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=140";
-            usernameDisplay.innerHTML = "";
-            statusDiv.innerHTML = "Enter your Roblox username above";
-            statusDiv.className = "status";
-            continueBtn.classList.remove('show');
-            currentVerifiedUser = null;
+        if (!username || username.trim() === "") return;
+        
+        const imgElement = document.getElementById('robloxAvatarImg');
+        const displayElement = document.getElementById('robloxDisplayName');
+        
+        imgElement.src = "https://ui-avatars.com/api/?name=Loading&background=f59e0b&color=fff&size=120";
+        displayElement.innerHTML = `🔍 Looking up @${username}...`;
+        
+        try {
+            const response = await fetch(`${MIDDLEMAN_URL}/api/roblox/${encodeURIComponent(username.trim())}`);
+            const data = await response.json();
+            
+            if (data.success && data.avatarUrl) {
+                imgElement.src = data.avatarUrl;
+                displayElement.innerHTML = `✅ @${data.username}<br><span style="font-size:12px;">${data.displayName}</span>`;
+                window.pendingRobloxData = data;
+            } else {
+                imgElement.src = "https://ui-avatars.com/api/?name=Not+Found&background=ef4444&color=fff&size=120";
+                displayElement.innerHTML = "❌ User not found";
+                window.pendingRobloxData = null;
+            }
+        } catch (error) {
+            imgElement.src = "https://ui-avatars.com/api/?name=Error&background=ef4444&color=fff&size=120";
+            displayElement.innerHTML = "❌ Connection error";
+            window.pendingRobloxData = null;
+        }
+    }
+    
+    function resetRobloxUsername() {
+        document.getElementById('robloxUsernameInput').value = '';
+        document.getElementById('robloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120";
+        document.getElementById('robloxDisplayName').innerHTML = "Enter your Roblox username";
+        window.pendingRobloxData = null;
+        showToast("Please enter your correct Roblox username");
+    }
+    
+    function confirmRobloxAndCheckout() {
+        const username = document.getElementById('robloxUsernameInput').value.trim();
+        if (!username) {
+            showToast("Please enter your Roblox username");
             return;
         }
-
-        const cleanUsername = username.trim();
         
-        // Show loading state
-        avatarImg.src = "https://ui-avatars.com/api/?name=Loading&background=f59e0b&color=fff&size=140";
-        statusDiv.innerHTML = `<i class="fas fa-spinner fa-pulse"></i> Looking up @${cleanUsername}...`;
-        statusDiv.className = "status status-loading";
-        usernameDisplay.innerHTML = "";
-        continueBtn.classList.remove('show');
-        currentVerifiedUser = null;
-
-        try {
-            // Call your middleman
-            const response = await fetch(`${MIDDLEMAN_URL}/api/roblox/${encodeURIComponent(cleanUsername)}`);
-            const data = await response.json();
-
-            if (data.success && data.avatarUrl) {
-                // Success - show avatar and username
-                avatarImg.src = data.avatarUrl;
-                usernameDisplay.innerHTML = `<i class="fas fa-check-circle"></i> @${data.username}`;
-                statusDiv.innerHTML = `✅ Verified! Welcome ${data.displayName || data.username}`;
-                statusDiv.className = "status status-success";
-                
-                // Store verified user
-                currentVerifiedUser = {
-                    username: data.username,
-                    displayName: data.displayName,
-                    userId: data.userId,
-                    avatarUrl: data.avatarUrl
-                };
-                
-                // Save to localStorage
-                localStorage.setItem('verifiedRoblox', JSON.stringify(currentVerifiedUser));
-                
-                // Show continue button
-                continueBtn.classList.add('show');
-                
-            } else {
-                // User not found
-                avatarImg.src = "https://ui-avatars.com/api/?name=Not+Found&background=ef4444&color=fff&size=140";
-                usernameDisplay.innerHTML = "";
-                statusDiv.innerHTML = `❌ "${cleanUsername}" not found on Roblox. Check spelling?`;
-                statusDiv.className = "status status-error";
-                continueBtn.classList.remove('show');
-                currentVerifiedUser = null;
-                localStorage.removeItem('verifiedRoblox');
-            }
-
-        } catch (error) {
-            console.error("Error:", error);
-            avatarImg.src = "https://ui-avatars.com/api/?name=Error&background=ef4444&color=fff&size=140";
-            usernameDisplay.innerHTML = "";
-            statusDiv.innerHTML = `⚠️ Cannot connect to verification server. Make sure your middleman is running!`;
-            statusDiv.className = "status status-error";
-            continueBtn.classList.remove('show');
-            currentVerifiedUser = null;
-        }
-    }
-
-    // Handle input with debounce (waits for user to stop typing)
-    function onUsernameInput() {
-        const username = usernameInput.value;
-        
-        // Clear previous timer
-        if (debounceTimer) {
-            clearTimeout(debounceTimer);
+        if (!window.pendingRobloxData) {
+            showToast("Please wait for avatar to load");
+            return;
         }
         
-        // Wait 500ms after user stops typing before fetching
-        debounceTimer = setTimeout(() => {
-            fetchRobloxAvatar(username);
-        }, 500);
+        const userData = window.pendingRobloxData;
+        localStorage.setItem('verifiedRobloxUser', JSON.stringify(userData));
+        verifiedRobloxUser = userData;
+        document.getElementById('robloxModal').classList.remove('show');
+        
+        completeCheckout(userData);
     }
-
-    // Continue to checkout
-    function continueToCheckout() {
-        if (currentVerifiedUser) {
-            // Save to localStorage for the shop page
-            localStorage.setItem('verifiedRoblox', JSON.stringify(currentVerifiedUser));
-            
-            // Show success message
-            statusDiv.innerHTML = `✅ Verified as @${currentVerifiedUser.username}! Redirecting to shop...`;
-            statusDiv.className = "status status-success";
-            
-            // Redirect to your shop page (change this to your actual shop URL)
-            setTimeout(() => {
-                // If you have a separate shop page, uncomment below:
-                // window.location.href = "shop.html";
-                
-                // For now, show an alert
-                alert(`✅ Verified! You are @${currentVerifiedUser.username}\n\nYou can now proceed with checkout.`);
-            }, 500);
-        } else {
-            statusDiv.innerHTML = "⚠️ Please enter a valid Roblox username first";
-            statusDiv.className = "status status-error";
-        }
-    }
-
-    // Attach event listener
-    usernameInput.addEventListener('input', onUsernameInput);
     
-    // Allow Enter key to trigger continue if verified
-    usernameInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' && currentVerifiedUser) {
-            continueToCheckout();
+    function completeCheckout(robloxUser) {
+        // Mark first purchase quest as complete
+        if(cart.length > 0 && !quests.firstPurchase.completed) {
+            markFirstPurchaseComplete();
         }
+        
+        // Show receipt
+        const orderNumber = 'ECHO-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+        const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+        const itemsList = cart.map(i => `${i.name} x${i.quantity}`).join(', ');
+        
+        document.getElementById('receiptDetails').innerHTML = `
+            <div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div>
+            <div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div>
+            <div class="receipt-row"><strong>Items:</strong> ${itemsList}</div>
+            <div class="receipt-row"><strong>Total:</strong> ${getSymbol()}${getDisplayPrice(total)}</div>
+            <div class="receipt-row"><strong>Roblox User:</strong> @${robloxUser.username}</div>
+            <div class="receipt-row"><strong>Status:</strong> <span style="color:#10b981;">✓ Verified & Processing</span></div>
+            <div class="receipt-row"><strong>Points Earned:</strong> +100 from First Purchase Quest!</div>
+        `;
+        document.getElementById('receiptModal').classList.add('show');
+        
+        // Clear cart
+        cart = [];
+        updateCartUI();
+        showToast(`✅ Order placed! Items will be sent to @${robloxUser.username}`);
+        pendingCheckout = false;
+    }
+    
+    function closeReceipt() { document.getElementById('receiptModal').classList.remove('show'); }
+    
+    // ========== AUTHENTICATION ==========
+    window.handleAuthStateChanged = function(user) {
+        if(user) {
+            isLoggedIn = true;
+            currentUser = user;
+            document.getElementById('userNameDisplay').innerText = user.displayName || user.email?.split('@')[0];
+            document.getElementById('userAvatarDisplay').innerHTML = user.photoURL ? `<img src="${user.photoURL}">` : `<i class="fas fa-user"></i>`;
+            showToast(`Welcome ${user.displayName || 'User'}!`);
+            loadPointsAndQuests();
+        } else {
+            isLoggedIn = false;
+            currentUser = null;
+            document.getElementById('userNameDisplay').innerText = 'Guest';
+            document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`;
+            loadPointsAndQuests();
+        }
+        renderProducts();
+    };
+    
+    async function performGoogleLogin() {
+        if(window.firebaseAuth) {
+            try {
+                await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
+            } catch(e) { showToast("Login failed"); }
+        } else { showToast("Loading..."); }
+    }
+    
+    // Filters & Particles
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            renderProducts();
+        });
     });
-
-    // Create particles
+    
     function createParticles() {
         const container = document.getElementById('particles');
-        for (let i = 0; i < 50; i++) {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            p.style.width = (Math.random() * 6 + 2) + 'px';
-            p.style.height = p.style.width;
-            p.style.left = Math.random() * 100 + '%';
-            p.style.animationDelay = Math.random() * 20 + 's';
-            p.style.animationDuration = (Math.random() * 15 + 10) + 's';
-            p.style.opacity = Math.random() * 0.5;
-            container.appendChild(p);
+        for (let i = 0; i < 80; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.width = (Math.random() * 6 + 2) + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            container.appendChild(particle);
         }
     }
+    
     createParticles();
+    showHome();
+    loadPointsAndQuests();
+    
+    window.showHome = showHome; window.showShop = showShop; window.showQuests = showQuests;
+    window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart;
+    window.toggleCart = toggleCart; window.closeCart = closeCart; window.changeCurrency = changeCurrency;
+    window.performGoogleLogin = performGoogleLogin; window.initiateCheckout = initiateCheckout;
+    window.resetRobloxUsername = resetRobloxUsername; window.confirmRobloxAndCheckout = confirmRobloxAndCheckout;
+    window.closeReceipt = closeReceipt; window.claimQuest = claimQuest;
+    renderProducts();
 </script>
 </body>
 </html>
