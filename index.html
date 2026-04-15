@@ -131,9 +131,97 @@
         .admin-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 40px; color: white; margin: 10px 0; }
         .candy-redeem { background: linear-gradient(135deg, #f59e0b, #d97706); text-align: center; }
         
-        .reward-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(20px); z-index: 10000; display: none; justify-content: center; align-items: center; animation: fadeIn 0.3s ease; }
+        /* Confirmation Modal - Styled same as website */
+        .confirmation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(20px);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .confirmation-modal.show { display: flex; }
+        .confirmation-container {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 40px;
+            padding: 35px;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid #6c5ce7;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            animation: scaleIn 0.3s ease;
+        }
+        .confirmation-icon {
+            font-size: 56px;
+            color: #f59e0b;
+            margin-bottom: 20px;
+        }
+        .confirmation-title {
+            font-size: 28px;
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff, #f59e0b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .confirmation-details {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .confirmation-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 15px;
+        }
+        .confirmation-row span:first-child { color: #aaa; }
+        .confirmation-row span:last-child { color: #fff; font-weight: 600; }
+        .confirmation-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .confirmation-btn-yes {
+            flex: 1;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .confirmation-btn-no {
+            flex: 1;
+            background: linear-gradient(135deg, #6c5ce7, #a855f7);
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .confirmation-btn-yes:hover, .confirmation-btn-no:hover { transform: scale(1.02); opacity: 0.9; }
+        
+        .reward-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(20px); z-index: 10001; display: none; justify-content: center; align-items: center; animation: fadeIn 0.3s ease; }
         .reward-overlay.show { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .reward-container { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 50px; padding: 40px; max-width: 500px; width: 90%; text-align: center; border: 2px solid #6c5ce7; box-shadow: 0 0 50px rgba(108,92,231,0.4); animation: scaleIn 0.3s ease; }
         @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .reward-avatar { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px; overflow: hidden; border: 3px solid #6c5ce7; }
@@ -165,26 +253,26 @@
 <div class="header">
     <div class="logo" onclick="showHome()"><i class="fas fa-gem logo-icon"></i><div><div class="logo-text">ECHOKNIVES</div><div class="logo-sub">PREMIUM MM2 SHOP</div></div></div>
     <div class="nav-links">
-        <button class="nav-link active" onclick="showHome()">🏠 Home</button>
-        <button class="nav-link" onclick="showShop()">🛒 Shop</button>
-        <button class="nav-link" onclick="showQuests()">⭐ Quests</button>
-        <button class="nav-link" id="adminNavBtn" style="display: none;" onclick="showAdmin()">👑 Admin</button>
+        <button class="nav-link active" onclick="showHome()">◆ Home</button>
+        <button class="nav-link" onclick="showShop()">● Shop</button>
+        <button class="nav-link" onclick="showQuests()">■ Quests</button>
+        <button class="nav-link" id="adminNavBtn" style="display: none;" onclick="showAdmin()">▲ Admin</button>
     </div>
     <div class="top-right">
         <div class="points-display" onclick="showQuests()"><i class="fas fa-star"></i> <span id="pointsBalance">0</span> pts</div>
-        <div class="currency-selector"><i class="fas fa-money-bill-wave"></i><select id="currencySelect" onchange="changeCurrency()"><option value="PHP">🇵🇭 PHP</option><option value="USD">🇺🇸 USD</option></select></div>
+        <div class="currency-selector"><i class="fas fa-money-bill-wave"></i><select id="currencySelect" onchange="changeCurrency()"><option value="PHP">₱ PHP</option><option value="USD">$ USD</option></select></div>
         <div class="user-info" id="userInfo" onclick="openProfilePanel()"><div class="user-avatar" id="userAvatarDisplay"><i class="fas fa-user"></i></div><span id="userNameDisplay">Guest</span></div>
         <div class="cart-icon" onclick="toggleCart()"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></div>
     </div>
 </div>
 
 <div id="homePage" class="hero">
-    <div class="hero-content"><h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1><p class="hero-desc">Secure payments, fast delivery, earn points!</p><button class="btn-primary" onclick="showShop()">Shop Now →</button></div>
+    <div class="hero-content"><div class="hero-badge">◆ PREMIUM MM2 SHOP ◆</div><h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1><p class="hero-desc">Get the rarest Murder Mystery 2 items instantly.<br>Secure payments, fast delivery, earn points!</p><div class="hero-stats"><div class="hero-stat"><h3>10K+</h3><p>Items Sold</p></div><div class="hero-stat"><h3>5K+</h3><p>Customers</p></div><div class="hero-stat"><h3>100%</h3><p>Secure</p></div></div><button class="btn-primary" onclick="showShop()">Shop Now →</button></div>
     <div class="hero-image"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero"></div>
 </div>
 
 <div id="shopPage" class="container" style="display:none;">
-    <div class="filter-bar"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="knife">🔪 Knives</button><button class="filter-btn" data-filter="gun">🔫 Guns</button></div>
+    <div class="filter-bar"><button class="filter-btn active" data-filter="all">All Items</button><button class="filter-btn" data-filter="knife">🔪 Knives</button><button class="filter-btn" data-filter="gun">🔫 Guns</button></div>
     <div class="products-grid" id="productsGrid"></div>
 </div>
 
@@ -197,437 +285,117 @@
             <img src="https://i.imgur.com/PXBiQtb.jpeg" alt="Candy" style="width: 100px; margin: 10px auto; display: block; border-radius: 20px;">
             <p><strong>Redeem 1500 Points for a Candy!</strong></p>
             <p>Get a special in-game candy item + 50 bonus points</p>
-            <button class="redeem-btn" onclick="showCandyRedemptionConfirm()">🍬 Redeem (1500 pts)</button>
+            <button class="redeem-btn" onclick="showCandyRedemptionConfirm()">◆ Redeem (1500 pts)</button>
         </div>
     </div>
 </div>
 
-<!-- Profile Panel -->
+<!-- Confirmation Modal - Styled UI -->
+<div id="confirmationModal" class="confirmation-modal">
+    <div class="confirmation-container">
+        <div class="confirmation-icon"><i class="fas fa-candy-cane"></i></div>
+        <div class="confirmation-title">◆ REDEEM CANDY ◆</div>
+        <div class="confirmation-details" id="confirmationDetails"></div>
+        <div class="confirmation-buttons">
+            <button class="confirmation-btn-yes" id="confirmYesBtn">◆ Confirm</button>
+            <button class="confirmation-btn-no" id="confirmNoBtn">● Cancel</button>
+        </div>
+    </div>
+</div>
+
 <div id="profilePage" class="container" style="display:none;">
     <h2><i class="fas fa-user-circle"></i> My Profile</h2>
     <div class="profile-card" style="max-width: 500px; margin: 0 auto; text-align: center;">
-        <div style="width: 100px; height: 100px; border-radius: 50%; background: #1e1e3a; margin: 0 auto 20px; overflow: hidden; border: 3px solid #6c5ce7;">
-            <img id="profileAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100" style="width:100%; height:100%; object-fit:cover;">
-        </div>
+        <div style="width: 100px; height: 100px; border-radius: 50%; background: #1e1e3a; margin: 0 auto 20px; overflow: hidden; border: 3px solid #6c5ce7;"><img id="profileAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100" style="width:100%; height:100%; object-fit:cover;"></div>
         <div id="profileRobloxStatus" style="margin-bottom: 20px; color: #a855f7;">Not linked</div>
         <input type="text" id="profileRobloxInput" class="admin-input" placeholder="Enter Roblox Username" style="margin-bottom: 10px;">
         <button class="claim-btn" onclick="linkRobloxAccount()" style="background:#6c5ce7;"><i class="fas fa-link"></i> Link Roblox Account</button>
         <button class="unlink-btn" onclick="unlinkRobloxAccount()" style="margin-top: 10px;"><i class="fas fa-trash"></i> Unlink Roblox Account</button>
-        <hr style="margin: 20px 0; border-color: rgba(108,92,231,0.3);">
-        <h3><i class="fas fa-google"></i> Google Account</h3>
-        <p id="googleEmailDisplay" style="margin: 10px 0;">Not logged in</p>
+        <hr style="margin: 20px 0; border-color: rgba(108,92,231,0.3);"><h3><i class="fab fa-google"></i> Google Account</h3><p id="googleEmailDisplay" style="margin: 10px 0;">Not logged in</p>
         <button class="claim-btn" onclick="switchGoogleAccount()" style="background:#4285f4;"><i class="fab fa-google"></i> Switch Google Account</button>
     </div>
 </div>
 
 <div id="adminPage" class="container" style="display:none;">
     <h2><i class="fas fa-shield-alt"></i> Admin Panel</h2>
-    <div class="profile-card" style="max-width: 500px; margin: 0 auto;">
-        <h3>Send Free Points (to Google Account)</h3>
-        <input type="email" id="adminEmailUser" class="admin-input" placeholder="Target Google Email">
-        <input type="number" id="adminPointsAmount" class="admin-input" placeholder="Points Amount" value="100">
-        <button class="claim-btn" onclick="sendFreePointsToEmail()" style="background:#6c5ce7;">✈️ Send Points to Email</button>
-    </div>
+    <div class="profile-card" style="max-width: 500px; margin: 0 auto;"><h3>Send Free Points (to Google Account)</h3><input type="email" id="adminEmailUser" class="admin-input" placeholder="Target Google Email"><input type="number" id="adminPointsAmount" class="admin-input" placeholder="Points Amount" value="100"><button class="claim-btn" onclick="sendFreePointsToEmail()" style="background:#6c5ce7;">◆ Send Points to Email</button></div>
 </div>
 
-<!-- Full-Screen Reward GUI -->
 <div id="rewardGUI" class="reward-overlay">
-    <div class="reward-container">
-        <div class="reward-avatar"><img id="rewardAvatarImg" src=""></div>
-        <div class="reward-username" id="rewardUsername">Username</div>
-        <div class="reward-displayname" id="rewardDisplayName">Display Name</div>
-        <div class="reward-buttons">
-            <button class="btn-join" onclick="joinBotServer()"><i class="fas fa-users"></i> Join Bot</button>
-            <button class="btn-add" onclick="addBotFriend()"><i class="fas fa-user-plus"></i> Add Bot</button>
-            <button class="btn-cancel" onclick="cancelReward()"><i class="fas fa-undo-alt"></i> Cancel (Refund Points)</button>
-        </div>
-        <div class="age-notice" id="ageNotice">⚠️ If you are under 13, you MUST add the bot and join the server after adding them back.</div>
-    </div>
+    <div class="reward-container"><div class="reward-avatar"><img id="rewardAvatarImg" src=""></div><div class="reward-username" id="rewardUsername">Username</div><div class="reward-displayname" id="rewardDisplayName">Display Name</div><div class="reward-buttons"><button class="btn-join" onclick="joinBotServer()"><i class="fas fa-users"></i> Join Bot</button><button class="btn-add" onclick="addBotFriend()"><i class="fas fa-user-plus"></i> Add Bot</button><button class="btn-cancel" onclick="cancelReward()"><i class="fas fa-undo-alt"></i> Cancel (Refund Points)</button></div><div class="age-notice">⚠ If you are under 13, you MUST add the bot and join the server after adding them back.</div></div>
 </div>
 
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
-<div class="cart-sidebar" id="cartSidebar">
-    <div class="cart-header"><h3>Your Cart</h3><button class="close-cart" onclick="closeCart()">×</button></div>
-    <div class="cart-items" id="cartItemsList"></div>
-    <div class="cart-total" id="cartTotal">Total: ₱0</div>
-    <button class="checkout-btn" onclick="initiateCheckout()">Proceed to Checkout →</button>
-</div>
-
+<div class="cart-sidebar" id="cartSidebar"><div class="cart-header"><h3>Your Cart</h3><button class="close-cart" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItemsList"></div><div class="cart-total" id="cartTotal">Total: ₱0</div><button class="checkout-btn" onclick="initiateCheckout()">Proceed to Checkout →</button></div>
 <div class="toast" id="toast"></div>
 
 <script>
-    // ========== MM2 ITEMS ==========
-    const items = [
-        { id: 1, name: "Batwing", type: "knife", price: 152, image: "https://i.imgur.com/H6CL03y.jpeg" },
-        { id: 2, name: "Harvester", type: "knife", price: 608, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
-        { id: 3, name: "Icewing", type: "knife", price: 72, image: "https://i.imgur.com/jiwvmxq.jpeg" },
-        { id: 4, name: "Luger", type: "gun", price: 207, image: "https://i.imgur.com/eEvMBRh.jpeg" },
-        { id: 5, name: "Darkbringer", type: "gun", price: 92000, image: "https://i.imgur.com/8oxgzwa.jpeg" },
-        { id: 6, name: "Lightbringer", type: "gun", price: 92000, image: "https://i.imgur.com/BUljuYV.jpeg" }
-    ];
-
-    let cart = [];
-    let currentFilter = "all";
-    let isLoggedIn = false;
-    let currentUser = null;
-    let currentCurrency = "PHP";
-    let exchangeRates = { PHP: 1, USD: 0.017 };
-    let symbols = { PHP: "₱", USD: "$" };
-    let userPoints = 0;
+    const items = [{ id:1,name:"Batwing",type:"knife",price:152,image:"https://i.imgur.com/H6CL03y.jpeg"},{id:2,name:"Harvester",type:"knife",price:608,image:"https://i.imgur.com/jZkbQ4t.jpeg"},{id:3,name:"Icewing",type:"knife",price:72,image:"https://i.imgur.com/jiwvmxq.jpeg"},{id:4,name:"Luger",type:"gun",price:207,image:"https://i.imgur.com/eEvMBRh.jpeg"},{id:5,name:"Darkbringer",type:"gun",price:92000,image:"https://i.imgur.com/8oxgzwa.jpeg"},{id:6,name:"Lightbringer",type:"gun",price:92000,image:"https://i.imgur.com/BUljuYV.jpeg"}];
+    let cart=[],currentFilter="all",isLoggedIn=false,currentUser=null,currentCurrency="PHP",exchangeRates={PHP:1,USD:0.017},symbols={PHP:"₱",USD:"$"},userPoints=0;
+    const adminEmails=["admin@echoknives.com"],STARTER_BONUS_EMAIL="ivanmendones13@gmail.com",STARTER_BONUS_AMOUNT=1600;
+    let verifiedRobloxUser=null,pendingRedemption={active:false,pointsBefore:0};
+    const MIDDLEMAN_URL="https://roblox-middlemanbot1.onrender.com";
+    let quests={firstPurchase:{name:"◆ First Purchase",reward:100,completed:false,claimed:false,desc:"Buy your first item"},dailyVisit:{name:"● Daily Visit",reward:100,completed:false,claimed:false,desc:"Visit the shop today"},addToCart:{name:"■ Cart Master",reward:100,completed:false,claimed:false,desc:"Add 3 items to cart"},shareShop:{name:"▲ Social Share",reward:100,completed:false,claimed:false,desc:"Share ECHOKNIVES with a friend"},robloxLinked:{name:"▪ Roblox Linked",reward:100,completed:false,claimed:false,desc:"Link your Roblox account"}};
+    let candyRedeemed=false;
     
-    const adminEmails = ["admin@echoknives.com"];
-    // SPECIAL STARTER BONUS: This email gets 1600 points automatically on first login
-    const STARTER_BONUS_EMAIL = "ivanmendones13@gmail.com";
-    const STARTER_BONUS_AMOUNT = 1600;
+    function loadAllData(){const s=localStorage.getItem('echoknives_complete');if(s){try{const d=JSON.parse(s);userPoints=d.points||0;quests=d.quests||quests;candyRedeemed=d.candyRedeemed||false;if(d.robloxUser){verifiedRobloxUser=d.robloxUser;updateHeaderWithRoblox(verifiedRobloxUser);}}catch(e){}}const today=new Date().toDateString();if(localStorage.getItem('lastVisitDate')!==today){quests.dailyVisit.completed=true;localStorage.setItem('lastVisitDate',today);saveAllData();}updatePointsDisplay();renderQuests();updateAdminVisibility();updateGoogleDisplay();}
+    function saveAllData(){const data={points:userPoints,quests:quests,candyRedeemed:candyRedeemed,robloxUser:verifiedRobloxUser};localStorage.setItem('echoknives_complete',JSON.stringify(data));}
+    function updatePointsDisplay(){document.getElementById('pointsBalance').innerText=userPoints;}
+    function addPoints(amount){userPoints+=amount;updatePointsDisplay();saveAllData();showToast(`+${amount} points earned!`);}
+    function removePoints(amount){userPoints-=amount;updatePointsDisplay();saveAllData();}
+    function applyStarterBonusIfNeeded(email){if(email&&email.toLowerCase()===STARTER_BONUS_EMAIL.toLowerCase()){const key=`starter_bonus_given_${STARTER_BONUS_EMAIL}`;if(!localStorage.getItem(key)){addPoints(STARTER_BONUS_AMOUNT);localStorage.setItem(key,'true');showToast(`■ Welcome! You received ${STARTER_BONUS_AMOUNT} bonus starter points!`);return true;}return false;}}
+    function completeQuest(id){if(!quests[id].completed&&!quests[id].claimed){quests[id].completed=true;saveAllData();renderQuests();showToast(`Quest completed! Claim your ${quests[id].reward} points.`);}}
+    function claimQuest(id){if(quests[id].completed&&!quests[id].claimed){addPoints(quests[id].reward);quests[id].claimed=true;saveAllData();renderQuests();}}
+    function renderQuests(){const c=document.getElementById('questsGrid');if(!c)return;c.innerHTML=Object.entries(quests).map(([id,q])=>`<div class="quest-card"><h3>${q.name}</h3><p>${q.desc}</p><p><strong>Reward: ${q.reward} points</strong></p><p>Status: ${q.claimed?'<span class="completed">◆ Claimed</span>':(q.completed?'<span class="completed">◆ Ready to claim</span>':'● Not completed')}</p><button class="claim-btn" onclick="claimQuest('${id}')" ${q.claimed||!q.completed?'disabled':''}>${q.completed&&!q.claimed?'Claim Reward':(q.claimed?'Claimed':'Locked')}</button></div>`).join('');}
     
-    let verifiedRobloxUser = null;
-    let pendingRedemption = { active: false, pointsBefore: 0 };
-    const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
-    
-    let quests = {
-        firstPurchase: { name: "🛒 First Purchase", reward: 100, completed: false, claimed: false, desc: "Buy your first item" },
-        dailyVisit: { name: "📅 Daily Visit", reward: 100, completed: false, claimed: false, desc: "Visit the shop today" },
-        addToCart: { name: "➕ Cart Master", reward: 100, completed: false, claimed: false, desc: "Add 3 items to cart" },
-        shareShop: { name: "📢 Social Share", reward: 100, completed: false, claimed: false, desc: "Share ECHOKNIVES with a friend" },
-        robloxLinked: { name: "🔗 Roblox Linked", reward: 100, completed: false, claimed: false, desc: "Link your Roblox account" }
-    };
-    let candyRedeemed = false;
-    
-    function loadAllData() {
-        const saved = localStorage.getItem('echoknives_complete');
-        if(saved) {
-            try {
-                const data = JSON.parse(saved);
-                userPoints = data.points || 0;
-                quests = data.quests || quests;
-                candyRedeemed = data.candyRedeemed || false;
-                if(data.robloxUser) { verifiedRobloxUser = data.robloxUser; updateHeaderWithRoblox(verifiedRobloxUser); }
-            } catch(e) {}
-        }
-        const today = new Date().toDateString();
-        if(localStorage.getItem('lastVisitDate') !== today) {
-            quests.dailyVisit.completed = true;
-            localStorage.setItem('lastVisitDate', today);
-            saveAllData();
-        }
-        updatePointsDisplay();
-        renderQuests();
-        updateAdminVisibility();
-        updateGoogleDisplay();
+    function showCandyRedemptionConfirm(){
+        if(candyRedeemed){showToast("You already redeemed your candy!");return;}
+        if(userPoints<1500){showToast(`Need 1500 points! You have ${userPoints} points.`);return;}
+        const remaining=userPoints-1500;
+        document.getElementById('confirmationDetails').innerHTML=`<div class="confirmation-row"><span>◆ Current Points:</span><span>${userPoints}</span></div><div class="confirmation-row"><span>● Cost:</span><span>1500 points</span></div><div class="confirmation-row"><span>■ Points After:</span><span>${remaining}</span></div><div class="confirmation-row"><span>▲ Bonus:</span><span>+50 points + Candy Item</span></div>`;
+        document.getElementById('confirmationModal').classList.add('show');
+        document.getElementById('confirmYesBtn').onclick=()=>{document.getElementById('confirmationModal').classList.remove('show');pendingRedemption={active:true,pointsBefore:userPoints};showRewardGUI();};
+        document.getElementById('confirmNoBtn').onclick=()=>{document.getElementById('confirmationModal').classList.remove('show');showToast("Redemption cancelled.");};
     }
     
-    function saveAllData() {
-        const data = { points: userPoints, quests: quests, candyRedeemed: candyRedeemed, robloxUser: verifiedRobloxUser };
-        localStorage.setItem('echoknives_complete', JSON.stringify(data));
-    }
+    async function showRewardGUI(){if(!verifiedRobloxUser){showToast("Please link your Roblox account first");openProfilePanel();return;}document.getElementById('rewardAvatarImg').src=verifiedRobloxUser.avatarUrl||`https://ui-avatars.com/api/?name=${verifiedRobloxUser.username}&background=6c5ce7&color=fff&size=120`;document.getElementById('rewardUsername').innerText=`@${verifiedRobloxUser.username}`;document.getElementById('rewardDisplayName').innerText=verifiedRobloxUser.displayName||"";document.getElementById('rewardGUI').classList.add('show');}
+    function joinBotServer(){window.open('https://www.roblox.com/share?code=e6c8ad7d5eaaf248948b92ce03f740e6&type=Server','_blank');finalizeRedemption();}
+    function addBotFriend(){window.open('https://www.roblox.com/users/265285891/profile','_blank');finalizeRedemption();}
+    function cancelReward(){pendingRedemption.active=false;document.getElementById('rewardGUI').classList.remove('show');showToast("Redemption cancelled. Points refunded.");}
+    function finalizeRedemption(){if(!pendingRedemption.active)return;userPoints-=1500;candyRedeemed=true;addPoints(50);saveAllData();renderQuests();pendingRedemption.active=false;document.getElementById('rewardGUI').classList.remove('show');showToast("◆ Candy redeemed! +50 bonus points. Item will be delivered to your Roblox account.");}
     
-    function updatePointsDisplay() { document.getElementById('pointsBalance').innerText = userPoints; }
-    function addPoints(amount) { userPoints += amount; updatePointsDisplay(); saveAllData(); showToast(`+${amount} points earned!`); }
-    function removePoints(amount) { userPoints -= amount; updatePointsDisplay(); saveAllData(); }
+    async function linkRobloxAccount(){const u=document.getElementById('profileRobloxInput').value.trim();if(!u){showToast("Enter Roblox username");return;}try{const r=await fetch(`${MIDDLEMAN_URL}/api/roblox/${encodeURIComponent(u)}`);const d=await r.json();if(d.success&&d.avatarUrl){verifiedRobloxUser={username:d.username,displayName:d.displayName,userId:d.userId,avatarUrl:d.avatarUrl};saveAllData();updateHeaderWithRoblox(verifiedRobloxUser);document.getElementById('profileAvatarImg').src=d.avatarUrl;document.getElementById('profileRobloxStatus').innerHTML=`◆ Linked: @${d.username}`;completeQuest('robloxLinked');showToast(`Roblox account @${d.username} linked!`);}else showToast("Roblox user not found");}catch(e){showToast("Connection error");}}
+    function unlinkRobloxAccount(){verifiedRobloxUser=null;saveAllData();updateHeaderDisplay();document.getElementById('profileAvatarImg').src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100";document.getElementById('profileRobloxStatus').innerHTML="Not linked";document.getElementById('profileRobloxInput').value='';showToast("Roblox account unlinked");}
+    function updateHeaderWithRoblox(r){if(r&&r.avatarUrl){document.getElementById('userAvatarDisplay').innerHTML=`<img src="${r.avatarUrl}">`;document.getElementById('userNameDisplay').innerHTML=`◆ ${r.username}`;}}
+    function updateHeaderDisplay(){if(verifiedRobloxUser&&verifiedRobloxUser.avatarUrl){document.getElementById('userAvatarDisplay').innerHTML=`<img src="${verifiedRobloxUser.avatarUrl}">`;document.getElementById('userNameDisplay').innerHTML=`◆ ${verifiedRobloxUser.username}`;}else if(currentUser){document.getElementById('userNameDisplay').innerText=currentUser.displayName||currentUser.email?.split('@')[0];document.getElementById('userAvatarDisplay').innerHTML=currentUser.photoURL?`<img src="${currentUser.photoURL}">`:`<i class="fas fa-user"></i>`;}else{document.getElementById('userNameDisplay').innerText='Guest';document.getElementById('userAvatarDisplay').innerHTML=`<i class="fas fa-user"></i>`;}}
+    function updateGoogleDisplay(){if(currentUser)document.getElementById('googleEmailDisplay').innerHTML=`<i class="fas fa-envelope"></i> ${currentUser.email}<br><span style="font-size:12px;">${currentUser.displayName||''}</span>`;else document.getElementById('googleEmailDisplay').innerHTML="Not logged in";}
+    function switchGoogleAccount(){performGoogleLogin();}
+    function openProfilePanel(){if(!isLoggedIn){performGoogleLogin();return;}if(verifiedRobloxUser){document.getElementById('profileAvatarImg').src=verifiedRobloxUser.avatarUrl;document.getElementById('profileRobloxStatus').innerHTML=`◆ Linked: @${verifiedRobloxUser.username}`;document.getElementById('profileRobloxInput').value=verifiedRobloxUser.username;}else{document.getElementById('profileAvatarImg').src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100";document.getElementById('profileRobloxStatus').innerHTML="Not linked";document.getElementById('profileRobloxInput').value='';}updateGoogleDisplay();showHome();document.getElementById('homePage').style.display='none';document.getElementById('shopPage').style.display='none';document.getElementById('questsPage').style.display='none';document.getElementById('profilePage').style.display='block';document.getElementById('adminPage').style.display='none';}
+    function updateAdminVisibility(){const btn=document.getElementById('adminNavBtn');if(currentUser&&adminEmails.includes(currentUser.email))btn.style.display='block';else btn.style.display='none';}
+    function sendFreePointsToEmail(){if(!currentUser||!adminEmails.includes(currentUser.email)){showToast("Admin access only");return;}const email=document.getElementById('adminEmailUser').value.trim();const amt=parseInt(document.getElementById('adminPointsAmount').value);if(!email||isNaN(amt)){showToast("Enter valid email and amount");return;}const all=JSON.parse(localStorage.getItem('all_users_points')||'{}');all[email]=(all[email]||0)+amt;localStorage.setItem('all_users_points',JSON.stringify(all));showToast(`Sent ${amt} points to ${email}!`);}
     
-    // Special starter bonus for specific email
-    function applyStarterBonusIfNeeded(email) {
-        if(email && email.toLowerCase() === STARTER_BONUS_EMAIL.toLowerCase()) {
-            const bonusKey = `starter_bonus_given_${STARTER_BONUS_EMAIL}`;
-            if(!localStorage.getItem(bonusKey)) {
-                addPoints(STARTER_BONUS_AMOUNT);
-                localStorage.setItem(bonusKey, 'true');
-                showToast(`🎉 Welcome! You received ${STARTER_BONUS_AMOUNT} bonus starter points!`);
-                return true;
-            }
-        }
-        return false;
-    }
+    function getDisplayPrice(p){return(p*exchangeRates[currentCurrency]).toFixed(2);}function getSymbol(){return symbols[currentCurrency];}function showToast(m){const t=document.getElementById('toast');t.innerText=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+    function changeCurrency(){currentCurrency=document.getElementById('currencySelect').value;renderProducts();updateCartUI();}
+    function showHome(){document.getElementById('homePage').style.display='flex';document.getElementById('shopPage').style.display='none';document.getElementById('questsPage').style.display='none';document.getElementById('profilePage').style.display='none';document.getElementById('adminPage').style.display='none';document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));document.querySelector('.nav-link:first-child').classList.add('active');}
+    function showShop(){document.getElementById('homePage').style.display='none';document.getElementById('shopPage').style.display='block';document.getElementById('questsPage').style.display='none';document.getElementById('profilePage').style.display='none';document.getElementById('adminPage').style.display='none';document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));document.querySelector('.nav-link:nth-child(2)').classList.add('active');renderProducts();}
+    function showQuests(){document.getElementById('homePage').style.display='none';document.getElementById('shopPage').style.display='none';document.getElementById('questsPage').style.display='block';document.getElementById('profilePage').style.display='none';document.getElementById('adminPage').style.display='none';document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));document.querySelector('.nav-link:nth-child(3)').classList.add('active');renderQuests();}
+    function showAdmin(){if(!currentUser||!adminEmails.includes(currentUser.email)){showToast("Admin access only");return;}document.getElementById('homePage').style.display='none';document.getElementById('shopPage').style.display='none';document.getElementById('questsPage').style.display='none';document.getElementById('profilePage').style.display='none';document.getElementById('adminPage').style.display='block';}
+    function renderProducts(){let f=items.filter(i=>{if(currentFilter==='knife')return i.type==='knife';if(currentFilter==='gun')return i.type==='gun';return true;});document.getElementById('productsGrid').innerHTML=f.map(item=>`<div class="product-card"><div class="product-image"><img src="${item.image}"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div><button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button></div></div>`).join('');}
+    function addToCart(id){if(!isLoggedIn){showToast("Please login first");performGoogleLogin();return;}const item=items.find(i=>i.id===id);const existing=cart.find(i=>i.id===id);if(existing)existing.quantity++;else cart.push({...item,quantity:1});updateCartUI();showToast(`${item.name} added to cart`);if(cart.length>=3)completeQuest('addToCart');}
+    function updateCartUI(){let total=cart.reduce((s,i)=>s+(i.price*i.quantity),0);const count=cart.reduce((s,i)=>s+i.quantity,0);document.getElementById('cartCount').innerText=count;document.getElementById('cartTotal').innerHTML=`Total: ${getSymbol()}${getDisplayPrice(total)}`;const c=document.getElementById('cartItemsList');if(cart.length===0){c.innerHTML='<p style="text-align:center;padding:20px;">Cart is empty</p>';return;}c.innerHTML=cart.map(item=>`<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div><div><button onclick="updateQty(${item.id},${item.quantity-1})">-</button> <span style="margin:0 8px;">${item.quantity}</span> <button onclick="updateQty(${item.id},${item.quantity+1})">+</button> <button onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button></div></div>`).join('');}
+    function updateQty(id,n){if(n<=0)removeFromCart(id);else{const i=cart.find(i=>i.id===id);if(i)i.quantity=n;updateCartUI();}}
+    function removeFromCart(id){cart=cart.filter(i=>i.id!==id);updateCartUI();}
+    function toggleCart(){document.getElementById('cartSidebar').classList.add('open');document.getElementById('overlay').classList.add('show');}
+    function closeCart(){document.getElementById('cartSidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+    function initiateCheckout(){if(!isLoggedIn){showToast("Please login first");performGoogleLogin();return;}if(cart.length===0){showToast("Your cart is empty");return;}if(!verifiedRobloxUser){showToast("Please link your Roblox account in Profile");openProfilePanel();return;}completeQuest('firstPurchase');addPoints(100);showToast("Order placed! Redirecting to payment...");setTimeout(()=>{window.location.href="https://echoknivesmm2.onrender.com";},1500);}
     
-    function completeQuest(questId) {
-        if(!quests[questId].completed && !quests[questId].claimed) {
-            quests[questId].completed = true;
-            saveAllData(); renderQuests();
-            showToast(`Quest completed! Claim your ${quests[questId].reward} points.`);
-        }
-    }
-    function claimQuest(questId) {
-        if(quests[questId].completed && !quests[questId].claimed) {
-            addPoints(quests[questId].reward);
-            quests[questId].claimed = true;
-            saveAllData(); renderQuests();
-        }
-    }
-    function renderQuests() {
-        const container = document.getElementById('questsGrid');
-        if(!container) return;
-        container.innerHTML = Object.entries(quests).map(([id, q]) => `
-            <div class="quest-card"><h3>${q.name}</h3><p>${q.desc}</p><p><strong>Reward: ${q.reward} points</strong></p>
-            <p>Status: ${q.claimed ? '<span class="completed">✓ Claimed</span>' : (q.completed ? '<span class="completed">✓ Ready to claim</span>' : '🔒 Not completed')}</p>
-            <button class="claim-btn" onclick="claimQuest('${id}')" ${q.claimed || !q.completed ? 'disabled' : ''}>${q.completed && !q.claimed ? 'Claim Reward' : (q.claimed ? 'Claimed' : 'Locked')}</button></div>
-        `).join('');
-    }
+    window.handleAuthStateChanged=function(user){if(user){isLoggedIn=true;currentUser=user;updateHeaderDisplay();loadAllData();applyStarterBonusIfNeeded(user.email);updateAdminVisibility();updateGoogleDisplay();showToast(`Welcome ${user.displayName||'User'}!`);}else{isLoggedIn=false;currentUser=null;document.getElementById('userNameDisplay').innerText='Guest';document.getElementById('userAvatarDisplay').innerHTML=`<i class="fas fa-user"></i>`;loadAllData();updateAdminVisibility();updateGoogleDisplay();}renderProducts();};
+    async function performGoogleLogin(){if(window.firebaseAuth){try{await window.firebaseSignInWithPopup(window.firebaseAuth,window.firebaseProvider);}catch(e){showToast("Login failed");}}else showToast("Loading...");}
     
-    function showCandyRedemptionConfirm() {
-        if(candyRedeemed) { showToast("You already redeemed your candy!"); return; }
-        if(userPoints < 1500) { showToast(`Need 1500 points! You have ${userPoints} points.`); return; }
-        const remaining = userPoints - 1500;
-        if(confirm(`🍬 Redeem Candy for 1500 points?\n\nCurrent points: ${userPoints}\nPoints after: ${remaining}\n\nYou will also receive a special in-game candy item + 50 bonus points. Continue?`)) {
-            pendingRedemption = { active: true, pointsBefore: userPoints };
-            showRewardGUI();
-        }
-    }
+    document.querySelectorAll('.filter-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentFilter=btn.dataset.filter;renderProducts();});});
+    function createParticles(){const c=document.getElementById('particles');for(let i=0;i<80;i++){const p=document.createElement('div');p.classList.add('particle');p.style.width=(Math.random()*6+2)+'px';p.style.height=p.style.width;p.style.left=Math.random()*100+'%';p.style.animationDelay=Math.random()*20+'s';p.style.animationDuration=(Math.random()*15+10)+'s';c.appendChild(p);}}createParticles();showHome();loadAllData();
     
-    async function showRewardGUI() {
-        if(!verifiedRobloxUser) { showToast("Please link your Roblox account first"); openProfilePanel(); return; }
-        document.getElementById('rewardAvatarImg').src = verifiedRobloxUser.avatarUrl || `https://ui-avatars.com/api/?name=${verifiedRobloxUser.username}&background=6c5ce7&color=fff&size=120`;
-        document.getElementById('rewardUsername').innerText = `@${verifiedRobloxUser.username}`;
-        document.getElementById('rewardDisplayName').innerText = verifiedRobloxUser.displayName || "";
-        document.getElementById('rewardGUI').classList.add('show');
-    }
-    
-    function joinBotServer() { window.open('https://www.roblox.com/share?code=e6c8ad7d5eaaf248948b92ce03f740e6&type=Server', '_blank'); finalizeRedemption(); }
-    function addBotFriend() { window.open('https://www.roblox.com/users/265285891/profile', '_blank'); finalizeRedemption(); }
-    function cancelReward() { 
-        pendingRedemption.active = false;
-        document.getElementById('rewardGUI').classList.remove('show');
-        showToast("Redemption cancelled. Points refunded.");
-    }
-    
-    function finalizeRedemption() {
-        if(!pendingRedemption.active) return;
-        userPoints -= 1500;
-        candyRedeemed = true;
-        addPoints(50);
-        saveAllData();
-        renderQuests();
-        pendingRedemption.active = false;
-        document.getElementById('rewardGUI').classList.remove('show');
-        showToast("🎉 Candy redeemed! +50 bonus points. Item will be delivered to your Roblox account.");
-    }
-    
-    // Roblox Linking
-    async function linkRobloxAccount() {
-        const username = document.getElementById('profileRobloxInput').value.trim();
-        if(!username) { showToast("Enter Roblox username"); return; }
-        try {
-            const response = await fetch(`${MIDDLEMAN_URL}/api/roblox/${encodeURIComponent(username)}`);
-            const data = await response.json();
-            if(data.success && data.avatarUrl) {
-                verifiedRobloxUser = { username: data.username, displayName: data.displayName, userId: data.userId, avatarUrl: data.avatarUrl };
-                saveAllData();
-                updateHeaderWithRoblox(verifiedRobloxUser);
-                document.getElementById('profileAvatarImg').src = data.avatarUrl;
-                document.getElementById('profileRobloxStatus').innerHTML = `✅ Linked: @${data.username}`;
-                completeQuest('robloxLinked');
-                showToast(`Roblox account @${data.username} linked!`);
-            } else { showToast("Roblox user not found"); }
-        } catch(e) { showToast("Connection error"); }
-    }
-    
-    function unlinkRobloxAccount() {
-        verifiedRobloxUser = null;
-        saveAllData();
-        updateHeaderDisplay();
-        document.getElementById('profileAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100";
-        document.getElementById('profileRobloxStatus').innerHTML = "Not linked";
-        document.getElementById('profileRobloxInput').value = '';
-        showToast("Roblox account unlinked");
-    }
-    
-    function updateHeaderWithRoblox(robloxData) {
-        if(robloxData && robloxData.avatarUrl) {
-            document.getElementById('userAvatarDisplay').innerHTML = `<img src="${robloxData.avatarUrl}">`;
-            document.getElementById('userNameDisplay').innerHTML = `🎮 ${robloxData.username}`;
-        }
-    }
-    
-    function updateHeaderDisplay() {
-        if(verifiedRobloxUser && verifiedRobloxUser.avatarUrl) {
-            document.getElementById('userAvatarDisplay').innerHTML = `<img src="${verifiedRobloxUser.avatarUrl}">`;
-            document.getElementById('userNameDisplay').innerHTML = `🎮 ${verifiedRobloxUser.username}`;
-        } else if(currentUser) {
-            document.getElementById('userNameDisplay').innerText = currentUser.displayName || currentUser.email?.split('@')[0];
-            document.getElementById('userAvatarDisplay').innerHTML = currentUser.photoURL ? `<img src="${currentUser.photoURL}">` : `<i class="fas fa-user"></i>`;
-        } else {
-            document.getElementById('userNameDisplay').innerText = 'Guest';
-            document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`;
-        }
-    }
-    
-    function updateGoogleDisplay() {
-        if(currentUser) {
-            document.getElementById('googleEmailDisplay').innerHTML = `<i class="fas fa-envelope"></i> ${currentUser.email}<br><span style="font-size:12px;">${currentUser.displayName || ''}</span>`;
-        } else {
-            document.getElementById('googleEmailDisplay').innerHTML = "Not logged in";
-        }
-    }
-    
-    function switchGoogleAccount() { performGoogleLogin(); }
-    
-    function openProfilePanel() {
-        if(!isLoggedIn) { performGoogleLogin(); return; }
-        if(verifiedRobloxUser) {
-            document.getElementById('profileAvatarImg').src = verifiedRobloxUser.avatarUrl;
-            document.getElementById('profileRobloxStatus').innerHTML = `✅ Linked: @${verifiedRobloxUser.username}`;
-            document.getElementById('profileRobloxInput').value = verifiedRobloxUser.username;
-        } else {
-            document.getElementById('profileAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100";
-            document.getElementById('profileRobloxStatus').innerHTML = "Not linked";
-            document.getElementById('profileRobloxInput').value = '';
-        }
-        updateGoogleDisplay();
-        showHome();
-        document.getElementById('homePage').style.display = 'none';
-        document.getElementById('shopPage').style.display = 'none';
-        document.getElementById('questsPage').style.display = 'none';
-        document.getElementById('profilePage').style.display = 'block';
-        document.getElementById('adminPage').style.display = 'none';
-    }
-    
-    function updateAdminVisibility() {
-        const adminBtn = document.getElementById('adminNavBtn');
-        if(currentUser && adminEmails.includes(currentUser.email)) adminBtn.style.display = 'block';
-        else adminBtn.style.display = 'none';
-    }
-    
-    function sendFreePointsToEmail() {
-        if(!currentUser || !adminEmails.includes(currentUser.email)) { showToast("Admin access only"); return; }
-        const targetEmail = document.getElementById('adminEmailUser').value.trim();
-        const amount = parseInt(document.getElementById('adminPointsAmount').value);
-        if(!targetEmail || isNaN(amount)) { showToast("Enter valid email and amount"); return; }
-        const allUserPoints = JSON.parse(localStorage.getItem('all_users_points') || '{}');
-        allUserPoints[targetEmail] = (allUserPoints[targetEmail] || 0) + amount;
-        localStorage.setItem('all_users_points', JSON.stringify(allUserPoints));
-        showToast(`Sent ${amount} points to ${targetEmail}!`);
-    }
-    
-    // Shop Functions
-    function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
-    function getSymbol() { return symbols[currentCurrency]; }
-    function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
-    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); }
-    function showHome() { 
-        document.getElementById('homePage').style.display = 'flex'; document.getElementById('shopPage').style.display = 'none'; 
-        document.getElementById('questsPage').style.display = 'none'; document.getElementById('profilePage').style.display = 'none';
-        document.getElementById('adminPage').style.display = 'none';
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:first-child').classList.add('active'); 
-    }
-    function showShop() { 
-        document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'block'; 
-        document.getElementById('questsPage').style.display = 'none'; document.getElementById('profilePage').style.display = 'none';
-        document.getElementById('adminPage').style.display = 'none';
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(2)').classList.add('active'); 
-        renderProducts(); 
-    }
-    function showQuests() { 
-        document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; 
-        document.getElementById('questsPage').style.display = 'block'; document.getElementById('profilePage').style.display = 'none';
-        document.getElementById('adminPage').style.display = 'none';
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(3)').classList.add('active'); 
-        renderQuests(); 
-    }
-    function showAdmin() { 
-        if(!currentUser || !adminEmails.includes(currentUser.email)) { showToast("Admin access only"); return; }
-        document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; 
-        document.getElementById('questsPage').style.display = 'none'; document.getElementById('profilePage').style.display = 'none';
-        document.getElementById('adminPage').style.display = 'block';
-    }
-    
-    function renderProducts() {
-        let filtered = items.filter(i => { if (currentFilter === 'knife') return i.type === 'knife'; if (currentFilter === 'gun') return i.type === 'gun'; return true; });
-        document.getElementById('productsGrid').innerHTML = filtered.map(item => `
-            <div class="product-card"><div class="product-image"><img src="${item.image}"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div><button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button></div></div>
-        `).join('');
-    }
-    
-    function addToCart(id) {
-        if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
-        const item = items.find(i => i.id === id);
-        const existing = cart.find(i => i.id === id);
-        if (existing) existing.quantity++;
-        else cart.push({ ...item, quantity: 1 });
-        updateCartUI();
-        showToast(`${item.name} added to cart`);
-        if(cart.length >= 3) completeQuest('addToCart');
-    }
-    
-    function updateCartUI() {
-        let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-        const count = cart.reduce((s, i) => s + i.quantity, 0);
-        document.getElementById('cartCount').innerText = count;
-        document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`;
-        const container = document.getElementById('cartItemsList');
-        if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;padding:20px;">Cart is empty</p>'; return; }
-        container.innerHTML = cart.map(item => `
-            <div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div>
-            <div><button onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button> <span style="margin:0 8px;">${item.quantity}</span> <button onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button> <button onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button></div></div>
-        `).join('');
-    }
-    
-    function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if (item) item.quantity = newQty; updateCartUI(); } }
-    function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
-    function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
-    function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
-    
-    function initiateCheckout() {
-        if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
-        if (cart.length === 0) { showToast("Your cart is empty"); return; }
-        if (!verifiedRobloxUser) { showToast("Please link your Roblox account in Profile"); openProfilePanel(); return; }
-        completeQuest('firstPurchase');
-        addPoints(100);
-        showToast("Order placed! Redirecting to payment...");
-        setTimeout(() => { window.location.href = "https://echoknivesmm2.onrender.com"; }, 1500);
-    }
-    
-    window.handleAuthStateChanged = function(user) {
-        if(user) {
-            isLoggedIn = true; currentUser = user;
-            updateHeaderDisplay(); 
-            loadAllData();
-            // Apply starter bonus for specific email
-            applyStarterBonusIfNeeded(user.email);
-            updateAdminVisibility(); 
-            updateGoogleDisplay();
-            showToast(`Welcome ${user.displayName || 'User'}!`);
-        } else {
-            isLoggedIn = false; currentUser = null;
-            document.getElementById('userNameDisplay').innerText = 'Guest';
-            document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`;
-            loadAllData(); updateAdminVisibility(); updateGoogleDisplay();
-        }
-        renderProducts();
-    };
-    
-    async function performGoogleLogin() {
-        if(window.firebaseAuth) {
-            try { await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } 
-            catch(e) { showToast("Login failed"); }
-        } else { showToast("Loading..."); }
-    }
-    
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts();
-        });
-    });
-    
-    function createParticles() {
-        const container = document.getElementById('particles');
-        for (let i = 0; i < 80; i++) {
-            const p = document.createElement('div'); p.classList.add('particle');
-            p.style.width = (Math.random() * 6 + 2) + 'px'; p.style.height = p.style.width;
-            p.style.left = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 20 + 's';
-            p.style.animationDuration = (Math.random() * 15 + 10) + 's'; container.appendChild(p);
-        }
-    }
-    createParticles();
-    showHome();
-    loadAllData();
-    
-    window.showHome = showHome; window.showShop = showShop; window.showQuests = showQuests; window.showAdmin = showAdmin;
-    window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart;
-    window.toggleCart = toggleCart; window.closeCart = closeCart; window.changeCurrency = changeCurrency;
-    window.performGoogleLogin = performGoogleLogin; window.initiateCheckout = initiateCheckout;
-    window.claimQuest = claimQuest; window.sendFreePointsToEmail = sendFreePointsToEmail;
-    window.linkRobloxAccount = linkRobloxAccount; window.unlinkRobloxAccount = unlinkRobloxAccount; window.openProfilePanel = openProfilePanel;
-    window.showCandyRedemptionConfirm = showCandyRedemptionConfirm; window.joinBotServer = joinBotServer; window.addBotFriend = addBotFriend; window.cancelReward = cancelReward;
+    window.showHome=showHome;window.showShop=showShop;window.showQuests=showQuests;window.showAdmin=showAdmin;window.addToCart=addToCart;window.updateQty=updateQty;window.removeFromCart=removeFromCart;window.toggleCart=toggleCart;window.closeCart=closeCart;window.changeCurrency=changeCurrency;window.performGoogleLogin=performGoogleLogin;window.initiateCheckout=initiateCheckout;window.claimQuest=claimQuest;window.sendFreePointsToEmail=sendFreePointsToEmail;window.linkRobloxAccount=linkRobloxAccount;window.unlinkRobloxAccount=unlinkRobloxAccount;window.openProfilePanel=openProfilePanel;window.showCandyRedemptionConfirm=showCandyRedemptionConfirm;window.joinBotServer=joinBotServer;window.addBotFriend=addBotFriend;window.cancelReward=cancelReward;
     renderProducts();
 </script>
 </body>
