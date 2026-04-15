@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- PayPal SDK (Sandbox for testing) -->
+    <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AUXq7gkV7XJ3h3V1xH5yL2pK9nR4mQ8wE6tY1uI3oP0sD9fG6hJ4kL2zX7cV8bN3m&currency=PHP&enable-funding=paypal"></script>
     
     <!-- Firebase SDK -->
@@ -337,13 +337,13 @@
 
 <div id="homePage" class="hero">
     <div class="hero-content">
-        <div class="hero-badge">🔥 SINCE 2024 🔥</div>
+        <div class="hero-badge">🔥 ONLY +20% MARKUP 🔥</div>
         <h1 class="hero-title">PREMIUM <span>MM2</span><br>ITEM SHOP</h1>
-        <p class="hero-desc">Get the rarest Murder Mystery 2 items at the best prices. <br>Instant delivery, secure trading, 24/7 support.</p>
+        <p class="hero-desc">Get the rarest Murder Mystery 2 items at the best prices. <br>Only +20% markup - cheaper than most resellers!</p>
         <div class="hero-stats">
             <div class="hero-stat"><h3>50K+</h3><p>Items Sold</p></div>
             <div class="hero-stat"><h3>10K+</h3><p>Happy Customers</p></div>
-            <div class="hero-stat"><h3>100%</h3><p>Secure Delivery</p></div>
+            <div class="hero-stat"><h3>+20%</h3><p>Only Markup</p></div>
         </div>
         <div class="hero-buttons">
             <button class="btn-primary" onclick="showShop()"><i class="fas fa-shopping-cart"></i> Start Shopping</button>
@@ -368,8 +368,7 @@
         <button class="filter-btn" data-filter="knife">🔪 Knives</button>
         <button class="filter-btn" data-filter="gun">🔫 Guns</button>
         <button class="filter-btn" data-filter="pet">🐾 Pets</button>
-        <button class="filter-btn" data-filter="chroma">✨ Chroma</button>
-        <button class="filter-btn" data-filter="godly">👑 Godly</button>
+        <button class="filter-btn" data-filter="ancient">🏺 Ancient</button>
         <button class="filter-btn" data-filter="onsale">✅ On Sale</button>
     </div>
     
@@ -485,7 +484,6 @@
 <div class="toast" id="toast"></div>
 
 <script>
-    // Create particles
     function createParticles() {
         const container = document.getElementById('particles');
         for (let i = 0; i < 50; i++) {
@@ -505,46 +503,38 @@
 
     window.firebaseReady = true;
 
-    // ========== MM2 ITEMS DATABASE WITH ACCURATE PRICES AND WORKING IMAGES ==========
+    // ========== MM2 ITEMS WITH +20% MARKUP PRICES ==========
     const items = [
-        // GODLY KNIVES
-        { id: 1, name: "Batwing", type: "knife", pricePHP: 8500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly" },
-        { id: 2, name: "Harvester", type: "knife", pricePHP: 27000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly" },
-        { id: 3, name: "Vampire's Axe", type: "knife", pricePHP: 68000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly" },
-        { id: 4, name: "Phantom", type: "knife", pricePHP: 7500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly" },
-        { id: 5, name: "Candleflame", type: "knife", pricePHP: 11000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/9mNpR2q.png", category: "godly" },
-        { id: 6, name: "Darksword", type: "knife", pricePHP: 30000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/4sJtL5p.png", category: "godly" },
-        { id: 7, name: "Xenoknife", type: "knife", pricePHP: 3200, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/7uKvH2l.png", category: "godly" },
-        { id: 8, name: "Soul", type: "knife", pricePHP: 30000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly" },
-        { id: 9, name: "Spectre", type: "knife", pricePHP: 7500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/6cDvB3m.png", category: "godly" },
-        { id: 10, name: "Deathspeaker", type: "knife", pricePHP: 2000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xPqL9j.png", category: "godly" },
-        { id: 11, name: "Electro", type: "knife", pricePHP: 2800, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8bRcV2k.png", category: "godly" },
-        { id: 12, name: "Fire Bat", type: "knife", pricePHP: 2200, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly" },
-        { id: 13, name: "Elite", type: "knife", pricePHP: 2800, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly" },
+        // KNIVES (Godlies)
+        { id: 1, name: "Icewing", type: "knife", pricePHP: 30, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly" },
+        { id: 2, name: "Hallows Blade", type: "knife", pricePHP: 60, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly" },
+        { id: 3, name: "Fang", type: "knife", pricePHP: 240, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly" },
+        { id: 4, name: "Slasher", type: "knife", pricePHP: 270, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly" },
+        { id: 5, name: "Heat", type: "knife", pricePHP: 330, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/9mNpR2q.png", category: "godly" },
+        { id: 6, name: "Nightblade", type: "knife", pricePHP: 180, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/4sJtL5p.png", category: "godly" },
+        { id: 7, name: "Deathshard", type: "knife", pricePHP: 210, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/7uKvH2l.png", category: "godly" },
         
-        // GODLY GUNS
-        { id: 14, name: "Alienbeam", type: "gun", pricePHP: 2200, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/4sJtL5p.png", category: "godly" },
-        { id: 15, name: "Hallowgun", type: "gun", pricePHP: 9500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly" },
-        { id: 16, name: "Darkshot", type: "gun", pricePHP: 105000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/6cDvB3m.png", category: "godly" },
-        { id: 17, name: "Raygun", type: "gun", pricePHP: 85000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xPqL9j.png", category: "godly" },
-        { id: 18, name: "Luger", type: "gun", pricePHP: 40000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8bRcV2k.png", category: "godly" },
-        { id: 19, name: "Lightbringer", type: "gun", pricePHP: 92000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly" },
-        { id: 20, name: "Darkbringer", type: "gun", pricePHP: 92000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly" },
-        
-        // CHROMA WEAPONS (High value)
-        { id: 21, name: "Chroma Traveler's Gun", type: "gun", pricePHP: 8500000, onsale: true, rarity: "Chroma", rarityClass: "chroma", image: "https://i.imgur.com/9mNpR2q.png", category: "chroma" },
-        { id: 22, name: "Chroma Evergun", type: "gun", pricePHP: 4600000, onsale: true, rarity: "Chroma", rarityClass: "chroma", image: "https://i.imgur.com/7uKvH2l.png", category: "chroma" },
-        { id: 23, name: "Chroma Evergreen", type: "knife", pricePHP: 3300000, onsale: true, rarity: "Chroma", rarityClass: "chroma", image: "https://i.imgur.com/4sJtL5p.png", category: "chroma" },
-        { id: 24, name: "Chroma Bauble", type: "gun", pricePHP: 3000000, onsale: true, rarity: "Chroma", rarityClass: "chroma", image: "https://i.imgur.com/1wEfR4t.png", category: "chroma" },
-        { id: 25, name: "Chroma Vampire's Gun", type: "gun", pricePHP: 2500000, onsale: true, rarity: "Chroma", rarityClass: "chroma", image: "https://i.imgur.com/6cDvB3m.png", category: "chroma" },
-        { id: 26, name: "Chroma Alienbeam", type: "knife", pricePHP: 1800000, onsale: true, rarity: "Chroma", rarityClass: "chroma", image: "https://i.imgur.com/3xPqL9j.png", category: "chroma" },
+        // GUNS (Godlies)
+        { id: 8, name: "Luger", type: "gun", pricePHP: 420, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly" },
+        { id: 9, name: "Shark", type: "gun", pricePHP: 270, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/6cDvB3m.png", category: "godly" },
+        { id: 10, name: "Laser", type: "gun", pricePHP: 300, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xPqL9j.png", category: "godly" },
+        { id: 11, name: "Blaster", type: "gun", pricePHP: 360, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8bRcV2k.png", category: "godly" },
+        { id: 12, name: "Virtual", type: "gun", pricePHP: 330, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly" },
+        { id: 13, name: "Amerilaser", type: "gun", pricePHP: 390, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly" },
         
         // PETS
-        { id: 27, name: "Fire Bunny", type: "pet", pricePHP: 2800, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet" },
-        { id: 28, name: "Fire Cat", type: "pet", pricePHP: 2200, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/3xPqL9j.png", category: "pet" },
-        { id: 29, name: "Pengu", type: "pet", pricePHP: 3800, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/8bRcV2k.png", category: "pet" },
-        { id: 30, name: "Fire Fox", type: "pet", pricePHP: 2800, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/5dFgH7n.png", category: "pet" },
-        { id: 31, name: "Lil' Alien", type: "pet", pricePHP: 3800, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/2aBcX4p.png", category: "pet" }
+        { id: 14, name: "Electro", type: "pet", pricePHP: 90, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet" },
+        { id: 15, name: "Frostbird", type: "pet", pricePHP: 60, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/3xPqL9j.png", category: "pet" },
+        { id: 16, name: "Phoenix", type: "pet", pricePHP: 120, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/8bRcV2k.png", category: "pet" },
+        { id: 17, name: "Sammy", type: "pet", pricePHP: 150, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/5dFgH7n.png", category: "pet" },
+        { id: 18, name: "Fire Dog", type: "pet", pricePHP: 180, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/2aBcX4p.png", category: "pet" },
+        
+        // ANCIENT WEAPONS
+        { id: 19, name: "Icebreaker", type: "knife", pricePHP: 720, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/9mNpR2q.png", category: "ancient" },
+        { id: 20, name: "Elderwood Scythe", type: "knife", pricePHP: 660, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/7uKvH2l.png", category: "ancient" },
+        { id: 21, name: "Logchopper", type: "knife", pricePHP: 600, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/4sJtL5p.png", category: "ancient" },
+        { id: 22, name: "Boneblade", type: "knife", pricePHP: 540, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/1wEfR4t.png", category: "ancient" },
+        { id: 23, name: "BattleAxe II", type: "knife", pricePHP: 510, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/6cDvB3m.png", category: "ancient" }
     ];
 
     const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, KRW: 24.5 };
@@ -572,13 +562,11 @@
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
     function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); updateStats(); showToast(`Currency: ${currentCurrency}`); }
     
-    // Navigation
     function showHome() { document.getElementById('homePage').style.display = 'flex'; document.getElementById('shopPage').classList.remove('active'); document.getElementById('tradingPage').classList.remove('active'); document.getElementById('chatPanel').classList.remove('show'); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:first-child').classList.add('active'); }
     function showShop() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').classList.add('active'); document.getElementById('tradingPage').classList.remove('active'); document.getElementById('chatPanel').classList.remove('show'); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(2)').classList.add('active'); renderProducts(); }
     function showTrading() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').classList.remove('active'); document.getElementById('tradingPage').classList.add('active'); document.getElementById('chatPanel').classList.remove('show'); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(3)').classList.add('active'); loadTrades(); }
     function showChat() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').classList.remove('active'); document.getElementById('tradingPage').classList.remove('active'); document.getElementById('chatPanel').classList.add('show'); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(4)').classList.add('active'); loadConversations(); }
     
-    // Discord Webhook
     const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d';
     
     function generateOrderNumber() { return 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase(); }
@@ -610,17 +598,10 @@
                 status: 'pending'
             };
             localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
-            
-            await fetch(DISCORD_WEBHOOK, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ embeds: [embed] })
-            });
-            console.log('Discord notification sent');
+            await fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ embeds: [embed] }) });
         } catch (e) { console.error('Discord webhook error:', e); }
     }
     
-    // PayPal Integration (Test Mode)
     let currentOrderTotal = 0;
     let currentOrderNumber = '';
     let currentOrderDetails = null;
@@ -629,42 +610,30 @@
         const container = document.getElementById('paypal-button-container');
         container.style.display = 'block';
         container.innerHTML = '';
-        
         paypal.Buttons({
             createOrder: function(data, actions) {
                 return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: total,
-                            currency_code: 'PHP'
-                        },
-                        description: 'ECHOKNIVES MM2 Items Purchase'
-                    }]
+                    purchase_units: [{ amount: { value: total, currency_code: 'PHP' }, description: 'ECHOKNIVES MM2 Items Purchase' }]
                 });
             },
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
-                    showToast(`✅ PayPal payment successful! Order #${currentOrderNumber} placed.`);
+                    showToast(`✅ PayPal payment successful!`);
                     completeOrder('paypal');
                 });
             },
-            onError: function(err) {
-                showToast('PayPal payment failed. Please try again.');
-                console.error(err);
-            }
+            onError: function(err) { showToast('PayPal payment failed. Please try again.'); }
         }).render('#paypal-button-container');
     }
     
     function processPayment() {
         if (!isLoggedIn) { showToast("Please login with Google first!"); return; }
         if (cart.length === 0) { showToast("Cart empty!"); return; }
-        
         const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
         if (!robloxUser) { showToast("Please enter your Roblox username!"); return; }
         
         let totalPHP = cart.reduce((s, i) => s + (i.pricePHP * i.quantity), 0);
         if (voucherApplied) totalPHP = totalPHP * 0.95;
-        
         const totalDisplay = `${getSymbol()}${getDisplayPrice(totalPHP)}`;
         const paymentNames = { gcash: "GCash (Demo)", paypal: "PayPal (Test)", visa: "Visa (Demo)", credit: "Credit Card (Demo)" };
         
@@ -689,31 +658,23 @@
     
     function completeOrder(paymentType) {
         const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
-        
         sendDiscordNotification(currentOrderNumber, robloxUser, currentOrderDetails);
-        
         document.getElementById('pendingOrderNumber').innerText = `Order #${currentOrderNumber}`;
         document.getElementById('pendingReceiptText').innerHTML = `🛍️ ${currentOrderDetails.items}<br>💰 Total: ${currentOrderDetails.total}<br>💳 Payment: ${currentOrderDetails.payment}<br>🎮 Roblox: @${robloxUser}<br>🎫 Voucher: ${currentOrderDetails.voucherUsed}<br><br>⏳ Waiting for admin approval...`;
         document.getElementById('orderPendingModal').classList.add('show');
-        
         cart = [];
         if (voucherApplied) { voucherApplied = false; localStorage.removeItem('voucher_' + currentUser.uid); hasVoucher = false; }
         updateCartUI();
         closeCart();
-        
         document.getElementById('paypal-button-container').style.display = 'none';
         document.querySelector('.checkout-btn').style.display = 'block';
     }
     
-    // Chat with file sharing
     function loadConversations() {
         if (!currentUser) return;
         const userConversations = conversations[currentUser.uid] || [];
         const container = document.getElementById('conversationList');
-        if (userConversations.length === 0) {
-            container.innerHTML = '<div class="no-conversation">No conversations yet.<br>Buy something to start chatting!</div>';
-            return;
-        }
+        if (userConversations.length === 0) { container.innerHTML = '<div class="no-conversation">No conversations yet.<br>Buy something to start chatting!</div>'; return; }
         container.innerHTML = userConversations.map(conv => `<div class="conversation-item" onclick="selectConversation('${conv.id}')"><div class="conversation-name">🛡️ ECHOKNIVES Support</div><div class="conversation-preview">${conv.lastMessage?.substring(0, 40) || 'No messages'}...</div></div>`).join('');
     }
     
@@ -721,16 +682,7 @@
         currentConversation = convoId;
         const messages = conversations[currentUser.uid]?.find(c => c.id === convoId)?.messages || [];
         const container = document.getElementById('chatMessages');
-        container.innerHTML = messages.map(msg => `
-            <div class="message-bubble ${msg.sender === currentUser.uid ? 'user' : 'admin'}">
-                <div class="message-text">
-                    ${msg.text || ''}
-                    ${msg.image ? `<img src="${msg.image}" class="message-image" onclick="window.open('${msg.image}','_blank')">` : ''}
-                    ${msg.video ? `<video src="${msg.video}" class="message-video" controls></video>` : ''}
-                </div>
-                <div class="message-time">${new Date(msg.time).toLocaleString()}</div>
-            </div>
-        `).join('');
+        container.innerHTML = messages.map(msg => `<div class="message-bubble ${msg.sender === currentUser.uid ? 'user' : 'admin'}"><div class="message-text">${msg.text || ''}${msg.image ? `<img src="${msg.image}" class="message-image" onclick="window.open('${msg.image}','_blank')">` : ''}${msg.video ? `<video src="${msg.video}" class="message-video" controls></video>` : ''}</div><div class="message-time">${new Date(msg.time).toLocaleString()}</div></div>`).join('');
         container.scrollTop = container.scrollHeight;
     };
     
@@ -738,27 +690,11 @@
         const input = document.getElementById('chatMessageInput');
         const text = input.value.trim();
         if (!text && !currentFileData) return;
-        
         if (!conversations[currentUser.uid]) conversations[currentUser.uid] = [];
         let conversation = conversations[currentUser.uid].find(c => c.id === 'support');
-        if (!conversation) {
-            conversation = { id: 'support', messages: [] };
-            conversations[currentUser.uid].push(conversation);
-        }
-        
-        conversation.messages.push({
-            id: Date.now(),
-            text: text,
-            sender: currentUser.uid,
-            time: new Date().toISOString(),
-            read: false
-        });
-        
-        if (currentFileData) {
-            conversation.messages[conversation.messages.length - 1][currentFileType] = currentFileData;
-            currentFileData = null;
-        }
-        
+        if (!conversation) { conversation = { id: 'support', messages: [] }; conversations[currentUser.uid].push(conversation); }
+        conversation.messages.push({ id: Date.now(), text: text, sender: currentUser.uid, time: new Date().toISOString(), read: false });
+        if (currentFileData) { conversation.messages[conversation.messages.length - 1][currentFileType] = currentFileData; currentFileData = null; }
         conversation.lastMessage = text || (currentFileType === 'image' ? '📷 Image sent' : '🎥 Video sent');
         localStorage.setItem('conversations', JSON.stringify(conversations));
         input.value = '';
@@ -768,23 +704,15 @@
     
     let currentFileData = null;
     let currentFileType = null;
-    
     window.sendFile = function() {
         const fileInput = document.getElementById('fileInput');
         const file = fileInput.files[0];
         if (!file) return;
-        
         const reader = new FileReader();
-        reader.onload = function(e) {
-            currentFileData = e.target.result;
-            currentFileType = file.type.startsWith('image/') ? 'image' : 'video';
-            sendMessage();
-            fileInput.value = '';
-        };
+        reader.onload = function(e) { currentFileData = e.target.result; currentFileType = file.type.startsWith('image/') ? 'image' : 'video'; sendMessage(); fileInput.value = ''; };
         reader.readAsDataURL(file);
     };
     
-    // Voucher System
     function checkForVoucher() { if (localStorage.getItem('voucher_' + currentUser?.uid) === 'true') { hasVoucher = true; document.getElementById('voucherSection').style.display = 'block'; } }
     function applyVoucher() { voucherApplied = true; document.getElementById('voucherSection').style.display = 'none'; updateCartUI(); showToast("✅ 5% discount applied!"); }
     function dismissVoucher() { document.getElementById('voucherSection').style.display = 'none'; showToast("Voucher saved for later"); }
@@ -793,7 +721,6 @@
     function closeVoucherApplyModal() { document.getElementById('voucherApplyModal').classList.remove('show'); }
     function giveVoucher() { if (currentUser) { localStorage.setItem('voucher_' + currentUser.uid, 'true'); hasVoucher = true; } }
     
-    // Google Login
     async function performGoogleLogin() {
         try {
             const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
@@ -852,13 +779,13 @@
     function viewProfile() { if (!isLoggedIn) { showToast("Please login first!"); return; } alert(`👤 Profile\n\nName: ${currentUser.displayName || 'Not set'}\nEmail: ${currentUser.email}`); }
     function viewOrders() { if (!isLoggedIn) { showToast("Please login first!"); return; } let orders = JSON.parse(localStorage.getItem('orders') || '[]'); if (orders.length === 0) alert("No completed orders yet."); else alert(`Completed Orders: ${orders.length}`); }
     function toggleTheme() { showToast("Theme toggle coming soon!"); }
-    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items\n3. Add to cart\n4. Enter Roblox username\n5. Choose payment\n6. Place order\n7. Admin approves in Discord\n8. If cancelled, you get 5% off voucher!"); }
+    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items (+20% markup only!)\n3. Add to cart\n4. Enter Roblox username\n5. Choose payment\n6. Place order\n7. Admin approves in Discord\n8. If cancelled, you get 5% off voucher!"); }
     
     function renderAdminPanel() {
         if (!isAdmin) return;
         const search = document.getElementById('adminSearch')?.value.toLowerCase() || '';
         const filtered = items.filter(i => i.name.toLowerCase().includes(search));
-        document.getElementById('adminItemsList').innerHTML = filtered.map(item => `<div class="admin-item"><div><img src="${item.image}" style="width:40px;height:40px;object-fit:contain;" onerror="this.style.display='none'"> <strong>${item.name}</strong><br><small>₱${item.pricePHP.toLocaleString()}</small></div><button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button></div>`).join('');
+        document.getElementById('adminItemsList').innerHTML = filtered.map(item => `<div class="admin-item"><div><img src="${item.image}" style="width:40px;height:40px;object-fit:contain;" onerror="this.style.display='none'"> <strong>${item.name}</strong><br><small>₱${item.pricePHP}</small></div><button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button></div>`).join('');
     }
     function toggleItemSale(id) { if (!isAdmin) return; const item = items.find(i => i.id === id); if (item) { item.onsale = !item.onsale; renderAdminPanel(); renderProducts(); showToast(`${item.name} ${item.onsale ? 'on sale' : 'off sale'}`); } }
     function filterAdminItems() { renderAdminPanel(); }
@@ -868,8 +795,7 @@
             if (currentFilter === 'knife') return i.type === 'knife';
             if (currentFilter === 'gun') return i.type === 'gun';
             if (currentFilter === 'pet') return i.type === 'pet';
-            if (currentFilter === 'chroma') return i.category === 'chroma';
-            if (currentFilter === 'godly') return i.category === 'godly' || i.rarityClass === 'godly';
+            if (currentFilter === 'ancient') return i.category === 'ancient';
             if (currentFilter === 'onsale') return i.onsale === true;
             return true;
         });
@@ -914,16 +840,7 @@
     
     function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if (item) item.quantity = newQty; updateCartUI(); } }
     function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
-    function selectPayment(method) { 
-        selectedPayment = method; 
-        document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); 
-        document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected');
-        if (method === 'paypal') {
-            document.getElementById('paypal-button-container').style.display = 'block';
-        } else {
-            document.getElementById('paypal-button-container').style.display = 'none';
-        }
-    }
+    function selectPayment(method) { selectedPayment = method; document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected'); if (method === 'paypal') { document.getElementById('paypal-button-container').style.display = 'block'; } else { document.getElementById('paypal-button-container').style.display = 'none'; } }
     
     function closeOrderPendingModal() { document.getElementById('orderPendingModal').classList.remove('show'); }
     function closeOrderSuccessModal() { document.getElementById('orderSuccessModal').classList.remove('show'); }
