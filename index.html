@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECHOKNIVES | Premium MM2 Shop</title>
+    <title>ECHOKNIVES | Secure MM2 Shop</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -320,9 +320,6 @@
         .conversation-item.active {
             background: #6366f1;
         }
-        .conversation-name {
-            font-weight: 600;
-        }
         .chat-area {
             flex: 1;
             display: flex;
@@ -393,7 +390,7 @@
             display: block;
         }
         .checkout-container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             background: #111117;
             border-radius: 48px;
@@ -453,7 +450,7 @@
             font-weight: 500;
             color: #cbd5e1;
         }
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 14px 16px;
             background: #1e1e2a;
@@ -469,6 +466,11 @@
         .row-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 16px;
         }
         /* Payment Methods */
@@ -495,6 +497,17 @@
         .payment-option i {
             font-size: 20px;
             margin-right: 8px;
+        }
+        /* Card Details (hidden by default) */
+        .card-details {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #1a1a24;
+            border-radius: 24px;
+        }
+        .card-details.show {
+            display: block;
         }
         /* Tip Options */
         .tip-options {
@@ -558,11 +571,15 @@
             cursor: pointer;
             margin-top: 20px;
         }
-        .terms {
-            font-size: 11px;
-            color: #64748b;
+        .privacy-notice {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #10b981;
             text-align: center;
-            margin-top: 16px;
         }
 
         /* Receipt Modal */
@@ -591,7 +608,6 @@
             padding: 40px;
             color: #0f172a;
             animation: receiptPop 0.4s ease;
-            position: relative;
         }
         @keyframes receiptPop {
             from { opacity: 0; transform: scale(0.95); }
@@ -608,11 +624,6 @@
             font-size: 28px;
             font-weight: 800;
             margin-bottom: 8px;
-        }
-        .receipt-subtitle {
-            text-align: center;
-            color: #64748b;
-            margin-bottom: 24px;
         }
         .receipt-details {
             background: #f8fafc;
@@ -718,7 +729,7 @@
             .chat-container { flex-direction: column; }
             .conversation-list { width: 100%; }
             .hero-title { font-size: 38px; }
-            .row-2 { grid-template-columns: 1fr; }
+            .row-2, .row-3 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -756,7 +767,7 @@
     <div class="hero-content">
         <div class="hero-badge">✨ PREMIUM MM2 SHOP ✨</div>
         <h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1>
-        <p class="hero-desc" style="margin: 20px 0; color: #94a3b8;">Secure payments · Fast delivery · 24/7 support</p>
+        <p class="hero-desc" style="margin: 20px 0; color: #94a3b8;">🔒 Secure payments · Fast delivery · 24/7 support</p>
         <button class="btn-primary" onclick="showShop()">Start Shopping →</button>
     </div>
     <div class="hero-image">
@@ -783,51 +794,43 @@
     </div>
 </div>
 
-<!-- CHECKOUT PAGE (FULL GUI) -->
+<!-- CHECKOUT PAGE -->
 <div id="checkoutPage" class="checkout-page">
     <div class="checkout-container">
         <div class="checkout-header">
-            <h2><i class="fas fa-credit-card"></i> Checkout</h2>
+            <h2><i class="fas fa-lock"></i> Secure Checkout</h2>
             <button class="close-checkout" onclick="closeCheckoutPage()">×</button>
         </div>
         <div class="checkout-two-col">
             <div class="checkout-left">
+                <!-- Contact Information -->
                 <div class="section-title">📋 Contact Information</div>
                 <div class="row-2">
                     <div class="form-group">
-                        <label>Full Name <span style="color:#ef4444;">*</span></label>
-                        <input type="text" id="fullName" placeholder="John Doe">
+                        <label>First Name <span style="color:#ef4444;">*</span></label>
+                        <input type="text" id="firstName" placeholder="John">
                     </div>
+                    <div class="form-group">
+                        <label>Last Name <span style="color:#ef4444;">*</span></label>
+                        <input type="text" id="lastName" placeholder="Doe">
+                    </div>
+                </div>
+                <div class="row-2">
                     <div class="form-group">
                         <label>Email Address <span style="color:#ef4444;">*</span></label>
                         <input type="email" id="emailAddress" placeholder="your@email.com">
                     </div>
-                </div>
-                <div class="row-2">
                     <div class="form-group">
                         <label>🎮 Roblox Username <span style="color:#ef4444;">*</span></label>
                         <input type="text" id="robloxUsername" placeholder="Your Roblox username">
                     </div>
-                    <div class="form-group">
-                        <label>📞 Discord (optional)</label>
-                        <input type="text" id="discordUsername" placeholder="Discord#0000">
-                    </div>
                 </div>
                 
+                <!-- Billing Address -->
                 <div class="section-title" style="margin-top: 24px;">📍 Billing Address</div>
-                <div class="form-group">
-                    <input type="text" id="address" placeholder="Street Address">
-                </div>
                 <div class="row-2">
                     <div class="form-group">
-                        <input type="text" id="city" placeholder="City">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="zip" placeholder="ZIP Code">
-                    </div>
-                </div>
-                <div class="row-2">
-                    <div class="form-group">
+                        <label>Country/Region <span style="color:#ef4444;">*</span></label>
                         <select id="country">
                             <option value="PH">🇵🇭 Philippines</option>
                             <option value="US">🇺🇸 United States</option>
@@ -837,23 +840,65 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="phone" placeholder="Phone Number">
+                        <label>State/Province <span style="color:#ef4444;">*</span></label>
+                        <input type="text" id="state" placeholder="State">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Street Address <span style="color:#ef4444;">*</span></label>
+                    <input type="text" id="address" placeholder="Street address">
+                </div>
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>ZIP/Postal Code <span style="color:#ef4444;">*</span></label>
+                        <input type="text" id="zip" placeholder="ZIP code">
+                    </div>
+                    <div class="form-group">
+                        <label>City <span style="color:#ef4444;">*</span></label>
+                        <input type="text" id="city" placeholder="City">
                     </div>
                 </div>
                 
+                <!-- Payment Method -->
                 <div class="section-title" style="margin-top: 24px;">💳 Payment Method</div>
                 <div class="payment-methods">
-                    <div class="payment-option" data-payment="paypal" onclick="selectPayment('paypal')">
-                        <i class="fab fa-paypal"></i> PayPal
-                    </div>
-                    <div class="payment-option" data-payment="gcash" onclick="selectPayment('gcash')">
-                        <i class="fas fa-mobile-alt"></i> GCash
-                    </div>
                     <div class="payment-option" data-payment="credit" onclick="selectPayment('credit')">
                         <i class="fab fa-cc-visa"></i> Credit Card
                     </div>
+                    <div class="payment-option" data-payment="debit" onclick="selectPayment('debit')">
+                        <i class="fas fa-credit-card"></i> Debit Card
+                    </div>
+                    <div class="payment-option" data-payment="paypal" onclick="selectPayment('paypal')">
+                        <i class="fab fa-paypal"></i> PayPal
+                    </div>
+                    <div class="payment-option" data-payment="mastercard" onclick="selectPayment('mastercard')">
+                        <i class="fab fa-cc-mastercard"></i> Mastercard
+                    </div>
                 </div>
                 
+                <!-- Card Details (shown when card payment selected) -->
+                <div id="cardDetails" class="card-details">
+                    <div class="form-group">
+                        <label>Name on Card <span style="color:#ef4444;">*</span></label>
+                        <input type="text" id="cardName" placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Card Number <span style="color:#ef4444;">*</span></label>
+                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                    </div>
+                    <div class="row-2">
+                        <div class="form-group">
+                            <label>Expiry Date (MM/YY) <span style="color:#ef4444;">*</span></label>
+                            <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Security Code (CVV) <span style="color:#ef4444;">*</span></label>
+                            <input type="password" id="cardCvv" placeholder="123" maxlength="4">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tip Section -->
                 <div class="section-title" style="margin-top: 24px;">💝 Support the Team - Add a Tip</div>
                 <div class="tip-options">
                     <button type="button" class="tip-btn" data-tip="0" onclick="selectTip(0)">No tip</button>
@@ -864,9 +909,9 @@
                     <input type="number" id="customTipAmount" class="tip-custom" placeholder="Custom ₱" min="0" step="5" oninput="onCustomTip()">
                 </div>
                 
-                <div class="form-group" style="margin-top: 20px;">
-                    <label>📝 Delivery Instructions (optional)</label>
-                    <textarea id="deliveryInstructions" rows="2" placeholder="Any special instructions?"></textarea>
+                <!-- Privacy Notice -->
+                <div class="privacy-notice">
+                    <i class="fas fa-shield-alt"></i> Your payment information is encrypted and secure. We never store full card details.
                 </div>
             </div>
             
@@ -882,9 +927,9 @@
                     <span id="checkoutGrandTotal">₱0</span>
                 </div>
                 <button class="btn-pay" onclick="processPayment()">
-                    <i class="fas fa-lock"></i> Complete Payment
+                    <i class="fas fa-lock"></i> Complete Secure Payment
                 </button>
-                <div class="terms">
+                <div class="terms" style="font-size: 11px; text-align: center; margin-top: 12px; color: #64748b;">
                     By completing your purchase, you agree to our Terms of Service
                 </div>
             </div>
@@ -897,7 +942,7 @@
     <div class="receipt-card">
         <div class="receipt-icon"><i class="fas fa-check-circle"></i></div>
         <div class="receipt-title">Payment Successful!</div>
-        <div class="receipt-subtitle">Thank you for your order</div>
+        <div class="receipt-subtitle" style="text-align: center; color: #64748b; margin-bottom: 20px;">Thank you for your order</div>
         <div class="receipt-details" id="receiptDetails"></div>
         <div class="terms-box">
             <strong>📜 Terms & Conditions</strong><br><br>
@@ -907,7 +952,8 @@
             4. If you haven't received your items within 24 hours, contact support.<br>
             5. By completing this purchase, you confirm you are the owner of the Roblox account provided.<br>
             6. ECHOKNIVES is not affiliated with Roblox or Murder Mystery 2.<br>
-            7. Chargebacks will result in permanent ban from future purchases.
+            7. Chargebacks will result in permanent ban from future purchases.<br>
+            8. Your payment information is encrypted and never stored on our servers.
         </div>
         <button class="receipt-close" onclick="closeReceipt()">Done</button>
     </div>
@@ -940,12 +986,10 @@
     // ========== GLOBAL STATE ==========
     let isLoggedIn = false;
     let currentUser = null;
-    let isAdmin = false;
     let cart = [];
     let conversations = {};
-    let selectedPayment = "paypal";
+    let selectedPayment = "credit";
     let selectedTip = 0;
-    let currentOrderData = null;
 
     // ========== ITEMS ==========
     const items = [
@@ -956,6 +1000,21 @@
         { id: 5, name: "Darkbringer", price: 92000, image: "https://i.imgur.com/8oxgzwa.jpeg" },
         { id: 6, name: "Lightbringer", price: 92000, image: "https://i.imgur.com/BUljuYV.jpeg" }
     ];
+
+    // Format card number input
+    document.getElementById("cardNumber")?.addEventListener("input", function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+        e.target.value = value.substring(0, 19);
+    });
+    
+    document.getElementById("cardExpiry")?.addEventListener("input", function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 2) {
+            value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        }
+        e.target.value = value.substring(0, 5);
+    });
 
     function showToast(msg) {
         const t = document.getElementById("toastMsg");
@@ -1033,12 +1092,11 @@
     function toggleCart() { document.getElementById("cartSidebar").classList.add("open"); document.getElementById("overlay").style.display = "block"; }
     function closeCart() { document.getElementById("cartSidebar").classList.remove("open"); document.getElementById("overlay").style.display = "none"; }
 
-    // ===== CHECKOUT PAGE =====
+    // ===== CHECKOUT =====
     function openCheckoutPage() {
         if (!isLoggedIn) { showToast("Please login first"); handleLogin(); return; }
         if (cart.length === 0) { showToast("Your cart is empty"); return; }
         
-        // Populate order summary
         const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
         const container = document.getElementById("checkoutOrderItems");
         container.innerHTML = cart.map(item => `
@@ -1051,23 +1109,32 @@
         document.getElementById("checkoutSubtotal").innerHTML = `₱${subtotal.toLocaleString()}`;
         updateCheckoutTotal();
         
-        // Reset form
-        document.getElementById("fullName").value = currentUser?.displayName || "";
-        document.getElementById("emailAddress").value = currentUser?.email || "";
+        // Pre-fill user info
+        if (currentUser) {
+            document.getElementById("emailAddress").value = currentUser.email || "";
+            const nameParts = currentUser.displayName?.split(' ') || [];
+            document.getElementById("firstName").value = nameParts[0] || "";
+            document.getElementById("lastName").value = nameParts.slice(1).join(' ') || "";
+        }
+        
         document.getElementById("robloxUsername").value = "";
         document.getElementById("address").value = "";
         document.getElementById("city").value = "";
+        document.getElementById("state").value = "";
         document.getElementById("zip").value = "";
-        document.getElementById("phone").value = "";
-        document.getElementById("deliveryInstructions").value = "";
+        document.getElementById("cardName").value = "";
+        document.getElementById("cardNumber").value = "";
+        document.getElementById("cardExpiry").value = "";
+        document.getElementById("cardCvv").value = "";
         
         selectedTip = 0;
-        selectedPayment = "paypal";
+        selectedPayment = "credit";
         document.querySelectorAll(".tip-btn").forEach(btn => btn.classList.remove("selected"));
         document.querySelector(".tip-btn[data-tip='0']").classList.add("selected");
         document.getElementById("customTipAmount").value = "";
         document.querySelectorAll(".payment-option").forEach(opt => opt.classList.remove("selected"));
-        document.querySelector(".payment-option[data-payment='paypal']").classList.add("selected");
+        document.querySelector(`.payment-option[data-payment='credit']`).classList.add("selected");
+        document.getElementById("cardDetails").classList.add("show");
         
         document.getElementById("checkoutPage").classList.add("show");
         closeCart();
@@ -1079,6 +1146,13 @@
         selectedPayment = payment;
         document.querySelectorAll(".payment-option").forEach(opt => opt.classList.remove("selected"));
         document.querySelector(`.payment-option[data-payment='${payment}']`).classList.add("selected");
+        
+        // Show card details only for credit/debit/mastercard
+        if (payment === 'credit' || payment === 'debit' || payment === 'mastercard') {
+            document.getElementById("cardDetails").classList.add("show");
+        } else {
+            document.getElementById("cardDetails").classList.remove("show");
+        }
     }
 
     function selectTip(amount) {
@@ -1105,46 +1179,62 @@
 
     function processPayment() {
         // Validate required fields
-        const fullName = document.getElementById("fullName").value.trim();
+        const firstName = document.getElementById("firstName").value.trim();
+        const lastName = document.getElementById("lastName").value.trim();
         const email = document.getElementById("emailAddress").value.trim();
         const robloxUser = document.getElementById("robloxUsername").value.trim();
         const address = document.getElementById("address").value.trim();
         const city = document.getElementById("city").value.trim();
+        const state = document.getElementById("state").value.trim();
+        const zip = document.getElementById("zip").value.trim();
         
-        if (!fullName) { showToast("Please enter your full name"); return; }
+        if (!firstName) { showToast("Please enter your first name"); return; }
+        if (!lastName) { showToast("Please enter your last name"); return; }
         if (!email) { showToast("Please enter your email address"); return; }
         if (!robloxUser) { showToast("Please enter your Roblox username"); return; }
-        if (!address) { showToast("Please enter your address"); return; }
+        if (!address) { showToast("Please enter your street address"); return; }
         if (!city) { showToast("Please enter your city"); return; }
+        if (!state) { showToast("Please enter your state"); return; }
+        if (!zip) { showToast("Please enter your ZIP code"); return; }
+        
+        // Validate card details if card payment selected
+        if (selectedPayment === 'credit' || selectedPayment === 'debit' || selectedPayment === 'mastercard') {
+            const cardName = document.getElementById("cardName").value.trim();
+            const cardNumber = document.getElementById("cardNumber").value.replace(/\s/g, '');
+            const cardExpiry = document.getElementById("cardExpiry").value.trim();
+            const cardCvv = document.getElementById("cardCvv").value.trim();
+            
+            if (!cardName) { showToast("Please enter name on card"); return; }
+            if (cardNumber.length < 15) { showToast("Please enter a valid card number"); return; }
+            if (!cardExpiry.match(/^(0[1-9]|1[0-2])\/\d{2}$/)) { showToast("Please enter valid expiry date (MM/YY)"); return; }
+            if (cardCvv.length < 3) { showToast("Please enter security code (CVV)"); return; }
+        }
         
         const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
         const total = subtotal + selectedTip;
         const orderNumber = 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
         
-        // Create order object
+        // Create order object (card details NOT stored for security)
         const order = {
             orderNumber: orderNumber,
-            fullName: fullName,
+            firstName: firstName,
+            lastName: lastName,
+            fullName: firstName + " " + lastName,
             email: email,
             robloxUser: robloxUser,
-            discord: document.getElementById("discordUsername").value,
             address: address,
             city: city,
-            zip: document.getElementById("zip").value,
+            state: state,
+            zip: zip,
             country: document.getElementById("country").value,
-            phone: document.getElementById("phone").value,
             items: cart.map(i => `${i.name} x${i.qty}`).join(', '),
-            itemsDetailed: cart,
             subtotal: subtotal,
             tip: selectedTip,
             total: total,
-            paymentMethod: selectedPayment,
-            instructions: document.getElementById("deliveryInstructions").value,
+            paymentMethod: selectedPayment.toUpperCase(),
             status: "paid",
             date: new Date().toLocaleString()
         };
-        
-        currentOrderData = order;
         
         // Save order
         let orders = JSON.parse(localStorage.getItem('orders') || '[]');
@@ -1169,7 +1259,7 @@
                     color: 0x10b981,
                     fields: [
                         { name: 'Order #', value: orderNumber, inline: true },
-                        { name: 'Customer', value: fullName, inline: true },
+                        { name: 'Customer', value: order.fullName, inline: true },
                         { name: 'Roblox', value: robloxUser, inline: true },
                         { name: 'Items', value: order.items, inline: false },
                         { name: 'Subtotal', value: `₱${subtotal.toLocaleString()}`, inline: true },
@@ -1201,7 +1291,7 @@
         const receiptHtml = `
             <div class="receipt-row"><strong>Order Number:</strong> <span>${order.orderNumber}</span></div>
             <div class="receipt-row"><strong>Date:</strong> <span>${order.date}</span></div>
-            <div class="receipt-row"><strong>Payment Method:</strong> <span>${order.paymentMethod.toUpperCase()}</span></div>
+            <div class="receipt-row"><strong>Payment Method:</strong> <span>${order.paymentMethod}</span></div>
             <div class="receipt-row"><strong>Items:</strong> <span>${order.items}</span></div>
             <div class="receipt-row"><strong>Subtotal:</strong> <span>₱${order.subtotal.toLocaleString()}</span></div>
             <div class="receipt-row"><strong>Tip:</strong> <span>₱${order.tip.toLocaleString()}</span></div>
@@ -1221,7 +1311,6 @@
             const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
             currentUser = result.user;
             isLoggedIn = true;
-            isAdmin = (currentUser.email === "ivanmendones13@gmail.com");
             updateUserUI();
             showToast(`Welcome ${currentUser.displayName || currentUser.email}`);
             document.getElementById("chatTabBtn").style.display = "block";
@@ -1256,7 +1345,6 @@
         if (user && !isLoggedIn) {
             currentUser = user;
             isLoggedIn = true;
-            isAdmin = (user.email === "ivanmendones13@gmail.com");
             updateUserUI();
             document.getElementById("chatTabBtn").style.display = "block";
             loadConversations();
