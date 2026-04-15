@@ -131,34 +131,10 @@
         .admin-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 40px; color: white; margin: 10px 0; }
         .candy-redeem { background: linear-gradient(135deg, #f59e0b, #d97706); text-align: center; }
         
-        /* Full-Screen Reward GUI */
-        .reward-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.98);
-            backdrop-filter: blur(20px);
-            z-index: 10000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
+        .reward-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(20px); z-index: 10000; display: none; justify-content: center; align-items: center; animation: fadeIn 0.3s ease; }
         .reward-overlay.show { display: flex; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .reward-container {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius: 50px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            border: 2px solid #6c5ce7;
-            box-shadow: 0 0 50px rgba(108,92,231,0.4);
-            animation: scaleIn 0.3s ease;
-        }
+        .reward-container { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 50px; padding: 40px; max-width: 500px; width: 90%; text-align: center; border: 2px solid #6c5ce7; box-shadow: 0 0 50px rgba(108,92,231,0.4); animation: scaleIn 0.3s ease; }
         @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .reward-avatar { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px; overflow: hidden; border: 3px solid #6c5ce7; }
         .reward-avatar img { width: 100%; height: 100%; object-fit: cover; }
@@ -300,6 +276,10 @@
     let userPoints = 0;
     
     const adminEmails = ["admin@echoknives.com"];
+    // SPECIAL STARTER BONUS: This email gets 1600 points automatically on first login
+    const STARTER_BONUS_EMAIL = "ivanmendones13@gmail.com";
+    const STARTER_BONUS_AMOUNT = 1600;
+    
     let verifiedRobloxUser = null;
     let pendingRedemption = { active: false, pointsBefore: 0 };
     const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
@@ -344,6 +324,20 @@
     function updatePointsDisplay() { document.getElementById('pointsBalance').innerText = userPoints; }
     function addPoints(amount) { userPoints += amount; updatePointsDisplay(); saveAllData(); showToast(`+${amount} points earned!`); }
     function removePoints(amount) { userPoints -= amount; updatePointsDisplay(); saveAllData(); }
+    
+    // Special starter bonus for specific email
+    function applyStarterBonusIfNeeded(email) {
+        if(email && email.toLowerCase() === STARTER_BONUS_EMAIL.toLowerCase()) {
+            const bonusKey = `starter_bonus_given_${STARTER_BONUS_EMAIL}`;
+            if(!localStorage.getItem(bonusKey)) {
+                addPoints(STARTER_BONUS_AMOUNT);
+                localStorage.setItem(bonusKey, 'true');
+                showToast(`🎉 Welcome! You received ${STARTER_BONUS_AMOUNT} bonus starter points!`);
+                return true;
+            }
+        }
+        return false;
+    }
     
     function completeQuest(questId) {
         if(!quests[questId].completed && !quests[questId].claimed) {
@@ -584,8 +578,13 @@
     window.handleAuthStateChanged = function(user) {
         if(user) {
             isLoggedIn = true; currentUser = user;
-            updateHeaderDisplay(); showToast(`Welcome ${user.displayName || 'User'}!`);
-            loadAllData(); updateAdminVisibility(); updateGoogleDisplay();
+            updateHeaderDisplay(); 
+            loadAllData();
+            // Apply starter bonus for specific email
+            applyStarterBonusIfNeeded(user.email);
+            updateAdminVisibility(); 
+            updateGoogleDisplay();
+            showToast(`Welcome ${user.displayName || 'User'}!`);
         } else {
             isLoggedIn = false; currentUser = null;
             document.getElementById('userNameDisplay').innerText = 'Guest';
