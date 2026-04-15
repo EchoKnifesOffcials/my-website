@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECHOKNIVES | Premium MM2 Shop</title>
+    <title>ECHOKNIVES | MM2 Premium Shop</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -199,7 +199,7 @@
             justify-content: center;
         }
 
-        /* Hero Section (Home Page) */
+        /* Hero Section */
         .hero {
             min-height: 85vh;
             display: flex;
@@ -252,10 +252,6 @@
             font-weight: 800;
             color: #6366f1;
         }
-        .hero-stat p {
-            font-size: 12px;
-            color: #64748b;
-        }
         .hero-buttons {
             display: flex;
             gap: 16px;
@@ -270,19 +266,6 @@
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px -8px rgba(99,102,241,0.4);
-        }
-        .btn-secondary {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(99,102,241,0.3);
-            padding: 12px 32px;
-            border-radius: 40px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
         }
         .hero-image {
             flex: 1;
@@ -401,38 +384,9 @@
             font-weight: 600;
             cursor: pointer;
         }
-
-        /* Trading Section */
-        .trading-section {
-            display: none;
-            padding: 60px 5%;
-            text-align: center;
-        }
-        .trading-section.active {
-            display: block;
-        }
-        .trades-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
-            margin-top: 40px;
-        }
-        .trade-card {
-            background: #111117;
-            border-radius: 28px;
-            padding: 20px;
-            border: 1px solid #262633;
-            text-align: left;
-        }
-        .create-trade-btn {
-            background: #6366f1;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 40px;
-            color: white;
-            font-weight: 600;
-            margin-bottom: 20px;
-            cursor: pointer;
+        .add-to-cart:disabled {
+            background: #2d2d3a;
+            cursor: not-allowed;
         }
 
         /* Messages Section */
@@ -584,6 +538,77 @@
             transform: translateX(0);
         }
 
+        /* Receipt Modal */
+        .receipt-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            z-index: 400;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .receipt-modal.show {
+            display: flex;
+        }
+        .receipt-card {
+            background: #111117;
+            border: 1px solid #6366f1;
+            border-radius: 48px;
+            padding: 32px;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+        }
+        .receipt-icon {
+            font-size: 64px;
+            color: #10b981;
+            margin-bottom: 16px;
+        }
+        .receipt-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .receipt-details {
+            background: #1a1a24;
+            border-radius: 28px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .delivery-instructions {
+            background: #1a1a24;
+            border-radius: 28px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .delivery-link {
+            color: #6366f1;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .close-receipt {
+            background: #6366f1;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+
         @media (max-width: 700px) {
             .cart-sidebar { width: 100%; right: -100%; }
             .chat-container { flex-direction: column; }
@@ -607,7 +632,6 @@
     <div class="nav-links">
         <button class="nav-link" onclick="showHome()">🏠 Home</button>
         <button class="nav-link" onclick="showShop()">🛒 Shop</button>
-        <button class="nav-link" onclick="showTrading()">🤝 Trading</button>
         <button class="nav-link" id="messagesTabBtn" onclick="showMessages()" style="display:none;">💬 Messages</button>
     </div>
     <div class="top-actions">
@@ -645,7 +669,6 @@
         </div>
         <div class="hero-buttons">
             <button class="btn-primary" onclick="showShop()">Start Shopping →</button>
-            <button class="btn-secondary" onclick="showTrading()">Trade Items</button>
         </div>
     </div>
     <div class="hero-image">
@@ -673,14 +696,7 @@
     <div class="products-grid" id="productsGrid"></div>
 </div>
 
-<!-- TRADING SECTION -->
-<div id="tradingSection" class="trading-section">
-    <h2>🤝 Trading Hub</h2>
-    <button class="create-trade-btn" onclick="openTradeModal()">+ Create Trade Offer</button>
-    <div class="trades-grid" id="tradesGrid"></div>
-</div>
-
-<!-- MESSAGES SECTION (private) -->
+<!-- MESSAGES SECTION -->
 <div id="messagesSection" class="messages-section">
     <div class="chat-container">
         <div class="conversation-list" id="conversationList"></div>
@@ -702,13 +718,31 @@
     <div class="cart-total" id="cartTotal">Total: ₱0</div>
     <input type="text" id="robloxUser" placeholder="Roblox username" style="width:100%; padding:12px; background:#1e1e2a; border-radius:60px; border:none; margin:12px 0;">
     <button class="checkout-btn" onclick="checkout()">Place order</button>
-    <div class="payment-disabled">⚠️ Payments are currently disabled (demo mode)</div>
+    <div class="payment-disabled">⚠️ Demo mode — payment simulation</div>
+</div>
+
+<!-- RECEIPT MODAL -->
+<div class="receipt-modal" id="receiptModal">
+    <div class="receipt-card">
+        <div class="receipt-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="receipt-title">Order Confirmed!</div>
+        <div class="receipt-details" id="receiptDetails"></div>
+        <div class="delivery-instructions">
+            <strong>📦 How to get your items:</strong><br><br>
+            1️⃣ Add our delivery bot: <a href="https://www.roblox.com/user?id=YOUR_BOT_ID" target="_blank" class="delivery-link">ECHOKNIVES Bot</a><br>
+            2️⃣ Join the private server: <a href="https://www.roblox.com/share?code=e6c8ad7d5eaaf248948b92ce03f740e6&type=Server" target="_blank" class="delivery-link">Click here to join</a><br>
+            3️⃣ Wait in the server — the bot will trade you within 5 minutes<br>
+            4️⃣ If you have issues, reply in the Messages tab<br><br>
+            <span style="font-size:12px; color:#64748b;">Server code: e6c8ad7d5eaaf248948b92ce03f740e6</span>
+        </div>
+        <button class="close-receipt" onclick="closeReceipt()">Done</button>
+    </div>
 </div>
 
 <div class="toast" id="toastMsg"></div>
 
 <script>
-    // ---------- PARTICLES ----------
+    // Particles
     for (let i = 0; i < 80; i++) {
         let p = document.createElement('div');
         p.className = 'particle';
@@ -728,44 +762,20 @@
     let currentCurrency = "PHP";
     let currentCategory = "all";
     let searchQuery = "";
-    let trades = [];
-    let conversations = {};  // { buyerId: [{ sender, text, time }] }
+    let conversations = {};  // { userId: [{ with, messages }] }
 
-    // ---------- ITEMS DATABASE (full with new images) ----------
+    // ---------- ITEMS DATABASE ----------
     const items = [
-        // knives
         { id: 1, name: "Icewing", category: "knife", rarity: "Godly", price: 72, image: "https://i.imgur.com/jiwvmxq.jpeg" },
         { id: 2, name: "Hallows Blade", category: "knife", rarity: "Godly", price: 78, image: "https://i.imgur.com/2fGtH7k.png" },
         { id: 3, name: "Fang", category: "knife", rarity: "Godly", price: 228, image: "https://i.imgur.com/5hJkL9o.png" },
         { id: 4, name: "Slasher", category: "knife", rarity: "Godly", price: 266, image: "https://i.imgur.com/7uKvH2l.png" },
         { id: 5, name: "Heat", category: "knife", rarity: "Godly", price: 323, image: "https://i.imgur.com/9mNpR2q.png" },
-        { id: 6, name: "Nightblade", category: "knife", rarity: "Godly", price: 67, image: "https://i.imgur.com/4sJtL5p.png" },
-        { id: 7, name: "Deathshard", category: "knife", rarity: "Godly", price: 73, image: "https://i.imgur.com/1wEfR4t.png" },
-        { id: 8, name: "Saw", category: "knife", rarity: "Godly", price: 76, image: "https://i.imgur.com/6cDvB3m.png" },
-        // guns
-        { id: 9, name: "Luger", category: "gun", rarity: "Godly", price: 207, image: "https://i.imgur.com/eEvMBRh.jpeg" },
-        { id: 10, name: "Shark", category: "gun", rarity: "Godly", price: 56, image: "https://i.imgur.com/5dFgH7n.png" },
-        { id: 11, name: "Laser", category: "gun", rarity: "Godly", price: 104, image: "https://i.imgur.com/2aBcX4p.png" },
-        { id: 12, name: "Blaster", category: "gun", rarity: "Godly", price: 285, image: "https://i.imgur.com/9mNpR2q.png" },
-        { id: 13, name: "Darkbringer", category: "gun", rarity: "Godly", price: 92000, image: "https://i.imgur.com/8oxgzwa.jpeg" },
-        { id: 14, name: "Lightbringer", category: "gun", rarity: "Godly", price: 92000, image: "https://i.imgur.com/BUljuYV.jpeg" },
-        { id: 15, name: "Harvester", category: "ancient", rarity: "Ancient", price: 608, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
-        // chromas
-        { id: 16, name: "Chroma Fang", category: "chroma", rarity: "Chroma", price: 1140, image: "https://i.imgur.com/9mNpR2q.png" },
-        { id: 17, name: "Chroma Slasher", category: "chroma", rarity: "Chroma", price: 1180, image: "https://i.imgur.com/2aBcX4p.png" },
-        { id: 18, name: "Chroma Heat", category: "chroma", rarity: "Chroma", price: 1235, image: "https://i.imgur.com/5dFgH7n.png" },
-        { id: 19, name: "Chroma Luger", category: "chroma", rarity: "Chroma", price: 1425, image: "https://i.imgur.com/eEvMBRh.jpeg" },
-        // ancients
-        { id: 20, name: "Icebreaker", category: "ancient", rarity: "Ancient", price: 712, image: "https://i.imgur.com/6cDvB3m.png" },
-        { id: 21, name: "Elderwood Scythe", category: "ancient", rarity: "Ancient", price: 655, image: "https://i.imgur.com/1wEfR4t.png" },
-        // godly / classic
-        { id: 22, name: "Virtual", category: "godly", rarity: "Godly", price: 261, image: "https://i.imgur.com/8QZ7VcL.png" },
-        { id: 23, name: "Amerilaser", category: "godly", rarity: "Godly", price: 309, image: "https://i.imgur.com/5hJkL9o.png" },
-        { id: 24, name: "Old Glory", category: "godly", rarity: "Godly", price: 304, image: "https://i.imgur.com/1wEfR4t.png" },
-        { id: 25, name: "Red Luger", category: "godly", rarity: "Godly", price: 342, image: "https://i.imgur.com/6cDvB3m.png" },
-        { id: 26, name: "Electro", category: "classic", rarity: "Rare", price: 95, image: "https://i.imgur.com/8bRcV2k.png" },
-        { id: 27, name: "Phoenix", category: "classic", rarity: "Rare", price: 114, image: "https://i.imgur.com/4sJtL5p.png" },
-        { id: 28, name: "Fire Dog", category: "classic", rarity: "Rare", price: 171, image: "https://i.imgur.com/5dFgH7n.png" }
+        { id: 6, name: "Darkbringer", category: "gun", rarity: "Godly", price: 92000, image: "https://i.imgur.com/8oxgzwa.jpeg" },
+        { id: 7, name: "Lightbringer", category: "gun", rarity: "Godly", price: 92000, image: "https://i.imgur.com/BUljuYV.jpeg" },
+        { id: 8, name: "Harvester", category: "ancient", rarity: "Ancient", price: 608, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
+        { id: 9, name: "Chroma Fang", category: "chroma", rarity: "Chroma", price: 1140, image: "https://i.imgur.com/9mNpR2q.png" },
+        { id: 10, name: "Luger", category: "gun", rarity: "Godly", price: 207, image: "https://i.imgur.com/eEvMBRh.jpeg" }
     ];
 
     const symbols = { PHP: "₱", USD: "$", EUR: "€", GBP: "£" };
@@ -775,19 +785,18 @@
     function getSymbol() { return symbols[currentCurrency]; }
     function showToast(msg) { const t = document.getElementById("toastMsg"); t.innerText = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
 
-    // ---------- AUTH (custom UI, google login) ----------
+    // ---------- AUTH ----------
     function handleLogin() {
-        if (!window.firebaseReady) { showToast("Firebase loading, try again"); return; }
         window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider)
             .then(result => {
                 currentUser = result.user;
                 isLoggedIn = true;
-                if (currentUser.email === "ivanmendones13@gmail.com") isAdmin = true;
+                isAdmin = (currentUser.email === "Sigmake5@gmail.com" || currentUser.displayName === "Sigmake5");
                 updateUserUI();
                 showToast(`Welcome ${currentUser.displayName || currentUser.email}`);
                 document.getElementById("messagesTabBtn").style.display = "block";
                 loadConversations();
-                renderProducts(); // re-render to enable add-to-cart buttons
+                renderProducts();
             })
             .catch(err => showToast("Login failed: " + err.message));
     }
@@ -802,7 +811,7 @@
             document.getElementById("messagesTabBtn").style.display = "none";
             showToast("Logged out");
             renderProducts();
-        }).catch(() => showToast("Logout error"));
+        });
     }
     function updateUserUI() {
         const userDiv = document.getElementById("userInfo");
@@ -816,7 +825,7 @@
         if (user && !isLoggedIn) {
             currentUser = user;
             isLoggedIn = true;
-            if (user.email === "ivanmendones13@gmail.com") isAdmin = true;
+            isAdmin = (user.email === "Sigmake5@gmail.com" || user.displayName === "Sigmake5");
             updateUserUI();
             document.getElementById("messagesTabBtn").style.display = "block";
             loadConversations();
@@ -826,7 +835,7 @@
         }
     };
 
-    // ---------- SHOP & CART (login required to add) ----------
+    // ---------- SHOP & CART ----------
     function renderProducts() {
         let filtered = items.filter(item => {
             const matchCat = currentCategory === "all" ? true : item.category === currentCategory;
@@ -840,7 +849,7 @@
                 <div class="product-info">
                     <div class="product-name">${item.name}</div>
                     <div class="product-price">${getSymbol()}${convertPrice(item.price)}</div>
-                    <button class="add-to-cart" onclick="attemptAddToCart(${item.id})">Add to cart</button>
+                    <button class="add-to-cart" onclick="attemptAddToCart(${item.id})" ${!isLoggedIn ? 'disabled' : ''}>${isLoggedIn ? 'Add to cart' : 'Login to buy'}</button>
                 </div>
             </div>
         `).join("");
@@ -855,11 +864,11 @@
         showToast(`${item.name} added`);
     }
     function updateCartUI() {
-        const container = document.getElementById("cartItemsList");
         const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
         const itemCount = cart.reduce((s, i) => s + i.qty, 0);
         document.getElementById("cartCount").innerText = itemCount;
         document.getElementById("cartTotal").innerHTML = `Total: ${getSymbol()}${convertPrice(total)}`;
+        const container = document.getElementById("cartItemsList");
         if (!cart.length) { container.innerHTML = "<p style='text-align:center; margin-top:20px'>Cart empty</p>"; return; }
         container.innerHTML = cart.map(item => `
             <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
@@ -875,18 +884,39 @@
         if (!robloxUser) { showToast("Enter Roblox username"); return; }
         if (cart.length === 0) { showToast("Cart empty"); return; }
         const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-        showToast(`✅ Order placed (demo). Total: ${getSymbol()}${convertPrice(total)}`);
-        // optional: add receipt message to admin chat
+        const orderNumber = 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+        const receiptHTML = `
+            <div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div>
+            <div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div>
+            <div class="receipt-row"><strong>Items:</strong> ${cart.map(i => `${i.name} x${i.qty}`).join(', ')}</div>
+            <div class="receipt-row"><strong>Total:</strong> ${getSymbol()}${convertPrice(total)}</div>
+            <div class="receipt-row"><strong>Roblox:</strong> @${robloxUser}</div>
+            <div class="receipt-row"><strong>Status:</strong> <span style="color:#10b981;">Pending Delivery</span></div>
+        `;
+        document.getElementById("receiptDetails").innerHTML = receiptHTML;
+        document.getElementById("receiptModal").classList.add("show");
+        
+        // Send receipt message to chat (private)
+        if (!conversations[currentUser.uid]) conversations[currentUser.uid] = [];
+        let conv = conversations[currentUser.uid].find(c => c.with === "ECHOKNIVES Support");
+        if (!conv) {
+            conv = { with: "ECHOKNIVES Support", messages: [] };
+            conversations[currentUser.uid].push(conv);
+        }
+        conv.messages.push({ sender: "system", text: `✅ ORDER #${orderNumber}\nItems: ${cart.map(i => `${i.name} x${i.qty}`).join(', ')}\nTotal: ${getSymbol()}${convertPrice(total)}\nRoblox: @${robloxUser}\nDelivery: Join private server & add bot`, time: Date.now() });
+        localStorage.setItem("echoknives_conversations", JSON.stringify(conversations));
+        
         cart = [];
         updateCartUI();
         closeCart();
     }
+    function closeReceipt() { document.getElementById("receiptModal").classList.remove("show"); }
     function toggleCart() { document.getElementById("cartSidebar").classList.add("open"); document.getElementById("overlay").style.display = "block"; }
     function closeCart() { document.getElementById("cartSidebar").classList.remove("open"); document.getElementById("overlay").style.display = "none"; }
     function changeCurrency() { currentCurrency = document.getElementById("currencySelect").value; renderProducts(); updateCartUI(); }
     function filterItems() { searchQuery = document.getElementById("searchInput").value; renderProducts(); }
 
-    // categories
+    // Categories
     function initCategories() {
         document.querySelectorAll(".category-btn").forEach(btn => {
             btn.addEventListener("click", () => {
@@ -898,7 +928,7 @@
         });
     }
 
-    // ---------- PRIVATE MESSAGING (buyer <-> admin) ----------
+    // ---------- PRIVATE MESSAGING ----------
     function loadConversations() {
         if (!currentUser) return;
         const convs = conversations[currentUser.uid] || [];
@@ -932,19 +962,15 @@
         input.value = "";
         selectConversation(0);
     }
-    // load saved messages from localStorage
+
+    // Load saved convos
     const savedConvs = localStorage.getItem("echoknives_conversations");
     if (savedConvs) conversations = JSON.parse(savedConvs);
 
-    // ---------- TRADING (dummy) ----------
-    function openTradeModal() { showToast("Trade system coming soon"); }
-    function loadTrades() { document.getElementById("tradesGrid").innerHTML = '<div style="color:#64748b; padding:40px;">No active trades — be the first to post</div>'; }
-
-    // ---------- NAVIGATION ----------
+    // Navigation
     function showHome() {
         document.getElementById("homePage").style.display = "flex";
         document.getElementById("shopSection").classList.remove("active");
-        document.getElementById("tradingSection").classList.remove("active");
         document.getElementById("messagesSection").classList.remove("active");
         document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
         document.querySelector(".nav-link:first-child").classList.add("active");
@@ -952,25 +978,14 @@
     function showShop() {
         document.getElementById("homePage").style.display = "none";
         document.getElementById("shopSection").classList.add("active");
-        document.getElementById("tradingSection").classList.remove("active");
         document.getElementById("messagesSection").classList.remove("active");
         document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
         document.querySelectorAll(".nav-link")[1].classList.add("active");
         renderProducts();
     }
-    function showTrading() {
-        document.getElementById("homePage").style.display = "none";
-        document.getElementById("shopSection").classList.remove("active");
-        document.getElementById("tradingSection").classList.add("active");
-        document.getElementById("messagesSection").classList.remove("active");
-        document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
-        document.querySelectorAll(".nav-link")[2].classList.add("active");
-        loadTrades();
-    }
     function showMessages() {
         document.getElementById("homePage").style.display = "none";
         document.getElementById("shopSection").classList.remove("active");
-        document.getElementById("tradingSection").classList.remove("active");
         document.getElementById("messagesSection").classList.add("active");
         document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
         document.getElementById("messagesTabBtn").classList.add("active");
@@ -982,7 +997,6 @@
     updateCartUI();
     showHome();
     updateUserUI();
-    loadTrades();
 </script>
 </body>
 </html>
