@@ -11,9 +11,6 @@
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AUXq7gkV7XJ3h3V1xH5yL2pK9nR4mQ8wE6tY1uI3oP0sD9fG6hJ4kL2zX7cV8bN3m&currency=PHP&enable-funding=paypal"></script>
     
-    <!-- Stripe SDK for card payments -->
-    <script src="https://js.stripe.com/v3/"></script>
-    
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
@@ -214,8 +211,6 @@
         .payment-method.selected { background: #dc2626; }
         .roblox-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 25px; margin: 15px 0; font-size: 16px; color: white; }
         .paypal-button-container { margin: 15px 0; display: none; }
-        .card-element { background: white; padding: 12px; border-radius: 12px; margin: 15px 0; display: none; }
-        .stripe-btn { width: 100%; padding: 12px; background: #635bff; border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; display: none; }
         .checkout-btn { width: 100%; padding: 15px; background: #27ae60; border: none; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; }
         .checkout-btn:hover { background: #219a52; transform: scale(1.02); }
         
@@ -345,7 +340,7 @@
     <div class="hero-content">
         <div class="hero-badge">🔥 LIMITED TIME SALE 🔥</div>
         <h1 class="hero-title">PREMIUM <span>MM2</span><br>ITEM SHOP</h1>
-        <p class="hero-desc">Get the rarest Murder Mystery 2 items at the best prices. <br>Up to 30% OFF on selected items!</p>
+        <p class="hero-desc">Get the rarest Murder Mystery 2 items at the best prices. <br>Secure payments, instant delivery!</p>
         <div class="hero-stats">
             <div class="hero-stat"><h3>50K+</h3><p>Items Sold</p></div>
             <div class="hero-stat"><h3>10K+</h3><p>Happy Customers</p></div>
@@ -400,11 +395,9 @@
     <div class="payment-options">
         <div class="payment-method" data-method="paypal" onclick="selectPayment('paypal')">💰 PayPal</div>
         <div class="payment-method" data-method="visa" onclick="selectPayment('visa')">💳 Credit/Debit Card</div>
-        <div class="payment-method" data-method="gcash" onclick="selectPayment('gcash')">📱 GCash (Unavailable)</div>
+        <div class="payment-method" data-method="gcash" onclick="selectPayment('gcash')">📱 GCash</div>
     </div>
     <div id="paypal-button-container" class="paypal-button-container"></div>
-    <div id="card-element" class="card-element"></div>
-    <button id="stripe-btn" class="stripe-btn" onclick="processStripePayment()">Pay with Card</button>
     <input type="text" id="checkoutRobloxUsername" class="roblox-input" placeholder="Enter your Roblox Username (required)">
     <div id="voucherSection" style="display:none; margin:10px 0; padding:10px; background:rgba(243,156,18,0.2); border-radius:12px;">
         <p style="font-size:13px;"><i class="fas fa-ticket-alt"></i> You have a 5% off voucher!</p>
@@ -451,7 +444,7 @@
         <p id="cancelledOrderNumber" style="font-size:20px;font-weight:800;color:#dc2626;margin:15px 0;"></p>
         <div style="background:rgba(255,255,255,0.1);border-radius:15px;padding:15px;margin:15px 0;text-align:left;">
             <p id="cancelledReceiptText" style="font-size:13px;color:#ccc;"></p>
-            <p style="margin-top:15px;font-size:13px;color:#ffd700;">🎫 You received a 5% off voucher!</p>
+            <p style="margin-top:15px;font-size:13px;color:#ffd700;">🎫 You received a 5% off voucher (never expires)!</p>
         </div>
         <button class="verify-yes" style="width:100%;" onclick="closeOrderCancelledModal()">Got it! ✅</button>
     </div>
@@ -510,39 +503,18 @@
 
     window.firebaseReady = true;
 
-    // ========== MM2 ITEMS WITH FAKE DISCOUNTS (75% of items have discounts) ==========
-    // Original prices are higher, sale prices shown
+    // ========== MM2 ITEMS WITH WORKING IMAGES ==========
     const items = [
-        // KNIVES (Godlies) - With fake discounts
-        { id: 1, name: "Icewing", type: "knife", salePrice: 30, originalPrice: 60, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly", hasDiscount: true },
-        { id: 2, name: "Hallows Blade", type: "knife", salePrice: 60, originalPrice: 110, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly", hasDiscount: true },
-        { id: 3, name: "Fang", type: "knife", salePrice: 240, originalPrice: 400, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly", hasDiscount: true },
-        { id: 4, name: "Slasher", type: "knife", salePrice: 270, originalPrice: 450, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly", hasDiscount: true },
-        { id: 5, name: "Heat", type: "knife", salePrice: 330, originalPrice: 500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/9mNpR2q.png", category: "godly", hasDiscount: true },
-        { id: 6, name: "Nightblade", type: "knife", salePrice: 180, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/4sJtL5p.png", category: "godly", hasDiscount: false },
-        { id: 7, name: "Deathshard", type: "knife", salePrice: 210, originalPrice: 350, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/7uKvH2l.png", category: "godly", hasDiscount: true },
-        
-        // GUNS (Godlies) - With fake discounts
-        { id: 8, name: "Luger", type: "gun", salePrice: 420, originalPrice: 700, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly", hasDiscount: true },
-        { id: 9, name: "Shark", type: "gun", salePrice: 270, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/6cDvB3m.png", category: "godly", hasDiscount: false },
-        { id: 10, name: "Laser", type: "gun", salePrice: 300, originalPrice: 500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xPqL9j.png", category: "godly", hasDiscount: true },
-        { id: 11, name: "Blaster", type: "gun", salePrice: 360, originalPrice: 600, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8bRcV2k.png", category: "godly", hasDiscount: true },
-        { id: 12, name: "Virtual", type: "gun", salePrice: 330, originalPrice: 0, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly", hasDiscount: false },
-        { id: 13, name: "Amerilaser", type: "gun", salePrice: 390, originalPrice: 650, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly", hasDiscount: true },
-        
-        // PETS - With fake discounts
-        { id: 14, name: "Electro", type: "pet", salePrice: 90, originalPrice: 150, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet", hasDiscount: true },
-        { id: 15, name: "Frostbird", type: "pet", salePrice: 60, originalPrice: 0, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/3xPqL9j.png", category: "pet", hasDiscount: false },
-        { id: 16, name: "Phoenix", type: "pet", salePrice: 120, originalPrice: 200, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/8bRcV2k.png", category: "pet", hasDiscount: true },
-        { id: 17, name: "Sammy", type: "pet", salePrice: 150, originalPrice: 250, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/5dFgH7n.png", category: "pet", hasDiscount: true },
-        { id: 18, name: "Fire Dog", type: "pet", salePrice: 180, originalPrice: 0, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/2aBcX4p.png", category: "pet", hasDiscount: false },
-        
-        // ANCIENT WEAPONS - With fake discounts
-        { id: 19, name: "Icebreaker", type: "knife", salePrice: 720, originalPrice: 1200, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/9mNpR2q.png", category: "ancient", hasDiscount: true },
-        { id: 20, name: "Elderwood Scythe", type: "knife", salePrice: 660, originalPrice: 1100, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/7uKvH2l.png", category: "ancient", hasDiscount: true },
-        { id: 21, name: "Logchopper", type: "knife", salePrice: 600, originalPrice: 0, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/4sJtL5p.png", category: "ancient", hasDiscount: false },
-        { id: 22, name: "Boneblade", type: "knife", salePrice: 540, originalPrice: 900, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/1wEfR4t.png", category: "ancient", hasDiscount: true },
-        { id: 23, name: "BattleAxe II", type: "knife", salePrice: 510, originalPrice: 850, onsale: true, rarity: "Ancient", rarityClass: "ancient", image: "https://i.imgur.com/6cDvB3m.png", category: "ancient", hasDiscount: true }
+        { id: 1, name: "Batwing", type: "knife", salePrice: 8500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly" },
+        { id: 2, name: "Harvester", type: "knife", salePrice: 27000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly" },
+        { id: 3, name: "Vampire's Axe", type: "knife", salePrice: 68000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly" },
+        { id: 4, name: "Phantom", type: "knife", salePrice: 7500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly" },
+        { id: 5, name: "Luger", type: "gun", salePrice: 42000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly" },
+        { id: 6, name: "Darkshot", type: "gun", salePrice: 105000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/6cDvB3m.png", category: "godly" },
+        { id: 7, name: "Lightbringer", type: "gun", salePrice: 92000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly" },
+        { id: 8, name: "Darkbringer", type: "gun", salePrice: 92000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly" },
+        { id: 9, name: "Chroma Traveler's Gun", type: "gun", salePrice: 8500000, onsale: true, rarity: "Chroma", rarityClass: "chroma", image: "https://i.imgur.com/9mNpR2q.png", category: "chroma" },
+        { id: 10, name: "Fire Bunny", type: "pet", salePrice: 2800, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet" }
     ];
 
     const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, KRW: 24.5 };
@@ -579,10 +551,35 @@
     
     function generateOrderNumber() { return 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase(); }
     
+    // Function to handle Discord interaction (called from webhook)
+    window.handleDiscordAction = function(orderNumber, action) {
+        const order = pendingOrders[orderNumber];
+        if (!order) return;
+        
+        if (action === 'take') {
+            order.status = 'approved';
+            localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
+            // Notify user
+            const notifications = JSON.parse(localStorage.getItem('userNotifications_' + order.userId) || '[]');
+            notifications.push({ type: 'order_approved', orderNumber: orderNumber, orderDetails: order.orderDetails });
+            localStorage.setItem('userNotifications_' + order.userId, JSON.stringify(notifications));
+            showToast(`Order ${orderNumber} approved!`);
+        } else if (action === 'cancel') {
+            order.status = 'cancelled';
+            localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
+            // Give permanent voucher
+            localStorage.setItem('voucher_' + order.userId, 'true');
+            const notifications = JSON.parse(localStorage.getItem('userNotifications_' + order.userId) || '[]');
+            notifications.push({ type: 'order_cancelled', orderNumber: orderNumber, orderDetails: order.orderDetails });
+            localStorage.setItem('userNotifications_' + order.userId, JSON.stringify(notifications));
+            showToast(`Order ${orderNumber} cancelled, voucher issued!`);
+        }
+    };
+    
     async function sendDiscordNotification(orderNumber, robloxUser, orderDetails) {
         const embed = {
-            title: '🟡 ORDER PENDING APPROVAL',
-            color: 0xf39c12,
+            title: '🛒 NEW ORDER!',
+            color: 0xdc2626,
             fields: [
                 { name: '📋 Order Number', value: `\`${orderNumber}\``, inline: true },
                 { name: '🎮 Roblox Username', value: `@${robloxUser}`, inline: true },
@@ -591,9 +588,12 @@
                 { name: '💳 Payment', value: orderDetails.payment, inline: true },
                 { name: '🎫 Voucher Used', value: orderDetails.voucherUsed || 'No', inline: true }
             ],
-            footer: { text: 'ECHOKNIVES Order System - Admin approval required' },
+            footer: { text: 'ECHOKNIVES Order System' },
             timestamp: new Date().toISOString()
         };
+        
+        // Create a unique callback URL for this order
+        const callbackUrl = `https://echoknives.netlify.app/api/discord?order=${orderNumber}`;
         
         try {
             pendingOrders[orderNumber] = {
@@ -606,7 +606,35 @@
                 status: 'pending'
             };
             localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
-            await fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ embeds: [embed] }) });
+            
+            // Send to Discord with buttons
+            await fetch(DISCORD_WEBHOOK, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    embeds: [embed],
+                    components: [{
+                        type: 1,
+                        components: [
+                            {
+                                type: 2,
+                                style: 3,
+                                label: '✅ Take Order',
+                                custom_id: `take_${orderNumber}`,
+                                emoji: { name: '✅' }
+                            },
+                            {
+                                type: 2,
+                                style: 4,
+                                label: '❌ Cancel Order',
+                                custom_id: `cancel_${orderNumber}`,
+                                emoji: { name: '❌' }
+                            }
+                        ]
+                    }]
+                })
+            });
+            console.log('Discord notification sent with buttons');
         } catch (e) { console.error('Discord webhook error:', e); }
     }
     
@@ -626,53 +654,17 @@
             },
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
-                    showToast(`✅ PayPal payment successful!`);
+                    showToast(`✅ Payment successful!`);
                     completeOrder('paypal');
                 });
             },
-            onError: function(err) { showToast('PayPal payment failed. Please try again.'); }
+            onError: function(err) { showToast('Payment failed. Please try again.'); }
         }).render('#paypal-button-container');
-    }
-    
-    function initStripe(total) {
-        // Demo stripe integration - for testing only
-        showToast("💳 Card payment demo - This is a test payment");
-        setTimeout(() => {
-            completeOrder('stripe');
-        }, 1500);
-    }
-    
-    function processStripePayment() {
-        if (!isLoggedIn) { showToast("Please login first!"); return; }
-        if (cart.length === 0) { showToast("Cart empty!"); return; }
-        const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
-        if (!robloxUser) { showToast("Please enter your Roblox username!"); return; }
-        
-        let totalPHP = cart.reduce((s, i) => s + (i.salePrice * i.quantity), 0);
-        if (voucherApplied) totalPHP = totalPHP * 0.95;
-        const totalDisplay = `${getSymbol()}${getDisplayPrice(totalPHP)}`;
-        
-        currentOrderTotal = totalPHP;
-        currentOrderNumber = generateOrderNumber();
-        currentOrderDetails = {
-            orderNumber: currentOrderNumber,
-            items: cart.map(i => `${i.name} x${i.quantity}`).join(', '),
-            total: totalDisplay,
-            payment: "Credit/Debit Card",
-            voucherUsed: voucherApplied ? "Yes (5% off)" : "No"
-        };
-        
-        initStripe(totalPHP);
     }
     
     function processPayment() {
         if (!isLoggedIn) { showToast("Please login with Google first!"); return; }
         if (cart.length === 0) { showToast("Cart empty!"); return; }
-        
-        if (selectedPayment === 'gcash') {
-            showToast("❌ GCash is currently unavailable. Please use PayPal or Credit Card.");
-            return;
-        }
         
         const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
         if (!robloxUser) { showToast("Please enter your Roblox username!"); return; }
@@ -697,9 +689,10 @@
             document.getElementById('checkoutBtn').style.display = 'none';
             initPayPal(getDisplayPrice(totalPHP));
         } else if (selectedPayment === 'visa') {
-            processStripePayment();
+            showToast("💳 Card payment demo - processing...");
+            setTimeout(() => completeOrder('stripe'), 1500);
         } else {
-            completeOrder('demo');
+            showToast("❌ GCash is currently unavailable. Please use PayPal or Credit Card.");
         }
     }
     
@@ -763,7 +756,7 @@
     function checkForVoucher() { if (localStorage.getItem('voucher_' + currentUser?.uid) === 'true') { hasVoucher = true; document.getElementById('voucherSection').style.display = 'block'; } }
     function applyVoucher() { voucherApplied = true; document.getElementById('voucherSection').style.display = 'none'; updateCartUI(); showToast("✅ 5% discount applied!"); }
     function dismissVoucher() { document.getElementById('voucherSection').style.display = 'none'; showToast("Voucher saved for later"); }
-    function viewVouchers() { if (hasVoucher) alert("🎫 You have a 5% off voucher available!"); else alert("🎫 No vouchers available."); }
+    function viewVouchers() { if (hasVoucher) alert("🎫 You have a 5% off voucher available (never expires)!"); else alert("🎫 No vouchers available."); }
     function confirmApplyVoucher() { voucherApplied = true; closeVoucherApplyModal(); updateCartUI(); showToast("✅ 5% discount applied!"); }
     function closeVoucherApplyModal() { document.getElementById('voucherApplyModal').classList.remove('show'); }
     function giveVoucher() { if (currentUser) { localStorage.setItem('voucher_' + currentUser.uid, 'true'); hasVoucher = true; } }
@@ -826,7 +819,7 @@
     function viewProfile() { if (!isLoggedIn) { showToast("Please login first!"); return; } alert(`👤 Profile\n\nName: ${currentUser.displayName || 'Not set'}\nEmail: ${currentUser.email}`); }
     function viewOrders() { if (!isLoggedIn) { showToast("Please login first!"); return; } let orders = JSON.parse(localStorage.getItem('orders') || '[]'); if (orders.length === 0) alert("No completed orders yet."); else alert(`Completed Orders: ${orders.length}`); }
     function toggleTheme() { showToast("Theme toggle coming soon!"); }
-    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items (many on sale!)\n3. Add to cart\n4. Enter Roblox username\n5. Choose PayPal or Credit Card\n6. Complete payment\n7. Order sent for admin approval"); }
+    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items\n3. Add to cart\n4. Enter Roblox username\n5. Choose payment method\n6. Complete payment\n7. Admin approves in Discord\n8. If cancelled, you get 5% off voucher (never expires)!"); }
     
     function renderAdminPanel() {
         if (!isAdmin) return;
@@ -853,11 +846,7 @@
                 <div class="product-info">
                     <div class="product-name">${item.name}</div>
                     <div class="product-rarity ${item.rarityClass}">${item.rarity}</div>
-                    <div class="price-container">
-                        ${item.hasDiscount && item.originalPrice > 0 ? `<span class="original-price">${getSymbol()}${getDisplayPrice(item.originalPrice)}</span>` : ''}
-                        <span class="product-price">${getSymbol()}${getDisplayPrice(item.salePrice)}</span>
-                        ${item.hasDiscount && item.originalPrice > 0 ? `<span class="discount-badge">-${Math.round((1 - item.salePrice/item.originalPrice) * 100)}%</span>` : ''}
-                    </div>
+                    <div class="product-price">${getSymbol()}${getDisplayPrice(item.salePrice)}</div>
                     <button class="add-btn" onclick="addToCart(${item.id})" ${!item.onsale ? 'disabled' : ''}>${!item.onsale ? 'Off Sale' : 'Add to Cart'}</button>
                 </div>
             </div>
@@ -897,16 +886,8 @@
         document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected');
         if (method === 'paypal') {
             document.getElementById('paypal-button-container').style.display = 'block';
-            document.getElementById('card-element').style.display = 'none';
-            document.getElementById('stripe-btn').style.display = 'none';
-        } else if (method === 'visa') {
-            document.getElementById('paypal-button-container').style.display = 'none';
-            document.getElementById('card-element').style.display = 'block';
-            document.getElementById('stripe-btn').style.display = 'block';
         } else {
             document.getElementById('paypal-button-container').style.display = 'none';
-            document.getElementById('card-element').style.display = 'none';
-            document.getElementById('stripe-btn').style.display = 'none';
         }
     }
     
@@ -944,12 +925,13 @@
     window.showHome = showHome; window.showShop = showShop; window.showTrading = showTrading; window.showChat = showChat; window.toggleDropdown = toggleDropdown;
     window.viewProfile = viewProfile; window.viewOrders = viewOrders; window.viewVouchers = viewVouchers; window.toggleTheme = toggleTheme; window.showHelp = showHelp;
     window.logout = logout; window.changeCurrency = changeCurrency; window.toggleCart = toggleCart; window.closeCart = closeCart; window.selectPayment = selectPayment;
-    window.processPayment = processPayment; window.processStripePayment = processStripePayment; window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart;
-    window.openTradeModal = openTradeModal; window.closeTradeModal = closeTradeModal; window.submitTrade = submitTrade; window.acceptTrade = acceptTrade; window.deleteTrade = deleteTrade;
+    window.processPayment = processPayment; window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart; window.openTradeModal = openTradeModal;
+    window.closeTradeModal = closeTradeModal; window.submitTrade = submitTrade; window.acceptTrade = acceptTrade; window.deleteTrade = deleteTrade;
     window.performGoogleLogin = performGoogleLogin; window.toggleItemSale = toggleItemSale; window.filterAdminItems = filterAdminItems;
     window.applyVoucher = applyVoucher; window.dismissVoucher = dismissVoucher; window.confirmApplyVoucher = confirmApplyVoucher; window.closeVoucherApplyModal = closeVoucherApplyModal;
     window.closeOrderPendingModal = closeOrderPendingModal; window.closeOrderSuccessModal = closeOrderSuccessModal; window.closeOrderCancelledModal = closeOrderCancelledModal;
     window.sendMessage = sendMessage; window.sendFile = sendFile; window.selectConversation = selectConversation;
+    window.handleDiscordAction = handleDiscordAction;
     
     renderProducts(); selectPayment('paypal'); loadTrades();
     showHome();
