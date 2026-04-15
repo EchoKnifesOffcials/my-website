@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECHOKNIVES | MM2 Premium Shop</title>
+    <title>ECHOKNIVES | Premium MM2 Shop</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -35,8 +35,6 @@
                 window.handleAuthStateChanged(user);
             }
         });
-        
-        window.dispatchEvent(new Event('firebase-ready'));
     </script>
     
     <style>
@@ -77,19 +75,6 @@
             15% { opacity: 0.7; }
             85% { opacity: 0.7; }
             100% { transform: translateY(-100vh) translateX(80px); opacity: 0; }
-        }
-        .glow-trail {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #6366f1, #a855f7, transparent);
-            top: 30%;
-            animation: slideGlow 16s infinite;
-            opacity: 0.3;
-        }
-        @keyframes slideGlow {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
         }
 
         /* Header */
@@ -147,19 +132,12 @@
         .nav-link.active {
             background: #6366f1;
             color: white;
-            box-shadow: 0 2px 12px rgba(99,102,241,0.4);
         }
         .top-actions {
             display: flex;
             align-items: center;
             gap: 15px;
             flex-wrap: wrap;
-        }
-        .currency-selector {
-            background: #14141e;
-            border-radius: 40px;
-            padding: 8px 14px;
-            border: 1px solid #2a2a36;
         }
         .user-info {
             display: flex;
@@ -209,10 +187,7 @@
             flex-wrap: wrap;
             gap: 40px;
         }
-        .hero-content {
-            flex: 1;
-            min-width: 280px;
-        }
+        .hero-content { flex: 1; min-width: 280px; }
         .hero-badge {
             display: inline-block;
             background: rgba(99, 102, 241, 0.15);
@@ -221,12 +196,10 @@
             font-size: 14px;
             color: #a855f7;
             margin-bottom: 20px;
-            border: 1px solid rgba(99,102,241,0.3);
         }
         .hero-title {
             font-size: 58px;
             font-weight: 800;
-            line-height: 1.1;
             font-family: 'Orbitron', monospace;
             margin-bottom: 20px;
         }
@@ -236,27 +209,6 @@
             background-clip: text;
             color: transparent;
         }
-        .hero-desc {
-            font-size: 18px;
-            color: #94a3b8;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-        .hero-stats {
-            display: flex;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        .hero-stat h3 {
-            font-size: 34px;
-            font-weight: 800;
-            color: #6366f1;
-        }
-        .hero-buttons {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
         .btn-primary {
             background: linear-gradient(135deg, #6366f1, #a855f7);
             border: none;
@@ -265,11 +217,6 @@
             color: white;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.2s;
-        }
-        .hero-image {
-            flex: 1;
-            text-align: center;
         }
         .hero-image img {
             max-width: 100%;
@@ -288,53 +235,6 @@
         }
         .shop-section.active {
             display: block;
-        }
-        .shop-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .search-box {
-            background: #14141e;
-            border-radius: 60px;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid #2a2a36;
-            width: 280px;
-        }
-        .search-box input {
-            background: transparent;
-            border: none;
-            color: white;
-            width: 100%;
-            outline: none;
-        }
-        .category-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 32px;
-            border-bottom: 1px solid #252530;
-            padding-bottom: 12px;
-        }
-        .category-btn {
-            background: transparent;
-            border: none;
-            padding: 8px 22px;
-            border-radius: 40px;
-            color: #cbd5e1;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .category-btn.active {
-            background: #6366f1;
-            color: white;
         }
         .products-grid {
             display: grid;
@@ -384,17 +284,175 @@
             font-weight: 600;
             cursor: pointer;
         }
-        .add-to-cart:disabled {
-            background: #2d2d3a;
-            cursor: not-allowed;
+
+        /* ===== CHECKOUT MODAL (Full Screen) ===== */
+        .checkout-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0f;
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+        .checkout-modal.show {
+            display: flex;
+        }
+        .checkout-container {
+            max-width: 700px;
+            width: 100%;
+            background: #111117;
+            border-radius: 48px;
+            border: 1px solid #262633;
+            overflow: hidden;
+            animation: fadeInUp 0.3s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .checkout-header {
+            padding: 24px 28px;
+            border-bottom: 1px solid #262633;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .checkout-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .close-checkout {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+        .checkout-body {
+            padding: 28px;
+        }
+        .order-summary {
+            background: #1a1a24;
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 28px;
+        }
+        .order-summary h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #6366f1;
+        }
+        .summary-items {
+            margin-bottom: 16px;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #262633;
+        }
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 16px;
+            font-weight: 700;
+            font-size: 18px;
+            border-top: 2px solid #6366f1;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #cbd5e1;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: #1e1e2a;
+            border: 1px solid #2a2a36;
+            border-radius: 60px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #6366f1;
+        }
+        .form-group textarea {
+            border-radius: 24px;
+            resize: vertical;
+        }
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .tip-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .tip-btn {
+            background: #1e1e2a;
+            border: 1px solid #2a2a36;
+            padding: 10px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: white;
+        }
+        .tip-btn.selected {
+            background: #6366f1;
+            border-color: #6366f1;
+        }
+        .tip-custom {
+            flex: 1;
+            min-width: 100px;
+        }
+        .checkout-footer {
+            padding: 20px 28px;
+            border-top: 1px solid #262633;
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+        }
+        .btn-cancel {
+            background: #1e1e2a;
+            border: 1px solid #2a2a36;
+            padding: 14px 28px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-place-order {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
         }
 
-        /* Messages Section */
-        .messages-section {
+        /* Chat Section */
+        .chat-section {
             display: none;
             padding: 40px 5%;
+            min-height: 70vh;
         }
-        .messages-section.active {
+        .chat-section.active {
             display: block;
         }
         .chat-container {
@@ -404,7 +462,7 @@
             border-radius: 32px;
             border: 1px solid #262633;
             overflow: hidden;
-            min-height: 500px;
+            min-height: 600px;
         }
         .conversation-list {
             width: 300px;
@@ -423,6 +481,9 @@
         .conversation-item.active {
             background: #6366f1;
         }
+        .conversation-name {
+            font-weight: 600;
+        }
         .chat-area {
             flex: 1;
             display: flex;
@@ -431,7 +492,7 @@
         }
         .chat-messages {
             flex: 1;
-            height: 400px;
+            height: 480px;
             overflow-y: auto;
             margin-bottom: 20px;
             display: flex;
@@ -497,7 +558,7 @@
             font-weight: 800;
             margin: 20px 0;
         }
-        .checkout-btn {
+        .checkout-btn-cart {
             width: 100%;
             padding: 14px;
             background: #10b981;
@@ -506,12 +567,6 @@
             color: white;
             font-weight: 700;
             cursor: pointer;
-        }
-        .payment-disabled {
-            font-size: 12px;
-            color: #f59e0b;
-            text-align: center;
-            margin-top: 12px;
         }
         .overlay {
             position: fixed;
@@ -538,82 +593,12 @@
             transform: translateX(0);
         }
 
-        /* Receipt Modal */
-        .receipt-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(12px);
-            z-index: 400;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-        .receipt-modal.show {
-            display: flex;
-        }
-        .receipt-card {
-            background: #111117;
-            border: 1px solid #6366f1;
-            border-radius: 48px;
-            padding: 32px;
-            max-width: 480px;
-            width: 90%;
-            text-align: center;
-        }
-        .receipt-icon {
-            font-size: 64px;
-            color: #10b981;
-            margin-bottom: 16px;
-        }
-        .receipt-title {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-        .receipt-details {
-            background: #1a1a24;
-            border-radius: 28px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
-        }
-        .receipt-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .delivery-instructions {
-            background: #1a1a24;
-            border-radius: 28px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
-        }
-        .delivery-link {
-            color: #6366f1;
-            text-decoration: none;
-            word-break: break-all;
-        }
-        .close-receipt {
-            background: #6366f1;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 40px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-        }
-
         @media (max-width: 700px) {
             .cart-sidebar { width: 100%; right: -100%; }
             .chat-container { flex-direction: column; }
-            .conversation-list { width: 100%; border-right: none; border-bottom: 1px solid #262633; }
+            .conversation-list { width: 100%; }
             .hero-title { font-size: 38px; }
+            .row-2 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -621,7 +606,6 @@
 
 <div class="vfx-layer">
     <div class="particle-field" id="particles"></div>
-    <div class="glow-trail"></div>
 </div>
 
 <div class="header">
@@ -632,18 +616,9 @@
     <div class="nav-links">
         <button class="nav-link" onclick="showHome()">🏠 Home</button>
         <button class="nav-link" onclick="showShop()">🛒 Shop</button>
-        <button class="nav-link" id="messagesTabBtn" onclick="showMessages()" style="display:none;">💬 Messages</button>
+        <button class="nav-link" id="chatTabBtn" onclick="showChat()" style="display:none;">💬 Messages</button>
     </div>
     <div class="top-actions">
-        <div class="currency-selector">
-            <i class="fas fa-globe"></i>
-            <select id="currencySelect" onchange="changeCurrency()">
-                <option value="PHP">🇵🇭 PHP</option>
-                <option value="USD">🇺🇸 USD</option>
-                <option value="EUR">🇪🇺 EUR</option>
-                <option value="GBP">🇬🇧 GBP</option>
-            </select>
-        </div>
         <div class="user-info" id="userInfo">
             <div class="avatar"><i class="fas fa-user"></i></div>
             <span>Guest</span>
@@ -661,15 +636,8 @@
     <div class="hero-content">
         <div class="hero-badge">✨ PREMIUM MM2 SHOP ✨</div>
         <h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1>
-        <p class="hero-desc">Secure payments · Instant delivery · 24/7 support</p>
-        <div class="hero-stats">
-            <div class="hero-stat"><h3>10K+</h3><p>Items Sold</p></div>
-            <div class="hero-stat"><h3>5K+</h3><p>Customers</p></div>
-            <div class="hero-stat"><h3>100%</h3><p>Secure</p></div>
-        </div>
-        <div class="hero-buttons">
-            <button class="btn-primary" onclick="showShop()">Start Shopping →</button>
-        </div>
+        <p class="hero-desc" style="margin: 20px 0; color: #94a3b8;">Secure payments · Fast delivery · 24/7 support</p>
+        <button class="btn-primary" onclick="showShop()">Start Shopping →</button>
     </div>
     <div class="hero-image">
         <img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero">
@@ -678,26 +646,11 @@
 
 <!-- SHOP SECTION -->
 <div id="shopSection" class="shop-section">
-    <div class="shop-header">
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Search items..." onkeyup="filterItems()">
-        </div>
-    </div>
-    <div class="category-tabs" id="categoryTabs">
-        <button class="category-btn active" data-cat="all">All</button>
-        <button class="category-btn" data-cat="knife">🔪 Knives</button>
-        <button class="category-btn" data-cat="gun">🔫 Guns</button>
-        <button class="category-btn" data-cat="chroma">🌈 Chromas</button>
-        <button class="category-btn" data-cat="godly">👑 Godly</button>
-        <button class="category-btn" data-cat="ancient">🏺 Ancient</button>
-        <button class="category-btn" data-cat="classic">✨ Classic</button>
-    </div>
     <div class="products-grid" id="productsGrid"></div>
 </div>
 
-<!-- MESSAGES SECTION -->
-<div id="messagesSection" class="messages-section">
+<!-- CHAT SECTION -->
+<div id="chatSection" class="chat-section">
     <div class="chat-container">
         <div class="conversation-list" id="conversationList"></div>
         <div class="chat-area">
@@ -710,33 +663,70 @@
     </div>
 </div>
 
+<!-- CHECKOUT MODAL (FULL SCREEN) -->
+<div id="checkoutModal" class="checkout-modal">
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <h2><i class="fas fa-credit-card"></i> Complete Your Order</h2>
+            <button class="close-checkout" onclick="closeCheckout()">×</button>
+        </div>
+        <div class="checkout-body">
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h3>📦 Order Summary</h3>
+                <div id="checkoutItemsList" class="summary-items"></div>
+                <div class="summary-total" id="checkoutTotal">Total: ₱0</div>
+            </div>
+            
+            <!-- Delivery Information -->
+            <div class="form-group">
+                <label>🎮 Roblox Username <span style="color:#ef4444;">*</span></label>
+                <input type="text" id="checkoutRobloxUser" placeholder="Enter your Roblox username">
+            </div>
+            
+            <div class="row-2">
+                <div class="form-group">
+                    <label>📧 Email Address <span style="color:#ef4444;">*</span></label>
+                    <input type="email" id="checkoutEmail" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>📞 Discord Username (optional)</label>
+                    <input type="text" id="checkoutDiscord" placeholder="Discord#0000">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>📍 Delivery Instructions (optional)</label>
+                <textarea id="checkoutInstructions" rows="2" placeholder="Any special instructions for delivery?"></textarea>
+            </div>
+            
+            <!-- Tip Section (Like Luger.gg) -->
+            <div class="form-group">
+                <label>💝 Support the team - Add a tip!</label>
+                <div class="tip-options">
+                    <button type="button" class="tip-btn" data-tip="0">No tip</button>
+                    <button type="button" class="tip-btn" data-tip="5">₱5</button>
+                    <button type="button" class="tip-btn" data-tip="10">₱10</button>
+                    <button type="button" class="tip-btn" data-tip="25">₱25</button>
+                    <button type="button" class="tip-btn" data-tip="50">₱50</button>
+                    <input type="number" id="customTip" class="tip-custom" placeholder="Custom ₱" min="0" step="5">
+                </div>
+            </div>
+        </div>
+        <div class="checkout-footer">
+            <button class="btn-cancel" onclick="closeCheckout()">Cancel</button>
+            <button class="btn-place-order" onclick="placeOrder()">Place Order →</button>
+        </div>
+    </div>
+</div>
+
 <!-- CART SIDEBAR -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
     <div style="display:flex; justify-content:space-between; margin-bottom:24px;"><h3>Your cart</h3><button onclick="closeCart()" style="background:none; border:none; font-size:24px; color:white;">✖</button></div>
     <div id="cartItemsList" style="flex:1; overflow-y:auto;"></div>
     <div class="cart-total" id="cartTotal">Total: ₱0</div>
-    <input type="text" id="robloxUser" placeholder="Roblox username" style="width:100%; padding:12px; background:#1e1e2a; border-radius:60px; border:none; margin:12px 0;">
-    <button class="checkout-btn" onclick="checkout()">Place order</button>
-    <div class="payment-disabled">⚠️ Demo mode — payment simulation</div>
-</div>
-
-<!-- RECEIPT MODAL -->
-<div class="receipt-modal" id="receiptModal">
-    <div class="receipt-card">
-        <div class="receipt-icon"><i class="fas fa-check-circle"></i></div>
-        <div class="receipt-title">Order Confirmed!</div>
-        <div class="receipt-details" id="receiptDetails"></div>
-        <div class="delivery-instructions">
-            <strong>📦 How to get your items:</strong><br><br>
-            1️⃣ Add our delivery bot: <a href="https://www.roblox.com/user?id=YOUR_BOT_ID" target="_blank" class="delivery-link">ECHOKNIVES Bot</a><br>
-            2️⃣ Join the private server: <a href="https://www.roblox.com/share?code=e6c8ad7d5eaaf248948b92ce03f740e6&type=Server" target="_blank" class="delivery-link">Click here to join</a><br>
-            3️⃣ Wait in the server — the bot will trade you within 5 minutes<br>
-            4️⃣ If you have issues, reply in the Messages tab<br><br>
-            <span style="font-size:12px; color:#64748b;">Server code: e6c8ad7d5eaaf248948b92ce03f740e6</span>
-        </div>
-        <button class="close-receipt" onclick="closeReceipt()">Done</button>
-    </div>
+    <button class="checkout-btn-cart" onclick="openCheckout()">Proceed to Checkout →</button>
 </div>
 
 <div class="toast" id="toastMsg"></div>
@@ -754,98 +744,259 @@
         document.getElementById('particles').appendChild(p);
     }
 
-    // ---------- GLOBAL STATE ----------
+    // ========== GLOBAL STATE ==========
     let isLoggedIn = false;
     let currentUser = null;
     let isAdmin = false;
     let cart = [];
-    let currentCurrency = "PHP";
-    let currentCategory = "all";
-    let searchQuery = "";
     let conversations = {};
+    let selectedTip = 0;
 
-    // Discord Webhook URL
-    const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d";
-
-    // ---------- ITEMS DATABASE ----------
+    // ========== ITEMS ==========
     const items = [
-        { id: 1, name: "Icewing", category: "knife", rarity: "Godly", price: 72, image: "https://i.imgur.com/jiwvmxq.jpeg" },
-        { id: 2, name: "Hallows Blade", category: "knife", rarity: "Godly", price: 78, image: "https://i.imgur.com/2fGtH7k.png" },
-        { id: 3, name: "Fang", category: "knife", rarity: "Godly", price: 228, image: "https://i.imgur.com/5hJkL9o.png" },
-        { id: 4, name: "Slasher", category: "knife", rarity: "Godly", price: 266, image: "https://i.imgur.com/7uKvH2l.png" },
-        { id: 5, name: "Heat", category: "knife", rarity: "Godly", price: 323, image: "https://i.imgur.com/9mNpR2q.png" },
-        { id: 6, name: "Darkbringer", category: "gun", rarity: "Godly", price: 92000, image: "https://i.imgur.com/8oxgzwa.jpeg" },
-        { id: 7, name: "Lightbringer", category: "gun", rarity: "Godly", price: 92000, image: "https://i.imgur.com/BUljuYV.jpeg" },
-        { id: 8, name: "Harvester", category: "ancient", rarity: "Ancient", price: 608, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
-        { id: 9, name: "Chroma Fang", category: "chroma", rarity: "Chroma", price: 1140, image: "https://i.imgur.com/9mNpR2q.png" },
-        { id: 10, name: "Luger", category: "gun", rarity: "Godly", price: 207, image: "https://i.imgur.com/eEvMBRh.jpeg" }
+        { id: 1, name: "Icewing", price: 72, image: "https://i.imgur.com/jiwvmxq.jpeg" },
+        { id: 2, name: "Batwing", price: 152, image: "https://i.imgur.com/H6CL03y.jpeg" },
+        { id: 3, name: "Harvester", price: 608, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
+        { id: 4, name: "Luger", price: 207, image: "https://i.imgur.com/eEvMBRh.jpeg" },
+        { id: 5, name: "Darkbringer", price: 92000, image: "https://i.imgur.com/8oxgzwa.jpeg" },
+        { id: 6, name: "Lightbringer", price: 92000, image: "https://i.imgur.com/BUljuYV.jpeg" }
     ];
 
-    const symbols = { PHP: "₱", USD: "$", EUR: "€", GBP: "£" };
-    const exchange = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013 };
+    // ========== UI FUNCTIONS ==========
+    function showToast(msg) {
+        const t = document.getElementById("toastMsg");
+        t.innerText = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 3000);
+    }
 
-    function convertPrice(phpPrice) { return (phpPrice * exchange[currentCurrency]).toFixed(2); }
-    function getSymbol() { return symbols[currentCurrency]; }
-    function showToast(msg) { const t = document.getElementById("toastMsg"); t.innerText = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
+    function showHome() {
+        document.getElementById("homePage").style.display = "flex";
+        document.getElementById("shopSection").classList.remove("active");
+        document.getElementById("chatSection").classList.remove("active");
+        document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+        document.querySelector(".nav-link:first-child").classList.add("active");
+    }
 
-    // Discord notification function
-    async function sendDiscordNotification(orderDetails) {
-        const embed = {
-            title: "🛒 NEW ORDER!",
-            color: 0x6366f1,
-            fields: [
-                { name: "📋 Order Number", value: orderDetails.orderNumber, inline: true },
-                { name: "👤 Customer", value: orderDetails.customerName, inline: true },
-                { name: "🎮 Roblox", value: orderDetails.robloxUser, inline: true },
-                { name: "📦 Items", value: orderDetails.items, inline: false },
-                { name: "💰 Total", value: orderDetails.total, inline: true },
-                { name: "💳 Payment", value: "Demo (simulated)", inline: true },
-                { name: "📅 Date", value: new Date().toLocaleString(), inline: true }
-            ],
-            footer: { text: "ECHOKNIVES Order System" },
-            timestamp: new Date().toISOString()
+    function showShop() {
+        document.getElementById("homePage").style.display = "none";
+        document.getElementById("shopSection").classList.add("active");
+        document.getElementById("chatSection").classList.remove("active");
+        document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+        document.querySelectorAll(".nav-link")[1].classList.add("active");
+        renderProducts();
+    }
+
+    function showChat() {
+        document.getElementById("homePage").style.display = "none";
+        document.getElementById("shopSection").classList.remove("active");
+        document.getElementById("chatSection").classList.add("active");
+        document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+        document.getElementById("chatTabBtn").classList.add("active");
+        loadConversations();
+    }
+
+    function renderProducts() {
+        const container = document.getElementById("productsGrid");
+        container.innerHTML = items.map(item => `
+            <div class="product-card">
+                <div class="product-img"><img src="${item.image}" onerror="this.src='https://placehold.co/200x200/6366f1/white?text=MM2'" alt="${item.name}"></div>
+                <div class="product-info">
+                    <div class="product-name">${item.name}</div>
+                    <div class="product-price">₱${item.price.toLocaleString()}</div>
+                    <button class="add-to-cart" onclick="addToCart(${item.id})">Add to cart</button>
+                </div>
+            </div>
+        `).join("");
+    }
+
+    function addToCart(id) {
+        if (!isLoggedIn) { showToast("Please login first"); handleLogin(); return; }
+        const item = items.find(i => i.id === id);
+        const existing = cart.find(i => i.id === id);
+        if (existing) existing.qty++;
+        else cart.push({ ...item, qty: 1 });
+        updateCartUI();
+        showToast(`${item.name} added to cart`);
+    }
+
+    function updateCartUI() {
+        const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+        const count = cart.reduce((s, i) => s + i.qty, 0);
+        document.getElementById("cartCount").innerText = count;
+        document.getElementById("cartTotal").innerHTML = `Total: ₱${total.toLocaleString()}`;
+        const container = document.getElementById("cartItemsList");
+        if (!cart.length) { container.innerHTML = "<p style='text-align:center; margin-top:20px'>Cart is empty</p>"; return; }
+        container.innerHTML = cart.map(item => `
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                <div><strong>${item.name}</strong><br>₱${item.price.toLocaleString()} x${item.qty}</div>
+                <div><button onclick="removeItem(${item.id})" style="background:#ef4444; border:none; border-radius:30px; padding:4px 12px;">✖</button></div>
+            </div>
+        `).join("");
+    }
+
+    function removeItem(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
+    function toggleCart() { document.getElementById("cartSidebar").classList.add("open"); document.getElementById("overlay").style.display = "block"; }
+    function closeCart() { document.getElementById("cartSidebar").classList.remove("open"); document.getElementById("overlay").style.display = "none"; }
+
+    // ===== CHECKOUT SYSTEM =====
+    function openCheckout() {
+        if (!isLoggedIn) { showToast("Please login first"); handleLogin(); return; }
+        if (cart.length === 0) { showToast("Your cart is empty"); return; }
+        
+        // Populate checkout summary
+        const container = document.getElementById("checkoutItemsList");
+        const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+        container.innerHTML = cart.map(item => `
+            <div class="summary-item">
+                <span>${item.name} x${item.qty}</span>
+                <span>₱${(item.price * item.qty).toLocaleString()}</span>
+            </div>
+        `).join("");
+        
+        document.getElementById("checkoutTotal").innerHTML = `Total: ₱${subtotal.toLocaleString()}`;
+        document.getElementById("checkoutModal").classList.add("show");
+        closeCart();
+        
+        // Setup tip buttons
+        selectedTip = 0;
+        document.querySelectorAll(".tip-btn").forEach(btn => {
+            btn.classList.remove("selected");
+            if (btn.dataset.tip === "0") btn.classList.add("selected");
+        });
+        document.getElementById("customTip").value = "";
+    }
+
+    function closeCheckout() { document.getElementById("checkoutModal").classList.remove("show"); }
+
+    // Tip button handlers
+    document.querySelectorAll(".tip-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            document.querySelectorAll(".tip-btn").forEach(b => b.classList.remove("selected"));
+            this.classList.add("selected");
+            selectedTip = parseInt(this.dataset.tip);
+            document.getElementById("customTip").value = "";
+            updateCheckoutTotal();
+        });
+    });
+
+    document.getElementById("customTip").addEventListener("input", function() {
+        document.querySelectorAll(".tip-btn").forEach(b => b.classList.remove("selected"));
+        selectedTip = parseInt(this.value) || 0;
+        updateCheckoutTotal();
+    });
+
+    function updateCheckoutTotal() {
+        const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+        const total = subtotal + selectedTip;
+        document.getElementById("checkoutTotal").innerHTML = `Subtotal: ₱${subtotal.toLocaleString()}<br>Tip: ₱${selectedTip.toLocaleString()}<br><strong>Total: ₱${total.toLocaleString()}</strong>`;
+    }
+
+    function placeOrder() {
+        const robloxUser = document.getElementById("checkoutRobloxUser").value.trim();
+        const email = document.getElementById("checkoutEmail").value.trim();
+        
+        if (!robloxUser) { showToast("Please enter your Roblox username"); return; }
+        if (!email) { showToast("Please enter your email address"); return; }
+        
+        const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+        const total = subtotal + selectedTip;
+        const orderNumber = 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+        
+        // Create order object
+        const order = {
+            orderNumber: orderNumber,
+            items: cart.map(i => `${i.name} x${i.qty}`).join(', '),
+            subtotal: `₱${subtotal.toLocaleString()}`,
+            tip: `₱${selectedTip.toLocaleString()}`,
+            total: `₱${total.toLocaleString()}`,
+            robloxUser: robloxUser,
+            email: email,
+            discord: document.getElementById("checkoutDiscord").value,
+            instructions: document.getElementById("checkoutInstructions").value,
+            status: "pending",
+            date: new Date().toLocaleString()
         };
-
-        try {
-            await fetch(DISCORD_WEBHOOK, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ embeds: [embed] })
-            });
-            console.log("Discord notification sent");
-        } catch (err) {
-            console.error("Discord webhook error:", err);
+        
+        // Save order to localStorage
+        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        orders.push(order);
+        localStorage.setItem('orders', JSON.stringify(orders));
+        
+        // Send receipt message to chat
+        if (!conversations[currentUser?.uid]) conversations[currentUser.uid] = [];
+        let conv = conversations[currentUser.uid].find(c => c.with === "ECHOKNIVES Support");
+        if (!conv) {
+            conv = { with: "ECHOKNIVES Support", messages: [] };
+            conversations[currentUser.uid].push(conv);
         }
+        conv.messages.push({
+            sender: "system",
+            text: `✅ ORDER PLACED! #${orderNumber}\n\nItems: ${order.items}\nTotal: ${order.total}\nRoblox: @${robloxUser}\n\n📦 Delivery instructions have been sent to the team. You will be notified when your order is ready.`,
+            time: Date.now()
+        });
+        localStorage.setItem("echoknives_conversations", JSON.stringify(conversations));
+        
+        // Show success and clear cart
+        showToast(`✅ Order placed! Order #${orderNumber}`);
+        cart = [];
+        updateCartUI();
+        closeCheckout();
+        
+        // Show receipt in chat
+        if (isLoggedIn) loadConversations();
+        
+        // Optional: Send to Discord webhook
+        fetch('https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                embeds: [{
+                    title: '🛒 NEW ORDER!',
+                    color: 0x6366f1,
+                    fields: [
+                        { name: 'Order #', value: orderNumber, inline: true },
+                        { name: 'Customer', value: email, inline: true },
+                        { name: 'Roblox', value: robloxUser, inline: true },
+                        { name: 'Items', value: order.items, inline: false },
+                        { name: 'Subtotal', value: order.subtotal, inline: true },
+                        { name: 'Tip', value: order.tip, inline: true },
+                        { name: 'Total', value: order.total, inline: true }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            })
+        }).catch(e => console.error);
     }
 
-    // ---------- AUTH ----------
-    function handleLogin() {
-        window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider)
-            .then(result => {
-                currentUser = result.user;
-                isLoggedIn = true;
-                isAdmin = (currentUser.email === "Sigmake5@gmail.com" || currentUser.displayName === "Sigmake5");
-                updateUserUI();
-                showToast(`Welcome ${currentUser.displayName || currentUser.email}`);
-                document.getElementById("messagesTabBtn").style.display = "block";
-                loadConversations();
-                renderProducts();
-            })
-            .catch(err => showToast("Login failed: " + err.message));
+    // ===== AUTH =====
+    async function handleLogin() {
+        try {
+            const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
+            currentUser = result.user;
+            isLoggedIn = true;
+            isAdmin = (currentUser.email === "ivanmendones13@gmail.com");
+            updateUserUI();
+            showToast(`Welcome ${currentUser.displayName || currentUser.email}`);
+            document.getElementById("chatTabBtn").style.display = "block";
+            loadConversations();
+            renderProducts();
+        } catch (err) { showToast("Login failed"); }
     }
+
     function logout() {
         window.firebaseSignOut(window.firebaseAuth).then(() => {
             isLoggedIn = false;
             currentUser = null;
-            isAdmin = false;
             cart = [];
             updateCartUI();
             updateUserUI();
-            document.getElementById("messagesTabBtn").style.display = "none";
+            document.getElementById("chatTabBtn").style.display = "none";
             showToast("Logged out");
             renderProducts();
         });
     }
+
     function updateUserUI() {
         const userDiv = document.getElementById("userInfo");
         if (isLoggedIn && currentUser) {
@@ -854,145 +1005,38 @@
             userDiv.innerHTML = `<div class="avatar"><i class="fas fa-user"></i></div><span>Guest</span><button class="login-header-btn" onclick="handleLogin()" style="background:#6366f1; border:none; padding:6px 14px; border-radius:30px; color:white;">Login</button>`;
         }
     }
+
     window.handleAuthStateChanged = (user) => {
         if (user && !isLoggedIn) {
             currentUser = user;
             isLoggedIn = true;
-            isAdmin = (user.email === "Sigmake5@gmail.com" || user.displayName === "Sigmake5");
+            isAdmin = (user.email === "ivanmendones13@gmail.com");
             updateUserUI();
-            document.getElementById("messagesTabBtn").style.display = "block";
+            document.getElementById("chatTabBtn").style.display = "block";
             loadConversations();
             renderProducts();
-        } else if (!user && isLoggedIn) {
-            logout();
         }
     };
 
-    // ---------- SHOP & CART ----------
-    function renderProducts() {
-        let filtered = items.filter(item => {
-            const matchCat = currentCategory === "all" ? true : item.category === currentCategory;
-            const matchSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
-            return matchCat && matchSearch;
-        });
-        const container = document.getElementById("productsGrid");
-        container.innerHTML = filtered.map(item => `
-            <div class="product-card">
-                <div class="product-img"><img src="${item.image}" onerror="this.src='https://placehold.co/200x200/6366f1/white?text=MM2'" alt="${item.name}"></div>
-                <div class="product-info">
-                    <div class="product-name">${item.name}</div>
-                    <div class="product-price">${getSymbol()}${convertPrice(item.price)}</div>
-                    <button class="add-to-cart" onclick="attemptAddToCart(${item.id})" ${!isLoggedIn ? 'disabled' : ''}>${isLoggedIn ? 'Add to cart' : 'Login to buy'}</button>
-                </div>
-            </div>
-        `).join("");
-    }
-    function attemptAddToCart(id) {
-        if (!isLoggedIn) { showToast("Please login first"); handleLogin(); return; }
-        const item = items.find(i => i.id === id);
-        const existing = cart.find(i => i.id === id);
-        if (existing) existing.qty++;
-        else cart.push({ ...item, qty: 1 });
-        updateCartUI();
-        showToast(`${item.name} added`);
-    }
-    function updateCartUI() {
-        const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-        const itemCount = cart.reduce((s, i) => s + i.qty, 0);
-        document.getElementById("cartCount").innerText = itemCount;
-        document.getElementById("cartTotal").innerHTML = `Total: ${getSymbol()}${convertPrice(total)}`;
-        const container = document.getElementById("cartItemsList");
-        if (!cart.length) { container.innerHTML = "<p style='text-align:center; margin-top:20px'>Cart empty</p>"; return; }
-        container.innerHTML = cart.map(item => `
-            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-                <div><strong>${item.name}</strong><br>${getSymbol()}${convertPrice(item.price)} x${item.qty}</div>
-                <div><button onclick="removeItem(${item.id})" style="background:#ef4444; border:none; border-radius:30px; padding:4px 12px;">✖</button></div>
-            </div>
-        `).join("");
-    }
-    function removeItem(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
-
-    // Checkout with Discord notification
-    async function checkout() {
-        if (!isLoggedIn) { showToast("Please login first"); handleLogin(); return; }
-        const robloxUser = document.getElementById("robloxUser").value.trim();
-        if (!robloxUser) { showToast("Enter Roblox username"); return; }
-        if (cart.length === 0) { showToast("Cart empty"); return; }
-        const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-        const orderNumber = 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
-        const receiptHTML = `
-            <div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div>
-            <div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div>
-            <div class="receipt-row"><strong>Items:</strong> ${cart.map(i => `${i.name} x${i.qty}`).join(', ')}</div>
-            <div class="receipt-row"><strong>Total:</strong> ${getSymbol()}${convertPrice(total)}</div>
-            <div class="receipt-row"><strong>Roblox:</strong> @${robloxUser}</div>
-            <div class="receipt-row"><strong>Status:</strong> <span style="color:#10b981;">Pending Delivery</span></div>
-        `;
-        document.getElementById("receiptDetails").innerHTML = receiptHTML;
-        document.getElementById("receiptModal").classList.add("show");
-
-        // Prepare order details for Discord
-        const orderDetails = {
-            orderNumber: orderNumber,
-            customerName: currentUser.displayName || currentUser.email,
-            robloxUser: robloxUser,
-            items: cart.map(i => `${i.name} x${i.qty}`).join(', '),
-            total: `${getSymbol()}${convertPrice(total)}`
-        };
-        
-        // Send Discord notification
-        await sendDiscordNotification(orderDetails);
-        
-        // Send receipt message to chat (private)
-        if (!conversations[currentUser.uid]) conversations[currentUser.uid] = [];
-        let conv = conversations[currentUser.uid].find(c => c.with === "ECHOKNIVES Support");
-        if (!conv) {
-            conv = { with: "ECHOKNIVES Support", messages: [] };
-            conversations[currentUser.uid].push(conv);
-        }
-        conv.messages.push({ sender: "system", text: `✅ ORDER #${orderNumber}\nItems: ${cart.map(i => `${i.name} x${i.qty}`).join(', ')}\nTotal: ${getSymbol()}${convertPrice(total)}\nRoblox: @${robloxUser}\nDelivery: Join private server & add bot`, time: Date.now() });
-        localStorage.setItem("echoknives_conversations", JSON.stringify(conversations));
-        
-        cart = [];
-        updateCartUI();
-        closeCart();
-    }
-    function closeReceipt() { document.getElementById("receiptModal").classList.remove("show"); }
-    function toggleCart() { document.getElementById("cartSidebar").classList.add("open"); document.getElementById("overlay").style.display = "block"; }
-    function closeCart() { document.getElementById("cartSidebar").classList.remove("open"); document.getElementById("overlay").style.display = "none"; }
-    function changeCurrency() { currentCurrency = document.getElementById("currencySelect").value; renderProducts(); updateCartUI(); }
-    function filterItems() { searchQuery = document.getElementById("searchInput").value; renderProducts(); }
-
-    // Categories
-    function initCategories() {
-        document.querySelectorAll(".category-btn").forEach(btn => {
-            btn.addEventListener("click", () => {
-                document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                currentCategory = btn.dataset.cat;
-                renderProducts();
-            });
-        });
-    }
-
-    // ---------- PRIVATE MESSAGING ----------
+    // ===== CHAT =====
     function loadConversations() {
         if (!currentUser) return;
         const convs = conversations[currentUser.uid] || [];
         const listDiv = document.getElementById("conversationList");
         if (!convs.length) { listDiv.innerHTML = "<div style='padding:16px; text-align:center; color:#64748b'>No conversations</div>"; return; }
-        listDiv.innerHTML = convs.map((conv, idx) => `<div class="conversation-item ${idx === 0 ? 'active' : ''}" onclick="selectConversation(${idx})">${conv.with}</div>`).join("");
+        listDiv.innerHTML = convs.map((conv, idx) => `<div class="conversation-item ${idx === 0 ? 'active' : ''}" onclick="selectConversation(${idx})"><div class="conversation-name">${conv.with}</div></div>`).join("");
         if (convs.length) selectConversation(0);
     }
+
     function selectConversation(idx) {
         const convs = conversations[currentUser.uid] || [];
         if (!convs[idx]) return;
         const messages = convs[idx].messages || [];
         const container = document.getElementById("chatMessages");
-        container.innerHTML = messages.map(msg => `<div class="message ${msg.sender === currentUser.uid ? 'sent' : 'received'}">${msg.text}<div style="font-size:10px; opacity:0.6;">${new Date(msg.time).toLocaleTimeString()}</div></div>`).join("");
+        container.innerHTML = messages.map(msg => `<div class="message ${msg.sender === currentUser.uid ? 'sent' : 'received'}">${msg.text}<div class="message-time">${new Date(msg.time).toLocaleTimeString()}</div></div>`).join("");
         container.scrollTop = container.scrollHeight;
-        window.currentConvoIdx = idx;
     }
+
     function sendMessage() {
         if (!isLoggedIn) { showToast("Login to chat"); handleLogin(); return; }
         const input = document.getElementById("chatInput");
@@ -1010,36 +1054,10 @@
         selectConversation(0);
     }
 
-    // Load saved convos
+    // Load saved conversations
     const savedConvs = localStorage.getItem("echoknives_conversations");
     if (savedConvs) conversations = JSON.parse(savedConvs);
 
-    // Navigation
-    function showHome() {
-        document.getElementById("homePage").style.display = "flex";
-        document.getElementById("shopSection").classList.remove("active");
-        document.getElementById("messagesSection").classList.remove("active");
-        document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
-        document.querySelector(".nav-link:first-child").classList.add("active");
-    }
-    function showShop() {
-        document.getElementById("homePage").style.display = "none";
-        document.getElementById("shopSection").classList.add("active");
-        document.getElementById("messagesSection").classList.remove("active");
-        document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
-        document.querySelectorAll(".nav-link")[1].classList.add("active");
-        renderProducts();
-    }
-    function showMessages() {
-        document.getElementById("homePage").style.display = "none";
-        document.getElementById("shopSection").classList.remove("active");
-        document.getElementById("messagesSection").classList.add("active");
-        document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
-        document.getElementById("messagesTabBtn").classList.add("active");
-        loadConversations();
-    }
-
-    initCategories();
     renderProducts();
     updateCartUI();
     showHome();
