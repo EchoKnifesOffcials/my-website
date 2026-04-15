@@ -53,41 +53,42 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%);
-            color: #fff;
+            background: #f5f7fe;
+            color: #1a1a2e;
             overflow-x: hidden;
-            min-height: 100vh;
         }
 
-        .animated-bg {
+        /* WHITE VFX BACKGROUND */
+        .vfx-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -2;
-            background: radial-gradient(circle at 20% 50%, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%);
+            background: linear-gradient(145deg, #ffffff 0%, #f0f4ff 100%);
         }
 
-        .glow-orb {
+        .white-orb {
             position: fixed;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
+            filter: blur(100px);
+            opacity: 0.4;
             z-index: -1;
-            animation: float 25s infinite ease-in-out;
+            animation: floatWhite 25s infinite ease-in-out;
         }
 
-        .orb-1 { width: 600px; height: 600px; background: #6c5ce7; top: -300px; left: -300px; }
-        .orb-2 { width: 500px; height: 500px; background: #a855f7; bottom: -250px; right: -250px; animation-delay: 5s; }
-        .orb-3 { width: 400px; height: 400px; background: #ec4899; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 10s; opacity: 0.15; }
+        .orb-w1 { width: 600px; height: 600px; background: #c7d2fe; top: -300px; left: -300px; }
+        .orb-w2 { width: 500px; height: 500px; background: #bfdbfe; bottom: -250px; right: -250px; animation-delay: 5s; }
+        .orb-w3 { width: 400px; height: 400px; background: #e0e7ff; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 10s; opacity: 0.5; }
 
-        @keyframes float {
+        @keyframes floatWhite {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(50px, -50px) scale(1.1); }
-            66% { transform: translate(-30px, 30px) scale(0.9); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
         }
 
+        /* Floating white particles */
         .particles {
             position: fixed;
             top: 0;
@@ -100,7 +101,7 @@
 
         .particle {
             position: absolute;
-            background: rgba(108, 92, 231, 0.4);
+            background: rgba(100, 116, 139, 0.15);
             border-radius: 50%;
             pointer-events: none;
             animation: particleFloat 20s infinite linear;
@@ -110,16 +111,34 @@
             0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
             10% { opacity: 0.5; }
             90% { opacity: 0.5; }
-            100% { transform: translateY(-100vh) translateX(100px) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(-100vh) translateX(50px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Floating sparkles */
+        .sparkle {
+            position: fixed;
+            color: rgba(99, 102, 241, 0.2);
+            font-size: 12px;
+            pointer-events: none;
+            animation: sparkleFloat 15s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes sparkleFloat {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) translateX(40px); opacity: 0; }
         }
 
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1a1a3e; }
-        ::-webkit-scrollbar-thumb { background: #6c5ce7; border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; }
+        ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
 
+        /* Modern Header */
         .header {
-            background: rgba(15, 12, 41, 0.8);
-            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
             padding: 15px 5%;
             display: flex;
             justify-content: space-between;
@@ -127,9 +146,10 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(108, 92, 231, 0.3);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
             flex-wrap: wrap;
             gap: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
         }
 
         .logo {
@@ -141,21 +161,15 @@
 
         .logo-icon {
             font-size: 32px;
-            color: #6c5ce7;
-            filter: drop-shadow(0 0 15px rgba(108, 92, 231, 0.5));
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            color: #6366f1;
+            filter: drop-shadow(0 0 8px rgba(99,102,241,0.3));
         }
 
         .logo-text {
             font-family: 'Orbitron', monospace;
             font-size: 24px;
             font-weight: 800;
-            background: linear-gradient(135deg, #fff, #a855f7);
+            background: linear-gradient(135deg, #4f46e5, #818cf8);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -163,16 +177,16 @@
 
         .logo-sub {
             font-size: 10px;
-            color: #888;
+            color: #64748b;
             letter-spacing: 2px;
         }
 
         .nav-links {
             display: flex;
             gap: 10px;
-            background: rgba(108, 92, 231, 0.1);
+            background: rgba(99, 102, 241, 0.08);
             padding: 5px;
-            border-radius: 50px;
+            border-radius: 60px;
         }
 
         .nav-link {
@@ -181,21 +195,21 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
-            color: #ccc;
+            color: #475569;
             border: none;
             background: transparent;
             font-size: 14px;
         }
 
         .nav-link:hover {
-            color: white;
-            background: rgba(108, 92, 231, 0.3);
+            color: #4f46e5;
+            background: rgba(99, 102, 241, 0.15);
         }
 
         .nav-link.active {
-            background: #6c5ce7;
+            background: #6366f1;
             color: white;
-            box-shadow: 0 0 20px rgba(108, 92, 231, 0.5);
+            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
         }
 
         .top-right {
@@ -207,44 +221,46 @@
 
         .dropdown { position: relative; }
         .dropdown-btn {
-            background: rgba(108, 92, 231, 0.2);
-            border: 1px solid rgba(108, 92, 231, 0.3);
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
             padding: 8px 18px;
-            border-radius: 30px;
-            color: white;
+            border-radius: 40px;
+            color: #334155;
             cursor: pointer;
             font-size: 13px;
             transition: all 0.3s;
         }
-        .dropdown-btn:hover { background: #6c5ce7; border-color: #6c5ce7; }
+        .dropdown-btn:hover { background: #6366f1; color: white; border-color: #6366f1; }
         .dropdown-content {
             display: none;
             position: absolute;
             right: 0;
             top: 45px;
-            background: rgba(15, 12, 41, 0.98);
+            background: white;
             backdrop-filter: blur(15px);
             min-width: 220px;
-            border-radius: 16px;
-            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
             z-index: 1000;
             overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
         }
         .dropdown-content.show { display: block; }
         .dropdown-item {
             padding: 12px 20px;
             cursor: pointer;
             font-size: 13px;
-            border-bottom: 1px solid rgba(108, 92, 231, 0.1);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
             transition: all 0.2s;
+            color: #334155;
         }
-        .dropdown-item:hover { background: rgba(108, 92, 231, 0.3); }
-        .dropdown-item i { width: 24px; margin-right: 12px; color: #6c5ce7; }
+        .dropdown-item:hover { background: rgba(99, 102, 241, 0.1); }
+        .dropdown-item i { width: 24px; margin-right: 12px; color: #6366f1; }
 
         .currency-selector {
-            background: rgba(108, 92, 231, 0.2);
-            border: 1px solid rgba(108, 92, 231, 0.3);
-            border-radius: 30px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 40px;
             padding: 8px 16px;
             display: flex;
             align-items: center;
@@ -253,7 +269,7 @@
         .currency-selector select {
             background: transparent;
             border: none;
-            color: white;
+            color: #334155;
             font-size: 13px;
             cursor: pointer;
             outline: none;
@@ -263,8 +279,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(108, 92, 231, 0.2);
-            border: 1px solid rgba(108, 92, 231, 0.3);
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
             padding: 5px 15px;
             border-radius: 40px;
         }
@@ -272,14 +288,15 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: #6c5ce7;
+            background: #6366f1;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
             font-weight: bold;
         }
         .login-btn, .logout-btn {
-            background: #6c5ce7;
+            background: #6366f1;
             border: none;
             padding: 6px 20px;
             border-radius: 30px;
@@ -289,25 +306,26 @@
             font-weight: 600;
             transition: all 0.3s;
         }
-        .login-btn:hover, .logout-btn:hover { background: #a855f7; transform: scale(1.02); }
-        .admin-badge { background: #a855f7; padding: 3px 12px; border-radius: 20px; font-size: 10px; font-weight: bold; }
+        .login-btn:hover, .logout-btn:hover { background: #4f46e5; transform: scale(1.02); }
+        .admin-badge { background: #f59e0b; color: #1e293b; padding: 3px 12px; border-radius: 30px; font-size: 10px; font-weight: bold; }
 
         .cart-icon {
             position: relative;
             cursor: pointer;
             font-size: 22px;
-            background: rgba(108, 92, 231, 0.2);
-            border: 1px solid rgba(108, 92, 231, 0.3);
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
             padding: 8px 16px;
             border-radius: 40px;
             transition: all 0.3s;
+            color: #334155;
         }
-        .cart-icon:hover { background: #6c5ce7; transform: scale(1.05); }
+        .cart-icon:hover { background: #6366f1; color: white; transform: scale(1.02); }
         .cart-count {
             position: absolute;
             top: -5px;
             right: -5px;
-            background: #a855f7;
+            background: #ef4444;
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -315,8 +333,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
         }
 
+        /* Hero Section - White Theme */
         .hero {
             min-height: 85vh;
             display: flex;
@@ -329,13 +349,13 @@
         .hero-content { flex: 1; min-width: 300px; }
         .hero-badge {
             display: inline-block;
-            background: rgba(108, 92, 231, 0.2);
+            background: rgba(99, 102, 241, 0.1);
             padding: 8px 25px;
             border-radius: 40px;
             font-size: 14px;
-            color: #a855f7;
+            color: #6366f1;
             margin-bottom: 25px;
-            border: 1px solid rgba(108, 92, 231, 0.3);
+            border: 1px solid rgba(99, 102, 241, 0.2);
         }
         .hero-title {
             font-size: 68px;
@@ -343,16 +363,17 @@
             line-height: 1.1;
             margin-bottom: 25px;
             font-family: 'Orbitron', monospace;
+            color: #0f172a;
         }
         .hero-title span {
-            background: linear-gradient(135deg, #6c5ce7, #a855f7);
+            background: linear-gradient(135deg, #4f46e5, #818cf8);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
         .hero-desc {
             font-size: 18px;
-            color: #aaa;
+            color: #475569;
             margin-bottom: 35px;
             line-height: 1.6;
         }
@@ -361,15 +382,15 @@
             gap: 40px;
             margin-bottom: 45px;
         }
-        .hero-stat h3 { font-size: 36px; font-weight: 800; color: #6c5ce7; }
-        .hero-stat p { font-size: 12px; color: #888; }
+        .hero-stat h3 { font-size: 36px; font-weight: 800; color: #6366f1; }
+        .hero-stat p { font-size: 12px; color: #64748b; }
         .hero-buttons {
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
         }
         .btn-primary {
-            background: linear-gradient(135deg, #6c5ce7, #a855f7);
+            background: linear-gradient(135deg, #6366f1, #818cf8);
             border: none;
             padding: 14px 35px;
             border-radius: 40px;
@@ -378,99 +399,102 @@
             cursor: pointer;
             transition: all 0.3s;
             font-size: 16px;
+            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
         }
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(108, 92, 231, 0.4);
+            box-shadow: 0 15px 30px rgba(99,102,241,0.4);
         }
         .btn-secondary {
-            background: rgba(108, 92, 231, 0.2);
-            border: 1px solid rgba(108, 92, 231, 0.3);
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
             padding: 14px 35px;
             border-radius: 40px;
-            color: white;
+            color: #4f46e5;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
         }
         .btn-secondary:hover {
-            background: rgba(108, 92, 231, 0.4);
+            background: rgba(99, 102, 241, 0.2);
             transform: translateY(-3px);
         }
         .hero-image { flex: 1; min-width: 300px; text-align: center; }
         .hero-image img {
             max-width: 100%;
-            filter: drop-shadow(0 0 40px rgba(108, 92, 231, 0.4));
+            filter: drop-shadow(0 10px 25px rgba(99,102,241,0.2));
             animation: floatImage 4s ease-in-out infinite;
         }
-        @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }
+        @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
+        /* Admin Panel */
         .admin-panel {
-            background: rgba(15, 12, 41, 0.9);
-            backdrop-filter: blur(15px);
+            background: white;
             margin: 20px 5%;
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 20px;
-            border: 2px solid #a855f7;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
             display: none;
         }
         .admin-panel.show { display: block; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-        .admin-search { padding: 10px 18px; background: rgba(108, 92, 231, 0.2); border: 1px solid rgba(108, 92, 231, 0.3); border-radius: 30px; color: white; width: 250px; }
+        .admin-search { padding: 10px 18px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 40px; color: #1e293b; width: 250px; }
         .admin-items-list { max-height: 400px; overflow-y: auto; }
-        .admin-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid rgba(108, 92, 231, 0.1); flex-wrap: wrap; gap: 10px; }
+        .admin-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 10px; }
         .admin-item-info { display: flex; align-items: center; gap: 15px; }
         .admin-item-info img { width: 45px; height: 45px; object-fit: contain; }
-        .admin-price-input { width: 100px; padding: 6px; border-radius: 20px; background: rgba(108,92,231,0.2); border: 1px solid #6c5ce7; color: white; text-align: center; }
-        .update-price-btn { background: #10b981; border: none; padding: 6px 12px; border-radius: 20px; color: white; cursor: pointer; }
-        .delete-item-btn { background: #dc2626; border: none; padding: 6px 12px; border-radius: 20px; color: white; cursor: pointer; }
-        .toggle-status { background: #6c5ce7; border: none; padding: 5px 15px; border-radius: 25px; color: white; cursor: pointer; font-size: 11px; }
+        .admin-price-input { width: 100px; padding: 6px; border-radius: 30px; background: #f1f5f9; border: 1px solid #cbd5e1; color: #1e293b; text-align: center; }
+        .update-price-btn { background: #10b981; border: none; padding: 6px 15px; border-radius: 30px; color: white; cursor: pointer; }
+        .delete-item-btn { background: #ef4444; border: none; padding: 6px 15px; border-radius: 30px; color: white; cursor: pointer; }
+        .toggle-status { background: #6366f1; border: none; padding: 5px 15px; border-radius: 30px; color: white; cursor: pointer; font-size: 11px; }
         .toggle-status.available { background: #10b981; }
-        .add-item-form { background: rgba(108,92,231,0.1); border-radius: 20px; padding: 20px; margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-        .add-item-form input, .add-item-form select { background: rgba(108,92,231,0.2); border: 1px solid rgba(108,92,231,0.3); padding: 10px; border-radius: 20px; color: white; }
-        .add-item-btn { background: #6c5ce7; border: none; padding: 10px 20px; border-radius: 30px; color: white; cursor: pointer; }
+        .add-item-form { background: #f8fafc; border-radius: 24px; padding: 20px; margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+        .add-item-form input, .add-item-form select { background: white; border: 1px solid #e2e8f0; padding: 10px; border-radius: 30px; color: #1e293b; }
+        .add-item-btn { background: #6366f1; border: none; padding: 10px 25px; border-radius: 40px; color: white; cursor: pointer; }
 
+        /* Chat Panel */
         .chat-panel {
-            background: rgba(15, 12, 41, 0.9);
-            backdrop-filter: blur(15px);
+            background: white;
             margin: 20px 5%;
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 20px;
-            border: 1px solid #6c5ce7;
+            border: 1px solid rgba(99, 102, 241, 0.2);
             display: none;
         }
         .chat-panel.show { display: block; }
-        .chat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(108, 92, 231, 0.2); }
+        .chat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #e2e8f0; }
         .chat-conversations { display: flex; gap: 20px; min-height: 400px; }
-        .conversation-list { width: 30%; border-right: 1px solid rgba(108, 92, 231, 0.2); padding-right: 15px; overflow-y: auto; max-height: 400px; }
-        .conversation-item { padding: 12px; cursor: pointer; border-radius: 16px; margin-bottom: 8px; background: rgba(108, 92, 231, 0.1); }
-        .conversation-item:hover { background: rgba(108, 92, 231, 0.3); }
-        .conversation-item.active { background: #6c5ce7; }
+        .conversation-list { width: 30%; border-right: 1px solid #e2e8f0; padding-right: 15px; overflow-y: auto; max-height: 400px; }
+        .conversation-item { padding: 12px; cursor: pointer; border-radius: 20px; margin-bottom: 8px; background: #f8fafc; }
+        .conversation-item:hover { background: rgba(99,102,241,0.1); }
+        .conversation-item.active { background: #6366f1; color: white; }
         .conversation-name { font-weight: 600; font-size: 14px; }
-        .conversation-preview { font-size: 11px; color: #888; margin-top: 4px; }
+        .conversation-preview { font-size: 11px; color: #64748b; margin-top: 4px; }
         .chat-area { flex: 1; display: flex; flex-direction: column; }
-        .chat-messages { flex: 1; height: 350px; overflow-y: auto; padding: 15px; background: rgba(108, 92, 231, 0.05); border-radius: 20px; margin-bottom: 15px; }
+        .chat-messages { flex: 1; height: 350px; overflow-y: auto; padding: 15px; background: #f8fafc; border-radius: 24px; margin-bottom: 15px; }
         .message-bubble { margin-bottom: 12px; display: flex; flex-direction: column; }
         .message-bubble.admin { align-items: flex-start; }
         .message-bubble.user { align-items: flex-end; }
-        .message-text { max-width: 80%; padding: 10px 18px; border-radius: 20px; font-size: 13px; word-break: break-word; }
-        .message-bubble.admin .message-text { background: #6c5ce7; border-bottom-left-radius: 5px; }
-        .message-bubble.user .message-text { background: rgba(108, 92, 231, 0.3); border-bottom-right-radius: 5px; }
-        .message-time { font-size: 10px; color: #888; margin-top: 4px; }
+        .message-text { max-width: 80%; padding: 10px 18px; border-radius: 24px; font-size: 13px; word-break: break-word; }
+        .message-bubble.admin .message-text { background: #6366f1; color: white; border-bottom-left-radius: 5px; }
+        .message-bubble.user .message-text { background: #e2e8f0; color: #1e293b; border-bottom-right-radius: 5px; }
+        .message-time { font-size: 10px; color: #94a3b8; margin-top: 4px; }
         .chat-input-area { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        .chat-input { flex: 1; padding: 12px; border-radius: 30px; background: rgba(108, 92, 231, 0.1); border: 1px solid rgba(108, 92, 231, 0.3); color: white; }
+        .chat-input { flex: 1; padding: 12px; border-radius: 40px; background: #f1f5f9; border: 1px solid #e2e8f0; color: #1e293b; }
         .file-input { display: none; }
-        .attach-btn { background: rgba(108, 92, 231, 0.2); border: none; padding: 12px; border-radius: 50%; cursor: pointer; transition: all 0.3s; }
-        .attach-btn:hover { background: #6c5ce7; }
-        .chat-send { background: #6c5ce7; border: none; padding: 12px 25px; border-radius: 30px; color: white; cursor: pointer; }
+        .attach-btn { background: #e2e8f0; border: none; padding: 12px; border-radius: 50%; cursor: pointer; transition: all 0.3s; color: #475569; }
+        .attach-btn:hover { background: #cbd5e1; }
+        .chat-send { background: #6366f1; border: none; padding: 12px 25px; border-radius: 40px; color: white; cursor: pointer; }
 
+        /* Contact Modal */
         .contact-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(255,255,255,0.95);
             backdrop-filter: blur(20px);
             z-index: 4000;
             display: none;
@@ -479,49 +503,52 @@
         }
         .contact-modal.show { display: flex; }
         .contact-content {
-            background: rgba(15, 12, 41, 0.95);
-            border-radius: 30px;
+            background: white;
+            border-radius: 32px;
             padding: 35px;
             width: 90%;
             max-width: 500px;
-            border: 1px solid #6c5ce7;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.1);
         }
         .contact-content input, .contact-content textarea {
             width: 100%;
             padding: 14px;
             margin: 10px 0;
-            background: rgba(108, 92, 231, 0.1);
-            border: 1px solid rgba(108, 92, 231, 0.3);
-            border-radius: 16px;
-            color: white;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            color: #1e293b;
         }
 
+        /* Shop Container */
         .shop-container { display: none; padding: 40px 5%; }
         .shop-container.active { display: block; }
         
         .filter-bar {
-            background: rgba(15, 12, 41, 0.6);
-            backdrop-filter: blur(10px);
+            background: white;
             padding: 12px 25px;
             margin-bottom: 30px;
             border-radius: 60px;
             display: flex;
             gap: 12px;
             overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e2e8f0;
         }
         .filter-btn {
-            background: rgba(108, 92, 231, 0.2);
+            background: #f1f5f9;
             border: none;
             padding: 8px 25px;
             border-radius: 40px;
-            color: white;
+            color: #475569;
             cursor: pointer;
             font-size: 13px;
             white-space: nowrap;
             transition: all 0.3s;
         }
-        .filter-btn:hover { background: rgba(108, 92, 231, 0.5); }
-        .filter-btn.active { background: #6c5ce7; }
+        .filter-btn:hover { background: rgba(99,102,241,0.2); }
+        .filter-btn.active { background: #6366f1; color: white; }
 
         .stats-banner {
             display: grid;
@@ -530,17 +557,16 @@
             margin-bottom: 40px;
         }
         .stat-card {
-            background: rgba(15, 12, 41, 0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
+            background: white;
+            border-radius: 28px;
             padding: 20px;
             text-align: center;
-            border: 1px solid rgba(108, 92, 231, 0.3);
+            border: 1px solid #e2e8f0;
             transition: all 0.3s;
         }
-        .stat-card:hover { transform: translateY(-5px); border-color: #6c5ce7; }
-        .stat-card h3 { font-size: 32px; font-weight: 800; color: #6c5ce7; }
-        .stat-card p { font-size: 13px; color: #888; margin-top: 5px; }
+        .stat-card:hover { transform: translateY(-5px); border-color: #6366f1; }
+        .stat-card h3 { font-size: 32px; font-weight: 800; color: #6366f1; }
+        .stat-card p { font-size: 13px; color: #64748b; margin-top: 5px; }
 
         .products-grid {
             display: grid;
@@ -548,35 +574,35 @@
             gap: 30px;
         }
         .product-card {
-            background: rgba(15, 12, 41, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
+            background: white;
+            border-radius: 28px;
             overflow: hidden;
             transition: all 0.3s ease;
-            border: 1px solid rgba(108, 92, 231, 0.2);
+            border: 1px solid #e2e8f0;
             position: relative;
         }
         .product-card:hover {
-            transform: translateY(-10px);
-            border-color: #6c5ce7;
-            box-shadow: 0 20px 40px rgba(108, 92, 231, 0.2);
+            transform: translateY(-8px);
+            border-color: #6366f1;
+            box-shadow: 0 15px 35px -10px rgba(99,102,241,0.2);
         }
-        .product-card.offsale { opacity: 0.5; }
+        .product-card.offsale { opacity: 0.6; }
         .offsale-badge {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: #dc2626;
+            background: #ef4444;
             padding: 4px 12px;
             border-radius: 30px;
             font-size: 10px;
             font-weight: bold;
+            color: white;
             z-index: 2;
         }
         .product-image {
             width: 100%;
             aspect-ratio: 1;
-            background: linear-gradient(135deg, #1a1a3e, #0f0c29);
+            background: #f8fafc;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -590,97 +616,98 @@
         }
         .product-card:hover .product-image img { transform: scale(1.05); }
         .product-info { padding: 18px; }
-        .product-name { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+        .product-name { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #0f172a; }
         .product-rarity { font-size: 12px; margin-bottom: 10px; text-transform: uppercase; font-weight: 600; }
         .product-rarity.godly { color: #dc2626; }
-        .product-rarity.ancient { color: #f39c12; }
+        .product-rarity.ancient { color: #f59e0b; }
         .product-rarity.rare { color: #10b981; }
-        .product-rarity.custom { color: #a855f7; }
         .price-container { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 5px; }
-        .original-price { font-size: 14px; color: #888; text-decoration: line-through; }
-        .product-price { font-size: 24px; font-weight: 800; color: #6c5ce7; }
-        .discount-badge { background: #10b981; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: bold; }
+        .original-price { font-size: 14px; color: #94a3b8; text-decoration: line-through; }
+        .product-price { font-size: 24px; font-weight: 800; color: #6366f1; }
+        .discount-badge { background: #10b981; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: bold; color: white; }
         .add-btn {
             width: 100%;
             margin-top: 15px;
             padding: 12px;
-            background: linear-gradient(135deg, #6c5ce7, #a855f7);
+            background: linear-gradient(135deg, #6366f1, #818cf8);
             border: none;
-            border-radius: 30px;
+            border-radius: 40px;
             color: white;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
         }
-        .add-btn:hover:not(:disabled) { transform: scale(1.02); background: #a855f7; }
-        .add-btn:disabled { background: #444; cursor: not-allowed; }
+        .add-btn:hover:not(:disabled) { transform: scale(1.02); background: #4f46e5; }
+        .add-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
 
+        /* Trading Section */
         .trading-container { display: none; padding: 40px 5%; }
         .trading-container.active { display: block; }
         .trading-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
-        .create-trade-btn { background: #6c5ce7; border: none; padding: 12px 30px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; }
-        .create-trade-btn:hover { background: #a855f7; transform: scale(1.02); }
+        .create-trade-btn { background: #6366f1; border: none; padding: 12px 30px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .create-trade-btn:hover { background: #4f46e5; transform: scale(1.02); }
         .trades-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
         .trade-card {
-            background: rgba(15, 12, 41, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
+            background: white;
+            border-radius: 28px;
             padding: 20px;
-            border: 1px solid rgba(108, 92, 231, 0.2);
+            border: 1px solid #e2e8f0;
         }
-        .trade-card:hover { border-color: #6c5ce7; }
-        .trade-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(108, 92, 231, 0.2); }
+        .trade-card:hover { border-color: #6366f1; }
+        .trade-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #e2e8f0; }
         .trade-user { display: flex; align-items: center; gap: 12px; }
-        .trade-avatar { width: 45px; height: 45px; border-radius: 50%; background: #6c5ce7; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; }
-        .trade-offer { background: rgba(108, 92, 231, 0.1); border-radius: 16px; padding: 12px; margin: 15px 0; }
-        .offer-label { font-weight: 600; color: #6c5ce7; }
+        .trade-avatar { width: 45px; height: 45px; border-radius: 50%; background: #6366f1; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; color: white; }
+        .trade-offer { background: #f8fafc; border-radius: 20px; padding: 12px; margin: 15px 0; }
+        .offer-label { font-weight: 600; color: #6366f1; }
         .trade-actions { display: flex; gap: 10px; }
         .accept-trade { flex: 1; background: #10b981; border: none; padding: 10px; border-radius: 30px; color: white; cursor: pointer; font-weight: 600; }
-        .delete-trade { flex: 1; background: #dc2626; border: none; padding: 10px; border-radius: 30px; color: white; cursor: pointer; font-weight: 600; }
+        .delete-trade { flex: 1; background: #ef4444; border: none; padding: 10px; border-radius: 30px; color: white; cursor: pointer; font-weight: 600; }
 
+        /* Cart Sidebar */
         .cart-sidebar {
             position: fixed;
             top: 0;
             right: -450px;
             width: 450px;
             height: 100vh;
-            background: rgba(15, 12, 41, 0.98);
-            backdrop-filter: blur(25px);
+            background: white;
             z-index: 1000;
             transition: right 0.3s;
             padding: 25px;
             display: flex;
             flex-direction: column;
-            border-left: 2px solid #6c5ce7;
+            border-left: 2px solid #6366f1;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.05);
         }
         .cart-sidebar.open { right: 0; }
-        .cart-header { display: flex; justify-content: space-between; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid rgba(108, 92, 231, 0.3); }
-        .close-cart { background: none; border: none; font-size: 28px; cursor: pointer; color: #6c5ce7; }
+        .cart-header { display: flex; justify-content: space-between; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #e2e8f0; }
+        .close-cart { background: none; border: none; font-size: 28px; cursor: pointer; color: #6366f1; }
         .cart-items { flex: 1; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(108, 92, 231, 0.2); }
-        .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #6c5ce7; font-size: 24px; font-weight: 800; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #e2e8f0; }
+        .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #6366f1; font-size: 24px; font-weight: 800; color: #0f172a; }
         .payment-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 20px 0; }
-        .payment-method { background: rgba(108, 92, 231, 0.2); border: 2px solid transparent; border-radius: 16px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.3s; }
-        .payment-method.selected { background: #6c5ce7; border-color: #6c5ce7; }
-        .other-payment-input { width: 100%; padding: 10px; margin-top: 10px; background: rgba(108,92,231,0.2); border: 1px solid rgba(108,92,231,0.3); border-radius: 20px; color: white; display: none; }
-        .roblox-input { width: 100%; padding: 12px; background: rgba(108, 92, 231, 0.1); border: 1px solid rgba(108, 92, 231, 0.3); border-radius: 30px; margin: 15px 0; font-size: 16px; color: white; }
+        .payment-method { background: #f1f5f9; border: 2px solid transparent; border-radius: 20px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.3s; color: #334155; }
+        .payment-method.selected { background: #6366f1; color: white; border-color: #6366f1; }
+        .other-payment-input { width: 100%; padding: 10px; margin-top: 10px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 30px; color: #1e293b; display: none; }
+        .roblox-input { width: 100%; padding: 12px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 40px; margin: 15px 0; font-size: 16px; color: #1e293b; }
         .paypal-button-container { margin: 15px 0; display: none; }
         .checkout-btn { width: 100%; padding: 15px; background: #10b981; border: none; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; }
         .checkout-btn:hover { background: #059669; transform: scale(1.02); }
 
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: none; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 999; display: none; }
         .overlay.show { display: block; }
-        .toast { position: fixed; bottom: 30px; right: 30px; background: #10b981; padding: 14px 28px; border-radius: 16px; z-index: 2000; transform: translateX(400px); transition: transform 0.3s; font-weight: 600; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: #10b981; padding: 14px 28px; border-radius: 20px; z-index: 2000; transform: translateX(400px); transition: transform 0.3s; font-weight: 600; color: white; }
         .toast.show { transform: translateX(0); }
-        .no-trades { text-align: center; padding: 50px; color: #888; }
+        .no-trades { text-align: center; padding: 50px; color: #94a3b8; }
 
+        /* Receipt Modal */
         .receipt-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(255,255,255,0.98);
             backdrop-filter: blur(20px);
             z-index: 5000;
             display: none;
@@ -689,32 +716,35 @@
         }
         .receipt-modal.show { display: flex; }
         .receipt-content {
-            background: linear-gradient(135deg, #fff, #f8f9fa);
-            border-radius: 30px;
+            background: white;
+            border-radius: 40px;
             padding: 35px;
             width: 90%;
             max-width: 500px;
             text-align: center;
-            color: #1a1a2e;
+            color: #0f172a;
             animation: receiptPop 0.5s ease;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
         }
         @keyframes receiptPop {
-            from { opacity: 0; transform: scale(0.9); }
+            from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
         .receipt-icon { font-size: 70px; color: #10b981; margin-bottom: 15px; }
         .receipt-title { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
-        .receipt-details { background: #f0f0f0; border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left; }
+        .receipt-details { background: #f8fafc; border-radius: 24px; padding: 20px; margin: 20px 0; text-align: left; }
         .receipt-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .receipt-close { background: #6c5ce7; border: none; padding: 14px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; width: 100%; }
+        .receipt-close { background: #6366f1; border: none; padding: 14px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; width: 100%; }
 
+        /* Reviews Modal */
         .reviews-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(255,255,255,0.98);
             backdrop-filter: blur(20px);
             z-index: 4000;
             display: none;
@@ -723,27 +753,29 @@
         }
         .reviews-modal.show { display: flex; }
         .reviews-content {
-            background: rgba(15, 12, 41, 0.95);
-            border-radius: 30px;
+            background: white;
+            border-radius: 32px;
             padding: 30px;
             width: 90%;
             max-width: 600px;
             max-height: 80vh;
             overflow-y: auto;
+            border: 1px solid #e2e8f0;
         }
-        .review-item { background: rgba(108, 92, 231, 0.1); border-radius: 20px; padding: 15px; margin-bottom: 15px; }
-        .review-stars { color: #f39c12; margin-bottom: 8px; }
+        .review-item { background: #f8fafc; border-radius: 24px; padding: 15px; margin-bottom: 15px; }
+        .review-stars { color: #f59e0b; margin-bottom: 8px; }
         .star-rating { display: flex; gap: 5px; margin-bottom: 10px; }
-        .star-rating i { font-size: 28px; cursor: pointer; color: #555; transition: all 0.2s; }
-        .star-rating i.active { color: #f39c12; }
+        .star-rating i { font-size: 28px; cursor: pointer; color: #cbd5e1; transition: all 0.2s; }
+        .star-rating i.active { color: #f59e0b; }
 
+        /* History Modal */
         .history-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(255,255,255,0.98);
             backdrop-filter: blur(20px);
             z-index: 4000;
             display: none;
@@ -752,18 +784,19 @@
         }
         .history-modal.show { display: flex; }
         .history-content {
-            background: rgba(15, 12, 41, 0.95);
-            border-radius: 30px;
+            background: white;
+            border-radius: 32px;
             padding: 30px;
             width: 90%;
             max-width: 700px;
             max-height: 80vh;
             overflow-y: auto;
+            border: 1px solid #e2e8f0;
         }
-        .history-status { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-        .history-status.approved { background: #10b981; }
-        .history-status.cancelled { background: #dc2626; }
-        .history-status.pending { background: #f39c12; color: #1a1a2e; }
+        .history-status { display: inline-block; padding: 4px 12px; border-radius: 30px; font-size: 11px; font-weight: 600; }
+        .history-status.approved { background: #10b981; color: white; }
+        .history-status.cancelled { background: #ef4444; color: white; }
+        .history-status.pending { background: #f59e0b; color: white; }
 
         @media (max-width: 768px) {
             .cart-sidebar { width: 100%; right: -100%; }
@@ -773,7 +806,7 @@
             .hero-stats { justify-content: center; }
             .hero-buttons { justify-content: center; }
             .chat-conversations { flex-direction: column; }
-            .conversation-list { width: 100%; border-right: none; border-bottom: 1px solid rgba(108, 92, 231, 0.2); padding-bottom: 15px; margin-bottom: 15px; }
+            .conversation-list { width: 100%; border-right: none; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px; }
             .add-item-form { flex-direction: column; }
             .add-item-form input, .add-item-form select { width: 100%; }
         }
@@ -781,11 +814,12 @@
 </head>
 <body>
 
-<div class="animated-bg"></div>
-<div class="glow-orb orb-1"></div>
-<div class="glow-orb orb-2"></div>
-<div class="glow-orb orb-3"></div>
+<div class="vfx-bg"></div>
+<div class="white-orb orb-w1"></div>
+<div class="white-orb orb-w2"></div>
+<div class="white-orb orb-w3"></div>
 <div class="particles" id="particles"></div>
+<div class="sparkles" id="sparkles"></div>
 
 <div class="header">
     <div class="logo" onclick="showHome()">
@@ -868,7 +902,7 @@
 <div class="chat-panel" id="chatPanel">
     <div class="chat-header">
         <h3><i class="fas fa-comments"></i> Messages</h3>
-        <span id="chatUnreadCount" style="background:#6c5ce7;padding:4px 12px;border-radius:20px;">0</span>
+        <span id="chatUnreadCount" style="background:#6366f1;padding:4px 12px;border-radius:20px;color:white;">0</span>
     </div>
     <div class="chat-conversations">
         <div class="conversation-list" id="conversationList"></div>
@@ -904,7 +938,7 @@
         <div class="hero-stats"><div class="hero-stat"><h3>10K+</h3><p>Items Sold</p></div><div class="hero-stat"><h3>5K+</h3><p>Happy Customers</p></div><div class="hero-stat"><h3>100%</h3><p>Secure</p></div></div>
         <div class="hero-buttons"><button class="btn-primary" onclick="showShop()"><i class="fas fa-shopping-cart"></i> Shop Now</button><button class="btn-secondary" onclick="showTrading()"><i class="fas fa-exchange-alt"></i> Trade Items</button></div>
     </div>
-    <div class="hero-image"><img src="https://i.imgur.com/8QZ7VcL.png" alt="MM2 Knife"></div>
+    <div class="hero-image"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero"></div>
 </div>
 
 <div id="shopPage" class="shop-container">
@@ -944,7 +978,7 @@
     <input type="text" id="otherPaymentMethod" class="other-payment-input" placeholder="Enter payment method...">
     <div id="paypal-button-container" class="paypal-button-container"></div>
     <input type="text" id="checkoutRobloxUsername" class="roblox-input" placeholder="Roblox Username (required)">
-    <div id="voucherSection" style="display:none; margin:10px 0; padding:12px; background:rgba(108,92,231,0.2); border-radius:16px;"><p><i class="fas fa-ticket-alt"></i> 5% off voucher available!</p><div style="display:flex; gap:10px; margin-top:10px;"><button class="verify-yes" onclick="applyVoucher()" style="flex:1; background:#10b981; border:none; padding:8px; border-radius:25px; color:white; cursor:pointer;">Apply</button><button class="verify-no" onclick="dismissVoucher()" style="flex:1; background:#dc2626; border:none; padding:8px; border-radius:25px; color:white; cursor:pointer;">Dismiss</button></div></div>
+    <div id="voucherSection" style="display:none; margin:10px 0; padding:12px; background:#fef3c7; border-radius:20px;"><p><i class="fas fa-ticket-alt"></i> 5% off voucher available!</p><div style="display:flex; gap:10px; margin-top:10px;"><button class="verify-yes" onclick="applyVoucher()" style="flex:1; background:#10b981; border:none; padding:8px; border-radius:25px; color:white; cursor:pointer;">Apply</button><button class="verify-no" onclick="dismissVoucher()" style="flex:1; background:#ef4444; border:none; padding:8px; border-radius:25px; color:white; cursor:pointer;">Dismiss</button></div></div>
     <button class="checkout-btn" id="checkoutBtn" onclick="processPayment()">Place Order</button>
 </div>
 
@@ -957,22 +991,34 @@
 <div class="toast" id="toast"></div>
 
 <script>
-    function createParticles() {
-        const container = document.getElementById('particles');
+    // VFX: Create particles and sparkles
+    function createVFX() {
+        const particleContainer = document.getElementById('particles');
         for (let i = 0; i < 60; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.width = (Math.random() * 6 + 2) + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
-            container.appendChild(particle);
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.style.width = (Math.random() * 6 + 2) + 'px';
+            p.style.height = p.style.width;
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 20 + 's';
+            p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            particleContainer.appendChild(p);
+        }
+        const sparkleContainer = document.getElementById('sparkles');
+        for (let i = 0; i < 80; i++) {
+            const s = document.createElement('div');
+            s.classList.add('sparkle');
+            s.innerHTML = '✦';
+            s.style.left = Math.random() * 100 + '%';
+            s.style.fontSize = (Math.random() * 10 + 8) + 'px';
+            s.style.animationDelay = Math.random() * 20 + 's';
+            s.style.animationDuration = (Math.random() * 20 + 10) + 's';
+            sparkleContainer.appendChild(s);
         }
     }
-    createParticles();
+    createVFX();
 
-    // ========== MM2 ITEMS WITH ALL YOUR IMAGES ==========
+    // ========== MM2 ITEMS WITH ALL IMAGES (Fixed) ==========
     let items = [
         { id: 1, name: "Icewing", type: "knife", price: 100, originalPrice: 180, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/jiwvmxq.jpeg", category: "godly", hasDiscount: true },
         { id: 2, name: "Batwing", type: "knife", price: 152, originalPrice: 220, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/gRFVidm.jpeg", category: "godly", hasDiscount: true },
@@ -1036,8 +1082,8 @@
     
     function loadReviews() {
         const container = document.getElementById('reviewsList');
-        if (reviews.length === 0) { container.innerHTML = '<p style="color:#888;">No reviews yet. Be the first!</p>'; return; }
-        container.innerHTML = reviews.map(r => `<div class="review-item"><div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><div><strong>${r.user}</strong> <span style="font-size:11px;color:#888;">${r.date}</span></div><div class="review-text">${r.text}</div></div>`).join('');
+        if (reviews.length === 0) { container.innerHTML = '<p style="color:#94a3b8;">No reviews yet. Be the first!</p>'; return; }
+        container.innerHTML = reviews.map(r => `<div class="review-item"><div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><div><strong>${r.user}</strong> <span style="font-size:11px;color:#64748b;">${r.date}</span></div><div class="review-text">${r.text}</div></div>`).join('');
     }
     
     function submitReview() {
@@ -1057,8 +1103,8 @@
         if (!isLoggedIn) { showToast("Please login first!"); return; }
         const userOrders = orders.filter(o => o.userId === currentUser.uid);
         const container = document.getElementById('historyList');
-        if (userOrders.length === 0) { container.innerHTML = '<p style="color:#888;">No purchase history yet.</p>'; return; }
-        container.innerHTML = userOrders.map(o => `<div class="history-item" style="background:rgba(108,92,231,0.1); border-radius:20px; padding:15px; margin-bottom:15px;"><div><strong>Order #${o.orderNumber}</strong> <span class="history-status ${o.status}">${o.status}</span></div><div style="margin:8px 0;">${o.items}</div><div>Total: ${o.total}</div><div>Date: ${o.date}</div></div>`).join('');
+        if (userOrders.length === 0) { container.innerHTML = '<p style="color:#94a3b8;">No purchase history yet.</p>'; return; }
+        container.innerHTML = userOrders.map(o => `<div class="history-item" style="background:#f8fafc; border-radius:24px; padding:15px; margin-bottom:15px;"><div><strong>Order #${o.orderNumber}</strong> <span class="history-status ${o.status}">${o.status}</span></div><div style="margin:8px 0;">${o.items}</div><div>Total: ${o.total}</div><div>Date: ${o.date}</div></div>`).join('');
         document.getElementById('historyModal').classList.add('show');
     }
     
@@ -1070,7 +1116,7 @@
     
     async function sendDiscordNotification(orderNumber, robloxUser, orderDetails) {
         const chatLink = `${WEBSITE_URL}/?chat=${orderNumber}&user=${robloxUser}`;
-        const embed = { title: '🛒 NEW ORDER!', color: 0x6c5ce7, fields: [
+        const embed = { title: '🛒 NEW ORDER!', color: 0x6366f1, fields: [
             { name: '📋 Order Number', value: `\`${orderNumber}\``, inline: true },
             { name: '🎮 Roblox', value: `@${robloxUser}`, inline: true },
             { name: '💰 Total', value: orderDetails.total, inline: true },
@@ -1177,7 +1223,7 @@
         const filtered = items.filter(i => i.name.toLowerCase().includes(search));
         document.getElementById('adminItemsList').innerHTML = filtered.map(item => `
             <div class="admin-item">
-                <div class="admin-item-info"><img src="${item.image}" onerror="this.src='https://placehold.co/45x45/6c5ce7/white?text=${item.name.charAt(0)}'"><div><strong>${item.name}</strong><br><small>${item.type} | ${item.rarity}</small></div></div>
+                <div class="admin-item-info"><img src="${item.image}" onerror="this.src='https://placehold.co/45x45/6366f1/white?text=${item.name.charAt(0)}'"><div><strong>${item.name}</strong><br><small>${item.type} | ${item.rarity}</small></div></div>
                 <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
                     <input type="number" id="price-${item.id}" class="admin-price-input" value="${item.price}" min="100" step="10">
                     <button class="update-price-btn" onclick="updateItemPrice(${item.id}, parseInt(document.getElementById('price-${item.id}').value))">Update</button>
@@ -1269,7 +1315,7 @@
         document.getElementById('productsGrid').innerHTML = filtered.map(item => `
             <div class="product-card ${!item.onsale ? 'offsale' : ''}">
                 ${!item.onsale ? '<div class="offsale-badge">OFF SALE</div>' : ''}
-                <div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/200x200/6c5ce7/white?text=${item.name.charAt(0)}'"></div>
+                <div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/200x200/6366f1/white?text=${item.name.charAt(0)}'"></div>
                 <div class="product-info">
                     <div class="product-name">${item.name}</div>
                     <div class="product-rarity ${item.rarityClass}">${item.rarity}</div>
@@ -1303,8 +1349,8 @@
         if (voucherApplied) { let discounted = total * 0.95; document.getElementById('cartTotal').innerHTML = `Original: ${getSymbol()}${getDisplayPrice(total)}<br>After 5% off: ${getSymbol()}${getDisplayPrice(discounted)}`; }
         else { document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`; }
         updateStats();
-        if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;padding:20px;">Cart is empty</p>'; return; }
-        container.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity - 1})" style="background:#6c5ce7; border:none; width:30px; border-radius:10px; cursor:pointer;">-</button><span style="margin:0 12px;">${item.quantity}</span><button onclick="updateQty(${item.id}, ${item.quantity + 1})" style="background:#6c5ce7; border:none; width:30px; border-radius:10px; cursor:pointer;">+</button><button onclick="removeFromCart(${item.id})" style="background:none; border:none; color:#dc2626; margin-left:12px; cursor:pointer;"><i class="fas fa-trash"></i></button></div></div>`).join('');
+        if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;padding:20px;color:#94a3b8;">Cart is empty</p>'; return; }
+        container.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity - 1})" style="background:#e2e8f0; border:none; width:30px; border-radius:10px; cursor:pointer;">-</button><span style="margin:0 12px;">${item.quantity}</span><button onclick="updateQty(${item.id}, ${item.quantity + 1})" style="background:#e2e8f0; border:none; width:30px; border-radius:10px; cursor:pointer;">+</button><button onclick="removeFromCart(${item.id})" style="background:none; border:none; color:#ef4444; margin-left:12px; cursor:pointer;"><i class="fas fa-trash"></i></button></div></div>`).join('');
     }
     
     function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if (item) item.quantity = newQty; updateCartUI(); } }
@@ -1331,8 +1377,8 @@
     function loadTrades() {
         const saved = localStorage.getItem('trades'); if (saved) trades = JSON.parse(saved);
         const container = document.getElementById('tradesGrid');
-        if (trades.length === 0) { container.innerHTML = '<div class="no-trades"><i class="fas fa-exchange-alt" style="font-size:50px; margin-bottom:15px;"></i><p>No trades yet</p></div>'; return; }
-        container.innerHTML = trades.map(t => `<div class="trade-card"><div class="trade-header"><div class="trade-user"><div class="trade-avatar">${t.userAvatar}</div><div><strong>@${t.username}</strong><br><span style="font-size:11px;">${t.date}</span></div></div><span style="background:${t.type === 'offer' ? '#10b981' : '#6c5ce7'};padding:4px 15px; border-radius:30px; font-size:11px;">${t.type === 'offer' ? 'OFFERING' : 'WANTED'}</span></div><div class="trade-offer"><p><span class="offer-label">📦 ${t.type === 'offer' ? 'Offering:' : 'Looking for:'}</span> ${t.items}</p><p><span class="offer-label">🎯 Want:</span> ${t.want}</p>${t.note ? `<p><span class="offer-label">📝 Note:</span> ${t.note}</p>` : ''}</div><button class="accept-trade" onclick="alert('Contact @${t.username} on Roblox to trade!')">Accept Trade</button></div>`).join('');
+        if (trades.length === 0) { container.innerHTML = '<div class="no-trades"><i class="fas fa-exchange-alt" style="font-size:50px; margin-bottom:15px; color:#94a3b8;"></i><p>No trades yet</p></div>'; return; }
+        container.innerHTML = trades.map(t => `<div class="trade-card"><div class="trade-header"><div class="trade-user"><div class="trade-avatar">${t.userAvatar}</div><div><strong>@${t.username}</strong><br><span style="font-size:11px;">${t.date}</span></div></div><span style="background:${t.type === 'offer' ? '#10b981' : '#6366f1'};padding:4px 15px; border-radius:30px; font-size:11px; color:white;">${t.type === 'offer' ? 'OFFERING' : 'WANTED'}</span></div><div class="trade-offer"><p><span class="offer-label">📦 ${t.type === 'offer' ? 'Offering:' : 'Looking for:'}</span> ${t.items}</p><p><span class="offer-label">🎯 Want:</span> ${t.want}</p>${t.note ? `<p><span class="offer-label">📝 Note:</span> ${t.note}</p>` : ''}</div><button class="accept-trade" onclick="alert('Contact @${t.username} on Roblox to trade!')">Accept Trade</button></div>`).join('');
     }
     
     document.querySelectorAll('.star-rating i').forEach(star => { star.addEventListener('click', function() { let rating = parseInt(this.dataset.rating); document.querySelectorAll('.star-rating i').forEach((s, i) => { if (i < rating) s.classList.add('active'); else s.classList.remove('active'); }); }); });
