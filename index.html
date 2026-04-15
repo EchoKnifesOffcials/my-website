@@ -1,210 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>ECHOKNIVES | Secure Checkout</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        /* Fullscreen layout */
+        .checkout-wrapper {
+            min-height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* Animated Background VFX */
+        .vfx-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 50%, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%);
+        }
+
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: -1;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .orb-1 { width: 600px; height: 600px; background: #6c5ce7; top: -300px; left: -300px; }
+        .orb-2 { width: 500px; height: 500px; background: #a855f7; bottom: -250px; right: -250px; animation-delay: 5s; }
+        .orb-3 { width: 400px; height: 400px; background: #ec4899; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 10s; opacity: 0.15; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(108, 92, 231, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFloat 20s infinite linear;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) translateX(100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Checkout Container */
+        .checkout-container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(15, 12, 41, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .checkout-header {
+            padding: 28px 40px;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon { font-size: 32px; color: #6c5ce7; }
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.15);
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            color: #10b981;
+        }
+
+        /* Two Column Layout */
+        .checkout-two-col {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .checkout-left {
+            flex: 1.2;
+            padding: 32px 40px;
+            border-right: 1px solid rgba(108, 92, 231, 0.2);
+        }
+
+        .checkout-right {
+            flex: 0.8;
+            padding: 32px 40px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #6c5ce7;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #cbd5e1;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 16px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .payment-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .payment-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(108, 92, 231, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .payment-option.selected {
+            border-color: #6c5ce7;
+            background: #6c5ce7;
+        }
+
+        .tip-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .tip-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            padding: 10px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tip-btn.selected {
+            background: #6c5ce7;
+            border-color: #6c5ce7;
+        }
+
+        .tip-custom {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 40px;
+            color: white;
+        }
+
+        .promo-section {
+            margin: 24px 0;
+            padding: 20px;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 20px;
+        }
+
+        .promo-input-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .promo-input {
+            flex: 1;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 16px;
+            color: white;
+        }
+
+        .apply-promo {
+            background: #6c5ce7;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 16px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .order-items {
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.2);
+        }
+
+        .order-total div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .grand-total {
+            font-size: 20px;
+            font-weight: 800;
+            color: #6c5ce7;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(108, 92, 231, 0.3);
+        }
+
+        .pay-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: all 0.3s ease;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 4000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .paypal-container, .processing-container, .receipt-content {
+            background: white;
+            border-radius: 32px;
+            width: 90%;
+            max-width: 450px;
+            overflow: hidden;
+            color: #1a1a2e;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.show .paypal-container,
+        .modal-overlay.show .processing-container,
+        .modal-overlay.show .receipt-content {
+            transform: scale(1);
+        }
+
+        .paypal-header { background: #0070ba; padding: 24px; text-align: center; color: white; }
+        .paypal-body { padding: 28px; }
+        .paypal-card { background: #f5f5f5; border-radius: 16px; padding: 20px; margin: 15px 0; }
+        .paypal-card input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 12px; }
+        .paypal-buttons { display: flex; gap: 15px; margin-top: 20px; }
+        .paypal-pay { background: #0070ba; border: none; padding: 14px; border-radius: 30px; color: white; font-weight: 700; cursor: pointer; }
+        .paypal-cancel { background: #ddd; border: none; padding: 14px; border-radius: 30px; color: #333; font-weight: 700; cursor: pointer; }
+
+        .processing-container { background: #1a1a2e; text-align: center; padding: 40px; color: white; border: 1px solid #6c5ce7; }
+        .spinner { width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid #6c5ce7; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .receipt-content { background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 32px; text-align: center; border: 1px solid #6c5ce7; color: white; }
+        .receipt-icon { font-size: 64px; color: #10b981; margin-bottom: 16px; }
+        .receipt-details { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left; }
+        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; color: #ccc; }
+        .receipt-total { font-size: 18px; font-weight: 800; color: #6c5ce7; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(108,92,231,0.3); }
+        .receipt-close { background: #6c5ce7; border: none; padding: 14px; border-radius: 30px; color: white; font-weight: 600; cursor: pointer; width: 100%; margin-top: 16px; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #10b981;
+            padding: 14px 28px;
+            border-radius: 16px;
+            z-index: 6000;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            font-weight: 500;
+        }
+        .toast.show { transform: translateX(0); }
+        .toast.error { background: #ef4444; }
+
+        @media (max-width: 900px) {
+            .checkout-two-col { flex-direction: column; }
+            .checkout-left { border-right: none; border-bottom: 1px solid rgba(108,92,231,0.2); }
+            .row-2 { grid-template-columns: 1fr; }
+            .payment-methods-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="vfx-bg"></div>
+<div class="glow-orb orb-1"></div>
+<div class="glow-orb orb-2"></div>
+<div class="glow-orb orb-3"></div>
+<div class="particles" id="particles"></div>
+
+<div class="checkout-wrapper">
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <div class="logo-area"><i class="fas fa-gem logo-icon"></i><span class="logo-text">ECHOKNIVES</span></div>
+            <div class="secure-badge"><i class="fas fa-lock"></i><span>256-bit SSL Secure</span><i class="fas fa-shield-alt"></i><span>Fraud Protection</span></div>
+        </div>
+        <div class="checkout-two-col">
+            <div class="checkout-left">
+                <div class="section-title"><i class="fas fa-user-circle"></i><span>Contact Information</span></div>
+                <div class="row-2">
+                    <div class="form-group"><label>First Name</label><input type="text" id="firstName" placeholder="John"></div>
+                    <div class="form-group"><label>Last Name</label><input type="text" id="lastName" placeholder="Doe"></div>
+                </div>
+                <div class="row-2">
+                    <div class="form-group"><label>Email Address</label><input type="email" id="emailAddress" placeholder="your@email.com"></div>
+                    <div class="form-group"><label>🎮 Roblox Username</label><input type="text" id="robloxUsername" placeholder="Your Roblox username"></div>
+                </div>
+                <div class="section-title" style="margin-top: 28px;"><i class="fas fa-map-marker-alt"></i><span>Billing Address</span></div>
+                <div class="row-2">
+                    <div class="form-group"><label>Country</label><select id="country"><option value="PH">🇵🇭 Philippines</option><option value="US">🇺🇸 United States</option><option value="GB">🇬🇧 United Kingdom</option><option value="CA">🇨🇦 Canada</option><option value="AU">🇦🇺 Australia</option></select></div>
+                    <div class="form-group"><label>State/Province</label><input type="text" id="state" placeholder="State"></div>
+                </div>
+                <div class="form-group"><label>Street Address</label><input type="text" id="address" placeholder="Street address"></div>
+                <div class="row-2">
+                    <div class="form-group"><label>ZIP Code</label><input type="text" id="zip" placeholder="ZIP code"></div>
+                    <div class="form-group"><label>City</label><input type="text" id="city" placeholder="City"></div>
+                </div>
+                <div class="section-title" style="margin-top: 28px;"><i class="fas fa-credit-card"></i><span>Payment Method</span></div>
+                <div class="payment-methods-grid">
+                    <div class="payment-option" data-payment="credit" onclick="selectPayment('credit')"><i class="fab fa-cc-visa"></i> Credit Card</div>
+                    <div class="payment-option" data-payment="debit" onclick="selectPayment('debit')"><i class="fas fa-credit-card"></i> Debit Card</div>
+                    <div class="payment-option" data-payment="gcash" onclick="selectPayment('gcash')"><i class="fas fa-mobile-alt"></i> GCash</div>
+                    <div class="payment-option" data-payment="paypal" onclick="selectPayment('paypal')"><i class="fab fa-paypal"></i> PayPal</div>
+                    <div class="payment-option" data-payment="mastercard" onclick="selectPayment('mastercard')"><i class="fab fa-cc-mastercard"></i> Mastercard</div>
+                </div>
+                <div class="section-title" style="margin-top: 28px;"><i class="fas fa-heart"></i><span>Support the Team - Add a Tip</span></div>
+                <div class="tip-options">
+                    <button type="button" class="tip-btn" data-tip="0" onclick="selectTip(0)">No tip</button>
+                    <button type="button" class="tip-btn" data-tip="50" onclick="selectTip(50)">₱50</button>
+                    <button type="button" class="tip-btn" data-tip="100" onclick="selectTip(100)">₱100</button>
+                    <button type="button" class="tip-btn" data-tip="250" onclick="selectTip(250)">₱250</button>
+                    <button type="button" class="tip-btn" data-tip="500" onclick="selectTip(500)">₱500</button>
+                    <input type="number" id="customTip" class="tip-custom" placeholder="Custom ₱" min="0" step="10" oninput="onCustomTip()">
+                </div>
+                <div class="promo-section">
+                    <div class="promo-input-group"><input type="text" id="promoCode" class="promo-input" placeholder="Enter promo code"><button class="apply-promo" onclick="applyPromoCode()">Apply</button></div>
+                    <div id="promoMessage" class="promo-message" style="font-size:12px; margin-top:12px;"></div>
+                </div>
+            </div>
+            <div class="checkout-right">
+                <div class="section-title"><i class="fas fa-shopping-cart"></i><span>Order Summary</span></div>
+                <div id="orderItems" class="order-items"><div style="text-align:center; padding:20px;">Loading cart...</div></div>
+                <div class="order-total">
+                    <div><span>Subtotal:</span><span id="subtotal">₱0</span></div>
+                    <div><span>Discount:</span><span id="discount">₱0</span></div>
+                    <div><span>Tip:</span><span id="tipAmount">₱0</span></div>
+                </div>
+                <div class="grand-total"><span>Total:</span><span id="grandTotal">₱0</span></div>
+                <button class="pay-button" onclick="processPayment()"><i class="fas fa-lock"></i> Proceed to Pay</button>
+                <div style="font-size:11px; text-align:center; margin-top:16px; color:#64748b;">By completing your purchase, you agree to our Terms of Service</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PayPal Modal -->
+<div id="paypalModal" class="modal-overlay">
+    <div class="paypal-container">
+        <div class="paypal-header"><i class="fab fa-paypal"></i><h2>PayPal</h2></div>
+        <div class="paypal-body">
+            <div id="paypalLoginView"><p style="text-align:center; margin-bottom:20px;">Log in to your PayPal account</p><div class="paypal-card"><input type="email" id="paypalEmail" placeholder="Email or mobile number" value="demo@paypal.com"><input type="password" id="paypalPassword" placeholder="Password" value="demo123"></div><div class="paypal-buttons"><button class="paypal-cancel" onclick="closePaypalModal()">Cancel</button><button class="paypal-pay" onclick="processPaypalPayment()">Log In</button></div></div>
+            <div id="paypalLoadingView" class="paypal-loading" style="display:none;"><div class="spinner"></div><p>Processing payment...</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- Processing Modal -->
+<div id="processingModal" class="modal-overlay">
+    <div class="processing-container"><div class="spinner"></div><h3>Processing Transaction</h3><p>Please wait, securing your order...</p></div>
+</div>
+
+<!-- Receipt Modal -->
+<div id="receiptModal" class="modal-overlay">
+    <div class="receipt-content"><div class="receipt-icon"><i class="fas fa-check-circle"></i></div><div class="receipt-title">Payment Successful!</div><div id="receiptDetails" class="receipt-details"></div><button class="receipt-close" onclick="closeReceipt()">Continue Shopping</button></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-/* ================== ORIGINAL SYSTEM (FIXED ONLY) ================== */
-
-const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1359030053589028904/d3_S2wUY4Px0n6t1g9eE5rP7lK8jH3mN2bVcXzA1qW4eR7tY9uIoP0aSsDfG3hJkL";
-
-const items = [
-{ id:1,name:"⚔️ Batwing",type:"knife",price:152,originalPrice:220,image:"https://i.imgur.com/H6CL03y.jpeg"},
-{ id:2,name:"🔪 Harvester",type:"knife",price:608,originalPrice:850,image:"https://i.imgur.com/jZkbQ4t.jpeg"},
-{ id:3,name:"❄️ Icewing",type:"knife",price:72,originalPrice:120,image:"https://i.imgur.com/jiwvmxq.jpeg"},
-{ id:4,name:"🔫 Luger",type:"gun",price:207,originalPrice:300,image:"https://i.imgur.com/eEvMBRh.jpeg"},
-{ id:5,name:"🌑 Darkbringer",type:"gun",price:920,originalPrice:1300,image:"https://i.imgur.com/8oxgzwa.jpeg"},
-{ id:6,name:"✨ Lightbringer",type:"gun",price:920,originalPrice:1300,image:"https://i.imgur.com/BUljuYV.jpeg"},
-{ id:7,name:"🌈 Chroma Saw",type:"knife",price:450,originalPrice:600,image:"https://i.imgur.com/4kZqjX7.jpeg"},
-{ id:8,name:"👑 Eternal",type:"knife",price:1200,originalPrice:1800,image:"https://i.imgur.com/7nQwR8Y.jpeg"},
-{ id:9,name:"🔥 Phoenix",type:"pet",price:350,originalPrice:500,image:"https://i.imgur.com/W3pLq2M.jpeg"},
-{ id:10,name:"🐉 Dragon",type:"pet",price:750,originalPrice:1100,image:"https://i.imgur.com/Yr5kQnP.jpeg"},
-{ id:11,name:"💀 Skull",type:"knife",price:280,originalPrice:400,image:"https://i.imgur.com/jiwvmxq.jpeg"},
-{ id:12,name:"⚡ Shock",type:"gun",price:180,originalPrice:250,image:"https://i.imgur.com/eEvMBRh.jpeg"},
-{ id:13,name:"🦅 Eagle",type:"pet",price:420,originalPrice:600,image:"https://i.imgur.com/W3pLq2M.jpeg"},
-{ id:14,name:"🔮 Nebula",type:"knife",price:890,originalPrice:1300,image:"https://i.imgur.com/jZkbQ4t.jpeg"},
-{ id:15,name:"💎 Gemstone",type:"gun",price:1500,originalPrice:2200,image:"https://i.imgur.com/8oxgzwa.jpeg"}
-];
-
-/* ================== STATE ================== */
-
-let cart = JSON.parse(localStorage.getItem("cart") || "[]"); // ✅ FIX
-let currentFilter = "all";
-let isLoggedIn = false;
-let currentUser = null;
-let currentCurrency = "PHP";
-
-let userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
-
-const exchangeRates = { PHP:1, USD:0.017, EUR:0.016, GBP:0.013 };
-const currencySymbols = { PHP:"₱", USD:"$", EUR:"€", GBP:"£" };
-
-/* ================== HELPERS ================== */
-
-function getDisplayPrice(price){
-return (price * exchangeRates[currentCurrency]).toFixed(2);
-}
-
-function getSymbol(){
-return currencySymbols[currentCurrency];
-}
-
-function showToast(msg){
-const t = document.getElementById('toast');
-t.innerText = msg;
-t.classList.add('show');
-setTimeout(()=>t.classList.remove('show'),3000);
-}
-
-/* ================== CART ================== */
-
-function addToCart(id){ // ✅ removed forced login
-const item = items.find(i=>i.id===id);
-const existing = cart.find(i=>i.id===id);
-
-if(existing){
-existing.quantity++;
-}else{
-cart.push({...item,quantity:1});
-}
-
-saveCart();
-updateCartUI();
-showToast(item.name + " added");
-}
-
-function updateCartUI(){
-localStorage.setItem("cart", JSON.stringify(cart)); // ✅ persist
-
-let total = cart.reduce((s,i)=>s + (i.price*i.quantity),0);
-let count = cart.reduce((s,i)=>s + i.quantity,0);
-
-document.getElementById('cartCount').innerText = count;
-document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`;
-
-const container = document.getElementById('cartItemsList');
-
-if(!cart || cart.length===0){
-container.innerHTML = '<p style="text-align:center;color:#888;">Cart empty</p>';
-return;
-}
-
-container.innerHTML = cart.map(item=>`
-<div class="cart-item">
-<div>${item.name}</div>
-<div>${getSymbol()}${getDisplayPrice(item.price)}</div>
-<div>
-<button onclick="updateQty(${item.id},${item.quantity-1})">-</button>
-${item.quantity}
-<button onclick="updateQty(${item.id},${item.quantity+1})">+</button>
-<button onclick="removeFromCart(${item.id})">x</button>
-</div>
-</div>
-`).join("");
-}
-
-function updateQty(id,newQty){
-if(newQty < 1){
-removeFromCart(id);
-return;
-}
-const item = cart.find(i=>i.id===id);
-if(item) item.quantity = newQty;
-updateCartUI();
-}
-
-function removeFromCart(id){
-cart = cart.filter(i=>i.id!==id);
-updateCartUI();
-}
-
-/* ================== PRODUCTS ================== */
-
-function renderProducts(){
-let filtered = items.filter(i=>{
-if(currentFilter==="knife") return i.type==="knife";
-if(currentFilter==="gun") return i.type==="gun";
-if(currentFilter==="pet") return i.type==="pet";
-return true;
-});
-
-document.getElementById("productsGrid").innerHTML = filtered.map(item=>`
-<div class="product-card">
-<div class="product-image">
-<img src="${item.image}" onerror="this.src='https://placehold.co/250x250?text=Item'">
-</div>
-<div class="product-info">
-<div class="product-name">${item.name}</div>
-<div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div>
-<button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button>
-</div>
-</div>
-`).join("");
-}
-
-/* ================== CHECKOUT ================== */
-
-function initiateExternalCheckout(){
-
-if(!isLoggedIn){
-showToast("Login required");
-performGoogleLogin();
-return;
-}
-
-if(cart.length===0){
-showToast("Cart empty");
-return;
-}
-
-const robloxUser = userProfile.roblox;
-if(!robloxUser || robloxUser.length < 3){
-showToast("Set Roblox username");
-return;
-}
-
-const orderData = {
-cart: JSON.parse(JSON.stringify(cart)),
-currency: currentCurrency // ✅ FIX
-};
-
-sessionStorage.setItem("pendingOrder", JSON.stringify(orderData));
-
-completeOrder(orderData); // demo direct
-}
-
-function completeOrder(orderData){
-
-const symbol = currencySymbols[orderData.currency];
-const rate = exchangeRates[orderData.currency];
-
-const subtotal = orderData.cart.reduce((s,i)=>s+(i.price*i.quantity),0);
-const total = (subtotal * rate).toFixed(2);
-
-document.getElementById("receiptDetails").innerHTML = `
-<div>Total: ${symbol}${total}</div>
-<div>Items: ${orderData.cart.map(i=>i.name+" x"+i.quantity).join(", ").substring(0,120)}</div>
-`;
-
-document.getElementById("receiptModal").classList.add("show");
-
-cart = [];
-localStorage.removeItem("cart"); // ✅ FIX
-updateCartUI();
-
-showToast("Order complete");
-}
-
-/* ================== UI ================== */
-
-function toggleCart(){
-document.getElementById('cartSidebar').classList.toggle('open');
-document.getElementById('overlay').classList.toggle('show');
-}
-
-function closeCart(){
-document.getElementById('cartSidebar').classList.remove('open');
-document.getElementById('overlay').classList.remove('show');
-}
-
-/* ================== INIT ================== */
-
-renderProducts();
-updateCartUI();
-
+    // particles
+    for(let i=0;i<80;i++){let p=document.createElement('div');p.className='particle';p.style.width=(Math.random()*6+2)+'px';p.style.height=p.style.width;p.style.left=Math.random()*100+'%';p.style.animationDelay=Math.random()*20+'s';p.style.animationDuration=(Math.random()*15+10)+'s';p.style.opacity=Math.random()*0.5;document.getElementById('particles').appendChild(p);}
+    
+    // Cart from URL or default
+    const urlParams = new URLSearchParams(window.location.search);
+    const cartData = urlParams.get('cart');
+    let cartItems = [{ name: "Batwing", quantity: 1, price: 152 },{ name: "Harvester", quantity: 1, price: 608 },{ name: "Icewing", quantity: 2, price: 72 }];
+    if(cartData){try{cartItems=JSON.parse(decodeURIComponent(cartData));}catch(e){}}
+    
+    let selectedPayment="paypal", selectedTip=0, promoDiscount=0, promoApplied=false;
+    let usedPromoCodes = JSON.parse(localStorage.getItem('checkout_used_codes')||'[]');
+    
+    function showToast(msg, isError=false){const t=document.getElementById('toast');t.innerText=msg;t.classList.remove('error');if(isError)t.classList.add('error');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+    
+    function updateOrderSummary(){
+        const subtotal = cartItems.reduce((s,i)=>s+(i.price*i.quantity),0);
+        const discountVal = subtotal * promoDiscount;
+        const total = (subtotal - discountVal) + selectedTip;
+        document.getElementById('orderItems').innerHTML = cartItems.map(i=>`<div class="order-item"><span>${i.name} x${i.quantity}</span><span>₱${(i.price*i.quantity).toLocaleString()}</span></div>`).join('');
+        document.getElementById('subtotal').innerHTML = `₱${subtotal.toLocaleString()}`;
+        document.getElementById('discount').innerHTML = `-₱${discountVal.toLocaleString()}`;
+        document.getElementById('tipAmount').innerHTML = `₱${selectedTip.toLocaleString()}`;
+        document.getElementById('grandTotal').innerHTML = `₱${total.toLocaleString()}`;
+    }
+    
+    function selectPayment(pay){selectedPayment=pay;document.querySelectorAll('.payment-option').forEach(opt=>opt.classList.remove('selected'));document.querySelector(`.payment-option[data-payment="${pay}"]`).classList.add('selected');}
+    function selectTip(amt){selectedTip=amt;document.querySelectorAll('.tip-btn').forEach(btn=>btn.classList.remove('selected'));document.querySelector(`.tip-btn[data-tip="${amt}"]`)?.classList.add('selected');document.getElementById('customTip').value="";updateOrderSummary();}
+    function onCustomTip(){let val=parseInt(document.getElementById('customTip').value)||0;selectedTip=val;document.querySelectorAll('.tip-btn').forEach(btn=>btn.classList.remove('selected'));updateOrderSummary();}
+    
+    function applyPromoCode(){
+        const code=document.getElementById('promoCode').value.trim().toUpperCase();
+        const msgDiv=document.getElementById('promoMessage');
+        if(usedPromoCodes.includes(code)){msgDiv.innerHTML=`❌ Promo code already redeemed!`;msgDiv.style.color="#ef4444";return;}
+        if(code==="SEASON2"){promoApplied=true;promoDiscount=0.10;usedPromoCodes.push(code);localStorage.setItem('checkout_used_codes',JSON.stringify(usedPromoCodes));msgDiv.innerHTML=`✅ Promo code applied! 10% discount.`;msgDiv.style.color="#10b981";updateOrderSummary();showToast("🎉 10% discount applied!");}
+        else{msgDiv.innerHTML=`❌ Invalid code. Try "SEASON2"`;msgDiv.style.color="#ef4444";promoDiscount=0;updateOrderSummary();}
+    }
+    
+    // Realistic address validation
+    function isAddressValid(address, city, state, zip, country){
+        if(!address || address.trim().length<5)return false;
+        if(!city || city.trim().length<2)return false;
+        if(!state || state.trim().length<2)return false;
+        const zipRegex = /^[A-Z0-9]{3,10}$/i;
+        if(!zip || !zipRegex.test(zip.trim()))return false;
+        if(!country)return false;
+        return true;
+    }
+    
+    // Discord Webhook (Replace with your actual webhook URL for production)
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1356547391087054920/B4QR1kqV00xYXh2_efUstUaQ9nF6fR-a0dy4AXvF6hU8AwyU60AYqbnHzGr6DnKdP9Bh";
+    
+    async function sendDiscordOrder(orderData){
+        try{
+            const embed = {
+                title: "🛒 NEW ORDER #" + orderData.orderNumber,
+                color: 0x6c5ce7,
+                fields: [
+                    { name: "👤 Customer", value: `${orderData.firstName} ${orderData.lastName}`, inline: true },
+                    { name: "📧 Email", value: orderData.email, inline: true },
+                    { name: "🎮 Roblox User", value: orderData.robloxUser, inline: true },
+                    { name: "📍 Address", value: `${orderData.address}, ${orderData.city}, ${orderData.state}, ${orderData.zip}, ${orderData.country}`, inline: false },
+                    { name: "📦 Items", value: orderData.itemsList.substring(0, 1000), inline: false },
+                    { name: "💰 Total", value: `₱${orderData.total.toLocaleString()} (Tip: ₱${orderData.tip})`, inline: true },
+                    { name: "💳 Payment", value: orderData.paymentMethod.toUpperCase(), inline: true },
+                    { name: "⏱ Delivery", value: "Within 24 hours", inline: true }
+                ],
+                timestamp: new Date().toISOString(),
+                footer: { text: "ECHOKNIVES Secure Checkout" }
+            };
+            await fetch(DISCORD_WEBHOOK_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ embeds: [embed] }) });
+        }catch(e){console.warn("Discord webhook failed",e);}
+    }
+    
+    async function finalizePayment(){
+        const firstName=document.getElementById('firstName').value.trim();
+        const lastName=document.getElementById('lastName').value.trim();
+        const email=document.getElementById('emailAddress').value.trim();
+        const robloxUser=document.getElementById('robloxUsername').value.trim();
+        const address=document.getElementById('address').value.trim();
+        const city=document.getElementById('city').value.trim();
+        const state=document.getElementById('state').value.trim();
+        const zip=document.getElementById('zip').value.trim();
+        const country=document.getElementById('country').value;
+        
+        if(!firstName||!lastName||!email||!robloxUser||!address||!city||!state||!zip){showToast("Please fill all required fields",true);return false;}
+        if(!isAddressValid(address,city,state,zip,country)){showToast("❌ Invalid Address: Please enter a valid street, city, state, and ZIP code.",true);return false;}
+        
+        const subtotal = cartItems.reduce((s,i)=>s+(i.price*i.quantity),0);
+        const discountVal = subtotal * promoDiscount;
+        const total = (subtotal - discountVal) + selectedTip;
+        const orderNumber = 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2,4).toUpperCase();
+        const itemsList = cartItems.map(i=>`${i.name} x${i.quantity} (₱${i.price*i.quantity})`).join(', ');
+        
+        const orderData = { orderNumber, firstName, lastName, email, robloxUser, address, city, state, zip, country, itemsList, total, tip: selectedTip, paymentMethod: selectedPayment, date: new Date().toISOString() };
+        
+        // Save order locally
+        const orders = JSON.parse(localStorage.getItem('checkout_orders')||'[]');
+        orders.push({...orderData, status:'pending'});
+        localStorage.setItem('checkout_orders', JSON.stringify(orders));
+        
+        // Send to Discord
+        await sendDiscordOrder(orderData);
+        
+        // Receipt HTML with delivery assurance
+        const receiptHtml = `
+            <div class="receipt-row"><strong>Order #:</strong> ${orderNumber}</div>
+            <div class="receipt-row"><strong>Date:</strong> ${new Date().toLocaleString()}</div>
+            <div class="receipt-row"><strong>Items:</strong> ${cartItems.map(i=>`${i.name} x${i.quantity}`).join(', ')}</div>
+            <div class="receipt-row"><strong>Subtotal:</strong> ₱${subtotal.toLocaleString()}</div>
+            ${promoApplied?`<div class="receipt-row"><strong>Discount (10%):</strong> -₱${discountVal.toLocaleString()}</div>`:''}
+            <div class="receipt-row"><strong>Tip:</strong> ₱${selectedTip.toLocaleString()}</div>
+            <div class="receipt-row receipt-total"><strong>Total Paid:</strong> ₱${total.toLocaleString()}</div>
+            <div class="receipt-row"><strong>Payment:</strong> ${selectedPayment.toUpperCase()}</div>
+            <div class="receipt-row"><strong>Roblox User:</strong> @${robloxUser}</div>
+            <div class="receipt-row"><strong>📦 Delivery Status:</strong> <span style="color:#10b981;">Confirmed & Processing</span></div>
+            <div class="receipt-row"><strong>📢 SYSTEM MESSAGE:</strong> <span style="color:#a855f7;">Your items will be delivered within 24 hours or less. Thank you for shopping at ECHOKNIVES!</span></div>
+        `;
+        document.getElementById('receiptDetails').innerHTML = receiptHtml;
+        return true;
+    }
+    
+    // UI Modal Controls
+    function showProcessing(){document.getElementById('processingModal').classList.add('show');}
+    function hideProcessing(){document.getElementById('processingModal').classList.remove('show');}
+    function openPaypalModal(){document.getElementById('paypalModal').classList.add('show');}
+    function closePaypalModal(){document.getElementById('paypalModal').classList.remove('show');document.getElementById('paypalLoginView').style.display='block';document.getElementById('paypalLoadingView').style.display='none';}
+    
+    function processPaypalPayment(){
+        let email=document.getElementById('paypalEmail').value;
+        let pass=document.getElementById('paypalPassword').value;
+        if(!email||!pass){showToast("Please enter PayPal credentials",true);return;}
+        document.getElementById('paypalLoginView').style.display='none';
+        document.getElementById('paypalLoadingView').style.display='block';
+        setTimeout(()=>{
+            closePaypalModal();
+            startSecurePaymentFlow();
+        },1500);
+    }
+    
+    async function startSecurePaymentFlow(){
+        const isValid = await finalizePayment();
+        if(!isValid) return;
+        showProcessing();
+        setTimeout(()=>{
+            hideProcessing();
+            document.getElementById('receiptModal').classList.add('show');
+        },2000);
+    }
+    
+    function processPayment(){
+        if(selectedPayment==='paypal'){openPaypalModal();}
+        else{startSecurePaymentFlow();}
+    }
+    
+    function closeReceipt(){
+        document.getElementById('receiptModal').classList.remove('show');
+        window.location.href = 'index.html'; // redirect to shop homepage
+    }
+    
+    // init
+    updateOrderSummary();
+    selectPayment('paypal');
+    document.querySelector(`.payment-option[data-payment="paypal"]`).classList.add('selected');
 </script>
+</body>
+</html>
