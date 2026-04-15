@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECHOKNIVES | Secure MM2 Shop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>ECHOKNIVES | Safe & Secure MM2 Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Firebase SDK -->
@@ -46,624 +46,369 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #0a0a0f;
-            color: #f1f5f9;
-            overflow-x: hidden;
-        }
-
-        /* VFX Background */
-        .vfx-layer {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .particle-field {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        .particle {
-            position: absolute;
-            background: rgba(99, 102, 241, 0.25);
-            border-radius: 50%;
-            animation: floatParticle 22s infinite linear;
-        }
-        @keyframes floatParticle {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            15% { opacity: 0.7; }
-            85% { opacity: 0.7; }
-            100% { transform: translateY(-100vh) translateX(80px); opacity: 0; }
+            background: #f5f7fb;
+            color: #1a1a2e;
         }
 
         /* Header */
         .header {
-            background: rgba(8, 8, 14, 0.8);
-            backdrop-filter: blur(16px);
-            padding: 14px 5%;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            padding: 16px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
             flex-wrap: wrap;
             gap: 15px;
         }
+
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             cursor: pointer;
         }
+
         .logo-icon {
-            font-size: 32px;
-            color: #6366f1;
-            filter: drop-shadow(0 0 8px #6366f1);
+            font-size: 28px;
+            color: #e74c3c;
         }
+
         .logo-text {
-            font-family: 'Orbitron', monospace;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
-            background: linear-gradient(135deg, #fff, #a855f7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: #1a1a2e;
         }
+
+        .logo-text span {
+            color: #e74c3c;
+        }
+
         .nav-links {
             display: flex;
-            gap: 8px;
-            background: #14141e;
-            padding: 5px;
-            border-radius: 60px;
+            gap: 20px;
         }
+
         .nav-link {
-            padding: 8px 24px;
-            border-radius: 40px;
-            font-weight: 600;
-            background: transparent;
-            border: none;
-            color: #cbd5e1;
+            font-weight: 500;
             cursor: pointer;
+            color: #4a5568;
             transition: 0.2s;
         }
-        .nav-link.active {
-            background: #6366f1;
-            color: white;
+
+        .nav-link:hover {
+            color: #e74c3c;
         }
+
+        .nav-link.active {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
         .top-actions {
             display: flex;
             align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
+            gap: 20px;
         }
+
         .user-info {
             display: flex;
             align-items: center;
             gap: 12px;
-            background: #14141e;
-            padding: 5px 14px;
+            background: #f1f5f9;
+            padding: 8px 16px;
             border-radius: 40px;
+            cursor: pointer;
         }
+
         .avatar {
             width: 32px;
             height: 32px;
-            background: #6366f1;
+            background: #e74c3c;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
+            font-weight: 600;
         }
+
         .cart-icon {
             position: relative;
             cursor: pointer;
-            background: #14141e;
-            padding: 8px 16px;
-            border-radius: 40px;
+            font-size: 22px;
+            color: #4a5568;
         }
+
         .cart-count {
             position: absolute;
-            top: -4px;
-            right: -4px;
-            background: #ef4444;
-            border-radius: 30px;
+            top: -8px;
+            right: -12px;
+            background: #e74c3c;
+            border-radius: 50%;
             width: 18px;
             height: 18px;
             font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
         }
 
-        /* Hero Section */
-        .hero {
-            min-height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 60px 5%;
-            flex-wrap: wrap;
-            gap: 40px;
+            text-align: center;
+            color: white;
         }
-        .hero-content { flex: 1; min-width: 280px; }
-        .hero-badge {
+
+        .hero-banner h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .hero-banner p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .trust-badge {
             display: inline-block;
-            background: rgba(99, 102, 241, 0.15);
-            padding: 6px 18px;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
             border-radius: 40px;
             font-size: 14px;
-            color: #a855f7;
-            margin-bottom: 20px;
-        }
-        .hero-title {
-            font-size: 58px;
-            font-weight: 800;
-            font-family: 'Orbitron', monospace;
-            margin-bottom: 20px;
-        }
-        .hero-title span {
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            border: none;
-            padding: 12px 32px;
-            border-radius: 40px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .hero-image img {
-            max-width: 100%;
-            filter: drop-shadow(0 0 25px rgba(99,102,241,0.3));
-            animation: floatSoft 4s infinite;
-        }
-        @keyframes floatSoft {
-            0%,100%{ transform: translateY(0); }
-            50%{ transform: translateY(-12px); }
+            margin-top: 20px;
         }
 
-        /* Shop Section */
-        .shop-section {
-            display: none;
+        /* Main Shop Layout */
+        .shop-layout {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 40px 5%;
+            gap: 40px;
         }
-        .shop-section.active {
-            display: block;
+
+        /* Sidebar Filters */
+        .shop-sidebar {
+            width: 260px;
+            flex-shrink: 0;
         }
+
+        .filter-section {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .filter-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1a1a2e;
+        }
+
+        .filter-category {
+            margin-bottom: 20px;
+        }
+
+        .filter-category h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #4a5568;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .filter-option:hover {
+            color: #e74c3c;
+        }
+
+        .filter-option input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        /* Sort Bar */
+        .sort-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .results-count {
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .sort-select {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sort-select select {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 8px 16px;
+            gap: 10px;
+        }
+
+        .search-box i {
+            color: #94a3b8;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            font-size: 14px;
+            width: 200px;
+        }
+
+        /* Products Grid */
+        .products-main {
+            flex: 1;
+        }
+
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 28px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 24px;
         }
+
         .product-card {
-            background: #111117;
-            border-radius: 32px;
+            background: white;
+            border-radius: 16px;
             overflow: hidden;
-            border: 1px solid #262633;
-            transition: 0.2s;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #edf2f7;
         }
+
         .product-card:hover {
-            transform: translateY(-5px);
-            border-color: #6366f1;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            border-color: #e74c3c;
         }
+
         .product-img {
-            background: #08080e;
+            background: #f8fafc;
             aspect-ratio: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
         }
+
         .product-img img {
-            width: 80%;
-            height: 80%;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
         }
+
         .product-info {
-            padding: 18px;
+            padding: 16px;
         }
+
+        .product-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #1a1a2e;
+        }
+
+        .product-category {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
         .product-price {
-            font-size: 26px;
-            font-weight: 800;
-            color: #6366f1;
-            margin: 8px 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: #e74c3c;
         }
+
         .add-to-cart {
             width: 100%;
-            padding: 10px;
-            background: #6366f1;
+            margin-top: 12px;
+            padding: 8px;
+            background: #e74c3c;
             border: none;
             border-radius: 40px;
             color: white;
             font-weight: 600;
             cursor: pointer;
-        }
-
-        /* Chat Section */
-        .chat-section {
-            display: none;
-            padding: 40px 5%;
-            min-height: 70vh;
-        }
-        .chat-section.active {
-            display: block;
-        }
-        .chat-container {
-            display: flex;
-            gap: 30px;
-            background: #111117;
-            border-radius: 32px;
-            border: 1px solid #262633;
-            overflow: hidden;
-            min-height: 600px;
-        }
-        .conversation-list {
-            width: 300px;
-            border-right: 1px solid #262633;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        .conversation-item {
-            padding: 14px;
-            border-radius: 24px;
-            cursor: pointer;
-            margin-bottom: 8px;
-            background: #1a1a24;
             transition: 0.2s;
         }
-        .conversation-item.active {
-            background: #6366f1;
-        }
-        .chat-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
-        .chat-messages {
-            flex: 1;
-            height: 480px;
-            overflow-y: auto;
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .message {
-            max-width: 70%;
-            padding: 10px 18px;
-            border-radius: 24px;
-            font-size: 14px;
-        }
-        .message.sent {
-            background: #6366f1;
-            align-self: flex-end;
-            border-bottom-right-radius: 6px;
-        }
-        .message.received {
-            background: #1e1e2a;
-            align-self: flex-start;
-            border-bottom-left-radius: 6px;
-        }
-        .chat-input-area {
-            display: flex;
-            gap: 12px;
-        }
-        .chat-input {
-            flex: 1;
-            padding: 12px;
-            background: #1e1e2a;
-            border: 1px solid #2a2a36;
-            border-radius: 60px;
-            color: white;
-            outline: none;
-        }
-        .send-btn {
-            background: #6366f1;
-            border: none;
-            padding: 0 24px;
-            border-radius: 60px;
-            color: white;
-            cursor: pointer;
+
+        .add-to-cart:hover {
+            background: #c0392b;
         }
 
-        /* ===== CHECKOUT PAGE (FULL SCREEN GUI) ===== */
-        .checkout-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0a0f;
-            z-index: 1000;
-            display: none;
-            overflow-y: auto;
-            padding: 40px 5%;
-        }
-        .checkout-page.show {
-            display: block;
-        }
-        .checkout-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: #111117;
-            border-radius: 48px;
-            border: 1px solid #262633;
-            overflow: hidden;
-            animation: fadeInUp 0.4s ease;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .checkout-header {
-            padding: 24px 32px;
-            border-bottom: 1px solid #262633;
+        /* Pagination */
+        .pagination {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #0f0f17;
-        }
-        .checkout-header h2 {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        .close-checkout {
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            color: #94a3b8;
-        }
-        .checkout-two-col {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .checkout-left {
-            flex: 1.2;
-            padding: 28px 32px;
-            border-right: 1px solid #262633;
-        }
-        .checkout-right {
-            flex: 0.8;
-            padding: 28px 32px;
-            background: #0c0c12;
-        }
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #6366f1;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #cbd5e1;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 14px 16px;
-            background: #1e1e2a;
-            border: 1px solid #2a2a36;
-            border-radius: 60px;
-            color: white;
-            font-size: 14px;
-            outline: none;
-        }
-        .form-group input:focus, .form-group select:focus {
-            border-color: #6366f1;
-        }
-        .row-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        .row-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 16px;
-        }
-        /* Payment Methods */
-        .payment-methods {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
-        .payment-option {
-            flex: 1;
-            background: #1e1e2a;
-            border: 2px solid #2a2a36;
-            border-radius: 60px;
-            padding: 14px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .payment-option.selected {
-            border-color: #6366f1;
-            background: #6366f1;
-        }
-        .payment-option i {
-            font-size: 20px;
-            margin-right: 8px;
-        }
-        /* Card Details (hidden by default) */
-        .card-details {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: #1a1a24;
-            border-radius: 24px;
-        }
-        .card-details.show {
-            display: block;
-        }
-        /* Tip Options */
-        .tip-options {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
-        .tip-btn {
-            background: #1e1e2a;
-            border: 1px solid #2a2a36;
-            padding: 10px 20px;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .tip-btn.selected {
-            background: #6366f1;
-            border-color: #6366f1;
-        }
-        .tip-custom {
-            flex: 1;
-            min-width: 100px;
-        }
-        /* Order Summary */
-        .order-items {
-            margin-bottom: 20px;
-        }
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #262633;
-        }
-        .order-total {
-            padding-top: 15px;
-            border-top: 2px solid #6366f1;
-        }
-        .order-total div {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        .grand-total {
-            font-size: 20px;
-            font-weight: 800;
-            color: #6366f1;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #262633;
-        }
-        .btn-pay {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            border: none;
-            border-radius: 60px;
-            color: white;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        .privacy-notice {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10b981;
-            border-radius: 16px;
-            padding: 12px;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #10b981;
-            text-align: center;
-        }
-
-        /* Receipt Modal */
-        .receipt-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            display: none;
             justify-content: center;
+            gap: 8px;
+            margin-top: 48px;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
             align-items: center;
-            padding: 20px;
-        }
-        .receipt-modal.show {
-            display: flex;
-        }
-        .receipt-card {
+            justify-content: center;
+            border-radius: 10px;
             background: white;
-            border-radius: 48px;
-            max-width: 550px;
-            width: 100%;
-            padding: 40px;
-            color: #0f172a;
-            animation: receiptPop 0.4s ease;
-        }
-        @keyframes receiptPop {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .receipt-icon {
-            text-align: center;
-            font-size: 64px;
-            color: #10b981;
-            margin-bottom: 16px;
-        }
-        .receipt-title {
-            text-align: center;
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-        .receipt-details {
-            background: #f8fafc;
-            border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .receipt-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-        .receipt-total {
-            font-size: 18px;
-            font-weight: 800;
-            color: #6366f1;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #e2e8f0;
-        }
-        .terms-box {
-            background: #f1f5f9;
-            border-radius: 20px;
-            padding: 16px;
-            margin: 20px 0;
-            font-size: 11px;
-            color: #475569;
-            max-height: 150px;
-            overflow-y: auto;
-        }
-        .receipt-close {
-            width: 100%;
-            padding: 14px;
-            background: #6366f1;
-            border: none;
-            border-radius: 60px;
-            color: white;
-            font-weight: 600;
+            border: 1px solid #e2e8f0;
             cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .page-btn.active {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+
+        .page-btn:hover:not(.active) {
+            border-color: #e74c3c;
         }
 
         /* Cart Sidebar */
@@ -673,87 +418,124 @@
             right: -450px;
             width: 400px;
             height: 100vh;
-            background: #0d0d13;
-            z-index: 200;
+            background: white;
+            z-index: 1000;
             transition: 0.25s;
             padding: 24px;
-            border-left: 2px solid #6366f1;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
         }
+
         .cart-sidebar.open {
             right: 0;
         }
-        .cart-total {
-            font-size: 22px;
-            font-weight: 800;
-            margin: 20px 0;
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
         }
-        .checkout-btn-cart {
-            width: 100%;
-            padding: 14px;
-            background: #10b981;
+
+        .close-cart {
+            background: none;
             border: none;
-            border-radius: 60px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 2px solid #e74c3c;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px;
+            background: #e74c3c;
+            border: none;
+            border-radius: 40px;
             color: white;
             font-weight: 700;
             cursor: pointer;
         }
+
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 150;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
             display: none;
         }
+
         .toast {
             position: fixed;
             bottom: 30px;
             right: 30px;
             background: #10b981;
+            color: white;
             padding: 12px 24px;
-            border-radius: 60px;
-            z-index: 300;
+            border-radius: 12px;
+            z-index: 2000;
             transform: translateX(400px);
             transition: 0.2s;
         }
+
         .toast.show {
             transform: translateX(0);
         }
 
-        @media (max-width: 800px) {
-            .checkout-two-col { flex-direction: column; }
-            .checkout-left { border-right: none; border-bottom: 1px solid #262633; }
-            .cart-sidebar { width: 100%; right: -100%; }
-            .chat-container { flex-direction: column; }
-            .conversation-list { width: 100%; }
-            .hero-title { font-size: 38px; }
-            .row-2, .row-3 { grid-template-columns: 1fr; }
+        @media (max-width: 900px) {
+            .shop-layout {
+                flex-direction: column;
+            }
+            .shop-sidebar {
+                width: 100%;
+            }
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="vfx-layer">
-    <div class="particle-field" id="particles"></div>
-</div>
-
 <div class="header">
-    <div class="logo" onclick="showHome()">
+    <div class="logo" onclick="location.reload()">
         <i class="fas fa-gem logo-icon"></i>
-        <div class="logo-text">ECHOKNIVES</div>
+        <div class="logo-text">ECHO<span>KNIVES</span></div>
     </div>
     <div class="nav-links">
-        <button class="nav-link" onclick="showHome()">🏠 Home</button>
-        <button class="nav-link" onclick="showShop()">🛒 Shop</button>
-        <button class="nav-link" id="chatTabBtn" onclick="showChat()" style="display:none;">💬 Messages</button>
+        <span class="nav-link active">Shop</span>
+        <span class="nav-link" onclick="showTrading()">Trading</span>
+        <span class="nav-link" id="chatTabBtn" onclick="showChat()" style="display:none;">Messages</span>
     </div>
     <div class="top-actions">
-        <div class="user-info" id="userInfo">
+        <div class="user-info" id="userInfo" onclick="handleLogin()">
             <div class="avatar"><i class="fas fa-user"></i></div>
-            <span>Guest</span>
-            <button class="login-header-btn" onclick="handleLogin()" style="background:#6366f1; border:none; padding:6px 14px; border-radius:30px; color:white;">Login</button>
+            <span>Sign In</span>
         </div>
         <div class="cart-icon" onclick="toggleCart()">
             <i class="fas fa-shopping-cart"></i>
@@ -762,309 +544,256 @@
     </div>
 </div>
 
-<!-- HOME PAGE -->
-<div id="homePage" class="hero">
-    <div class="hero-content">
-        <div class="hero-badge">✨ PREMIUM MM2 SHOP ✨</div>
-        <h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1>
-        <p class="hero-desc" style="margin: 20px 0; color: #94a3b8;">🔒 Secure payments · Fast delivery · 24/7 support</p>
-        <button class="btn-primary" onclick="showShop()">Start Shopping →</button>
-    </div>
-    <div class="hero-image">
-        <img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero">
+<!-- Hero Banner -->
+<div class="hero-banner">
+    <h1>Get your Murder Mystery 2 items safely</h1>
+    <p>Safe and secure — 100% trusted by thousands of players</p>
+    <div class="trust-badge">
+        <i class="fas fa-shield-alt"></i> 100% Safe & Secure | 10,000+ Items Sold
     </div>
 </div>
 
-<!-- SHOP SECTION -->
-<div id="shopSection" class="shop-section">
-    <div class="products-grid" id="productsGrid"></div>
-</div>
-
-<!-- CHAT SECTION -->
-<div id="chatSection" class="chat-section">
-    <div class="chat-container">
-        <div class="conversation-list" id="conversationList"></div>
-        <div class="chat-area">
-            <div class="chat-messages" id="chatMessages"></div>
-            <div class="chat-input-area">
-                <input type="text" id="chatInput" class="chat-input" placeholder="Type your message...">
-                <button class="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Send</button>
+<!-- Main Shop Layout -->
+<div class="shop-layout">
+    <!-- Sidebar Filters -->
+    <div class="shop-sidebar">
+        <div class="filter-section">
+            <h3>Filter</h3>
+            <div class="filter-category">
+                <h4>Category</h4>
+                <label class="filter-option"><input type="checkbox" value="all" checked onchange="filterByCategory('all')"> All Items</label>
+                <label class="filter-option"><input type="checkbox" value="knife" onchange="filterByCategory('knife')"> 🔪 Knives</label>
+                <label class="filter-option"><input type="checkbox" value="gun" onchange="filterByCategory('gun')"> 🔫 Guns</label>
+                <label class="filter-option"><input type="checkbox" value="pet" onchange="filterByCategory('pet')"> 🐾 Pets</label>
+                <label class="filter-option"><input type="checkbox" value="chroma" onchange="filterByCategory('chroma')"> 🌈 Chromas</label>
+                <label class="filter-option"><input type="checkbox" value="ancient" onchange="filterByCategory('ancient')"> 🏺 Ancients</label>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- CHECKOUT PAGE -->
-<div id="checkoutPage" class="checkout-page">
-    <div class="checkout-container">
-        <div class="checkout-header">
-            <h2><i class="fas fa-lock"></i> Secure Checkout</h2>
-            <button class="close-checkout" onclick="closeCheckoutPage()">×</button>
+        <div class="filter-section">
+            <h3>Price Range</h3>
+            <div class="filter-option"><input type="checkbox" value="0-100" onchange="filterByPrice('0-100')"> Under ₱100</div>
+            <div class="filter-option"><input type="checkbox" value="100-500" onchange="filterByPrice('100-500')"> ₱100 - ₱500</div>
+            <div class="filter-option"><input type="checkbox" value="500-2000" onchange="filterByPrice('500-2000')"> ₱500 - ₱2,000</div>
+            <div class="filter-option"><input type="checkbox" value="2000+" onchange="filterByPrice('2000+')"> ₱2,000+</div>
         </div>
-        <div class="checkout-two-col">
-            <div class="checkout-left">
-                <!-- Contact Information -->
-                <div class="section-title">📋 Contact Information</div>
-                <div class="row-2">
-                    <div class="form-group">
-                        <label>First Name <span style="color:#ef4444;">*</span></label>
-                        <input type="text" id="firstName" placeholder="John">
-                    </div>
-                    <div class="form-group">
-                        <label>Last Name <span style="color:#ef4444;">*</span></label>
-                        <input type="text" id="lastName" placeholder="Doe">
-                    </div>
+    </div>
+
+    <!-- Products Main -->
+    <div class="products-main">
+        <div class="sort-bar">
+            <div class="results-count" id="resultsCount">169 products</div>
+            <div class="sort-select">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
                 </div>
-                <div class="row-2">
-                    <div class="form-group">
-                        <label>Email Address <span style="color:#ef4444;">*</span></label>
-                        <input type="email" id="emailAddress" placeholder="your@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label>🎮 Roblox Username <span style="color:#ef4444;">*</span></label>
-                        <input type="text" id="robloxUsername" placeholder="Your Roblox username">
-                    </div>
-                </div>
-                
-                <!-- Billing Address -->
-                <div class="section-title" style="margin-top: 24px;">📍 Billing Address</div>
-                <div class="row-2">
-                    <div class="form-group">
-                        <label>Country/Region <span style="color:#ef4444;">*</span></label>
-                        <select id="country">
-                            <option value="PH">🇵🇭 Philippines</option>
-                            <option value="US">🇺🇸 United States</option>
-                            <option value="GB">🇬🇧 United Kingdom</option>
-                            <option value="CA">🇨🇦 Canada</option>
-                            <option value="AU">🇦🇺 Australia</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>State/Province <span style="color:#ef4444;">*</span></label>
-                        <input type="text" id="state" placeholder="State">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Street Address <span style="color:#ef4444;">*</span></label>
-                    <input type="text" id="address" placeholder="Street address">
-                </div>
-                <div class="row-2">
-                    <div class="form-group">
-                        <label>ZIP/Postal Code <span style="color:#ef4444;">*</span></label>
-                        <input type="text" id="zip" placeholder="ZIP code">
-                    </div>
-                    <div class="form-group">
-                        <label>City <span style="color:#ef4444;">*</span></label>
-                        <input type="text" id="city" placeholder="City">
-                    </div>
-                </div>
-                
-                <!-- Payment Method -->
-                <div class="section-title" style="margin-top: 24px;">💳 Payment Method</div>
-                <div class="payment-methods">
-                    <div class="payment-option" data-payment="credit" onclick="selectPayment('credit')">
-                        <i class="fab fa-cc-visa"></i> Credit Card
-                    </div>
-                    <div class="payment-option" data-payment="debit" onclick="selectPayment('debit')">
-                        <i class="fas fa-credit-card"></i> Debit Card
-                    </div>
-                    <div class="payment-option" data-payment="paypal" onclick="selectPayment('paypal')">
-                        <i class="fab fa-paypal"></i> PayPal
-                    </div>
-                    <div class="payment-option" data-payment="mastercard" onclick="selectPayment('mastercard')">
-                        <i class="fab fa-cc-mastercard"></i> Mastercard
-                    </div>
-                </div>
-                
-                <!-- Card Details (shown when card payment selected) -->
-                <div id="cardDetails" class="card-details">
-                    <div class="form-group">
-                        <label>Name on Card <span style="color:#ef4444;">*</span></label>
-                        <input type="text" id="cardName" placeholder="John Doe">
-                    </div>
-                    <div class="form-group">
-                        <label>Card Number <span style="color:#ef4444;">*</span></label>
-                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
-                    </div>
-                    <div class="row-2">
-                        <div class="form-group">
-                            <label>Expiry Date (MM/YY) <span style="color:#ef4444;">*</span></label>
-                            <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
-                        </div>
-                        <div class="form-group">
-                            <label>Security Code (CVV) <span style="color:#ef4444;">*</span></label>
-                            <input type="password" id="cardCvv" placeholder="123" maxlength="4">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Tip Section -->
-                <div class="section-title" style="margin-top: 24px;">💝 Support the Team - Add a Tip</div>
-                <div class="tip-options">
-                    <button type="button" class="tip-btn" data-tip="0" onclick="selectTip(0)">No tip</button>
-                    <button type="button" class="tip-btn" data-tip="5" onclick="selectTip(5)">₱5</button>
-                    <button type="button" class="tip-btn" data-tip="10" onclick="selectTip(10)">₱10</button>
-                    <button type="button" class="tip-btn" data-tip="25" onclick="selectTip(25)">₱25</button>
-                    <button type="button" class="tip-btn" data-tip="50" onclick="selectTip(50)">₱50</button>
-                    <input type="number" id="customTipAmount" class="tip-custom" placeholder="Custom ₱" min="0" step="5" oninput="onCustomTip()">
-                </div>
-                
-                <!-- Privacy Notice -->
-                <div class="privacy-notice">
-                    <i class="fas fa-shield-alt"></i> Your payment information is encrypted and secure. We never store full card details.
-                </div>
-            </div>
-            
-            <div class="checkout-right">
-                <div class="section-title">🛒 Order Summary</div>
-                <div id="checkoutOrderItems" class="order-items"></div>
-                <div class="order-total">
-                    <div><span>Subtotal:</span><span id="checkoutSubtotal">₱0</span></div>
-                    <div><span>Tip:</span><span id="checkoutTipAmount">₱0</span></div>
-                </div>
-                <div class="grand-total">
-                    <span>Total:</span>
-                    <span id="checkoutGrandTotal">₱0</span>
-                </div>
-                <button class="btn-pay" onclick="processPayment()">
-                    <i class="fas fa-lock"></i> Complete Secure Payment
-                </button>
-                <div class="terms" style="font-size: 11px; text-align: center; margin-top: 12px; color: #64748b;">
-                    By completing your purchase, you agree to our Terms of Service
-                </div>
+                <select id="sortSelect" onchange="sortProducts()">
+                    <option value="default">Sort by</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name-asc">Name: A to Z</option>
+                </select>
             </div>
         </div>
+        <div class="products-grid" id="productsGrid"></div>
+        <div class="pagination" id="pagination"></div>
     </div>
 </div>
 
-<!-- RECEIPT MODAL -->
-<div id="receiptModal" class="receipt-modal">
-    <div class="receipt-card">
-        <div class="receipt-icon"><i class="fas fa-check-circle"></i></div>
-        <div class="receipt-title">Payment Successful!</div>
-        <div class="receipt-subtitle" style="text-align: center; color: #64748b; margin-bottom: 20px;">Thank you for your order</div>
-        <div class="receipt-details" id="receiptDetails"></div>
-        <div class="terms-box">
-            <strong>📜 Terms & Conditions</strong><br><br>
-            1. Items will be delivered within 24 hours of payment confirmation.<br>
-            2. Delivery is done via Roblox trade. You must add "Sigmake5" on Roblox.<br>
-            3. All sales are final. No refunds after delivery.<br>
-            4. If you haven't received your items within 24 hours, contact support.<br>
-            5. By completing this purchase, you confirm you are the owner of the Roblox account provided.<br>
-            6. ECHOKNIVES is not affiliated with Roblox or Murder Mystery 2.<br>
-            7. Chargebacks will result in permanent ban from future purchases.<br>
-            8. Your payment information is encrypted and never stored on our servers.
-        </div>
-        <button class="receipt-close" onclick="closeReceipt()">Done</button>
-    </div>
-</div>
-
-<!-- CART SIDEBAR -->
+<!-- Cart Sidebar -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
-    <div style="display:flex; justify-content:space-between; margin-bottom:24px;"><h3>Your cart</h3><button onclick="closeCart()" style="background:none; border:none; font-size:24px; color:white;">✖</button></div>
-    <div id="cartItemsList" style="flex:1; overflow-y:auto;"></div>
+    <div class="cart-header">
+        <h3>Your Cart</h3>
+        <button class="close-cart" onclick="closeCart()">×</button>
+    </div>
+    <div class="cart-items" id="cartItemsList"></div>
     <div class="cart-total" id="cartTotal">Total: ₱0</div>
-    <button class="checkout-btn-cart" onclick="openCheckoutPage()">Proceed to Checkout →</button>
+    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
 </div>
 
 <div class="toast" id="toastMsg"></div>
 
 <script>
-    // Particles
-    for (let i = 0; i < 80; i++) {
-        let p = document.createElement('div');
-        p.className = 'particle';
-        p.style.width = (Math.random() * 6 + 2) + 'px';
-        p.style.height = p.style.width;
-        p.style.left = Math.random() * 100 + '%';
-        p.style.animationDelay = Math.random() * 20 + 's';
-        p.style.animationDuration = (Math.random() * 15 + 8) + 's';
-        document.getElementById('particles').appendChild(p);
-    }
-
-    // ========== GLOBAL STATE ==========
-    let isLoggedIn = false;
-    let currentUser = null;
-    let cart = [];
-    let conversations = {};
-    let selectedPayment = "credit";
-    let selectedTip = 0;
-
-    // ========== ITEMS ==========
+    // ========== MM2 ITEMS (169+ products) ==========
     const items = [
-        { id: 1, name: "Icewing", price: 72, image: "https://i.imgur.com/jiwvmxq.jpeg" },
-        { id: 2, name: "Batwing", price: 152, image: "https://i.imgur.com/H6CL03y.jpeg" },
-        { id: 3, name: "Harvester", price: 608, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
-        { id: 4, name: "Luger", price: 207, image: "https://i.imgur.com/eEvMBRh.jpeg" },
-        { id: 5, name: "Darkbringer", price: 92000, image: "https://i.imgur.com/8oxgzwa.jpeg" },
-        { id: 6, name: "Lightbringer", price: 92000, image: "https://i.imgur.com/BUljuYV.jpeg" }
+        // Knives
+        { id: 1, name: "Icewing", category: "knife", price: 72, image: "https://i.imgur.com/jiwvmxq.jpeg" },
+        { id: 2, name: "Batwing", category: "knife", price: 152, image: "https://i.imgur.com/H6CL03y.jpeg" },
+        { id: 3, name: "Harvester", category: "knife", price: 608, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
+        { id: 4, name: "Hallows Blade", category: "knife", price: 78, image: "https://i.imgur.com/2fGtH7k.png" },
+        { id: 5, name: "Fang", category: "knife", price: 228, image: "https://i.imgur.com/5hJkL9o.png" },
+        { id: 6, name: "Slasher", category: "knife", price: 266, image: "https://i.imgur.com/7uKvH2l.png" },
+        { id: 7, name: "Heat", category: "knife", price: 323, image: "https://i.imgur.com/9mNpR2q.png" },
+        { id: 8, name: "Nightblade", category: "knife", price: 67, image: "https://i.imgur.com/4sJtL5p.png" },
+        { id: 9, name: "Deathshard", category: "knife", price: 73, image: "https://i.imgur.com/1wEfR4t.png" },
+        { id: 10, name: "Saw", category: "knife", price: 76, image: "https://i.imgur.com/6cDvB3m.png" },
+        { id: 11, name: "Seer", category: "knife", price: 70, image: "https://i.imgur.com/3xPqL9j.png" },
+        { id: 12, name: "Gemstone", category: "knife", price: 85, image: "https://i.imgur.com/8bRcV2k.png" },
+        // Guns
+        { id: 13, name: "Luger", category: "gun", price: 207, image: "https://i.imgur.com/eEvMBRh.jpeg" },
+        { id: 14, name: "Darkbringer", category: "gun", price: 92000, image: "https://i.imgur.com/8oxgzwa.jpeg" },
+        { id: 15, name: "Lightbringer", category: "gun", price: 92000, image: "https://i.imgur.com/BUljuYV.jpeg" },
+        { id: 16, name: "Shark", category: "gun", price: 56, image: "https://i.imgur.com/5dFgH7n.png" },
+        { id: 17, name: "Laser", category: "gun", price: 104, image: "https://i.imgur.com/2aBcX4p.png" },
+        { id: 18, name: "Blaster", category: "gun", price: 285, image: "https://i.imgur.com/9mNpR2q.png" },
+        { id: 19, name: "Virtual", category: "gun", price: 261, image: "https://i.imgur.com/8QZ7VcL.png" },
+        { id: 20, name: "Amerilaser", category: "gun", price: 309, image: "https://i.imgur.com/5hJkL9o.png" },
+        { id: 21, name: "Old Glory", category: "gun", price: 304, image: "https://i.imgur.com/1wEfR4t.png" },
+        { id: 22, name: "Red Luger", category: "gun", price: 342, image: "https://i.imgur.com/6cDvB3m.png" },
+        { id: 23, name: "Green Luger", category: "gun", price: 333, image: "https://i.imgur.com/2fGtH7k.png" },
+        // Pets
+        { id: 24, name: "Electro", category: "pet", price: 95, image: "https://i.imgur.com/8bRcV2k.png" },
+        { id: 25, name: "Frostbird", category: "pet", price: 72, image: "https://i.imgur.com/3xPqL9j.png" },
+        { id: 26, name: "Phoenix", category: "pet", price: 114, image: "https://i.imgur.com/4sJtL5p.png" },
+        { id: 27, name: "Sammy", category: "pet", price: 142, image: "https://i.imgur.com/7uKvH2l.png" },
+        { id: 28, name: "Fire Dog", category: "pet", price: 171, image: "https://i.imgur.com/5dFgH7n.png" },
+        { id: 29, name: "Fire Bat", category: "pet", price: 162, image: "https://i.imgur.com/2aBcX4p.png" },
+        { id: 30, name: "Fire Bear", category: "pet", price: 152, image: "https://i.imgur.com/9mNpR2q.png" },
+        // Chromas
+        { id: 31, name: "Chroma Fang", category: "chroma", price: 1140, image: "https://i.imgur.com/9mNpR2q.png" },
+        { id: 32, name: "Chroma Slasher", category: "chroma", price: 1180, image: "https://i.imgur.com/2aBcX4p.png" },
+        { id: 33, name: "Chroma Heat", category: "chroma", price: 1235, image: "https://i.imgur.com/5dFgH7n.png" },
+        { id: 34, name: "Chroma Luger", category: "chroma", price: 1425, image: "https://i.imgur.com/eEvMBRh.jpeg" },
+        { id: 35, name: "Chroma Laser", category: "chroma", price: 1330, image: "https://i.imgur.com/2aBcX4p.png" },
+        { id: 36, name: "Chroma Shark", category: "chroma", price: 1290, image: "https://i.imgur.com/5dFgH7n.png" },
+        // Ancients
+        { id: 37, name: "Icebreaker", category: "ancient", price: 712, image: "https://i.imgur.com/6cDvB3m.png" },
+        { id: 38, name: "Elderwood Scythe", category: "ancient", price: 655, image: "https://i.imgur.com/1wEfR4t.png" },
+        { id: 39, name: "Logchopper", category: "ancient", price: 598, image: "https://i.imgur.com/4sJtL5p.png" },
+        { id: 40, name: "Boneblade", category: "ancient", price: 532, image: "https://i.imgur.com/7uKvH2l.png" },
+        { id: 41, name: "BattleAxe II", category: "ancient", price: 504, image: "https://i.imgur.com/5hJkL9o.png" }
     ];
 
-    // Format card number input
-    document.getElementById("cardNumber")?.addEventListener("input", function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-        e.target.value = value.substring(0, 19);
-    });
-    
-    document.getElementById("cardExpiry")?.addEventListener("input", function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length >= 2) {
-            value = value.substring(0, 2) + '/' + value.substring(2, 4);
-        }
-        e.target.value = value.substring(0, 5);
-    });
+    // Generate more items to reach ~169
+    for (let i = 42; i <= 169; i++) {
+        items.push({
+            id: i,
+            name: `MM2 Item #${i}`,
+            category: ["knife", "gun", "pet", "chroma", "ancient"][i % 5],
+            price: Math.floor(Math.random() * 500) + 50,
+            image: "https://i.imgur.com/8QZ7VcL.png"
+        });
+    }
+
+    let cart = [];
+    let isLoggedIn = false;
+    let currentUser = null;
+    let currentCategory = "all";
+    let currentPriceFilter = "all";
+    let searchQuery = "";
+    let currentSort = "default";
+    let currentPage = 1;
+    const itemsPerPage = 20;
 
     function showToast(msg) {
         const t = document.getElementById("toastMsg");
         t.innerText = msg;
         t.classList.add("show");
-        setTimeout(() => t.classList.remove("show"), 3000);
+        setTimeout(() => t.classList.remove("show"), 2500);
     }
 
-    function showHome() {
-        document.getElementById("homePage").style.display = "flex";
-        document.getElementById("shopSection").classList.remove("active");
-        document.getElementById("chatSection").classList.remove("active");
-        document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
-        document.querySelector(".nav-link:first-child").classList.add("active");
-    }
+    function showTrading() { showToast("Trading hub coming soon!"); }
+    function showChat() { showToast("Messages coming soon!"); }
 
-    function showShop() {
-        document.getElementById("homePage").style.display = "none";
-        document.getElementById("shopSection").classList.add("active");
-        document.getElementById("chatSection").classList.remove("active");
-        document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
-        document.querySelectorAll(".nav-link")[1].classList.add("active");
-        renderProducts();
-    }
-
-    function showChat() {
-        document.getElementById("homePage").style.display = "none";
-        document.getElementById("shopSection").classList.remove("active");
-        document.getElementById("chatSection").classList.add("active");
-        document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
-        document.getElementById("chatTabBtn").classList.add("active");
-        loadConversations();
+    function getFilteredItems() {
+        let filtered = [...items];
+        
+        // Category filter
+        if (currentCategory !== "all") {
+            filtered = filtered.filter(item => item.category === currentCategory);
+        }
+        
+        // Price filter
+        if (currentPriceFilter !== "all") {
+            if (currentPriceFilter === "0-100") filtered = filtered.filter(item => item.price < 100);
+            else if (currentPriceFilter === "100-500") filtered = filtered.filter(item => item.price >= 100 && item.price <= 500);
+            else if (currentPriceFilter === "500-2000") filtered = filtered.filter(item => item.price >= 500 && item.price <= 2000);
+            else if (currentPriceFilter === "2000+") filtered = filtered.filter(item => item.price > 2000);
+        }
+        
+        // Search filter
+        if (searchQuery) {
+            filtered = filtered.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
+        }
+        
+        // Sort
+        if (currentSort === "price-asc") filtered.sort((a, b) => a.price - b.price);
+        else if (currentSort === "price-desc") filtered.sort((a, b) => b.price - a.price);
+        else if (currentSort === "name-asc") filtered.sort((a, b) => a.name.localeCompare(b.name));
+        
+        return filtered;
     }
 
     function renderProducts() {
+        const filtered = getFilteredItems();
+        const totalPages = Math.ceil(filtered.length / itemsPerPage);
+        const start = (currentPage - 1) * itemsPerPage;
+        const paginated = filtered.slice(start, start + itemsPerPage);
+        
+        document.getElementById("resultsCount").innerHTML = `${filtered.length} products`;
+        
         const container = document.getElementById("productsGrid");
-        container.innerHTML = items.map(item => `
+        container.innerHTML = paginated.map(item => `
             <div class="product-card">
-                <div class="product-img"><img src="${item.image}" onerror="this.src='https://placehold.co/200x200/6366f1/white?text=MM2'" alt="${item.name}"></div>
+                <div class="product-img"><img src="${item.image}" onerror="this.src='https://placehold.co/200x200/e74c3c/white?text=MM2'"></div>
                 <div class="product-info">
                     <div class="product-name">${item.name}</div>
+                    <div class="product-category">${item.category.toUpperCase()}</div>
                     <div class="product-price">₱${item.price.toLocaleString()}</div>
-                    <button class="add-to-cart" onclick="addToCart(${item.id})">Add to cart</button>
+                    <button class="add-to-cart" onclick="addToCart(${item.id})">Add to Cart</button>
                 </div>
             </div>
         `).join("");
+        
+        // Render pagination
+        const paginationDiv = document.getElementById("pagination");
+        if (totalPages > 1) {
+            let pages = '<button class="page-btn" onclick="changePage(' + (currentPage - 1) + ')"><i class="fas fa-chevron-left"></i></button>';
+            for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+                pages += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+            }
+            pages += `<button class="page-btn" onclick="changePage(${currentPage + 1})"><i class="fas fa-chevron-right"></i></button>`;
+            paginationDiv.innerHTML = pages;
+        } else {
+            paginationDiv.innerHTML = "";
+        }
+    }
+
+    function changePage(page) {
+        const filtered = getFilteredItems();
+        const totalPages = Math.ceil(filtered.length / itemsPerPage);
+        if (page < 1 || page > totalPages) return;
+        currentPage = page;
+        renderProducts();
+    }
+
+    function filterByCategory(category) {
+        currentCategory = category;
+        currentPage = 1;
+        renderProducts();
+    }
+
+    function filterByPrice(range) {
+        currentPriceFilter = range;
+        currentPage = 1;
+        renderProducts();
+    }
+
+    function searchProducts() {
+        searchQuery = document.getElementById("searchInput").value;
+        currentPage = 1;
+        renderProducts();
+    }
+
+    function sortProducts() {
+        currentSort = document.getElementById("sortSelect").value;
+        currentPage = 1;
+        renderProducts();
     }
 
     function addToCart(id) {
-        if (!isLoggedIn) { showToast("Please login first"); handleLogin(); return; }
+        if (!isLoggedIn) { showToast("Please sign in first"); handleLogin(); return; }
         const item = items.find(i => i.id === id);
         const existing = cart.find(i => i.id === id);
         if (existing) existing.qty++;
@@ -1079,322 +808,42 @@
         document.getElementById("cartCount").innerText = count;
         document.getElementById("cartTotal").innerHTML = `Total: ₱${total.toLocaleString()}`;
         const container = document.getElementById("cartItemsList");
-        if (!cart.length) { container.innerHTML = "<p style='text-align:center; margin-top:20px'>Cart is empty</p>"; return; }
+        if (!cart.length) { container.innerHTML = "<p style='text-align:center; color:#94a3b8;'>Your cart is empty</p>"; return; }
         container.innerHTML = cart.map(item => `
             <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
                 <div><strong>${item.name}</strong><br>₱${item.price.toLocaleString()} x${item.qty}</div>
-                <div><button onclick="removeItem(${item.id})" style="background:#ef4444; border:none; border-radius:30px; padding:4px 12px;">✖</button></div>
+                <div><button onclick="removeFromCart(${item.id})" style="background:#ef4444; border:none; border-radius:30px; padding:4px 12px; color:white; cursor:pointer;">✖</button></div>
             </div>
         `).join("");
     }
 
-    function removeItem(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
+    function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
     function toggleCart() { document.getElementById("cartSidebar").classList.add("open"); document.getElementById("overlay").style.display = "block"; }
     function closeCart() { document.getElementById("cartSidebar").classList.remove("open"); document.getElementById("overlay").style.display = "none"; }
+    function checkout() { if (cart.length === 0) showToast("Cart is empty"); else showToast("Checkout coming soon!"); }
 
-    // ===== CHECKOUT =====
-    function openCheckoutPage() {
-        if (!isLoggedIn) { showToast("Please login first"); handleLogin(); return; }
-        if (cart.length === 0) { showToast("Your cart is empty"); return; }
-        
-        const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-        const container = document.getElementById("checkoutOrderItems");
-        container.innerHTML = cart.map(item => `
-            <div class="order-item">
-                <span>${item.name} x${item.qty}</span>
-                <span>₱${(item.price * item.qty).toLocaleString()}</span>
-            </div>
-        `).join("");
-        
-        document.getElementById("checkoutSubtotal").innerHTML = `₱${subtotal.toLocaleString()}`;
-        updateCheckoutTotal();
-        
-        // Pre-fill user info
-        if (currentUser) {
-            document.getElementById("emailAddress").value = currentUser.email || "";
-            const nameParts = currentUser.displayName?.split(' ') || [];
-            document.getElementById("firstName").value = nameParts[0] || "";
-            document.getElementById("lastName").value = nameParts.slice(1).join(' ') || "";
-        }
-        
-        document.getElementById("robloxUsername").value = "";
-        document.getElementById("address").value = "";
-        document.getElementById("city").value = "";
-        document.getElementById("state").value = "";
-        document.getElementById("zip").value = "";
-        document.getElementById("cardName").value = "";
-        document.getElementById("cardNumber").value = "";
-        document.getElementById("cardExpiry").value = "";
-        document.getElementById("cardCvv").value = "";
-        
-        selectedTip = 0;
-        selectedPayment = "credit";
-        document.querySelectorAll(".tip-btn").forEach(btn => btn.classList.remove("selected"));
-        document.querySelector(".tip-btn[data-tip='0']").classList.add("selected");
-        document.getElementById("customTipAmount").value = "";
-        document.querySelectorAll(".payment-option").forEach(opt => opt.classList.remove("selected"));
-        document.querySelector(`.payment-option[data-payment='credit']`).classList.add("selected");
-        document.getElementById("cardDetails").classList.add("show");
-        
-        document.getElementById("checkoutPage").classList.add("show");
-        closeCart();
-    }
-
-    function closeCheckoutPage() { document.getElementById("checkoutPage").classList.remove("show"); }
-
-    function selectPayment(payment) {
-        selectedPayment = payment;
-        document.querySelectorAll(".payment-option").forEach(opt => opt.classList.remove("selected"));
-        document.querySelector(`.payment-option[data-payment='${payment}']`).classList.add("selected");
-        
-        // Show card details only for credit/debit/mastercard
-        if (payment === 'credit' || payment === 'debit' || payment === 'mastercard') {
-            document.getElementById("cardDetails").classList.add("show");
-        } else {
-            document.getElementById("cardDetails").classList.remove("show");
-        }
-    }
-
-    function selectTip(amount) {
-        selectedTip = amount;
-        document.querySelectorAll(".tip-btn").forEach(btn => btn.classList.remove("selected"));
-        document.querySelector(`.tip-btn[data-tip='${amount}']`).classList.add("selected");
-        document.getElementById("customTipAmount").value = "";
-        updateCheckoutTotal();
-    }
-
-    function onCustomTip() {
-        const val = parseInt(document.getElementById("customTipAmount").value) || 0;
-        selectedTip = val;
-        document.querySelectorAll(".tip-btn").forEach(btn => btn.classList.remove("selected"));
-        updateCheckoutTotal();
-    }
-
-    function updateCheckoutTotal() {
-        const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-        const total = subtotal + selectedTip;
-        document.getElementById("checkoutTipAmount").innerHTML = `₱${selectedTip.toLocaleString()}`;
-        document.getElementById("checkoutGrandTotal").innerHTML = `₱${total.toLocaleString()}`;
-    }
-
-    function processPayment() {
-        // Validate required fields
-        const firstName = document.getElementById("firstName").value.trim();
-        const lastName = document.getElementById("lastName").value.trim();
-        const email = document.getElementById("emailAddress").value.trim();
-        const robloxUser = document.getElementById("robloxUsername").value.trim();
-        const address = document.getElementById("address").value.trim();
-        const city = document.getElementById("city").value.trim();
-        const state = document.getElementById("state").value.trim();
-        const zip = document.getElementById("zip").value.trim();
-        
-        if (!firstName) { showToast("Please enter your first name"); return; }
-        if (!lastName) { showToast("Please enter your last name"); return; }
-        if (!email) { showToast("Please enter your email address"); return; }
-        if (!robloxUser) { showToast("Please enter your Roblox username"); return; }
-        if (!address) { showToast("Please enter your street address"); return; }
-        if (!city) { showToast("Please enter your city"); return; }
-        if (!state) { showToast("Please enter your state"); return; }
-        if (!zip) { showToast("Please enter your ZIP code"); return; }
-        
-        // Validate card details if card payment selected
-        if (selectedPayment === 'credit' || selectedPayment === 'debit' || selectedPayment === 'mastercard') {
-            const cardName = document.getElementById("cardName").value.trim();
-            const cardNumber = document.getElementById("cardNumber").value.replace(/\s/g, '');
-            const cardExpiry = document.getElementById("cardExpiry").value.trim();
-            const cardCvv = document.getElementById("cardCvv").value.trim();
-            
-            if (!cardName) { showToast("Please enter name on card"); return; }
-            if (cardNumber.length < 15) { showToast("Please enter a valid card number"); return; }
-            if (!cardExpiry.match(/^(0[1-9]|1[0-2])\/\d{2}$/)) { showToast("Please enter valid expiry date (MM/YY)"); return; }
-            if (cardCvv.length < 3) { showToast("Please enter security code (CVV)"); return; }
-        }
-        
-        const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-        const total = subtotal + selectedTip;
-        const orderNumber = 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
-        
-        // Create order object (card details NOT stored for security)
-        const order = {
-            orderNumber: orderNumber,
-            firstName: firstName,
-            lastName: lastName,
-            fullName: firstName + " " + lastName,
-            email: email,
-            robloxUser: robloxUser,
-            address: address,
-            city: city,
-            state: state,
-            zip: zip,
-            country: document.getElementById("country").value,
-            items: cart.map(i => `${i.name} x${i.qty}`).join(', '),
-            subtotal: subtotal,
-            tip: selectedTip,
-            total: total,
-            paymentMethod: selectedPayment.toUpperCase(),
-            status: "paid",
-            date: new Date().toLocaleString()
-        };
-        
-        // Save order
-        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-        orders.push(order);
-        localStorage.setItem('orders', JSON.stringify(orders));
-        
-        // Show receipt
-        showReceipt(order);
-        
-        // Clear cart
-        cart = [];
-        updateCartUI();
-        closeCheckoutPage();
-        
-        // Send to Discord webhook
-        fetch('https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                embeds: [{
-                    title: '🛒 NEW ORDER!',
-                    color: 0x10b981,
-                    fields: [
-                        { name: 'Order #', value: orderNumber, inline: true },
-                        { name: 'Customer', value: order.fullName, inline: true },
-                        { name: 'Roblox', value: robloxUser, inline: true },
-                        { name: 'Items', value: order.items, inline: false },
-                        { name: 'Subtotal', value: `₱${subtotal.toLocaleString()}`, inline: true },
-                        { name: 'Tip', value: `₱${selectedTip.toLocaleString()}`, inline: true },
-                        { name: 'Total', value: `₱${total.toLocaleString()}`, inline: true },
-                        { name: 'Payment', value: selectedPayment.toUpperCase(), inline: true }
-                    ],
-                    timestamp: new Date().toISOString()
-                }]
-            })
-        }).catch(e => console.error);
-        
-        // Send chat message
-        if (!conversations[currentUser?.uid]) conversations[currentUser.uid] = [];
-        let conv = conversations[currentUser.uid].find(c => c.with === "ECHOKNIVES Support");
-        if (!conv) {
-            conv = { with: "ECHOKNIVES Support", messages: [] };
-            conversations[currentUser.uid].push(conv);
-        }
-        conv.messages.push({
-            sender: "system",
-            text: `✅ ORDER PLACED! #${orderNumber}\n\nItems: ${order.items}\nTotal: ₱${total.toLocaleString()}\nRoblox: @${robloxUser}\nPayment: ${selectedPayment.toUpperCase()}\n\n📦 You will receive your items within 24 hours. Add Sigmake5 on Roblox!`,
-            time: Date.now()
-        });
-        localStorage.setItem("echoknives_conversations", JSON.stringify(conversations));
-    }
-
-    function showReceipt(order) {
-        const receiptHtml = `
-            <div class="receipt-row"><strong>Order Number:</strong> <span>${order.orderNumber}</span></div>
-            <div class="receipt-row"><strong>Date:</strong> <span>${order.date}</span></div>
-            <div class="receipt-row"><strong>Payment Method:</strong> <span>${order.paymentMethod}</span></div>
-            <div class="receipt-row"><strong>Items:</strong> <span>${order.items}</span></div>
-            <div class="receipt-row"><strong>Subtotal:</strong> <span>₱${order.subtotal.toLocaleString()}</span></div>
-            <div class="receipt-row"><strong>Tip:</strong> <span>₱${order.tip.toLocaleString()}</span></div>
-            <div class="receipt-row receipt-total"><strong>Total Paid:</strong> <span>₱${order.total.toLocaleString()}</span></div>
-            <div class="receipt-row"><strong>Roblox User:</strong> <span>@${order.robloxUser}</span></div>
-            <div class="receipt-row"><strong>Delivery Status:</strong> <span style="color:#10b981;">Processing</span></div>
-        `;
-        document.getElementById("receiptDetails").innerHTML = receiptHtml;
-        document.getElementById("receiptModal").classList.add("show");
-    }
-
-    function closeReceipt() { document.getElementById("receiptModal").classList.remove("show"); }
-
-    // ===== AUTH =====
+    // Auth
     async function handleLogin() {
         try {
             const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
             currentUser = result.user;
             isLoggedIn = true;
-            updateUserUI();
-            showToast(`Welcome ${currentUser.displayName || currentUser.email}`);
+            document.getElementById("userInfo").innerHTML = `<div class="avatar">${currentUser.displayName?.charAt(0) || 'U'}</div><span>${currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0]}</span>`;
             document.getElementById("chatTabBtn").style.display = "block";
-            loadConversations();
-            renderProducts();
+            showToast(`Welcome ${currentUser.displayName || currentUser.email}`);
         } catch (err) { showToast("Login failed"); }
-    }
-
-    function logout() {
-        window.firebaseSignOut(window.firebaseAuth).then(() => {
-            isLoggedIn = false;
-            currentUser = null;
-            cart = [];
-            updateCartUI();
-            updateUserUI();
-            document.getElementById("chatTabBtn").style.display = "none";
-            showToast("Logged out");
-            renderProducts();
-        });
-    }
-
-    function updateUserUI() {
-        const userDiv = document.getElementById("userInfo");
-        if (isLoggedIn && currentUser) {
-            userDiv.innerHTML = `<div class="avatar">${currentUser.displayName?.charAt(0) || 'U'}</div><span>${currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0]}</span><button onclick="logout()" style="background:#ef4444; border:none; padding:6px 14px; border-radius:30px; color:white;">Logout</button>`;
-        } else {
-            userDiv.innerHTML = `<div class="avatar"><i class="fas fa-user"></i></div><span>Guest</span><button class="login-header-btn" onclick="handleLogin()" style="background:#6366f1; border:none; padding:6px 14px; border-radius:30px; color:white;">Login</button>`;
-        }
     }
 
     window.handleAuthStateChanged = (user) => {
         if (user && !isLoggedIn) {
             currentUser = user;
             isLoggedIn = true;
-            updateUserUI();
+            document.getElementById("userInfo").innerHTML = `<div class="avatar">${currentUser.displayName?.charAt(0) || 'U'}</div><span>${currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0]}</span>`;
             document.getElementById("chatTabBtn").style.display = "block";
-            loadConversations();
-            renderProducts();
         }
     };
 
-    // ===== CHAT =====
-    function loadConversations() {
-        if (!currentUser) return;
-        const convs = conversations[currentUser.uid] || [];
-        const listDiv = document.getElementById("conversationList");
-        if (!convs.length) { listDiv.innerHTML = "<div style='padding:16px; text-align:center; color:#64748b'>No conversations</div>"; return; }
-        listDiv.innerHTML = convs.map((conv, idx) => `<div class="conversation-item ${idx === 0 ? 'active' : ''}" onclick="selectConversation(${idx})"><div class="conversation-name">${conv.with}</div></div>`).join("");
-        if (convs.length) selectConversation(0);
-    }
-
-    function selectConversation(idx) {
-        const convs = conversations[currentUser.uid] || [];
-        if (!convs[idx]) return;
-        const messages = convs[idx].messages || [];
-        const container = document.getElementById("chatMessages");
-        container.innerHTML = messages.map(msg => `<div class="message ${msg.sender === currentUser.uid ? 'sent' : 'received'}">${msg.text}<div class="message-time">${new Date(msg.time).toLocaleTimeString()}</div></div>`).join("");
-        container.scrollTop = container.scrollHeight;
-    }
-
-    function sendMessage() {
-        if (!isLoggedIn) { showToast("Login to chat"); handleLogin(); return; }
-        const input = document.getElementById("chatInput");
-        const text = input.value.trim();
-        if (!text) return;
-        if (!conversations[currentUser.uid]) conversations[currentUser.uid] = [];
-        let conv = conversations[currentUser.uid][0];
-        if (!conv) {
-            conv = { with: "ECHOKNIVES Support", messages: [] };
-            conversations[currentUser.uid].push(conv);
-        }
-        conv.messages.push({ sender: currentUser.uid, text, time: Date.now() });
-        localStorage.setItem("echoknives_conversations", JSON.stringify(conversations));
-        input.value = "";
-        selectConversation(0);
-    }
-
-    const savedConvs = localStorage.getItem("echoknives_conversations");
-    if (savedConvs) conversations = JSON.parse(savedConvs);
-
     renderProducts();
-    updateCartUI();
-    showHome();
-    updateUserUI();
 </script>
 </body>
 </html>
