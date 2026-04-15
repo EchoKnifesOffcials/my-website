@@ -45,75 +45,369 @@
     </script>
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; overflow-x: hidden; }
-        
-        .animated-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 20% 50%, #0a0a0a 0%, #1a0505 50%, #0a0a0a 100%); }
-        .glow-orb { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.4; z-index: -1; animation: float 20s infinite ease-in-out; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 50%, #0a0a0a 0%, #1a0505 50%, #0a0a0a 100%);
+        }
+
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: -1;
+            animation: float 20s infinite ease-in-out;
+        }
+
         .orb-1 { width: 500px; height: 500px; background: #dc2626; top: -200px; left: -200px; }
         .orb-2 { width: 400px; height: 400px; background: #f97316; bottom: -150px; right: -150px; animation-delay: 5s; }
         .orb-3 { width: 350px; height: 350px; background: #8b5cf6; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 10s; opacity: 0.2; }
-        @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.1); } 66% { transform: translate(-20px, 20px) scale(0.9); } }
-        
-        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
-        .particle { position: absolute; background: rgba(220, 38, 38, 0.3); border-radius: 50%; pointer-events: none; animation: particleFloat 15s infinite linear; }
-        @keyframes particleFloat { 0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; } 10% { opacity: 0.6; } 90% { opacity: 0.6; } 100% { transform: translateY(-100vh) translateX(100px) rotate(360deg); opacity: 0; } }
-        
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(220, 38, 38, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFloat 15s infinite linear;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) translateX(100px) rotate(360deg); opacity: 0; }
+        }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #dc2626; border-radius: 10px; }
-        
-        .header { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(12px); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(220, 38, 38, 0.3); flex-wrap: wrap; gap: 15px; }
-        .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .logo-icon { font-size: 32px; color: #dc2626; filter: drop-shadow(0 0 10px rgba(220,38,38,0.5)); }
-        .logo-text { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #fff, #dc2626); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .logo-sub { font-size: 10px; color: #888; letter-spacing: 2px; }
-        
-        .nav-links { display: flex; gap: 8px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 50px; }
-        .nav-link { padding: 10px 24px; border-radius: 40px; cursor: pointer; font-weight: 600; transition: all 0.3s; color: #ccc; border: none; background: transparent; font-size: 14px; }
-        .nav-link:hover { color: white; background: rgba(220,38,38,0.2); }
-        .nav-link.active { background: #dc2626; color: white; box-shadow: 0 0 15px rgba(220,38,38,0.5); }
-        
-        .top-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+        /* Header - LugerGG Style */
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(220, 38, 38, 0.3);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+            color: #dc2626;
+            filter: drop-shadow(0 0 10px rgba(220,38,38,0.5));
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #dc2626);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo-sub {
+            font-size: 10px;
+            color: #888;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            background: rgba(255,255,255,0.05);
+            padding: 5px;
+            border-radius: 50px;
+        }
+
+        .nav-link {
+            padding: 10px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #ccc;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(220,38,38,0.2);
+        }
+
+        .nav-link.active {
+            background: #dc2626;
+            color: white;
+            box-shadow: 0 0 15px rgba(220,38,38,0.5);
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
         .dropdown { position: relative; }
-        .dropdown-btn { background: rgba(255,255,255,0.1); border: none; padding: 8px 16px; border-radius: 30px; color: white; cursor: pointer; font-size: 13px; transition: all 0.3s; }
+        .dropdown-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
         .dropdown-btn:hover { background: #dc2626; }
-        .dropdown-content { display: none; position: absolute; right: 0; top: 45px; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); min-width: 200px; border-radius: 12px; border: 1px solid rgba(220,38,38,0.3); z-index: 1000; overflow: hidden; }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 45px;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            min-width: 200px;
+            border-radius: 12px;
+            border: 1px solid rgba(220,38,38,0.3);
+            z-index: 1000;
+            overflow: hidden;
+        }
         .dropdown-content.show { display: block; }
-        .dropdown-item { padding: 12px 18px; cursor: pointer; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; }
+        .dropdown-item {
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.2s;
+        }
         .dropdown-item:hover { background: rgba(220,38,38,0.3); }
         .dropdown-item i { width: 24px; margin-right: 10px; color: #dc2626; }
-        
-        .currency-selector { background: rgba(255,255,255,0.1); border-radius: 30px; padding: 8px 16px; display: flex; align-items: center; gap: 8px; }
-        .currency-selector select { background: transparent; border: none; color: white; font-size: 13px; cursor: pointer; outline: none; }
-        .user-info { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 30px; }
-        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: #dc2626; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .login-btn, .logout-btn { background: #dc2626; border: none; padding: 6px 18px; border-radius: 25px; color: white; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.3s; }
+
+        .currency-selector {
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .currency-selector select {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 12px;
+            border-radius: 30px;
+        }
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .login-btn, .logout-btn {
+            background: #dc2626;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
         .login-btn:hover, .logout-btn:hover { background: #f97316; transform: scale(1.02); }
         .admin-badge { background: #f39c12; padding: 3px 10px; border-radius: 15px; font-size: 10px; font-weight: bold; }
-        .cart-icon { position: relative; cursor: pointer; font-size: 22px; background: rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 30px; transition: all 0.3s; }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 22px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 14px;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
         .cart-icon:hover { background: #dc2626; transform: scale(1.05); }
-        .cart-count { position: absolute; top: -5px; right: -5px; background: #dc2626; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; display: flex; align-items: center; justify-content: center; }
-        
-        .hero { min-height: 80vh; display: flex; align-items: center; justify-content: space-between; padding: 60px 5%; flex-wrap: wrap; gap: 40px; }
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc2626;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 5%;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
         .hero-content { flex: 1; min-width: 280px; }
-        .hero-badge { display: inline-block; background: rgba(220,38,38,0.2); padding: 8px 20px; border-radius: 40px; font-size: 14px; color: #dc2626; margin-bottom: 20px; border: 1px solid rgba(220,38,38,0.3); }
-        .hero-title { font-size: 64px; font-weight: 800; line-height: 1.1; margin-bottom: 20px; font-family: 'Orbitron', monospace; }
-        .hero-title span { background: linear-gradient(135deg, #dc2626, #f97316); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .hero-desc { font-size: 18px; color: #aaa; margin-bottom: 30px; line-height: 1.6; }
-        .hero-stats { display: flex; gap: 30px; margin-bottom: 40px; }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(220,38,38,0.2);
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            color: #dc2626;
+            margin-bottom: 20px;
+            border: 1px solid rgba(220,38,38,0.3);
+        }
+        .hero-title {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-family: 'Orbitron', monospace;
+        }
+        .hero-title span {
+            background: linear-gradient(135deg, #dc2626, #f97316);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero-desc {
+            font-size: 18px;
+            color: #aaa;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
         .hero-stat h3 { font-size: 32px; font-weight: 800; color: #dc2626; }
         .hero-stat p { font-size: 12px; color: #888; }
-        .hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
-        .btn-primary { background: linear-gradient(135deg, #dc2626, #991b1b); border: none; padding: 14px 32px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; font-size: 16px; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(220,38,38,0.4); }
-        .btn-secondary { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 14px 32px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; }
-        .btn-secondary:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(220,38,38,0.4);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 14px 32px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
         .hero-image { flex: 1; min-width: 280px; text-align: center; }
-        .hero-image img { max-width: 100%; filter: drop-shadow(0 0 30px rgba(220,38,38,0.3)); animation: floatImage 3s ease-in-out infinite; }
+        .hero-image img {
+            max-width: 100%;
+            filter: drop-shadow(0 0 30px rgba(220,38,38,0.3));
+            animation: floatImage 3s ease-in-out infinite;
+        }
         @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        
-        .admin-panel { background: rgba(0,0,0,0.8); margin: 20px 5%; border-radius: 20px; padding: 20px; border: 2px solid #f39c12; display: none; backdrop-filter: blur(10px); }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: rgba(0,0,0,0.8);
+            margin: 20px 5%;
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid #f39c12;
+            display: none;
+            backdrop-filter: blur(10px);
+        }
         .admin-panel.show { display: block; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .admin-search { padding: 8px 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 25px; color: white; width: 250px; }
@@ -121,8 +415,17 @@
         .admin-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .toggle-status { background: #dc2626; border: none; padding: 5px 12px; border-radius: 20px; color: white; cursor: pointer; font-size: 11px; }
         .toggle-status.available { background: #27ae60; }
-        
-        .chat-panel { background: rgba(0,0,0,0.8); margin: 20px 5%; border-radius: 20px; padding: 20px; border: 2px solid #dc2626; display: none; backdrop-filter: blur(10px); }
+
+        /* Chat Panel */
+        .chat-panel {
+            background: rgba(0,0,0,0.8);
+            margin: 20px 5%;
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid #dc2626;
+            display: none;
+            backdrop-filter: blur(10px);
+        }
         .chat-panel.show { display: block; }
         .chat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .chat-conversations { display: flex; gap: 20px; min-height: 400px; }
@@ -140,7 +443,6 @@
         .message-text { max-width: 80%; padding: 10px 15px; border-radius: 18px; font-size: 13px; word-break: break-word; }
         .message-bubble.admin .message-text { background: #dc2626; border-bottom-left-radius: 4px; }
         .message-bubble.user .message-text { background: rgba(255,255,255,0.2); border-bottom-right-radius: 4px; }
-        .message-image, .message-video { max-width: 200px; max-height: 200px; border-radius: 12px; margin-top: 5px; cursor: pointer; }
         .message-time { font-size: 10px; color: #888; margin-top: 4px; }
         .chat-input-area { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
         .chat-input { flex: 1; padding: 12px; border-radius: 25px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; }
@@ -148,26 +450,98 @@
         .attach-btn { background: rgba(255,255,255,0.1); border: none; padding: 12px; border-radius: 50%; cursor: pointer; transition: all 0.3s; }
         .attach-btn:hover { background: #dc2626; }
         .chat-send { background: #dc2626; border: none; padding: 12px 20px; border-radius: 25px; color: white; cursor: pointer; }
-        
+
+        /* Shop Container */
         .shop-container { display: none; padding: 40px 5%; }
         .shop-container.active { display: block; }
-        .filter-bar { background: rgba(0,0,0,0.5); padding: 12px 20px; margin-bottom: 30px; border-radius: 50px; display: flex; gap: 10px; overflow-x: auto; backdrop-filter: blur(10px); }
-        .filter-btn { background: rgba(255,255,255,0.1); border: none; padding: 8px 20px; border-radius: 30px; color: white; cursor: pointer; font-size: 13px; white-space: nowrap; transition: all 0.3s; }
+        
+        .filter-bar {
+            background: rgba(0,0,0,0.5);
+            padding: 12px 20px;
+            margin-bottom: 30px;
+            border-radius: 50px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            backdrop-filter: blur(10px);
+        }
+        .filter-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
         .filter-btn:hover { background: rgba(220,38,38,0.5); }
         .filter-btn.active { background: #dc2626; }
-        
-        .stats-banner { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .stat-card { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; text-align: center; border: 1px solid rgba(220,38,38,0.3); }
+
+        .stats-banner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(220,38,38,0.3);
+        }
         .stat-card h3 { font-size: 32px; font-weight: 800; color: #dc2626; }
         .stat-card p { font-size: 13px; color: #888; margin-top: 5px; }
-        
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
-        .product-card { background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border-radius: 20px; overflow: hidden; transition: all 0.3s ease; border: 1px solid rgba(220,38,38,0.2); position: relative; }
-        .product-card:hover { transform: translateY(-8px); border-color: #dc2626; box-shadow: 0 15px 35px rgba(220,38,38,0.2); }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+        .product-card {
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(220,38,38,0.2);
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: #dc2626;
+            box-shadow: 0 15px 35px rgba(220,38,38,0.2);
+        }
         .product-card.offsale { opacity: 0.5; }
-        .offsale-badge { position: absolute; top: 10px; right: 10px; background: #dc2626; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 2; }
-        .product-image { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #1a1a1a, #0a0a0a); display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .product-image img { width: 100px; height: 100px; object-fit: contain; transition: transform 0.3s; }
+        .offsale-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc2626;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            z-index: 2;
+        }
+        .product-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .product-image img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
         .product-card:hover .product-image img { transform: scale(1.1); }
         .product-info { padding: 15px; }
         .product-name { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
@@ -175,21 +549,36 @@
         .product-rarity.godly { color: #dc2626; }
         .product-rarity.ancient { color: #f39c12; }
         .product-rarity.rare { color: #10b981; }
-        .price-container { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-        .original-price { font-size: 14px; color: #888; text-decoration: line-through; }
         .product-price { font-size: 20px; font-weight: 800; color: #dc2626; }
-        .discount-badge { background: #27ae60; padding: 2px 6px; border-radius: 20px; font-size: 10px; font-weight: bold; }
-        .add-btn { width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #dc2626, #991b1b); border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .add-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 10px;
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
         .add-btn:hover:not(:disabled) { transform: scale(1.02); background: #f97316; }
         .add-btn:disabled { background: #444; cursor: not-allowed; }
-        
+
+        /* Trading Section */
         .trading-container { display: none; padding: 40px 5%; }
         .trading-container.active { display: block; }
         .trading-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
         .create-trade-btn { background: #dc2626; border: none; padding: 12px 25px; border-radius: 30px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; }
         .create-trade-btn:hover { background: #f97316; transform: scale(1.02); }
         .trades-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
-        .trade-card { background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; border: 1px solid rgba(220,38,38,0.2); }
+        .trade-card {
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(220,38,38,0.2);
+        }
         .trade-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .trade-user { display: flex; align-items: center; gap: 10px; }
         .trade-avatar { width: 40px; height: 40px; border-radius: 50%; background: #dc2626; display: flex; align-items: center; justify-content: center; font-weight: bold; }
@@ -198,8 +587,23 @@
         .trade-actions { display: flex; gap: 10px; }
         .accept-trade { flex: 1; background: #27ae60; border: none; padding: 10px; border-radius: 25px; color: white; cursor: pointer; font-weight: 600; }
         .delete-trade { flex: 1; background: #dc2626; border: none; padding: 10px; border-radius: 25px; color: white; cursor: pointer; font-weight: 600; }
-        
-        .cart-sidebar { position: fixed; top: 0; right: -450px; width: 450px; height: 100vh; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 1000; transition: right 0.3s; padding: 25px; display: flex; flex-direction: column; border-left: 2px solid #dc2626; }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            height: 100vh;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: right 0.3s;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            border-left: 2px solid #dc2626;
+        }
         .cart-sidebar.open { right: 0; }
         .cart-header { display: flex; justify-content: space-between; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid rgba(255,255,255,0.1); }
         .close-cart { background: none; border: none; font-size: 28px; cursor: pointer; color: #dc2626; }
@@ -213,22 +617,216 @@
         .paypal-button-container { margin: 15px 0; display: none; }
         .checkout-btn { width: 100%; padding: 15px; background: #27ae60; border: none; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; }
         .checkout-btn:hover { background: #219a52; transform: scale(1.02); }
-        
+
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 999; display: none; }
         .overlay.show { display: block; }
         .toast { position: fixed; bottom: 30px; right: 30px; background: #27ae60; padding: 12px 24px; border-radius: 12px; z-index: 2000; transform: translateX(400px); transition: transform 0.3s; }
         .toast.show { transform: translateX(0); }
         .no-trades { text-align: center; padding: 50px; color: #888; }
-        
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; display: none; justify-content: center; align-items: center; }
-        .modal.show { display: flex; }
-        .modal-content { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 30px; width: 90%; max-width: 450px; text-align: center; position: relative; border: 1px solid #dc2626; }
-        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #999; }
-        .modal-close:hover { color: #dc2626; }
-        .verify-buttons { display: flex; gap: 15px; margin-top: 20px; }
-        .verify-yes { flex: 1; background: #27ae60; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
-        .verify-no { flex: 1; background: #dc2626; border: none; padding: 12px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
-        
+
+        /* Full Screen Receipt GUI - White with VFX */
+        .receipt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 5000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+        .receipt-overlay.show { display: flex; }
+        .receipt-vfx {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5001;
+        }
+        .receipt-particle {
+            position: absolute;
+            background: rgba(220,38,38,0.1);
+            border-radius: 50%;
+            animation: receiptParticleFloat 8s infinite linear;
+        }
+        @keyframes receiptParticleFloat {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+        .receipt-container {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            z-index: 5002;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            animation: receiptFadeIn 0.5s ease;
+        }
+        @keyframes receiptFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .receipt-icon {
+            font-size: 80px;
+            color: #27ae60;
+            margin-bottom: 20px;
+        }
+        .receipt-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        .receipt-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .receipt-details {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #333;
+        }
+        .receipt-label { font-weight: 600; color: #666; }
+        .receipt-value { font-weight: 700; color: #dc2626; }
+        .receipt-items {
+            border-top: 1px solid #eee;
+            padding-top: 12px;
+            margin-top: 12px;
+        }
+        .receipt-items p { margin: 5px 0; font-size: 13px; color: #555; }
+        .receipt-close {
+            background: #dc2626;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 16px;
+        }
+        .receipt-close:hover { background: #f97316; transform: scale(1.02); }
+
+        /* Reviews Modal */
+        .reviews-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 4000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .reviews-modal.show { display: flex; }
+        .reviews-content {
+            background: #1a1a2e;
+            border-radius: 30px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .review-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .review-stars { color: #f39c12; margin-bottom: 8px; }
+        .review-text { font-size: 13px; color: #ccc; margin-top: 8px; }
+        .write-review {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .write-review textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            margin-bottom: 10px;
+        }
+        .star-rating {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .star-rating i {
+            font-size: 24px;
+            cursor: pointer;
+            color: #555;
+            transition: all 0.2s;
+        }
+        .star-rating i:hover,
+        .star-rating i.active { color: #f39c12; }
+
+        /* Purchase History Modal */
+        .history-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 4000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .history-modal.show { display: flex; }
+        .history-content {
+            background: #1a1a2e;
+            border-radius: 30px;
+            padding: 30px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .history-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .history-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .history-status.pending { background: #f39c12; color: #1a1a2e; }
+        .history-status.approved { background: #27ae60; }
+        .history-status.cancelled { background: #dc2626; }
+
         @media (max-width: 768px) {
             .cart-sidebar { width: 100%; right: -100%; }
             .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
@@ -260,7 +858,7 @@
     
     <div class="nav-links">
         <button class="nav-link active" onclick="showHome()">🏠 Home</button>
-        <button class="nav-link" onclick="showShop()">🛒 Buy Items</button>
+        <button class="nav-link" onclick="showShop()">🛒 Shop</button>
         <button class="nav-link" onclick="showTrading()">🤝 Trading</button>
         <button class="nav-link" id="chatTabBtn" onclick="showChat()" style="display:none;">💬 Messages</button>
     </div>
@@ -270,7 +868,8 @@
             <button class="dropdown-btn" onclick="toggleDropdown('account')">👤 Account</button>
             <div class="dropdown-content" id="accountDropdown">
                 <div class="dropdown-item" onclick="viewProfile()"><i class="fas fa-id-card"></i> My Profile</div>
-                <div class="dropdown-item" onclick="viewOrders()"><i class="fas fa-shopping-bag"></i> My Orders</div>
+                <div class="dropdown-item" onclick="showPurchaseHistory()"><i class="fas fa-shopping-bag"></i> Purchase History</div>
+                <div class="dropdown-item" onclick="showReviews()"><i class="fas fa-star"></i> Reviews</div>
                 <div class="dropdown-item" onclick="viewVouchers()"><i class="fas fa-ticket-alt"></i> My Vouchers</div>
                 <div class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</div>
             </div>
@@ -319,7 +918,7 @@
 
 <div class="chat-panel" id="chatPanel">
     <div class="chat-header">
-        <h3><i class="fas fa-comments"></i> Private Messages</h3>
+        <h3><i class="fas fa-comments"></i> Messages</h3>
         <span id="chatUnreadCount" style="background:#dc2626;padding:4px 12px;border-radius:20px;">0</span>
     </div>
     <div class="chat-conversations">
@@ -327,7 +926,7 @@
         <div class="chat-area" id="chatArea">
             <div class="chat-messages" id="chatMessages"></div>
             <div class="chat-input-area">
-                <input type="text" id="chatMessageInput" class="chat-input" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <input type="text" id="chatMessageInput" class="chat-input" placeholder="Type your message...">
                 <input type="file" id="fileInput" class="file-input" accept="image/*,video/*" onchange="sendFile()">
                 <button class="attach-btn" onclick="document.getElementById('fileInput').click()"><i class="fas fa-paperclip"></i></button>
                 <button class="chat-send" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
@@ -338,13 +937,13 @@
 
 <div id="homePage" class="hero">
     <div class="hero-content">
-        <div class="hero-badge">🔥 LIMITED TIME SALE 🔥</div>
-        <h1 class="hero-title">PREMIUM <span>MM2</span><br>ITEM SHOP</h1>
-        <p class="hero-desc">Get the rarest Murder Mystery 2 items at the best prices. <br>Secure payments, instant delivery!</p>
+        <div class="hero-badge">🔥 PREMIUM MM2 SHOP 🔥</div>
+        <h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1>
+        <p class="hero-desc">Get the rarest Murder Mystery 2 items instantly.<br>Secure payments, fast delivery, 24/7 support.</p>
         <div class="hero-stats">
-            <div class="hero-stat"><h3>50K+</h3><p>Items Sold</p></div>
-            <div class="hero-stat"><h3>10K+</h3><p>Happy Customers</p></div>
-            <div class="hero-stat"><h3>24/7</h3><p>Support</p></div>
+            <div class="hero-stat"><h3>10K+</h3><p>Items Sold</p></div>
+            <div class="hero-stat"><h3>5K+</h3><p>Happy Customers</p></div>
+            <div class="hero-stat"><h3>100%</h3><p>Secure</p></div>
         </div>
         <div class="hero-buttons">
             <button class="btn-primary" onclick="showShop()"><i class="fas fa-shopping-cart"></i> Shop Now</button>
@@ -379,7 +978,7 @@
 <div id="tradingPage" class="trading-container">
     <div class="trading-header">
         <h2><i class="fas fa-exchange-alt"></i> Trading Hub</h2>
-        <button class="create-trade-btn" onclick="openTradeModal()"><i class="fas fa-plus"></i> Create Trade Offer</button>
+        <button class="create-trade-btn" onclick="openTradeModal()"><i class="fas fa-plus"></i> Create Trade</button>
     </div>
     <div class="trades-grid" id="tradesGrid"></div>
 </div>
@@ -394,90 +993,67 @@
     <div class="cart-total" id="cartTotal">Total: ₱0</div>
     <div class="payment-options">
         <div class="payment-method" data-method="paypal" onclick="selectPayment('paypal')">💰 PayPal</div>
-        <div class="payment-method" data-method="visa" onclick="selectPayment('visa')">💳 Credit/Debit Card</div>
-        <div class="payment-method" data-method="gcash" onclick="selectPayment('gcash')">📱 GCash</div>
+        <div class="payment-method" data-method="visa" onclick="selectPayment('visa')">💳 Card</div>
     </div>
     <div id="paypal-button-container" class="paypal-button-container"></div>
-    <input type="text" id="checkoutRobloxUsername" class="roblox-input" placeholder="Enter your Roblox Username (required)">
+    <input type="text" id="checkoutRobloxUsername" class="roblox-input" placeholder="Roblox Username (required)">
     <div id="voucherSection" style="display:none; margin:10px 0; padding:10px; background:rgba(243,156,18,0.2); border-radius:12px;">
-        <p style="font-size:13px;"><i class="fas fa-ticket-alt"></i> You have a 5% off voucher!</p>
+        <p><i class="fas fa-ticket-alt"></i> 5% off voucher available!</p>
         <div class="verify-buttons">
-            <button class="verify-yes" onclick="applyVoucher()" style="padding:8px;">✅ Apply Voucher</button>
-            <button class="verify-no" onclick="dismissVoucher()" style="padding:8px;">❌ Don't Apply</button>
+            <button class="verify-yes" onclick="applyVoucher()" style="padding:8px;">Apply</button>
+            <button class="verify-no" onclick="dismissVoucher()" style="padding:8px;">Dismiss</button>
         </div>
     </div>
     <button class="checkout-btn" id="checkoutBtn" onclick="processPayment()">Place Order</button>
 </div>
 
-<div class="modal" id="orderPendingModal">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeOrderPendingModal()">&times;</span>
-        <i class="fas fa-clock" style="font-size:60px;color:#f39c12;"></i>
-        <h2 style="margin-top:15px;">Order Placed!</h2>
-        <p id="pendingOrderNumber" style="font-size:20px;font-weight:800;color:#f39c12;margin:15px 0;"></p>
-        <div style="background:rgba(255,255,255,0.1);border-radius:15px;padding:15px;margin:15px 0;text-align:left;">
-            <p id="pendingReceiptText" style="font-size:13px;color:#ccc;"></p>
-            <p style="margin-top:15px;font-size:13px;color:#ffd700;">⏳ Your order is pending admin approval.</p>
+<!-- Full Screen Receipt GUI -->
+<div class="receipt-overlay" id="receiptOverlay">
+    <div class="receipt-vfx" id="receiptVfx"></div>
+    <div class="receipt-container">
+        <div class="receipt-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="receipt-title">Order Successful!</div>
+        <div class="receipt-subtitle">Your order has been confirmed</div>
+        <div class="receipt-details">
+            <div class="receipt-row"><span class="receipt-label">Order Number:</span><span class="receipt-value" id="receiptOrderNumber"></span></div>
+            <div class="receipt-row"><span class="receipt-label">Date:</span><span class="receipt-value" id="receiptDate"></span></div>
+            <div class="receipt-row"><span class="receipt-label">Payment Method:</span><span class="receipt-value" id="receiptPayment"></span></div>
+            <div class="receipt-row"><span class="receipt-label">Total:</span><span class="receipt-value" id="receiptTotal"></span></div>
+            <div class="receipt-items"><span class="receipt-label">Items:</span><p id="receiptItems"></p></div>
+            <div class="receipt-row"><span class="receipt-label">Roblox User:</span><span class="receipt-value" id="receiptRoblox"></span></div>
+            <div class="receipt-row"><span class="receipt-label">Status:</span><span class="receipt-value" style="color:#27ae60;">✓ Approved</span></div>
         </div>
-        <button class="verify-yes" style="width:100%;" onclick="closeOrderPendingModal()">Got it! ✅</button>
+        <button class="receipt-close" onclick="closeReceipt()">Done</button>
     </div>
 </div>
 
-<div class="modal" id="orderSuccessModal">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeOrderSuccessModal()">&times;</span>
-        <i class="fas fa-check-circle" style="font-size:60px;color:#27ae60;"></i>
-        <h2 style="margin-top:15px;">Order Approved!</h2>
-        <p id="successOrderNumber" style="font-size:20px;font-weight:800;color:#27ae60;margin:15px 0;"></p>
-        <div style="background:rgba(255,255,255,0.1);border-radius:15px;padding:15px;margin:15px 0;text-align:left;">
-            <p id="successReceiptText" style="font-size:13px;color:#ccc;"></p>
+<!-- Reviews Modal -->
+<div class="reviews-modal" id="reviewsModal">
+    <div class="reviews-content">
+        <h3><i class="fas fa-star"></i> Customer Reviews</h3>
+        <div id="reviewsList"></div>
+        <div class="write-review">
+            <h4>Write a Review</h4>
+            <div class="star-rating" id="starRating">
+                <i class="far fa-star" data-rating="1"></i>
+                <i class="far fa-star" data-rating="2"></i>
+                <i class="far fa-star" data-rating="3"></i>
+                <i class="far fa-star" data-rating="4"></i>
+                <i class="far fa-star" data-rating="5"></i>
+            </div>
+            <textarea id="reviewText" rows="3" placeholder="Share your experience..."></textarea>
+            <button class="btn-primary" onclick="submitReview()" style="width:100%;">Submit Review</button>
         </div>
-        <button class="verify-yes" style="width:100%;" onclick="closeOrderSuccessModal()">Got it! ✅</button>
+        <button class="verify-no" onclick="closeReviews()" style="margin-top:15px;width:100%;">Close</button>
     </div>
 </div>
 
-<div class="modal" id="orderCancelledModal">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeOrderCancelledModal()">&times;</span>
-        <i class="fas fa-times-circle" style="font-size:60px;color:#dc2626;"></i>
-        <h2 style="margin-top:15px;">Order Cancelled</h2>
-        <p id="cancelledOrderNumber" style="font-size:20px;font-weight:800;color:#dc2626;margin:15px 0;"></p>
-        <div style="background:rgba(255,255,255,0.1);border-radius:15px;padding:15px;margin:15px 0;text-align:left;">
-            <p id="cancelledReceiptText" style="font-size:13px;color:#ccc;"></p>
-            <p style="margin-top:15px;font-size:13px;color:#ffd700;">🎫 You received a 5% off voucher (never expires)!</p>
-        </div>
-        <button class="verify-yes" style="width:100%;" onclick="closeOrderCancelledModal()">Got it! ✅</button>
-    </div>
-</div>
-
-<div class="modal" id="voucherApplyModal">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeVoucherApplyModal()">&times;</span>
-        <i class="fas fa-ticket-alt" style="font-size:60px;color:#f39c12;"></i>
-        <h2 style="margin-top:15px;">Apply Voucher?</h2>
-        <p>You have a 5% off voucher available!</p>
-        <div class="verify-buttons">
-            <button class="verify-yes" onclick="confirmApplyVoucher()">✅ Yes, apply it</button>
-            <button class="verify-no" onclick="closeVoucherApplyModal()">❌ No, save for later</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal" id="tradeModal">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeTradeModal()">&times;</span>
-        <h2>Create Trade Offer</h2>
-        <select id="tradeType" style="width:100%;padding:10px;margin:10px 0;border-radius:12px;background:rgba(255,255,255,0.1);color:white;">
-            <option value="offer">📦 I'm Offering</option>
-            <option value="looking">🎯 I'm Looking For</option>
-        </select>
-        <input type="text" id="tradeItems" class="roblox-input" placeholder="Items you're offering">
-        <input type="text" id="tradeWant" class="roblox-input" placeholder="Items you want">
-        <textarea id="tradeNote" rows="3" class="roblox-input" placeholder="Additional notes"></textarea>
-        <div class="verify-buttons">
-            <button class="verify-yes" onclick="submitTrade()">Post Trade</button>
-            <button class="verify-no" onclick="closeTradeModal()">Cancel</button>
-        </div>
+<!-- Purchase History Modal -->
+<div class="history-modal" id="historyModal">
+    <div class="history-content">
+        <h3><i class="fas fa-shopping-bag"></i> Purchase History</h3>
+        <div id="historyList"></div>
+        <button class="verify-no" onclick="closeHistory()" style="margin-top:15px;width:100%;">Close</button>
     </div>
 </div>
 
@@ -489,32 +1065,26 @@
         for (let i = 0; i < 50; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
-            const size = Math.random() * 4 + 2;
-            particle.style.width = size + 'px';
-            particle.style.height = size + 'px';
+            particle.style.width = (Math.random() * 4 + 2) + 'px';
+            particle.style.height = (Math.random() * 4 + 2) + 'px';
             particle.style.left = Math.random() * 100 + '%';
             particle.style.animationDelay = Math.random() * 15 + 's';
             particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            particle.style.opacity = Math.random() * 0.5;
             container.appendChild(particle);
         }
     }
     createParticles();
 
-    window.firebaseReady = true;
-
-    // ========== MM2 ITEMS WITH WORKING IMAGES ==========
+    // MM2 Items
     const items = [
-        { id: 1, name: "Batwing", type: "knife", salePrice: 8500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly" },
-        { id: 2, name: "Harvester", type: "knife", salePrice: 27000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly" },
-        { id: 3, name: "Vampire's Axe", type: "knife", salePrice: 68000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly" },
-        { id: 4, name: "Phantom", type: "knife", salePrice: 7500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly" },
-        { id: 5, name: "Luger", type: "gun", salePrice: 42000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly" },
-        { id: 6, name: "Darkshot", type: "gun", salePrice: 105000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/6cDvB3m.png", category: "godly" },
-        { id: 7, name: "Lightbringer", type: "gun", salePrice: 92000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly" },
-        { id: 8, name: "Darkbringer", type: "gun", salePrice: 92000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly" },
-        { id: 9, name: "Chroma Traveler's Gun", type: "gun", salePrice: 8500000, onsale: true, rarity: "Chroma", rarityClass: "chroma", image: "https://i.imgur.com/9mNpR2q.png", category: "chroma" },
-        { id: 10, name: "Fire Bunny", type: "pet", salePrice: 2800, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet" }
+        { id: 1, name: "Batwing", type: "knife", price: 8500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/8QZ7VcL.png", category: "godly" },
+        { id: 2, name: "Harvester", type: "knife", price: 27000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/3xYzQ8p.png", category: "godly" },
+        { id: 3, name: "Vampire's Axe", type: "knife", price: 68000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5hJkL9o.png", category: "godly" },
+        { id: 4, name: "Phantom", type: "knife", price: 7500, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2fGtH7k.png", category: "godly" },
+        { id: 5, name: "Luger", type: "gun", price: 42000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/1wEfR4t.png", category: "godly" },
+        { id: 6, name: "Lightbringer", type: "gun", price: 92000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/5dFgH7n.png", category: "godly" },
+        { id: 7, name: "Darkbringer", type: "gun", price: 92000, onsale: true, rarity: "Godly", rarityClass: "godly", image: "https://i.imgur.com/2aBcX4p.png", category: "godly" },
+        { id: 8, name: "Fire Bunny", type: "pet", price: 2800, onsale: true, rarity: "Rare", rarityClass: "rare", image: "https://i.imgur.com/6cDvB3m.png", category: "pet" }
     ];
 
     const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, KRW: 24.5 };
@@ -531,13 +1101,10 @@
     let hasVoucher = false;
     let voucherApplied = false;
     let pendingOrders = JSON.parse(localStorage.getItem('pendingOrders') || '{}');
-    let conversations = JSON.parse(localStorage.getItem('conversations') || '{}');
-    let currentConversation = null;
+    let reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+    let orders = JSON.parse(localStorage.getItem('orders') || '[]');
     
-    function getDisplayPrice(pricePHP) { 
-        let converted = pricePHP * exchangeRates[currentCurrency];
-        return converted.toFixed(2);
-    }
+    function getDisplayPrice(price) { return (price * exchangeRates[currentCurrency]).toFixed(2); }
     function getSymbol() { return currencySymbols[currentCurrency]; }
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
     function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); updateStats(); showToast(`Currency: ${currentCurrency}`); }
@@ -547,182 +1114,166 @@
     function showTrading() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').classList.remove('active'); document.getElementById('tradingPage').classList.add('active'); document.getElementById('chatPanel').classList.remove('show'); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(3)').classList.add('active'); loadTrades(); }
     function showChat() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').classList.remove('active'); document.getElementById('tradingPage').classList.remove('active'); document.getElementById('chatPanel').classList.add('show'); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(4)').classList.add('active'); loadConversations(); }
     
-    const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d';
+    function showReviews() { loadReviews(); document.getElementById('reviewsModal').classList.add('show'); }
+    function closeReviews() { document.getElementById('reviewsModal').classList.remove('show'); }
+    function closeHistory() { document.getElementById('historyModal').classList.remove('show'); }
     
+    function loadReviews() {
+        const container = document.getElementById('reviewsList');
+        if (reviews.length === 0) { container.innerHTML = '<p style="color:#888;">No reviews yet. Be the first!</p>'; return; }
+        container.innerHTML = reviews.map(r => `<div class="review-item"><div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><div><strong>${r.user}</strong> <span style="font-size:11px;color:#888;">${r.date}</span></div><div class="review-text">${r.text}</div></div>`).join('');
+    }
+    
+    function submitReview() {
+        if (!isLoggedIn) { showToast("Please login first!"); return; }
+        const rating = document.querySelectorAll('.star-rating i.active').length;
+        const text = document.getElementById('reviewText').value.trim();
+        if (rating === 0 || !text) { showToast("Please select a rating and write a review!"); return; }
+        reviews.unshift({ user: currentUser.displayName || currentUser.email, rating: rating, text: text, date: new Date().toLocaleDateString() });
+        localStorage.setItem('reviews', JSON.stringify(reviews));
+        loadReviews();
+        document.getElementById('reviewText').value = '';
+        document.querySelectorAll('.star-rating i').forEach(i => i.classList.remove('active'));
+        showToast("Review submitted!");
+    }
+    
+    function showPurchaseHistory() {
+        if (!isLoggedIn) { showToast("Please login first!"); return; }
+        const userOrders = orders.filter(o => o.userId === currentUser.uid);
+        const container = document.getElementById('historyList');
+        if (userOrders.length === 0) { container.innerHTML = '<p style="color:#888;">No purchase history yet.</p>'; return; }
+        container.innerHTML = userOrders.map(o => `<div class="history-item"><div><strong>Order #${o.orderNumber}</strong> <span class="history-status ${o.status}">${o.status}</span></div><div>${o.items}</div><div>Total: ${o.total}</div><div>Date: ${o.date}</div></div>`).join('');
+        document.getElementById('historyModal').classList.add('show');
+    }
+    
+    function viewVouchers() { if (hasVoucher) alert("🎫 You have a 5% off voucher (never expires)!"); else alert("🎫 No vouchers available."); }
+    
+    const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d';
     function generateOrderNumber() { return 'EK-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase(); }
     
-    // Function to handle Discord interaction (called from webhook)
+    async function sendDiscordNotification(orderNumber, robloxUser, orderDetails) {
+        const embed = { title: '🛒 NEW ORDER!', color: 0xdc2626, fields: [
+            { name: '📋 Order Number', value: `\`${orderNumber}\``, inline: true },
+            { name: '🎮 Roblox', value: `@${robloxUser}`, inline: true },
+            { name: '💰 Total', value: orderDetails.total, inline: true },
+            { name: '📦 Items', value: orderDetails.items, inline: false },
+            { name: '💳 Payment', value: orderDetails.payment, inline: true }
+        ], footer: { text: 'ECHOKNIVES Order System' }, timestamp: new Date().toISOString() };
+        try {
+            pendingOrders[orderNumber] = { orderNumber, robloxUser, orderDetails, userId: currentUser?.uid, userEmail: currentUser?.email, timestamp: Date.now(), status: 'pending' };
+            localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
+            await fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ embeds: [embed], components: [{ type: 1, components: [{ type: 2, style: 3, label: '✅ Take Order', custom_id: `take_${orderNumber}` }, { type: 2, style: 4, label: '❌ Cancel Order', custom_id: `cancel_${orderNumber}` }] }] }) });
+        } catch(e) { console.error(e); }
+    }
+    
     window.handleDiscordAction = function(orderNumber, action) {
         const order = pendingOrders[orderNumber];
         if (!order) return;
-        
         if (action === 'take') {
             order.status = 'approved';
             localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
-            // Notify user
-            const notifications = JSON.parse(localStorage.getItem('userNotifications_' + order.userId) || '[]');
-            notifications.push({ type: 'order_approved', orderNumber: orderNumber, orderDetails: order.orderDetails });
-            localStorage.setItem('userNotifications_' + order.userId, JSON.stringify(notifications));
+            orders.push({ ...order.orderDetails, orderNumber, userId: order.userId, status: 'approved', date: new Date().toLocaleString() });
+            localStorage.setItem('orders', JSON.stringify(orders));
+            const notifications = JSON.parse(localStorage.getItem('notifications_' + order.userId) || '[]');
+            notifications.push({ type: 'order_approved', orderNumber, orderDetails: order.orderDetails });
+            localStorage.setItem('notifications_' + order.userId, JSON.stringify(notifications));
             showToast(`Order ${orderNumber} approved!`);
         } else if (action === 'cancel') {
             order.status = 'cancelled';
             localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
-            // Give permanent voucher
             localStorage.setItem('voucher_' + order.userId, 'true');
-            const notifications = JSON.parse(localStorage.getItem('userNotifications_' + order.userId) || '[]');
-            notifications.push({ type: 'order_cancelled', orderNumber: orderNumber, orderDetails: order.orderDetails });
-            localStorage.setItem('userNotifications_' + order.userId, JSON.stringify(notifications));
+            const notifications = JSON.parse(localStorage.getItem('notifications_' + order.userId) || '[]');
+            notifications.push({ type: 'order_cancelled', orderNumber, orderDetails: order.orderDetails });
+            localStorage.setItem('notifications_' + order.userId, JSON.stringify(notifications));
             showToast(`Order ${orderNumber} cancelled, voucher issued!`);
         }
     };
     
-    async function sendDiscordNotification(orderNumber, robloxUser, orderDetails) {
-        const embed = {
-            title: '🛒 NEW ORDER!',
-            color: 0xdc2626,
-            fields: [
-                { name: '📋 Order Number', value: `\`${orderNumber}\``, inline: true },
-                { name: '🎮 Roblox Username', value: `@${robloxUser}`, inline: true },
-                { name: '💰 Total', value: orderDetails.total, inline: true },
-                { name: '📦 Items', value: orderDetails.items, inline: false },
-                { name: '💳 Payment', value: orderDetails.payment, inline: true },
-                { name: '🎫 Voucher Used', value: orderDetails.voucherUsed || 'No', inline: true }
-            ],
-            footer: { text: 'ECHOKNIVES Order System' },
-            timestamp: new Date().toISOString()
-        };
-        
-        // Create a unique callback URL for this order
-        const callbackUrl = `https://echoknives.netlify.app/api/discord?order=${orderNumber}`;
-        
-        try {
-            pendingOrders[orderNumber] = {
-                orderNumber: orderNumber,
-                robloxUser: robloxUser,
-                orderDetails: orderDetails,
-                userId: currentUser?.uid,
-                userEmail: currentUser?.email,
-                timestamp: Date.now(),
-                status: 'pending'
-            };
-            localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
-            
-            // Send to Discord with buttons
-            await fetch(DISCORD_WEBHOOK, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    embeds: [embed],
-                    components: [{
-                        type: 1,
-                        components: [
-                            {
-                                type: 2,
-                                style: 3,
-                                label: '✅ Take Order',
-                                custom_id: `take_${orderNumber}`,
-                                emoji: { name: '✅' }
-                            },
-                            {
-                                type: 2,
-                                style: 4,
-                                label: '❌ Cancel Order',
-                                custom_id: `cancel_${orderNumber}`,
-                                emoji: { name: '❌' }
-                            }
-                        ]
-                    }]
-                })
-            });
-            console.log('Discord notification sent with buttons');
-        } catch (e) { console.error('Discord webhook error:', e); }
-    }
-    
-    let currentOrderTotal = 0;
-    let currentOrderNumber = '';
-    let currentOrderDetails = null;
+    let currentOrderTotal = 0, currentOrderNumber = '', currentOrderDetails = null;
     
     function initPayPal(total) {
         const container = document.getElementById('paypal-button-container');
         container.style.display = 'block';
         container.innerHTML = '';
-        paypal.Buttons({
-            createOrder: function(data, actions) {
-                return actions.order.create({
-                    purchase_units: [{ amount: { value: total, currency_code: 'PHP' }, description: 'ECHOKNIVES MM2 Items Purchase' }]
-                });
-            },
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    showToast(`✅ Payment successful!`);
-                    completeOrder('paypal');
-                });
-            },
-            onError: function(err) { showToast('Payment failed. Please try again.'); }
-        }).render('#paypal-button-container');
+        paypal.Buttons({ createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: total, currency_code: 'PHP' }, description: 'ECHOKNIVES MM2 Purchase' }] }), onApprove: (data, actions) => actions.order.capture().then(() => { showToast("Payment successful!"); completeOrder('paypal'); }), onError: () => showToast('Payment failed') }).render('#paypal-button-container');
     }
     
     function processPayment() {
-        if (!isLoggedIn) { showToast("Please login with Google first!"); return; }
+        if (!isLoggedIn) { showToast("Please login first!"); return; }
         if (cart.length === 0) { showToast("Cart empty!"); return; }
-        
         const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
-        if (!robloxUser) { showToast("Please enter your Roblox username!"); return; }
-        
-        let totalPHP = cart.reduce((s, i) => s + (i.salePrice * i.quantity), 0);
-        if (voucherApplied) totalPHP = totalPHP * 0.95;
-        const totalDisplay = `${getSymbol()}${getDisplayPrice(totalPHP)}`;
-        const paymentNames = { paypal: "PayPal", visa: "Credit/Debit Card", gcash: "GCash" };
-        
-        currentOrderTotal = totalPHP;
+        if (!robloxUser) { showToast("Enter Roblox username!"); return; }
+        let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+        if (voucherApplied) total = total * 0.95;
+        const totalDisplay = `${getSymbol()}${getDisplayPrice(total)}`;
+        currentOrderTotal = total;
         currentOrderNumber = generateOrderNumber();
-        currentOrderDetails = {
-            orderNumber: currentOrderNumber,
-            items: cart.map(i => `${i.name} x${i.quantity}`).join(', '),
-            total: totalDisplay,
-            payment: paymentNames[selectedPayment],
-            voucherUsed: voucherApplied ? "Yes (5% off)" : "No"
-        };
-        
-        if (selectedPayment === 'paypal') {
-            document.getElementById('paypal-button-container').style.display = 'block';
-            document.getElementById('checkoutBtn').style.display = 'none';
-            initPayPal(getDisplayPrice(totalPHP));
-        } else if (selectedPayment === 'visa') {
-            showToast("💳 Card payment demo - processing...");
-            setTimeout(() => completeOrder('stripe'), 1500);
-        } else {
-            showToast("❌ GCash is currently unavailable. Please use PayPal or Credit Card.");
-        }
+        currentOrderDetails = { orderNumber: currentOrderNumber, items: cart.map(i => `${i.name} x${i.quantity}`).join(', '), total: totalDisplay, payment: selectedPayment === 'paypal' ? 'PayPal' : 'Credit Card', voucherUsed: voucherApplied ? "Yes" : "No" };
+        if (selectedPayment === 'paypal') { document.getElementById('paypal-button-container').style.display = 'block'; document.getElementById('checkoutBtn').style.display = 'none'; initPayPal(getDisplayPrice(total)); }
+        else { completeOrder('card'); }
     }
     
-    function completeOrder(paymentType) {
+    function completeOrder() {
         const robloxUser = document.getElementById('checkoutRobloxUsername').value.trim();
         sendDiscordNotification(currentOrderNumber, robloxUser, currentOrderDetails);
-        document.getElementById('pendingOrderNumber').innerText = `Order #${currentOrderNumber}`;
-        document.getElementById('pendingReceiptText').innerHTML = `🛍️ ${currentOrderDetails.items}<br>💰 Total: ${currentOrderDetails.total}<br>💳 Payment: ${currentOrderDetails.payment}<br>🎮 Roblox: @${robloxUser}<br>🎫 Voucher: ${currentOrderDetails.voucherUsed}<br><br>⏳ Waiting for admin approval...`;
-        document.getElementById('orderPendingModal').classList.add('show');
+        showToast(`Order #${currentOrderNumber} placed! Waiting for admin approval.`);
         cart = [];
         if (voucherApplied) { voucherApplied = false; localStorage.removeItem('voucher_' + currentUser.uid); hasVoucher = false; }
         updateCartUI();
         closeCart();
         document.getElementById('paypal-button-container').style.display = 'none';
         document.getElementById('checkoutBtn').style.display = 'block';
+        checkNotifications();
     }
+    
+    function showReceipt(orderDetails) {
+        document.getElementById('receiptOrderNumber').innerText = orderDetails.orderNumber;
+        document.getElementById('receiptDate').innerText = new Date().toLocaleString();
+        document.getElementById('receiptPayment').innerText = orderDetails.payment;
+        document.getElementById('receiptTotal').innerText = orderDetails.total;
+        document.getElementById('receiptItems').innerHTML = orderDetails.items.replace(/,/g, '<br>');
+        document.getElementById('receiptRoblox').innerText = orderDetails.robloxUser || 'N/A';
+        document.getElementById('receiptOverlay').classList.add('show');
+        // Create receipt particles
+        const vfxContainer = document.getElementById('receiptVfx');
+        vfxContainer.innerHTML = '';
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.classList.add('receipt-particle');
+            p.style.width = (Math.random() * 6 + 2) + 'px';
+            p.style.height = p.style.width;
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 8 + 's';
+            p.style.animationDuration = (Math.random() * 6 + 4) + 's';
+            vfxContainer.appendChild(p);
+        }
+    }
+    
+    function closeReceipt() { document.getElementById('receiptOverlay').classList.remove('show'); }
+    
+    function checkNotifications() {
+        const notifs = JSON.parse(localStorage.getItem('notifications_' + currentUser?.uid) || '[]');
+        notifs.forEach(n => { if (n.type === 'order_approved') showReceipt({ ...n.orderDetails, orderNumber: n.orderNumber, robloxUser: n.orderDetails.robloxUser }); });
+        localStorage.setItem('notifications_' + currentUser?.uid, '[]');
+    }
+    
+    // Chat System
+    let conversations = JSON.parse(localStorage.getItem('conversations') || '{}');
+    let currentConversation = null;
     
     function loadConversations() {
         if (!currentUser) return;
-        const userConversations = conversations[currentUser.uid] || [];
+        const userConv = conversations[currentUser.uid] || [];
         const container = document.getElementById('conversationList');
-        if (userConversations.length === 0) { container.innerHTML = '<div class="no-conversation">No conversations yet.<br>Buy something to start chatting!</div>'; return; }
-        container.innerHTML = userConversations.map(conv => `<div class="conversation-item" onclick="selectConversation('${conv.id}')"><div class="conversation-name">🛡️ ECHOKNIVES Support</div><div class="conversation-preview">${conv.lastMessage?.substring(0, 40) || 'No messages'}...</div></div>`).join('');
+        if (userConv.length === 0) { container.innerHTML = '<div class="no-conversation">No messages yet.</div>'; return; }
+        container.innerHTML = userConv.map(c => `<div class="conversation-item" onclick="selectConversation('${c.id}')"><div class="conversation-name">ECHOKNIVES Support</div><div class="conversation-preview">${c.lastMessage?.substring(0, 40) || 'No messages'}</div></div>`).join('');
     }
     
-    window.selectConversation = function(convoId) {
-        currentConversation = convoId;
-        const messages = conversations[currentUser.uid]?.find(c => c.id === convoId)?.messages || [];
+    window.selectConversation = function(id) {
+        currentConversation = id;
+        const msgs = conversations[currentUser.uid]?.find(c => c.id === id)?.messages || [];
         const container = document.getElementById('chatMessages');
-        container.innerHTML = messages.map(msg => `<div class="message-bubble ${msg.sender === currentUser.uid ? 'user' : 'admin'}"><div class="message-text">${msg.text || ''}${msg.image ? `<img src="${msg.image}" class="message-image" onclick="window.open('${msg.image}','_blank')">` : ''}${msg.video ? `<video src="${msg.video}" class="message-video" controls></video>` : ''}</div><div class="message-time">${new Date(msg.time).toLocaleString()}</div></div>`).join('');
+        container.innerHTML = msgs.map(m => `<div class="message-bubble ${m.sender === currentUser.uid ? 'user' : 'admin'}"><div class="message-text">${m.text}${m.image ? `<img src="${m.image}" class="message-image" onclick="window.open('${m.image}')">` : ''}${m.video ? `<video src="${m.video}" class="message-video" controls></video>` : ''}</div><div class="message-time">${new Date(m.time).toLocaleString()}</div></div>`).join('');
         container.scrollTop = container.scrollHeight;
     };
     
@@ -731,65 +1282,42 @@
         const text = input.value.trim();
         if (!text && !currentFileData) return;
         if (!conversations[currentUser.uid]) conversations[currentUser.uid] = [];
-        let conversation = conversations[currentUser.uid].find(c => c.id === 'support');
-        if (!conversation) { conversation = { id: 'support', messages: [] }; conversations[currentUser.uid].push(conversation); }
-        conversation.messages.push({ id: Date.now(), text: text, sender: currentUser.uid, time: new Date().toISOString(), read: false });
-        if (currentFileData) { conversation.messages[conversation.messages.length - 1][currentFileType] = currentFileData; currentFileData = null; }
-        conversation.lastMessage = text || (currentFileType === 'image' ? '📷 Image sent' : '🎥 Video sent');
+        let conv = conversations[currentUser.uid].find(c => c.id === 'support');
+        if (!conv) { conv = { id: 'support', messages: [] }; conversations[currentUser.uid].push(conv); }
+        conv.messages.push({ id: Date.now(), text: text, sender: currentUser.uid, time: new Date().toISOString() });
+        if (currentFileData) { conv.messages[conv.messages.length - 1][currentFileType] = currentFileData; currentFileData = null; }
+        conv.lastMessage = text || (currentFileType === 'image' ? '📷 Image' : '🎥 Video');
         localStorage.setItem('conversations', JSON.stringify(conversations));
         input.value = '';
         selectConversation('support');
         loadConversations();
     };
     
-    let currentFileData = null;
-    let currentFileType = null;
+    let currentFileData = null, currentFileType = null;
     window.sendFile = function() {
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
+        const file = document.getElementById('fileInput').files[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = function(e) { currentFileData = e.target.result; currentFileType = file.type.startsWith('image/') ? 'image' : 'video'; sendMessage(); fileInput.value = ''; };
+        reader.onload = e => { currentFileData = e.target.result; currentFileType = file.type.startsWith('image/') ? 'image' : 'video'; sendMessage(); };
         reader.readAsDataURL(file);
     };
     
+    // Voucher
     function checkForVoucher() { if (localStorage.getItem('voucher_' + currentUser?.uid) === 'true') { hasVoucher = true; document.getElementById('voucherSection').style.display = 'block'; } }
     function applyVoucher() { voucherApplied = true; document.getElementById('voucherSection').style.display = 'none'; updateCartUI(); showToast("✅ 5% discount applied!"); }
-    function dismissVoucher() { document.getElementById('voucherSection').style.display = 'none'; showToast("Voucher saved for later"); }
-    function viewVouchers() { if (hasVoucher) alert("🎫 You have a 5% off voucher available (never expires)!"); else alert("🎫 No vouchers available."); }
-    function confirmApplyVoucher() { voucherApplied = true; closeVoucherApplyModal(); updateCartUI(); showToast("✅ 5% discount applied!"); }
-    function closeVoucherApplyModal() { document.getElementById('voucherApplyModal').classList.remove('show'); }
-    function giveVoucher() { if (currentUser) { localStorage.setItem('voucher_' + currentUser.uid, 'true'); hasVoucher = true; } }
+    function dismissVoucher() { document.getElementById('voucherSection').style.display = 'none'; }
+    function giveVoucher() { if (currentUser) localStorage.setItem('voucher_' + currentUser.uid, 'true'); }
     
+    // Google Login
     async function performGoogleLogin() {
         try {
             const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
             currentUser = result.user; isLoggedIn = true;
-            if (currentUser.email === "ivanmendones13@gmail.com") { isAdmin = true; document.getElementById('adminPanel').classList.add('show'); document.getElementById('chatTabBtn').style.display = 'block'; renderAdminPanel(); showToast("👑 Admin access granted!"); }
+            if (currentUser.email === "ivanmendones13@gmail.com") { isAdmin = true; document.getElementById('adminPanel').classList.add('show'); document.getElementById('chatTabBtn').style.display = 'block'; renderAdminPanel(); showToast("Admin access granted!"); }
             else { document.getElementById('chatTabBtn').style.display = 'block'; }
             checkForVoucher(); updateUserUI(); showToast(`Welcome ${currentUser.displayName || currentUser.email}!`); renderProducts();
-            checkPendingOrders();
+            checkNotifications();
         } catch (error) { showToast("Login failed: " + error.message); }
-    }
-    
-    function checkPendingOrders() {
-        const userPending = Object.values(pendingOrders).filter(o => o.userId === currentUser?.uid);
-        userPending.forEach(order => {
-            if (order.status === 'approved') {
-                document.getElementById('successOrderNumber').innerText = order.orderNumber;
-                document.getElementById('successReceiptText').innerHTML = `🛍️ ${order.orderDetails.items}<br>💰 Total: ${order.orderDetails.total}`;
-                document.getElementById('orderSuccessModal').classList.add('show');
-                delete pendingOrders[order.orderNumber];
-                localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
-            } else if (order.status === 'cancelled') {
-                document.getElementById('cancelledOrderNumber').innerText = order.orderNumber;
-                document.getElementById('cancelledReceiptText').innerHTML = `🛍️ ${order.orderDetails.items}<br>💰 Total: ${order.orderDetails.total}`;
-                document.getElementById('orderCancelledModal').classList.add('show');
-                delete pendingOrders[order.orderNumber];
-                localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
-                giveVoucher();
-            }
-        });
     }
     
     async function logout() {
@@ -803,54 +1331,35 @@
     function updateUserUI() {
         const userDiv = document.getElementById('userInfo');
         if (isLoggedIn && currentUser) {
-            userDiv.innerHTML = `<div class="user-avatar">${(currentUser.displayName?.charAt(0) || currentUser.email?.charAt(0) || 'U')}</div><span>${currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0]}</span>${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}<button class="logout-btn" onclick="logout()">Logout</button>`;
+            userDiv.innerHTML = `<div class="user-avatar">${(currentUser.displayName?.charAt(0) || 'U')}</div><span>${currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0]}</span>${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}<button class="logout-btn" onclick="logout()">Logout</button>`;
         } else {
             userDiv.innerHTML = `<div class="user-avatar"><i class="fas fa-user"></i></div><span>Guest</span><button class="login-btn" onclick="performGoogleLogin()">Login</button>`;
         }
     }
     
     window.handleAuthStateChanged = function(user) {
-        if (user && !isLoggedIn) { currentUser = user; isLoggedIn = true; if (user.email === "ivanmendones13@gmail.com") { isAdmin = true; document.getElementById('adminPanel').classList.add('show'); document.getElementById('chatTabBtn').style.display = 'block'; renderAdminPanel(); } else { document.getElementById('chatTabBtn').style.display = 'block'; } checkForVoucher(); updateUserUI(); renderProducts(); checkPendingOrders(); }
+        if (user && !isLoggedIn) { currentUser = user; isLoggedIn = true; if (user.email === "ivanmendones13@gmail.com") { isAdmin = true; document.getElementById('adminPanel').classList.add('show'); document.getElementById('chatTabBtn').style.display = 'block'; renderAdminPanel(); } else { document.getElementById('chatTabBtn').style.display = 'block'; } checkForVoucher(); updateUserUI(); renderProducts(); checkNotifications(); }
         else if (!user && isLoggedIn) { logout(); }
     };
     
     function toggleDropdown(type) { document.getElementById(`${type}Dropdown`).classList.toggle('show'); }
-    document.addEventListener('click', function(e) { if (!e.target.closest('.dropdown')) { document.querySelectorAll('.dropdown-content').forEach(el => el.classList.remove('show')); } });
-    function viewProfile() { if (!isLoggedIn) { showToast("Please login first!"); return; } alert(`👤 Profile\n\nName: ${currentUser.displayName || 'Not set'}\nEmail: ${currentUser.email}`); }
-    function viewOrders() { if (!isLoggedIn) { showToast("Please login first!"); return; } let orders = JSON.parse(localStorage.getItem('orders') || '[]'); if (orders.length === 0) alert("No completed orders yet."); else alert(`Completed Orders: ${orders.length}`); }
+    document.addEventListener('click', e => { if (!e.target.closest('.dropdown')) document.querySelectorAll('.dropdown-content').forEach(el => el.classList.remove('show')); });
+    function viewProfile() { if (!isLoggedIn) { showToast("Login first!"); return; } alert(`👤 Profile\n\nName: ${currentUser.displayName}\nEmail: ${currentUser.email}`); }
     function toggleTheme() { showToast("Theme toggle coming soon!"); }
-    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items\n3. Add to cart\n4. Enter Roblox username\n5. Choose payment method\n6. Complete payment\n7. Admin approves in Discord\n8. If cancelled, you get 5% off voucher (never expires)!"); }
+    function showHelp() { alert("ECHOKNIVES Help\n\n1. Login with Google\n2. Browse items\n3. Add to cart\n4. Enter Roblox username\n5. Complete payment\n6. Admin approves in Discord\n7. Receipt appears when approved!"); }
     
     function renderAdminPanel() {
         if (!isAdmin) return;
         const search = document.getElementById('adminSearch')?.value.toLowerCase() || '';
         const filtered = items.filter(i => i.name.toLowerCase().includes(search));
-        document.getElementById('adminItemsList').innerHTML = filtered.map(item => `<div class="admin-item"><div><img src="${item.image}" style="width:40px;height:40px;object-fit:contain;" onerror="this.style.display='none'"> <strong>${item.name}</strong><br><small>₱${item.salePrice}</small></div><button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button></div>`).join('');
+        document.getElementById('adminItemsList').innerHTML = filtered.map(item => `<div class="admin-item"><div><img src="${item.image}" style="width:40px;height:40px;"> <strong>${item.name}</strong><br><small>₱${item.price}</small></div><button class="toggle-status ${item.onsale ? 'available' : ''}" onclick="toggleItemSale(${item.id})">${item.onsale ? 'On Sale' : 'Off Sale'}</button></div>`).join('');
     }
     function toggleItemSale(id) { if (!isAdmin) return; const item = items.find(i => i.id === id); if (item) { item.onsale = !item.onsale; renderAdminPanel(); renderProducts(); showToast(`${item.name} ${item.onsale ? 'on sale' : 'off sale'}`); } }
     function filterAdminItems() { renderAdminPanel(); }
     
     function renderProducts() {
-        let filtered = items.filter(i => {
-            if (currentFilter === 'knife') return i.type === 'knife';
-            if (currentFilter === 'gun') return i.type === 'gun';
-            if (currentFilter === 'pet') return i.type === 'pet';
-            if (currentFilter === 'ancient') return i.category === 'ancient';
-            if (currentFilter === 'onsale') return i.onsale === true;
-            return true;
-        });
-        document.getElementById('productsGrid').innerHTML = filtered.map(item => `
-            <div class="product-card ${!item.onsale ? 'offsale' : ''}">
-                ${!item.onsale ? '<div class="offsale-badge">OFF SALE</div>' : ''}
-                <div class="product-image"><img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/150x150/333/red?text=${encodeURIComponent(item.name.charAt(0))}'"></div>
-                <div class="product-info">
-                    <div class="product-name">${item.name}</div>
-                    <div class="product-rarity ${item.rarityClass}">${item.rarity}</div>
-                    <div class="product-price">${getSymbol()}${getDisplayPrice(item.salePrice)}</div>
-                    <button class="add-btn" onclick="addToCart(${item.id})" ${!item.onsale ? 'disabled' : ''}>${!item.onsale ? 'Off Sale' : 'Add to Cart'}</button>
-                </div>
-            </div>
-        `).join('');
+        let filtered = items.filter(i => { if (currentFilter === 'knife') return i.type === 'knife'; if (currentFilter === 'gun') return i.type === 'gun'; if (currentFilter === 'pet') return i.type === 'pet'; if (currentFilter === 'onsale') return i.onsale === true; return true; });
+        document.getElementById('productsGrid').innerHTML = filtered.map(item => `<div class="product-card ${!item.onsale ? 'offsale' : ''}">${!item.onsale ? '<div class="offsale-badge">OFF SALE</div>' : ''}<div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/150x150/333/red?text=${item.name.charAt(0)}'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-rarity ${item.rarityClass}">${item.rarity}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div><button class="add-btn" onclick="addToCart(${item.id})" ${!item.onsale ? 'disabled' : ''}>Add to Cart</button></div></div>`).join('');
         updateStats();
     }
     
@@ -858,80 +1367,67 @@
         document.getElementById('totalItems').innerText = items.length;
         document.getElementById('onsaleCount').innerText = items.filter(i => i.onsale).length;
         document.getElementById('offsaleCount').innerText = items.filter(i => !i.onsale).length;
-        let total = cart.reduce((s, i) => s + (i.salePrice * i.quantity), 0);
+        let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
         if (voucherApplied) total = total * 0.95;
         document.getElementById('cartValue').innerHTML = `${getSymbol()}${getDisplayPrice(total)}`;
     }
     
-    function addToCart(id) { if (!isLoggedIn) { showToast("Please login with Google first!"); return; } const item = items.find(i => i.id === id); if (!item || !item.onsale) return; const existing = cart.find(i => i.id === id); if (existing) existing.quantity++; else cart.push({ ...item, quantity: 1 }); updateCartUI(); showToast(`${item.name} added!`); }
+    function addToCart(id) { if (!isLoggedIn) { showToast("Login with Google first!"); return; } const item = items.find(i => i.id === id); if (!item || !item.onsale) return; const existing = cart.find(i => i.id === id); if (existing) existing.quantity++; else cart.push({ ...item, quantity: 1 }); updateCartUI(); showToast(`${item.name} added!`); }
     
     function updateCartUI() {
         const container = document.getElementById('cartItemsList');
-        let total = cart.reduce((s, i) => s + (i.salePrice * i.quantity), 0);
+        let total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
         const count = cart.reduce((s, i) => s + i.quantity, 0);
         document.getElementById('cartCount').innerText = count;
-        let displayTotal = total;
-        if (voucherApplied) { displayTotal = total * 0.95; document.getElementById('cartTotal').innerHTML = `Original: ${getSymbol()}${getDisplayPrice(total)}<br>After 5% discount: ${getSymbol()}${getDisplayPrice(displayTotal)}`; }
+        if (voucherApplied) { let discounted = total * 0.95; document.getElementById('cartTotal').innerHTML = `Original: ${getSymbol()}${getDisplayPrice(total)}<br>After 5% off: ${getSymbol()}${getDisplayPrice(discounted)}`; }
         else { document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`; }
         updateStats();
         if (cart.length === 0) { container.innerHTML = '<p style="text-align:center;padding:20px;">Cart is empty</p>'; return; }
-        container.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.salePrice)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button><span style="margin:0 8px;">${item.quantity}</span><button onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button><button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:#dc2626;margin-left:8px;"><i class="fas fa-trash"></i></button></div></div>`).join('');
+        container.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button><span>${item.quantity}</span><button onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button><button onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button></div></div>`).join('');
     }
     
     function updateQty(id, newQty) { if (newQty <= 0) removeFromCart(id); else { const item = cart.find(i => i.id === id); if (item) item.quantity = newQty; updateCartUI(); } }
     function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
-    function selectPayment(method) { 
-        selectedPayment = method; 
-        document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); 
-        document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected');
-        if (method === 'paypal') {
-            document.getElementById('paypal-button-container').style.display = 'block';
-        } else {
-            document.getElementById('paypal-button-container').style.display = 'none';
-        }
-    }
-    
-    function closeOrderPendingModal() { document.getElementById('orderPendingModal').classList.remove('show'); }
-    function closeOrderSuccessModal() { document.getElementById('orderSuccessModal').classList.remove('show'); }
-    function closeOrderCancelledModal() { document.getElementById('orderCancelledModal').classList.remove('show'); }
+    function selectPayment(method) { selectedPayment = method; document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected')); document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected'); document.getElementById('paypal-button-container').style.display = method === 'paypal' ? 'block' : 'none'; }
     
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
     
-    function openTradeModal() { if (!isLoggedIn) { showToast("Please login first!"); return; } document.getElementById('tradeModal').classList.add('show'); }
-    function closeTradeModal() { document.getElementById('tradeModal').classList.remove('show'); document.getElementById('tradeItems').value = ''; document.getElementById('tradeWant').value = ''; document.getElementById('tradeNote').value = ''; }
-    
+    function openTradeModal() { if (!isLoggedIn) { showToast("Login first!"); return; } document.getElementById('tradeModal').classList.add('show'); }
+    function closeTradeModal() { document.getElementById('tradeModal').classList.remove('show'); }
     function submitTrade() {
-        const tradeType = document.getElementById('tradeType').value;
-        const itemsVal = document.getElementById('tradeItems').value;
+        const type = document.getElementById('tradeType').value;
+        const items = document.getElementById('tradeItems').value;
         const want = document.getElementById('tradeWant').value;
         const note = document.getElementById('tradeNote').value;
-        if (!itemsVal || !want) { showToast("Please fill in all fields"); return; }
-        const newTrade = { id: Date.now(), username: currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0] || "Unknown", userAvatar: currentUser.displayName?.charAt(0) || currentUser.email?.charAt(0) || "U", type: tradeType, items: itemsVal, want: want, note: note, date: new Date().toLocaleDateString() };
-        trades.unshift(newTrade); localStorage.setItem('trades', JSON.stringify(trades)); loadTrades(); closeTradeModal(); showToast("Trade posted!");
+        if (!items || !want) { showToast("Fill all fields"); return; }
+        trades.unshift({ id: Date.now(), username: currentUser.displayName?.split(' ')[0] || currentUser.email?.split('@')[0], userAvatar: currentUser.displayName?.charAt(0) || 'U', type, items, want, note, date: new Date().toLocaleDateString() });
+        localStorage.setItem('trades', JSON.stringify(trades));
+        loadTrades();
+        closeTradeModal();
+        showToast("Trade posted!");
     }
     
     function loadTrades() {
         const saved = localStorage.getItem('trades'); if (saved) trades = JSON.parse(saved);
         const container = document.getElementById('tradesGrid');
-        if (trades.length === 0) { container.innerHTML = '<div class="no-trades"><i class="fas fa-exchange-alt" style="font-size:50px;"></i><p>No trades yet. Be the first!</p></div>'; return; }
-        container.innerHTML = trades.map(trade => `<div class="trade-card"><div class="trade-header"><div class="trade-user"><div class="trade-avatar">${trade.userAvatar}</div><div><div class="trade-username">@${trade.username}</div><div class="trade-date">${trade.date}</div></div></div><span style="background:${trade.type === 'offer' ? '#27ae60' : '#dc2626'};padding:4px 12px;border-radius:20px;font-size:11px;">${trade.type === 'offer' ? 'OFFERING' : 'LOOKING FOR'}</span></div><div class="trade-offer"><p><span class="offer-label">📦 Items:</span> ${trade.items}</p><p><span class="offer-label">🎯 Want:</span> ${trade.want}</p>${trade.note ? `<p><span class="offer-label">📝 Note:</span> ${trade.note}</p>` : ''}</div><div class="trade-actions"><button class="accept-trade" onclick="acceptTrade(${trade.id})">Accept</button>${trade.username === (currentUser?.displayName?.split(' ')[0] || currentUser?.email?.split('@')[0]) ? `<button class="delete-trade" onclick="deleteTrade(${trade.id})">Delete</button>` : ''}</div></div>`).join('');
+        if (trades.length === 0) { container.innerHTML = '<div class="no-trades"><i class="fas fa-exchange-alt"></i><p>No trades yet</p></div>'; return; }
+        container.innerHTML = trades.map(t => `<div class="trade-card"><div class="trade-header"><div class="trade-user"><div class="trade-avatar">${t.userAvatar}</div><div><strong>@${t.username}</strong><br><span style="font-size:11px;">${t.date}</span></div></div><span style="background:${t.type === 'offer' ? '#27ae60' : '#dc2626'};padding:4px 12px;border-radius:20px;">${t.type === 'offer' ? 'OFFERING' : 'WANTED'}</span></div><div class="trade-offer"><p><span class="offer-label">📦 ${t.type === 'offer' ? 'Offering:' : 'Looking for:'}</span> ${t.items}</p><p><span class="offer-label">🎯 Want:</span> ${t.want}</p>${t.note ? `<p><span class="offer-label">📝 Note:</span> ${t.note}</p>` : ''}</div><button class="accept-trade" onclick="alert('Contact @${t.username} on Roblox!')">Accept</button></div>`).join('');
     }
-    function acceptTrade(tradeId) { if (!isLoggedIn) { showToast("Please login first!"); return; } const trade = trades.find(t => t.id === tradeId); if (trade) { alert(`🤝 Trade Interest!\n\nFrom: @${trade.username}\nOffering: ${trade.items}\nWant: ${trade.want}\n\nContact @${trade.username} on Roblox!`); showToast("Trade interest sent!"); } }
-    function deleteTrade(tradeId) { if (!isLoggedIn) return; trades = trades.filter(t => t.id !== tradeId); localStorage.setItem('trades', JSON.stringify(trades)); loadTrades(); showToast("Trade deleted"); }
+    
+    // Star rating
+    document.querySelectorAll('.star-rating i').forEach(star => { star.addEventListener('click', function() { let rating = parseInt(this.dataset.rating); document.querySelectorAll('.star-rating i').forEach((s, i) => { if (i < rating) s.classList.add('active'); else s.classList.remove('active'); }); }); });
     
     document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
     
     window.showHome = showHome; window.showShop = showShop; window.showTrading = showTrading; window.showChat = showChat; window.toggleDropdown = toggleDropdown;
-    window.viewProfile = viewProfile; window.viewOrders = viewOrders; window.viewVouchers = viewVouchers; window.toggleTheme = toggleTheme; window.showHelp = showHelp;
-    window.logout = logout; window.changeCurrency = changeCurrency; window.toggleCart = toggleCart; window.closeCart = closeCart; window.selectPayment = selectPayment;
-    window.processPayment = processPayment; window.addToCart = addToCart; window.updateQty = updateQty; window.removeFromCart = removeFromCart; window.openTradeModal = openTradeModal;
-    window.closeTradeModal = closeTradeModal; window.submitTrade = submitTrade; window.acceptTrade = acceptTrade; window.deleteTrade = deleteTrade;
-    window.performGoogleLogin = performGoogleLogin; window.toggleItemSale = toggleItemSale; window.filterAdminItems = filterAdminItems;
-    window.applyVoucher = applyVoucher; window.dismissVoucher = dismissVoucher; window.confirmApplyVoucher = confirmApplyVoucher; window.closeVoucherApplyModal = closeVoucherApplyModal;
-    window.closeOrderPendingModal = closeOrderPendingModal; window.closeOrderSuccessModal = closeOrderSuccessModal; window.closeOrderCancelledModal = closeOrderCancelledModal;
-    window.sendMessage = sendMessage; window.sendFile = sendFile; window.selectConversation = selectConversation;
-    window.handleDiscordAction = handleDiscordAction;
+    window.viewProfile = viewProfile; window.showPurchaseHistory = showPurchaseHistory; window.showReviews = showReviews; window.closeReviews = closeReviews; window.closeHistory = closeHistory;
+    window.viewVouchers = viewVouchers; window.toggleTheme = toggleTheme; window.showHelp = showHelp; window.logout = logout; window.changeCurrency = changeCurrency;
+    window.toggleCart = toggleCart; window.closeCart = closeCart; window.selectPayment = selectPayment; window.processPayment = processPayment; window.addToCart = addToCart;
+    window.updateQty = updateQty; window.removeFromCart = removeFromCart; window.openTradeModal = openTradeModal; window.closeTradeModal = closeTradeModal;
+    window.submitTrade = submitTrade; window.performGoogleLogin = performGoogleLogin; window.toggleItemSale = toggleItemSale; window.filterAdminItems = filterAdminItems;
+    window.applyVoucher = applyVoucher; window.dismissVoucher = dismissVoucher; window.closeReceipt = closeReceipt; window.sendMessage = sendMessage; window.sendFile = sendFile;
+    window.selectConversation = selectConversation; window.submitReview = submitReview; window.handleDiscordAction = handleDiscordAction;
     
     renderProducts(); selectPayment('paypal'); loadTrades();
     showHome();
