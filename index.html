@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ECHOKNIVES | Premium MM2 Shop</title>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
-        
         const firebaseConfig = {
             apiKey: "AIzaSyBAn0pSAeYVXlpBFElUvFWeCdmMduRDLss",
             authDomain: "echoknifes-5360c.firebaseapp.com",
@@ -21,20 +18,14 @@
             messagingSenderId: "86064144525",
             appId: "1:86064144525:web:9a8dee636295e840c242c4"
         };
-        
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
-        
         window.firebaseAuth = auth;
         window.firebaseProvider = provider;
         window.firebaseSignOut = signOut;
         window.firebaseSignInWithPopup = signInWithPopup;
-        
-        onAuthStateChanged(auth, (user) => {
-            if (window.handleAuthStateChanged) window.handleAuthStateChanged(user);
-        });
-        
+        onAuthStateChanged(auth, (user) => { if (window.handleAuthStateChanged) window.handleAuthStateChanged(user); });
         window.dispatchEvent(new Event('firebase-ready'));
     </script>
     
@@ -308,14 +299,15 @@
     const CHROMA_IMAGE = "https://i.imgur.com/TL2F5e5.jpeg";
     const PAYMENT_SITE_URL = "https://echoknivesmm2.onrender.com";
     const ADMIN_EMAIL = "ivanmendones13@gmail.com";
+    const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
     
     let items = [
-        { id: 1, name: "Batwing", type: "knife", price: 152, originalPrice: 220, discount: 31, image: "https://i.imgur.com/H6CL03y.jpeg", stock: 999, onSale: true },
-        { id: 2, name: "Harvester", type: "knife", price: 608, originalPrice: 850, discount: 28, image: "https://i.imgur.com/jZkbQ4t.jpeg", stock: 999, onSale: true },
-        { id: 3, name: "Icewing", type: "knife", price: 72, originalPrice: 120, discount: 40, image: "https://i.imgur.com/jiwvmxq.jpeg", stock: 999, onSale: true },
-        { id: 4, name: "Luger", type: "gun", price: 207, originalPrice: 300, discount: 31, image: "https://i.imgur.com/eEvMBRh.jpeg", stock: 999, onSale: true },
-        { id: 5, name: "Darkbringer", type: "gun", price: 130, originalPrice: 250, discount: 48, image: "https://i.imgur.com/8oxgzwa.jpeg", stock: 999, onSale: true },
-        { id: 6, name: "Lightbringer", type: "gun", price: 125, originalPrice: 240, discount: 48, image: "https://i.imgur.com/BUljuYV.jpeg", stock: 999, onSale: true }
+        { id: 1, name: "Batwing", type: "knife", price: 152, originalPrice: 220, discount: 31, image: "https://i.imgur.com/H6CL03y.jpeg", onSale: true },
+        { id: 2, name: "Harvester", type: "knife", price: 608, originalPrice: 850, discount: 28, image: "https://i.imgur.com/jZkbQ4t.jpeg", onSale: true },
+        { id: 3, name: "Icewing", type: "knife", price: 72, originalPrice: 120, discount: 40, image: "https://i.imgur.com/jiwvmxq.jpeg", onSale: true },
+        { id: 4, name: "Luger", type: "gun", price: 207, originalPrice: 300, discount: 31, image: "https://i.imgur.com/eEvMBRh.jpeg", onSale: true },
+        { id: 5, name: "Darkbringer", type: "gun", price: 130, originalPrice: 250, discount: 48, image: "https://i.imgur.com/8oxgzwa.jpeg", onSale: true },
+        { id: 6, name: "Lightbringer", type: "gun", price: 125, originalPrice: 240, discount: 48, image: "https://i.imgur.com/BUljuYV.jpeg", onSale: true }
     ];
     const CANDY_ITEM = { id: 999, name: "Candy", type: "candy", price: 240, originalPrice: 300, discount: 20, image: "https://i.imgur.com/PXBiQtb.jpeg", onSale: true };
     
@@ -324,20 +316,11 @@
     let selectedItemForModal = null, pendingRobloxData = null;
     let orders = JSON.parse(localStorage.getItem('echoknives_orders') || '[]');
     let globalPurchases = JSON.parse(localStorage.getItem('echoknives_global_purchases') || '[]');
-    let referralCount = 0;
-    let candyRedeemed = false;
+    let referralCount = 0, candyRedeemed = false;
     let usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes') || '{}');
     let verifiedRobloxUser = JSON.parse(localStorage.getItem('verifiedRobloxUser') || 'null');
     let currentSelectedOrderId = null;
     let allMessages = JSON.parse(localStorage.getItem('echoknives_all_messages') || '{}');
-    
-    const fakeItemNames = ["Batwing", "Harvester", "Icewing", "Luger", "Darkbringer", "Lightbringer", "Candy"];
-    
-    function generateFakePurchase() { 
-        const randomItem = fakeItemNames[Math.floor(Math.random() * fakeItemNames.length)]; 
-        addGlobalPurchase(randomItem, true); 
-        setTimeout(generateFakePurchase, Math.floor(Math.random() * 30000) + 30000); 
-    }
     
     let quests = { 
         firstPurchase: { name: "First Purchase", reward: 50, completed: false, claimed: false, desc: "Buy your first item" }, 
@@ -347,20 +330,17 @@
         robloxLinked: { name: "Roblox Linked", reward: 50, completed: false, claimed: false, desc: "Link your Roblox account" } 
     };
     
-    const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
-    
     function getDisplayPrice(p) { return (p * exchangeRates[currentCurrency]).toFixed(2); }
     function getSymbol() { return symbols[currentCurrency]; }
     function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
     function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); renderGlobalPurchases(); }
     
     function addGlobalPurchase(itemName, isFake = false) { 
-        const purchase = { item: itemName, time: new Date().toLocaleString(), fake: isFake }; 
-        globalPurchases.unshift(purchase); 
+        globalPurchases.unshift({ item: itemName, time: new Date().toLocaleString(), fake: isFake }); 
         if(globalPurchases.length > 20) globalPurchases.pop(); 
         localStorage.setItem('echoknives_global_purchases', JSON.stringify(globalPurchases)); 
         renderGlobalPurchases(); 
-        if(!isFake) document.getElementById('totalSales').innerText = orders.length + globalPurchases.filter(p => !p.fake).length; 
+        if(!isFake) document.getElementById('totalSales').innerText = orders.length; 
         updateTicker(); 
     }
     
@@ -407,35 +387,20 @@
         if (confirm(`Redeem Candy for 1500 points? Points after: ${userPoints - 1500}\n+50 bonus points!`)) { userPoints -= 1500; candyRedeemed = true; addPoints(50); saveAllData(); renderQuests(); showToast("Candy redeemed! +50 bonus points!"); } 
     }
     
-    function showReferral() { 
-        hideAllPages(); 
-        document.getElementById('referralPage').style.display = 'block'; 
-        document.getElementById('referralLink').value = `${window.location.origin}?ref=${currentUser?.uid || 'guest'}`; 
-        document.getElementById('referralCount').innerText = `${referralCount} friends joined`; 
-    }
-    
+    function showReferral() { hideAllPages(); document.getElementById('referralPage').style.display = 'block'; document.getElementById('referralLink').value = `${window.location.origin}?ref=${currentUser?.uid || 'guest'}`; document.getElementById('referralCount').innerText = `${referralCount} friends joined`; }
     function copyReferralLink() { const link = document.getElementById('referralLink'); link.select(); document.execCommand('copy'); showToast("Link copied!"); }
     
-    function showOrdersAndChat() { 
-        hideAllPages(); 
-        document.getElementById('ordersChatPage').style.display = 'block'; 
-        renderOrdersList(); 
-        if(currentSelectedOrderId) loadChatMessages(currentSelectedOrderId); 
-    }
+    function showOrdersAndChat() { hideAllPages(); document.getElementById('ordersChatPage').style.display = 'block'; renderOrdersList(); if(currentSelectedOrderId) loadChatMessages(currentSelectedOrderId); }
     
     function renderOrdersList() {
         const container = document.getElementById('ordersListContainer');
         if(!container) return;
         const userOrders = orders.filter(o => o.userEmail === currentUser?.email);
         if(userOrders.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px; background:rgba(0,0,0,0.3); border-radius:20px;">No orders yet.</div>'; return; }
-        container.innerHTML = userOrders.map(o => `<div class="order-item ${currentSelectedOrderId === o.orderId ? 'selected' : ''}" onclick="selectOrder('${o.orderId}')"><div><strong>Order #${o.orderId}</strong> <span class="order-badge" style="background:${o.status === 'Delivered' ? '#10b981' : '#ef4444'}; color:white; font-size:10px; padding:2px 8px; border-radius:20px; margin-left:8px;">${o.status === 'Delivered' ? '✓ Delivered' : '⚠️ Processing'}</span></div><div>${o.items.map(i => `${i.name} x${i.quantity}`).join(', ').substring(0, 50)}${o.items.length > 2 ? '...' : ''}</div><div>₱${o.total}</div><div style="font-size:11px; color:#888;">${new Date(o.date).toLocaleDateString()}</div></div>`).join('');
+        container.innerHTML = userOrders.map(o => `<div class="order-item ${currentSelectedOrderId === o.orderId ? 'selected' : ''}" onclick="selectOrder('${o.orderId}')"><div><strong>Order #${o.orderId}</strong> <span style="background:${o.status === 'Delivered' ? '#10b981' : '#ef4444'}; color:white; font-size:10px; padding:2px 8px; border-radius:20px; margin-left:8px;">${o.status === 'Delivered' ? '✓ Delivered' : '⚠️ Processing'}</span></div><div>${o.items.map(i => `${i.name} x${i.quantity}`).join(', ').substring(0, 50)}${o.items.length > 2 ? '...' : ''}</div><div>₱${o.total}</div><div style="font-size:11px; color:#888;">${new Date(o.date).toLocaleDateString()}</div></div>`).join('');
     }
     
-    function selectOrder(orderId) { 
-        currentSelectedOrderId = orderId; 
-        renderOrdersList(); 
-        loadChatMessages(orderId); 
-    }
+    function selectOrder(orderId) { currentSelectedOrderId = orderId; renderOrdersList(); loadChatMessages(orderId); }
     
     function loadChatMessages(orderId) {
         const messages = allMessages[orderId] || [];
@@ -470,13 +435,8 @@
     function addBotFriend() { window.open('https://www.roblox.com/users/265285891/profile', '_blank'); }
     
     function hideAllPages() {
-        document.getElementById('homePage').style.display = 'none';
-        document.getElementById('shopPage').style.display = 'none';
-        document.getElementById('questsPage').style.display = 'none';
-        document.getElementById('ordersChatPage').style.display = 'none';
-        document.getElementById('adminPage').style.display = 'none';
-        document.getElementById('referralPage').style.display = 'none';
-        document.getElementById('profilePanel').style.display = 'none';
+        const pages = ['homePage', 'shopPage', 'questsPage', 'ordersChatPage', 'adminPage', 'referralPage', 'profilePanel'];
+        pages.forEach(id => { const el = document.getElementById(id); if(el) el.style.display = 'none'; });
     }
     
     function showAdmin() { 
@@ -496,12 +456,7 @@
         const newPrice = prompt("Enter new price (PHP):"); 
         if(newPrice && !isNaN(parseFloat(newPrice))) { 
             const item = items.find(i => i.id === id); 
-            if(item) { 
-                item.price = parseFloat(newPrice); 
-                item.originalPrice = Math.round(item.price * 1.3); 
-                item.discount = Math.round((1 - item.price / item.originalPrice) * 100); 
-                saveItems(); renderInventory(); renderProducts(); showToast("Price updated!"); 
-            } 
+            if(item) { item.price = parseFloat(newPrice); item.originalPrice = Math.round(item.price * 1.3); item.discount = Math.round((1 - item.price / item.originalPrice) * 100); saveItems(); renderInventory(); renderProducts(); showToast("Price updated!"); } 
         } 
     }
     
@@ -509,19 +464,13 @@
         const newImage = prompt("Enter new image URL:"); 
         if(newImage && newImage.trim()) { 
             const item = items.find(i => i.id === id); 
-            if(item) { 
-                item.image = newImage.trim(); 
-                saveItems(); renderInventory(); renderProducts(); showToast("Image updated!"); 
-            } 
+            if(item) { item.image = newImage.trim(); saveItems(); renderInventory(); renderProducts(); showToast("Image updated!"); } 
         } 
     }
     
     function toggleOffsale(id) { 
         const item = items.find(i => i.id === id); 
-        if(item) { 
-            item.onSale = !item.onSale; 
-            saveItems(); renderInventory(); renderProducts(); showToast(`${item.name} is now ${item.onSale ? 'on sale' : 'offsale'}`); 
-        } 
+        if(item) { item.onSale = !item.onSale; saveItems(); renderInventory(); renderProducts(); showToast(`${item.name} is now ${item.onSale ? 'on sale' : 'offsale'}`); } 
     }
     
     function addInventoryItem() { 
@@ -531,15 +480,11 @@
         const image = document.getElementById('newItemImage').value.trim(); 
         if(!name || !price) { showToast("Fill all fields"); return; } 
         const newId = Math.max(...items.map(i=>i.id),0)+1; 
-        items.push({ id:newId, name, type, price, originalPrice: Math.round(price * 1.3), discount: 23, image, stock:999, onSale:true }); 
+        items.push({ id:newId, name, type, price, originalPrice: Math.round(price * 1.3), discount: 23, image, onSale:true }); 
         saveItems(); renderInventory(); renderProducts(); showToast("Item added!"); 
     }
     
-    function deleteItem(id) { 
-        items = items.filter(i => i.id !== id); 
-        saveItems(); renderInventory(); renderProducts(); showToast("Item deleted"); 
-    }
-    
+    function deleteItem(id) { items = items.filter(i => i.id !== id); saveItems(); renderInventory(); renderProducts(); showToast("Item deleted"); }
     function saveItems() { localStorage.setItem('echoknives_items', JSON.stringify(items)); }
     
     function renderAllOrders() { 
@@ -550,21 +495,10 @@
     
     function updateOrderStatus(orderId) { 
         const order = orders.find(o => o.orderId === orderId); 
-        if(order) { 
-            order.status = 'Delivered'; 
-            localStorage.setItem('echoknives_orders', JSON.stringify(orders)); 
-            renderAllOrders(); 
-            renderOrdersList(); 
-            showToast("Order marked delivered!"); 
-        } 
+        if(order) { order.status = 'Delivered'; localStorage.setItem('echoknives_orders', JSON.stringify(orders)); renderAllOrders(); renderOrdersList(); showToast("Order marked delivered!"); } 
     }
     
-    function openProfilePanel() { 
-        if (!isLoggedIn) { performGoogleLogin(); return; } 
-        hideAllPages(); 
-        document.getElementById('profilePanel').style.display = 'block'; 
-        updateProfilePanel(); 
-    }
+    function openProfilePanel() { if (!isLoggedIn) { performGoogleLogin(); return; } hideAllPages(); document.getElementById('profilePanel').style.display = 'block'; updateProfilePanel(); }
     
     function updateProfilePanel() { 
         if(verifiedRobloxUser) { 
@@ -641,20 +575,9 @@
         showToast(`Roblox account @${verifiedRobloxUser.username} linked!`); 
     }
     
-    function unlinkRobloxAccount() { 
-        verifiedRobloxUser = null; 
-        localStorage.removeItem('verifiedRobloxUser'); 
-        updateHeaderDisplay(); 
-        updateProfilePanel(); 
-        showToast("Roblox account unlinked"); 
-    }
-    
+    function unlinkRobloxAccount() { verifiedRobloxUser = null; localStorage.removeItem('verifiedRobloxUser'); updateHeaderDisplay(); updateProfilePanel(); showToast("Roblox account unlinked"); }
     function switchGoogleAccount() { performGoogleLogin(); }
-    
-    async function performGoogleLogout() { 
-        if(window.firebaseAuth) { await window.firebaseSignOut(window.firebaseAuth); } 
-        showToast("Logged out"); 
-    }
+    async function performGoogleLogout() { if(window.firebaseAuth) { await window.firebaseSignOut(window.firebaseAuth); } showToast("Logged out"); }
     
     function initiateCheckout() { 
         if (!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; } 
@@ -665,16 +588,13 @@
         const orderId = 'ECHO-' + Date.now().toString(36).toUpperCase(); 
         const orderData = { 
             orderId: orderId, 
-            items: cart.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity, total: i.price * i.quantity })), 
+            items: cart.map(i => ({ name: i.name, price: i.price, quantity: i.quantity })), 
             subtotal: cart.reduce((s, i) => s + (i.price * i.quantity), 0), 
             robloxUser: verifiedRobloxUser.username, 
-            robloxDisplayName: verifiedRobloxUser.displayName, 
-            customerEmail: currentUser?.email || '', 
-            customerName: currentUser?.displayName || '', 
-            currency: currentCurrency, 
-            symbol: getSymbol(), 
+            total: cart.reduce((s, i) => s + (i.price * i.quantity), 0),
             status: 'Processing', 
-            date: new Date().toISOString() 
+            date: new Date().toISOString(),
+            userEmail: currentUser.email
         }; 
         orders.unshift(orderData); 
         localStorage.setItem('echoknives_orders', JSON.stringify(orders)); 
@@ -761,14 +681,11 @@
         if(user) { 
             isLoggedIn=true; currentUser=user; updateHeaderDisplay(); loadAllData(); 
             const adminBtn = document.getElementById('adminNavBtn'); 
-            if(user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; 
-            else adminBtn.style.display = 'none'; 
-            if(verifiedRobloxUser) updateProfilePanel(); 
+            if(user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; else adminBtn.style.display = 'none'; 
             showToast(`Welcome ${user.displayName || 'User'}!`); 
         } else { 
             isLoggedIn=false; currentUser=null; updateHeaderDisplay(); loadAllData(); 
-            const adminBtn = document.getElementById('adminNavBtn'); 
-            adminBtn.style.display = 'none'; 
+            document.getElementById('adminNavBtn').style.display = 'none'; 
         } 
         renderProducts(); 
     };
@@ -809,7 +726,7 @@
     const savedItems = localStorage.getItem('echoknives_items'); 
     if(savedItems) items = JSON.parse(savedItems);
     if(verifiedRobloxUser) updateHeaderDisplay();
-    setTimeout(generateFakePurchase, 30000);
+    setInterval(() => { const fakeItems = ["Batwing", "Harvester", "Icewing", "Luger", "Darkbringer", "Lightbringer", "Candy"]; addGlobalPurchase(fakeItems[Math.floor(Math.random() * fakeItems.length)], true); }, 45000);
     
     window.showHome=showHome; window.showShop=showShop; window.showQuests=showQuests; window.showOrdersAndChat=showOrdersAndChat; window.showAdmin=showAdmin; window.showReferral=showReferral; window.openProfilePanel=openProfilePanel;
     window.addToCart=addToCart; window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.toggleCart=toggleCart; window.closeCart=closeCart;
