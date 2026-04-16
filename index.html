@@ -39,7 +39,6 @@
     </script>
     
     <style>
-        /* ========== RESET & GLOBAL ========== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%); color: #fff; overflow-x: hidden; min-height: 100vh; }
         .animated-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 20% 50%, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%); }
@@ -54,7 +53,7 @@
         ::-webkit-scrollbar-track { background: #1a1a3e; }
         ::-webkit-scrollbar-thumb { background: #6c5ce7; border-radius: 10px; }
 
-        /* ========== HEADER & NAVIGATION ========== */
+        /* Header */
         .header { background: rgba(15, 12, 41, 0.85); backdrop-filter: blur(10px); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(108, 92, 231, 0.3); flex-wrap: wrap; gap: 15px; }
         .logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
         .logo-icon { font-size: 32px; color: #6c5ce7; }
@@ -76,7 +75,7 @@
         .cart-icon { position: relative; cursor: pointer; background: rgba(108, 92, 231, 0.2); padding: 8px 16px; border-radius: 40px; }
         .cart-count { position: absolute; top: -5px; right: -5px; background: #ef4444; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; }
 
-        /* ========== HERO & GLOBAL PURCHASES ========== */
+        /* Hero */
         .hero { min-height: 70vh; display: flex; align-items: center; justify-content: space-between; padding: 40px 5%; flex-wrap: wrap; gap: 50px; }
         .hero-content { flex: 1; min-width: 300px; animation: fadeInUp 0.6s ease; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -93,6 +92,7 @@
         .hero-image img { max-width: 100%; filter: drop-shadow(0 0 40px rgba(108,92,231,0.3)); animation: floatImage 4s ease-in-out infinite; border-radius: 20px; }
         @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
+        /* Global Purchases */
         .purchases-section { max-width: 1400px; margin: 0 auto 40px; padding: 0 5%; }
         .purchases-title { font-family: 'Orbitron', monospace; font-size: 24px; margin-bottom: 20px; color: #a855f7; display: flex; align-items: center; gap: 10px; }
         .purchases-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
@@ -104,7 +104,7 @@
         .purchase-time { font-size: 11px; color: #888; margin-top: 4px; }
         .purchase-amount { font-weight: 800; color: #6c5ce7; }
 
-        /* ========== SHOP & PRODUCTS ========== */
+        /* Shop */
         .container { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
         .filter-bar { background: rgba(0,0,0,0.5); padding: 12px 20px; margin-bottom: 25px; border-radius: 50px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         .filter-btn { background: rgba(255,255,255,0.1); border: none; padding: 8px 24px; border-radius: 30px; color: white; cursor: pointer; }
@@ -123,7 +123,7 @@
         .product-name { font-size: 18px; font-weight: 800; }
         .product-price { font-size: 22px; font-weight: 800; color: #6c5ce7; }
 
-        /* ========== CART SIDEBAR ========== */
+        /* Cart */
         .cart-sidebar { position: fixed; top: 0; right: -450px; width: 450px; height: 100vh; background: rgba(15, 12, 41, 0.98); backdrop-filter: blur(20px); z-index: 1000; transition: right 0.3s; padding: 25px; display: flex; flex-direction: column; border-left: 2px solid #6c5ce7; }
         .cart-sidebar.open { right: 0; }
         .cart-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
@@ -133,7 +133,7 @@
         .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #6c5ce7; font-size: 22px; font-weight: 800; }
         .checkout-btn { width: 100%; padding: 15px; background: #10b981; border: none; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; margin-top: 15px; }
 
-        /* ========== QUESTS & REDEMPTION ========== */
+        /* Quests */
         .quests-section { max-height: 70vh; overflow-y: auto; padding-right: 10px; }
         .quests-grid { display: flex; flex-direction: column; gap: 15px; }
         .quest-card, .promo-card { background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; border: 1px solid rgba(108,92,231,0.4); }
@@ -144,7 +144,7 @@
         .candy-redeem, .sunrise-points-redeem { background: linear-gradient(135deg, #f59e0b, #d97706); text-align: center; cursor: pointer; }
         .promo-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 40px; color: white; margin: 10px 0; text-align: center; }
 
-        /* ========== MODALS (PURCHASE, CANDY, SUNRISE, ROBLOX) ========== */
+        /* Modals */
         .fullscreen-modal, .candy-modal, .sunrise-points-modal, .roblox-modal, .receipt-modal, .command-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.96); backdrop-filter: blur(20px); z-index: 10000; display: none; justify-content: center; align-items: center; }
         .fullscreen-modal.show, .candy-modal.show, .sunrise-points-modal.show, .roblox-modal.show, .receipt-modal.show, .command-modal.show { display: flex; }
         .modal-container, .candy-container, .sunrise-container, .modal-content, .command-container { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 35px; max-width: 500px; width: 90%; text-align: center; border: 1px solid #6c5ce7; }
@@ -163,7 +163,7 @@
         .btn-red { background: #ef4444; width: 100%; margin-top: 10px; }
         .age-notice { background: rgba(239,68,68,0.2); padding: 12px; border-radius: 20px; margin-top: 15px; font-size: 12px; color: #fca5a5; }
 
-        /* ========== ORDERS & CHAT ========== */
+        /* Orders & Chat */
         .orders-chat-layout { display: flex; gap: 30px; margin-top: 20px; flex-wrap: wrap; }
         .orders-list-container { flex: 1.5; max-height: 70vh; overflow-y: auto; }
         .chat-container { flex: 1; background: rgba(0,0,0,0.5); border-radius: 24px; padding: 20px; border: 1px solid rgba(108,92,231,0.3); display: flex; flex-direction: column; max-height: 70vh; }
@@ -180,14 +180,14 @@
         .pending-tab { display: inline-block; padding: 8px 16px; border-radius: 30px; cursor: pointer; margin-right: 10px; background: rgba(255,255,255,0.1); }
         .pending-tab.active { background: #6c5ce7; }
 
-        /* ========== ADMIN PANEL ========== */
+        /* Admin */
         .admin-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 30px; color: white; margin: 10px 0; }
         .admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
         .inventory-item { background: rgba(0,0,0,0.5); border-radius: 15px; padding: 15px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
         .inventory-actions { display: flex; gap: 8px; flex-wrap: wrap; }
         .edit-btn { background: #f59e0b; border: none; padding: 6px 12px; border-radius: 20px; color: white; cursor: pointer; font-size: 12px; }
 
-        /* ========== TOAST & OVERLAY ========== */
+        /* Toast */
         .toast { position: fixed; bottom: 30px; left: 30px; background: #10b981; padding: 12px 24px; border-radius: 12px; z-index: 2000; transform: translateX(-400px); transition: transform 0.3s; }
         .toast.show { transform: translateX(0); }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: none; }
@@ -203,7 +203,7 @@
 <div class="glow-orb orb-2"></div>
 <div class="particles" id="particles"></div>
 
-<!-- ========== HEADER ========== -->
+<!-- Header -->
 <div class="header">
     <div class="logo" onclick="showHome()"><i class="fas fa-gem logo-icon"></i><div><div class="logo-text">ECHOKNIVES</div><div class="logo-sub">PREMIUM MM2 SHOP</div></div></div>
     <div class="nav-links">
@@ -224,7 +224,7 @@
     </div>
 </div>
 
-<!-- ========== HOME PAGE ========== -->
+<!-- Home Page -->
 <div id="homePage">
     <div class="hero">
         <div class="hero-content">
@@ -240,25 +240,25 @@
     <div class="purchases-section"><div class="purchases-title"><i class="fas fa-globe"></i> Recent Global Purchases</div><div class="purchases-grid" id="globalPurchasesList"></div></div>
 </div>
 
-<!-- ========== SHOP PAGE ========== -->
+<!-- Shop Page -->
 <div id="shopPage" class="container" style="display:none;">
     <div class="filter-bar"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="knife">Knives</button><button class="filter-btn" data-filter="gun">Guns</button></div>
     <div class="products-grid" id="productsGrid"></div>
 </div>
 
-<!-- ========== QUESTS PAGE ========== -->
+<!-- Quests Page -->
 <div id="questsPage" class="container" style="display:none;">
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
         <div><h2>Daily Quests</h2><div class="quests-section"><div class="quests-grid" id="questsGrid"></div></div></div>
         <div>
             <div class="promo-card"><h3>Promo Code</h3><input type="text" id="promoCodeInput" class="promo-input" placeholder="Enter Promo Code"><button class="claim-btn" onclick="redeemPromoCode()" style="background:#8b5cf6;">Redeem Code</button><p style="margin-top: 10px; font-size: 12px;">Valid: <strong>STARTER26</strong> (250 pts)</p></div>
-            <div class="quest-card candy-redeem" style="margin-top: 20px;" onclick="showCandyRedemptionModal()"><h3><i class="fas fa-candy-cane"></i> Candy Shop</h3><img src="https://i.imgur.com/PXBiQtb.jpeg" alt="Candy" style="width: 80px; margin: 10px auto; display: block; border-radius: 20px;"><p><strong>Redeem 1500 Points for a Candy!</strong></p><p>Get a special in-game candy item + 50 bonus points</p><button class="redeem-btn" style="pointer-events: none;">Redeem (1500 pts)</button></div>
-            <div class="quest-card sunrise-points-redeem" style="margin-top: 20px;" onclick="showSunrisePointsRedeem()"><h3><i class="fas fa-sun"></i> Sunrise Points Redemption</h3><img src="https://i.imgur.com/ttNyTxl.jpeg" alt="Sunrise" style="width: 80px; margin: 10px auto; display: block; border-radius: 20px;"><p><strong>Redeem 3500 Points for Sunrise!</strong></p><p>Get the exclusive Sunrise item + 50 bonus points</p><button class="redeem-btn" style="pointer-events: none;">Redeem (3500 pts)</button></div>
+            <div class="quest-card candy-redeem" style="margin-top: 20px;" onclick="showCandyRedemptionModal()"><h3><i class="fas fa-candy-cane"></i> Candy Shop</h3><img src="https://i.imgur.com/PXBiQtb.jpeg" alt="Candy" style="width: 80px; margin: 10px auto; display; border-radius: 20px;"><p><strong>Redeem 1500 Points for a Candy!</strong></p><p>Get a special in-game candy item + 50 bonus points</p><button class="redeem-btn" style="pointer-events: none;">Redeem (1500 pts)</button></div>
+            <div class="quest-card sunrise-points-redeem" style="margin-top: 20px;" onclick="showSunrisePointsRedeem()"><h3><i class="fas fa-sun"></i> Sunrise Points Redemption</h3><img src="https://i.imgur.com/ttNyTxl.jpeg" alt="Sunrise" style="width: 80px; margin: 10px auto; display; border-radius: 20px;"><p><strong>Redeem 3500 Points for Sunrise!</strong></p><p>Get the exclusive Sunrise item + 50 bonus points</p><button class="redeem-btn" style="pointer-events: none;">Redeem (3500 pts)</button></div>
         </div>
     </div>
 </div>
 
-<!-- ========== ORDERS & SUPPORT PAGE ========== -->
+<!-- Orders & Chat Page -->
 <div id="ordersChatPage" class="container" style="display:none;">
     <h2>Orders & Support</h2>
     <div id="adminOrderTabs" style="display: none; margin-bottom: 15px;">
@@ -279,7 +279,7 @@
     </div>
 </div>
 
-<!-- ========== PROFILE PANEL ========== -->
+<!-- Profile Panel -->
 <div id="profilePanel" class="container" style="display:none;">
     <h2>Account Settings</h2>
     <div style="background:rgba(0,0,0,0.5); border-radius:20px; padding:30px; max-width:500px; margin:0 auto;">
@@ -289,7 +289,7 @@
     </div>
 </div>
 
-<!-- ========== ADMIN PANEL ========== -->
+<!-- Admin Panel -->
 <div id="adminPage" class="container" style="display:none;">
     <h2>Admin Panel</h2>
     <div class="admin-panel"><h3>Add New Item</h3><input type="text" id="newItemName" class="admin-input" placeholder="Item Name"><select id="newItemType" class="admin-input"><option value="knife">Knife</option><option value="gun">Gun</option></select><input type="number" id="newItemPrice" class="admin-input" placeholder="Price (PHP)"><input type="text" id="newItemImage" class="admin-input" placeholder="Image URL"><button onclick="addInventoryItem()" class="btn-primary" style="width:100%;">Add Item</button></div>
@@ -297,7 +297,7 @@
     <div class="admin-panel"><h3>All Orders</h3><div id="allOrdersList"></div></div>
 </div>
 
-<!-- ========== SIDEBARS & MODALS ========== -->
+<!-- Sidebars & Modals -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
     <div class="cart-header"><h3>Your Cart</h3><button class="close-cart" onclick="closeCart()">×</button></div>
@@ -329,11 +329,12 @@
     const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
     const JOIN_SERVER_URL = "https://www.roblox.com/share?code=e6c8ad7d5eaaf248948b92ce03f740e6&type=Server";
     const BOT_PROFILE_URL = "https://www.roblox.com/users/265285891/profile";
+    const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d";
     
     const exchangeRates = { USD:1, EUR:0.92, GBP:0.79, JPY:150.5, CAD:1.38, AUD:1.52, CHF:0.88, CNY:7.24, INR:83.5, PHP:56.5 };
     const currencySymbols = { USD:"$", EUR:"€", GBP:"£", JPY:"¥", CAD:"C$", AUD:"A$", CHF:"CHF", CNY:"¥", INR:"₹", PHP:"₱" };
     
-    // ========== ITEMS (Sunset & Sunrise included) ==========
+    // Items including Sunset and Sunrise
     let items = [
         { id:1, name:"Batwing", type:"knife", price:152, originalPrice:220, discount:31, image:"https://i.imgur.com/H6CL03y.jpeg", onSale:true },
         { id:2, name:"Harvester", type:"knife", price:608, originalPrice:850, discount:28, image:"https://i.imgur.com/jZkbQ4t.jpeg", onSale:true },
@@ -348,7 +349,7 @@
     ];
     const CANDY_ITEM = { id:999, name:"Candy", type:"candy", price:240, originalPrice:300, discount:20, image:"https://i.imgur.com/PXBiQtb.jpeg", onSale:true };
     
-    // ========== GLOBAL STATE ==========
+    // Global state
     let cart = [], currentFilter = "all", isLoggedIn = false, currentUser = null, currentCurrency = "PHP", userPoints = 0;
     let selectedItemForModal = null, pendingRobloxData = null;
     let orders = JSON.parse(localStorage.getItem('echoknives_orders') || '[]');
@@ -377,7 +378,24 @@
     function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); renderGlobalPurchases(); }
     function filterProducts() { currentSearchTerm = document.getElementById('searchInput').value.toLowerCase().trim(); renderProducts(); }
     
-    // ========== GLOBAL PURCHASES TICKER ==========
+    // Discord webhook sender
+    async function sendDiscordNotification(type, data) {
+        let content = "";
+        if (type === "order") {
+            content = `**🛒 New Order Placed!**\n**Order ID:** ${data.orderId}\n**User:** ${data.userEmail}\n**Roblox:** ${data.robloxUser}\n**Items:** ${data.items}\n**Total:** ${data.total}\n**Status:** ${data.status}`;
+        } else if (type === "candy") {
+            content = `**🍬 Candy Redeemed!**\n**User:** ${data.userEmail}\n**Roblox:** ${data.robloxUser}\n**Points Spent:** 1500\n**Bonus:** +50 points`;
+        } else if (type === "sunrise") {
+            content = `**🌅 Sunrise Redeemed!**\n**User:** ${data.userEmail}\n**Roblox:** ${data.robloxUser}\n**Points Spent:** 3500\n**Bonus:** +50 points`;
+        } else if (type === "message") {
+            content = `**💬 New Support Message**\n**From:** ${data.userEmail}\n**Order:** ${data.orderId}\n**Message:** ${data.text}`;
+        }
+        try {
+            await fetch(DISCORD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content }) });
+        } catch(e) { console.error("Discord webhook error:", e); }
+    }
+    
+    // ========== GLOBAL PURCHASES ==========
     function addGlobalPurchase(itemName, isFake=false) { 
         globalPurchases.unshift({ item: itemName, time: new Date().toLocaleString(), fake: isFake }); 
         if(globalPurchases.length>20) globalPurchases.pop(); 
@@ -416,7 +434,7 @@
         document.getElementById('promoCodeInput').value = ''; 
     }
     
-    // ========== REDEMPTION MODALS (CANDY & SUNRISE) ==========
+    // ========== REDEMPTIONS ==========
     function showCandyRedemptionModal() {
         if(candyRedeemed) { showToast("You already redeemed your candy!"); return; }
         if(userPoints < 1500) { showToast(`Need 1500 points! You have ${userPoints}`); return; }
@@ -424,7 +442,7 @@
         document.getElementById('candyModal').classList.add('show');
     }
     function cancelCandyRedemption() { pendingCandyRedemption = false; document.getElementById('candyModal').classList.remove('show'); showToast("Redemption cancelled."); }
-    function confirmCandyRedemption(action) {
+    async function confirmCandyRedemption(action) {
         if(!pendingCandyRedemption) return;
         if(userPoints < 1500) { showToast("Insufficient points"); cancelCandyRedemption(); return; }
         userPoints -= 1500;
@@ -436,6 +454,7 @@
         document.getElementById('candyModal').classList.remove('show');
         if(action === 'join') window.open(JOIN_SERVER_URL, '_blank');
         if(action === 'add') window.open(BOT_PROFILE_URL, '_blank');
+        await sendDiscordNotification("candy", { userEmail: currentUser?.email, robloxUser: verifiedRobloxUser?.username });
         showToast("Candy redeemed! +50 bonus points.");
     }
     
@@ -446,7 +465,7 @@
         document.getElementById('sunrisePointsModal').classList.add('show');
     }
     function cancelSunriseRedemption() { pendingSunriseRedemption = false; document.getElementById('sunrisePointsModal').classList.remove('show'); showToast("Redemption cancelled."); }
-    function confirmSunriseRedemption(action) {
+    async function confirmSunriseRedemption(action) {
         if(!pendingSunriseRedemption) return;
         if(userPoints < 3500) { showToast("Insufficient points"); cancelSunriseRedemption(); return; }
         userPoints -= 3500;
@@ -458,6 +477,7 @@
         document.getElementById('sunrisePointsModal').classList.remove('show');
         if(action === 'join') window.open(JOIN_SERVER_URL, '_blank');
         if(action === 'add') window.open(BOT_PROFILE_URL, '_blank');
+        await sendDiscordNotification("sunrise", { userEmail: currentUser?.email, robloxUser: verifiedRobloxUser?.username });
         showToast("Sunrise redeemed! +50 bonus points.");
     }
     
@@ -465,7 +485,7 @@
     function showReferral() { hideAllPages(); document.getElementById('referralPage').style.display = 'block'; document.getElementById('referralLink').value = `${window.location.origin}?ref=${currentUser?.uid||'guest'}`; document.getElementById('referralCount').innerText = `${referralCount} friends joined`; }
     function copyReferralLink() { const link = document.getElementById('referralLink'); link.select(); document.execCommand('copy'); showToast("Link copied!"); }
     
-    // ========== ORDERS & CHAT (GLOBAL MESSAGING) ==========
+    // ========== ORDERS & CHAT ==========
     function showOrderTab(tab) {
         currentOrderTab = tab;
         document.querySelectorAll('.pending-tab').forEach(el=>el.classList.remove('active'));
@@ -504,7 +524,7 @@
         container.innerHTML = messages.map(msg => `<div class="${msg.sender === 'buyer' ? 'message-buyer' : msg.sender === 'system' ? 'message-system' : 'message-support'}"><strong>${msg.sender === 'buyer' ? 'You' : (msg.sender === 'system' ? 'System' : 'ECHO Support')}:</strong> ${msg.text}</div>`).join('');
         container.scrollTop = container.scrollHeight;
     }
-    function sendChatMessage() {
+    async function sendChatMessage() {
         if(!currentSelectedOrderId) { showToast("Select an order first"); return; }
         const input = document.getElementById('chatMessageInput');
         const text = input.value.trim();
@@ -514,6 +534,7 @@
         localStorage.setItem('echoknives_all_messages', JSON.stringify(allMessages));
         loadChatMessages(currentSelectedOrderId);
         input.value = '';
+        await sendDiscordNotification("message", { userEmail: currentUser?.email, orderId: currentSelectedOrderId, text });
         if(text.toUpperCase() === '!JOINUS' && currentUser && currentUser.email === ADMIN_EMAIL) {
             document.getElementById('commandModal').classList.add('show');
         } else if(text.toUpperCase() === '!JOINUS') {
@@ -524,7 +545,7 @@
     function joinBotServer() { window.open(JOIN_SERVER_URL, '_blank'); }
     function addBotFriend() { window.open(BOT_PROFILE_URL, '_blank'); }
     
-    // ========== ADMIN PANEL ==========
+    // ========== ADMIN ==========
     function showAdmin() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin access only"); return; } hideAllPages(); document.getElementById('adminPage').style.display='block'; renderInventory(); renderAllOrders(); }
     function renderInventory() { const container = document.getElementById('inventoryList'); container.innerHTML = items.map(item => `<div class="inventory-item"><span><strong>${item.name}</strong><br>${currencySymbols['PHP']}${item.price} | ${item.onSale ? 'On Sale' : 'Offsale'}</span><div class="inventory-actions"><button class="edit-btn" onclick="editItemPrice(${item.id})">Edit Price</button><button class="edit-btn" onclick="editItemImage(${item.id})">Edit Image</button><button class="edit-btn" onclick="toggleOffsale(${item.id})">${item.onSale ? 'Set Offsale' : 'Set On Sale'}</button><button onclick="deleteItem(${item.id})" class="btn-danger" style="padding:6px 12px;">Delete</button></div></div>`).join(''); }
     function editItemPrice(id) { const newPrice = prompt("Enter new price (PHP):"); if(newPrice && !isNaN(parseFloat(newPrice))) { const item = items.find(i=>i.id===id); if(item) { item.price = parseFloat(newPrice); item.originalPrice = Math.round(item.price*1.3); item.discount = Math.round((1-item.price/item.originalPrice)*100); saveItems(); renderInventory(); renderProducts(); showToast("Price updated!"); } } }
@@ -536,7 +557,7 @@
     function renderAllOrders() { const container = document.getElementById('allOrdersList'); if(orders.length===0) { container.innerHTML='<p>No orders.</p>'; return; } container.innerHTML = orders.map(o => `<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px; margin-bottom:10px;"><div><strong>Order #${o.orderId}</strong> - ${o.userEmail}</div><div>Items: ${o.items.map(i=>`${i.name} x${i.quantity}`).join(', ')}</div><div>Total: ${o.symbol||'₱'}${o.total}</div><div>Status: ${o.status}</div><button onclick="updateOrderStatus('${o.orderId}')" style="background:#6c5ce7; border:none; padding:5px 15px; border-radius:20px; color:white; margin-top:10px;">Mark Delivered</button></div>`).join(''); }
     function updateOrderStatus(orderId) { const order = orders.find(o=>o.orderId===orderId); if(order) { order.status = 'Delivered'; localStorage.setItem('echoknives_orders', JSON.stringify(orders)); renderAllOrders(); renderOrdersList(); showToast("Order marked delivered!"); } }
     
-    // ========== PROFILE & ROBLOX VERIFICATION ==========
+    // ========== PROFILE & ROBLOX ==========
     function openProfilePanel() { if(!isLoggedIn) { performGoogleLogin(); return; } hideAllPages(); document.getElementById('profilePanel').style.display='block'; updateProfilePanel(); }
     function updateProfilePanel() { if(verifiedRobloxUser) { document.getElementById('profileRobloxAvatarImg').src = verifiedRobloxUser.avatarUrl || `https://ui-avatars.com/api/?name=${verifiedRobloxUser.username}&background=6c5ce7&color=fff&size=200`; document.getElementById('profileRobloxUsername').innerHTML = `@${verifiedRobloxUser.username}`; } else { document.getElementById('profileRobloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=200"; document.getElementById('profileRobloxUsername').innerHTML = "Not linked"; } document.getElementById('profileGoogleEmail').innerHTML = currentUser ? `${currentUser.email}<br><span style="font-size:12px;">${currentUser.displayName||''}</span>` : "Not logged in"; }
     function updateHeaderDisplay() { if(verifiedRobloxUser && verifiedRobloxUser.avatarUrl) { document.getElementById('userAvatarDisplay').innerHTML = `<img src="${verifiedRobloxUser.avatarUrl}">`; document.getElementById('userNameDisplay').innerHTML = `🎮 ${verifiedRobloxUser.username}`; } else if(currentUser) { document.getElementById('userNameDisplay').innerText = currentUser.displayName || currentUser.email?.split('@')[0]; document.getElementById('userAvatarDisplay').innerHTML = currentUser.photoURL ? `<img src="${currentUser.photoURL}">` : `<i class="fas fa-user"></i>`; } else { document.getElementById('userNameDisplay').innerText = 'Guest'; document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`; } }
@@ -549,7 +570,7 @@
     async function performGoogleLogout() { if(window.firebaseAuth) { await window.firebaseSignOut(window.firebaseAuth); } showToast("Logged out"); }
     
     // ========== CHECKOUT ==========
-    function initiateCheckout() { 
+    async function initiateCheckout() { 
         if(!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; } 
         if(cart.length===0) { showToast("Cart empty"); return; } 
         if(!verifiedRobloxUser) { showToast("Please link your Roblox account first"); openProfilePanel(); return; } 
@@ -572,6 +593,7 @@
         allMessages[orderId] = [{ sender:'system', text: receiptMessage }]; 
         localStorage.setItem('echoknives_all_messages', JSON.stringify(allMessages)); 
         addGlobalPurchase(cart[0]?.name, false); 
+        await sendDiscordNotification("order", { orderId, userEmail: currentUser.email, robloxUser: verifiedRobloxUser.username, items: cart.map(i=>`${i.name} x${i.quantity}`).join(', '), total: `${getSymbol()}${orderData.total.toFixed(2)}`, status: "Processing" });
         const cartParam = encodeURIComponent(JSON.stringify(orderData.items));
         const returnUrl = encodeURIComponent(window.location.origin + window.location.pathname);
         window.location.href = `${PAYMENT_SITE_URL}?cart=${cartParam}&roblox=${encodeURIComponent(verifiedRobloxUser.username)}&order_id=${orderData.orderId}&return=${returnUrl}`;
@@ -603,7 +625,7 @@
         if(user) { isLoggedIn=true; currentUser=user; updateHeaderDisplay(); loadAllData(); const adminBtn = document.getElementById('adminNavBtn'); if(user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; else adminBtn.style.display = 'none'; if(user.email === ADMIN_EMAIL) { const tabsDiv = document.getElementById('adminOrderTabs'); if(tabsDiv) tabsDiv.style.display = 'block'; } showToast(`Welcome ${user.displayName || 'User'}!`); } else { isLoggedIn=false; currentUser=null; updateHeaderDisplay(); loadAllData(); document.getElementById('adminNavBtn').style.display = 'none'; const tabsDiv = document.getElementById('adminOrderTabs'); if(tabsDiv) tabsDiv.style.display = 'none'; } renderProducts(); };
     async function performGoogleLogin() { if(window.firebaseAuth) { try { await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } catch(e) { showToast("Login failed"); } } else showToast("Loading..."); }
     
-    // ========== FILTERS & PARTICLES ==========
+    // ========== FILTERS & INIT ==========
     document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
     function createParticles() { const c = document.getElementById('particles'); for(let i=0;i<60;i++){ const p=document.createElement('div'); p.classList.add('particle'); p.style.width=(Math.random()*6+2)+'px'; p.style.left=Math.random()*100+'%'; p.style.animationDelay=Math.random()*20+'s'; p.style.animationDuration=(Math.random()*15+10)+'s'; c.appendChild(p); } }
     createParticles(); showHome(); loadAllData(); renderProducts(); 
@@ -611,7 +633,7 @@
     if(verifiedRobloxUser) updateHeaderDisplay();
     setInterval(() => { const fakeItems = ["Batwing","Harvester","Icewing","Luger","Darkbringer","Lightbringer","Candy","Ice Piercer","Ice Breaker","Sunset","Sunrise"]; addGlobalPurchase(fakeItems[Math.floor(Math.random()*fakeItems.length)], true); }, 45000);
     
-    // ========== GLOBAL EXPOSURE ==========
+    // Global exports
     window.showHome=showHome; window.showShop=showShop; window.showQuests=showQuests; window.showOrdersAndChat=showOrdersAndChat; window.showAdmin=showAdmin; window.showReferral=showReferral; window.openProfilePanel=openProfilePanel;
     window.addToCart=addToCart; window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.toggleCart=toggleCart; window.closeCart=closeCart;
     window.changeCurrency=changeCurrency; window.performGoogleLogin=performGoogleLogin; window.performGoogleLogout=performGoogleLogout;
