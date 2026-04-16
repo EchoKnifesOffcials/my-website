@@ -205,9 +205,9 @@
         <div class="luck-balance" onclick="showLuckOfDraw()"><i class="fas fa-dice"></i> <span id="luckBalance">0</span> credits</div>
         <div class="shop-controls">
             <div class="currency-selector"><i class="fas fa-money-bill-wave"></i><select id="currencySelect" onchange="changeCurrency()">
-                <option value="USD">USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option>
+                <option value="USD" selected>USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option>
                 <option value="JPY">JPY ¥</option><option value="CAD">CAD $</option><option value="AUD">AUD $</option>
-                <option value="PHP" selected>PHP ₱</option>
+                <option value="PHP">PHP ₱</option>
             </select></div>
             <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search items..." oninput="filterProducts()"></div>
         </div>
@@ -332,11 +332,11 @@
     const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
     const PAYMENT_SITE_URL = "https://echoknivesmm2.onrender.com";
     
-    // Full currency options with rates
+    // Full currency options with rates (based on PHP as base, but display conversion works)
     const exchangeRates = { USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, CAD: 0.023, AUD: 0.026, PHP: 1 };
     const currencySymbols = { USD: "$", EUR: "€", GBP: "£", JPY: "¥", CAD: "C$", AUD: "A$", PHP: "₱" };
     
-    // Original prices restored
+    // Original prices restored (in PHP)
     let items = [
         { id: 1, name: "Batwing", type: "knife", price: 152, originalPrice: 220, discount: 31, image: "https://i.imgur.com/H6CL03y.jpeg", onSale: true },
         { id: 2, name: "Harvester", type: "knife", price: 608, originalPrice: 850, discount: 28, image: "https://i.imgur.com/jZkbQ4t.jpeg", onSale: true },
@@ -352,7 +352,7 @@
     const LUCK_ITEMS = items.filter(i => i.price <= 200);
     
     // ========== GLOBAL STATE ==========
-    let cart = [], currentFilter = "all", isLoggedIn = false, currentUser = null, currentCurrency = "PHP", userPoints = 0;
+    let cart = [], currentFilter = "all", isLoggedIn = false, currentUser = null, currentCurrency = "USD", userPoints = 0;
     let luckBalance = 0;
     let selectedItemForModal = null, pendingRobloxData = null;
     let orders = JSON.parse(localStorage.getItem('echoknives_orders') || '[]');
