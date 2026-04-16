@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ECHOKNIVES | Premium MM2 Shop</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+        
         const firebaseConfig = {
             apiKey: "AIzaSyBAn0pSAeYVXlpBFElUvFWeCdmMduRDLss",
             authDomain: "echoknifes-5360c.firebaseapp.com",
@@ -18,14 +21,20 @@
             messagingSenderId: "86064144525",
             appId: "1:86064144525:web:9a8dee636295e840c242c4"
         };
+        
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
+        
         window.firebaseAuth = auth;
         window.firebaseProvider = provider;
         window.firebaseSignOut = signOut;
         window.firebaseSignInWithPopup = signInWithPopup;
-        onAuthStateChanged(auth, (user) => { if (window.handleAuthStateChanged) window.handleAuthStateChanged(user); });
+        
+        onAuthStateChanged(auth, (user) => {
+            if (window.handleAuthStateChanged) window.handleAuthStateChanged(user);
+        });
+        
         window.dispatchEvent(new Event('firebase-ready'));
     </script>
     
@@ -53,17 +62,17 @@
         .nav-link:hover, .nav-link.active { background: #6c5ce7; color: white; }
         .top-right { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
         .points-display { background: linear-gradient(135deg, #f59e0b, #d97706); padding: 8px 16px; border-radius: 40px; display: flex; align-items: center; gap: 8px; font-weight: 700; cursor: pointer; }
-        .currency-selector { background: rgba(108, 92, 231, 0.2); border: 1px solid rgba(108, 92, 231, 0.3); border-radius: 30px; padding: 8px 16px; }
-        .currency-selector select { background: transparent; border: none; color: white; cursor: pointer; outline: none; }
+        .currency-selector { background: rgba(108, 92, 231, 0.2); border: 1px solid rgba(108, 92, 231, 0.3); border-radius: 30px; padding: 8px 16px; display: inline-flex; align-items: center; gap: 8px; }
+        .currency-selector select { background: transparent; border: none; color: white; font-size: 13px; cursor: pointer; outline: none; }
+        .shop-controls { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+        .search-box { background: rgba(255,255,255,0.1); border: 1px solid rgba(108,92,231,0.3); border-radius: 30px; padding: 5px 15px; display: flex; align-items: center; gap: 8px; }
+        .search-box input { background: transparent; border: none; color: white; padding: 8px 0; outline: none; width: 180px; }
+        .search-box i { color: #aaa; }
         .user-info { display: flex; align-items: center; gap: 10px; background: rgba(108, 92, 231, 0.2); border: 1px solid rgba(108, 92, 231, 0.3); padding: 5px 15px; border-radius: 40px; cursor: pointer; }
         .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #6c5ce7; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .cart-icon { position: relative; cursor: pointer; background: rgba(108, 92, 231, 0.2); padding: 8px 16px; border-radius: 40px; }
         .cart-count { position: absolute; top: -5px; right: -5px; background: #ef4444; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; }
-
-        .ticker { background: rgba(0,0,0,0.5); padding: 10px 5%; overflow: hidden; white-space: nowrap; border-bottom: 1px solid rgba(108,92,231,0.2); }
-        .ticker-content { display: inline-block; animation: ticker 30s linear infinite; }
-        .ticker-content span { margin: 0 30px; color: #10b981; }
 
         .hero { min-height: 70vh; display: flex; align-items: center; justify-content: space-between; padding: 40px 5%; flex-wrap: wrap; gap: 50px; }
         .hero-content { flex: 1; min-width: 300px; animation: fadeInUp 0.6s ease; }
@@ -187,7 +196,7 @@
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: none; }
         .overlay.show { display: block; }
         
-        @media (max-width: 768px) { .cart-sidebar { width: 100%; right: -100%; } .hero-title { font-size: 38px; } .products-grid { gap: 15px; } .orders-chat-layout { flex-direction: column; } }
+        @media (max-width: 768px) { .cart-sidebar { width: 100%; right: -100%; } .hero-title { font-size: 38px; } .products-grid { gap: 15px; } .orders-chat-layout { flex-direction: column; } .shop-controls { width: 100%; justify-content: space-between; } }
     </style>
 </head>
 <body>
@@ -210,7 +219,27 @@
     </div>
     <div class="top-right">
         <div class="points-display" onclick="showReferral()"><i class="fas fa-star"></i> <span id="pointsBalance">0</span> pts</div>
-        <div class="currency-selector"><i class="fas fa-money-bill-wave"></i><select id="currencySelect" onchange="changeCurrency()"><option value="PHP">PHP</option><option value="USD">USD</option></select></div>
+        <div class="shop-controls">
+            <div class="currency-selector">
+                <i class="fas fa-money-bill-wave"></i>
+                <select id="currencySelect" onchange="changeCurrency()">
+                    <option value="USD">USD $</option>
+                    <option value="EUR">EUR €</option>
+                    <option value="GBP">GBP £</option>
+                    <option value="JPY">JPY ¥</option>
+                    <option value="CAD">CAD $</option>
+                    <option value="AUD">AUD $</option>
+                    <option value="CHF">CHF ₣</option>
+                    <option value="CNY">CNY ¥</option>
+                    <option value="INR">INR ₹</option>
+                    <option value="PHP" selected>PHP ₱</option>
+                </select>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search items..." oninput="filterProducts()">
+            </div>
+        </div>
         <div class="user-info" id="userInfo" onclick="openProfilePanel()"><div class="user-avatar" id="userAvatarDisplay"><i class="fas fa-user"></i></div><span id="userNameDisplay">Guest</span></div>
         <div class="cart-icon" onclick="toggleCart()"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></div>
     </div>
@@ -232,7 +261,11 @@
 </div>
 
 <div id="shopPage" class="container" style="display:none;">
-    <div class="filter-bar"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="knife">Knives</button><button class="filter-btn" data-filter="gun">Guns</button></div>
+    <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="knife">Knives</button>
+        <button class="filter-btn" data-filter="gun">Guns</button>
+    </div>
     <div class="products-grid" id="productsGrid"></div>
 </div>
 
@@ -301,18 +334,27 @@
     const ADMIN_EMAIL = "ivanmendones13@gmail.com";
     const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
     
+    // Expanded currency list
+    const exchangeRates = {
+        USD: 1, EUR: 0.92, GBP: 0.79, JPY: 150.5, CAD: 1.38, AUD: 1.52, CHF: 0.88, CNY: 7.24, INR: 83.5, PHP: 56.5
+    };
+    const currencySymbols = {
+        USD: "$", EUR: "€", GBP: "£", JPY: "¥", CAD: "C$", AUD: "A$", CHF: "CHF", CNY: "¥", INR: "₹", PHP: "₱"
+    };
+    
     let items = [
         { id: 1, name: "Batwing", type: "knife", price: 152, originalPrice: 220, discount: 31, image: "https://i.imgur.com/H6CL03y.jpeg", onSale: true },
         { id: 2, name: "Harvester", type: "knife", price: 608, originalPrice: 850, discount: 28, image: "https://i.imgur.com/jZkbQ4t.jpeg", onSale: true },
         { id: 3, name: "Icewing", type: "knife", price: 72, originalPrice: 120, discount: 40, image: "https://i.imgur.com/jiwvmxq.jpeg", onSale: true },
         { id: 4, name: "Luger", type: "gun", price: 207, originalPrice: 300, discount: 31, image: "https://i.imgur.com/eEvMBRh.jpeg", onSale: true },
         { id: 5, name: "Darkbringer", type: "gun", price: 130, originalPrice: 250, discount: 48, image: "https://i.imgur.com/8oxgzwa.jpeg", onSale: true },
-        { id: 6, name: "Lightbringer", type: "gun", price: 125, originalPrice: 240, discount: 48, image: "https://i.imgur.com/BUljuYV.jpeg", onSale: true }
+        { id: 6, name: "Lightbringer", type: "gun", price: 125, originalPrice: 240, discount: 48, image: "https://i.imgur.com/BUljuYV.jpeg", onSale: true },
+        { id: 7, name: "Ice Piercer", type: "gun", price: 340, originalPrice: 500, discount: 32, image: "https://i.imgur.com/cWwaIa3.jpeg", onSale: true },
+        { id: 8, name: "Ice Breaker", type: "knife", price: 210, originalPrice: 350, discount: 40, image: "https://i.imgur.com/SuTMxT7.jpeg", onSale: true }
     ];
     const CANDY_ITEM = { id: 999, name: "Candy", type: "candy", price: 240, originalPrice: 300, discount: 20, image: "https://i.imgur.com/PXBiQtb.jpeg", onSale: true };
     
     let cart = [], currentFilter = "all", isLoggedIn = false, currentUser = null, currentCurrency = "PHP", userPoints = 0;
-    let exchangeRates = { PHP: 1, USD: 0.017 }, symbols = { PHP: "₱", USD: "$" };
     let selectedItemForModal = null, pendingRobloxData = null;
     let orders = JSON.parse(localStorage.getItem('echoknives_orders') || '[]');
     let globalPurchases = JSON.parse(localStorage.getItem('echoknives_global_purchases') || '[]');
@@ -321,6 +363,7 @@
     let verifiedRobloxUser = JSON.parse(localStorage.getItem('verifiedRobloxUser') || 'null');
     let currentSelectedOrderId = null;
     let allMessages = JSON.parse(localStorage.getItem('echoknives_all_messages') || '{}');
+    let currentSearchTerm = "";
     
     let quests = { 
         firstPurchase: { name: "First Purchase", reward: 50, completed: false, claimed: false, desc: "Buy your first item" }, 
@@ -330,10 +373,26 @@
         robloxLinked: { name: "Roblox Linked", reward: 50, completed: false, claimed: false, desc: "Link your Roblox account" } 
     };
     
-    function getDisplayPrice(p) { return (p * exchangeRates[currentCurrency]).toFixed(2); }
-    function getSymbol() { return symbols[currentCurrency]; }
+    function getDisplayPrice(phpPrice) { 
+        let priceInPHP = phpPrice;
+        let rate = exchangeRates[currentCurrency];
+        if (!rate) rate = 1;
+        let converted = (priceInPHP / 56.5) * rate;
+        return converted.toFixed(2);
+    }
+    function getSymbol() { return currencySymbols[currentCurrency] || "$"; }
     function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
-    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); renderGlobalPurchases(); }
+    function changeCurrency() { 
+        currentCurrency = document.getElementById('currencySelect').value; 
+        renderProducts(); 
+        updateCartUI(); 
+        renderGlobalPurchases(); 
+    }
+    
+    function filterProducts() {
+        currentSearchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+        renderProducts();
+    }
     
     function addGlobalPurchase(itemName, isFake = false) { 
         globalPurchases.unshift({ item: itemName, time: new Date().toLocaleString(), fake: isFake }); 
@@ -341,7 +400,6 @@
         localStorage.setItem('echoknives_global_purchases', JSON.stringify(globalPurchases)); 
         renderGlobalPurchases(); 
         if(!isFake) document.getElementById('totalSales').innerText = orders.length; 
-        updateTicker(); 
     }
     
     function renderGlobalPurchases() { 
@@ -349,12 +407,6 @@
         if(!container) return; 
         if(globalPurchases.length === 0) { container.innerHTML = '<div style="text-align:center; padding:20px; background:rgba(0,0,0,0.3); border-radius:20px;">No recent purchases yet. Be the first!</div>'; return; } 
         container.innerHTML = globalPurchases.slice(0, 8).map(p => `<div class="purchase-card"><div class="purchase-icon"><i class="fas fa-shopping-bag"></i></div><div class="purchase-details"><div class="purchase-item">${p.item}</div><div class="purchase-time">${p.time}</div></div><div class="purchase-amount">${getSymbol()}${getDisplayPrice(items.find(i=>i.name===p.item)?.price || 100)}</div></div>`).join(''); 
-    }
-    
-    function updateTicker() { 
-        const tickerDiv = document.getElementById('tickerContent'); 
-        if(globalPurchases.length === 0) { tickerDiv.innerHTML = '<span>◆ No recent sales yet. Be the first!</span>'; return; } 
-        tickerDiv.innerHTML = globalPurchases.slice(0, 5).map(p => `<span>${p.fake ? '◆ Someone' : '● Anonymous User'} just purchased ${p.item}!</span>`).join(''); 
     }
     
     function loadAllData() { 
@@ -395,9 +447,9 @@
     function renderOrdersList() {
         const container = document.getElementById('ordersListContainer');
         if(!container) return;
-        const userOrders = orders.filter(o => o.userEmail === currentUser?.email);
+        const userOrders = (currentUser && currentUser.email === ADMIN_EMAIL) ? orders : orders.filter(o => o.userEmail === currentUser?.email);
         if(userOrders.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px; background:rgba(0,0,0,0.3); border-radius:20px;">No orders yet.</div>'; return; }
-        container.innerHTML = userOrders.map(o => `<div class="order-item ${currentSelectedOrderId === o.orderId ? 'selected' : ''}" onclick="selectOrder('${o.orderId}')"><div><strong>Order #${o.orderId}</strong> <span style="background:${o.status === 'Delivered' ? '#10b981' : '#ef4444'}; color:white; font-size:10px; padding:2px 8px; border-radius:20px; margin-left:8px;">${o.status === 'Delivered' ? '✓ Delivered' : '⚠️ Processing'}</span></div><div>${o.items.map(i => `${i.name} x${i.quantity}`).join(', ').substring(0, 50)}${o.items.length > 2 ? '...' : ''}</div><div>₱${o.total}</div><div style="font-size:11px; color:#888;">${new Date(o.date).toLocaleDateString()}</div></div>`).join('');
+        container.innerHTML = userOrders.map(o => `<div class="order-item ${currentSelectedOrderId === o.orderId ? 'selected' : ''}" onclick="selectOrder('${o.orderId}')"><div><strong>Order #${o.orderId}</strong> <span style="background:${o.status === 'Delivered' ? '#10b981' : '#ef4444'}; color:white; font-size:10px; padding:2px 8px; border-radius:20px; margin-left:8px;">${o.status === 'Delivered' ? '✓ Delivered' : '⚠️ Processing'}</span></div><div>${o.items.map(i => `${i.name} x${i.quantity}`).join(', ').substring(0, 50)}${o.items.length > 2 ? '...' : ''}</div><div>${currencySymbols[o.currency] || '₱'}${o.total}</div><div style="font-size:11px; color:#888;">${new Date(o.date).toLocaleDateString()}</div></div>`).join('');
     }
     
     function selectOrder(orderId) { currentSelectedOrderId = orderId; renderOrdersList(); loadChatMessages(orderId); }
@@ -449,7 +501,7 @@
     
     function renderInventory() { 
         const container = document.getElementById('inventoryList'); 
-        container.innerHTML = items.map(item => `<div class="inventory-item"><span><strong>${item.name}</strong><br>₱${item.price} | ${item.onSale ? 'On Sale' : 'Offsale'}</span><div class="inventory-actions"><button class="edit-btn" onclick="editItemPrice(${item.id})">Edit Price</button><button class="edit-btn" onclick="editItemImage(${item.id})">Edit Image</button><button class="edit-btn" onclick="toggleOffsale(${item.id})">${item.onSale ? 'Set Offsale' : 'Set On Sale'}</button><button onclick="deleteItem(${item.id})" class="btn-danger" style="padding:6px 12px;">Delete</button></div></div>`).join(''); 
+        container.innerHTML = items.map(item => `<div class="inventory-item"><span><strong>${item.name}</strong><br>${currencySymbols['PHP']}${item.price} | ${item.onSale ? 'On Sale' : 'Offsale'}</span><div class="inventory-actions"><button class="edit-btn" onclick="editItemPrice(${item.id})">Edit Price</button><button class="edit-btn" onclick="editItemImage(${item.id})">Edit Image</button><button class="edit-btn" onclick="toggleOffsale(${item.id})">${item.onSale ? 'Set Offsale' : 'Set On Sale'}</button><button onclick="deleteItem(${item.id})" class="btn-danger" style="padding:6px 12px;">Delete</button></div></div>`).join(''); 
     }
     
     function editItemPrice(id) { 
@@ -490,7 +542,7 @@
     function renderAllOrders() { 
         const container = document.getElementById('allOrdersList'); 
         if(orders.length === 0) { container.innerHTML = '<p>No orders.</p>'; return; } 
-        container.innerHTML = orders.map(o => `<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px; margin-bottom:10px;"><div><strong>Order #${o.orderId}</strong> - ${o.userEmail}</div><div>Items: ${o.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div><div>Total: ₱${o.total}</div><div>Status: ${o.status}</div><button onclick="updateOrderStatus('${o.orderId}')" style="background:#6c5ce7; border:none; padding:5px 15px; border-radius:20px; color:white; margin-top:10px;">Mark Delivered</button></div>`).join(''); 
+        container.innerHTML = orders.map(o => `<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px; margin-bottom:10px;"><div><strong>Order #${o.orderId}</strong> - ${o.userEmail}</div><div>Items: ${o.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div><div>Total: ${o.symbol || '₱'}${o.total}</div><div>Status: ${o.status}</div><button onclick="updateOrderStatus('${o.orderId}')" style="background:#6c5ce7; border:none; padding:5px 15px; border-radius:20px; color:white; margin-top:10px;">Mark Delivered</button></div>`).join(''); 
     }
     
     function updateOrderStatus(orderId) { 
@@ -594,20 +646,21 @@
             total: cart.reduce((s, i) => s + (i.price * i.quantity), 0),
             status: 'Processing', 
             date: new Date().toISOString(),
-            userEmail: currentUser.email
+            userEmail: currentUser.email,
+            currency: currentCurrency,
+            symbol: getSymbol()
         }; 
         orders.unshift(orderData); 
         localStorage.setItem('echoknives_orders', JSON.stringify(orders)); 
+        const receiptMessage = `📦 ORDER RECEIPT\nItems: ${cart.map(i => `${i.name} x${i.quantity}`).join(', ')}\nTotal: ${getSymbol()}${orderData.total.toFixed(2)}\nRoblox: @${verifiedRobloxUser.username}\nStatus: Processing\n\n✅ Your order has been received and is being processed. Your items will be delivered within 24 hours. A support agent will assist you if needed.`;
         allMessages[orderId] = [ 
-            { sender: 'system', text: `📦 ORDER RECEIPT\nItems: ${cart.map(i => `${i.name} x${i.quantity}`).join(', ')}\nTotal: ₱${orderData.subtotal}\nRoblox: @${verifiedRobloxUser.username}\nStatus: Processing` }, 
-            { sender: 'system', text: '✅ Your order has been received and is being processed. Your items will be delivered within 24 hours. A support agent will assist you if needed.' } 
+            { sender: 'system', text: receiptMessage }
         ]; 
         localStorage.setItem('echoknives_all_messages', JSON.stringify(allMessages)); 
         addGlobalPurchase(cart[0]?.name, false); 
-        cart = []; 
-        updateCartUI(); 
-        showToast(`Order placed! Check Orders & Support for details.`); 
-        showOrdersAndChat(); 
+        const cartParam = encodeURIComponent(JSON.stringify(orderData.items));
+        const returnUrl = encodeURIComponent(window.location.origin + window.location.pathname);
+        window.location.href = `${PAYMENT_SITE_URL}?cart=${cartParam}&roblox=${encodeURIComponent(verifiedRobloxUser.username)}&order_id=${orderData.orderId}&return=${returnUrl}`;
     }
     
     function openPurchaseModal(item) { 
@@ -647,7 +700,14 @@
     
     function renderProducts() { 
         const allItems = [...items, CANDY_ITEM]; 
-        let filtered = allItems.filter(i => { if (currentFilter === 'knife') return i.type === 'knife'; if (currentFilter === 'gun') return i.type === 'gun'; return true; }); 
+        let filtered = allItems.filter(i => { 
+            if (currentFilter === 'knife') return i.type === 'knife';
+            if (currentFilter === 'gun') return i.type === 'gun';
+            return true;
+        });
+        if (currentSearchTerm) {
+            filtered = filtered.filter(i => i.name.toLowerCase().includes(currentSearchTerm));
+        }
         document.getElementById('productsGrid').innerHTML = filtered.map(item => { 
             const discountPercent = item.discount || Math.round((1 - item.price / item.originalPrice) * 100); 
             return `<div class="product-card ${!item.onSale ? 'offsale' : ''}" onclick="openPurchaseModal(${JSON.stringify(item).replace(/"/g, '&quot;')})">${discountPercent > 0 && item.onSale ? `<div class="discount-badge">-${discountPercent}%</div>` : ''}${!item.onSale ? `<div class="offsale-badge">Offsale</div>` : ''}<div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/200x200/6c5ce7/white?text=${item.name.charAt(0)}'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${item.originalPrice && item.onSale ? `<span class="original-price">${getSymbol()}${getDisplayPrice(item.originalPrice)}</span>` : ''}${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`; 
@@ -726,7 +786,7 @@
     const savedItems = localStorage.getItem('echoknives_items'); 
     if(savedItems) items = JSON.parse(savedItems);
     if(verifiedRobloxUser) updateHeaderDisplay();
-    setInterval(() => { const fakeItems = ["Batwing", "Harvester", "Icewing", "Luger", "Darkbringer", "Lightbringer", "Candy"]; addGlobalPurchase(fakeItems[Math.floor(Math.random() * fakeItems.length)], true); }, 45000);
+    setInterval(() => { const fakeItems = ["Batwing", "Harvester", "Icewing", "Luger", "Darkbringer", "Lightbringer", "Candy", "Ice Piercer", "Ice Breaker"]; addGlobalPurchase(fakeItems[Math.floor(Math.random() * fakeItems.length)], true); }, 45000);
     
     window.showHome=showHome; window.showShop=showShop; window.showQuests=showQuests; window.showOrdersAndChat=showOrdersAndChat; window.showAdmin=showAdmin; window.showReferral=showReferral; window.openProfilePanel=openProfilePanel;
     window.addToCart=addToCart; window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.toggleCart=toggleCart; window.closeCart=closeCart;
@@ -738,7 +798,7 @@
     window.addInventoryItem=addInventoryItem; window.deleteItem=deleteItem; window.updateOrderStatus=updateOrderStatus; window.copyReferralLink=copyReferralLink;
     window.editItemPrice=editItemPrice; window.editItemImage=editItemImage; window.toggleOffsale=toggleOffsale; window.closeReceipt=closeReceipt;
     window.selectOrder=selectOrder; window.sendChatMessage=sendChatMessage; window.showCommandModal=showCommandModal; window.closeCommandModal=closeCommandModal;
-    window.joinBotServer=joinBotServer; window.addBotFriend=addBotFriend;
+    window.joinBotServer=joinBotServer; window.addBotFriend=addBotFriend; window.filterProducts=filterProducts;
 </script>
 </body>
 </html>
