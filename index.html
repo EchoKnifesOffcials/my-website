@@ -208,8 +208,6 @@
 <div class="glow-orb orb-2"></div>
 <div class="particles" id="particles"></div>
 
-<!-- Ticker removed as requested -->
-
 <div class="header">
     <div class="logo" onclick="showHome()"><i class="fas fa-gem logo-icon"></i><div><div class="logo-text">ECHOKNIVES</div><div class="logo-sub">PREMIUM MM2 SHOP</div></div></div>
     <div class="nav-links">
@@ -283,7 +281,7 @@
     <h2>Orders & Support</h2>
     <div id="adminOrderTabs" style="display: none; margin-bottom: 15px;">
         <span class="pending-tab active" onclick="showOrderTab('all')">All Orders</span>
-        <span class="pending-tab" onclick="showOrderTab('pending')">Pending Orders</span>
+        <span class="pending-tab" onclick="showOrderTab('pending')">Pending Orders (Queue)</span>
     </div>
     <div class="orders-chat-layout">
         <div class="orders-list-container" id="ordersListContainer"></div>
@@ -369,7 +367,7 @@
     let currentSelectedOrderId = null;
     let allMessages = JSON.parse(localStorage.getItem('echoknives_all_messages') || '{}');
     let currentSearchTerm = "";
-    let currentOrderTab = "all"; // 'all' or 'pending' for admin
+    let currentOrderTab = "all";
     
     let quests = { 
         firstPurchase: { name: "First Purchase", reward: 50, completed: false, claimed: false, desc: "Buy your first item" }, 
@@ -380,10 +378,9 @@
     };
     
     function getDisplayPrice(phpPrice) { 
-        let priceInPHP = phpPrice;
         let rate = exchangeRates[currentCurrency];
         if (!rate) rate = 1;
-        let converted = (priceInPHP / 56.5) * rate;
+        let converted = (phpPrice / 56.5) * rate;
         return converted.toFixed(2);
     }
     function getSymbol() { return currencySymbols[currentCurrency] || "$"; }
@@ -468,9 +465,13 @@
         let userOrders = (currentUser && currentUser.email === ADMIN_EMAIL) ? orders : orders.filter(o => o.userEmail === currentUser?.email);
         if (currentUser && currentUser.email === ADMIN_EMAIL && currentOrderTab === 'pending') {
             userOrders = userOrders.filter(o => o.status === 'Processing');
+            // Sort pending orders by date (oldest first - queue)
+            userOrders.sort((a, b) => new Date(a.date) - new Date(b.date));
+        } else {
+            userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
         }
         if(userOrders.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px; background:rgba(0,0,0,0.3); border-radius:20px;">No orders yet.</div>'; return; }
-        container.innerHTML = userOrders.map(o => `<div class="order-item ${currentSelectedOrderId === o.orderId ? 'selected' : ''}" onclick="selectOrder('${o.orderId}')"><div><strong>Order #${o.orderId}</strong> <span style="background:${o.status === 'Delivered' ? '#10b981' : '#ef4444'}; color:white; font-size:10px; padding:2px 8px; border-radius:20px; margin-left:8px;">${o.status === 'Delivered' ? '✓ Delivered' : '⚠️ Processing'}</span></div><div>${o.items.map(i => `${i.name} x${i.quantity}`).join(', ').substring(0, 50)}${o.items.length > 2 ? '...' : ''}</div><div>${currencySymbols[o.currency] || '₱'}${o.total}</div><div style="font-size:11px; color:#888;">${new Date(o.date).toLocaleDateString()}</div></div>`).join('');
+        container.innerHTML = userOrders.map(o => `<div class="order-item ${currentSelectedOrderId === o.orderId ? 'selected' : ''}" onclick="selectOrder('${o.orderId}')"><div><strong>Order #${o.orderId}</strong> <span style="background:${o.status === 'Delivered' ? '#10b981' : '#ef4444'}; color:white; font-size:10px; padding:2px 8px; border-radius:20px; margin-left:8px;">${o.status === 'Delivered' ? '✓ Delivered' : '⚠️ Processing'}</span></div><div><strong>User:</strong> ${o.robloxUser} (${o.userEmail})</div><div>Items: ${o.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div><div>Total: ${currencySymbols[o.currency] || '₱'}${o.total}</div><div style="font-size:11px; color:#888;">${new Date(o.date).toLocaleString()}</div></div>`).join('');
     }
     
     function selectOrder(orderId) { currentSelectedOrderId = orderId; renderOrdersList(); loadChatMessages(orderId); }
