@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECHOKNIVES | Premium MM2 Shop</title>
+    <title>ECHOKNIVES | Secured</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -88,14 +88,13 @@
         .hero-stat h3 { font-size: 36px; font-weight: 800; color: #6c5ce7; }
         .hero-stat p { font-size: 12px; color: #888; }
         .btn-primary { background: linear-gradient(135deg, #6c5ce7, #a855f7); border: none; padding: 14px 35px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; }
-        .hero-image { flex: 1; min-width: 300px; text-align: center; }
         .hero-image img { max-width: 100%; filter: drop-shadow(0 0 40px rgba(108,92,231,0.3)); animation: floatImage 4s ease-in-out infinite; border-radius: 20px; }
         @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
         .purchases-section { max-width: 1400px; margin: 0 auto 40px; padding: 0 5%; }
         .purchases-title { font-family: 'Orbitron', monospace; font-size: 24px; margin-bottom: 20px; color: #a855f7; display: flex; align-items: center; gap: 10px; }
         .purchases-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .purchase-card { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 20px; padding: 15px 20px; border: 1px solid rgba(108,92,231,0.3); transition: all 0.3s ease; display: flex; align-items: center; gap: 15px; }
+        .purchase-card { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 20px; padding: 15px 20px; border: 1px solid rgba(108,92,231,0.3); display: flex; align-items: center; gap: 15px; transition: all 0.3s ease; }
         .purchase-card:hover { transform: translateX(5px); border-color: #6c5ce7; }
         .purchase-icon { font-size: 32px; color: #10b981; }
         .purchase-details { flex: 1; }
@@ -116,7 +115,7 @@
         .offsale-badge { position: absolute; top: 10px; right: 10px; background: #6c5ce7; color: white; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; z-index: 2; }
         .original-price { text-decoration: line-through; font-size: 14px; color: #888; margin-right: 8px; }
         .product-image { flex: 1; background: linear-gradient(135deg, #2a1a2a, #1a0a1a); display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .product-image img { width: 85%; height: 85%; object-fit: contain; border-radius: 20px; transition: transform 0.3s; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); }
+        .product-image img { width: 85%; height: 85%; object-fit: contain; border-radius: 20px; transition: transform 0.3s; }
         .product-card:hover .product-image img { transform: scale(1.05); }
         .product-info { padding: 18px; text-align: center; background: rgba(0,0,0,0.4); }
         .product-name { font-size: 18px; font-weight: 800; }
@@ -141,7 +140,6 @@
         .candy-redeem { background: linear-gradient(135deg, #f59e0b, #d97706); text-align: center; }
         .promo-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 40px; color: white; margin: 10px 0; text-align: center; }
 
-        /* Square Modal Preview */
         .fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.96); backdrop-filter: blur(20px); z-index: 10000; display: none; justify-content: center; align-items: center; }
         .fullscreen-modal.show { display: flex; }
         .modal-container { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 32px; padding: 40px; max-width: 500px; width: 90%; text-align: center; border: 2px solid #6c5ce7; }
@@ -156,13 +154,11 @@
         .modal-btn-primary { background: linear-gradient(135deg, #10b981, #059669); }
         .modal-btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
 
-        /* Full Avatar in Verification */
-        .roblox-avatar-full { width: 200px; height: 200px; margin: 0 auto 20px; overflow: hidden; border-radius: 24px; border: 3px solid #6c5ce7; background: #1e1e3a; }
-        .roblox-avatar-full img { width: 100%; height: 100%; object-fit: cover; }
-
         .roblox-modal, .receipt-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); backdrop-filter: blur(20px); z-index: 3000; display: none; justify-content: center; align-items: center; }
         .roblox-modal.show, .receipt-modal.show { display: flex; }
         .modal-content { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 35px; max-width: 500px; width: 90%; text-align: center; border: 1px solid #6c5ce7; }
+        .roblox-avatar-full { width: 200px; height: 200px; margin: 0 auto 20px; overflow: hidden; border-radius: 24px; border: 3px solid #6c5ce7; }
+        .roblox-avatar-full img { width: 100%; height: 100%; object-fit: cover; }
         .btn-blue { background: #3b82f6; border: none; padding: 14px; border-radius: 60px; color: white; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; }
         .btn-red { background: #ef4444; border: none; padding: 14px; border-radius: 60px; color: white; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; }
         .admin-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 30px; color: white; margin: 10px 0; }
@@ -220,7 +216,10 @@
     <div class="purchases-section"><div class="purchases-title"><i class="fas fa-globe"></i> Recent Global Purchases</div><div class="purchases-grid" id="globalPurchasesList"></div></div>
 </div>
 
-<div id="shopPage" class="container" style="display:none;"><div class="filter-bar"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="knife">Knives</button><button class="filter-btn" data-filter="gun">Guns</button></div><div class="products-grid" id="productsGrid"></div></div>
+<div id="shopPage" class="container" style="display:none;">
+    <div class="filter-bar"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="knife">Knives</button><button class="filter-btn" data-filter="gun">Guns</button></div>
+    <div class="products-grid" id="productsGrid"></div>
+</div>
 
 <div id="questsPage" class="container" style="display:none;">
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
@@ -233,7 +232,6 @@
 <div id="ordersPage" class="container" style="display:none;"><h2>My Orders</h2><div id="ordersList" style="margin-top:20px;"></div></div>
 <div id="referralPage" class="container" style="display:none;"><h2>Referral Program</h2><div style="background:rgba(0,0,0,0.5); border-radius:20px; padding:30px; text-align:center;"><p>Share your referral link and earn 50 points per friend!</p><input type="text" id="referralLink" class="admin-input" readonly><button onclick="copyReferralLink()" class="btn-primary" style="margin-top:10px;">Copy Link</button><h3 style="margin-top:30px;">Your Referrals</h3><p id="referralCount">0 friends joined</p></div></div>
 
-<!-- Profile Panel for Roblox Unlink/Change and Google Account Switch -->
 <div id="profilePanel" class="container" style="display:none;">
     <h2>Account Settings</h2>
     <div style="background:rgba(0,0,0,0.5); border-radius:20px; padding:30px; max-width:500px; margin:0 auto;">
@@ -245,12 +243,7 @@
             <button class="btn-red" onclick="unlinkRobloxAccount()" style="margin-top:10px;">Unlink Roblox</button>
         </div>
         <hr style="margin:30px 0; border-color:rgba(108,92,231,0.3);">
-        <div>
-            <h3>Google Account</h3>
-            <p id="profileGoogleEmail">Not logged in</p>
-            <button class="btn-blue" onclick="switchGoogleAccount()">Switch Google Account</button>
-            <button class="btn-red" onclick="performGoogleLogout()" style="margin-top:10px;">Logout</button>
-        </div>
+        <div><h3>Google Account</h3><p id="profileGoogleEmail">Not logged in</p><button class="btn-blue" onclick="switchGoogleAccount()">Switch Google Account</button><button class="btn-red" onclick="performGoogleLogout()" style="margin-top:10px;">Logout</button></div>
     </div>
 </div>
 
@@ -272,6 +265,8 @@
 <div id="purchaseModal" class="fullscreen-modal"><div class="modal-container"><div class="modal-avatar"><img id="modalItemImg" src=""></div><div class="modal-title" id="modalItemName">Item Name</div><div class="modal-price" id="modalItemPrice">₱0</div><input type="number" id="modalQuantity" class="modal-input" placeholder="Quantity" value="1" min="1"><div class="checkbox-group"><label><input type="checkbox" id="modalIsChroma"> Chroma Version (+₱20)</label></div><div class="modal-buttons"><button class="modal-btn modal-btn-primary" onclick="confirmAddToCart()">Add to Cart</button><button class="modal-btn modal-btn-danger" onclick="closePurchaseModal()">Cancel</button></div></div></div>
 
 <div id="robloxModal" class="roblox-modal"><div class="modal-content"><h2><i class="fab fa-roblox"></i> Verify Roblox Account</h2><div class="roblox-avatar-full" id="robloxAvatarFull"><img id="robloxAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=200"></div><div id="robloxDisplayName" style="margin-bottom:15px;">Enter your username</div><input type="text" id="robloxUsernameInput" class="admin-input" placeholder="Roblox Username"><button class="btn-blue" id="robloxConfirmBtn" onclick="confirmRobloxAndSave()">Link Account</button><button class="btn-red" onclick="closeRobloxModal()">Cancel</button></div></div>
+
+<div class="receipt-modal" id="receiptModal"><div class="modal-content"><div class="receipt-icon"><i class="fas fa-check-circle"></i></div><div id="receiptDetails"></div><button onclick="closeReceipt()" class="btn-primary" style="margin-top:15px;">Done</button></div></div>
 
 <div class="toast" id="toast"></div>
 
@@ -332,7 +327,12 @@
     function showReferral() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('ordersPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'none'; document.getElementById('profilePanel').style.display = 'none'; document.getElementById('referralPage').style.display = 'block'; document.getElementById('referralLink').value = `${window.location.origin}?ref=${currentUser?.uid || 'guest'}`; document.getElementById('referralCount').innerText = `${referralCount} friends joined`; }
     function copyReferralLink() { const link = document.getElementById('referralLink'); link.select(); document.execCommand('copy'); showToast("Link copied!"); }
     
-    function showOrders() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'none'; document.getElementById('profilePanel').style.display = 'none'; document.getElementById('ordersPage').style.display = 'block'; const userOrders = orders.filter(o => o.userEmail === currentUser?.email); const container = document.getElementById('ordersList'); if(userOrders.length === 0) { container.innerHTML = '<p>No orders yet.</p>'; return; } container.innerHTML = userOrders.map(o => `<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px; margin-bottom:10px;"><div><strong>Order #${o.orderId}</strong></div><div>Items: ${o.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div><div>Total: ₱${o.total}</div><div>Status: <span style="color:#10b981;">${o.status}</span></div><div>Date: ${new Date(o.date).toLocaleString()}</div></div>`).join(''); }
+    function showOrders() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'none'; document.getElementById('profilePanel').style.display = 'none'; document.getElementById('ordersPage').style.display = 'block'; const userOrders = orders.filter(o => o.userEmail === currentUser?.email); const container = document.getElementById('ordersList'); if(userOrders.length === 0) { container.innerHTML = '<p>No orders yet.</p>'; return; } container.innerHTML = userOrders.map(o => `<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px; margin-bottom:10px; position:relative;"><div><strong>Order #${o.orderId}</strong> <span style="display:inline-flex; align-items:center; gap:5px;"><span style="background:#ef4444; color:white; font-size:10px; padding:2px 6px; border-radius:20px;">⚠️ Processing</span><button onclick="openOrderChat('${o.orderId}')" style="background:#6c5ce7; border:none; padding:2px 8px; border-radius:20px; color:white; cursor:pointer;"><i class="fas fa-comment"></i></button></span></div><div>Items: ${o.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div><div>Total: ₱${o.total}</div><div>Date: ${new Date(o.date).toLocaleString()}</div><button onclick="viewOrderReceipt('${o.orderId}')" style="background:#6c5ce7; border:none; padding:5px 15px; border-radius:20px; color:white; margin-top:10px; cursor:pointer;">View Receipt</button></div>`).join(''); }
+    
+    function viewOrderReceipt(orderId) { const order = orders.find(o => o.orderId === orderId); if(order) { document.getElementById('receiptDetails').innerHTML = `<div class="confirmation-row"><span>Order #:</span><span>${order.orderId}</span></div><div class="confirmation-row"><span>Date:</span><span>${new Date(order.date).toLocaleString()}</span></div><div class="confirmation-row"><span>Items:</span><span>${order.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</span></div><div class="confirmation-row"><span>Total:</span><span>₱${order.total}</span></div><div class="confirmation-row"><span>Roblox:</span><span>@${order.robloxUser}</span></div><div class="confirmation-row"><span>Status:</span><span style="color:#10b981;">${order.status}</span></div>`; document.getElementById('receiptModal').classList.add('show'); } }
+    function closeReceipt() { document.getElementById('receiptModal').classList.remove('show'); }
+    
+    function openOrderChat(orderId) { const order = orders.find(o => o.orderId === orderId); if(order && order.messages) { showToast(`Chat for order ${orderId} - Feature coming soon!`); } else { showToast(`Order ${orderId}: Your order is being processed. Contact support for help.`); } }
     
     function showAdmin() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin access only"); return; } document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('ordersPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'none'; document.getElementById('profilePanel').style.display = 'none'; document.getElementById('adminPage').style.display = 'block'; renderInventory(); renderAllOrders(); }
     function renderInventory() { const container = document.getElementById('inventoryList'); container.innerHTML = items.map(item => `<div class="inventory-item"><span><strong>${item.name}</strong><br>₱${item.price} | ${item.onSale ? 'On Sale' : 'Offsale'}</span><div class="inventory-actions"><button class="edit-btn" onclick="editItemPrice(${item.id})">Edit Price</button><button class="edit-btn" onclick="editItemImage(${item.id})">Edit Image</button><button class="edit-btn" onclick="toggleOffsale(${item.id})">${item.onSale ? 'Set Offsale' : 'Set On Sale'}</button><button onclick="deleteItem(${item.id})" class="btn-danger" style="padding:6px 12px;">Delete</button></div></div>`).join(''); }
@@ -345,7 +345,6 @@
     function renderAllOrders() { const container = document.getElementById('allOrdersList'); if(orders.length === 0) { container.innerHTML = '<p>No orders.</p>'; return; } container.innerHTML = orders.map(o => `<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px; margin-bottom:10px;"><div><strong>Order #${o.orderId}</strong> - ${o.userEmail}</div><div>Items: ${o.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div><div>Total: ₱${o.total}</div><div>Status: ${o.status}</div><button onclick="updateOrderStatus('${o.orderId}')" style="background:#6c5ce7; border:none; padding:5px 15px; border-radius:20px; color:white; margin-top:10px;">Mark Delivered</button></div>`).join(''); }
     function updateOrderStatus(orderId) { const order = orders.find(o => o.orderId === orderId); if(order) { order.status = 'Delivered'; localStorage.setItem('echoknives_orders', JSON.stringify(orders)); renderAllOrders(); showOrders(); showToast("Order marked delivered!"); } }
     
-    // Profile Panel
     function openProfilePanel() { if (!isLoggedIn) { performGoogleLogin(); return; } document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('ordersPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'none'; document.getElementById('profilePanel').style.display = 'block'; updateProfilePanel(); }
     function updateProfilePanel() { if(verifiedRobloxUser) { document.getElementById('profileRobloxAvatarImg').src = verifiedRobloxUser.avatarUrl || `https://ui-avatars.com/api/?name=${verifiedRobloxUser.username}&background=6c5ce7&color=fff&size=200`; document.getElementById('profileRobloxUsername').innerHTML = `@${verifiedRobloxUser.username}`; } else { document.getElementById('profileRobloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=200"; document.getElementById('profileRobloxUsername').innerHTML = "Not linked"; } document.getElementById('profileGoogleEmail').innerHTML = currentUser ? `${currentUser.email}<br><span style="font-size:12px;">${currentUser.displayName || ''}</span>` : "Not logged in"; }
     
@@ -355,11 +354,8 @@
     
     function openRobloxVerification(fromProfile = false) { document.getElementById('robloxUsernameInput').value = ''; document.getElementById('robloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=200"; document.getElementById('robloxDisplayName').innerHTML = "Enter your username"; document.getElementById('robloxModal').classList.add('show'); let timer; document.getElementById('robloxUsernameInput').oninput = function() { clearTimeout(timer); timer = setTimeout(() => { if (this.value.trim().length > 2) fetchRobloxAvatar(this.value.trim()); }, 500); }; window.pendingFromProfile = fromProfile; }
     function closeRobloxModal() { document.getElementById('robloxModal').classList.remove('show'); }
-    
     function confirmRobloxAndSave() { const username = document.getElementById('robloxUsernameInput').value.trim(); if (!username) { showToast("Enter Roblox username"); return; } if (!pendingRobloxData) { showToast("Wait for avatar to load"); return; } verifiedRobloxUser = pendingRobloxData; localStorage.setItem('verifiedRobloxUser', JSON.stringify(verifiedRobloxUser)); updateHeaderDisplay(); completeQuest('robloxLinked'); closeRobloxModal(); if(window.pendingFromProfile) { updateProfilePanel(); } showToast(`Roblox account @${verifiedRobloxUser.username} linked!`); }
-    
     function unlinkRobloxAccount() { verifiedRobloxUser = null; localStorage.removeItem('verifiedRobloxUser'); updateHeaderDisplay(); updateProfilePanel(); showToast("Roblox account unlinked"); }
-    
     function switchGoogleAccount() { performGoogleLogin(); }
     async function performGoogleLogout() { if(window.firebaseAuth) { await window.firebaseSignOut(window.firebaseAuth); } showToast("Logged out"); }
     
@@ -397,7 +393,7 @@
     window.redeemPromoCode=redeemPromoCode; window.showCandyRedemptionConfirm=showCandyRedemptionConfirm; window.claimQuest=claimQuest;
     window.openPurchaseModal=openPurchaseModal; window.closePurchaseModal=closePurchaseModal; window.confirmAddToCart=confirmAddToCart;
     window.addInventoryItem=addInventoryItem; window.deleteItem=deleteItem; window.updateOrderStatus=updateOrderStatus; window.copyReferralLink=copyReferralLink;
-    window.editItemPrice=editItemPrice; window.editItemImage=editItemImage; window.toggleOffsale=toggleOffsale;
+    window.editItemPrice=editItemPrice; window.editItemImage=editItemImage; window.toggleOffsale=toggleOffsale; window.viewOrderReceipt=viewOrderReceipt; window.closeReceipt=closeReceipt;
 </script>
 </body>
 </html>
