@@ -292,6 +292,7 @@
     let cart = [], currentFilter = "all", isLoggedIn = false, currentUser = null, currentCurrency = "PHP", userPoints = 0;
     let exchangeRates = { PHP: 1, USD: 0.017 }, symbols = { PHP: "₱", USD: "$" };
     let verifiedRobloxUser = null, pendingRedemption = { active: false };
+    const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
     const PAYMENT_URL = "https://echoknivesmm2.onrender.com";
     const BOT_USERNAME = "Sigmake5", BOT_PROFILE_URL = "https://www.roblox.com/users/265285891/profile", JOIN_SERVER_URL = "https://www.roblox.com/share?code=e6c8ad7d5eaaf248948b92ce03f740e6&type=Server";
     let usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes') || '{}');
@@ -352,10 +353,7 @@
     function cancelReward() { pendingRedemption.active = false; document.getElementById('rewardGUI').classList.remove('show'); showToast("Redemption cancelled."); }
     function finalizeRedemption() { if (!pendingRedemption.active) return; userPoints -= 1500; candyRedeemed = true; addPoints(50); saveAllData(); renderQuests(); pendingRedemption.active = false; document.getElementById('rewardGUI').classList.remove('show'); showToast(`⚫ Candy redeemed! +50 bonus points. Item will be delivered by @${BOT_USERNAME}.`); }
     
-    // ========== FIXED ROBLOX VERIFICATION - USES ROBLOX OFFICIAL API DIRECTLY ==========
-    // This function fetches the user ID and avatar using Roblox's public APIs
-    // No CORS issues because we're using JSONP-style or the images load directly
-    
+    // ========== ROBLOX VERIFICATION USING MIDDLEMAN ==========
     async function fetchRobloxAvatar(username) {
         if (!username) return;
         const img = document.getElementById('robloxAvatarImg');
@@ -364,73 +362,37 @@
         display.innerHTML = `🔍 Looking up @${username}...`;
         
         try {
-            // Method 1: Try to get user ID via direct fetch (may work on some browsers)
-            const response = await fetch(`https://users.roblox.com/v1/usernames/users`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ usernames: [username.trim()] })
-            });
+            const response = await fetch(`${MIDDLEMAN_URL}/api/roblox/${encodeURIComponent(username)}`);
+            const data = await response.json();
             
-            if (response.ok) {
-                const data = await response.json();
-                if (data.data && data.data.length > 0) {
-                    const user = data.data[0];
-                    const userId = user.id;
-                    // Avatar URL that works directly
-                    const avatarUrl = `https://www.roblox.com/headshot-thumbnail/image?userId=${userId}&width=100&height=100&format=png`;
-                    img.src = avatarUrl;
-                    display.innerHTML = `✅ @${user.name}`;
-                    window.pendingRobloxData = {
-                        username: user.name,
-                        displayName: user.displayName,
-                        userId: userId,
-                        avatarUrl: avatarUrl
-                    };
-                    return;
-                }
+            if (data.success && data.avatarUrl) {
+                img.src = data.avatarUrl;
+                display.innerHTML = `✅ @${data.username}`;
+                window.pendingRobloxData = {
+                    username: data.username,
+                    displayName: data.displayName,
+                    userId: data.userId,
+                    avatarUrl: data.avatarUrl
+                };
+            } else if (data.success) {
+                img.src = `https://ui-avatars.com/api/?name=${data.username}&background=6c5ce7&color=fff&size=100`;
+                display.innerHTML = `@${data.username}`;
+                window.pendingRobloxData = {
+                    username: data.username,
+                    displayName: data.displayName,
+                    userId: data.userId,
+                    avatarUrl: null
+                };
+            } else {
+                img.src = "https://ui-avatars.com/api/?name=Not+Found&background=ef4444&color=fff&size=100";
+                display.innerHTML = "❌ User not found";
+                window.pendingRobloxData = null;
             }
-            
-            // Method 2: Fallback - use Roblox's thumbnail API directly (images work across domains)
-            // First try to get userId via another method
-            const altResponse = await fetch(`https://api.roblox.com/users/get-by-username?username=${encodeURIComponent(username)}`);
-            if (altResponse.ok) {
-                const altData = await altResponse.json();
-                if (altData && altData.Id) {
-                    const userId = altData.Id;
-                    const avatarUrl = `https://www.roblox.com/headshot-thumbnail/image?userId=${userId}&width=100&height=100&format=png`;
-                    img.src = avatarUrl;
-                    display.innerHTML = `✅ @${username}`;
-                    window.pendingRobloxData = {
-                        username: username,
-                        displayName: username,
-                        userId: userId,
-                        avatarUrl: avatarUrl
-                    };
-                    return;
-                }
-            }
-            
-            // If all fails, show initials avatar
-            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=6c5ce7&color=fff&size=100`;
-            display.innerHTML = `⚠️ @${username} (Avatar unavailable)`;
-            window.pendingRobloxData = {
-                username: username,
-                displayName: username,
-                userId: null,
-                avatarUrl: null
-            };
-            
         } catch(e) {
-            console.error("Roblox API error:", e);
-            // Final fallback - just show initials
-            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=6c5ce7&color=fff&size=100`;
-            display.innerHTML = `@${username}`;
-            window.pendingRobloxData = {
-                username: username,
-                displayName: username,
-                userId: null,
-                avatarUrl: null
-            };
+            console.error("Middleman error:", e);
+            img.src = "https://ui-avatars.com/api/?name=Error&background=ef4444&color=fff&size=100";
+            display.innerHTML = "❌ Connection error - Please try again";
+            window.pendingRobloxData = null;
         }
     }
     
