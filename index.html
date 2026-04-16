@@ -153,7 +153,6 @@
         .modal-btn-primary { background: linear-gradient(135deg, #10b981, #059669); }
         .modal-btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
 
-        /* Candy Redemption Modal */
         .candy-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(20px); z-index: 10002; display: none; justify-content: center; align-items: center; }
         .candy-modal.show { display: flex; }
         .candy-container { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 40px; padding: 40px; max-width: 500px; width: 90%; text-align: center; border: 2px solid #6c5ce7; box-shadow: 0 0 50px rgba(108,92,231,0.4); }
@@ -234,14 +233,7 @@
     <div class="top-right">
         <div class="points-display" onclick="showReferral()"><i class="fas fa-star"></i> <span id="pointsBalance">0</span> pts</div>
         <div class="shop-controls">
-            <div class="currency-selector">
-                <i class="fas fa-money-bill-wave"></i>
-                <select id="currencySelect" onchange="changeCurrency()">
-                    <option value="USD">USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option><option value="JPY">JPY ¥</option>
-                    <option value="CAD">CAD $</option><option value="AUD">AUD $</option><option value="CHF">CHF ₣</option><option value="CNY">CNY ¥</option>
-                    <option value="INR">INR ₹</option><option value="PHP" selected>PHP ₱</option>
-                </select>
-            </div>
+            <div class="currency-selector"><i class="fas fa-money-bill-wave"></i><select id="currencySelect" onchange="changeCurrency()"><option value="USD">USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option><option value="JPY">JPY ¥</option><option value="CAD">CAD $</option><option value="AUD">AUD $</option><option value="CHF">CHF ₣</option><option value="CNY">CNY ¥</option><option value="INR">INR ₹</option><option value="PHP" selected>PHP ₱</option></select></div>
             <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search items..." oninput="filterProducts()"></div>
         </div>
         <div class="user-info" id="userInfo" onclick="openProfilePanel()"><div class="user-avatar" id="userAvatarDisplay"><i class="fas fa-user"></i></div><span id="userNameDisplay">Guest</span></div>
@@ -274,13 +266,7 @@
         <div><h2>Daily Quests</h2><div class="quests-section"><div class="quests-grid" id="questsGrid"></div></div></div>
         <div>
             <div class="promo-card"><h3>Promo Code</h3><input type="text" id="promoCodeInput" class="promo-input" placeholder="Enter Promo Code"><button class="claim-btn" onclick="redeemPromoCode()" style="background:#8b5cf6;">Redeem Code</button><p style="margin-top: 10px; font-size: 12px;">Valid: <strong>STARTER26</strong> (250 pts)</p></div>
-            <div class="quest-card candy-redeem" style="margin-top: 20px;" onclick="showCandyRedemptionModal()">
-                <h3><i class="fas fa-candy-cane"></i> Candy Shop</h3>
-                <img src="https://i.imgur.com/PXBiQtb.jpeg" alt="Candy" style="width: 80px; margin: 10px auto; display: block; border-radius: 20px;">
-                <p><strong>Redeem 1500 Points for a Candy!</strong></p>
-                <p>Get a special in-game candy item + 50 bonus points</p>
-                <button class="redeem-btn" style="pointer-events: none;">Redeem (1500 pts)</button>
-            </div>
+            <div class="quest-card candy-redeem" style="margin-top: 20px;" onclick="showCandyRedemptionModal()"><h3><i class="fas fa-candy-cane"></i> Candy Shop</h3><img src="https://i.imgur.com/PXBiQtb.jpeg" alt="Candy" style="width: 80px; margin: 10px auto; display: block; border-radius: 20px;"><p><strong>Redeem 1500 Points for a Candy!</strong></p><p>Get a special in-game candy item + 50 bonus points</p><button class="redeem-btn" style="pointer-events: none;">Redeem (1500 pts)</button></div>
         </div>
     </div>
 </div>
@@ -335,20 +321,7 @@
 
 <div id="receiptModal" class="receipt-modal"><div class="modal-content"><div class="receipt-icon"><i class="fas fa-check-circle"></i></div><div id="receiptDetails"></div><button onclick="closeReceipt()" class="btn-primary" style="margin-top:15px;">Done</button></div></div>
 
-<!-- Candy Redemption Modal -->
-<div id="candyModal" class="candy-modal">
-    <div class="candy-container">
-        <div class="candy-avatar"><img id="candyAvatarImg" src="https://tr.rbxcdn.com/30d9e0ab1c9b2a8e3f4b5c6d7e8f9a0b/120/120/Image/Png"></div>
-        <h3 id="candyUsername">Sigmake5</h3>
-        <p id="candyDisplayName">sigmake5</p>
-        <div class="candy-buttons">
-            <button class="candy-btn btn-join" onclick="confirmCandyRedemption('join')"><i class="fas fa-users"></i> Join Bot</button>
-            <button class="candy-btn btn-add" onclick="confirmCandyRedemption('add')"><i class="fas fa-user-plus"></i> Add Bot</button>
-            <button class="candy-btn btn-cancel" onclick="cancelCandyRedemption()"><i class="fas fa-times"></i> Cancel</button>
-        </div>
-        <div class="age-notice"><i class="fas fa-exclamation-triangle"></i> If your account is under 13, you MUST add the bot and join the server after adding them back.</div>
-    </div>
-</div>
+<div id="candyModal" class="candy-modal"><div class="candy-container"><div class="candy-avatar"><img id="candyAvatarImg" src="https://tr.rbxcdn.com/30d9e0ab1c9b2a8e3f4b5c6d7e8f9a0b/120/120/Image/Png"></div><h3 id="candyUsername">Sigmake5</h3><p id="candyDisplayName">sigmake5</p><div class="candy-buttons"><button class="candy-btn btn-join" onclick="confirmCandyRedemption('join')"><i class="fas fa-users"></i> Join Bot</button><button class="candy-btn btn-add" onclick="confirmCandyRedemption('add')"><i class="fas fa-user-plus"></i> Add Bot</button><button class="candy-btn btn-cancel" onclick="cancelCandyRedemption()"><i class="fas fa-times"></i> Cancel</button></div><div class="age-notice"><i class="fas fa-exclamation-triangle"></i> If your account is under 13, you MUST add the bot and join the server after adding them back.</div></div></div>
 
 <div id="commandModal" class="command-modal"><div class="command-container"><div class="command-avatar"><img src="https://tr.rbxcdn.com/30d9e0ab1c9b2a8e3f4b5c6d7e8f9a0b/120/120/Image/Png"></div><h3>Sigmake5</h3><p>sigmake5</p><div class="cmd-buttons"><button class="cmd-btn cmd-join" onclick="joinBotServer()"><i class="fas fa-users"></i> Join Bot</button><button class="cmd-btn cmd-add" onclick="addBotFriend()"><i class="fas fa-user-plus"></i> Add Bot</button><button class="cmd-btn cmd-close" onclick="closeCommandModal()"><i class="fas fa-times"></i> Close</button></div><div class="age-notice"><i class="fas fa-exclamation-triangle"></i> If your account is under 13, you MUST add the bot and join the server after adding them back.</div></div></div>
 
@@ -376,7 +349,9 @@
         { id:5, name:"Darkbringer", type:"gun", price:130, originalPrice:250, discount:48, image:"https://i.imgur.com/8oxgzwa.jpeg", onSale:true },
         { id:6, name:"Lightbringer", type:"gun", price:125, originalPrice:240, discount:48, image:"https://i.imgur.com/BUljuYV.jpeg", onSale:true },
         { id:7, name:"Ice Piercer", type:"gun", price:340, originalPrice:500, discount:32, image:"https://i.imgur.com/cWwaIa3.jpeg", onSale:true },
-        { id:8, name:"Ice Breaker", type:"knife", price:210, originalPrice:350, discount:40, image:"https://i.imgur.com/SuTMxT7.jpeg", onSale:true }
+        { id:8, name:"Ice Breaker", type:"knife", price:210, originalPrice:350, discount:40, image:"https://i.imgur.com/SuTMxT7.jpeg", onSale:true },
+        { id:9, name:"Sunset", type:"gun", price:400, originalPrice:550, discount:27, image:"https://i.imgur.com/dXJ2dSA.jpeg", onSale:true },
+        { id:10, name:"Sunrise", type:"knife", price:400, originalPrice:550, discount:27, image:"https://i.imgur.com/ttNyTxl.jpeg", onSale:true }
     ];
     const CANDY_ITEM = { id:999, name:"Candy", type:"candy", price:240, originalPrice:300, discount:20, image:"https://i.imgur.com/PXBiQtb.jpeg", onSale:true };
     
@@ -446,7 +421,6 @@
         document.getElementById('promoCodeInput').value = ''; 
     }
     
-    // Custom candy redemption modal (not browser confirm)
     function showCandyRedemptionModal() {
         if(candyRedeemed) { showToast("You already redeemed your candy!"); return; }
         if(userPoints < 1500) { showToast(`Need 1500 points! You have ${userPoints}`); return; }
@@ -511,6 +485,7 @@
     }
     
     function selectOrder(orderId) { currentSelectedOrderId = orderId; renderOrdersList(); loadChatMessages(orderId); }
+    
     function loadChatMessages(orderId) {
         const messages = allMessages[orderId] || [];
         const container = document.getElementById('chatMessagesList');
@@ -520,6 +495,7 @@
         container.innerHTML = messages.map(msg => `<div class="${msg.sender === 'buyer' ? 'message-buyer' : msg.sender === 'system' ? 'message-system' : 'message-support'}"><strong>${msg.sender === 'buyer' ? 'You' : (msg.sender === 'system' ? 'System' : 'ECHO Support')}:</strong> ${msg.text}</div>`).join('');
         container.scrollTop = container.scrollHeight;
     }
+    
     function sendChatMessage() {
         if(!currentSelectedOrderId) { showToast("Select an order first"); return; }
         const input = document.getElementById('chatMessageInput');
@@ -569,7 +545,7 @@
         if(!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; } 
         if(cart.length===0) { showToast("Cart empty"); return; } 
         if(!verifiedRobloxUser) { showToast("Please link your Roblox account first"); openProfilePanel(); return; } 
-        // No automatic 100 points on checkout
+        // No automatic 100 points on checkout - only quest points
         const orderId = 'ECHO-' + Date.now().toString(36).toUpperCase(); 
         const orderData = { 
             orderId, items: cart.map(i=>({ name:i.name, price:i.price, quantity:i.quantity })), 
@@ -579,6 +555,13 @@
         }; 
         orders.unshift(orderData); 
         localStorage.setItem('echoknives_orders', JSON.stringify(orders)); 
+        // Mark first purchase quest as completed (only once)
+        if(!quests.firstPurchase.completed) {
+            quests.firstPurchase.completed = true;
+            saveAllData();
+            renderQuests();
+            showToast("First Purchase quest completed! Claim your 50 points.");
+        }
         const receiptMessage = `📦 ORDER RECEIPT\nItems: ${cart.map(i=>`${i.name} x${i.quantity}`).join(', ')}\nTotal: ${getSymbol()}${orderData.total.toFixed(2)}\nRoblox: @${verifiedRobloxUser.username}\nStatus: Processing\n\n✅ Your order has been received and is being processed. Your items will be delivered within 24 hours. A support agent will assist you if needed.`;
         allMessages[orderId] = [{ sender:'system', text: receiptMessage }]; 
         localStorage.setItem('echoknives_all_messages', JSON.stringify(allMessages)); 
@@ -617,7 +600,7 @@
     createParticles(); showHome(); loadAllData(); renderProducts(); 
     const savedItems = localStorage.getItem('echoknives_items'); if(savedItems) items = JSON.parse(savedItems);
     if(verifiedRobloxUser) updateHeaderDisplay();
-    setInterval(() => { const fakeItems = ["Batwing","Harvester","Icewing","Luger","Darkbringer","Lightbringer","Candy","Ice Piercer","Ice Breaker"]; addGlobalPurchase(fakeItems[Math.floor(Math.random()*fakeItems.length)], true); }, 45000);
+    setInterval(() => { const fakeItems = ["Batwing","Harvester","Icewing","Luger","Darkbringer","Lightbringer","Candy","Ice Piercer","Ice Breaker","Sunset","Sunrise"]; addGlobalPurchase(fakeItems[Math.floor(Math.random()*fakeItems.length)], true); }, 45000);
     
     window.showHome=showHome; window.showShop=showShop; window.showQuests=showQuests; window.showOrdersAndChat=showOrdersAndChat; window.showAdmin=showAdmin; window.showReferral=showReferral; window.openProfilePanel=openProfilePanel;
     window.addToCart=addToCart; window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.toggleCart=toggleCart; window.closeCart=closeCart;
