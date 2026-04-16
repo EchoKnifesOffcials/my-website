@@ -135,8 +135,7 @@
         .candy-redeem { background: linear-gradient(135deg, #f59e0b, #d97706); text-align: center; }
         .promo-card { background: linear-gradient(135deg, #1e1e3a, #2a2a4a); text-align: center; }
         
-        /* Modal Styles */
-        .confirmation-modal, .promo-modal, .roblox-modal {
+        .roblox-modal, .promo-modal, .confirmation-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -149,8 +148,8 @@
             justify-content: center;
             align-items: center;
         }
-        .confirmation-modal.show, .promo-modal.show, .roblox-modal.show { display: flex; }
-        .confirmation-container, .promo-container, .roblox-content {
+        .roblox-modal.show, .promo-modal.show, .confirmation-modal.show { display: flex; }
+        .roblox-content, .promo-container, .confirmation-container {
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             border-radius: 40px;
             padding: 35px;
@@ -161,7 +160,8 @@
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
             animation: scaleIn 0.3s ease;
         }
-        .roblox-avatar { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 15px; overflow: hidden; border: 2px solid #6c5ce7; }
+        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .roblox-avatar { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 15px; overflow: hidden; border: 3px solid #6c5ce7; }
         .roblox-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .confirmation-icon { font-size: 56px; color: #f59e0b; margin-bottom: 20px; }
         .confirmation-title { font-size: 28px; font-weight: 800; font-family: 'Orbitron', monospace; margin-bottom: 15px; background: linear-gradient(135deg, #fff, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -175,9 +175,11 @@
         
         .reward-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(20px); z-index: 10001; display: none; justify-content: center; align-items: center; }
         .reward-overlay.show { display: flex; }
-        .reward-container { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 50px; padding: 40px; max-width: 500px; width: 90%; text-align: center; border: 2px solid #6c5ce7; }
+        .reward-container { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 50px; padding: 40px; max-width: 500px; width: 90%; text-align: center; border: 2px solid #6c5ce7; box-shadow: 0 0 50px rgba(108,92,231,0.4); }
         .reward-avatar { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px; overflow: hidden; border: 3px solid #6c5ce7; }
         .reward-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .reward-username { font-size: 24px; font-weight: 800; color: #a855f7; margin-bottom: 5px; }
+        .reward-displayname { font-size: 14px; color: #888; margin-bottom: 20px; }
         .reward-buttons { display: flex; flex-direction: column; gap: 15px; margin: 25px 0; }
         .btn-join { background: #8b5cf6; border: none; padding: 14px; border-radius: 60px; color: white; font-weight: 700; cursor: pointer; }
         .btn-add { background: #ec4899; border: none; padding: 14px; border-radius: 60px; color: white; font-weight: 700; cursor: pointer; }
@@ -283,23 +285,21 @@
         { id: 2, name: "Harvester", type: "knife", price: 608, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
         { id: 3, name: "Icewing", type: "knife", price: 72, image: "https://i.imgur.com/jiwvmxq.jpeg" },
         { id: 4, name: "Luger", type: "gun", price: 207, image: "https://i.imgur.com/eEvMBRh.jpeg" },
-        { id: 5, name: "Darkbringer", type: "gun", price: 125, image: "https://i.imgur.com/8oxgzwa.jpeg" },
-        { id: 6, name: "Lightbringer", type: "gun", price: 120, image: "https://i.imgur.com/BUljuYV.jpeg" }
-        { id: 7, name: "Candy", type: "knife", price: 230, image: "https://i.imgur.com/PXBiQtb.jpeg" }
+        { id: 5, name: "Darkbringer", type: "gun", price: 92000, image: "https://i.imgur.com/8oxgzwa.jpeg" },
+        { id: 6, name: "Lightbringer", type: "gun", price: 92000, image: "https://i.imgur.com/BUljuYV.jpeg" }
     ];
 
     let cart = [], currentFilter = "all", isLoggedIn = false, currentUser = null, currentCurrency = "PHP", userPoints = 0;
     let exchangeRates = { PHP: 1, USD: 0.017 }, symbols = { PHP: "₱", USD: "$" };
     let verifiedRobloxUser = null, pendingRedemption = { active: false };
-    const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
     const PAYMENT_URL = "https://echoknivesmm2.onrender.com";
     const BOT_USERNAME = "Sigmake5", BOT_PROFILE_URL = "https://www.roblox.com/users/265285891/profile", JOIN_SERVER_URL = "https://www.roblox.com/share?code=e6c8ad7d5eaaf248948b92ce03f740e6&type=Server";
     let usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes') || '{}');
     let quests = {
-        firstPurchase: { name: "💰 First Purchase", reward: 100, completed: false, claimed: false, desc: "Buy your first item" },
-        dailyVisit: { name: "🚪 Daily Visit", reward: 100, completed: false, claimed: false, desc: "Visit the shop today" },
-        addToCart: { name: "🛒 Cart Master", reward: 100, completed: false, claimed: false, desc: "Add 3 items to cart" },
-        shareShop: { name: "📤📩 Social Share", reward: 100, completed: false, claimed: false, desc: "Share ECHOKNIVES with a friend" },
+        firstPurchase: { name: "⚫ First Purchase", reward: 100, completed: false, claimed: false, desc: "Buy your first item" },
+        dailyVisit: { name: "⬛ Daily Visit", reward: 100, completed: false, claimed: false, desc: "Visit the shop today" },
+        addToCart: { name: "◼️ Cart Master", reward: 100, completed: false, claimed: false, desc: "Add 3 items to cart" },
+        shareShop: { name: "▪️ Social Share", reward: 100, completed: false, claimed: false, desc: "Share ECHOKNIVES with a friend" },
         robloxLinked: { name: "🔘 Roblox Linked", reward: 100, completed: false, claimed: false, desc: "Link your Roblox account" }
     };
     let candyRedeemed = false;
@@ -352,23 +352,82 @@
     function cancelReward() { pendingRedemption.active = false; document.getElementById('rewardGUI').classList.remove('show'); showToast("Redemption cancelled."); }
     function finalizeRedemption() { if (!pendingRedemption.active) return; userPoints -= 1500; candyRedeemed = true; addPoints(50); saveAllData(); renderQuests(); pendingRedemption.active = false; document.getElementById('rewardGUI').classList.remove('show'); showToast(`⚫ Candy redeemed! +50 bonus points. Item will be delivered by @${BOT_USERNAME}.`); }
     
+    // ========== FIXED ROBLOX VERIFICATION (USES CORS PROXY - NO MIDDLEMAN NEEDED) ==========
+    async function fetchRobloxAvatar(username) {
+        if (!username) return;
+        const img = document.getElementById('robloxAvatarImg');
+        const display = document.getElementById('robloxDisplayName');
+        img.src = "https://ui-avatars.com/api/?name=Loading&background=f59e0b&color=fff&size=100";
+        display.innerHTML = `🔍 Looking up @${username}...`;
+        
+        // Use a free CORS proxy to bypass browser restrictions
+        const proxy = "https://api.allorigins.win/raw?url=";
+        
+        try {
+            // Step 1: Get user ID using proxy
+            const userRes = await fetch(proxy + encodeURIComponent("https://users.roblox.com/v1/usernames/users"), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ usernames: [username.trim()] })
+            });
+            const userData = await userRes.json();
+            
+            if (!userData.data || userData.data.length === 0) {
+                img.src = "https://ui-avatars.com/api/?name=Not+Found&background=ef4444&color=fff&size=100";
+                display.innerHTML = "❌ User not found";
+                window.pendingRobloxData = null;
+                return;
+            }
+            
+            const user = userData.data[0];
+            const userId = user.id;
+            
+            // Step 2: Get avatar (thumbnail API works directly)
+            const avatarUrl = `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=150x150&format=Png&isCircular=true`;
+            const avatarRes = await fetch(proxy + encodeURIComponent(avatarUrl));
+            const avatarData = await avatarRes.json();
+            
+            const finalAvatarUrl = avatarData.data?.[0]?.imageUrl || null;
+            
+            if (finalAvatarUrl) {
+                img.src = finalAvatarUrl;
+            } else {
+                img.src = `https://ui-avatars.com/api/?name=${user.name}&background=6c5ce7&color=fff&size=100`;
+            }
+            
+            display.innerHTML = `✅ @${user.name}`;
+            window.pendingRobloxData = {
+                username: user.name,
+                displayName: user.displayName,
+                userId: userId,
+                avatarUrl: finalAvatarUrl
+            };
+            
+        } catch(e) {
+            console.error("Roblox API error:", e);
+            img.src = "https://ui-avatars.com/api/?name=Error&background=ef4444&color=fff&size=100";
+            display.innerHTML = "❌ Connection error - Please try again";
+            window.pendingRobloxData = null;
+        }
+    }
+    
     async function linkRobloxAccount() {
         const u = document.getElementById('profileRobloxInput').value.trim();
         if (!u) { showToast("Enter Roblox username"); return; }
-        try {
-            const res = await fetch(`${https://roblox-middlemanbot1.onrender.com/}/api/roblox/${encodeURIComponent(u)}`);
-            const d = await res.json();
-            if (d.success && d.avatarUrl) {
-                verifiedRobloxUser = { username: d.username, displayName: d.displayName, userId: d.userId, avatarUrl: d.avatarUrl };
-                saveAllData();
-                updateHeaderWithRoblox(verifiedRobloxUser);
-                document.getElementById('profileAvatarImg').src = d.avatarUrl;
-                document.getElementById('profileRobloxStatus').innerHTML = `✓ Linked: @${d.username}`;
-                completeQuest('robloxLinked');
-                showToast(`Roblox account @${d.username} linked!`);
-            } else showToast("Roblox user not found");
-        } catch(e) { showToast("Connection error"); }
+        await fetchRobloxAvatar(u);
+        if (window.pendingRobloxData) {
+            verifiedRobloxUser = window.pendingRobloxData;
+            saveAllData();
+            updateHeaderWithRoblox(verifiedRobloxUser);
+            document.getElementById('profileAvatarImg').src = verifiedRobloxUser.avatarUrl || `https://ui-avatars.com/api/?name=${verifiedRobloxUser.username}&background=6c5ce7&color=fff&size=100`;
+            document.getElementById('profileRobloxStatus').innerHTML = `⚫ Linked: @${verifiedRobloxUser.username}`;
+            completeQuest('robloxLinked');
+            showToast(`Roblox account @${verifiedRobloxUser.username} linked!`);
+        } else {
+            showToast("Could not verify Roblox username");
+        }
     }
+    
     function unlinkRobloxAccount() { verifiedRobloxUser = null; saveAllData(); updateHeaderDisplay(); document.getElementById('profileAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100"; document.getElementById('profileRobloxStatus').innerHTML = "Not linked"; document.getElementById('profileRobloxInput').value = ''; showToast("Roblox account unlinked"); }
     function updateHeaderWithRoblox(r) { if (r && r.avatarUrl) { document.getElementById('userAvatarDisplay').innerHTML = `<img src="${r.avatarUrl}">`; document.getElementById('userNameDisplay').innerHTML = `⚫ ${r.username}`; } }
     function updateHeaderDisplay() { if (verifiedRobloxUser && verifiedRobloxUser.avatarUrl) { document.getElementById('userAvatarDisplay').innerHTML = `<img src="${verifiedRobloxUser.avatarUrl}">`; document.getElementById('userNameDisplay').innerHTML = `⚫ ${verifiedRobloxUser.username}`; } else if (currentUser) { document.getElementById('userNameDisplay').innerText = currentUser.displayName || currentUser.email?.split('@')[0]; document.getElementById('userAvatarDisplay').innerHTML = currentUser.photoURL ? `<img src="${currentUser.photoURL}">` : `<i class="fas fa-user"></i>`; } else { document.getElementById('userNameDisplay').innerText = 'Guest'; document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`; } }
@@ -391,63 +450,9 @@
     function showQuests() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'block'; document.getElementById('profilePage').style.display = 'none'; document.getElementById('adminPage').style.display = 'none'; document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelector('.nav-link:nth-child(3)').classList.add('active'); renderQuests(); }
     function showAdmin() { if (!currentUser || currentUser.email !== "admin@echoknives.com") { showToast("Admin access only"); return; } document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('profilePage').style.display = 'none'; document.getElementById('adminPage').style.display = 'block'; }
     
-    async function fetchRobloxAvatarDirect(username) {
-    if (!username) return;
-    const img = document.getElementById('robloxAvatarImg');
-    const display = document.getElementById('robloxDisplayName');
-    
-    img.src = "https://ui-avatars.com/api/?name=Loading&background=f59e0b&color=fff&size=100";
-    display.innerHTML = `🔍 Looking up @${username}...`;
-    
-    try {
-        // Step 1: Get user ID using a free CORS proxy
-        const proxyUrl = 'https://api.allorigins.win/raw?url=';
-        const apiUrl = 'https://users.roblox.com/v1/usernames/users';
-        
-        const response = await fetch(proxyUrl + encodeURIComponent(apiUrl), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ usernames: [username.trim()] })
-        });
-        
-        const data = await response.json();
-        
-        if (!data.data || data.data.length === 0) {
-            img.src = "https://ui-avatars.com/api/?name=Not+Found&background=ef4444&color=fff&size=100";
-            display.innerHTML = "❌ User not found";
-            return;
-        }
-        
-        const user = data.data[0];
-        const userId = user.id;
-        
-        // Step 2: Get avatar URL (this endpoint works without proxy)
-        const avatarUrl = `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=150x150&format=Png&isCircular=true`;
-        const avatarResponse = await fetch(avatarUrl);
-        const avatarData = await avatarResponse.json();
-        
-        if (avatarData.data && avatarData.data[0] && avatarData.data[0].imageUrl) {
-            img.src = avatarData.data[0].imageUrl;
-            display.innerHTML = `✅ @${user.name}`;
-            window.pendingRobloxData = user;
-        } else {
-            img.src = `https://ui-avatars.com/api/?name=${user.name}&background=6c5ce7&color=fff&size=100`;
-            display.innerHTML = `@${user.name}`;
-            window.pendingRobloxData = user;
-        }
-        
-    } catch (error) {
-        console.error('Error:', error);
-        img.src = "https://ui-avatars.com/api/?name=Error&background=ef4444&color=fff&size=100";
-        display.innerHTML = "❌ Connection error - Please try again";
-    }
-}
-    
     function openRobloxVerification() {
         if (!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; }
         if (cart.length === 0) { showToast("Cart empty"); return; }
-        const saved = localStorage.getItem('verifiedRoblox');
-        if (saved) { try { const u = JSON.parse(saved); document.getElementById('robloxUsernameInput').value = u.username; fetchRobloxAvatar(u.username); return; } catch(e) {} }
         document.getElementById('robloxUsernameInput').value = '';
         document.getElementById('robloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100";
         document.getElementById('robloxDisplayName').innerHTML = "Enter your username";
@@ -462,7 +467,7 @@
     function confirmRobloxAndCheckout() {
         const username = document.getElementById('robloxUsernameInput').value.trim();
         if (!username) { showToast("Enter Roblox username"); return; }
-        if (!window.pendingRobloxData) { showToast("Wait for avatar to load"); return; }
+        if (!window.pendingRobloxData) { showToast("Wait for avatar to load or check username"); return; }
         const userData = window.pendingRobloxData;
         localStorage.setItem('verifiedRoblox', JSON.stringify(userData));
         verifiedRobloxUser = userData;
