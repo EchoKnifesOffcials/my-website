@@ -39,6 +39,7 @@
     </script>
     
     <style>
+        /* (styles unchanged from previous working version – kept for brevity, but included in final output) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%); color: #fff; overflow-x: hidden; min-height: 100vh; }
         .animated-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 20% 50%, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%); }
@@ -136,7 +137,7 @@
         .claim-btn, .redeem-btn { background: #10b981; border: none; padding: 10px 20px; border-radius: 30px; color: white; font-weight: 600; cursor: pointer; margin-top: 12px; width: 100%; }
         .claim-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .completed { color: #10b981; }
-        .candy-redeem { background: linear-gradient(135deg, #f59e0b, #d97706); text-align: center; cursor: pointer; }
+        .candy-redeem, .sunrise-points-redeem { background: linear-gradient(135deg, #f59e0b, #d97706); text-align: center; cursor: pointer; }
         .promo-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 40px; color: white; margin: 10px 0; text-align: center; }
 
         .fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.96); backdrop-filter: blur(20px); z-index: 10000; display: none; justify-content: center; align-items: center; }
@@ -153,14 +154,14 @@
         .modal-btn-primary { background: linear-gradient(135deg, #10b981, #059669); }
         .modal-btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
 
-        .candy-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(20px); z-index: 10002; display: none; justify-content: center; align-items: center; }
-        .candy-modal.show { display: flex; }
-        .candy-container { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 40px; padding: 40px; max-width: 500px; width: 90%; text-align: center; border: 2px solid #6c5ce7; box-shadow: 0 0 50px rgba(108,92,231,0.4); }
-        .candy-avatar { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px; overflow: hidden; border: 3px solid #6c5ce7; }
-        .candy-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .candy-buttons { display: flex; flex-direction: column; gap: 15px; margin: 25px 0; }
-        .candy-btn { padding: 14px; border-radius: 60px; color: white; font-weight: 700; cursor: pointer; border: none; transition: transform 0.2s; }
-        .candy-btn:hover { transform: scale(1.02); }
+        .candy-modal, .sunrise-points-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(20px); z-index: 10002; display: none; justify-content: center; align-items: center; }
+        .candy-modal.show, .sunrise-points-modal.show { display: flex; }
+        .candy-container, .sunrise-container { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 40px; padding: 40px; max-width: 500px; width: 90%; text-align: center; border: 2px solid #6c5ce7; box-shadow: 0 0 50px rgba(108,92,231,0.4); }
+        .candy-avatar, .sunrise-avatar { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px; overflow: hidden; border: 3px solid #6c5ce7; }
+        .candy-avatar img, .sunrise-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .candy-buttons, .sunrise-buttons { display: flex; flex-direction: column; gap: 15px; margin: 25px 0; }
+        .candy-btn, .sunrise-btn { padding: 14px; border-radius: 60px; color: white; font-weight: 700; cursor: pointer; border: none; transition: transform 0.2s; }
+        .candy-btn:hover, .sunrise-btn:hover { transform: scale(1.02); }
         .btn-join { background: #8b5cf6; }
         .btn-add { background: #ec4899; }
         .btn-cancel { background: #3b82f6; }
@@ -267,6 +268,7 @@
         <div>
             <div class="promo-card"><h3>Promo Code</h3><input type="text" id="promoCodeInput" class="promo-input" placeholder="Enter Promo Code"><button class="claim-btn" onclick="redeemPromoCode()" style="background:#8b5cf6;">Redeem Code</button><p style="margin-top: 10px; font-size: 12px;">Valid: <strong>STARTER26</strong> (250 pts)</p></div>
             <div class="quest-card candy-redeem" style="margin-top: 20px;" onclick="showCandyRedemptionModal()"><h3><i class="fas fa-candy-cane"></i> Candy Shop</h3><img src="https://i.imgur.com/PXBiQtb.jpeg" alt="Candy" style="width: 80px; margin: 10px auto; display: block; border-radius: 20px;"><p><strong>Redeem 1500 Points for a Candy!</strong></p><p>Get a special in-game candy item + 50 bonus points</p><button class="redeem-btn" style="pointer-events: none;">Redeem (1500 pts)</button></div>
+            <div class="quest-card sunrise-points-redeem" style="margin-top: 20px;" onclick="showSunrisePointsRedeem()"><h3><i class="fas fa-sun"></i> Sunrise Points Redemption</h3><img src="https://i.imgur.com/ttNyTxl.jpeg" alt="Sunrise" style="width: 80px; margin: 10px auto; display: block; border-radius: 20px;"><p><strong>Redeem 3500 Points for Sunrise!</strong></p><p>Get the exclusive Sunrise item + 50 bonus points</p><button class="redeem-btn" style="pointer-events: none;">Redeem (3500 pts)</button></div>
         </div>
     </div>
 </div>
@@ -323,6 +325,8 @@
 
 <div id="candyModal" class="candy-modal"><div class="candy-container"><div class="candy-avatar"><img id="candyAvatarImg" src="https://tr.rbxcdn.com/30d9e0ab1c9b2a8e3f4b5c6d7e8f9a0b/120/120/Image/Png"></div><h3 id="candyUsername">Sigmake5</h3><p id="candyDisplayName">sigmake5</p><div class="candy-buttons"><button class="candy-btn btn-join" onclick="confirmCandyRedemption('join')"><i class="fas fa-users"></i> Join Bot</button><button class="candy-btn btn-add" onclick="confirmCandyRedemption('add')"><i class="fas fa-user-plus"></i> Add Bot</button><button class="candy-btn btn-cancel" onclick="cancelCandyRedemption()"><i class="fas fa-times"></i> Cancel</button></div><div class="age-notice"><i class="fas fa-exclamation-triangle"></i> If your account is under 13, you MUST add the bot and join the server after adding them back.</div></div></div>
 
+<div id="sunrisePointsModal" class="sunrise-points-modal"><div class="sunrise-container"><div class="sunrise-avatar"><img id="sunriseAvatarImg" src="https://i.imgur.com/ttNyTxl.jpeg"></div><h3>Sunrise</h3><p>Exclusive Sunrise Item</p><div class="sunrise-buttons"><button class="sunrise-btn btn-join" onclick="confirmSunriseRedemption('join')"><i class="fas fa-users"></i> Join Bot</button><button class="sunrise-btn btn-add" onclick="confirmSunriseRedemption('add')"><i class="fas fa-user-plus"></i> Add Bot</button><button class="sunrise-btn btn-cancel" onclick="cancelSunriseRedemption()"><i class="fas fa-times"></i> Cancel</button></div><div class="age-notice"><i class="fas fa-exclamation-triangle"></i> If your account is under 13, you MUST add the bot and join the server after adding them back.</div></div></div>
+
 <div id="commandModal" class="command-modal"><div class="command-container"><div class="command-avatar"><img src="https://tr.rbxcdn.com/30d9e0ab1c9b2a8e3f4b5c6d7e8f9a0b/120/120/Image/Png"></div><h3>Sigmake5</h3><p>sigmake5</p><div class="cmd-buttons"><button class="cmd-btn cmd-join" onclick="joinBotServer()"><i class="fas fa-users"></i> Join Bot</button><button class="cmd-btn cmd-add" onclick="addBotFriend()"><i class="fas fa-user-plus"></i> Add Bot</button><button class="cmd-btn cmd-close" onclick="closeCommandModal()"><i class="fas fa-times"></i> Close</button></div><div class="age-notice"><i class="fas fa-exclamation-triangle"></i> If your account is under 13, you MUST add the bot and join the server after adding them back.</div></div></div>
 
 <div class="toast" id="toast"></div>
@@ -359,7 +363,7 @@
     let selectedItemForModal = null, pendingRobloxData = null;
     let orders = JSON.parse(localStorage.getItem('echoknives_orders') || '[]');
     let globalPurchases = JSON.parse(localStorage.getItem('echoknives_global_purchases') || '[]');
-    let referralCount = 0, candyRedeemed = false;
+    let referralCount = 0, candyRedeemed = false, sunriseRedeemed = false;
     let usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes') || '{}');
     let verifiedRobloxUser = JSON.parse(localStorage.getItem('verifiedRobloxUser') || 'null');
     let currentSelectedOrderId = null;
@@ -367,7 +371,7 @@
     let currentSearchTerm = "";
     let currentOrderTab = "all";
     let pendingCandyRedemption = false;
-    let candyPointsBefore = 0;
+    let pendingSunriseRedemption = false;
     
     let quests = { 
         firstPurchase: { name: "First Purchase", reward: 50, completed: false, claimed: false, desc: "Buy your first item" }, 
@@ -400,12 +404,12 @@
     
     function loadAllData() { 
         const s = localStorage.getItem('echoknives_complete'); 
-        if(s) { try { const d = JSON.parse(s); userPoints = d.points||0; quests = d.quests||quests; candyRedeemed = d.candyRedeemed||false; referralCount = d.referralCount||0; } catch(e){} } 
+        if(s) { try { const d = JSON.parse(s); userPoints = d.points||0; quests = d.quests||quests; candyRedeemed = d.candyRedeemed||false; sunriseRedeemed = d.sunriseRedeemed||false; referralCount = d.referralCount||0; } catch(e){} } 
         const today = new Date().toDateString(); 
         if(localStorage.getItem('lastVisitDate') !== today) { quests.dailyVisit.completed = true; localStorage.setItem('lastVisitDate', today); saveAllData(); } 
         updatePointsDisplay(); renderQuests(); renderGlobalPurchases(); document.getElementById('totalSales').innerText = orders.length; updateHeaderDisplay(); 
     }
-    function saveAllData() { localStorage.setItem('echoknives_complete', JSON.stringify({ points:userPoints, quests, candyRedeemed, referralCount })); }
+    function saveAllData() { localStorage.setItem('echoknives_complete', JSON.stringify({ points:userPoints, quests, candyRedeemed, sunriseRedeemed, referralCount })); }
     function updatePointsDisplay() { document.getElementById('pointsBalance').innerText = userPoints; }
     function addPoints(amount) { userPoints += amount; updatePointsDisplay(); saveAllData(); showToast(`+${amount} points earned!`); }
     function completeQuest(id) { if(!quests[id].completed && !quests[id].claimed) { quests[id].completed = true; saveAllData(); renderQuests(); showToast(`Quest completed! Claim your ${quests[id].reward} points.`); } }
@@ -421,18 +425,14 @@
         document.getElementById('promoCodeInput').value = ''; 
     }
     
+    // Candy redemption
     function showCandyRedemptionModal() {
         if(candyRedeemed) { showToast("You already redeemed your candy!"); return; }
         if(userPoints < 1500) { showToast(`Need 1500 points! You have ${userPoints}`); return; }
         pendingCandyRedemption = true;
-        candyPointsBefore = userPoints;
         document.getElementById('candyModal').classList.add('show');
     }
-    function cancelCandyRedemption() {
-        pendingCandyRedemption = false;
-        document.getElementById('candyModal').classList.remove('show');
-        showToast("Redemption cancelled.");
-    }
+    function cancelCandyRedemption() { pendingCandyRedemption = false; document.getElementById('candyModal').classList.remove('show'); showToast("Redemption cancelled."); }
     function confirmCandyRedemption(action) {
         if(!pendingCandyRedemption) return;
         if(userPoints < 1500) { showToast("Insufficient points"); cancelCandyRedemption(); return; }
@@ -446,6 +446,29 @@
         if(action === 'join') window.open(JOIN_SERVER_URL, '_blank');
         if(action === 'add') window.open(BOT_PROFILE_URL, '_blank');
         showToast("Candy redeemed! +50 bonus points.");
+    }
+    
+    // Sunrise points redemption
+    function showSunrisePointsRedeem() {
+        if(sunriseRedeemed) { showToast("You already redeemed Sunrise with points!"); return; }
+        if(userPoints < 3500) { showToast(`Need 3500 points! You have ${userPoints}`); return; }
+        pendingSunriseRedemption = true;
+        document.getElementById('sunrisePointsModal').classList.add('show');
+    }
+    function cancelSunriseRedemption() { pendingSunriseRedemption = false; document.getElementById('sunrisePointsModal').classList.remove('show'); showToast("Redemption cancelled."); }
+    function confirmSunriseRedemption(action) {
+        if(!pendingSunriseRedemption) return;
+        if(userPoints < 3500) { showToast("Insufficient points"); cancelSunriseRedemption(); return; }
+        userPoints -= 3500;
+        sunriseRedeemed = true;
+        addPoints(50);
+        saveAllData();
+        renderQuests();
+        pendingSunriseRedemption = false;
+        document.getElementById('sunrisePointsModal').classList.remove('show');
+        if(action === 'join') window.open(JOIN_SERVER_URL, '_blank');
+        if(action === 'add') window.open(BOT_PROFILE_URL, '_blank');
+        showToast("Sunrise redeemed! +50 bonus points.");
     }
     
     function showReferral() { hideAllPages(); document.getElementById('referralPage').style.display = 'block'; document.getElementById('referralLink').value = `${window.location.origin}?ref=${currentUser?.uid||'guest'}`; document.getElementById('referralCount').innerText = `${referralCount} friends joined`; }
@@ -545,7 +568,6 @@
         if(!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; } 
         if(cart.length===0) { showToast("Cart empty"); return; } 
         if(!verifiedRobloxUser) { showToast("Please link your Roblox account first"); openProfilePanel(); return; } 
-        // No automatic 100 points on checkout - only quest points
         const orderId = 'ECHO-' + Date.now().toString(36).toUpperCase(); 
         const orderData = { 
             orderId, items: cart.map(i=>({ name:i.name, price:i.price, quantity:i.quantity })), 
@@ -555,7 +577,6 @@
         }; 
         orders.unshift(orderData); 
         localStorage.setItem('echoknives_orders', JSON.stringify(orders)); 
-        // Mark first purchase quest as completed (only once)
         if(!quests.firstPurchase.completed) {
             quests.firstPurchase.completed = true;
             saveAllData();
@@ -608,6 +629,7 @@
     window.openRobloxVerification=openRobloxVerification; window.closeRobloxModal=closeRobloxModal; window.confirmRobloxAndSave=confirmRobloxAndSave; window.unlinkRobloxAccount=unlinkRobloxAccount;
     window.initiateCheckout=initiateCheckout;
     window.redeemPromoCode=redeemPromoCode; window.claimQuest=claimQuest; window.showCandyRedemptionModal=showCandyRedemptionModal; window.cancelCandyRedemption=cancelCandyRedemption; window.confirmCandyRedemption=confirmCandyRedemption;
+    window.showSunrisePointsRedeem=showSunrisePointsRedeem; window.cancelSunriseRedemption=cancelSunriseRedemption; window.confirmSunriseRedemption=confirmSunriseRedemption;
     window.openPurchaseModal=openPurchaseModal; window.closePurchaseModal=closePurchaseModal; window.confirmAddToCart=confirmAddToCart;
     window.addInventoryItem=addInventoryItem; window.deleteItem=deleteItem; window.updateOrderStatus=updateOrderStatus; window.copyReferralLink=copyReferralLink;
     window.editItemPrice=editItemPrice; window.editItemImage=editItemImage; window.toggleOffsale=toggleOffsale; window.closeReceipt=closeReceipt;
