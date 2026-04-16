@@ -78,7 +78,7 @@
         .ticker-content span { margin: 0 30px; color: #10b981; }
         @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .hero { min-height: 85vh; display: flex; align-items: center; justify-content: space-between; padding: 60px 5%; flex-wrap: wrap; gap: 50px; }
+        .hero { min-height: 70vh; display: flex; align-items: center; justify-content: space-between; padding: 40px 5%; flex-wrap: wrap; gap: 50px; }
         .hero-content { flex: 1; min-width: 300px; animation: fadeInUp 0.6s ease; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .hero-badge { display: inline-block; background: rgba(16, 185, 129, 0.15); padding: 8px 25px; border-radius: 40px; font-size: 14px; color: #10b981; margin-bottom: 25px; border: 1px solid rgba(16, 185, 129, 0.3); }
@@ -91,8 +91,47 @@
         .hero-stat h3 { font-size: 36px; font-weight: 800; color: #6c5ce7; }
         .hero-stat p { font-size: 12px; color: #888; }
         .btn-primary { background: linear-gradient(135deg, #6c5ce7, #a855f7); border: none; padding: 14px 35px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; }
+        .hero-image { flex: 1; min-width: 300px; text-align: center; }
         .hero-image img { max-width: 100%; filter: drop-shadow(0 0 40px rgba(108,92,231,0.3)); animation: floatImage 4s ease-in-out infinite; border-radius: 20px; }
         @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        /* Global Purchases Section */
+        .purchases-section {
+            max-width: 1400px;
+            margin: 0 auto 40px;
+            padding: 0 5%;
+        }
+        .purchases-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #a855f7;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .purchases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .purchase-card {
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 15px 20px;
+            border: 1px solid rgba(108,92,231,0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .purchase-card:hover { transform: translateX(5px); border-color: #6c5ce7; }
+        .purchase-icon { font-size: 32px; color: #10b981; }
+        .purchase-details { flex: 1; }
+        .purchase-item { font-weight: 700; font-size: 16px; }
+        .purchase-time { font-size: 11px; color: #888; margin-top: 4px; }
+        .purchase-amount { font-weight: 800; color: #6c5ce7; }
 
         .container { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
         .filter-bar { background: rgba(0,0,0,0.5); padding: 12px 20px; margin-bottom: 25px; border-radius: 50px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
@@ -102,8 +141,10 @@
         /* Tall Square Product Cards */
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
         .product-card { background: linear-gradient(135deg, rgba(30,20,25,0.95), rgba(20,15,20,0.98)); border-radius: 24px; overflow: hidden; transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); border: 1px solid rgba(108,92,231,0.3); cursor: pointer; aspect-ratio: 0.8 / 1.2; display: flex; flex-direction: column; position: relative; }
+        .product-card.offsale { opacity: 0.6; filter: grayscale(0.3); }
         .product-card:hover { transform: translateY(-8px); border-color: #6c5ce7; box-shadow: 0 20px 35px rgba(108,92,231,0.3); }
         .discount-badge { position: absolute; top: 10px; left: 10px; background: #ef4444; color: white; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; z-index: 2; }
+        .offsale-badge { position: absolute; top: 10px; right: 10px; background: #6c5ce7; color: white; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; z-index: 2; }
         .original-price { text-decoration: line-through; font-size: 14px; color: #888; margin-right: 8px; }
         .product-image { flex: 1; background: linear-gradient(135deg, #2a1a2a, #1a0a1a); display: flex; align-items: center; justify-content: center; padding: 20px; }
         .product-image img { width: 80%; height: 80%; object-fit: contain; border-radius: 16px; }
@@ -154,16 +195,16 @@
         .btn-red { background: #ef4444; border: none; padding: 14px; border-radius: 60px; color: white; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; }
         .admin-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 30px; color: white; margin: 10px 0; }
         .admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
-        .inventory-item { background: rgba(0,0,0,0.5); border-radius: 15px; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .btn-danger { background: #ef4444; border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; }
-        .paypal-button-container { margin: 20px 0; }
+        .inventory-item { background: rgba(0,0,0,0.5); border-radius: 15px; padding: 15px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
+        .inventory-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .edit-btn { background: #f59e0b; border: none; padding: 6px 12px; border-radius: 20px; color: white; cursor: pointer; font-size: 12px; }
         
         .toast { position: fixed; bottom: 30px; left: 30px; background: #10b981; padding: 12px 24px; border-radius: 12px; z-index: 2000; transform: translateX(-400px); transition: transform 0.3s; }
         .toast.show { transform: translateX(0); }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: none; }
         .overlay.show { display: block; }
         
-        @media (max-width: 768px) { .cart-sidebar { width: 100%; right: -100%; } .hero-title { font-size: 38px; } .products-grid { gap: 15px; } }
+        @media (max-width: 768px) { .cart-sidebar { width: 100%; right: -100%; } .hero-title { font-size: 38px; } .products-grid { gap: 15px; } .inventory-item { flex-direction: column; text-align: center; } }
     </style>
 </head>
 <body>
@@ -173,7 +214,7 @@
 <div class="glow-orb orb-2"></div>
 <div class="particles" id="particles"></div>
 
-<div class="ticker"><div class="ticker-content" id="tickerContent"><span>🔥 Anonymous User just purchased Batwing!</span></div></div>
+<div class="ticker"><div class="ticker-content" id="tickerContent"><span>◆ Anonymous User just purchased Batwing!</span></div></div>
 
 <div class="header">
     <div class="logo" onclick="showHome()"><i class="fas fa-gem logo-icon"></i><div><div class="logo-text">ECHOKNIVES</div><div class="logo-sub">PREMIUM MM2 SHOP</div></div></div>
@@ -192,24 +233,32 @@
     </div>
 </div>
 
-<div id="homePage" class="hero">
-    <div class="hero-content">
-        <div class="hero-badge"><i class="fas fa-shield-alt"></i> 256-bit SSL Encrypted</div>
-        <h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1>
-        <p class="hero-desc">Get the rarest Murder Mystery 2 items instantly.<br>Secure payments, fast delivery, 24/7 support.</p>
-        <div class="security-badges">
-            <div class="security-badge"><i class="fas fa-lock"></i> Secure Checkout</div>
-            <div class="security-badge"><i class="fas fa-robot"></i> Instant Delivery</div>
-            <div class="security-badge"><i class="fas fa-headset"></i> 24/7 Support</div>
+<div id="homePage">
+    <div class="hero">
+        <div class="hero-content">
+            <div class="hero-badge"><i class="fas fa-shield-alt"></i> 256-bit SSL Encrypted</div>
+            <h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1>
+            <p class="hero-desc">Get the rarest Murder Mystery 2 items instantly.<br>Secure payments, fast delivery, 24/7 support.</p>
+            <div class="security-badges">
+                <div class="security-badge"><i class="fas fa-lock"></i> Secure Checkout</div>
+                <div class="security-badge"><i class="fas fa-robot"></i> Instant Delivery</div>
+                <div class="security-badge"><i class="fas fa-headset"></i> 24/7 Support</div>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat"><h3 id="totalSales">0</h3><p>Items Sold</p></div>
+                <div class="hero-stat"><h3>5K+</h3><p>Customers</p></div>
+                <div class="hero-stat"><h3>100%</h3><p>Satisfaction</p></div>
+            </div>
+            <button class="btn-primary" onclick="showShop()">Shop Now →</button>
         </div>
-        <div class="hero-stats">
-            <div class="hero-stat"><h3 id="totalSales">0</h3><p>Items Sold</p></div>
-            <div class="hero-stat"><h3>5K+</h3><p>Customers</p></div>
-            <div class="hero-stat"><h3>100%</h3><p>Satisfaction</p></div>
-        </div>
-        <button class="btn-primary" onclick="showShop()">Shop Now →</button>
+        <div class="hero-image"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero"></div>
     </div>
-    <div class="hero-image"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero"></div>
+    
+    <!-- Global Purchases Section -->
+    <div class="purchases-section">
+        <div class="purchases-title"><i class="fas fa-globe"></i> Recent Global Purchases</div>
+        <div class="purchases-grid" id="globalPurchasesList"></div>
+    </div>
 </div>
 
 <div id="shopPage" class="container" style="display:none;">
@@ -229,7 +278,13 @@
 
 <div id="ordersPage" class="container" style="display:none;"><h2>My Orders</h2><div id="ordersList" style="margin-top:20px;"></div></div>
 <div id="referralPage" class="container" style="display:none;"><h2>Referral Program</h2><div style="background:rgba(0,0,0,0.5); border-radius:20px; padding:30px; text-align:center;"><p>Share your referral link and earn 50 points per friend!</p><input type="text" id="referralLink" class="admin-input" readonly><button onclick="copyReferralLink()" class="btn-primary" style="margin-top:10px;">Copy Link</button><h3 style="margin-top:30px;">Your Referrals</h3><p id="referralCount">0 friends joined</p></div></div>
-<div id="adminPage" class="container" style="display:none;"><h2>Admin Panel</h2><div class="admin-panel"><h3>Add New Item</h3><input type="text" id="newItemName" class="admin-input" placeholder="Item Name"><select id="newItemType" class="admin-input"><option value="knife">Knife</option><option value="gun">Gun</option></select><input type="number" id="newItemPrice" class="admin-input" placeholder="Price (PHP)"><input type="text" id="newItemImage" class="admin-input" placeholder="Image URL"><button onclick="addInventoryItem()" class="btn-primary" style="width:100%;">Add Item</button></div><div class="admin-panel"><h3>Manage Inventory</h3><div id="inventoryList" class="admin-grid"></div></div><div class="admin-panel"><h3>All Orders</h3><div id="allOrdersList"></div></div></div>
+
+<div id="adminPage" class="container" style="display:none;">
+    <h2>Admin Panel</h2>
+    <div class="admin-panel"><h3>Add New Item</h3><input type="text" id="newItemName" class="admin-input" placeholder="Item Name"><select id="newItemType" class="admin-input"><option value="knife">Knife</option><option value="gun">Gun</option></select><input type="number" id="newItemPrice" class="admin-input" placeholder="Price (PHP)"><input type="text" id="newItemImage" class="admin-input" placeholder="Image URL"><button onclick="addInventoryItem()" class="btn-primary" style="width:100%;">Add Item</button></div>
+    <div class="admin-panel"><h3>Manage Inventory</h3><div id="inventoryList" class="admin-grid"></div></div>
+    <div class="admin-panel"><h3>All Orders</h3><div id="allOrdersList"></div></div>
+</div>
 
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
@@ -239,71 +294,40 @@
     <button class="checkout-btn" onclick="openRobloxVerification()">Proceed to Checkout →</button>
 </div>
 
-<div id="purchaseModal" class="fullscreen-modal">
-    <div class="modal-container">
-        <div class="modal-avatar"><img id="modalItemImg" src=""></div>
-        <div class="modal-title" id="modalItemName">Item Name</div>
-        <div class="modal-price" id="modalItemPrice">₱0</div>
-        <input type="number" id="modalQuantity" class="modal-input" placeholder="Quantity" value="1" min="1">
-        <div class="checkbox-group" id="chromaCheckboxGroup"><label><input type="checkbox" id="modalIsChroma"> Chroma Version (+₱20)</label></div>
-        <div class="modal-buttons"><button class="modal-btn modal-btn-primary" onclick="confirmAddToCart()">Add to Cart</button><button class="modal-btn modal-btn-danger" onclick="closePurchaseModal()">Cancel</button></div>
-    </div>
-</div>
-
-<div id="robloxModal" class="roblox-modal">
-    <div class="modal-content">
-        <h2><i class="fab fa-roblox"></i> Verify Roblox Account</h2>
-        <div class="roblox-avatar"><img id="robloxAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100"></div>
-        <div id="robloxDisplayName" style="margin-bottom:15px;">Enter your username</div>
-        <input type="text" id="robloxUsernameInput" class="admin-input" placeholder="Roblox Username">
-        <button class="btn-blue" onclick="confirmRobloxAndProceed()">Yes, That's me!</button>
-        <button class="btn-red" onclick="closeRobloxModal()">Cancel</button>
-    </div>
-</div>
-
-<div id="paymentModal" class="payment-modal">
-    <div class="modal-content">
-        <h2><i class="fab fa-paypal"></i> Complete Payment</h2>
-        <div id="paypal-button-container" class="paypal-button-container"></div>
-        <button onclick="closePaymentModal()" class="btn-red" style="margin-top:15px;">Cancel</button>
-    </div>
-</div>
+<div id="purchaseModal" class="fullscreen-modal"><div class="modal-container"><div class="modal-avatar"><img id="modalItemImg" src=""></div><div class="modal-title" id="modalItemName">Item Name</div><div class="modal-price" id="modalItemPrice">₱0</div><input type="number" id="modalQuantity" class="modal-input" placeholder="Quantity" value="1" min="1"><div class="checkbox-group"><label><input type="checkbox" id="modalIsChroma"> Chroma Version (+₱20)</label></div><div class="modal-buttons"><button class="modal-btn modal-btn-primary" onclick="confirmAddToCart()">Add to Cart</button><button class="modal-btn modal-btn-danger" onclick="closePurchaseModal()">Cancel</button></div></div></div>
+<div id="robloxModal" class="roblox-modal"><div class="modal-content"><h2><i class="fab fa-roblox"></i> Verify Roblox Account</h2><div class="roblox-avatar"><img id="robloxAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100"></div><div id="robloxDisplayName" style="margin-bottom:15px;">Enter your username</div><input type="text" id="robloxUsernameInput" class="admin-input" placeholder="Roblox Username"><button class="btn-blue" onclick="confirmRobloxAndProceed()">Yes, That's me!</button><button class="btn-red" onclick="closeRobloxModal()">Cancel</button></div></div>
+<div id="paymentModal" class="payment-modal"><div class="modal-content"><h2><i class="fab fa-paypal"></i> Complete Payment</h2><div id="paypal-button-container" class="paypal-button-container"></div><button onclick="closePaymentModal()" class="btn-red" style="margin-top:15px;">Cancel</button></div></div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-    // Items with images, discounts, and chroma support
     const CHROMA_BOOST = 20;
     const CHROMA_IMAGE = "https://i.imgur.com/TL2F5e5.jpeg";
-    
-    // Items with fake discounts
     let items = [
-        { id: 1, name: "Batwing", type: "knife", price: 152, originalPrice: 220, discount: 31, image: "https://i.imgur.com/H6CL03y.jpeg", stock: 999 },
-        { id: 2, name: "Harvester", type: "knife", price: 608, originalPrice: 850, discount: 28, image: "https://i.imgur.com/jZkbQ4t.jpeg", stock: 999 },
-        { id: 3, name: "Icewing", type: "knife", price: 72, originalPrice: 120, discount: 40, image: "https://i.imgur.com/jiwvmxq.jpeg", stock: 999 },
-        { id: 4, name: "Luger", type: "gun", price: 207, originalPrice: 300, discount: 31, image: "https://i.imgur.com/eEvMBRh.jpeg", stock: 999 },
-        { id: 5, name: "Darkbringer", type: "gun", price: 130, originalPrice: 250, discount: 48, image: "https://i.imgur.com/8oxgzwa.jpeg", stock: 999 },
-        { id: 6, name: "Lightbringer", type: "gun", price: 125, originalPrice: 240, discount: 48, image: "https://i.imgur.com/BUljuYV.jpeg", stock: 999 }
+        { id: 1, name: "Batwing", type: "knife", price: 152, originalPrice: 220, discount: 31, image: "https://i.imgur.com/H6CL03y.jpeg", stock: 999, onSale: true },
+        { id: 2, name: "Harvester", type: "knife", price: 608, originalPrice: 850, discount: 28, image: "https://i.imgur.com/jZkbQ4t.jpeg", stock: 999, onSale: true },
+        { id: 3, name: "Icewing", type: "knife", price: 72, originalPrice: 120, discount: 40, image: "https://i.imgur.com/jiwvmxq.jpeg", stock: 999, onSale: true },
+        { id: 4, name: "Luger", type: "gun", price: 207, originalPrice: 300, discount: 31, image: "https://i.imgur.com/eEvMBRh.jpeg", stock: 999, onSale: true },
+        { id: 5, name: "Darkbringer", type: "gun", price: 130, originalPrice: 250, discount: 48, image: "https://i.imgur.com/8oxgzwa.jpeg", stock: 999, onSale: true },
+        { id: 6, name: "Lightbringer", type: "gun", price: 125, originalPrice: 240, discount: 48, image: "https://i.imgur.com/BUljuYV.jpeg", stock: 999, onSale: true }
     ];
-    const CANDY_ITEM = { id: 999, name: "Candy", type: "candy", price: 240, originalPrice: 300, discount: 20, image: "https://i.imgur.com/PXBiQtb.jpeg" };
+    const CANDY_ITEM = { id: 999, name: "Candy", type: "candy", price: 240, originalPrice: 300, discount: 20, image: "https://i.imgur.com/PXBiQtb.jpeg", onSale: true };
     
     let cart = [], currentFilter = "all", isLoggedIn = false, currentUser = null, currentCurrency = "PHP", userPoints = 0;
     let exchangeRates = { PHP: 1, USD: 0.017 }, symbols = { PHP: "₱", USD: "$" };
     let selectedItemForModal = null, pendingRobloxData = null;
     let orders = JSON.parse(localStorage.getItem('echoknives_orders') || '[]');
-    let liveSales = JSON.parse(localStorage.getItem('echoknives_live_sales') || '[]');
+    let globalPurchases = JSON.parse(localStorage.getItem('echoknives_global_purchases') || '[]');
     let referralCount = 0;
     let candyRedeemed = false;
     let usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes') || '{}');
+    const ADMIN_EMAIL = "ivanmendones13@gmail.com";
     
-    // Fake purchase items list for random ticker
     const fakeItemNames = ["Batwing", "Harvester", "Icewing", "Luger", "Darkbringer", "Lightbringer", "Candy"];
     
-    // Generate fake purchase every 30-60 seconds
     function generateFakePurchase() {
         const randomItem = fakeItemNames[Math.floor(Math.random() * fakeItemNames.length)];
-        addLiveSale(randomItem, true);
-        // Random interval between 30 and 60 seconds (30000-60000 ms)
+        addGlobalPurchase(randomItem, true);
         const nextInterval = Math.floor(Math.random() * 30000) + 30000;
         setTimeout(generateFakePurchase, nextInterval);
     }
@@ -321,14 +345,46 @@
     function getDisplayPrice(p) { return (p * exchangeRates[currentCurrency]).toFixed(2); }
     function getSymbol() { return symbols[currentCurrency]; }
     function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
-    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); }
+    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); renderGlobalPurchases(); }
+    
+    function addGlobalPurchase(itemName, isFake = false) {
+        const purchase = { item: itemName, time: new Date().toLocaleString(), fake: isFake };
+        globalPurchases.unshift(purchase);
+        if(globalPurchases.length > 20) globalPurchases.pop();
+        localStorage.setItem('echoknives_global_purchases', JSON.stringify(globalPurchases));
+        renderGlobalPurchases();
+        if(!isFake) document.getElementById('totalSales').innerText = orders.length + globalPurchases.filter(p => !p.fake).length;
+        updateTicker();
+    }
+    
+    function renderGlobalPurchases() {
+        const container = document.getElementById('globalPurchasesList');
+        if(!container) return;
+        if(globalPurchases.length === 0) { container.innerHTML = '<div style="text-align:center; padding:20px; background:rgba(0,0,0,0.3); border-radius:20px;">No recent purchases yet. Be the first!</div>'; return; }
+        container.innerHTML = globalPurchases.slice(0, 8).map(p => `
+            <div class="purchase-card">
+                <div class="purchase-icon"><i class="fas fa-shopping-bag"></i></div>
+                <div class="purchase-details">
+                    <div class="purchase-item">${p.item}</div>
+                    <div class="purchase-time">${p.time}</div>
+                </div>
+                <div class="purchase-amount">${getSymbol()}${getDisplayPrice(items.find(i=>i.name===p.item)?.price || 100)}</div>
+            </div>
+        `).join('');
+    }
+    
+    function updateTicker() { 
+        const tickerDiv = document.getElementById('tickerContent'); 
+        if(globalPurchases.length === 0) { tickerDiv.innerHTML = '<span>◆ No recent sales yet. Be the first!</span>'; return; } 
+        tickerDiv.innerHTML = globalPurchases.slice(0, 5).map(p => `<span>${p.fake ? '◆ Someone' : '● Anonymous User'} just purchased ${p.item}!</span>`).join(''); 
+    }
     
     function loadAllData() {
         const s = localStorage.getItem('echoknives_complete');
         if (s) { try { const d = JSON.parse(s); userPoints = d.points || 0; quests = d.quests || quests; candyRedeemed = d.candyRedeemed || false; referralCount = d.referralCount || 0; } catch(e) {} }
         const today = new Date().toDateString();
         if (localStorage.getItem('lastVisitDate') !== today) { quests.dailyVisit.completed = true; localStorage.setItem('lastVisitDate', today); saveAllData(); }
-        updatePointsDisplay(); renderQuests(); updateTicker(); document.getElementById('totalSales').innerText = orders.length;
+        updatePointsDisplay(); renderQuests(); renderGlobalPurchases(); document.getElementById('totalSales').innerText = orders.length;
     }
     function saveAllData() { localStorage.setItem('echoknives_complete', JSON.stringify({ points: userPoints, quests, candyRedeemed, referralCount })); }
     function updatePointsDisplay() { document.getElementById('pointsBalance').innerText = userPoints; }
@@ -340,41 +396,17 @@
     function redeemPromoCode() { const code = document.getElementById('promoCodeInput').value.trim().toUpperCase(); if (!isLoggedIn) { showToast("Login first"); return; } if (usedPromoCodes[code]) { showToast("Already used!"); return; } if (code === "STARTER26") { usedPromoCodes[code] = true; localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes)); addPoints(250); showToast("+250 points!"); } else showToast("Invalid code!"); document.getElementById('promoCodeInput').value = ''; }
     function showCandyRedemptionConfirm() { if (candyRedeemed) { showToast("Already redeemed!"); return; } if (userPoints < 1500) { showToast(`Need 1500 points! You have ${userPoints}`); return; } if (confirm(`Redeem Candy for 1500 points? Points after: ${userPoints - 1500}\n+50 bonus points!`)) { userPoints -= 1500; candyRedeemed = true; addPoints(50); saveAllData(); renderQuests(); showToast("Candy redeemed! +50 bonus points!"); } }
     
-    function addLiveSale(itemName, isFake = false) {
-        liveSales.unshift({ item: itemName, time: new Date().toLocaleTimeString(), fake: isFake });
-        if(liveSales.length > 10) liveSales.pop();
-        localStorage.setItem('echoknives_live_sales', JSON.stringify(liveSales));
-        updateTicker();
-        if(!isFake) document.getElementById('totalSales').innerText = orders.length + liveSales.filter(s => !s.fake).length;
-    }
-    function updateTicker() { 
-        const tickerDiv = document.getElementById('tickerContent'); 
-        if(liveSales.length === 0) { tickerDiv.innerHTML = '<span>🔥 No recent sales yet. Be the first!</span>'; return; } 
-        tickerDiv.innerHTML = liveSales.map(s => `<span>🔥 ${s.fake ? 'Someone' : 'Anonymous User'} just purchased ${s.item}!</span>`).join(''); 
-    }
-    
-    function showReferral() { 
-        document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; 
-        document.getElementById('questsPage').style.display = 'none'; document.getElementById('ordersPage').style.display = 'none'; 
-        document.getElementById('adminPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'block'; 
-        document.getElementById('referralLink').value = `${window.location.origin}?ref=${currentUser?.uid || 'guest'}`; 
-        document.getElementById('referralCount').innerText = `${referralCount} friends joined`; 
-    }
+    function showReferral() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('ordersPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'block'; document.getElementById('referralLink').value = `${window.location.origin}?ref=${currentUser?.uid || 'guest'}`; document.getElementById('referralCount').innerText = `${referralCount} friends joined`; }
     function copyReferralLink() { const link = document.getElementById('referralLink'); link.select(); document.execCommand('copy'); showToast("Link copied!"); }
     
-    function showOrders() { 
-        document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; 
-        document.getElementById('questsPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'none'; 
-        document.getElementById('adminPage').style.display = 'none'; document.getElementById('ordersPage').style.display = 'block'; 
-        const userOrders = orders.filter(o => o.userEmail === currentUser?.email); 
-        const container = document.getElementById('ordersList'); 
-        if(userOrders.length === 0) { container.innerHTML = '<p>No orders yet.</p>'; return; } 
-        container.innerHTML = userOrders.map(o => `<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px; margin-bottom:10px;"><div><strong>Order #${o.orderId}</strong></div><div>Items: ${o.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div><div>Total: ₱${o.total}</div><div>Status: <span style="color:#10b981;">${o.status}</span></div><div>Date: ${new Date(o.date).toLocaleString()}</div></div>`).join(''); 
-    }
+    function showOrders() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'none'; document.getElementById('ordersPage').style.display = 'block'; const userOrders = orders.filter(o => o.userEmail === currentUser?.email); const container = document.getElementById('ordersList'); if(userOrders.length === 0) { container.innerHTML = '<p>No orders yet.</p>'; return; } container.innerHTML = userOrders.map(o => `<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px; margin-bottom:10px;"><div><strong>Order #${o.orderId}</strong></div><div>Items: ${o.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div><div>Total: ₱${o.total}</div><div>Status: <span style="color:#10b981;">${o.status}</span></div><div>Date: ${new Date(o.date).toLocaleString()}</div></div>`).join(''); }
     
-    function showAdmin() { if(!currentUser || currentUser.email !== "admin@echoknives.com") { showToast("Admin access only"); return; } document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('ordersPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'block'; renderInventory(); renderAllOrders(); }
-    function renderInventory() { const container = document.getElementById('inventoryList'); container.innerHTML = items.map(item => `<div class="inventory-item"><span><strong>${item.name}</strong> - ₱${item.price} (was ₱${item.originalPrice}) - Stock: ${item.stock}</span><button onclick="deleteItem(${item.id})" class="btn-danger">Delete</button></div>`).join(''); }
-    function addInventoryItem() { const name = document.getElementById('newItemName').value.trim(); const type = document.getElementById('newItemType').value; const price = parseFloat(document.getElementById('newItemPrice').value); const image = document.getElementById('newItemImage').value.trim(); if(!name || !price) { showToast("Fill all fields"); return; } const newId = Math.max(...items.map(i=>i.id),0)+1; items.push({ id:newId, name, type, price, originalPrice: Math.round(price * 1.3), discount: 23, image, stock:999 }); saveItems(); renderInventory(); renderProducts(); showToast("Item added!"); }
+    function showAdmin() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin access only"); return; } document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('ordersPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'block'; renderInventory(); renderAllOrders(); }
+    function renderInventory() { const container = document.getElementById('inventoryList'); container.innerHTML = items.map(item => `<div class="inventory-item"><span><strong>${item.name}</strong><br>₱${item.price} | ${item.onSale ? 'On Sale' : 'Offsale'}</span><div class="inventory-actions"><button class="edit-btn" onclick="editItemPrice(${item.id})">Edit Price</button><button class="edit-btn" onclick="editItemImage(${item.id})">Edit Image</button><button class="edit-btn" onclick="toggleOffsale(${item.id})">${item.onSale ? 'Set Offsale' : 'Set On Sale'}</button><button onclick="deleteItem(${item.id})" class="btn-danger" style="padding:6px 12px;">Delete</button></div></div>`).join(''); }
+    function editItemPrice(id) { const newPrice = prompt("Enter new price (PHP):"); if(newPrice && !isNaN(parseFloat(newPrice))) { const item = items.find(i => i.id === id); if(item) { item.price = parseFloat(newPrice); item.originalPrice = Math.round(item.price * 1.3); item.discount = Math.round((1 - item.price / item.originalPrice) * 100); saveItems(); renderInventory(); renderProducts(); showToast("Price updated!"); } } }
+    function editItemImage(id) { const newImage = prompt("Enter new image URL:"); if(newImage && newImage.trim()) { const item = items.find(i => i.id === id); if(item) { item.image = newImage.trim(); saveItems(); renderInventory(); renderProducts(); showToast("Image updated!"); } } }
+    function toggleOffsale(id) { const item = items.find(i => i.id === id); if(item) { item.onSale = !item.onSale; saveItems(); renderInventory(); renderProducts(); showToast(`${item.name} is now ${item.onSale ? 'on sale' : 'offsale'}`); } }
+    function addInventoryItem() { const name = document.getElementById('newItemName').value.trim(); const type = document.getElementById('newItemType').value; const price = parseFloat(document.getElementById('newItemPrice').value); const image = document.getElementById('newItemImage').value.trim(); if(!name || !price) { showToast("Fill all fields"); return; } const newId = Math.max(...items.map(i=>i.id),0)+1; items.push({ id:newId, name, type, price, originalPrice: Math.round(price * 1.3), discount: 23, image, stock:999, onSale:true }); saveItems(); renderInventory(); renderProducts(); showToast("Item added!"); }
     function deleteItem(id) { items = items.filter(i => i.id !== id); saveItems(); renderInventory(); renderProducts(); showToast("Item deleted"); }
     function saveItems() { localStorage.setItem('echoknives_items', JSON.stringify(items)); }
     function renderAllOrders() { const container = document.getElementById('allOrdersList'); if(orders.length === 0) { container.innerHTML = '<p>No orders.</p>'; return; } container.innerHTML = orders.map(o => `<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px; margin-bottom:10px;"><div><strong>Order #${o.orderId}</strong> - ${o.userEmail}</div><div>Items: ${o.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div><div>Total: ₱${o.total}</div><div>Status: ${o.status}</div><button onclick="updateOrderStatus('${o.orderId}')" style="background:#6c5ce7; border:none; padding:5px 15px; border-radius:20px; color:white; margin-top:10px;">Mark Delivered</button></div>`).join(''); }
@@ -388,9 +420,9 @@
     function openPaymentModal() { currentOrderItems = [...cart]; currentOrderTotal = cart.reduce((s,i)=>s+(i.price*i.quantity),0); document.getElementById('paymentModal').classList.add('show'); renderPayPalButton(); }
     function closePaymentModal() { document.getElementById('paymentModal').classList.remove('show'); }
     function renderPayPalButton() { const container = document.getElementById('paypal-button-container'); container.innerHTML = ''; if(window.paypal) { window.paypal.Buttons({ createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: currentOrderTotal.toFixed(2), currency_code: 'PHP' } }] }), onApprove: async (data, actions) => { const details = await actions.order.capture(); processOrder(details); } }).render('#paypal-button-container'); } else { container.innerHTML = '<p>PayPal loading...</p>'; } }
-    function processOrder(paymentDetails) { const orderId = 'ECHO-' + Date.now().toString(36).toUpperCase(); const newOrder = { orderId, userEmail: currentUser.email, robloxUser: currentRobloxUser, items: currentOrderItems.map(i => ({ name: i.name, quantity: i.quantity, price: i.price })), total: currentOrderTotal, status: 'Processing', date: new Date().toISOString(), transactionId: paymentDetails.id }; orders.unshift(newOrder); localStorage.setItem('echoknives_orders', JSON.stringify(orders)); currentOrderItems.forEach(item => { addLiveSale(item.name, false); }); completeQuest('firstPurchase'); addPoints(100); cart = []; updateCartUI(); closePaymentModal(); showToast(`Order placed! Delivery to @${currentRobloxUser} within 5-15 min.`); showOrders(); }
+    function processOrder(paymentDetails) { const orderId = 'ECHO-' + Date.now().toString(36).toUpperCase(); const newOrder = { orderId, userEmail: currentUser.email, robloxUser: currentRobloxUser, items: currentOrderItems.map(i => ({ name: i.name, quantity: i.quantity, price: i.price })), total: currentOrderTotal, status: 'Processing', date: new Date().toISOString(), transactionId: paymentDetails.id }; orders.unshift(newOrder); localStorage.setItem('echoknives_orders', JSON.stringify(orders)); currentOrderItems.forEach(item => { addGlobalPurchase(item.name, false); }); completeQuest('firstPurchase'); addPoints(100); cart = []; updateCartUI(); closePaymentModal(); showToast(`Order placed! Delivery to @${currentRobloxUser} within 5-15 min.`); showOrders(); }
     
-    function openPurchaseModal(item) { selectedItemForModal = { ...item }; document.getElementById('modalItemImg').src = item.image; document.getElementById('modalItemName').innerHTML = item.name; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(item.price)}`; document.getElementById('modalQuantity').value = 1; const chromaCheckbox = document.getElementById('modalIsChroma'); chromaCheckbox.checked = false; chromaCheckbox.onchange = function() { const price = this.checked ? (item.price + CHROMA_BOOST) : item.price; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(price)}`; document.getElementById('modalItemImg').src = this.checked ? CHROMA_IMAGE : item.image; }; document.getElementById('purchaseModal').classList.add('show'); }
+    function openPurchaseModal(item) { if(!item.onSale) { showToast("This item is currently offsale"); return; } selectedItemForModal = { ...item }; document.getElementById('modalItemImg').src = item.image; document.getElementById('modalItemName').innerHTML = item.name; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(item.price)}`; document.getElementById('modalQuantity').value = 1; const chromaCheckbox = document.getElementById('modalIsChroma'); chromaCheckbox.checked = false; chromaCheckbox.onchange = function() { const price = this.checked ? (item.price + CHROMA_BOOST) : item.price; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(price)}`; document.getElementById('modalItemImg').src = this.checked ? CHROMA_IMAGE : item.image; }; document.getElementById('purchaseModal').classList.add('show'); }
     function closePurchaseModal() { document.getElementById('purchaseModal').classList.remove('show'); selectedItemForModal = null; }
     function confirmAddToCart() { if (!selectedItemForModal) return; const quantity = parseInt(document.getElementById('modalQuantity').value) || 1; const isChroma = document.getElementById('modalIsChroma').checked; let finalPrice = selectedItemForModal.price; if (isChroma) finalPrice = selectedItemForModal.price + CHROMA_BOOST; const itemName = isChroma ? `✨ ${selectedItemForModal.name} (Chroma)` : selectedItemForModal.name; const existing = cart.find(i => i.id === selectedItemForModal.id && i.isChroma === isChroma); if (existing) existing.quantity += quantity; else cart.push({ ...selectedItemForModal, name: itemName, price: finalPrice, quantity, isChroma }); updateCartUI(); showToast(`${quantity}x ${itemName} added`); if (cart.length >= 3) completeQuest('addToCart'); closePurchaseModal(); }
     
@@ -399,13 +431,14 @@
         let filtered = allItems.filter(i => { if (currentFilter === 'knife') return i.type === 'knife'; if (currentFilter === 'gun') return i.type === 'gun'; return true; }); 
         document.getElementById('productsGrid').innerHTML = filtered.map(item => {
             const discountPercent = item.discount || Math.round((1 - item.price / item.originalPrice) * 100);
-            return `<div class="product-card" onclick="openPurchaseModal(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-                        ${discountPercent > 0 ? `<div class="discount-badge">-${discountPercent}%</div>` : ''}
+            return `<div class="product-card ${!item.onSale ? 'offsale' : ''}" onclick="openPurchaseModal(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                        ${discountPercent > 0 && item.onSale ? `<div class="discount-badge">-${discountPercent}%</div>` : ''}
+                        ${!item.onSale ? `<div class="offsale-badge">Offsale</div>` : ''}
                         <div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/200x200/6c5ce7/white?text=${item.name.charAt(0)}'"></div>
                         <div class="product-info">
                             <div class="product-name">${item.name}</div>
                             <div class="product-price">
-                                ${item.originalPrice ? `<span class="original-price">${getSymbol()}${getDisplayPrice(item.originalPrice)}</span>` : ''}
+                                ${item.originalPrice && item.onSale ? `<span class="original-price">${getSymbol()}${getDisplayPrice(item.originalPrice)}</span>` : ''}
                                 ${getSymbol()}${getDisplayPrice(item.price)}
                             </div>
                         </div>
@@ -417,18 +450,17 @@
     function removeFromCart(id,isChroma) { cart = cart.filter(i=>!(i.id===id && (i.isChroma||false)===isChroma)); updateCartUI(); }
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
-    function showHome() { document.getElementById('homePage').style.display = 'flex'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('ordersPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'none'; }
+    function showHome() { document.getElementById('homePage').style.display = 'block'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('ordersPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'none'; renderGlobalPurchases(); }
     function showShop() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'block'; document.getElementById('questsPage').style.display = 'none'; document.getElementById('ordersPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'none'; renderProducts(); }
     function showQuests() { document.getElementById('homePage').style.display = 'none'; document.getElementById('shopPage').style.display = 'none'; document.getElementById('questsPage').style.display = 'block'; document.getElementById('ordersPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'none'; document.getElementById('referralPage').style.display = 'none'; renderQuests(); }
     
-    window.handleAuthStateChanged = function(user) { if(user) { isLoggedIn=true; currentUser=user; document.getElementById('userNameDisplay').innerText = user.displayName || user.email?.split('@')[0]; document.getElementById('userAvatarDisplay').innerHTML = user.photoURL ? `<img src="${user.photoURL}">` : `<i class="fas fa-user"></i>`; showToast(`Welcome ${user.displayName || 'User'}!`); loadAllData(); const adminBtn = document.getElementById('adminNavBtn'); if(user.email === "admin@echoknives.com") adminBtn.style.display = 'block'; else adminBtn.style.display = 'none'; } else { isLoggedIn=false; currentUser=null; document.getElementById('userNameDisplay').innerText='Guest'; document.getElementById('userAvatarDisplay').innerHTML=`<i class="fas fa-user"></i>`; loadAllData(); } renderProducts(); };
+    window.handleAuthStateChanged = function(user) { if(user) { isLoggedIn=true; currentUser=user; document.getElementById('userNameDisplay').innerText = user.displayName || user.email?.split('@')[0]; document.getElementById('userAvatarDisplay').innerHTML = user.photoURL ? `<img src="${user.photoURL}">` : `<i class="fas fa-user"></i>`; showToast(`Welcome ${user.displayName || 'User'}!`); loadAllData(); const adminBtn = document.getElementById('adminNavBtn'); if(user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; else adminBtn.style.display = 'none'; } else { isLoggedIn=false; currentUser=null; document.getElementById('userNameDisplay').innerText='Guest'; document.getElementById('userAvatarDisplay').innerHTML=`<i class="fas fa-user"></i>`; loadAllData(); } renderProducts(); };
     async function performGoogleLogin() { if(window.firebaseAuth) { try { await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } catch(e) { showToast("Login failed"); } } else showToast("Loading..."); }
     
     document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
     function createParticles() { const c = document.getElementById('particles'); for(let i=0;i<60;i++){ const p=document.createElement('div'); p.classList.add('particle'); p.style.width=(Math.random()*6+2)+'px'; p.style.left=Math.random()*100+'%'; p.style.animationDelay=Math.random()*20+'s'; p.style.animationDuration=(Math.random()*15+10)+'s'; c.appendChild(p); } }
     createParticles(); showHome(); loadAllData(); renderProducts(); 
     const savedItems = localStorage.getItem('echoknives_items'); if(savedItems) items = JSON.parse(savedItems);
-    // Start fake purchase generator
     setTimeout(generateFakePurchase, 30000);
     
     window.showHome=showHome; window.showShop=showShop; window.showQuests=showQuests; window.showOrders=showOrders; window.showAdmin=showAdmin; window.showReferral=showReferral;
@@ -438,6 +470,7 @@
     window.redeemPromoCode=redeemPromoCode; window.showCandyRedemptionConfirm=showCandyRedemptionConfirm; window.claimQuest=claimQuest;
     window.openPurchaseModal=openPurchaseModal; window.closePurchaseModal=closePurchaseModal; window.confirmAddToCart=confirmAddToCart;
     window.addInventoryItem=addInventoryItem; window.deleteItem=deleteItem; window.updateOrderStatus=updateOrderStatus; window.copyReferralLink=copyReferralLink;
+    window.editItemPrice=editItemPrice; window.editItemImage=editItemImage; window.toggleOffsale=toggleOffsale;
 </script>
 </body>
 </html>
