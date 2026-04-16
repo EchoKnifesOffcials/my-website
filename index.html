@@ -38,9 +38,6 @@
         window.dispatchEvent(new Event('firebase-ready'));
     </script>
     
-    <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=test&currency=PHP"></script>
-    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%); color: #fff; overflow-x: hidden; min-height: 100vh; }
@@ -187,8 +184,8 @@
         .modal-btn-primary { background: linear-gradient(135deg, #10b981, #059669); }
         .modal-btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
 
-        .roblox-modal, .receipt-modal, .payment-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); backdrop-filter: blur(20px); z-index: 3000; display: none; justify-content: center; align-items: center; }
-        .roblox-modal.show, .receipt-modal.show, .payment-modal.show { display: flex; }
+        .roblox-modal, .receipt-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); backdrop-filter: blur(20px); z-index: 3000; display: none; justify-content: center; align-items: center; }
+        .roblox-modal.show, .receipt-modal.show { display: flex; }
         .modal-content { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 35px; max-width: 500px; width: 90%; text-align: center; border: 1px solid #6c5ce7; }
         .roblox-avatar { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 15px; overflow: hidden; border: 3px solid #6c5ce7; }
         .btn-blue { background: #3b82f6; border: none; padding: 14px; border-radius: 60px; color: white; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; }
@@ -254,7 +251,6 @@
         <div class="hero-image"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero"></div>
     </div>
     
-    <!-- Global Purchases Section -->
     <div class="purchases-section">
         <div class="purchases-title"><i class="fas fa-globe"></i> Recent Global Purchases</div>
         <div class="purchases-grid" id="globalPurchasesList"></div>
@@ -296,13 +292,14 @@
 
 <div id="purchaseModal" class="fullscreen-modal"><div class="modal-container"><div class="modal-avatar"><img id="modalItemImg" src=""></div><div class="modal-title" id="modalItemName">Item Name</div><div class="modal-price" id="modalItemPrice">₱0</div><input type="number" id="modalQuantity" class="modal-input" placeholder="Quantity" value="1" min="1"><div class="checkbox-group"><label><input type="checkbox" id="modalIsChroma"> Chroma Version (+₱20)</label></div><div class="modal-buttons"><button class="modal-btn modal-btn-primary" onclick="confirmAddToCart()">Add to Cart</button><button class="modal-btn modal-btn-danger" onclick="closePurchaseModal()">Cancel</button></div></div></div>
 <div id="robloxModal" class="roblox-modal"><div class="modal-content"><h2><i class="fab fa-roblox"></i> Verify Roblox Account</h2><div class="roblox-avatar"><img id="robloxAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100"></div><div id="robloxDisplayName" style="margin-bottom:15px;">Enter your username</div><input type="text" id="robloxUsernameInput" class="admin-input" placeholder="Roblox Username"><button class="btn-blue" onclick="confirmRobloxAndProceed()">Yes, That's me!</button><button class="btn-red" onclick="closeRobloxModal()">Cancel</button></div></div>
-<div id="paymentModal" class="payment-modal"><div class="modal-content"><h2><i class="fab fa-paypal"></i> Complete Payment</h2><div id="paypal-button-container" class="paypal-button-container"></div><button onclick="closePaymentModal()" class="btn-red" style="margin-top:15px;">Cancel</button></div></div>
 
 <div class="toast" id="toast"></div>
 
 <script>
     const CHROMA_BOOST = 20;
     const CHROMA_IMAGE = "https://i.imgur.com/TL2F5e5.jpeg";
+    const PAYMENT_SITE_URL = "https://echoknivesmm2.onrender.com";
+    
     let items = [
         { id: 1, name: "Batwing", type: "knife", price: 152, originalPrice: 220, discount: 31, image: "https://i.imgur.com/H6CL03y.jpeg", stock: 999, onSale: true },
         { id: 2, name: "Harvester", type: "knife", price: 608, originalPrice: 850, discount: 28, image: "https://i.imgur.com/jZkbQ4t.jpeg", stock: 999, onSale: true },
@@ -412,15 +409,39 @@
     function renderAllOrders() { const container = document.getElementById('allOrdersList'); if(orders.length === 0) { container.innerHTML = '<p>No orders.</p>'; return; } container.innerHTML = orders.map(o => `<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px; margin-bottom:10px;"><div><strong>Order #${o.orderId}</strong> - ${o.userEmail}</div><div>Items: ${o.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div><div>Total: ₱${o.total}</div><div>Status: ${o.status}</div><button onclick="updateOrderStatus('${o.orderId}')" style="background:#6c5ce7; border:none; padding:5px 15px; border-radius:20px; color:white; margin-top:10px;">Mark Delivered</button></div>`).join(''); }
     function updateOrderStatus(orderId) { const order = orders.find(o => o.orderId === orderId); if(order) { order.status = 'Delivered'; localStorage.setItem('echoknives_orders', JSON.stringify(orders)); renderAllOrders(); showOrders(); showToast("Order marked delivered!"); } }
     
-    let currentOrderTotal = 0, currentOrderItems = [], currentRobloxUser = "";
+    let currentRobloxUser = "";
     function openRobloxVerification() { if (!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; } if (cart.length === 0) { showToast("Cart empty"); return; } document.getElementById('robloxUsernameInput').value = ''; document.getElementById('robloxAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=100"; document.getElementById('robloxDisplayName').innerHTML = "Enter your username"; document.getElementById('robloxModal').classList.add('show'); closeCart(); let timer; document.getElementById('robloxUsernameInput').oninput = function() { clearTimeout(timer); timer = setTimeout(() => { if (this.value.trim().length > 2) fetchRobloxAvatar(this.value.trim()); }, 500); }; }
     function closeRobloxModal() { document.getElementById('robloxModal').classList.remove('show'); }
     async function fetchRobloxAvatar(username) { if (!username) return; const img = document.getElementById('robloxAvatarImg'), display = document.getElementById('robloxDisplayName'); img.src = "https://ui-avatars.com/api/?name=Loading&background=f59e0b&color=fff&size=100"; display.innerHTML = `Looking up @${username}...`; try { const res = await fetch(`${MIDDLEMAN_URL}/api/roblox/${encodeURIComponent(username)}`); const data = await res.json(); if (data.success && data.avatarUrl) { img.src = data.avatarUrl; display.innerHTML = `Verified @${data.username}`; pendingRobloxData = data; } else { img.src = "https://ui-avatars.com/api/?name=Not+Found&background=ef4444&color=fff&size=100"; display.innerHTML = "User not found"; pendingRobloxData = null; } } catch(e) { img.src = "https://ui-avatars.com/api/?name=Error&background=ef4444&color=fff&size=100"; display.innerHTML = "Connection error"; } }
-    function confirmRobloxAndProceed() { const username = document.getElementById('robloxUsernameInput').value.trim(); if (!username) { showToast("Enter Roblox username"); return; } if (!pendingRobloxData) { showToast("Wait for avatar to load"); return; } currentRobloxUser = username; document.getElementById('robloxModal').classList.remove('show'); completeQuest('robloxLinked'); openPaymentModal(); }
-    function openPaymentModal() { currentOrderItems = [...cart]; currentOrderTotal = cart.reduce((s,i)=>s+(i.price*i.quantity),0); document.getElementById('paymentModal').classList.add('show'); renderPayPalButton(); }
-    function closePaymentModal() { document.getElementById('paymentModal').classList.remove('show'); }
-    function renderPayPalButton() { const container = document.getElementById('paypal-button-container'); container.innerHTML = ''; if(window.paypal) { window.paypal.Buttons({ createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: currentOrderTotal.toFixed(2), currency_code: 'PHP' } }] }), onApprove: async (data, actions) => { const details = await actions.order.capture(); processOrder(details); } }).render('#paypal-button-container'); } else { container.innerHTML = '<p>PayPal loading...</p>'; } }
-    function processOrder(paymentDetails) { const orderId = 'ECHO-' + Date.now().toString(36).toUpperCase(); const newOrder = { orderId, userEmail: currentUser.email, robloxUser: currentRobloxUser, items: currentOrderItems.map(i => ({ name: i.name, quantity: i.quantity, price: i.price })), total: currentOrderTotal, status: 'Processing', date: new Date().toISOString(), transactionId: paymentDetails.id }; orders.unshift(newOrder); localStorage.setItem('echoknives_orders', JSON.stringify(orders)); currentOrderItems.forEach(item => { addGlobalPurchase(item.name, false); }); completeQuest('firstPurchase'); addPoints(100); cart = []; updateCartUI(); closePaymentModal(); showToast(`Order placed! Delivery to @${currentRobloxUser} within 5-15 min.`); showOrders(); }
+    function confirmRobloxAndProceed() { 
+        const username = document.getElementById('robloxUsernameInput').value.trim(); 
+        if (!username) { showToast("Enter Roblox username"); return; } 
+        if (!pendingRobloxData) { showToast("Wait for avatar to load"); return; } 
+        currentRobloxUser = username; 
+        document.getElementById('robloxModal').classList.remove('show'); 
+        completeQuest('robloxLinked'); 
+        
+        // Prepare order data for payment site
+        const orderData = {
+            orderId: 'ECHO-' + Date.now().toString(36).toUpperCase(),
+            items: cart.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity, total: i.price * i.quantity })),
+            subtotal: cart.reduce((s, i) => s + (i.price * i.quantity), 0),
+            robloxUser: username,
+            robloxDisplayName: pendingRobloxData.displayName,
+            customerEmail: currentUser?.email || '',
+            customerName: currentUser?.displayName || '',
+            currency: currentCurrency,
+            symbol: getSymbol(),
+            timestamp: Date.now()
+        };
+        
+        sessionStorage.setItem('echoknives_order', JSON.stringify(orderData));
+        const cartParam = encodeURIComponent(JSON.stringify(orderData.items));
+        const returnUrl = encodeURIComponent(window.location.origin + window.location.pathname);
+        
+        // Redirect to payment site with cart data
+        window.location.href = `${PAYMENT_SITE_URL}?cart=${cartParam}&roblox=${encodeURIComponent(username)}&order_id=${orderData.orderId}&return=${returnUrl}`;
+    }
     
     function openPurchaseModal(item) { if(!item.onSale) { showToast("This item is currently offsale"); return; } selectedItemForModal = { ...item }; document.getElementById('modalItemImg').src = item.image; document.getElementById('modalItemName').innerHTML = item.name; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(item.price)}`; document.getElementById('modalQuantity').value = 1; const chromaCheckbox = document.getElementById('modalIsChroma'); chromaCheckbox.checked = false; chromaCheckbox.onchange = function() { const price = this.checked ? (item.price + CHROMA_BOOST) : item.price; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(price)}`; document.getElementById('modalItemImg').src = this.checked ? CHROMA_IMAGE : item.image; }; document.getElementById('purchaseModal').classList.add('show'); }
     function closePurchaseModal() { document.getElementById('purchaseModal').classList.remove('show'); selectedItemForModal = null; }
@@ -466,7 +487,7 @@
     window.showHome=showHome; window.showShop=showShop; window.showQuests=showQuests; window.showOrders=showOrders; window.showAdmin=showAdmin; window.showReferral=showReferral;
     window.addToCart=addToCart; window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.toggleCart=toggleCart; window.closeCart=closeCart;
     window.changeCurrency=changeCurrency; window.performGoogleLogin=performGoogleLogin; window.openRobloxVerification=openRobloxVerification; window.closeRobloxModal=closeRobloxModal;
-    window.confirmRobloxAndProceed=confirmRobloxAndProceed; window.closePaymentModal=closePaymentModal;
+    window.confirmRobloxAndProceed=confirmRobloxAndProceed;
     window.redeemPromoCode=redeemPromoCode; window.showCandyRedemptionConfirm=showCandyRedemptionConfirm; window.claimQuest=claimQuest;
     window.openPurchaseModal=openPurchaseModal; window.closePurchaseModal=closePurchaseModal; window.confirmAddToCart=confirmAddToCart;
     window.addInventoryItem=addInventoryItem; window.deleteItem=deleteItem; window.updateOrderStatus=updateOrderStatus; window.copyReferralLink=copyReferralLink;
