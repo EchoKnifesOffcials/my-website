@@ -54,7 +54,7 @@
         ::-webkit-scrollbar-track { background: #1a1a3e; }
         ::-webkit-scrollbar-thumb { background: #6c5ce7; border-radius: 10px; }
 
-        /* Header & Navigation */
+        /* Header */
         .header { background: rgba(15, 12, 41, 0.85); backdrop-filter: blur(10px); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(108, 92, 231, 0.3); flex-wrap: wrap; gap: 15px; }
         .logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
         .logo-icon { font-size: 32px; color: #6c5ce7; }
@@ -132,17 +132,14 @@
         .quests-section { max-height: 70vh; overflow-y: auto; padding-right: 10px; }
         .quests-grid { display: flex; flex-direction: column; gap: 15px; }
         .quest-card, .promo-card { background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; border: 1px solid rgba(108,92,231,0.4); }
-        .quest-card:hover { transform: translateX(5px); border-color: #6c5ce7; }
         .claim-btn, .redeem-btn { background: #10b981; border: none; padding: 10px 20px; border-radius: 30px; color: white; font-weight: 600; cursor: pointer; margin-top: 12px; width: 100%; }
         .candy-redeem, .sunrise-points-redeem { background: linear-gradient(135deg, #f59e0b, #d97706); text-align: center; cursor: pointer; }
 
-        /* Premium Modals */
+        /* Modals */
         .premium-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.96); backdrop-filter: blur(20px); z-index: 10000; display: none; justify-content: center; align-items: center; }
         .premium-modal.show { display: flex; }
-        .premium-modal-content { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 40px; padding: 40px; max-width: 500px; width: 90%; text-align: center; border: 1px solid #6c5ce7; box-shadow: 0 0 50px rgba(108,92,231,0.4); animation: modalPop 0.3s ease; }
-        @keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .premium-modal-content { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 40px; padding: 40px; max-width: 500px; width: 90%; text-align: center; border: 1px solid #6c5ce7; box-shadow: 0 0 50px rgba(108,92,231,0.4); }
         .premium-avatar { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 20px; overflow: hidden; border: 3px solid #6c5ce7; }
-        .premium-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .premium-title { font-size: 28px; font-weight: 800; font-family: 'Orbitron', monospace; margin-bottom: 10px; background: linear-gradient(135deg, #fff, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .premium-details { background: rgba(0,0,0,0.3); border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left; }
         .premium-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -153,7 +150,6 @@
         .btn-add { background: #ec4899; }
         .btn-cancel { background: #3b82f6; }
         .btn-confirm { background: #10b981; }
-        .btn-close { background: #6c5ce7; }
         .age-notice { background: rgba(239,68,68,0.2); padding: 12px; border-radius: 20px; margin-top: 15px; font-size: 12px; color: #fca5a5; }
 
         /* Orders & Chat */
@@ -307,13 +303,7 @@
     <div class="admin-panel"><h3>All Orders</h3><div id="allOrdersList"></div></div>
 </div>
 
-<!-- Premium Modals -->
-<div id="joinCommandModal" class="premium-modal"><div class="premium-modal-content"><div class="premium-avatar"><img id="cmdAvatarImg" src="https://tr.rbxcdn.com/30d9e0ab1c9b2a8e3f4b5c6d7e8f9a0b/120/120/Image/Png"></div><div class="premium-title">Sigmake5</div><p id="cmdDisplayName">sigmake5</p><div class="premium-buttons"><button class="premium-btn btn-join" onclick="joinBotServer()"><i class="fas fa-users"></i> Join Bot</button><button class="premium-btn btn-add" onclick="addBotFriend()"><i class="fas fa-user-plus"></i> Add Bot</button><button class="premium-btn btn-cancel" onclick="closeJoinCommandModal()"><i class="fas fa-times"></i> Cancel</button></div><div class="age-notice"><i class="fas fa-exclamation-triangle"></i> If your account is under 13, you MUST add the bot and join the server after adding them back.</div></div></div>
-
-<div id="promoCodeModal" class="premium-modal"><div class="premium-modal-content"><div class="premium-title"><i class="fas fa-ticket-alt"></i> Redeem Promo Code</div><input type="text" id="promoCodeInputModal" class="admin-input" placeholder="Enter Promo Code" style="text-align:center; margin:20px 0;"><div class="premium-buttons"><button class="premium-btn btn-confirm" onclick="confirmPromoCodeRedeem()">Redeem</button><button class="premium-btn btn-cancel" onclick="closePromoCodeModal()">Cancel</button></div></div></div>
-
-<div id="redemptionConfirmModal" class="premium-modal"><div class="premium-modal-content"><div class="premium-title" id="redemptionTitle">Confirm Redemption</div><div id="redemptionDetails" class="premium-details"></div><div class="premium-buttons"><button class="premium-btn btn-confirm" id="confirmRedemptionBtn">Confirm</button><button class="premium-btn btn-cancel" onclick="closeRedemptionModal()">Cancel</button></div></div></div>
-
+<!-- Modals -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
     <div class="cart-header"><h3>Your Cart</h3><button class="close-cart" onclick="closeCart()">×</button></div>
@@ -327,6 +317,12 @@
 <div id="robloxModal" class="premium-modal"><div class="premium-modal-content"><h2><i class="fab fa-roblox"></i> Verify Roblox Account</h2><div class="premium-avatar"><img id="robloxAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120"></div><div id="robloxDisplayName" style="margin-bottom:15px;">Enter your username</div><input type="text" id="robloxUsernameInput" class="admin-input" placeholder="Roblox Username"><div class="premium-buttons"><button class="premium-btn btn-confirm" onclick="confirmRobloxAndSave()">Link Account</button><button class="premium-btn btn-cancel" onclick="closeRobloxModal()">Cancel</button></div></div></div>
 
 <div id="receiptModal" class="premium-modal"><div class="premium-modal-content"><div class="receipt-icon"><i class="fas fa-check-circle"></i></div><div id="receiptDetails"></div><button onclick="closeReceipt()" class="premium-btn btn-confirm" style="margin-top:15px;">Done</button></div></div>
+
+<div id="joinCommandModal" class="premium-modal"><div class="premium-modal-content"><div class="premium-avatar"><img id="cmdAvatarImg" src="https://tr.rbxcdn.com/30d9e0ab1c9b2a8e3f4b5c6d7e8f9a0b/120/120/Image/Png"></div><div class="premium-title">Sigmake5</div><p id="cmdDisplayName">sigmake5</p><div class="premium-buttons"><button class="premium-btn btn-join" onclick="joinBotServer()"><i class="fas fa-users"></i> Join Bot</button><button class="premium-btn btn-add" onclick="addBotFriend()"><i class="fas fa-user-plus"></i> Add Bot</button><button class="premium-btn btn-cancel" onclick="closeJoinCommandModal()"><i class="fas fa-times"></i> Cancel</button></div><div class="age-notice"><i class="fas fa-exclamation-triangle"></i> If your account is under 13, you MUST add the bot and join the server after adding them back.</div></div></div>
+
+<div id="promoCodeModal" class="premium-modal"><div class="premium-modal-content"><div class="premium-title"><i class="fas fa-ticket-alt"></i> Redeem Promo Code</div><input type="text" id="promoCodeInputModal" class="admin-input" placeholder="Enter Promo Code" style="text-align:center; margin:20px 0;"><div class="premium-buttons"><button class="premium-btn btn-confirm" onclick="confirmPromoCodeRedeem()">Redeem</button><button class="premium-btn btn-cancel" onclick="closePromoCodeModal()">Cancel</button></div></div></div>
+
+<div id="redemptionConfirmModal" class="premium-modal"><div class="premium-modal-content"><div class="premium-title" id="redemptionTitle">Confirm Redemption</div><div id="redemptionDetails" class="premium-details"></div><div class="premium-buttons"><button class="premium-btn btn-confirm" id="confirmRedemptionBtn">Confirm</button><button class="premium-btn btn-cancel" onclick="closeRedemptionModal()">Cancel</button></div></div></div>
 
 <div class="toast" id="toast"></div>
 
@@ -371,8 +367,15 @@
     let currentOrderTab = "all";
     let pendingRedemptionCallback = null;
     
-    let quests = { firstPurchase: { name: "First Purchase", reward: 50, completed: false, claimed: false, desc: "Buy your first item" }, dailyVisit: { name: "Daily Visit", reward: 50, completed: false, claimed: false, desc: "Visit the shop today" }, addToCart: { name: "Cart Master", reward: 50, completed: false, claimed: false, desc: "Add 3 items to cart" }, shareShop: { name: "Social Share", reward: 50, completed: false, claimed: false, desc: "Share ECHOKNIVES" }, robloxLinked: { name: "Roblox Linked", reward: 50, completed: false, claimed: false, desc: "Link your Roblox account" } };
+    let quests = { 
+        firstPurchase: { name: "First Purchase", reward: 50, completed: false, claimed: false, desc: "Buy your first item" }, 
+        dailyVisit: { name: "Daily Visit", reward: 50, completed: false, claimed: false, desc: "Visit the shop today" }, 
+        addToCart: { name: "Cart Master", reward: 50, completed: false, claimed: false, desc: "Add 3 items to cart" }, 
+        shareShop: { name: "Social Share", reward: 50, completed: false, claimed: false, desc: "Share ECHOKNIVES" }, 
+        robloxLinked: { name: "Roblox Linked", reward: 50, completed: false, claimed: false, desc: "Link your Roblox account" } 
+    };
     
+    // Helper functions
     function convertPHPtoCurrency(phpPrice) { let rate = exchangeRates[currentCurrency] || 1; return (phpPrice / 56.5) * rate; }
     function getDisplayPrice(phpPrice) { return convertPHPtoCurrency(phpPrice).toFixed(2); }
     function getSymbol() { return currencySymbols[currentCurrency] || "$"; }
@@ -386,6 +389,7 @@
     function showContactUs() { closeSideMenu(); showToast("Contact us at support@echoknives.com"); }
     function showReview() { closeSideMenu(); window.open("https://forms.gle/your-review-link", "_blank"); }
     
+    // Discord webhook
     async function sendDiscordNotification(type, data) {
         let content = "";
         if (type === "order") content = `**🛒 New Order Placed!**\nOrder ID: ${data.orderId}\nUser: ${data.userEmail}\nRoblox: ${data.robloxUser}\nItems: ${data.items}\nTotal: ${data.total}`;
@@ -395,6 +399,7 @@
         try { await fetch(DISCORD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content }) }); } catch(e) {}
     }
     
+    // Global purchases
     function addGlobalPurchase(itemName, isFake=false) { 
         globalPurchases.unshift({ item: itemName, time: new Date().toLocaleString(), fake: isFake }); 
         if(globalPurchases.length>20) globalPurchases.pop(); 
@@ -409,6 +414,7 @@
         container.innerHTML = globalPurchases.slice(0,8).map(p => `<div class="purchase-card"><div class="purchase-icon"><i class="fas fa-shopping-bag"></i></div><div class="purchase-details"><div class="purchase-item">${p.item}</div><div class="purchase-time">${p.time}</div></div><div class="purchase-amount">${getSymbol()}${getDisplayPrice(items.find(i=>i.name===p.item)?.price || 100)}</div></div>`).join(''); 
     }
     
+    // User data & quests
     function loadAllData() { 
         const s = localStorage.getItem('echoknives_complete'); 
         if(s) { try { const d = JSON.parse(s); userPoints = d.points||0; quests = d.quests||quests; candyRedeemed = d.candyRedeemed||false; sunriseRedeemed = d.sunriseRedeemed||false; referralCount = d.referralCount||0; } catch(e){} } 
@@ -573,6 +579,7 @@
         window.location.href = `${PAYMENT_SITE_URL}?cart=${cartParam}&roblox=${encodeURIComponent(verifiedRobloxUser.username)}&order_id=${orderData.orderId}&return=${returnUrl}`;
     }
     
+    // Shop functions
     function openPurchaseModal(item) { if(!item.onSale) { showToast("This item is currently offsale"); return; } selectedItemForModal = {...item}; document.getElementById('modalItemImg').src = item.image; document.getElementById('modalItemName').innerHTML = item.name; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(item.price)}`; document.getElementById('modalQuantity').value = 1; const chromaCheckbox = document.getElementById('modalIsChroma'); chromaCheckbox.checked = false; chromaCheckbox.onchange = function() { const price = this.checked ? (item.price + CHROMA_BOOST) : item.price; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(price)}`; document.getElementById('modalItemImg').src = this.checked ? CHROMA_IMAGE : item.image; }; document.getElementById('purchaseModal').classList.add('show'); }
     function closePurchaseModal() { document.getElementById('purchaseModal').classList.remove('show'); selectedItemForModal = null; }
     function confirmAddToCart() { if(!selectedItemForModal) return; const quantity = parseInt(document.getElementById('modalQuantity').value)||1; const isChroma = document.getElementById('modalIsChroma').checked; let finalPrice = selectedItemForModal.price; if(isChroma) finalPrice = selectedItemForModal.price + CHROMA_BOOST; const itemName = isChroma ? `✨ ${selectedItemForModal.name} (Chroma)` : selectedItemForModal.name; const existing = cart.find(i=>i.id===selectedItemForModal.id && i.isChroma===isChroma); if(existing) existing.quantity += quantity; else cart.push({...selectedItemForModal, name:itemName, price:finalPrice, quantity, isChroma}); updateCartUI(); showToast(`${quantity}x ${itemName} added`); if(cart.length>=3) completeQuest('addToCart'); closePurchaseModal(); }
@@ -580,7 +587,7 @@
         const allItems = [...items, CANDY_ITEM]; 
         let filtered = allItems.filter(i => { if(currentFilter==='knife') return i.type==='knife'; if(currentFilter==='gun') return i.type==='gun'; return true; });
         if(currentSearchTerm) filtered = filtered.filter(i=>i.name.toLowerCase().includes(currentSearchTerm));
-        document.getElementById('productsGrid').innerHTML = filtered.map(item => { const discountPercent = item.discount || Math.round((1-item.price/item.originalPrice)*100); return `<div class="product-card ${!item.onSale?'offsale':''}" onclick="openPurchaseModal(${JSON.stringify(item).replace(/"/g,'&quot;')})">${discountPercent>0 && item.onSale ? `<div class="discount-badge">-${discountPercent}%</div>` : ''}${!item.onSale ? `<div class="offsale-badge">Offsale</div>` : ''}<div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/200x200/6c5ce7/white?text=${item.name.charAt(0)}'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${item.originalPrice && item.onSale ? `<span class="original-price">${getSymbol()}${getDisplayPrice(item.originalPrice)}</span>` : ''}${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`; }).join(''); 
+        document.getElementById('productsGrid').innerHTML = filtered.map(item => { const discountPercent = item.discount || Math.round((1-item.price/item.originalPrice)*100); return `<div class="product-card ${!item.onSale?'offsale':''}" onclick="openPurchaseModal(${JSON.stringify(item).replace(/"/g,'&quot;')})">${discountPercent>0 && item.onSale ? `<div class="discount-badge">-${discountPercent}%</div>` : ''}<div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/200x200/6c5ce7/white?text=${item.name.charAt(0)}'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`; }).join(''); 
     }
     function updateCartUI() { let total = cart.reduce((s,i)=>s+(i.price*i.quantity),0); const count = cart.reduce((s,i)=>s+i.quantity,0); document.getElementById('cartCount').innerText = count; document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`; const c = document.getElementById('cartItemsList'); if(cart.length===0){ c.innerHTML='<p style="text-align:center;">Cart empty</p>'; return; } c.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity-1}, ${!!item.isChroma})">-</button> <span style="margin:0 8px;">${item.quantity}</span> <button onclick="updateQty(${item.id}, ${item.quantity+1}, ${!!item.isChroma})">+</button> <button onclick="removeFromCart(${item.id}, ${!!item.isChroma})"><i class="fas fa-trash"></i></button></div></div>`).join(''); }
     function updateQty(id,n,isChroma) { if(n<=0) removeFromCart(id,isChroma); else { const i = cart.find(i=>i.id===id && (i.isChroma||false)===isChroma); if(i) i.quantity=n; updateCartUI(); } }
@@ -593,33 +600,12 @@
     function closeReceipt() { document.getElementById('receiptModal').classList.remove('show'); }
     function hideAllPages() { ['homePage','shopPage','questsPage','ordersChatPage','adminPage','referralPage','profilePanel'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; }); }
     
+    // Auth
     window.handleAuthStateChanged = function(user) { 
         if(user) { isLoggedIn=true; currentUser=user; updateHeaderDisplay(); loadAllData(); const adminBtn = document.getElementById('adminNavBtn'); if(user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; else adminBtn.style.display = 'none'; if(user.email === ADMIN_EMAIL) { const tabsDiv = document.getElementById('adminOrderTabs'); if(tabsDiv) tabsDiv.style.display = 'block'; } showToast(`Welcome ${user.displayName || 'User'}!`); } else { isLoggedIn=false; currentUser=null; updateHeaderDisplay(); loadAllData(); document.getElementById('adminNavBtn').style.display = 'none'; const tabsDiv = document.getElementById('adminOrderTabs'); if(tabsDiv) tabsDiv.style.display = 'none'; } renderProducts(); };
     async function performGoogleLogin() { if(window.firebaseAuth) { try { await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } catch(e) { showToast("Login failed"); } } else showToast("Loading..."); }
     
-    document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
-    function createParticles() { const c = document.getElementById('particles'); for(let i=0;i=3) completeQuest('addToCart'); closePurchaseModal(); }
-    function renderProducts() { 
-        const allItems = [...items, CANDY_ITEM]; 
-        let filtered = allItems.filter(i => { if(currentFilter==='knife') return i.type==='knife'; if(currentFilter==='gun') return i.type==='gun'; return true; });
-        if(currentSearchTerm) filtered = filtered.filter(i=>i.name.toLowerCase().includes(currentSearchTerm));
-        document.getElementById('productsGrid').innerHTML = filtered.map(item => { const discountPercent = item.discount || Math.round((1-item.price/item.originalPrice)*100); return `<div class="product-card ${!item.onSale?'offsale':''}" onclick="openPurchaseModal(${JSON.stringify(item).replace(/"/g,'&quot;')})">${discountPercent>0 && item.onSale ? `<div class="discount-badge">-${discountPercent}%</div>` : ''}${!item.onSale ? `<div class="offsale-badge">Offsale</div>` : ''}<div class="product-image"><img src="${item.image}" onerror="this.src='https://placehold.co/200x200/6c5ce7/white?text=${item.name.charAt(0)}'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${item.originalPrice && item.onSale ? `<span class="original-price">${getSymbol()}${getDisplayPrice(item.originalPrice)}</span>` : ''}${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`; }).join(''); 
-    }
-    function updateCartUI() { let total = cart.reduce((s,i)=>s+(i.price*i.quantity),0); const count = cart.reduce((s,i)=>s+i.quantity,0); document.getElementById('cartCount').innerText = count; document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`; const c = document.getElementById('cartItemsList'); if(cart.length===0){ c.innerHTML='<p style="text-align:center;">Cart empty</p>'; return; } c.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity-1}, ${!!item.isChroma})">-</button> <span style="margin:0 8px;">${item.quantity}</span> <button onclick="updateQty(${item.id}, ${item.quantity+1}, ${!!item.isChroma})">+</button> <button onclick="removeFromCart(${item.id}, ${!!item.isChroma})"><i class="fas fa-trash"></i></button></div></div>`).join(''); }
-    function updateQty(id,n,isChroma) { if(n<=0) removeFromCart(id,isChroma); else { const i = cart.find(i=>i.id===id && (i.isChroma||false)===isChroma); if(i) i.quantity=n; updateCartUI(); } }
-    function removeFromCart(id,isChroma) { cart = cart.filter(i=>!(i.id===id && (i.isChroma||false)===isChroma)); updateCartUI(); }
-    function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
-    function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
-    function showHome() { hideAllPages(); document.getElementById('homePage').style.display = 'block'; renderGlobalPurchases(); }
-    function showShop() { hideAllPages(); document.getElementById('shopPage').style.display = 'block'; renderProducts(); }
-    function showQuests() { hideAllPages(); document.getElementById('questsPage').style.display = 'block'; renderQuests(); }
-    function closeReceipt() { document.getElementById('receiptModal').classList.remove('show'); }
-    function hideAllPages() { ['homePage','shopPage','questsPage','ordersChatPage','adminPage','referralPage','profilePanel'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; }); }
-    
-    window.handleAuthStateChanged = function(user) { 
-        if(user) { isLoggedIn=true; currentUser=user; updateHeaderDisplay(); loadAllData(); const adminBtn = document.getElementById('adminNavBtn'); if(user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; else adminBtn.style.display = 'none'; if(user.email === ADMIN_EMAIL) { const tabsDiv = document.getElementById('adminOrderTabs'); if(tabsDiv) tabsDiv.style.display = 'block'; } showToast(`Welcome ${user.displayName || 'User'}!`); } else { isLoggedIn=false; currentUser=null; updateHeaderDisplay(); loadAllData(); document.getElementById('adminNavBtn').style.display = 'none'; const tabsDiv = document.getElementById('adminOrderTabs'); if(tabsDiv) tabsDiv.style.display = 'none'; } renderProducts(); };
-    async function performGoogleLogin() { if(window.firebaseAuth) { try { await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } catch(e) { showToast("Login failed"); } } else showToast("Loading..."); }
-    
+    // Filters
     document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
     function createParticles() { const c = document.getElementById('particles'); for(let i=0;i<80;i++){ const p=document.createElement('div'); p.classList.add('particle'); p.style.width=(Math.random()*6+2)+'px'; p.style.left=Math.random()*100+'%'; p.style.animationDelay=Math.random()*20+'s'; p.style.animationDuration=(Math.random()*15+10)+'s'; c.appendChild(p); } }
     createParticles(); showHome(); loadAllData(); renderProducts(); 
@@ -627,6 +613,7 @@
     if(verifiedRobloxUser) updateHeaderDisplay();
     setInterval(() => { const fakeItems = ["Batwing","Harvester","Icewing","Luger","Darkbringer","Lightbringer","Candy","Ice Piercer","Ice Breaker","Sunset","Sunrise"]; addGlobalPurchase(fakeItems[Math.floor(Math.random()*fakeItems.length)], true); }, 45000);
     
+    // Global exports
     window.showHome=showHome; window.showShop=showShop; window.showQuests=showQuests; window.showOrdersAndChat=showOrdersAndChat; window.showAdmin=showAdmin; window.showReferral=showReferral; window.openProfilePanel=openProfilePanel;
     window.addToCart=addToCart; window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.toggleCart=toggleCart; window.closeCart=closeCart;
     window.changeCurrency=changeCurrency; window.performGoogleLogin=performGoogleLogin; window.performGoogleLogout=performGoogleLogout;
@@ -636,10 +623,10 @@
     window.openPurchaseModal=openPurchaseModal; window.closePurchaseModal=closePurchaseModal; window.confirmAddToCart=confirmAddToCart;
     window.addInventoryItem=addInventoryItem; window.deleteItem=deleteItem; window.updateOrderStatus=updateOrderStatus; window.copyReferralLink=copyReferralLink;
     window.editItemPrice=editItemPrice; window.editItemImage=editItemImage; window.toggleOffsale=toggleOffsale; window.closeReceipt=closeReceipt;
-    window.selectOrder=selectOrder; window.sendChatMessage=sendChatMessage; window.closeCommandModal=closeCommandModal; window.joinBotServer=joinBotServer; window.addBotFriend=addBotFriend;
+    window.selectOrder=selectOrder; window.sendChatMessage=sendChatMessage; window.closeJoinCommandModal=closeJoinCommandModal; window.joinBotServer=joinBotServer; window.addBotFriend=addBotFriend;
     window.filterProducts=filterProducts; window.showOrderTab=showOrderTab; window.toggleSideMenu=toggleSideMenu; window.closeSideMenu=closeSideMenu; window.showSettings=showSettings; window.showPurchaseHistory=showPurchaseHistory; window.showContactUs=showContactUs; window.showReview=showReview;
     window.openPromoCodeModal=openPromoCodeModal; window.closePromoCodeModal=closePromoCodeModal; window.confirmPromoCodeRedeem=confirmPromoCodeRedeem;
-    window.showJoinCommandModal=showJoinCommandModal; window.closeJoinCommandModal=closeJoinCommandModal;
+    window.showJoinCommandModal=showJoinCommandModal;
 </script>
 </body>
 </html>
