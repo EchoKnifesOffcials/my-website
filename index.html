@@ -107,7 +107,7 @@
         .game-card { background: linear-gradient(135deg, rgba(30,20,25,0.95), rgba(20,15,20,0.98)); border-radius: 20px; aspect-ratio: 1; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(108,92,231,0.3); display: flex; align-items: center; justify-content: center; }
         .game-card:hover:not(.revealed) { transform: scale(1.05); border-color: #6c5ce7; }
         .game-card.revealed { cursor: default; opacity: 0.9; }
-        .game-card img { width: 70%; height: 70%; object-fit: contain; }
+        .game-card img { width: 70%; height: 70%; object-fit: contain; border-radius: 20px; }
         .game-card .bomb-icon { font-size: 48px; color: #ef4444; }
         .game-result { margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 20px; text-align: center; display: none; }
         .result-win { color: #10b981; }
@@ -380,6 +380,7 @@
     function showPurchaseHistory() { closeSideMenu(); showOrdersAndChat(); }
     function showContactUs() { closeSideMenu(); showToast("Contact us at support@echoknives.com"); }
     function showReview() { closeSideMenu(); window.open("https://forms.gle/your-review-link", "_blank"); }
+    function showReferral() { showToast("Referral system coming soon!"); }
     
     async function sendDiscordNotification(title, description, fields) {
         try {
@@ -456,8 +457,9 @@
         renderGameGrid();
         document.getElementById('gameResult').style.display = 'none';
         document.getElementById('resetGameBtn').style.display = 'none';
-        document.getElementById('playGameBtn').disabled = true;
-        document.getElementById('playGameBtn').innerText = "Game in progress...";
+        const playBtn = document.getElementById('playGameBtn');
+        playBtn.disabled = true;
+        playBtn.innerText = "Game in progress...";
     }
     
     function renderGameGrid() {
@@ -465,7 +467,7 @@
         if(!grid) return;
         grid.innerHTML = gameCards.map((card, idx) => `
             <div class="game-card ${selectedIndices.includes(idx) ? 'revealed' : ''}" onclick="selectCard(${idx})">
-                ${selectedIndices.includes(idx) ? (card.type === 'bomb' ? '<div class="bomb-icon">💣</div>' : `<img src="${card.image}" alt="${card.name}">`) : '<div style="font-size: 32px; color: #6c5ce7;">❓</div>'}
+                ${selectedIndices.includes(idx) ? (card.type === 'bomb' ? '<div class="bomb-icon">💣</div>' : `<img src="${card.image}" alt="${card.name}" style="border-radius: 20px;">`) : '<div style="font-size: 32px; color: #6c5ce7;">❓</div>'}
             </div>
         `).join('');
     }
@@ -497,8 +499,9 @@
                 document.getElementById('gameResult').style.display = 'block';
             }
             document.getElementById('resetGameBtn').style.display = 'block';
-            document.getElementById('playGameBtn').disabled = false;
-            document.getElementById('playGameBtn').innerText = "Start New Game";
+            const playBtn = document.getElementById('playGameBtn');
+            playBtn.disabled = false;
+            playBtn.innerText = "Start New Game";
         }
     }
     
@@ -509,8 +512,9 @@
         renderGameGrid();
         document.getElementById('gameResult').style.display = 'none';
         document.getElementById('resetGameBtn').style.display = 'none';
-        document.getElementById('playGameBtn').disabled = false;
-        document.getElementById('playGameBtn').innerText = "Start New Game";
+        const playBtn = document.getElementById('playGameBtn');
+        playBtn.disabled = false;
+        playBtn.innerText = "Start New Game";
     }
     
     // ========== SHOP FUNCTIONS ==========
@@ -526,7 +530,7 @@
         document.getElementById('productsGrid').innerHTML = filtered.map(item => `<div class="product-card" onclick="openPurchaseModal(${item.id})"><div class="discount-badge">-${item.discount}%</div><div class="product-image"><img src="${item.image}"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`).join('');
     }
     
-    function openPurchaseModal(id) { const item = items.find(i=>i.id===id); selectedItemForModal = {...item}; document.getElementById('modalItemImg').src = item.image; document.getElementById('modalItemName').innerHTML = item.name; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(item.price)}`; document.getElementById('modalQuantity').value = 1; document.getElementById('purchaseModal').classList.add('show'); }
+    function openPurchaseModal(id) { const item = items.find(i=>i.id===id); selectedItemForModal = {...item}; document.getElementById('modalItemImg').src = item.image; document.getElementById('modalItemName').innerHTML = item.name; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(item.price)}`; document.getElementById('modalQuantity').value = 1; document.getElementById('modalIsChroma').checked = false; document.getElementById('purchaseModal').classList.add('show'); }
     function closePurchaseModal() { document.getElementById('purchaseModal').classList.remove('show'); selectedItemForModal = null; }
     function confirmAddToCart() { if(!selectedItemForModal) return; const quantity = parseInt(document.getElementById('modalQuantity').value)||1; const isChroma = document.getElementById('modalIsChroma').checked; let finalPrice = selectedItemForModal.price; if(isChroma) finalPrice = selectedItemForModal.price + 20; const itemName = isChroma ? `✨ ${selectedItemForModal.name} (Chroma)` : selectedItemForModal.name; const existing = cart.find(i=>i.id===selectedItemForModal.id && i.isChroma===isChroma); if(existing) existing.quantity += quantity; else cart.push({...selectedItemForModal, name:itemName, price:finalPrice, quantity, isChroma}); updateCartUI(); showToast(`${quantity}x ${itemName} added`); closePurchaseModal(); }
     
@@ -548,7 +552,7 @@
     // ========== PROFILE & ROBLOX ==========
     function openProfilePanel() { if(!isLoggedIn) { performGoogleLogin(); return; } hideAllPages(); document.getElementById('profilePanel').style.display='block'; updateProfilePanel(); }
     function updateProfilePanel() { if(verifiedRobloxUser) { document.getElementById('profileAvatarImg').src = verifiedRobloxUser.avatarUrl; document.getElementById('profileRobloxStatus').innerHTML = `✅ @${verifiedRobloxUser.username}`; } else { document.getElementById('profileAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120"; document.getElementById('profileRobloxStatus').innerHTML = "Not linked"; } document.getElementById('profilePoints').innerText = userPoints; document.getElementById('profileLuckBalance').innerText = luckBalance; document.getElementById('profileName').innerText = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Guest'; }
-    function updateHeaderDisplay() { if(verifiedRobloxUser && verifiedRobloxUser.avatarUrl) { document.getElementById('userAvatarDisplay').innerHTML = `<img src="${verifiedRobloxUser.avatarUrl}">`; document.getElementById('userNameDisplay').innerHTML = `🎮 ${verifiedRobloxUser.username}`; } else if(currentUser) { document.getElementById('userNameDisplay').innerText = currentUser.displayName || currentUser.email?.split('@')[0]; document.getElementById('userAvatarDisplay').innerHTML = currentUser.photoURL ? `<img src="${currentUser.photoURL}">` : `<i class="fas fa-user"></i>`; } else { document.getElementById('userNameDisplay').innerText = 'Guest'; document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`; } }
+    function updateHeaderDisplay() { if(verifiedRobloxUser && verifiedRobloxUser.avatarUrl) { document.getElementById('userAvatarDisplay').innerHTML = `<img src="${verifiedRobloxUser.avatarUrl}" style="width:100%; height:100%; object-fit:cover;">`; document.getElementById('userNameDisplay').innerHTML = `🎮 ${verifiedRobloxUser.username}`; } else if(currentUser) { document.getElementById('userNameDisplay').innerText = currentUser.displayName || currentUser.email?.split('@')[0]; document.getElementById('userAvatarDisplay').innerHTML = currentUser.photoURL ? `<img src="${currentUser.photoURL}" style="width:100%; height:100%; object-fit:cover;">` : `<i class="fas fa-user"></i>`; } else { document.getElementById('userNameDisplay').innerText = 'Guest'; document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`; } }
     async function fetchRobloxAvatar(username) { if(!username) return; const img = document.getElementById('robloxAvatarImg'), display = document.getElementById('robloxDisplayName'); img.src="https://ui-avatars.com/api/?name=Loading&background=f59e0b&color=fff&size=120"; display.innerHTML=`Looking up @${username}...`; try { const res = await fetch(`${MIDDLEMAN_URL}/api/roblox/${encodeURIComponent(username)}`); const data = await res.json(); if(data.success && data.avatarUrl) { img.src=data.avatarUrl; display.innerHTML=`Verified @${data.username}`; pendingRobloxData=data; } else { img.src="https://ui-avatars.com/api/?name=Not+Found&background=ef4444&color=fff&size=120"; display.innerHTML="User not found"; pendingRobloxData=null; } } catch(e) { img.src="https://ui-avatars.com/api/?name=Error&background=ef4444&color=fff&size=120"; display.innerHTML="Connection error"; } }
     function openRobloxVerification(fromProfile=false) { document.getElementById('robloxUsernameInput').value=''; document.getElementById('robloxAvatarImg').src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120"; document.getElementById('robloxDisplayName').innerHTML="Enter your username"; document.getElementById('robloxModal').classList.add('show'); let timer; document.getElementById('robloxUsernameInput').oninput = function() { clearTimeout(timer); timer = setTimeout(()=>{ if(this.value.trim().length>2) fetchRobloxAvatar(this.value.trim()); },500); }; window.pendingFromProfile=fromProfile; }
     function closeRobloxModal() { document.getElementById('robloxModal').classList.remove('show'); }
@@ -578,13 +582,15 @@
     const savedItems = localStorage.getItem('echoknives_items'); if(savedItems) items = JSON.parse(savedItems);
     
     window.showHome=showHome; window.showShop=showShop; window.showLuckOfDraw=showLuckOfDraw; window.showOrdersAndChat=showOrdersAndChat; window.showAdmin=showAdmin; window.openProfilePanel=openProfilePanel;
-    window.addToCart=addToCart; window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.toggleCart=toggleCart; window.closeCart=closeCart;
+    window.addToCart=function addToCart(){};
+    window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.toggleCart=toggleCart; window.closeCart=closeCart;
     window.changeCurrency=changeCurrency; window.performGoogleLogin=performGoogleLogin; window.performGoogleLogout=performGoogleLogout;
     window.openRobloxVerification=openRobloxVerification; window.closeRobloxModal=closeRobloxModal; window.confirmRobloxAndSave=confirmRobloxAndSave; window.unlinkRobloxAccount=unlinkRobloxAccount;
     window.initiateCheckout=initiateCheckout; window.openPurchaseModal=openPurchaseModal; window.closePurchaseModal=closePurchaseModal; window.confirmAddToCart=confirmAddToCart;
     window.selectOrder=selectOrder; window.sendChatMessage=sendChatMessage; window.showOrderTab=showOrderTab;
     window.startGame=startGame; window.selectCard=selectCard; window.resetGame=resetGame;
     window.giveSelfCredits=giveSelfCredits; window.addLuckCreditsAdmin=addLuckCreditsAdmin;
+    window.showReferral=showReferral;
 </script>
 </body>
 </html>
