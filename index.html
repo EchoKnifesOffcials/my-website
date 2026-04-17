@@ -95,10 +95,11 @@
         .hero-image img { max-width: 100%; filter: drop-shadow(0 0 40px rgba(108,92,231,0.3)); animation: floatImage 4s ease-in-out infinite; border-radius: 20px; }
         @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-        /* Luck of Draw Section */
-        .luck-section { max-width: 800px; margin: 0 auto 40px; padding: 0 5%; }
-        .luck-title { font-family: 'Orbitron', monospace; font-size: 24px; margin-bottom: 20px; color: #a855f7; display: flex; align-items: center; gap: 10px; }
-        .luck-container { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 30px; padding: 30px; border: 1px solid rgba(108,92,231,0.3); }
+        /* Luck of Draw & Rewards Section */
+        .games-container { max-width: 1400px; margin: 0 auto 40px; padding: 0 5%; display: flex; gap: 30px; flex-wrap: wrap; }
+        .luck-section, .rewards-section { flex: 1; min-width: 320px; }
+        .luck-title, .rewards-title { font-family: 'Orbitron', monospace; font-size: 24px; margin-bottom: 20px; color: #a855f7; display: flex; align-items: center; gap: 10px; }
+        .luck-container, .rewards-container { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 30px; padding: 30px; border: 1px solid rgba(108,92,231,0.3); }
         .luck-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
         .luck-cost { background: rgba(108,92,231,0.3); padding: 10px 20px; border-radius: 30px; font-size: 14px; }
         .play-btn { background: linear-gradient(135deg, #10b981, #059669); border: none; padding: 12px 30px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; }
@@ -113,6 +114,17 @@
         .result-win { color: #10b981; }
         .result-lose { color: #ef4444; }
         .reset-game { background: #6c5ce7; border: none; padding: 10px 20px; border-radius: 30px; color: white; cursor: pointer; margin-top: 15px; display: none; }
+        
+        /* Rewards Section */
+        .reward-item { background: linear-gradient(135deg, rgba(30,20,25,0.95), rgba(20,15,20,0.98)); border-radius: 20px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; border: 1px solid rgba(108,92,231,0.3); transition: all 0.3s; }
+        .reward-item:hover { transform: translateX(5px); border-color: #6c5ce7; }
+        .reward-icon { width: 60px; height: 60px; background: linear-gradient(135deg, #2a1a2a, #1a0a1a); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+        .reward-info { flex: 1; }
+        .reward-name { font-size: 18px; font-weight: 700; }
+        .reward-points { font-size: 14px; color: #f59e0b; }
+        .claim-btn { background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 8px 20px; border-radius: 30px; color: white; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .claim-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .claimed-badge { background: #10b981; padding: 8px 20px; border-radius: 30px; font-size: 12px; font-weight: 600; }
 
         /* Shop */
         .container { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
@@ -196,13 +208,13 @@
     <div class="nav-links">
         <button class="nav-link active" onclick="showHome()">Home</button>
         <button class="nav-link" onclick="showShop()">Shop</button>
-        <button class="nav-link" onclick="showLuckOfDraw()">🎲 Luck of Draw</button>
+        <button class="nav-link" onclick="showGames()">🎲 Games & Rewards</button>
         <button class="nav-link" onclick="showOrdersAndChat()">Orders & Support</button>
         <button class="nav-link" id="adminNavBtn" style="display:none;" onclick="showAdmin()">Admin</button>
     </div>
     <div class="top-right">
         <div class="points-display" onclick="showReferral()"><i class="fas fa-star"></i> <span id="pointsBalance">0</span> pts</div>
-        <div class="luck-balance" onclick="showLuckOfDraw()"><i class="fas fa-dice"></i> <span id="luckBalance">0</span> credits</div>
+        <div class="luck-balance" onclick="showGames()"><i class="fas fa-dice"></i> <span id="luckBalance">0</span> credits</div>
         <div class="shop-controls">
             <div class="currency-selector"><i class="fas fa-money-bill-wave"></i><select id="currencySelect" onchange="changeCurrency()">
                 <option value="USD" selected>USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option>
@@ -248,23 +260,57 @@
     <div class="products-grid" id="productsGrid"></div>
 </div>
 
-<!-- Luck of Draw Page -->
-<div id="luckPage" class="container" style="display:none;">
-    <div class="luck-section">
-        <div class="luck-title"><i class="fas fa-dice-d6"></i> Luck of Draw</div>
-        <div class="luck-container">
-            <div class="luck-info">
-                <div class="luck-cost">🎲 Cost: 50 credits per play</div>
-                <div><span id="userLuckBalance" style="font-weight:700; color:#a855f7;">0</span> credits available</div>
-                <button class="play-btn" id="playGameBtn" onclick="startGame()">Start New Game</button>
+<!-- Games & Rewards Page (Luck of Draw + Rewards) -->
+<div id="gamesPage" class="container" style="display:none;">
+    <div class="games-container">
+        <!-- Luck of Draw Section -->
+        <div class="luck-section">
+            <div class="luck-title"><i class="fas fa-dice-d6"></i> Luck of Draw</div>
+            <div class="luck-container">
+                <div class="luck-info">
+                    <div class="luck-cost">🎲 Cost: 50 credits per play</div>
+                    <div><span id="userLuckBalance" style="font-weight:700; color:#a855f7;">0</span> credits available</div>
+                    <button class="play-btn" id="playGameBtn" onclick="startGame()">Start New Game</button>
+                </div>
+                <div class="game-grid" id="gameGrid"></div>
+                <div class="game-result" id="gameResult"></div>
+                <button class="reset-game" id="resetGameBtn" onclick="resetGame()">Play Again</button>
             </div>
-            <div class="game-grid" id="gameGrid"></div>
-            <div class="game-result" id="gameResult"></div>
-            <button class="reset-game" id="resetGameBtn" onclick="resetGame()">Play Again</button>
+            <div style="margin-top:20px; text-align:center; font-size:12px; color:#888;">
+                <p>🎯 Pick 2 squares to reveal prizes! (7 bombs, 2 weapons under 200 PHP)</p>
+                <p>💡 Win weapons and they will be added to your inventory!</p>
+            </div>
         </div>
-        <div style="margin-top:20px; text-align:center; font-size:12px; color:#888;">
-            <p>🎯 Pick 2 squares to reveal prizes! (7 bombs, 2 weapons under 200 PHP)</p>
-            <p>💡 Win weapons and they will be added to your inventory!</p>
+        
+        <!-- Rewards Section -->
+        <div class="rewards-section">
+            <div class="rewards-title"><i class="fas fa-gift"></i> Daily Rewards</div>
+            <div class="rewards-container" id="rewardsContainer">
+                <div class="reward-item">
+                    <div class="reward-icon">🎁</div>
+                    <div class="reward-info">
+                        <div class="reward-name">Daily Login Bonus</div>
+                        <div class="reward-points">+50 Credits</div>
+                    </div>
+                    <button class="claim-btn" id="claimDailyBtn" onclick="claimDailyReward()">Claim</button>
+                </div>
+                <div class="reward-item">
+                    <div class="reward-icon">⭐</div>
+                    <div class="reward-info">
+                        <div class="reward-name">Referral Reward</div>
+                        <div class="reward-points">+100 Credits per referral</div>
+                    </div>
+                    <button class="claim-btn" onclick="showReferral()">Refer</button>
+                </div>
+                <div class="reward-item">
+                    <div class="reward-icon">🏆</div>
+                    <div class="reward-info">
+                        <div class="reward-name">First Purchase Bonus</div>
+                        <div class="reward-points">+200 Credits</div>
+                    </div>
+                    <button class="claim-btn" id="firstPurchaseBtn" onclick="claimFirstPurchase()">Claim</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -332,23 +378,24 @@
     const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
     const PAYMENT_SITE_URL = "https://echoknivesmm2.onrender.com";
     
-    // Full currency options with rates (based on PHP as base, but display conversion works)
     const exchangeRates = { USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, CAD: 0.023, AUD: 0.026, PHP: 1 };
     const currencySymbols = { USD: "$", EUR: "€", GBP: "£", JPY: "¥", CAD: "C$", AUD: "A$", PHP: "₱" };
     
-    // Original prices restored (in PHP)
+    // Items with updated PHP prices (displayed in USD via conversion)
     let items = [
-        { id: 1, name: "Batwing", type: "knife", price: 152, originalPrice: 220, discount: 31, image: "https://i.imgur.com/H6CL03y.jpeg", onSale: true },
-        { id: 2, name: "Harvester", type: "knife", price: 608, originalPrice: 850, discount: 28, image: "https://i.imgur.com/jZkbQ4t.jpeg", onSale: true },
-        { id: 3, name: "Icewing", type: "knife", price: 72, originalPrice: 120, discount: 40, image: "https://i.imgur.com/jiwvmxq.jpeg", onSale: true },
-        { id: 4, name: "Luger", type: "gun", price: 207, originalPrice: 300, discount: 31, image: "https://i.imgur.com/eEvMBRh.jpeg", onSale: true },
-        { id: 5, name: "Darkbringer", type: "gun", price: 130, originalPrice: 250, discount: 48, image: "https://i.imgur.com/8oxgzwa.jpeg", onSale: true },
-        { id: 6, name: "Lightbringer", type: "gun", price: 125, originalPrice: 240, discount: 48, image: "https://i.imgur.com/BUljuYV.jpeg", onSale: true },
-        { id: 7, name: "Ice Piercer", type: "gun", price: 340, originalPrice: 500, discount: 32, image: "https://i.imgur.com/cWwaIa3.jpeg", onSale: true },
-        { id: 8, name: "Ice Breaker", type: "knife", price: 210, originalPrice: 350, discount: 40, image: "https://i.imgur.com/SuTMxT7.jpeg", onSale: true }
+        { id: 1, name: "Batwing", type: "knife", price: 145, originalPrice: 210, discount: 31, image: "https://i.imgur.com/H6CL03y.jpeg", onSale: true },
+        { id: 2, name: "Harvester", type: "knife", price: 580, originalPrice: 820, discount: 29, image: "https://i.imgur.com/jZkbQ4t.jpeg", onSale: true },
+        { id: 3, name: "Icewing", type: "knife", price: 75, originalPrice: 120, discount: 38, image: "https://i.imgur.com/jiwvmxq.jpeg", onSale: true },
+        { id: 4, name: "Luger", type: "gun", price: 150, originalPrice: 220, discount: 32, image: "https://i.imgur.com/eEvMBRh.jpeg", onSale: true },
+        { id: 5, name: "Darkbringer", type: "gun", price: 140, originalPrice: 250, discount: 44, image: "https://i.imgur.com/8oxgzwa.jpeg", onSale: true },
+        { id: 6, name: "Lightbringer", type: "gun", price: 140, originalPrice: 240, discount: 42, image: "https://i.imgur.com/BUljuYV.jpeg", onSale: true },
+        { id: 7, name: "Ice Piercer", type: "gun", price: 350, originalPrice: 500, discount: 30, image: "https://i.imgur.com/cWwaIa3.jpeg", onSale: true },
+        { id: 8, name: "Ice Breaker", type: "knife", price: 230, originalPrice: 350, discount: 34, image: "https://i.imgur.com/SuTMxT7.jpeg", onSale: true },
+        { id: 9, name: "Candy", type: "knife", price: 250, originalPrice: 380, discount: 34, image: "", onSale: true },
+        { id: 10, name: "Sunset", type: "gun", price: 370, originalPrice: 550, discount: 33, image: "", onSale: true },
+        { id: 11, name: "Sunrise", type: "gun", price: 800, originalPrice: 1200, discount: 33, image: "", onSale: true }
     ];
     
-    // Luck of Draw prize items (under 200 PHP)
     const LUCK_ITEMS = items.filter(i => i.price <= 200);
     
     // ========== GLOBAL STATE ==========
@@ -362,11 +409,14 @@
     let currentSearchTerm = "";
     let currentOrderTab = "all";
     
+    // Reward claim states
+    let dailyClaimed = localStorage.getItem('dailyClaimed') === 'true';
+    let firstPurchaseClaimed = localStorage.getItem('firstPurchaseClaimed') === 'true';
+    
     // Luck of Draw game state
     let gameActive = false;
     let selectedIndices = [];
     let gameCards = [];
-    let gamePrizes = [];
     
     // ========== HELPER FUNCTIONS ==========
     function getDisplayPrice(phpPrice) { let rate = exchangeRates[currentCurrency] || 1; return ((phpPrice / 56.5) * rate).toFixed(2); }
@@ -380,16 +430,45 @@
     function showPurchaseHistory() { closeSideMenu(); showOrdersAndChat(); }
     function showContactUs() { closeSideMenu(); showToast("Contact us at support@echoknives.com"); }
     function showReview() { closeSideMenu(); window.open("https://forms.gle/your-review-link", "_blank"); }
-    function showReferral() { showToast("Referral system coming soon!"); }
+    function showReferral() { showToast("Share your referral link: echoknives.com/ref/"+ (currentUser?.uid || 'guest')); }
     
     async function sendDiscordNotification(title, description, fields) {
-        try {
-            await fetch(DISCORD_WEBHOOK, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ embeds: [{ title: title, description: description, color: 0x6c5ce7, fields: fields || [], timestamp: new Date().toISOString() }] })
-            });
-        } catch(e) {}
+        try { await fetch(DISCORD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ embeds: [{ title, description, color: 0x6c5ce7, fields: fields || [], timestamp: new Date().toISOString() }] }) }); } catch(e) {}
+    }
+    
+    // ========== REWARDS SYSTEM ==========
+    function updateRewardButtons() {
+        const dailyBtn = document.getElementById('claimDailyBtn');
+        const firstPurchaseBtn = document.getElementById('firstPurchaseBtn');
+        if(dailyBtn) dailyBtn.textContent = dailyClaimed ? "Claimed ✓" : "Claim";
+        if(dailyBtn) dailyBtn.disabled = dailyClaimed;
+        if(firstPurchaseBtn) firstPurchaseBtn.textContent = firstPurchaseClaimed ? "Claimed ✓" : "Claim";
+        if(firstPurchaseBtn) firstPurchaseBtn.disabled = firstPurchaseClaimed;
+    }
+    
+    function claimDailyReward() {
+        if(!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; }
+        if(dailyClaimed) { showToast("Daily reward already claimed today!"); return; }
+        luckBalance += 50;
+        saveLuckBalance();
+        updateLuckDisplay();
+        dailyClaimed = true;
+        localStorage.setItem('dailyClaimed', 'true');
+        updateRewardButtons();
+        showToast("🎉 You claimed 50 credits!");
+        sendDiscordNotification("🎁 Daily Reward Claimed", `${currentUser?.email} claimed 50 credits`, []);
+    }
+    
+    function claimFirstPurchase() {
+        if(!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; }
+        if(firstPurchaseClaimed) { showToast("First purchase bonus already claimed!"); return; }
+        luckBalance += 200;
+        saveLuckBalance();
+        updateLuckDisplay();
+        firstPurchaseClaimed = true;
+        localStorage.setItem('firstPurchaseClaimed', 'true');
+        updateRewardButtons();
+        showToast("🎉 You claimed 200 credits! Make your first purchase to unlock more!");
     }
     
     // ========== LUCK BALANCE SYSTEM ==========
@@ -405,7 +484,6 @@
         if(document.getElementById('profileLuckBalance')) document.getElementById('profileLuckBalance').innerText = luckBalance;
     }
     
-    // Admin: Give self credits
     function giveSelfCredits() {
         if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; }
         const amount = parseInt(document.getElementById('adminSelfCredits').value);
@@ -414,7 +492,6 @@
         saveLuckBalance();
         updateLuckDisplay();
         showToast(`Added ${amount} credits to your balance!`);
-        sendDiscordNotification("💰 Admin Self Credits", `${currentUser.email} added ${amount} credits to themselves`, []);
     }
     
     function addLuckCreditsAdmin() {
@@ -426,7 +503,6 @@
         const current = parseInt(localStorage.getItem(key) || '0');
         localStorage.setItem(key, current + amount);
         showToast(`Added ${amount} credits to ${email}`);
-        sendDiscordNotification("🎲 Admin Added Credits", `${amount} credits added to ${email}`, []);
     }
     
     // ========== LUCK OF DRAW GAME ==========
@@ -438,7 +514,6 @@
         saveLuckBalance();
         updateLuckDisplay();
         
-        // Prepare game: 7 bombs, 2 random weapons
         const bombs = Array(7).fill({ type: 'bomb', name: 'Bomb', value: 0 });
         const availablePrizes = [...LUCK_ITEMS];
         const selectedPrizes = [];
@@ -447,9 +522,7 @@
             selectedPrizes.push(availablePrizes[randomIndex]);
             availablePrizes.splice(randomIndex, 1);
         }
-        gamePrizes = selectedPrizes;
         gameCards = [...bombs, ...selectedPrizes.map(p => ({ type: 'prize', name: p.name, price: p.price, image: p.image, id: p.id }))];
-        // Shuffle
         for(let i = gameCards.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [gameCards[i], gameCards[j]] = [gameCards[j], gameCards[i]]; }
         
         gameActive = true;
@@ -467,7 +540,7 @@
         if(!grid) return;
         grid.innerHTML = gameCards.map((card, idx) => `
             <div class="game-card ${selectedIndices.includes(idx) ? 'revealed' : ''}" onclick="selectCard(${idx})">
-                ${selectedIndices.includes(idx) ? (card.type === 'bomb' ? '<div class="bomb-icon">💣</div>' : `<img src="${card.image}" alt="${card.name}" style="border-radius: 20px;">`) : '<div style="font-size: 32px; color: #6c5ce7;">❓</div>'}
+                ${selectedIndices.includes(idx) ? (card.type === 'bomb' ? '<div class="bomb-icon">💣</div>' : (card.image ? `<img src="${card.image}" alt="${card.name}" style="border-radius: 20px;">` : `<div style="font-size: 24px; color: #a855f7;">✨${card.name}</div>`)) : '<div style="font-size: 32px; color: #6c5ce7;">❓</div>'}
             </div>
         `).join('');
     }
@@ -485,15 +558,10 @@
             const wins = selectedIndices.filter(i => gameCards[i].type === 'prize');
             if(wins.length > 0) {
                 const awardedItems = [];
-                for(let idx of wins) {
-                    const prize = gameCards[idx];
-                    awardedItems.push(prize.name);
-                    showToast(`🎉 You won ${prize.name}!`);
-                }
-                const resultText = `🎉 Congratulations! You won: ${awardedItems.join(', ')}!`;
-                document.getElementById('gameResult').innerHTML = `<div class="result-win">${resultText}</div>`;
+                for(let idx of wins) { awardedItems.push(gameCards[idx].name); showToast(`🎉 You won ${gameCards[idx].name}!`); }
+                document.getElementById('gameResult').innerHTML = `<div class="result-win">🎉 Congratulations! You won: ${awardedItems.join(', ')}!</div>`;
                 document.getElementById('gameResult').style.display = 'block';
-                sendDiscordNotification("🎁 Luck of Draw WIN!", `${currentUser?.email || 'Guest'} won ${awardedItems.join(', ')}!`, [{ name: "Credits Spent", value: "50", inline: true }]);
+                sendDiscordNotification("🎁 Luck of Draw WIN!", `${currentUser?.email || 'Guest'} won ${awardedItems.join(', ')}!`, []);
             } else {
                 document.getElementById('gameResult').innerHTML = `<div class="result-lose">💥 BOOM! You hit a bomb. Better luck next time!</div>`;
                 document.getElementById('gameResult').style.display = 'block';
@@ -518,7 +586,7 @@
     }
     
     // ========== SHOP FUNCTIONS ==========
-    function showLuckOfDraw() { hideAllPages(); document.getElementById('luckPage').style.display = 'block'; loadLuckBalance(); resetGame(); }
+    function showGames() { hideAllPages(); document.getElementById('gamesPage').style.display = 'block'; loadLuckBalance(); resetGame(); updateRewardButtons(); }
     function showHome() { hideAllPages(); document.getElementById('homePage').style.display = 'block'; }
     function showShop() { hideAllPages(); document.getElementById('shopPage').style.display = 'block'; renderProducts(); }
     function showOrdersAndChat() { hideAllPages(); document.getElementById('ordersChatPage').style.display = 'block'; renderOrdersList(); }
@@ -527,10 +595,10 @@
     function renderProducts() { 
         let filtered = items.filter(i => { if(currentFilter==='knife') return i.type==='knife'; if(currentFilter==='gun') return i.type==='gun'; return true; });
         if(currentSearchTerm) filtered = filtered.filter(i=>i.name.toLowerCase().includes(currentSearchTerm));
-        document.getElementById('productsGrid').innerHTML = filtered.map(item => `<div class="product-card" onclick="openPurchaseModal(${item.id})"><div class="discount-badge">-${item.discount}%</div><div class="product-image"><img src="${item.image}"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`).join('');
+        document.getElementById('productsGrid').innerHTML = filtered.map(item => `<div class="product-card" onclick="openPurchaseModal(${item.id})"><div class="discount-badge">-${item.discount}%</div><div class="product-image"><img src="${item.image || 'https://via.placeholder.com/200x200?text=Coming+Soon'}" onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`).join('');
     }
     
-    function openPurchaseModal(id) { const item = items.find(i=>i.id===id); selectedItemForModal = {...item}; document.getElementById('modalItemImg').src = item.image; document.getElementById('modalItemName').innerHTML = item.name; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(item.price)}`; document.getElementById('modalQuantity').value = 1; document.getElementById('modalIsChroma').checked = false; document.getElementById('purchaseModal').classList.add('show'); }
+    function openPurchaseModal(id) { const item = items.find(i=>i.id===id); selectedItemForModal = {...item}; document.getElementById('modalItemImg').src = item.image || 'https://via.placeholder.com/200x200?text=Item'; document.getElementById('modalItemName').innerHTML = item.name; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(item.price)}`; document.getElementById('modalQuantity').value = 1; document.getElementById('modalIsChroma').checked = false; document.getElementById('purchaseModal').classList.add('show'); }
     function closePurchaseModal() { document.getElementById('purchaseModal').classList.remove('show'); selectedItemForModal = null; }
     function confirmAddToCart() { if(!selectedItemForModal) return; const quantity = parseInt(document.getElementById('modalQuantity').value)||1; const isChroma = document.getElementById('modalIsChroma').checked; let finalPrice = selectedItemForModal.price; if(isChroma) finalPrice = selectedItemForModal.price + 20; const itemName = isChroma ? `✨ ${selectedItemForModal.name} (Chroma)` : selectedItemForModal.name; const existing = cart.find(i=>i.id===selectedItemForModal.id && i.isChroma===isChroma); if(existing) existing.quantity += quantity; else cart.push({...selectedItemForModal, name:itemName, price:finalPrice, quantity, isChroma}); updateCartUI(); showToast(`${quantity}x ${itemName} added`); closePurchaseModal(); }
     
@@ -568,11 +636,11 @@
     function deleteItem(id) { items = items.filter(i=>i.id!==id); saveItems(); renderInventory(); renderProducts(); showToast("Item deleted"); }
     function saveItems() { localStorage.setItem('echoknives_items', JSON.stringify(items)); }
     
-    function hideAllPages() { ['homePage','shopPage','luckPage','ordersChatPage','adminPage','profilePanel'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; }); }
+    function hideAllPages() { ['homePage','shopPage','gamesPage','ordersChatPage','adminPage','profilePanel'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; }); }
     
     // ========== AUTHENTICATION ==========
     window.handleAuthStateChanged = function(user) { 
-        if(user) { isLoggedIn=true; currentUser=user; updateHeaderDisplay(); loadLuckBalance(); const adminBtn = document.getElementById('adminNavBtn'); if(user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; else adminBtn.style.display = 'none'; showToast(`Welcome ${user.displayName || 'User'}!`); } else { isLoggedIn=false; currentUser=null; updateHeaderDisplay(); loadLuckBalance(); document.getElementById('adminNavBtn').style.display = 'none'; } renderProducts(); };
+        if(user) { isLoggedIn=true; currentUser=user; updateHeaderDisplay(); loadLuckBalance(); const adminBtn = document.getElementById('adminNavBtn'); if(user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; else adminBtn.style.display = 'none'; showToast(`Welcome ${user.displayName || 'User'}!`); updateRewardButtons(); } else { isLoggedIn=false; currentUser=null; updateHeaderDisplay(); loadLuckBalance(); document.getElementById('adminNavBtn').style.display = 'none'; } renderProducts(); };
     async function performGoogleLogin() { if(window.firebaseAuth) { try { await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } catch(e) { showToast("Login failed"); } } else showToast("Loading..."); }
     
     // ========== FILTERS & INIT ==========
@@ -581,8 +649,7 @@
     createParticles(); showHome(); renderProducts(); 
     const savedItems = localStorage.getItem('echoknives_items'); if(savedItems) items = JSON.parse(savedItems);
     
-    window.showHome=showHome; window.showShop=showShop; window.showLuckOfDraw=showLuckOfDraw; window.showOrdersAndChat=showOrdersAndChat; window.showAdmin=showAdmin; window.openProfilePanel=openProfilePanel;
-    window.addToCart=function addToCart(){};
+    window.showHome=showHome; window.showShop=showShop; window.showGames=showGames; window.showOrdersAndChat=showOrdersAndChat; window.showAdmin=showAdmin; window.openProfilePanel=openProfilePanel;
     window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.toggleCart=toggleCart; window.closeCart=closeCart;
     window.changeCurrency=changeCurrency; window.performGoogleLogin=performGoogleLogin; window.performGoogleLogout=performGoogleLogout;
     window.openRobloxVerification=openRobloxVerification; window.closeRobloxModal=closeRobloxModal; window.confirmRobloxAndSave=confirmRobloxAndSave; window.unlinkRobloxAccount=unlinkRobloxAccount;
@@ -590,7 +657,7 @@
     window.selectOrder=selectOrder; window.sendChatMessage=sendChatMessage; window.showOrderTab=showOrderTab;
     window.startGame=startGame; window.selectCard=selectCard; window.resetGame=resetGame;
     window.giveSelfCredits=giveSelfCredits; window.addLuckCreditsAdmin=addLuckCreditsAdmin;
-    window.showReferral=showReferral;
+    window.showReferral=showReferral; window.claimDailyReward=claimDailyReward; window.claimFirstPurchase=claimFirstPurchase;
 </script>
 </body>
 </html>
