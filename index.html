@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECHOKNIVES | Secured MM2 Shop</title>
+    <title>ECHOKNIVES | Premium MM2 Shop</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -117,6 +117,34 @@
         .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #6c5ce7; font-size: 20px; font-weight: 800; text-align: right; }
         .checkout-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #10b981, #059669); border: none; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; margin-top: 15px; }
 
+        /* Messaging System Styles */
+        .messaging-container { background: rgba(0,0,0,0.5); border-radius: 30px; padding: 25px; border: 1px solid rgba(108,92,231,0.4); }
+        .chat-window { background: linear-gradient(135deg, rgba(20,15,30,0.95), rgba(15,10,25,0.98)); border-radius: 30px; height: 500px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(108,92,231,0.3); }
+        .chat-header { background: rgba(108,92,231,0.2); padding: 15px 20px; border-bottom: 1px solid rgba(108,92,231,0.3); }
+        .chat-header h3 { color: #a855f7; }
+        .chat-messages-area { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+        .message-bubble { max-width: 80%; padding: 12px 18px; border-radius: 20px; margin-bottom: 5px; }
+        .message-bubble.buyer { background: linear-gradient(135deg, #1e2a3a, #0f1a2a); align-self: flex-end; border-bottom-right-radius: 5px; }
+        .message-bubble.admin { background: linear-gradient(135deg, #2a1a3a, #1a0a2a); align-self: flex-start; border-bottom-left-radius: 5px; border-left: 3px solid #6c5ce7; }
+        .message-bubble.system { background: rgba(16,185,129,0.15); align-self: center; font-size: 12px; text-align: center; max-width: 90%; }
+        .message-sender-name { font-size: 11px; color: #a855f7; margin-bottom: 4px; }
+        .message-time { font-size: 10px; color: #888; margin-top: 5px; text-align: right; }
+        .chat-input-area { padding: 15px 20px; background: rgba(0,0,0,0.3); border-top: 1px solid rgba(108,92,231,0.3); display: flex; gap: 12px; }
+        .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 30px; padding: 12px 18px; color: white; font-family: inherit; }
+        .chat-send-btn { background: #6c5ce7; border: none; padding: 12px 25px; border-radius: 30px; color: white; font-weight: 600; cursor: pointer; }
+        .command-buttons { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+        .cmd-btn { background: linear-gradient(135deg, #8b5cf6, #6d28d9); border: none; padding: 8px 18px; border-radius: 30px; color: white; cursor: pointer; font-size: 13px; transition: 0.2s; }
+        .cmd-btn:hover { transform: scale(1.02); background: #a855f7; }
+        
+        .admin-conversations { background: rgba(0,0,0,0.5); border-radius: 30px; padding: 20px; margin-top: 20px; border: 1px solid rgba(108,92,231,0.4); }
+        .conversation-list { max-height: 400px; overflow-y: auto; }
+        .convo-item { background: rgba(30,20,35,0.95); border-radius: 15px; padding: 15px; margin-bottom: 10px; cursor: pointer; border-left: 3px solid #6c5ce7; transition: 0.2s; }
+        .convo-item:hover { transform: translateX(5px); background: rgba(108,92,231,0.15); }
+        .convo-item.unread { border-left-color: #10b981; background: rgba(16,185,129,0.1); }
+        .convo-sender { font-weight: 700; color: #a855f7; }
+        .convo-preview { font-size: 13px; color: #ccc; margin-top: 5px; }
+        .convo-date { font-size: 11px; color: #888; float: right; }
+
         .profile-container { max-width: 550px; margin: 0 auto; }
         .profile-card-premium { background: linear-gradient(135deg, rgba(20,15,35,0.95), rgba(10,8,25,0.98)); backdrop-filter: blur(15px); border-radius: 50px; padding: 35px; border: 1px solid rgba(108,92,231,0.5); }
         .profile-header { display: flex; align-items: center; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; }
@@ -127,25 +155,17 @@
         .profile-actions-premium { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
         .profile-action-btn { flex: 1; padding: 12px; border-radius: 40px; font-weight: 600; cursor: pointer; border: none; }
         .profile-action-btn.primary { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
-        .profile-action-btn.danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
 
         .premium-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.96); backdrop-filter: blur(20px); z-index: 10000; display: none; justify-content: center; align-items: center; }
         .premium-modal.show { display: flex; }
         .premium-modal-content { background: linear-gradient(135deg, #1a1a2e, #0f0f1a); border-radius: 50px; padding: 35px; max-width: 550px; width: 90%; text-align: center; border: 1px solid rgba(108,92,231,0.5); }
-
-        .redeem-grid { display: flex; flex-direction: column; gap: 20px; margin: 25px 0; }
-        .redeem-card { background: linear-gradient(135deg, rgba(30,20,35,0.95), rgba(20,12,25,0.98)); border-radius: 30px; padding: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; border: 1px solid rgba(108,92,231,0.4); }
-        .redeem-info { display: flex; align-items: center; gap: 20px; }
-        .redeem-icon { width: 60px; height: 60px; background: linear-gradient(135deg, #2a1a2a, #1a0a1a); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
-        .redeem-btn { background: linear-gradient(135deg, #10b981, #059669); border: none; padding: 12px 28px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; }
-        .points-header { background: linear-gradient(135deg, #6c5ce7, #a855f7); border-radius: 30px; padding: 20px; text-align: center; margin-bottom: 20px; }
 
         .toast { position: fixed; bottom: 30px; left: 30px; background: #10b981; padding: 12px 24px; border-radius: 40px; z-index: 2000; transform: translateX(-400px); transition: transform 0.3s; }
         .toast.show { transform: translateX(0); }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 999; display: none; }
         .overlay.show { display: block; }
         
-        @media (max-width: 768px) { .cart-sidebar { width: 100%; right: -100%; } .hero-title { font-size: 38px; } .products-grid { gap: 15px; } }
+        @media (max-width: 768px) { .cart-sidebar { width: 100%; right: -100%; } .hero-title { font-size: 38px; } }
     </style>
 </head>
 <body>
@@ -162,18 +182,14 @@
         <button class="nav-link active" onclick="showHome()">Home</button>
         <button class="nav-link" onclick="showShop()">Shop</button>
         <button class="nav-link" onclick="showGames()">🎲 Games</button>
-        <button class="nav-link" onclick="showOrdersAndChat()">Orders</button>
-        <button class="nav-link" id="adminNavBtn" style="display:none;" onclick="showAdmin()">Admin</button>
+        <button class="nav-link" onclick="showSupportChat()">💬 Support</button>
+        <button class="nav-link" id="adminNavBtn" style="display:none;" onclick="showAdminPanel()">📨 Admin</button>
     </div>
     <div class="top-right">
         <div class="points-display" onclick="showRedeemModal()"><i class="fas fa-star"></i> <span id="pointsBalance">0</span> pts</div>
         <div class="luck-balance" onclick="showGames()"><i class="fas fa-dice"></i> <span id="luckBalance">0</span> credits</div>
         <div class="currency-selector"><i class="fas fa-money-bill-wave"></i><select id="currencySelect" onchange="changeCurrency()">
-            <option value="PHP">PHP ₱</option>
-            <option value="USD">USD $</option>
-            <option value="EUR">EUR €</option>
-            <option value="GBP">GBP £</option>
-            <option value="ROBUX">ROBUX R$</option>
+            <option value="PHP">PHP ₱</option><option value="USD">USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option><option value="ROBUX">ROBUX R$</option>
         </select></div>
         <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search..." oninput="filterProducts()"></div>
         <div class="user-info" id="userInfo" onclick="openProfilePanel()"><div class="user-avatar" id="userAvatarDisplay"><i class="fas fa-user"></i></div><span id="userNameDisplay">Guest</span></div>
@@ -187,31 +203,77 @@
 
 <div id="gamesPage" class="container" style="display:none;"><div class="games-container"><div class="luck-section"><div class="luck-title"><i class="fas fa-dice-d6"></i> Luck of Draw</div><div class="luck-container"><div class="luck-info" style="display:flex; justify-content:space-between; margin-bottom:20px;"><div>🎲 Cost: 50 credits</div><div><span id="userLuckBalance">0</span> credits</div><button class="play-btn" id="playGameBtn" onclick="startGame()">Start Game</button></div><div class="game-grid" id="gameGrid"></div><div class="game-result" id="gameResult" style="display:none;"></div><button class="reset-game" id="resetGameBtn" onclick="resetGame()" style="display:none;">Play Again</button></div></div><div class="rewards-section"><div class="rewards-title"><i class="fas fa-gift"></i> Daily Rewards</div><div class="rewards-container"><div class="reward-item"><div class="reward-icon" style="font-size:30px;">🎁</div><div><div class="reward-name">Daily Login</div><div class="reward-points">+50 Credits</div></div><button class="claim-btn" id="claimDailyBtn" onclick="claimDailyReward()">Claim</button></div><div class="reward-item"><div class="reward-icon" style="font-size:30px;">⭐</div><div><div class="reward-name">Referral</div><div class="reward-points">+100 Credits</div></div><button class="claim-btn" onclick="showReferral()">Refer</button></div><div class="reward-item"><div class="reward-icon" style="font-size:30px;">🏆</div><div><div class="reward-name">First Purchase</div><div class="reward-points">+200 Credits</div></div><button class="claim-btn" id="firstPurchaseBtn" onclick="claimFirstPurchase()">Claim</button></div></div></div></div></div>
 
-<div id="ordersChatPage" class="container" style="display:none;"><h2>Orders & Support</h2><div class="orders-chat-layout" style="display:flex; gap:30px; flex-wrap:wrap;"><div class="orders-list-container" style="flex:1.5; max-height:70vh; overflow-y:auto;" id="ordersListContainer"></div><div class="chat-container" style="flex:1; background:rgba(0,0,0,0.5); border-radius:24px; padding:20px;"><h3>Conversation <span id="chatOrderId"></span></h3><div id="chatMessagesList" style="height:300px; overflow-y:auto; margin:15px 0;"></div><div style="display:flex; gap:10px;"><input type="text" id="chatMessageInput" style="flex:1; padding:12px; background:rgba(255,255,255,0.1); border-radius:30px; border:1px solid #6c5ce7; color:white;"><button class="chat-send" onclick="sendChatMessage()" style="background:#6c5ce7; border:none; padding:12px 20px; border-radius:30px;">Send</button></div></div></div></div>
+<!-- SUPPORT CHAT PAGE - Buyer Side -->
+<div id="supportChatPage" class="container" style="display:none;">
+    <h2 style="margin-bottom: 25px;"><i class="fas fa-headset"></i> Customer Support</h2>
+    <div class="messaging-container">
+        <div class="chat-window">
+            <div class="chat-header">
+                <h3><i class="fas fa-comment-dots"></i> Live Support Chat</h3>
+                <p style="font-size: 12px; color: #aaa;">Our support team will respond within 24 hours</p>
+            </div>
+            <div class="chat-messages-area" id="supportMessagesArea">
+                <div class="message-bubble system">💬 Welcome! Type !JoinUs to get private server link and bot invite.</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="supportChatInput" class="chat-input" placeholder="Type your message... Type !JoinUs for server invite" onkeypress="if(event.key==='Enter') sendSupportMessage()">
+                <button class="chat-send-btn" onclick="sendSupportMessage()"><i class="fas fa-paper-plane"></i> Send</button>
+            </div>
+            <div class="command-buttons" id="commandButtons" style="padding: 10px 20px;">
+                <button class="cmd-btn" onclick="sendJoinUsCommand()"><i class="fab fa-discord"></i> !JoinUs</button>
+            </div>
+        </div>
+        <div style="margin-top: 20px; padding: 15px; background: rgba(16,185,129,0.1); border-radius: 20px; text-align: center;">
+            <p style="font-size: 13px;"><i class="fas fa-shield-alt"></i> All messages are encrypted and sent directly to admin. Include your order number if you have one.</p>
+        </div>
+    </div>
+</div>
 
-<div id="profilePanel" class="container" style="display:none;"><div class="profile-container"><div class="profile-card-premium"><div class="profile-header"><div class="profile-avatar-premium"><img id="profileAvatarImg" src="https://ui-avatars.com/api/?name=User&background=6c5ce7&color=fff&size=120"></div><div class="profile-name-section"><h2 id="profileName">Guest</h2><div class="profile-roblox-badge" id="profileRobloxStatus" style="background:rgba(108,92,231,0.3); padding:6px 15px; border-radius:30px; font-size:13px; display:inline-block; margin-top:8px;"><i class="fab fa-roblox"></i> Not linked</div></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-value" id="profilePoints">0</div><div class="stat-label">Points</div></div><div class="stat-card"><div class="stat-value" id="profileLuckBalance">0</div><div class="stat-label">Luck Credits</div></div></div><div class="profile-actions-premium"><button class="profile-action-btn primary" onclick="openRobloxVerification(true)"><i class="fab fa-roblox"></i> Link Roblox</button><button class="profile-action-btn danger" onclick="unlinkRobloxAccount()"><i class="fas fa-unlink"></i> Unlink</button><button class="profile-action-btn primary" style="background:linear-gradient(135deg,#4285f4,#2b5797);" onclick="switchGoogleAccount()"><i class="fas fa-exchange-alt"></i> Switch Account</button></div></div></div></div>
+<!-- ADMIN PANEL - View conversations and reply -->
+<div id="adminPanelPage" class="container" style="display:none;">
+    <h2 style="margin-bottom: 25px;"><i class="fas fa-inbox"></i> Admin Support Panel</h2>
+    <div class="admin-conversations">
+        <h3 style="margin-bottom: 15px; color: #a855f7;"><i class="fas fa-users"></i> Active Conversations</h3>
+        <div class="conversation-list" id="conversationList"></div>
+    </div>
+    <div id="adminChatView" style="margin-top: 25px; display: none;">
+        <div class="chat-window" style="height: 450px;">
+            <div class="chat-header">
+                <h3>Chat with: <span id="activeChatUserName"></span></h3>
+                <button class="cmd-btn" style="background:#ef4444; padding:5px 15px;" onclick="closeAdminChat()">Close Chat</button>
+            </div>
+            <div class="chat-messages-area" id="adminChatMessagesArea"></div>
+            <div class="chat-input-area">
+                <input type="text" id="adminReplyInput" class="chat-input" placeholder="Type your reply..." onkeypress="if(event.key==='Enter') sendAdminReply()">
+                <button class="chat-send-btn" onclick="sendAdminReply()"><i class="fas fa-reply"></i> Reply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="profilePanel" class="container" style="display:none;"><div class="profile-container"><div class="profile-card-premium"><div class="profile-header"><div class="profile-avatar-premium"><img id="profileAvatarImg" src="https://ui-avatars.com/api/?name=User&background=6c5ce7&color=fff&size=120"></div><div class="profile-name-section"><h2 id="profileName">Guest</h2><div class="profile-roblox-badge" id="profileRobloxStatus" style="background:rgba(108,92,231,0.3); padding:6px 15px; border-radius:30px; font-size:13px; display:inline-block; margin-top:8px;"><i class="fab fa-roblox"></i> Not linked</div></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-value" id="profilePoints">0</div><div class="stat-label">Points</div></div><div class="stat-card"><div class="stat-value" id="profileLuckBalance">0</div><div class="stat-label">Luck Credits</div></div></div><div class="profile-actions-premium"><button class="profile-action-btn primary" onclick="openRobloxVerification(true)"><i class="fab fa-roblox"></i> Link Roblox</button><button class="profile-action-btn primary" style="background:linear-gradient(135deg,#4285f4,#2b5797);" onclick="switchGoogleAccount()"><i class="fas fa-exchange-alt"></i> Switch Account</button></div></div></div></div>
 
 <div id="adminPage" class="container" style="display:none;"><h2>Admin Panel</h2><div class="admin-panel" style="background:rgba(0,0,0,0.5); border-radius:20px; padding:20px;"><input type="number" id="adminSelfCredits" placeholder="Amount" style="padding:10px; border-radius:30px; background:rgba(255,255,255,0.1); border:1px solid #6c5ce7; color:white;"><button onclick="giveSelfCredits()" style="margin-left:10px; padding:10px 20px; background:#6c5ce7; border:none; border-radius:30px;">Add Credits</button></div><div id="inventoryList" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px;"></div></div>
 
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar"><div class="cart-header" style="display:flex; justify-content:space-between;"><h3>Your Cart</h3><button class="close-cart" onclick="closeCart()" style="background:none; border:none; color:white; font-size:28px;">×</button></div><div class="cart-items" id="cartItemsList"></div><div class="cart-total" id="cartTotal">Total: ₱0</div><button class="checkout-btn" onclick="initiateCheckout()">Checkout →</button></div>
 
-<div id="purchaseModal" class="premium-modal"><div class="premium-modal-content"><img id="modalItemImg" style="width:120px; height:120px; object-fit:contain; border-radius:20px;"><h3 id="modalItemName" style="margin:15px 0;"></h3><p id="modalItemPrice" style="font-size:24px; color:#6c5ce7;"></p><input type="number" id="modalQuantity" value="1" min="1" style="background:rgba(255,255,255,0.1); border:1px solid #6c5ce7; border-radius:30px; padding:12px; width:100%; margin:15px 0;"><label><input type="checkbox" id="modalIsChroma"> Chroma (+20 PHP)</label><div style="display:flex; gap:15px; margin-top:20px;"><button style="flex:1; background:#10b981; padding:12px; border-radius:30px; border:none; color:white; font-weight:700;" onclick="confirmAddToCart()">Add to Cart</button><button style="flex:1; background:#ef4444; padding:12px; border-radius:30px; border:none; color:white;" onclick="closePurchaseModal()">Cancel</button></div></div></div>
+<div id="purchaseModal" class="premium-modal"><div class="premium-modal-content"><img id="modalItemImg" style="width:120px; height:120px; object-fit:contain; border-radius:20px;"><h3 id="modalItemName"></h3><p id="modalItemPrice"></p><input type="number" id="modalQuantity" value="1" min="1"><label><input type="checkbox" id="modalIsChroma"> Chroma (+20 PHP)</label><div style="display:flex; gap:15px; margin-top:20px;"><button style="flex:1; background:#10b981;" onclick="confirmAddToCart()">Add to Cart</button><button style="flex:1; background:#ef4444;" onclick="closePurchaseModal()">Cancel</button></div></div></div>
 
-<div id="redeemModal" class="premium-modal"><div class="premium-modal-content"><div class="points-header"><h3><i class="fas fa-star"></i> YOUR POINTS</h3><div class="big-points" style="font-size:48px; font-weight:800;" id="redeemPointsDisplay">0</div></div><div class="redeem-grid"><div class="redeem-card"><div class="redeem-info"><div class="redeem-icon">🔪</div><div class="redeem-details"><h4>Candy Knife</h4><p>2,000 Points</p></div></div><button class="redeem-btn" onclick="redeemItem('Candy', 2000)">Redeem</button></div><div class="redeem-card"><div class="redeem-info"><div class="redeem-icon">🔫</div><div class="redeem-details"><h4>Sunrise Gun</h4><p>8,000 Points</p></div></div><button class="redeem-btn" onclick="redeemItem('Sunrise', 8000)">Redeem</button></div></div><button style="background:#ef4444; margin-top:20px; padding:12px; border-radius:40px; border:none; color:white; cursor:pointer;" onclick="closeRedeemModal()">Close</button></div></div>
+<div id="redeemModal" class="premium-modal"><div class="premium-modal-content"><div class="points-header"><h3><i class="fas fa-star"></i> YOUR POINTS</h3><div class="big-points" style="font-size:48px; font-weight:800;" id="redeemPointsDisplay">0</div></div><div class="redeem-grid"><div class="redeem-card"><div class="redeem-info"><div class="redeem-icon">🔪</div><div><h4>Candy Knife</h4><p>2,000 Points</p></div></div><button class="redeem-btn" onclick="redeemItem('Candy', 2000)">Redeem</button></div><div class="redeem-card"><div class="redeem-info"><div class="redeem-icon">🔫</div><div><h4>Sunrise Gun</h4><p>8,000 Points</p></div></div><button class="redeem-btn" onclick="redeemItem('Sunrise', 8000)">Redeem</button></div></div><button style="background:#ef4444; margin-top:20px;" onclick="closeRedeemModal()">Close</button></div></div>
 
-<div id="robloxModal" class="premium-modal"><div class="premium-modal-content"><h2><i class="fab fa-roblox"></i> Verify Roblox</h2><img id="robloxAvatarImg" style="width:100px; height:100px; border-radius:50%; margin:15px auto;"><div id="robloxDisplayName">Enter username</div><input type="text" id="robloxUsernameInput" placeholder="Roblox Username" style="background:rgba(255,255,255,0.1); border:1px solid #6c5ce7; border-radius:30px; padding:12px; width:100%; margin:15px 0;"><div style="display:flex; gap:15px;"><button style="flex:1; background:#3b82f6; padding:12px; border-radius:30px;" onclick="confirmRobloxAndSave()">Link</button><button style="flex:1; background:#ef4444; padding:12px; border-radius:30px;" onclick="closeRobloxModal()">Cancel</button></div></div></div>
+<div id="robloxModal" class="premium-modal"><div class="premium-modal-content"><h2><i class="fab fa-roblox"></i> Verify Roblox</h2><img id="robloxAvatarImg" style="width:100px; height:100px; border-radius:50%; margin:15px auto;"><div id="robloxDisplayName">Enter username</div><input type="text" id="robloxUsernameInput" placeholder="Roblox Username"><div style="display:flex; gap:15px;"><button style="flex:1; background:#3b82f6;" onclick="confirmRobloxAndSave()">Link</button><button style="flex:1; background:#ef4444;" onclick="closeRobloxModal()">Cancel</button></div></div></div>
 
 <div class="toast" id="toast"></div>
 
 <script>
     // ========== CONFIGURATION ==========
-    const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d";
     const ADMIN_EMAIL = "ivanmendones13@gmail.com";
     const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
     const PAYMENT_SITE_URL = "https://echoknivesmm2.onrender.com";
+    const PRIVATE_SERVER_LINK = "https://www.roblox.com/games/1234567890/MM2-Private-Server?privateServerLinkCode=ECHOKNIVES2024";
+    const BOT_INVITE_LINK = "https://discord.com/api/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=8&scope=bot";
     
-    // Prices in PHP (base currency)
     let items = [
         { id: 1, name: "Batwing", type: "knife", price: 140, originalPrice: 210, discount: 33, image: "https://i.imgur.com/H6CL03y.jpeg" },
         { id: 2, name: "Harvester", type: "knife", price: 500, originalPrice: 750, discount: 33, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
@@ -221,80 +283,51 @@
         { id: 6, name: "Lightbringer", type: "gun", price: 140, originalPrice: 240, discount: 42, image: "https://i.imgur.com/BUljuYV.jpeg" },
         { id: 7, name: "Ice Piercer", type: "gun", price: 365, originalPrice: 550, discount: 34, image: "https://i.imgur.com/cWwaIa3.jpeg" },
         { id: 8, name: "Ice Breaker", type: "knife", price: 255, originalPrice: 380, discount: 33, image: "https://i.imgur.com/SuTMxT7.jpeg" },
-        { id: 9, name: "Candy", type: "knife", price: 249, originalPrice: 380, discount: 34, image: "https://i.imgur.com/Q98x0PE.jpeg" },
-        { id: 10, name: "Sunset", type: "gun", price: 430, originalPrice: 650, discount: 34, image: "https://i.imgur.com/dXJ2dSA.jpeg" },
-        { id: 11, name: "Sunrise", type: "gun", price: 799, originalPrice: 1200, discount: 33, image: "https://i.imgur.com/ttNyTxl.jpeg" }
+        { id: 9, name: "Candy", type: "knife", price: 249, originalPrice: 380, discount: 34, image: "" },
+        { id: 10, name: "Sunset", type: "gun", price: 430, originalPrice: 650, discount: 34, image: "" },
+        { id: 11, name: "Sunrise", type: "gun", price: 799, originalPrice: 1200, discount: 33, image: "" }
     ];
     
-    // Currency conversion rates (1 PHP = ?)
-    const exchangeRates = {
-        PHP: 1,
-        USD: 0.017,
-        EUR: 0.016,
-        GBP: 0.013,
-        ROBUX: 1.7  // 1 PHP = 1.7 ROBUX (base rate before markup)
-    };
+    const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, ROBUX: 1.7 };
     const currencySymbols = { PHP: "₱", USD: "$", EUR: "€", GBP: "£", ROBUX: "R$" };
-    const ROBUX_MARKUP = 0.10; // 10% markup for ROBUX
-    
+    const ROBUX_MARKUP = 0.10;
     const LUCK_ITEMS = items.filter(i => i.price <= 200);
     
-    // ========== GLOBAL ==========
+    // Messaging System Storage
+    let conversations = JSON.parse(localStorage.getItem('echoknives_support_conversations') || '[]');
+    let activeConversationId = null;
+    
     let cart = [], currentFilter = "all", isLoggedIn = false, currentUser = null, currentCurrency = "PHP";
     let userPoints = 0, luckBalance = 0;
     let selectedItemForModal = null, pendingRobloxData = null;
-    let orders = JSON.parse(localStorage.getItem('echoknives_orders') || '[]');
     let verifiedRobloxUser = JSON.parse(localStorage.getItem('verifiedRobloxUser') || 'null');
-    let allMessages = JSON.parse(localStorage.getItem('echoknives_all_messages') || '{}');
-    let currentSelectedOrderId = null, currentSearchTerm = "";
     let dailyClaimed = localStorage.getItem('dailyClaimed') === 'true';
     let firstPurchaseClaimed = localStorage.getItem('firstPurchaseClaimed') === 'true';
     let gameActive = false, selectedIndices = [], gameCards = [];
+    let currentSearchTerm = "";
     
     function getSymbol() { return currencySymbols[currentCurrency] || "₱"; }
-    function getDisplayPrice(phpPrice) {
-        let rate = exchangeRates[currentCurrency] || 1;
-        let converted = phpPrice * rate;
-        if (currentCurrency === "ROBUX") {
-            converted = converted * (1 + ROBUX_MARKUP);
-        }
-        return converted.toFixed(2);
-    }
-    function getRawPrice(phpPrice) {
-        let rate = exchangeRates[currentCurrency] || 1;
-        let converted = phpPrice * rate;
-        if (currentCurrency === "ROBUX") {
-            converted = converted * (1 + ROBUX_MARKUP);
-        }
-        return converted;
-    }
+    function getDisplayPrice(phpPrice) { let rate = exchangeRates[currentCurrency] || 1; let converted = phpPrice * rate; if (currentCurrency === "ROBUX") converted = converted * (1 + ROBUX_MARKUP); return converted.toFixed(2); }
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
-    function changeCurrency() { 
-        currentCurrency = document.getElementById('currencySelect').value; 
-        renderProducts(); 
-        updateCartUI(); 
-    }
+    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); }
     function filterProducts() { currentSearchTerm = document.getElementById('searchInput').value.toLowerCase(); renderProducts(); }
     
     // Points System
     function loadPoints() { const saved = localStorage.getItem(`points_${currentUser?.email || 'guest'}`); userPoints = saved ? parseInt(saved) : 0; document.getElementById('pointsBalance').innerText = userPoints; if(document.getElementById('profilePoints')) document.getElementById('profilePoints').innerText = userPoints; }
     function savePoints() { localStorage.setItem(`points_${currentUser?.email || 'guest'}`, userPoints); loadPoints(); }
-    
     function showRedeemModal() { if(!isLoggedIn) { performGoogleLogin(); return; } document.getElementById('redeemPointsDisplay').innerText = userPoints; document.getElementById('redeemModal').classList.add('show'); }
     function closeRedeemModal() { document.getElementById('redeemModal').classList.remove('show'); }
-    function redeemItem(itemName, cost) { if(userPoints < cost) { showToast(`Need ${cost} points! You have ${userPoints}`); return; } const item = items.find(i => i.name === itemName); if(!item) { showToast("Item not found"); return; } userPoints -= cost; savePoints(); cart.push({ ...item, name: item.name, price: 0, quantity: 1, isChroma: false, isRedeemed: true }); updateCartUI(); showToast(`🎉 Redeemed ${itemName} for ${cost} points!`); closeRedeemModal(); }
+    function redeemItem(itemName, cost) { if(userPoints < cost) { showToast(`Need ${cost} points!`); return; } const item = items.find(i => i.name === itemName); if(!item) return; userPoints -= cost; savePoints(); cart.push({ ...item, name: item.name, price: 0, quantity: 1, isChroma: false, isRedeemed: true }); updateCartUI(); showToast(`🎉 Redeemed ${itemName}!`); closeRedeemModal(); }
     
-    // Luck Balance
     function loadLuckBalance() { const saved = localStorage.getItem(`luck_balance_${currentUser?.email || 'guest'}`); luckBalance = saved ? parseInt(saved) : 0; updateLuckDisplay(); }
     function saveLuckBalance() { localStorage.setItem(`luck_balance_${currentUser?.email || 'guest'}`, luckBalance); }
     function updateLuckDisplay() { document.getElementById('luckBalance').innerText = luckBalance; document.getElementById('userLuckBalance').innerText = luckBalance; if(document.getElementById('profileLuckBalance')) document.getElementById('profileLuckBalance').innerText = luckBalance; }
-    
-    function claimDailyReward() { if(!isLoggedIn) { performGoogleLogin(); return; } if(dailyClaimed) { showToast("Already claimed today!"); return; } luckBalance += 50; saveLuckBalance(); updateLuckDisplay(); dailyClaimed = true; localStorage.setItem('dailyClaimed', 'true'); document.getElementById('claimDailyBtn').disabled = true; document.getElementById('claimDailyBtn').innerText = "Claimed ✓"; showToast("+50 credits!"); }
+    function claimDailyReward() { if(!isLoggedIn) { performGoogleLogin(); return; } if(dailyClaimed) { showToast("Already claimed!"); return; } luckBalance += 50; saveLuckBalance(); updateLuckDisplay(); dailyClaimed = true; localStorage.setItem('dailyClaimed', 'true'); document.getElementById('claimDailyBtn').disabled = true; document.getElementById('claimDailyBtn').innerText = "Claimed ✓"; showToast("+50 credits!"); }
     function claimFirstPurchase() { if(!isLoggedIn) { performGoogleLogin(); return; } if(firstPurchaseClaimed) { showToast("Already claimed!"); return; } luckBalance += 200; saveLuckBalance(); updateLuckDisplay(); firstPurchaseClaimed = true; localStorage.setItem('firstPurchaseClaimed', 'true'); document.getElementById('firstPurchaseBtn').disabled = true; document.getElementById('firstPurchaseBtn').innerText = "Claimed ✓"; showToast("+200 credits!"); }
     
     // Luck Game
     function startGame() { if(!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; } if(luckBalance < 50) { showToast(`Need 50 credits!`); return; } luckBalance -= 50; saveLuckBalance(); updateLuckDisplay(); const bombs = Array(7).fill({ type: 'bomb' }); const available = [...LUCK_ITEMS]; const prizes = []; for(let i=0;i<2 && available.length;i++){ const idx=Math.floor(Math.random()*available.length); prizes.push(available[idx]); available.splice(idx,1); } gameCards = [...bombs, ...prizes.map(p=>({type:'prize',name:p.name,image:p.image,id:p.id}))]; for(let i=gameCards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[gameCards[i],gameCards[j]]=[gameCards[j],gameCards[i]];} gameActive=true; selectedIndices=[]; renderGameGrid(); document.getElementById('gameResult').style.display='none'; document.getElementById('resetGameBtn').style.display='none'; document.getElementById('playGameBtn').disabled=true; document.getElementById('playGameBtn').innerText="Game in progress..."; }
-    function renderGameGrid() { const grid = document.getElementById('gameGrid'); if(!grid) return; grid.innerHTML = gameCards.map((card,idx)=>`<div class="game-card ${selectedIndices.includes(idx)?'revealed':''}" onclick="selectCard(${idx})">${selectedIndices.includes(idx)?(card.type==='bomb'?'💣':(card.image?`<img src="${card.image}" style="border-radius:20px;">`:`✨${card.name}`)):'❓'}</div>`).join(''); }
+    function renderGameGrid() { const grid = document.getElementById('gameGrid'); if(!grid) return; grid.innerHTML = gameCards.map((card,idx)=>`<div class="game-card ${selectedIndices.includes(idx)?'revealed':''}" onclick="selectCard(${idx})">${selectedIndices.includes(idx)?(card.type==='bomb'?'💣':(card.image?`<img src="${card.image}">`:`✨${card.name}`)):'❓'}</div>`).join(''); }
     function selectCard(idx) { if(!gameActive || selectedIndices.includes(idx) || selectedIndices.length>=2) return; selectedIndices.push(idx); renderGameGrid(); if(selectedIndices.length===2){ gameActive=false; const wins=selectedIndices.filter(i=>gameCards[i].type==='prize'); if(wins.length){ const names=wins.map(i=>gameCards[i].name); document.getElementById('gameResult').innerHTML=`<div style="color:#10b981;">🎉 You won: ${names.join(', ')}!</div>`; showToast(`Won ${names.join(', ')}!`); } else { document.getElementById('gameResult').innerHTML=`<div style="color:#ef4444;">💥 BOOM! You lost.</div>`; } document.getElementById('gameResult').style.display='block'; document.getElementById('resetGameBtn').style.display='block'; document.getElementById('playGameBtn').disabled=false; document.getElementById('playGameBtn').innerText="Start Game"; } }
     function resetGame() { gameActive=false; gameCards=[]; renderGameGrid(); document.getElementById('gameResult').style.display='none'; document.getElementById('resetGameBtn').style.display='none'; document.getElementById('playGameBtn').disabled=false; document.getElementById('playGameBtn').innerText="Start Game"; }
     
@@ -302,65 +335,155 @@
     function showGames() { hideAllPages(); document.getElementById('gamesPage').style.display='block'; loadLuckBalance(); resetGame(); }
     function showHome() { hideAllPages(); document.getElementById('homePage').style.display='block'; }
     function showShop() { hideAllPages(); document.getElementById('shopPage').style.display='block'; renderProducts(); }
-    function showOrdersAndChat() { hideAllPages(); document.getElementById('ordersChatPage').style.display='block'; renderOrdersList(); }
+    function showSupportChat() { hideAllPages(); document.getElementById('supportChatPage').style.display='block'; loadBuyerMessages(); }
+    function showAdminPanel() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; } hideAllPages(); document.getElementById('adminPanelPage').style.display='block'; renderConversationList(); }
     function showAdmin() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; } hideAllPages(); document.getElementById('adminPage').style.display='block'; renderInventory(); }
     
     function renderProducts() { let filtered = items.filter(i=>{ if(currentFilter==='knife') return i.type==='knife'; if(currentFilter==='gun') return i.type==='gun'; return true; }); if(currentSearchTerm) filtered=filtered.filter(i=>i.name.toLowerCase().includes(currentSearchTerm)); document.getElementById('productsGrid').innerHTML=filtered.map(item=>`<div class="product-card" onclick="openPurchaseModal(${item.id})"><div class="discount-badge">-${item.discount}%</div><div class="product-image"><img src="${item.image || 'https://via.placeholder.com/200x200?text=No+Image'}" onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`).join(''); }
-    
     function openPurchaseModal(id) { const item=items.find(i=>i.id===id); selectedItemForModal={...item}; document.getElementById('modalItemImg').src=item.image||'https://via.placeholder.com/200x200?text=Item'; document.getElementById('modalItemName').innerHTML=item.name; document.getElementById('modalItemPrice').innerHTML=`${getSymbol()}${getDisplayPrice(item.price)}`; document.getElementById('modalQuantity').value=1; document.getElementById('modalIsChroma').checked=false; document.getElementById('purchaseModal').classList.add('show'); }
     function closePurchaseModal() { document.getElementById('purchaseModal').classList.remove('show'); selectedItemForModal=null; }
     function confirmAddToCart() { if(!selectedItemForModal) return; const qty=parseInt(document.getElementById('modalQuantity').value)||1; const isChroma=document.getElementById('modalIsChroma').checked; let price=selectedItemForModal.price; if(isChroma) price+=20; const name=isChroma?`✨ ${selectedItemForModal.name} (Chroma)`:selectedItemForModal.name; const existing=cart.find(i=>i.id===selectedItemForModal.id && i.isChroma===isChroma); if(existing) existing.quantity+=qty; else cart.push({...selectedItemForModal,name,price,quantity:qty,isChroma}); updateCartUI(); showToast(`${qty}x ${name} added`); closePurchaseModal(); }
-    
     function updateCartUI() { let total=cart.reduce((s,i)=>s+(i.price*i.quantity),0); const count=cart.reduce((s,i)=>s+i.quantity,0); document.getElementById('cartCount').innerText=count; document.getElementById('cartTotal').innerHTML=`Total: ${getSymbol()}${getDisplayPrice(total)}`; const c=document.getElementById('cartItemsList'); if(cart.length===0){ c.innerHTML='<p style="text-align:center;">Cart empty</p>'; return; } c.innerHTML=cart.map(item=>`<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity-1}, ${!!item.isChroma})">-</button> <span>${item.quantity}</span> <button onclick="updateQty(${item.id}, ${item.quantity+1}, ${!!item.isChroma})">+</button> <button onclick="removeFromCart(${item.id}, ${!!item.isChroma})"><i class="fas fa-trash"></i></button></div></div>`).join(''); }
     function updateQty(id,n,isChroma) { if(n<=0) removeFromCart(id,isChroma); else { const i=cart.find(i=>i.id===id && (i.isChroma||false)===isChroma); if(i) i.quantity=n; updateCartUI(); } }
     function removeFromCart(id,isChroma) { cart=cart.filter(i=>!(i.id===id && (i.isChroma||false)===isChroma)); updateCartUI(); }
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+    function initiateCheckout() { if(!isLoggedIn) { performGoogleLogin(); return; } if(cart.length===0){ showToast("Cart empty"); return; } if(!verifiedRobloxUser){ showToast("Link Roblox first"); openProfilePanel(); return; } const orderId = 'ECHO-' + Date.now().toString(36).toUpperCase(); const orderTotalPHP = cart.reduce((s,i)=>s+(i.price*i.quantity),0); const params = new URLSearchParams({ order_id: orderId, amount: orderTotalPHP.toString(), currency: currentCurrency, roblox_user: verifiedRobloxUser.username, items: JSON.stringify(cart.map(i => ({ name: i.name, quantity: i.quantity, price: i.price }))) }); window.location.href = `${PAYMENT_SITE_URL}?${params.toString()}`; }
     
-    // Checkout - Redirect to payment website, NO points added
-    function initiateCheckout() { 
-        if(!isLoggedIn) { performGoogleLogin(); return; } 
-        if(cart.length===0){ showToast("Cart empty"); return; } 
-        if(!verifiedRobloxUser){ showToast("Link Roblox first"); openProfilePanel(); return; } 
-        
-        const orderId = 'ECHO-' + Date.now().toString(36).toUpperCase();
-        const orderTotalPHP = cart.reduce((s,i)=>s+(i.price*i.quantity),0);
-        const orderTotalDisplay = getDisplayPrice(orderTotalPHP);
-        const orderData = { 
-            orderId, 
-            items: cart.map(i=>({ name:i.name, price:i.price, quantity:i.quantity })), 
-            total: orderTotalPHP,
-            totalDisplay: orderTotalDisplay,
-            currency: currentCurrency,
-            symbol: getSymbol(),
-            robloxUser: verifiedRobloxUser.username, 
-            status:'Pending', 
-            date: new Date().toISOString(), 
-            userEmail: currentUser.email 
-        };
-        orders.unshift(orderData); 
-        localStorage.setItem('echoknives_orders', JSON.stringify(orders));
-        
-        // Create order conversation
-        allMessages[orderId] = [{ sender:'system', text: `📦 Order #${orderId} created. Total: ${getSymbol()}${orderTotalDisplay}. Waiting for payment.` }];
-        localStorage.setItem('echoknives_all_messages', JSON.stringify(allMessages));
-        
-        // Redirect to payment website with order details
-        const params = new URLSearchParams({
-            order_id: orderId,
-            amount: orderTotalPHP.toString(),
-            currency: currentCurrency,
-            roblox_user: verifiedRobloxUser.username,
-            items: JSON.stringify(cart.map(i => ({ name: i.name, quantity: i.quantity, price: i.price })))
-        });
-        
-        window.location.href = `${PAYMENT_SITE_URL}?${params.toString()}`;
+    // ========== MESSAGING SYSTEM ==========
+    function getOrCreateConversation() {
+        if(!currentUser) return null;
+        let conv = conversations.find(c => c.userEmail === currentUser.email);
+        if(!conv) {
+            conv = { id: Date.now().toString(), userEmail: currentUser.email, userName: currentUser.displayName || currentUser.email.split('@')[0], messages: [], unread: false, createdAt: new Date().toISOString() };
+            conversations.push(conv);
+            saveConversations();
+        }
+        return conv;
     }
     
-    // Orders & Chat
-    function renderOrdersList() { const container=document.getElementById('ordersListContainer'); if(!container) return; let userOrders=(currentUser?.email===ADMIN_EMAIL)?orders:orders.filter(o=>o.userEmail===currentUser?.email); if(userOrders.length===0){ container.innerHTML='<div style="text-align:center;padding:40px;">No orders</div>'; return; } container.innerHTML=userOrders.map(o=>`<div class="order-item" style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px; margin-bottom:10px; cursor:pointer;" onclick="selectOrder('${o.orderId}')"><div><strong>#${o.orderId}</strong> <span style="background:${o.status==='Delivered'?'#10b981':'#ef4444'}; padding:2px 8px; border-radius:20px;">${o.status}</span></div><div>${o.robloxUser}</div><div>Total: ${o.symbol || '₱'}${o.totalDisplay || o.total}</div></div>`).join(''); }
-    function selectOrder(id) { currentSelectedOrderId=id; const msgs=allMessages[id]||[]; document.getElementById('chatMessagesList').innerHTML=msgs.map(m=>`<div><strong>${m.sender}:</strong> ${m.text}</div>`).join(''); document.getElementById('chatOrderId').innerHTML=`#${id}`; }
-    function sendChatMessage() { if(!currentSelectedOrderId){ showToast("Select order"); return; } const input=document.getElementById('chatMessageInput'); const text=input.value.trim(); if(!text) return; if(!allMessages[currentSelectedOrderId]) allMessages[currentSelectedOrderId]=[]; allMessages[currentSelectedOrderId].push({sender:'buyer',text}); localStorage.setItem('echoknives_all_messages',JSON.stringify(allMessages)); selectOrder(currentSelectedOrderId); input.value=''; }
+    function saveConversations() { localStorage.setItem('echoknives_support_conversations', JSON.stringify(conversations)); }
+    
+    function loadBuyerMessages() {
+        const conv = getOrCreateConversation();
+        if(conv) { conv.unread = false; saveConversations(); renderBuyerMessages(conv.messages); }
+        else { document.getElementById('supportMessagesArea').innerHTML = '<div class="message-bubble system">Please login to send messages.</div>'; }
+    }
+    
+    function renderBuyerMessages(messages) {
+        const container = document.getElementById('supportMessagesArea');
+        if(!container) return;
+        if(!messages || messages.length === 0) {
+            container.innerHTML = '<div class="message-bubble system">💬 Welcome! Type !JoinUs to get private server link and bot invite.</div>';
+            return;
+        }
+        container.innerHTML = messages.map(msg => `
+            <div class="message-bubble ${msg.sender === 'admin' ? 'admin' : 'buyer'}">
+                <div class="message-sender-name">${msg.sender === 'admin' ? '🛡️ Admin Support' : 'You'}</div>
+                <div>${msg.text}</div>
+                <div class="message-time">${new Date(msg.timestamp).toLocaleTimeString()}</div>
+                ${msg.type === 'joinus' ? `<div class="command-buttons" style="margin-top: 10px;">
+                    <button class="cmd-btn" onclick="window.open('${PRIVATE_SERVER_LINK}', '_blank')"><i class="fas fa-gamepad"></i> Join Private Server</button>
+                    <button class="cmd-btn" onclick="window.open('${BOT_INVITE_LINK}', '_blank')"><i class="fab fa-discord"></i> Add Bot</button>
+                </div>` : ''}
+            </div>
+        `).join('');
+        container.scrollTop = container.scrollHeight;
+    }
+    
+    function sendSupportMessage() {
+        if(!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
+        const input = document.getElementById('supportChatInput');
+        let text = input.value.trim();
+        if(!text) return;
+        let isJoinUs = text.toLowerCase() === '!joinus';
+        if(isJoinUs) text = "🎮 !JoinUs - Requested server info";
+        const conv = getOrCreateConversation();
+        const newMsg = { id: Date.now(), sender: 'buyer', text: text, timestamp: new Date().toISOString(), type: isJoinUs ? 'joinus' : 'normal' };
+        conv.messages.push(newMsg);
+        conv.unread = true;
+        saveConversations();
+        renderBuyerMessages(conv.messages);
+        input.value = '';
+        if(isJoinUs) sendJoinUsCommand();
+        showToast("Message sent! Admin will respond shortly.");
+    }
+    
+    function sendJoinUsCommand() {
+        if(!isLoggedIn) { performGoogleLogin(); return; }
+        const conv = getOrCreateConversation();
+        const newMsg = { id: Date.now(), sender: 'buyer', text: "🎮 !JoinUs - Requested server info", timestamp: new Date().toISOString(), type: 'joinus' };
+        conv.messages.push(newMsg);
+        conv.unread = true;
+        saveConversations();
+        renderBuyerMessages(conv.messages);
+        showToast("JoinUs command sent! Check the message for buttons.");
+    }
+    
+    // Admin Functions
+    function renderConversationList() {
+        const container = document.getElementById('conversationList');
+        if(!container) return;
+        if(conversations.length === 0) { container.innerHTML = '<div style="text-align:center;padding:40px;">No conversations yet.</div>'; return; }
+        container.innerHTML = conversations.map(conv => `
+            <div class="convo-item ${conv.unread ? 'unread' : ''}" onclick="openAdminConversation('${conv.id}')">
+                <div class="convo-sender"><i class="fas fa-user"></i> ${conv.userName}</div>
+                <div class="convo-preview">${conv.messages.length > 0 ? conv.messages[conv.messages.length-1].text.substring(0,60) : 'No messages'}</div>
+                <div class="convo-date">${new Date(conv.messages[conv.messages.length-1]?.timestamp || conv.createdAt).toLocaleString()}</div>
+                ${conv.unread ? '<span class="message-badge">New</span>' : ''}
+            </div>
+        `).join('');
+    }
+    
+    function openAdminConversation(convId) {
+        const conv = conversations.find(c => c.id === convId);
+        if(!conv) return;
+        conv.unread = false;
+        saveConversations();
+        activeConversationId = convId;
+        document.getElementById('activeChatUserName').innerText = conv.userName;
+        renderAdminMessages(conv.messages);
+        document.getElementById('adminChatView').style.display = 'block';
+        renderConversationList();
+    }
+    
+    function renderAdminMessages(messages) {
+        const container = document.getElementById('adminChatMessagesArea');
+        if(!container) return;
+        container.innerHTML = messages.map(msg => `
+            <div class="message-bubble ${msg.sender === 'admin' ? 'admin' : 'buyer'}">
+                <div class="message-sender-name">${msg.sender === 'admin' ? '🛡️ Admin (You)' : msg.sender === 'buyer' ? conv?.userName : 'System'}</div>
+                <div>${msg.text}</div>
+                <div class="message-time">${new Date(msg.timestamp).toLocaleTimeString()}</div>
+                ${msg.type === 'joinus' ? `<div class="command-buttons" style="margin-top: 10px;">
+                    <button class="cmd-btn" onclick="window.open('${PRIVATE_SERVER_LINK}', '_blank')"><i class="fas fa-gamepad"></i> Join Private Server</button>
+                    <button class="cmd-btn" onclick="window.open('${BOT_INVITE_LINK}', '_blank')"><i class="fab fa-discord"></i> Add Bot</button>
+                </div>` : ''}
+            </div>
+        `).join('');
+        container.scrollTop = container.scrollHeight;
+    }
+    
+    function sendAdminReply() {
+        if(!activeConversationId) { showToast("Select a conversation first"); return; }
+        const input = document.getElementById('adminReplyInput');
+        const text = input.value.trim();
+        if(!text) return;
+        const conv = conversations.find(c => c.id === activeConversationId);
+        if(conv) {
+            const newMsg = { id: Date.now(), sender: 'admin', text: text, timestamp: new Date().toISOString(), type: 'normal' };
+            conv.messages.push(newMsg);
+            saveConversations();
+            renderAdminMessages(conv.messages);
+            input.value = '';
+            showToast(`Reply sent to ${conv.userName}`);
+        }
+    }
+    
+    function closeAdminChat() {
+        document.getElementById('adminChatView').style.display = 'none';
+        activeConversationId = null;
+    }
     
     // Profile
     function openProfilePanel() { if(!isLoggedIn){ performGoogleLogin(); return; } hideAllPages(); document.getElementById('profilePanel').style.display='block'; updateProfilePanel(); }
@@ -374,33 +497,31 @@
     function switchGoogleAccount(){ performGoogleLogin(); }
     async function performGoogleLogout(){ if(window.firebaseAuth){ await window.firebaseSignOut(window.firebaseAuth); } showToast("Logged out"); }
     
-    // Admin
-    function renderInventory() { const container=document.getElementById('inventoryList'); if(!container) return; container.innerHTML=items.map(item=>`<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px;"><strong>${item.name}</strong><br>₱${item.price}<br><button onclick="editItemPrice(${item.id})" style="background:#f59e0b; border:none; padding:5px 10px; border-radius:20px; margin-right:5px;">Edit Price</button><button onclick="deleteItem(${item.id})" style="background:#ef4444; border:none; padding:5px 10px; border-radius:20px;">Delete</button></div>`).join(''); }
+    // Admin Inventory
+    function renderInventory() { const container=document.getElementById('inventoryList'); if(!container) return; container.innerHTML=items.map(item=>`<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px;"><strong>${item.name}</strong><br>₱${item.price}<br><button onclick="editItemPrice(${item.id})">Edit Price</button><button onclick="deleteItem(${item.id})">Delete</button></div>`).join(''); }
     function editItemPrice(id){ const np=prompt("New PHP price:"); if(np && !isNaN(parseFloat(np))){ const item=items.find(i=>i.id===id); if(item){ item.price=parseFloat(np); item.originalPrice=Math.round(item.price*1.33); item.discount=Math.round((1-item.price/item.originalPrice)*100); localStorage.setItem('echoknives_items',JSON.stringify(items)); renderInventory(); renderProducts(); showToast("Updated!"); } } }
     function deleteItem(id){ items=items.filter(i=>i.id!==id); localStorage.setItem('echoknives_items',JSON.stringify(items)); renderInventory(); renderProducts(); showToast("Deleted"); }
     function giveSelfCredits() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; } const amount = parseInt(document.getElementById('adminSelfCredits').value); if(isNaN(amount)) return; luckBalance += amount; saveLuckBalance(); updateLuckDisplay(); showToast(`+${amount} credits`); }
     
-    function hideAllPages(){ ['homePage','shopPage','gamesPage','ordersChatPage','adminPage','profilePanel'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; }); }
+    function hideAllPages(){ ['homePage','shopPage','gamesPage','supportChatPage','adminPanelPage','adminPage','profilePanel'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; }); }
     
-    // Auth
     window.handleAuthStateChanged=function(user){ if(user){ isLoggedIn=true; currentUser=user; updateHeaderDisplay(); loadLuckBalance(); loadPoints(); const adminBtn=document.getElementById('adminNavBtn'); if(user.email===ADMIN_EMAIL) adminBtn.style.display='block'; else adminBtn.style.display='none'; showToast(`Welcome ${user.displayName||'User'}!`); } else { isLoggedIn=false; currentUser=null; updateHeaderDisplay(); loadLuckBalance(); loadPoints(); document.getElementById('adminNavBtn').style.display='none'; } renderProducts(); };
     async function performGoogleLogin(){ if(window.firebaseAuth){ try{ await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } catch(e){ showToast("Login failed"); } } else showToast("Loading..."); }
     function showReferral() { showToast("Share: echoknives.com/ref/"+ (currentUser?.uid || 'guest')); }
     
-    // Init
     document.querySelectorAll('.filter-btn').forEach(btn=>{ btn.addEventListener('click',()=>{ document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentFilter=btn.dataset.filter; renderProducts(); }); });
     function createParticles(){ const c=document.getElementById('particles'); for(let i=0;i<80;i++){ const p=document.createElement('div'); p.classList.add('particle'); p.style.width=(Math.random()*6+2)+'px'; p.style.left=Math.random()*100+'%'; p.style.animationDelay=Math.random()*20+'s'; p.style.animationDuration=(Math.random()*15+10)+'s'; c.appendChild(p); } }
     createParticles(); showHome(); renderProducts(); const savedItems=localStorage.getItem('echoknives_items'); if(savedItems) items=JSON.parse(savedItems);
     
-    window.showHome=showHome; window.showShop=showShop; window.showGames=showGames; window.showOrdersAndChat=showOrdersAndChat; window.showAdmin=showAdmin; window.openProfilePanel=openProfilePanel;
+    window.showHome=showHome; window.showShop=showShop; window.showGames=showGames; window.showSupportChat=showSupportChat; window.showAdminPanel=showAdminPanel; window.showAdmin=showAdmin; window.openProfilePanel=openProfilePanel;
     window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.toggleCart=toggleCart; window.closeCart=closeCart; window.changeCurrency=changeCurrency; window.performGoogleLogin=performGoogleLogin; window.performGoogleLogout=performGoogleLogout;
     window.openRobloxVerification=openRobloxVerification; window.closeRobloxModal=closeRobloxModal; window.confirmRobloxAndSave=confirmRobloxAndSave; window.unlinkRobloxAccount=unlinkRobloxAccount;
     window.initiateCheckout=initiateCheckout; window.openPurchaseModal=openPurchaseModal; window.closePurchaseModal=closePurchaseModal; window.confirmAddToCart=confirmAddToCart;
-    window.selectOrder=selectOrder; window.sendChatMessage=sendChatMessage;
     window.startGame=startGame; window.selectCard=selectCard; window.resetGame=resetGame;
     window.giveSelfCredits=giveSelfCredits; window.editItemPrice=editItemPrice; window.deleteItem=deleteItem;
     window.showReferral=showReferral; window.claimDailyReward=claimDailyReward; window.claimFirstPurchase=claimFirstPurchase;
     window.showRedeemModal=showRedeemModal; window.closeRedeemModal=closeRedeemModal; window.redeemItem=redeemItem;
+    window.sendSupportMessage=sendSupportMessage; window.sendJoinUsCommand=sendJoinUsCommand; window.openAdminConversation=openAdminConversation; window.sendAdminReply=sendAdminReply; window.closeAdminChat=closeAdminChat;
 </script>
 </body>
 </html>
