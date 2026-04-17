@@ -42,7 +42,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%); color: #fff; overflow-x: hidden; min-height: 100vh; }
         
-        /* Enhanced VFX Background */
+        /* Custom VFX Background */
         .animated-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 20% 50%, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%); }
         .glow-orb { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.4; z-index: -1; animation: float 25s infinite ease-in-out; }
         .orb-1 { width: 600px; height: 600px; background: #6c5ce7; top: -300px; left: -300px; }
@@ -57,138 +57,123 @@
         ::-webkit-scrollbar-track { background: #1a1a3e; }
         ::-webkit-scrollbar-thumb { background: #6c5ce7; border-radius: 10px; }
 
-        /* Header */
-        .header { background: rgba(15, 12, 41, 0.85); backdrop-filter: blur(10px); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(108, 92, 231, 0.3); flex-wrap: wrap; gap: 15px; }
+        /* Custom Header - No Google Defaults */
+        .header { background: rgba(15, 12, 41, 0.95); backdrop-filter: blur(12px); padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid rgba(108, 92, 231, 0.5); flex-wrap: wrap; gap: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
         .logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .logo-icon { font-size: 32px; color: #6c5ce7; }
-        .logo-text { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #fff, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .nav-links { display: flex; gap: 10px; background: rgba(108, 92, 231, 0.1); padding: 5px; border-radius: 50px; }
-        .nav-link { padding: 8px 24px; border-radius: 40px; cursor: pointer; font-weight: 600; color: #ccc; background: transparent; border: none; }
-        .nav-link:hover, .nav-link.active { background: #6c5ce7; color: white; }
-        .top-right { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
-        .points-display, .luck-balance { background: linear-gradient(135deg, #f59e0b, #d97706); padding: 8px 16px; border-radius: 40px; display: flex; align-items: center; gap: 8px; font-weight: 700; cursor: pointer; }
+        .logo-icon { font-size: 32px; color: #6c5ce7; text-shadow: 0 0 10px rgba(108,92,231,0.5); }
+        .logo-text { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #fff, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .logo-sub { font-size: 9px; letter-spacing: 2px; color: #a855f7; }
+        .nav-links { display: flex; gap: 8px; background: rgba(108, 92, 231, 0.15); padding: 5px; border-radius: 50px; border: 1px solid rgba(108,92,231,0.2); }
+        .nav-link { padding: 8px 22px; border-radius: 40px; cursor: pointer; font-weight: 600; color: #ccc; background: transparent; border: none; transition: all 0.2s; font-size: 14px; }
+        .nav-link:hover, .nav-link.active { background: #6c5ce7; color: white; box-shadow: 0 0 15px rgba(108,92,231,0.5); }
+        .top-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .points-display, .luck-balance { background: linear-gradient(135deg, #f59e0b, #d97706); padding: 8px 16px; border-radius: 40px; display: flex; align-items: center; gap: 8px; font-weight: 700; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); transition: transform 0.2s; }
+        .points-display:hover, .luck-balance:hover { transform: scale(1.02); }
         .luck-balance { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-        .shop-controls { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
-        .currency-selector { background: rgba(108, 92, 231, 0.2); border: 1px solid rgba(108, 92, 231, 0.3); border-radius: 30px; padding: 8px 16px; }
-        .currency-selector select { background: transparent; border: none; color: white; font-size: 13px; cursor: pointer; outline: none; }
-        .search-box { background: rgba(255,255,255,0.1); border: 1px solid rgba(108,92,231,0.3); border-radius: 30px; padding: 5px 15px; display: flex; align-items: center; gap: 8px; }
-        .search-box input { background: transparent; border: none; color: white; padding: 8px 0; outline: none; width: 180px; }
-        .menu-icon { font-size: 24px; cursor: pointer; background: rgba(108,92,231,0.2); padding: 8px 16px; border-radius: 40px; }
-        .user-info { display: flex; align-items: center; gap: 10px; background: rgba(108, 92, 231, 0.2); border: 1px solid rgba(108, 92, 231, 0.3); padding: 5px 15px; border-radius: 40px; cursor: pointer; }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #6c5ce7; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .cart-icon { position: relative; cursor: pointer; background: rgba(108, 92, 231, 0.2); padding: 8px 16px; border-radius: 40px; }
-        .cart-count { position: absolute; top: -5px; right: -5px; background: #ef4444; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; }
+        .shop-controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .currency-selector { background: rgba(108, 92, 231, 0.2); border: 1px solid rgba(108, 92, 231, 0.4); border-radius: 30px; padding: 7px 14px; }
+        .currency-selector select { background: transparent; border: none; color: white; font-size: 13px; cursor: pointer; outline: none; font-weight: 500; }
+        .search-box { background: rgba(255,255,255,0.08); border: 1px solid rgba(108,92,231,0.4); border-radius: 30px; padding: 5px 15px; display: flex; align-items: center; gap: 8px; }
+        .search-box input { background: transparent; border: none; color: white; padding: 8px 0; outline: none; width: 170px; font-size: 13px; }
+        .search-box input::placeholder { color: rgba(255,255,255,0.5); }
+        .menu-icon { font-size: 22px; cursor: pointer; background: rgba(108,92,231,0.2); padding: 8px 16px; border-radius: 40px; transition: 0.2s; }
+        .menu-icon:hover { background: rgba(108,92,231,0.4); }
+        .user-info { display: flex; align-items: center; gap: 10px; background: rgba(108, 92, 231, 0.2); border: 1px solid rgba(108, 92, 231, 0.4); padding: 5px 15px; border-radius: 40px; cursor: pointer; transition: 0.2s; }
+        .user-info:hover { background: rgba(108,92,231,0.35); }
+        .user-avatar { width: 38px; height: 38px; border-radius: 50%; background: #6c5ce7; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .cart-icon { position: relative; cursor: pointer; background: rgba(108, 92, 231, 0.2); padding: 8px 16px; border-radius: 40px; transition: 0.2s; }
+        .cart-icon:hover { background: rgba(108,92,231,0.4); }
+        .cart-count { position: absolute; top: -5px; right: -5px; background: #ef4444; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
 
-        /* Hero */
+        /* Hero - Custom */
         .hero { min-height: 60vh; display: flex; align-items: center; justify-content: space-between; padding: 40px 5%; flex-wrap: wrap; gap: 50px; }
         .hero-content { flex: 1; min-width: 300px; animation: fadeInUp 0.6s ease; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .hero-badge { display: inline-block; background: rgba(16, 185, 129, 0.15); padding: 8px 25px; border-radius: 40px; font-size: 14px; color: #10b981; margin-bottom: 25px; border: 1px solid rgba(16, 185, 129, 0.3); }
-        .hero-title { font-size: 58px; font-weight: 800; font-family: 'Orbitron', monospace; }
+        .hero-badge { display: inline-block; background: rgba(16, 185, 129, 0.15); padding: 8px 25px; border-radius: 40px; font-size: 13px; color: #10b981; margin-bottom: 25px; border: 1px solid rgba(16, 185, 129, 0.4); backdrop-filter: blur(5px); }
+        .hero-title { font-size: 56px; font-weight: 800; font-family: 'Orbitron', monospace; line-height: 1.2; }
         .hero-title span { background: linear-gradient(135deg, #6c5ce7, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .hero-desc { font-size: 18px; color: #aaa; margin-bottom: 35px; line-height: 1.6; }
-        .security-badges { display: flex; gap: 20px; margin: 25px 0; flex-wrap: wrap; }
-        .security-badge { background: rgba(0,0,0,0.3); padding: 8px 18px; border-radius: 40px; font-size: 13px; }
+        .hero-desc { font-size: 17px; color: #bbb; margin-bottom: 35px; line-height: 1.6; }
+        .security-badges { display: flex; gap: 15px; margin: 25px 0; flex-wrap: wrap; }
+        .security-badge { background: rgba(0,0,0,0.4); padding: 6px 16px; border-radius: 40px; font-size: 12px; border: 1px solid rgba(255,255,255,0.1); }
         .hero-stats { display: flex; gap: 40px; margin-bottom: 45px; }
-        .hero-stat h3 { font-size: 36px; font-weight: 800; color: #6c5ce7; }
-        .btn-primary { background: linear-gradient(135deg, #6c5ce7, #a855f7); border: none; padding: 14px 35px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; }
-        .hero-image img { max-width: 100%; filter: drop-shadow(0 0 40px rgba(108,92,231,0.3)); animation: floatImage 4s ease-in-out infinite; border-radius: 20px; }
+        .hero-stat h3 { font-size: 34px; font-weight: 800; color: #6c5ce7; }
+        .hero-stat p { font-size: 13px; color: #aaa; }
+        .btn-primary { background: linear-gradient(135deg, #6c5ce7, #a855f7); border: none; padding: 14px 35px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 0 20px rgba(108,92,231,0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(108,92,231,0.5); }
+        .hero-image img { max-width: 100%; filter: drop-shadow(0 0 40px rgba(108,92,231,0.3)); animation: floatImage 4s ease-in-out infinite; border-radius: 20px; max-height: 350px; object-fit: contain; }
         @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-        /* Luck of Draw & Rewards Section */
+        /* Games & Rewards Section */
         .games-container { max-width: 1400px; margin: 0 auto 40px; padding: 0 5%; display: flex; gap: 30px; flex-wrap: wrap; }
         .luck-section, .rewards-section { flex: 1; min-width: 320px; }
-        .luck-title, .rewards-title { font-family: 'Orbitron', monospace; font-size: 24px; margin-bottom: 20px; color: #a855f7; display: flex; align-items: center; gap: 10px; }
-        .luck-container, .rewards-container { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 30px; padding: 30px; border: 1px solid rgba(108,92,231,0.3); }
+        .luck-title, .rewards-title { font-family: 'Orbitron', monospace; font-size: 24px; margin-bottom: 20px; color: #a855f7; display: flex; align-items: center; gap: 10px; text-shadow: 0 0 10px rgba(168,85,247,0.3); }
+        .luck-container, .rewards-container { background: rgba(0,0,0,0.55); backdrop-filter: blur(12px); border-radius: 30px; padding: 25px; border: 1px solid rgba(108,92,231,0.4); }
         .luck-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
-        .luck-cost { background: rgba(108,92,231,0.3); padding: 10px 20px; border-radius: 30px; font-size: 14px; }
-        .play-btn { background: linear-gradient(135deg, #10b981, #059669); border: none; padding: 12px 30px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; }
+        .luck-cost { background: rgba(108,92,231,0.3); padding: 8px 18px; border-radius: 30px; font-size: 13px; }
+        .play-btn { background: linear-gradient(135deg, #10b981, #059669); border: none; padding: 10px 28px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .play-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0; }
-        .game-card { background: linear-gradient(135deg, rgba(30,20,25,0.95), rgba(20,15,20,0.98)); border-radius: 20px; aspect-ratio: 1; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(108,92,231,0.3); display: flex; align-items: center; justify-content: center; }
-        .game-card:hover:not(.revealed) { transform: scale(1.05); border-color: #6c5ce7; }
+        .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 25px 0; }
+        .game-card { background: linear-gradient(135deg, rgba(30,20,25,0.95), rgba(20,15,20,0.98)); border-radius: 20px; aspect-ratio: 1; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(108,92,231,0.4); display: flex; align-items: center; justify-content: center; }
+        .game-card:hover:not(.revealed) { transform: scale(1.05); border-color: #6c5ce7; box-shadow: 0 0 20px rgba(108,92,231,0.3); }
         .game-card.revealed { cursor: default; opacity: 0.9; }
-        .game-card img { width: 70%; height: 70%; object-fit: contain; border-radius: 20px; }
-        .game-card .bomb-icon { font-size: 48px; color: #ef4444; }
-        .game-result { margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 20px; text-align: center; display: none; }
-        .result-win { color: #10b981; }
-        .result-lose { color: #ef4444; }
+        .game-card img { width: 70%; height: 70%; object-fit: contain; border-radius: 16px; }
+        .game-card .bomb-icon { font-size: 48px; color: #ef4444; text-shadow: 0 0 10px #ef4444; }
+        .game-result { margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.4); border-radius: 20px; text-align: center; display: none; }
+        .result-win { color: #10b981; font-weight: bold; }
+        .result-lose { color: #ef4444; font-weight: bold; }
         .reset-game { background: #6c5ce7; border: none; padding: 10px 20px; border-radius: 30px; color: white; cursor: pointer; margin-top: 15px; display: none; }
         
-        /* Rewards Section */
-        .reward-item { background: linear-gradient(135deg, rgba(30,20,25,0.95), rgba(20,15,20,0.98)); border-radius: 20px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; border: 1px solid rgba(108,92,231,0.3); transition: all 0.3s; }
+        /* Rewards Section - Custom */
+        .reward-item { background: linear-gradient(135deg, rgba(30,20,25,0.95), rgba(20,15,20,0.98)); border-radius: 20px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; border: 1px solid rgba(108,92,231,0.4); transition: all 0.3s; }
         .reward-item:hover { transform: translateX(5px); border-color: #6c5ce7; }
-        .reward-icon { width: 60px; height: 60px; background: linear-gradient(135deg, #2a1a2a, #1a0a1a); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+        .reward-icon { width: 55px; height: 55px; background: linear-gradient(135deg, #2a1a2a, #1a0a1a); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 26px; border: 1px solid rgba(108,92,231,0.3); }
         .reward-info { flex: 1; }
-        .reward-name { font-size: 18px; font-weight: 700; }
-        .reward-points { font-size: 14px; color: #f59e0b; }
-        .claim-btn { background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 8px 20px; border-radius: 30px; color: white; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .claim-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .reward-name { font-size: 17px; font-weight: 700; }
+        .reward-points { font-size: 13px; color: #f59e0b; }
+        .claim-btn { background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 8px 20px; border-radius: 30px; color: white; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .claim-btn:disabled { opacity: 0.5; cursor: not-allowed; background: #555; }
         .claimed-badge { background: #10b981; padding: 8px 20px; border-radius: 30px; font-size: 12px; font-weight: 600; }
 
-        /* Shop */
+        /* Shop - Custom Product Cards */
         .container { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
-        .filter-bar { background: rgba(0,0,0,0.5); padding: 12px 20px; margin-bottom: 25px; border-radius: 50px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-        .filter-btn { background: rgba(255,255,255,0.1); border: none; padding: 8px 24px; border-radius: 30px; color: white; cursor: pointer; }
-        .filter-btn.active { background: #6c5ce7; }
+        .filter-bar { background: rgba(0,0,0,0.5); padding: 12px 20px; margin-bottom: 25px; border-radius: 50px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; backdrop-filter: blur(5px); }
+        .filter-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(108,92,231,0.3); padding: 8px 24px; border-radius: 30px; color: white; cursor: pointer; transition: 0.2s; }
+        .filter-btn.active, .filter-btn:hover { background: #6c5ce7; border-color: #6c5ce7; }
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
-        .product-card { background: linear-gradient(135deg, rgba(30,20,25,0.95), rgba(20,15,20,0.98)); border-radius: 24px; overflow: hidden; transition: all 0.3s; border: 1px solid rgba(108,92,231,0.3); cursor: pointer; aspect-ratio: 0.8 / 1.2; display: flex; flex-direction: column; position: relative; }
-        .product-card:hover { transform: translateY(-8px); border-color: #6c5ce7; }
-        .discount-badge { position: absolute; top: 10px; left: 10px; background: #ef4444; color: white; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
-        .product-image { flex: 1; background: linear-gradient(135deg, #2a1a2a, #1a0a1a); display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .product-image img { width: 85%; height: 85%; object-fit: contain; border-radius: 20px; }
-        .product-info { padding: 18px; text-align: center; background: rgba(0,0,0,0.4); }
-        .product-name { font-size: 18px; font-weight: 800; }
-        .product-price { font-size: 22px; font-weight: 800; color: #6c5ce7; }
+        .product-card { background: linear-gradient(135deg, rgba(30,20,25,0.95), rgba(20,15,20,0.98)); border-radius: 24px; overflow: hidden; transition: all 0.3s; border: 1px solid rgba(108,92,231,0.4); cursor: pointer; aspect-ratio: 0.8 / 1.2; display: flex; flex-direction: column; position: relative; }
+        .product-card:hover { transform: translateY(-8px); border-color: #6c5ce7; box-shadow: 0 10px 30px rgba(108,92,231,0.2); }
+        .discount-badge { position: absolute; top: 12px; left: 12px; background: #ef4444; color: white; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; z-index: 2; }
+        .product-image { flex: 1; background: linear-gradient(135deg, #2a1a2a, #1a0a1a); display: flex; align-items: center; justify-content: center; padding: 20px; min-height: 180px; }
+        .product-image img { width: auto; max-width: 85%; height: auto; max-height: 85%; object-fit: contain; border-radius: 16px; transition: transform 0.3s; }
+        .product-card:hover .product-image img { transform: scale(1.05); }
+        .product-info { padding: 16px; text-align: center; background: rgba(0,0,0,0.5); }
+        .product-name { font-size: 17px; font-weight: 800; margin-bottom: 5px; }
+        .product-price { font-size: 20px; font-weight: 800; color: #6c5ce7; }
 
-        /* Cart */
-        .cart-sidebar { position: fixed; top: 0; right: -450px; width: 450px; height: 100vh; background: rgba(15, 12, 41, 0.98); backdrop-filter: blur(20px); z-index: 1000; transition: right 0.3s; padding: 25px; display: flex; flex-direction: column; border-left: 2px solid #6c5ce7; }
+        /* Cart Sidebar */
+        .cart-sidebar { position: fixed; top: 0; right: -450px; width: 450px; height: 100vh; background: rgba(15, 12, 41, 0.98); backdrop-filter: blur(20px); z-index: 1000; transition: right 0.3s ease; padding: 25px; display: flex; flex-direction: column; border-left: 2px solid #6c5ce7; }
         .cart-sidebar.open { right: 0; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(108,92,231,0.3); }
+        .cart-header h3 { font-size: 22px; }
+        .close-cart { background: none; border: none; color: white; font-size: 28px; cursor: pointer; }
         .cart-items { flex: 1; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #6c5ce7; font-size: 22px; font-weight: 800; }
-        .checkout-btn { width: 100%; padding: 15px; background: #10b981; border: none; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; margin-top: 15px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .cart-item button { background: rgba(108,92,231,0.3); border: none; color: white; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; margin: 0 3px; }
+        .cart-total { margin-top: 20px; padding-top: 15px; border-top: 2px solid #6c5ce7; font-size: 20px; font-weight: 800; text-align: right; }
+        .checkout-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #10b981, #059669); border: none; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; margin-top: 15px; font-size: 16px; }
 
-        /* Orders & Chat */
-        .orders-chat-layout { display: flex; gap: 30px; margin-top: 20px; flex-wrap: wrap; }
-        .orders-list-container { flex: 1.5; max-height: 70vh; overflow-y: auto; }
-        .chat-container { flex: 1; background: rgba(0,0,0,0.5); border-radius: 24px; padding: 20px; border: 1px solid rgba(108,92,231,0.3); display: flex; flex-direction: column; max-height: 70vh; }
-        .chat-messages { flex: 1; overflow-y: auto; margin: 15px 0; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 20px; display: flex; flex-direction: column; gap: 8px; }
-        .message-buyer { background: #2d2d44; padding: 8px 12px; border-radius: 18px; align-self: flex-end; max-width: 85%; }
-        .message-support { background: #1e1e3a; padding: 8px 12px; border-radius: 18px; align-self: flex-start; max-width: 85%; border-left: 3px solid #6c5ce7; }
-        .message-system { background: rgba(16,185,129,0.15); padding: 8px 12px; border-radius: 18px; align-self: center; font-size: 12px; color: #10b981; text-align: center; width: 90%; }
-        .chat-input-area { display: flex; gap: 10px; margin-top: 10px; }
-        .chat-input { flex: 1; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 30px; color: white; }
-        .chat-send { background: #6c5ce7; border: none; padding: 12px 20px; border-radius: 30px; color: white; cursor: pointer; }
-        .order-item { background: rgba(0,0,0,0.5); border-radius: 15px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
-        .order-item.selected { border-color: #10b981; background: rgba(16,185,129,0.1); }
-        .pending-tab { display: inline-block; padding: 8px 16px; border-radius: 30px; cursor: pointer; margin-right: 10px; background: rgba(255,255,255,0.1); }
-        .pending-tab.active { background: #6c5ce7; }
-
-        /* Profile */
-        .profile-card { background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(30,20,40,0.8)); border-radius: 30px; padding: 30px; max-width: 500px; margin: 0 auto; text-align: center; border: 1px solid rgba(108,92,231,0.4); }
-        .profile-avatar-large { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px; overflow: hidden; border: 3px solid #6c5ce7; }
-        .profile-stats { display: flex; justify-content: center; gap: 30px; margin: 20px 0; }
-        .profile-stat-value { font-size: 24px; font-weight: 800; color: #6c5ce7; }
-        .profile-actions { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
-        .profile-btn { flex: 1; padding: 12px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; border: none; }
-
-        /* Admin Panel */
-        .admin-panel { background: rgba(0,0,0,0.5); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
-        .admin-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 30px; color: white; margin: 10px 0; }
-        .admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
-        .inventory-item { background: rgba(0,0,0,0.5); border-radius: 15px; padding: 15px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
-        .edit-btn { background: #f59e0b; border: none; padding: 6px 12px; border-radius: 20px; color: white; cursor: pointer; font-size: 12px; }
-        .btn-danger { background: #ef4444; border: none; padding: 6px 12px; border-radius: 20px; color: white; cursor: pointer; }
-
-        /* Modals */
+        /* Modal - Custom */
         .premium-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.96); backdrop-filter: blur(20px); z-index: 10000; display: none; justify-content: center; align-items: center; }
         .premium-modal.show { display: flex; }
-        .premium-modal-content { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 40px; padding: 40px; max-width: 500px; width: 90%; text-align: center; border: 1px solid #6c5ce7; }
+        .premium-modal-content { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 40px; padding: 35px; max-width: 450px; width: 90%; text-align: center; border: 1px solid #6c5ce7; }
+        .premium-modal-content img { width: 120px; height: 120px; object-fit: contain; border-radius: 20px; margin-bottom: 15px; }
+        .premium-modal-content input { background: rgba(255,255,255,0.1); border: 1px solid #6c5ce7; border-radius: 30px; padding: 12px; color: white; width: 100%; margin: 10px 0; }
 
-        .toast { position: fixed; bottom: 30px; left: 30px; background: #10b981; padding: 12px 24px; border-radius: 12px; z-index: 2000; transform: translateX(-400px); transition: transform 0.3s; }
+        /* Other Elements */
+        .toast { position: fixed; bottom: 30px; left: 30px; background: #10b981; padding: 12px 24px; border-radius: 40px; z-index: 2000; transform: translateX(-400px); transition: transform 0.3s; font-weight: 500; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
         .toast.show { transform: translateX(0); }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: none; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 999; display: none; }
         .overlay.show { display: block; }
         
         @media (max-width: 768px) { .cart-sidebar { width: 100%; right: -100%; } .hero-title { font-size: 38px; } .products-grid { gap: 15px; } .game-grid { gap: 10px; } }
@@ -208,12 +193,12 @@
     <div class="nav-links">
         <button class="nav-link active" onclick="showHome()">Home</button>
         <button class="nav-link" onclick="showShop()">Shop</button>
-        <button class="nav-link" onclick="showGames()">🎲 Games & Rewards</button>
-        <button class="nav-link" onclick="showOrdersAndChat()">Orders & Support</button>
+        <button class="nav-link" onclick="showGames()">🎲 Games</button>
+        <button class="nav-link" onclick="showOrdersAndChat()">Orders</button>
         <button class="nav-link" id="adminNavBtn" style="display:none;" onclick="showAdmin()">Admin</button>
     </div>
     <div class="top-right">
-        <div class="points-display" onclick="showReferral()"><i class="fas fa-star"></i> <span id="pointsBalance">0</span> pts</div>
+        <div class="points-display" onclick="showRedeemModal()"><i class="fas fa-star"></i> <span id="pointsBalance">0</span> pts</div>
         <div class="luck-balance" onclick="showGames()"><i class="fas fa-dice"></i> <span id="luckBalance">0</span> credits</div>
         <div class="shop-controls">
             <div class="currency-selector"><i class="fas fa-money-bill-wave"></i><select id="currencySelect" onchange="changeCurrency()">
@@ -230,144 +215,42 @@
 </div>
 
 <!-- Side Menu -->
-<div id="sideMenu" class="side-menu" style="position:fixed; top:0; left:-300px; width:300px; height:100vh; background:rgba(15,12,41,0.98); backdrop-filter:blur(20px); z-index:1001; transition:left 0.3s; padding:20px; border-right:2px solid #6c5ce7;">
-    <div class="menu-header" style="display:flex; justify-content:space-between; margin-bottom:30px;"><h3><i class="fas fa-bars"></i> Menu</h3><span class="close-menu" style="font-size:28px; cursor:pointer;" onclick="closeSideMenu()">×</span></div>
-    <div class="menu-item" style="padding:15px 20px; margin:10px 0; border-radius:30px; cursor:pointer; background:rgba(255,255,255,0.05);" onclick="showSettings()"><i class="fas fa-cog"></i> Settings</div>
-    <div class="menu-item" style="padding:15px 20px; margin:10px 0; border-radius:30px; cursor:pointer; background:rgba(255,255,255,0.05);" onclick="showPurchaseHistory()"><i class="fas fa-history"></i> Purchase History</div>
-    <div class="menu-item" style="padding:15px 20px; margin:10px 0; border-radius:30px; cursor:pointer; background:rgba(255,255,255,0.05);" onclick="showContactUs()"><i class="fas fa-envelope"></i> Contact Us</div>
-    <div class="menu-item" style="padding:15px 20px; margin:10px 0; border-radius:30px; cursor:pointer; background:rgba(255,255,255,0.05);" onclick="showReview()"><i class="fas fa-star"></i> Give Us a Review</div>
-    <div class="menu-item" style="padding:15px 20px; margin:10px 0; border-radius:30px; cursor:pointer; background:rgba(255,255,255,0.05);" onclick="performGoogleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</div>
+<div id="sideMenu" style="position:fixed; top:0; left:-300px; width:300px; height:100vh; background:rgba(15,12,41,0.98); backdrop-filter:blur(20px); z-index:1001; transition:left 0.3s; padding:20px; border-right:2px solid #6c5ce7;">
+    <div style="display:flex; justify-content:space-between; margin-bottom:30px;"><h3><i class="fas fa-bars"></i> Menu</h3><span style="font-size:28px; cursor:pointer;" onclick="closeSideMenu()">×</span></div>
+    <div style="padding:15px 20px; margin:10px 0; border-radius:30px; cursor:pointer; background:rgba(255,255,255,0.05);" onclick="showSettings()"><i class="fas fa-cog"></i> Settings</div>
+    <div style="padding:15px 20px; margin:10px 0; border-radius:30px; cursor:pointer; background:rgba(255,255,255,0.05);" onclick="showPurchaseHistory()"><i class="fas fa-history"></i> Purchase History</div>
+    <div style="padding:15px 20px; margin:10px 0; border-radius:30px; cursor:pointer; background:rgba(255,255,255,0.05);" onclick="showContactUs()"><i class="fas fa-envelope"></i> Contact Us</div>
+    <div style="padding:15px 20px; margin:10px 0; border-radius:30px; cursor:pointer; background:rgba(255,255,255,0.05);" onclick="showReview()"><i class="fas fa-star"></i> Give Review</div>
+    <div style="padding:15px 20px; margin:10px 0; border-radius:30px; cursor:pointer; background:rgba(255,255,255,0.05);" onclick="performGoogleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</div>
 </div>
 
 <!-- Home Page -->
-<div id="homePage">
-    <div class="hero">
-        <div class="hero-content">
-            <div class="hero-badge"><i class="fas fa-shield-alt"></i> 256-bit SSL Encrypted</div>
-            <h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1>
-            <p class="hero-desc">Get the rarest Murder Mystery 2 items instantly.<br>Secure payments, fast delivery, 24/7 support.</p>
-            <div class="security-badges"><div class="security-badge"><i class="fas fa-lock"></i> Secure Checkout</div><div class="security-badge"><i class="fas fa-robot"></i> Instant Delivery</div><div class="security-badge"><i class="fas fa-headset"></i> 24/7 Support</div></div>
-            <div class="hero-stats"><div class="hero-stat"><h3 id="totalSales">0</h3><p>Items Sold</p></div><div class="hero-stat"><h3>5K+</h3><p>Customers</p></div><div class="hero-stat"><h3>100%</h3><p>Satisfaction</p></div></div>
-            <button class="btn-primary" onclick="showShop()">Shop Now →</button>
-        </div>
-        <div class="hero-image"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero"></div>
-    </div>
-</div>
+<div id="homePage"><div class="hero"><div class="hero-content"><div class="hero-badge"><i class="fas fa-shield-alt"></i> 256-bit SSL Encrypted</div><h1 class="hero-title">RARE <span>MM2</span><br>ITEMS</h1><p class="hero-desc">Get the rarest Murder Mystery 2 items instantly.<br>Secure payments, fast delivery, 24/7 support.</p><div class="security-badges"><div class="security-badge"><i class="fas fa-lock"></i> Secure Checkout</div><div class="security-badge"><i class="fas fa-robot"></i> Instant Delivery</div><div class="security-badge"><i class="fas fa-headset"></i> 24/7 Support</div></div><div class="hero-stats"><div class="hero-stat"><h3 id="totalSales">0</h3><p>Items Sold</p></div><div class="hero-stat"><h3>5K+</h3><p>Customers</p></div><div class="hero-stat"><h3>100%</h3><p>Satisfaction</p></div></div><button class="btn-primary" onclick="showShop()">Shop Now →</button></div><div class="hero-image"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero"></div></div></div>
 
 <!-- Shop Page -->
-<div id="shopPage" class="container" style="display:none;">
-    <div class="filter-bar"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="knife">Knives</button><button class="filter-btn" data-filter="gun">Guns</button></div>
-    <div class="products-grid" id="productsGrid"></div>
-</div>
+<div id="shopPage" class="container" style="display:none;"><div class="filter-bar"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="knife">Knives</button><button class="filter-btn" data-filter="gun">Guns</button></div><div class="products-grid" id="productsGrid"></div></div>
 
-<!-- Games & Rewards Page (Luck of Draw + Rewards) -->
-<div id="gamesPage" class="container" style="display:none;">
-    <div class="games-container">
-        <!-- Luck of Draw Section -->
-        <div class="luck-section">
-            <div class="luck-title"><i class="fas fa-dice-d6"></i> Luck of Draw</div>
-            <div class="luck-container">
-                <div class="luck-info">
-                    <div class="luck-cost">🎲 Cost: 50 credits per play</div>
-                    <div><span id="userLuckBalance" style="font-weight:700; color:#a855f7;">0</span> credits available</div>
-                    <button class="play-btn" id="playGameBtn" onclick="startGame()">Start New Game</button>
-                </div>
-                <div class="game-grid" id="gameGrid"></div>
-                <div class="game-result" id="gameResult"></div>
-                <button class="reset-game" id="resetGameBtn" onclick="resetGame()">Play Again</button>
-            </div>
-            <div style="margin-top:20px; text-align:center; font-size:12px; color:#888;">
-                <p>🎯 Pick 2 squares to reveal prizes! (7 bombs, 2 weapons under 200 PHP)</p>
-                <p>💡 Win weapons and they will be added to your inventory!</p>
-            </div>
-        </div>
-        
-        <!-- Rewards Section -->
-        <div class="rewards-section">
-            <div class="rewards-title"><i class="fas fa-gift"></i> Daily Rewards</div>
-            <div class="rewards-container" id="rewardsContainer">
-                <div class="reward-item">
-                    <div class="reward-icon">🎁</div>
-                    <div class="reward-info">
-                        <div class="reward-name">Daily Login Bonus</div>
-                        <div class="reward-points">+50 Credits</div>
-                    </div>
-                    <button class="claim-btn" id="claimDailyBtn" onclick="claimDailyReward()">Claim</button>
-                </div>
-                <div class="reward-item">
-                    <div class="reward-icon">⭐</div>
-                    <div class="reward-info">
-                        <div class="reward-name">Referral Reward</div>
-                        <div class="reward-points">+100 Credits per referral</div>
-                    </div>
-                    <button class="claim-btn" onclick="showReferral()">Refer</button>
-                </div>
-                <div class="reward-item">
-                    <div class="reward-icon">🏆</div>
-                    <div class="reward-info">
-                        <div class="reward-name">First Purchase Bonus</div>
-                        <div class="reward-points">+200 Credits</div>
-                    </div>
-                    <button class="claim-btn" id="firstPurchaseBtn" onclick="claimFirstPurchase()">Claim</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Games Page -->
+<div id="gamesPage" class="container" style="display:none;"><div class="games-container"><div class="luck-section"><div class="luck-title"><i class="fas fa-dice-d6"></i> Luck of Draw</div><div class="luck-container"><div class="luck-info"><div class="luck-cost">🎲 Cost: 50 credits per play</div><div><span id="userLuckBalance" style="font-weight:700; color:#a855f7;">0</span> credits</div><button class="play-btn" id="playGameBtn" onclick="startGame()">Start Game</button></div><div class="game-grid" id="gameGrid"></div><div class="game-result" id="gameResult"></div><button class="reset-game" id="resetGameBtn" onclick="resetGame()">Play Again</button></div></div><div class="rewards-section"><div class="rewards-title"><i class="fas fa-gift"></i> Daily Rewards</div><div class="rewards-container" id="rewardsContainer"><div class="reward-item"><div class="reward-icon">🎁</div><div class="reward-info"><div class="reward-name">Daily Login Bonus</div><div class="reward-points">+50 Credits</div></div><button class="claim-btn" id="claimDailyBtn" onclick="claimDailyReward()">Claim</button></div><div class="reward-item"><div class="reward-icon">⭐</div><div class="reward-info"><div class="reward-name">Referral Reward</div><div class="reward-points">+100 Credits</div></div><button class="claim-btn" onclick="showReferral()">Refer</button></div><div class="reward-item"><div class="reward-icon">🏆</div><div class="reward-info"><div class="reward-name">First Purchase</div><div class="reward-points">+200 Credits</div></div><button class="claim-btn" id="firstPurchaseBtn" onclick="claimFirstPurchase()">Claim</button></div></div></div></div></div>
 
-<!-- Orders & Chat Page -->
-<div id="ordersChatPage" class="container" style="display:none;">
-    <h2>Orders & Support</h2>
-    <div id="adminOrderTabs" style="display: none; margin-bottom: 15px;">
-        <span class="pending-tab active" onclick="showOrderTab('all')">All Orders</span>
-        <span class="pending-tab" onclick="showOrderTab('pending')">Pending Orders (Queue)</span>
-    </div>
-    <div class="orders-chat-layout">
-        <div class="orders-list-container" id="ordersListContainer"></div>
-        <div class="chat-container">
-            <h3><i class="fas fa-comment-dots"></i> Conversation <span id="chatOrderId"></span></h3>
-            <div id="chatMessagesList" class="chat-messages"></div>
-            <div class="chat-input-area">
-                <input type="text" id="chatMessageInput" class="chat-input" placeholder="Type your message...">
-                <button class="chat-send" onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Orders Page -->
+<div id="ordersChatPage" class="container" style="display:none;"><h2>Orders & Support</h2><div id="adminOrderTabs" style="display:none; margin-bottom:15px;"><span class="pending-tab active" onclick="showOrderTab('all')">All Orders</span><span class="pending-tab" onclick="showOrderTab('pending')">Pending</span></div><div class="orders-chat-layout"><div class="orders-list-container" id="ordersListContainer"></div><div class="chat-container"><h3><i class="fas fa-comment-dots"></i> Conversation <span id="chatOrderId"></span></h3><div id="chatMessagesList" class="chat-messages"></div><div class="chat-input-area"><input type="text" id="chatMessageInput" class="chat-input" placeholder="Type message..."><button class="chat-send" onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button></div></div></div></div>
 
 <!-- Profile Panel -->
-<div id="profilePanel" class="container" style="display:none;">
-    <div class="profile-card">
-        <div class="profile-avatar-large"><img id="profileAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120"></div>
-        <h2 id="profileName">Guest</h2>
-        <p id="profileRobloxStatus">Not linked</p>
-        <div class="profile-stats"><div class="profile-stat"><div class="profile-stat-value" id="profilePoints">0</div><div class="profile-stat-label">Points</div></div><div class="profile-stat"><div class="profile-stat-value" id="profileLuckBalance">0</div><div class="profile-stat-label">Luck Credits</div></div></div>
-        <div class="profile-actions"><button class="profile-btn" style="background:#3b82f6;" onclick="openRobloxVerification(true)">Link Roblox</button><button class="profile-btn" style="background:#ef4444;" onclick="unlinkRobloxAccount()">Unlink</button><button class="profile-btn" style="background:#4285f4;" onclick="switchGoogleAccount()">Switch Google</button></div>
-    </div>
-</div>
+<div id="profilePanel" class="container" style="display:none;"><div class="profile-card"><div class="profile-avatar-large"><img id="profileAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120"></div><h2 id="profileName">Guest</h2><p id="profileRobloxStatus">Not linked</p><div class="profile-stats"><div><div class="profile-stat-value" id="profilePoints">0</div><div>Points</div></div><div><div class="profile-stat-value" id="profileLuckBalance">0</div><div>Credits</div></div></div><div class="profile-actions"><button style="background:#3b82f6;" onclick="openRobloxVerification(true)">Link Roblox</button><button style="background:#ef4444;" onclick="unlinkRobloxAccount()">Unlink</button><button style="background:#4285f4;" onclick="switchGoogleAccount()">Switch Google</button></div></div></div>
 
 <!-- Admin Panel -->
-<div id="adminPage" class="container" style="display:none;">
-    <h2>Admin Panel</h2>
-    <div class="admin-panel"><h3>💰 Give Yourself Luck Credits</h3><input type="number" id="adminSelfCredits" class="admin-input" placeholder="Amount of Credits" value="100"><button onclick="giveSelfCredits()" class="btn-primary" style="width:100%;">Give Myself Credits</button></div>
-    <div class="admin-panel"><h3>🎲 Add Credits to User</h3><input type="email" id="adminUserEmail" class="admin-input" placeholder="User Email"><input type="number" id="adminLuckAmount" class="admin-input" placeholder="Credits Amount"><button onclick="addLuckCreditsAdmin()" class="btn-primary" style="width:100%;">Add Credits to User</button></div>
-    <div class="admin-panel"><h3>📦 Manage Inventory</h3><div id="inventoryList" class="admin-grid"></div></div>
-</div>
+<div id="adminPage" class="container" style="display:none;"><h2>Admin Panel</h2><div class="admin-panel"><h3>💰 Add Credits</h3><input type="number" id="adminSelfCredits" placeholder="Amount" value="100"><button onclick="giveSelfCredits()">Give Myself</button></div><div class="admin-panel"><h3>🎲 Add to User</h3><input type="email" id="adminUserEmail" placeholder="Email"><input type="number" id="adminLuckAmount" placeholder="Credits"><button onclick="addLuckCreditsAdmin()">Add Credits</button></div><div class="admin-panel"><h3>📦 Inventory</h3><div id="inventoryList"></div></div></div>
 
-<!-- Cart Sidebar -->
-<div class="overlay" id="overlay" onclick="closeCart()"></div>
-<div class="cart-sidebar" id="cartSidebar">
-    <div class="cart-header"><h3>Your Cart</h3><button class="close-cart" onclick="closeCart()">×</button></div>
-    <div class="cart-items" id="cartItemsList"></div>
-    <div class="cart-total" id="cartTotal">Total: $0</div>
-    <button class="checkout-btn" onclick="initiateCheckout()">Proceed to Checkout →</button>
-</div>
+<!-- Cart -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div><div class="cart-sidebar" id="cartSidebar"><div class="cart-header"><h3>Your Cart</h3><button class="close-cart" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItemsList"></div><div class="cart-total" id="cartTotal">Total: $0</div><button class="checkout-btn" onclick="initiateCheckout()">Checkout →</button></div>
 
-<!-- Purchase Modal -->
-<div id="purchaseModal" class="premium-modal"><div class="premium-modal-content"><div class="premium-avatar"><img id="modalItemImg" src=""></div><h3 id="modalItemName">Item Name</h3><p id="modalItemPrice">$0</p><input type="number" id="modalQuantity" class="admin-input" placeholder="Quantity" value="1" min="1" style="margin:15px 0;"><div class="checkbox-group"><label><input type="checkbox" id="modalIsChroma"> Chroma Version (+20 PHP)</label></div><div class="premium-buttons" style="display:flex; gap:15px; margin-top:20px;"><button class="premium-btn" style="flex:1; padding:12px; background:#10b981; border:none; border-radius:30px; color:white; cursor:pointer;" onclick="confirmAddToCart()">Add to Cart</button><button class="premium-btn" style="flex:1; padding:12px; background:#ef4444; border:none; border-radius:30px; color:white; cursor:pointer;" onclick="closePurchaseModal()">Cancel</button></div></div></div>
+<!-- Modals -->
+<div id="purchaseModal" class="premium-modal"><div class="premium-modal-content"><img id="modalItemImg" src=""><h3 id="modalItemName"></h3><p id="modalItemPrice"></p><input type="number" id="modalQuantity" value="1" min="1"><label><input type="checkbox" id="modalIsChroma"> Chroma (+20 PHP)</label><div style="display:flex; gap:15px; margin-top:20px;"><button style="flex:1; background:#10b981;" onclick="confirmAddToCart()">Add to Cart</button><button style="flex:1; background:#ef4444;" onclick="closePurchaseModal()">Cancel</button></div></div></div>
 
-<!-- Roblox Modal -->
-<div id="robloxModal" class="premium-modal"><div class="premium-modal-content"><h2><i class="fab fa-roblox"></i> Verify Roblox Account</h2><div class="premium-avatar"><img id="robloxAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120"></div><div id="robloxDisplayName" style="margin-bottom:15px;">Enter your username</div><input type="text" id="robloxUsernameInput" class="admin-input" placeholder="Roblox Username" style="width:100%; padding:12px; background:rgba(255,255,255,0.1); border-radius:30px;"><div class="premium-buttons" style="display:flex; gap:15px; margin-top:20px;"><button class="premium-btn" style="flex:1; padding:12px; background:#3b82f6; border:none; border-radius:30px; color:white; cursor:pointer;" onclick="confirmRobloxAndSave()">Link Account</button><button class="premium-btn" style="flex:1; padding:12px; background:#ef4444; border:none; border-radius:30px; color:white; cursor:pointer;" onclick="closeRobloxModal()">Cancel</button></div></div></div>
+<div id="redeemModal" class="premium-modal"><div class="premium-modal-content"><h2><i class="fas fa-exchange-alt"></i> Redeem Points</h2><p>Your Points: <strong id="redeemPointsDisplay">0</strong></p><div style="margin:20px 0;"><div style="background:rgba(108,92,231,0.2); border-radius:20px; padding:15px; margin:10px 0;"><h3>Candy Knife</h3><p>2,000 Points</p><button class="btn-primary" onclick="redeemItem('Candy', 2000)">Redeem</button></div><div style="background:rgba(108,92,231,0.2); border-radius:20px; padding:15px; margin:10px 0;"><h3>Sunrise Gun</h3><p>8,000 Points</p><button class="btn-primary" onclick="redeemItem('Sunrise', 8000)">Redeem</button></div></div><button style="background:#ef4444; margin-top:10px;" onclick="closeRedeemModal()">Close</button></div></div>
+
+<div id="robloxModal" class="premium-modal"><div class="premium-modal-content"><h2><i class="fab fa-roblox"></i> Verify Roblox</h2><img id="robloxAvatarImg" src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120"><div id="robloxDisplayName">Enter username</div><input type="text" id="robloxUsernameInput" placeholder="Roblox Username"><div style="display:flex; gap:15px; margin-top:20px;"><button style="flex:1; background:#3b82f6;" onclick="confirmRobloxAndSave()">Link</button><button style="flex:1; background:#ef4444;" onclick="closeRobloxModal()">Cancel</button></div></div></div>
 
 <div class="toast" id="toast"></div>
 
@@ -381,19 +264,19 @@
     const exchangeRates = { USD: 0.017, EUR: 0.016, GBP: 0.013, JPY: 2.65, CAD: 0.023, AUD: 0.026, PHP: 1 };
     const currencySymbols = { USD: "$", EUR: "€", GBP: "£", JPY: "¥", CAD: "C$", AUD: "A$", PHP: "₱" };
     
-    // Items with updated PHP prices (displayed in USD via conversion)
+    // Updated prices in PHP
     let items = [
-        { id: 1, name: "Batwing", type: "knife", price: 145, originalPrice: 210, discount: 31, image: "https://i.imgur.com/H6CL03y.jpeg", onSale: true },
-        { id: 2, name: "Harvester", type: "knife", price: 580, originalPrice: 820, discount: 29, image: "https://i.imgur.com/jZkbQ4t.jpeg", onSale: true },
-        { id: 3, name: "Icewing", type: "knife", price: 75, originalPrice: 120, discount: 38, image: "https://i.imgur.com/jiwvmxq.jpeg", onSale: true },
-        { id: 4, name: "Luger", type: "gun", price: 150, originalPrice: 220, discount: 32, image: "https://i.imgur.com/eEvMBRh.jpeg", onSale: true },
+        { id: 1, name: "Batwing", type: "knife", price: 140, originalPrice: 210, discount: 33, image: "https://i.imgur.com/H6CL03y.jpeg", onSale: true },
+        { id: 2, name: "Harvester", type: "knife", price: 500, originalPrice: 750, discount: 33, image: "https://i.imgur.com/jZkbQ4t.jpeg", onSale: true },
+        { id: 3, name: "Icewing", type: "knife", price: 80, originalPrice: 120, discount: 33, image: "https://i.imgur.com/jiwvmxq.jpeg", onSale: true },
+        { id: 4, name: "Luger", type: "gun", price: 165, originalPrice: 250, discount: 34, image: "https://i.imgur.com/eEvMBRh.jpeg", onSale: true },
         { id: 5, name: "Darkbringer", type: "gun", price: 140, originalPrice: 250, discount: 44, image: "https://i.imgur.com/8oxgzwa.jpeg", onSale: true },
         { id: 6, name: "Lightbringer", type: "gun", price: 140, originalPrice: 240, discount: 42, image: "https://i.imgur.com/BUljuYV.jpeg", onSale: true },
-        { id: 7, name: "Ice Piercer", type: "gun", price: 350, originalPrice: 500, discount: 30, image: "https://i.imgur.com/cWwaIa3.jpeg", onSale: true },
-        { id: 8, name: "Ice Breaker", type: "knife", price: 230, originalPrice: 350, discount: 34, image: "https://i.imgur.com/SuTMxT7.jpeg", onSale: true },
-        { id: 9, name: "Candy", type: "knife", price: 250, originalPrice: 380, discount: 34, image: "", onSale: true },
-        { id: 10, name: "Sunset", type: "gun", price: 370, originalPrice: 550, discount: 33, image: "", onSale: true },
-        { id: 11, name: "Sunrise", type: "gun", price: 800, originalPrice: 1200, discount: 33, image: "", onSale: true }
+        { id: 7, name: "Ice Piercer", type: "gun", price: 365, originalPrice: 550, discount: 34, image: "https://i.imgur.com/cWwaIa3.jpeg", onSale: true },
+        { id: 8, name: "Ice Breaker", type: "knife", price: 255, originalPrice: 380, discount: 33, image: "https://i.imgur.com/SuTMxT7.jpeg", onSale: true },
+        { id: 9, name: "Candy", type: "knife", price: 249, originalPrice: 380, discount: 34, image: "", onSale: true },
+        { id: 10, name: "Sunset", type: "gun", price: 430, originalPrice: 650, discount: 34, image: "", onSale: true },
+        { id: 11, name: "Sunrise", type: "gun", price: 799, originalPrice: 1200, discount: 33, image: "", onSale: true }
     ];
     
     const LUCK_ITEMS = items.filter(i => i.price <= 200);
@@ -407,18 +290,10 @@
     let allMessages = JSON.parse(localStorage.getItem('echoknives_all_messages') || '{}');
     let currentSelectedOrderId = null;
     let currentSearchTerm = "";
-    let currentOrderTab = "all";
-    
-    // Reward claim states
     let dailyClaimed = localStorage.getItem('dailyClaimed') === 'true';
     let firstPurchaseClaimed = localStorage.getItem('firstPurchaseClaimed') === 'true';
+    let gameActive = false, selectedIndices = [], gameCards = [];
     
-    // Luck of Draw game state
-    let gameActive = false;
-    let selectedIndices = [];
-    let gameCards = [];
-    
-    // ========== HELPER FUNCTIONS ==========
     function getDisplayPrice(phpPrice) { let rate = exchangeRates[currentCurrency] || 1; return ((phpPrice / 56.5) * rate).toFixed(2); }
     function getSymbol() { return currencySymbols[currentCurrency] || "$"; }
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
@@ -428,236 +303,99 @@
     function closeSideMenu() { document.getElementById('sideMenu').style.left = '-300px'; }
     function showSettings() { closeSideMenu(); showToast("Settings coming soon!"); }
     function showPurchaseHistory() { closeSideMenu(); showOrdersAndChat(); }
-    function showContactUs() { closeSideMenu(); showToast("Contact us at support@echoknives.com"); }
-    function showReview() { closeSideMenu(); window.open("https://forms.gle/your-review-link", "_blank"); }
-    function showReferral() { showToast("Share your referral link: echoknives.com/ref/"+ (currentUser?.uid || 'guest')); }
+    function showContactUs() { closeSideMenu(); showToast("support@echoknives.com"); }
+    function showReview() { closeSideMenu(); window.open("https://forms.gle/review", "_blank"); }
+    function showReferral() { showToast("Share: echoknives.com/ref/"+ (currentUser?.uid || 'guest')); }
     
-    async function sendDiscordNotification(title, description, fields) {
-        try { await fetch(DISCORD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ embeds: [{ title, description, color: 0x6c5ce7, fields: fields || [], timestamp: new Date().toISOString() }] }) }); } catch(e) {}
-    }
+    // Points System
+    function loadPoints() { const saved = localStorage.getItem(`points_${currentUser?.email || 'guest'}`); userPoints = saved ? parseInt(saved) : 0; document.getElementById('pointsBalance').innerText = userPoints; if(document.getElementById('profilePoints')) document.getElementById('profilePoints').innerText = userPoints; }
+    function savePoints() { localStorage.setItem(`points_${currentUser?.email || 'guest'}`, userPoints); loadPoints(); }
+    function addPoints(amount) { userPoints += amount; savePoints(); showToast(`+${amount} points earned!`); }
     
-    // ========== REWARDS SYSTEM ==========
-    function updateRewardButtons() {
-        const dailyBtn = document.getElementById('claimDailyBtn');
-        const firstPurchaseBtn = document.getElementById('firstPurchaseBtn');
-        if(dailyBtn) dailyBtn.textContent = dailyClaimed ? "Claimed ✓" : "Claim";
-        if(dailyBtn) dailyBtn.disabled = dailyClaimed;
-        if(firstPurchaseBtn) firstPurchaseBtn.textContent = firstPurchaseClaimed ? "Claimed ✓" : "Claim";
-        if(firstPurchaseBtn) firstPurchaseBtn.disabled = firstPurchaseClaimed;
-    }
+    function showRedeemModal() { if(!isLoggedIn) { performGoogleLogin(); return; } document.getElementById('redeemPointsDisplay').innerText = userPoints; document.getElementById('redeemModal').classList.add('show'); }
+    function closeRedeemModal() { document.getElementById('redeemModal').classList.remove('show'); }
+    function redeemItem(itemName, cost) { if(userPoints < cost) { showToast(`Need ${cost} points! You have ${userPoints}`); return; } const item = items.find(i => i.name === itemName); if(!item) { showToast("Item not found"); return; } userPoints -= cost; savePoints(); cart.push({ ...item, name: item.name, price: 0, quantity: 1, isChroma: false, isRedeemed: true }); updateCartUI(); showToast(`🎉 Redeemed ${itemName} for ${cost} points! Added to cart (FREE)`); closeRedeemModal(); sendDiscordNotification("🎁 Points Redemption", `${currentUser?.email} redeemed ${itemName} for ${cost} points`, []); }
     
-    function claimDailyReward() {
-        if(!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; }
-        if(dailyClaimed) { showToast("Daily reward already claimed today!"); return; }
-        luckBalance += 50;
-        saveLuckBalance();
-        updateLuckDisplay();
-        dailyClaimed = true;
-        localStorage.setItem('dailyClaimed', 'true');
-        updateRewardButtons();
-        showToast("🎉 You claimed 50 credits!");
-        sendDiscordNotification("🎁 Daily Reward Claimed", `${currentUser?.email} claimed 50 credits`, []);
-    }
-    
-    function claimFirstPurchase() {
-        if(!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; }
-        if(firstPurchaseClaimed) { showToast("First purchase bonus already claimed!"); return; }
-        luckBalance += 200;
-        saveLuckBalance();
-        updateLuckDisplay();
-        firstPurchaseClaimed = true;
-        localStorage.setItem('firstPurchaseClaimed', 'true');
-        updateRewardButtons();
-        showToast("🎉 You claimed 200 credits! Make your first purchase to unlock more!");
-    }
-    
-    // ========== LUCK BALANCE SYSTEM ==========
-    function loadLuckBalance() {
-        const saved = localStorage.getItem(`luck_balance_${currentUser?.email || 'guest'}`);
-        luckBalance = saved ? parseInt(saved) : 0;
-        updateLuckDisplay();
-    }
+    // Luck Balance
+    function loadLuckBalance() { const saved = localStorage.getItem(`luck_balance_${currentUser?.email || 'guest'}`); luckBalance = saved ? parseInt(saved) : 0; updateLuckDisplay(); }
     function saveLuckBalance() { localStorage.setItem(`luck_balance_${currentUser?.email || 'guest'}`, luckBalance); }
-    function updateLuckDisplay() { 
-        document.getElementById('luckBalance').innerText = luckBalance;
-        document.getElementById('userLuckBalance').innerText = luckBalance;
-        if(document.getElementById('profileLuckBalance')) document.getElementById('profileLuckBalance').innerText = luckBalance;
-    }
+    function updateLuckDisplay() { document.getElementById('luckBalance').innerText = luckBalance; document.getElementById('userLuckBalance').innerText = luckBalance; if(document.getElementById('profileLuckBalance')) document.getElementById('profileLuckBalance').innerText = luckBalance; }
     
-    function giveSelfCredits() {
-        if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; }
-        const amount = parseInt(document.getElementById('adminSelfCredits').value);
-        if(isNaN(amount) || amount <= 0) { showToast("Enter valid amount"); return; }
-        luckBalance += amount;
-        saveLuckBalance();
-        updateLuckDisplay();
-        showToast(`Added ${amount} credits to your balance!`);
-    }
+    function giveSelfCredits() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; } const amount = parseInt(document.getElementById('adminSelfCredits').value); if(isNaN(amount)) return; luckBalance += amount; saveLuckBalance(); updateLuckDisplay(); showToast(`+${amount} credits`); }
+    function addLuckCreditsAdmin() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) return; const email = document.getElementById('adminUserEmail').value.trim(); const amount = parseInt(document.getElementById('adminLuckAmount').value); if(!email || isNaN(amount)) return; localStorage.setItem(`luck_balance_${email}`, (parseInt(localStorage.getItem(`luck_balance_${email}`)||'0')+amount)); showToast(`Added ${amount} to ${email}`); }
     
-    function addLuckCreditsAdmin() {
-        if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; }
-        const email = document.getElementById('adminUserEmail').value.trim();
-        const amount = parseInt(document.getElementById('adminLuckAmount').value);
-        if(!email || isNaN(amount)) { showToast("Enter valid email and amount"); return; }
-        const key = `luck_balance_${email}`;
-        const current = parseInt(localStorage.getItem(key) || '0');
-        localStorage.setItem(key, current + amount);
-        showToast(`Added ${amount} credits to ${email}`);
-    }
+    function claimDailyReward() { if(!isLoggedIn) { performGoogleLogin(); return; } if(dailyClaimed) { showToast("Already claimed today!"); return; } luckBalance += 50; saveLuckBalance(); updateLuckDisplay(); dailyClaimed = true; localStorage.setItem('dailyClaimed', 'true'); document.getElementById('claimDailyBtn').disabled = true; document.getElementById('claimDailyBtn').innerText = "Claimed ✓"; showToast("+50 credits!"); }
+    function claimFirstPurchase() { if(!isLoggedIn) { performGoogleLogin(); return; } if(firstPurchaseClaimed) { showToast("Already claimed!"); return; } luckBalance += 200; saveLuckBalance(); updateLuckDisplay(); firstPurchaseClaimed = true; localStorage.setItem('firstPurchaseClaimed', 'true'); document.getElementById('firstPurchaseBtn').disabled = true; document.getElementById('firstPurchaseBtn').innerText = "Claimed ✓"; showToast("+200 credits!"); }
     
-    // ========== LUCK OF DRAW GAME ==========
-    function startGame() {
-        if(!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
-        if(luckBalance < 50) { showToast(`Need 50 credits! You have ${luckBalance} credits`); return; }
-        
-        luckBalance -= 50;
-        saveLuckBalance();
-        updateLuckDisplay();
-        
-        const bombs = Array(7).fill({ type: 'bomb', name: 'Bomb', value: 0 });
-        const availablePrizes = [...LUCK_ITEMS];
-        const selectedPrizes = [];
-        for(let i = 0; i < 2 && availablePrizes.length > 0; i++) {
-            const randomIndex = Math.floor(Math.random() * availablePrizes.length);
-            selectedPrizes.push(availablePrizes[randomIndex]);
-            availablePrizes.splice(randomIndex, 1);
-        }
-        gameCards = [...bombs, ...selectedPrizes.map(p => ({ type: 'prize', name: p.name, price: p.price, image: p.image, id: p.id }))];
-        for(let i = gameCards.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [gameCards[i], gameCards[j]] = [gameCards[j], gameCards[i]]; }
-        
-        gameActive = true;
-        selectedIndices = [];
-        renderGameGrid();
-        document.getElementById('gameResult').style.display = 'none';
-        document.getElementById('resetGameBtn').style.display = 'none';
-        const playBtn = document.getElementById('playGameBtn');
-        playBtn.disabled = true;
-        playBtn.innerText = "Game in progress...";
-    }
+    // Luck Game
+    function startGame() { if(!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; } if(luckBalance < 50) { showToast(`Need 50 credits!`); return; } luckBalance -= 50; saveLuckBalance(); updateLuckDisplay(); const bombs = Array(7).fill({ type: 'bomb' }); const available = [...LUCK_ITEMS]; const prizes = []; for(let i=0;i<2 && available.length;i++){ const idx=Math.floor(Math.random()*available.length); prizes.push(available[idx]); available.splice(idx,1); } gameCards = [...bombs, ...prizes.map(p=>({type:'prize',name:p.name,image:p.image,id:p.id}))]; for(let i=gameCards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[gameCards[i],gameCards[j]]=[gameCards[j],gameCards[i]];} gameActive=true; selectedIndices=[]; renderGameGrid(); document.getElementById('gameResult').style.display='none'; document.getElementById('resetGameBtn').style.display='none'; document.getElementById('playGameBtn').disabled=true; document.getElementById('playGameBtn').innerText="Game in progress..."; }
+    function renderGameGrid() { const grid = document.getElementById('gameGrid'); if(!grid) return; grid.innerHTML = gameCards.map((card,idx)=>`<div class="game-card ${selectedIndices.includes(idx)?'revealed':''}" onclick="selectCard(${idx})">${selectedIndices.includes(idx)?(card.type==='bomb'?'<div class="bomb-icon">💣</div>':(card.image?`<img src="${card.image}" style="border-radius:20px;">`:`<div style="font-size:20px;">✨${card.name}</div>`)):'<div style="font-size:32px;color:#6c5ce7;">❓</div>'}</div>`).join(''); }
+    function selectCard(idx) { if(!gameActive || selectedIndices.includes(idx) || selectedIndices.length>=2) return; selectedIndices.push(idx); renderGameGrid(); if(selectedIndices.length===2){ gameActive=false; const wins=selectedIndices.filter(i=>gameCards[i].type==='prize'); if(wins.length){ const names=wins.map(i=>gameCards[i].name); document.getElementById('gameResult').innerHTML=`<div class="result-win">🎉 You won: ${names.join(', ')}!</div>`; showToast(`Won ${names.join(', ')}!`); } else { document.getElementById('gameResult').innerHTML=`<div class="result-lose">💥 BOOM! You lost.</div>`; } document.getElementById('gameResult').style.display='block'; document.getElementById('resetGameBtn').style.display='block'; document.getElementById('playGameBtn').disabled=false; document.getElementById('playGameBtn').innerText="Start New Game"; } }
+    function resetGame() { gameActive=false; gameCards=[]; renderGameGrid(); document.getElementById('gameResult').style.display='none'; document.getElementById('resetGameBtn').style.display='none'; document.getElementById('playGameBtn').disabled=false; document.getElementById('playGameBtn').innerText="Start Game"; }
     
-    function renderGameGrid() {
-        const grid = document.getElementById('gameGrid');
-        if(!grid) return;
-        grid.innerHTML = gameCards.map((card, idx) => `
-            <div class="game-card ${selectedIndices.includes(idx) ? 'revealed' : ''}" onclick="selectCard(${idx})">
-                ${selectedIndices.includes(idx) ? (card.type === 'bomb' ? '<div class="bomb-icon">💣</div>' : (card.image ? `<img src="${card.image}" alt="${card.name}" style="border-radius: 20px;">` : `<div style="font-size: 24px; color: #a855f7;">✨${card.name}</div>`)) : '<div style="font-size: 32px; color: #6c5ce7;">❓</div>'}
-            </div>
-        `).join('');
-    }
+    // Shop
+    function showGames() { hideAllPages(); document.getElementById('gamesPage').style.display='block'; loadLuckBalance(); resetGame(); }
+    function showHome() { hideAllPages(); document.getElementById('homePage').style.display='block'; }
+    function showShop() { hideAllPages(); document.getElementById('shopPage').style.display='block'; renderProducts(); }
+    function showOrdersAndChat() { hideAllPages(); document.getElementById('ordersChatPage').style.display='block'; renderOrdersList(); }
+    function showAdmin() { if(!currentUser?.email===ADMIN_EMAIL) { showToast("Admin only"); return; } hideAllPages(); document.getElementById('adminPage').style.display='block'; renderInventory(); }
     
-    function selectCard(index) {
-        if(!gameActive) { showToast("Game not active. Start a new game!"); return; }
-        if(selectedIndices.includes(index)) { showToast("Already selected this square!"); return; }
-        if(selectedIndices.length >= 2) { showToast("You can only pick 2 squares!"); return; }
-        
-        selectedIndices.push(index);
-        renderGameGrid();
-        
-        if(selectedIndices.length === 2) {
-            gameActive = false;
-            const wins = selectedIndices.filter(i => gameCards[i].type === 'prize');
-            if(wins.length > 0) {
-                const awardedItems = [];
-                for(let idx of wins) { awardedItems.push(gameCards[idx].name); showToast(`🎉 You won ${gameCards[idx].name}!`); }
-                document.getElementById('gameResult').innerHTML = `<div class="result-win">🎉 Congratulations! You won: ${awardedItems.join(', ')}!</div>`;
-                document.getElementById('gameResult').style.display = 'block';
-                sendDiscordNotification("🎁 Luck of Draw WIN!", `${currentUser?.email || 'Guest'} won ${awardedItems.join(', ')}!`, []);
-            } else {
-                document.getElementById('gameResult').innerHTML = `<div class="result-lose">💥 BOOM! You hit a bomb. Better luck next time!</div>`;
-                document.getElementById('gameResult').style.display = 'block';
-            }
-            document.getElementById('resetGameBtn').style.display = 'block';
-            const playBtn = document.getElementById('playGameBtn');
-            playBtn.disabled = false;
-            playBtn.innerText = "Start New Game";
-        }
-    }
+    function renderProducts() { let filtered = items.filter(i=>{ if(currentFilter==='knife') return i.type==='knife'; if(currentFilter==='gun') return i.type==='gun'; return true; }); if(currentSearchTerm) filtered=filtered.filter(i=>i.name.toLowerCase().includes(currentSearchTerm)); document.getElementById('productsGrid').innerHTML=filtered.map(item=>`<div class="product-card" onclick="openPurchaseModal(${item.id})"><div class="discount-badge">-${item.discount}%</div><div class="product-image"><img src="${item.image || 'https://via.placeholder.com/200x200?text=Coming+Soon'}" onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`).join(''); }
     
-    function resetGame() {
-        gameActive = false;
-        selectedIndices = [];
-        gameCards = [];
-        renderGameGrid();
-        document.getElementById('gameResult').style.display = 'none';
-        document.getElementById('resetGameBtn').style.display = 'none';
-        const playBtn = document.getElementById('playGameBtn');
-        playBtn.disabled = false;
-        playBtn.innerText = "Start New Game";
-    }
+    function openPurchaseModal(id) { const item=items.find(i=>i.id===id); selectedItemForModal={...item}; document.getElementById('modalItemImg').src=item.image||'https://via.placeholder.com/200x200?text=Item'; document.getElementById('modalItemName').innerHTML=item.name; document.getElementById('modalItemPrice').innerHTML=`${getSymbol()}${getDisplayPrice(item.price)}`; document.getElementById('modalQuantity').value=1; document.getElementById('modalIsChroma').checked=false; document.getElementById('purchaseModal').classList.add('show'); }
+    function closePurchaseModal() { document.getElementById('purchaseModal').classList.remove('show'); selectedItemForModal=null; }
+    function confirmAddToCart() { if(!selectedItemForModal) return; const qty=parseInt(document.getElementById('modalQuantity').value)||1; const isChroma=document.getElementById('modalIsChroma').checked; let price=selectedItemForModal.price; if(isChroma) price+=20; const name=isChroma?`✨ ${selectedItemForModal.name} (Chroma)`:selectedItemForModal.name; const existing=cart.find(i=>i.id===selectedItemForModal.id && i.isChroma===isChroma); if(existing) existing.quantity+=qty; else cart.push({...selectedItemForModal,name,price,quantity:qty,isChroma}); updateCartUI(); showToast(`${qty}x ${name} added`); closePurchaseModal(); }
     
-    // ========== SHOP FUNCTIONS ==========
-    function showGames() { hideAllPages(); document.getElementById('gamesPage').style.display = 'block'; loadLuckBalance(); resetGame(); updateRewardButtons(); }
-    function showHome() { hideAllPages(); document.getElementById('homePage').style.display = 'block'; }
-    function showShop() { hideAllPages(); document.getElementById('shopPage').style.display = 'block'; renderProducts(); }
-    function showOrdersAndChat() { hideAllPages(); document.getElementById('ordersChatPage').style.display = 'block'; renderOrdersList(); }
-    function showAdmin() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin access only"); return; } hideAllPages(); document.getElementById('adminPage').style.display='block'; renderInventory(); }
-    
-    function renderProducts() { 
-        let filtered = items.filter(i => { if(currentFilter==='knife') return i.type==='knife'; if(currentFilter==='gun') return i.type==='gun'; return true; });
-        if(currentSearchTerm) filtered = filtered.filter(i=>i.name.toLowerCase().includes(currentSearchTerm));
-        document.getElementById('productsGrid').innerHTML = filtered.map(item => `<div class="product-card" onclick="openPurchaseModal(${item.id})"><div class="discount-badge">-${item.discount}%</div><div class="product-image"><img src="${item.image || 'https://via.placeholder.com/200x200?text=Coming+Soon'}" onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'"></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`).join('');
-    }
-    
-    function openPurchaseModal(id) { const item = items.find(i=>i.id===id); selectedItemForModal = {...item}; document.getElementById('modalItemImg').src = item.image || 'https://via.placeholder.com/200x200?text=Item'; document.getElementById('modalItemName').innerHTML = item.name; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(item.price)}`; document.getElementById('modalQuantity').value = 1; document.getElementById('modalIsChroma').checked = false; document.getElementById('purchaseModal').classList.add('show'); }
-    function closePurchaseModal() { document.getElementById('purchaseModal').classList.remove('show'); selectedItemForModal = null; }
-    function confirmAddToCart() { if(!selectedItemForModal) return; const quantity = parseInt(document.getElementById('modalQuantity').value)||1; const isChroma = document.getElementById('modalIsChroma').checked; let finalPrice = selectedItemForModal.price; if(isChroma) finalPrice = selectedItemForModal.price + 20; const itemName = isChroma ? `✨ ${selectedItemForModal.name} (Chroma)` : selectedItemForModal.name; const existing = cart.find(i=>i.id===selectedItemForModal.id && i.isChroma===isChroma); if(existing) existing.quantity += quantity; else cart.push({...selectedItemForModal, name:itemName, price:finalPrice, quantity, isChroma}); updateCartUI(); showToast(`${quantity}x ${itemName} added`); closePurchaseModal(); }
-    
-    function updateCartUI() { let total = cart.reduce((s,i)=>s+(i.price*i.quantity),0); const count = cart.reduce((s,i)=>s+i.quantity,0); document.getElementById('cartCount').innerText = count; document.getElementById('cartTotal').innerHTML = `Total: ${getSymbol()}${getDisplayPrice(total)}`; const c = document.getElementById('cartItemsList'); if(cart.length===0){ c.innerHTML='<p style="text-align:center;">Cart empty</p>'; return; } c.innerHTML = cart.map(item => `<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity-1}, ${!!item.isChroma})">-</button> <span>${item.quantity}</span> <button onclick="updateQty(${item.id}, ${item.quantity+1}, ${!!item.isChroma})">+</button> <button onclick="removeFromCart(${item.id}, ${!!item.isChroma})"><i class="fas fa-trash"></i></button></div></div>`).join(''); }
-    function updateQty(id,n,isChroma) { if(n<=0) removeFromCart(id,isChroma); else { const i = cart.find(i=>i.id===id && (i.isChroma||false)===isChroma); if(i) i.quantity=n; updateCartUI(); } }
-    function removeFromCart(id,isChroma) { cart = cart.filter(i=>!(i.id===id && (i.isChroma||false)===isChroma)); updateCartUI(); }
+    function updateCartUI() { let total=cart.reduce((s,i)=>s+(i.price*i.quantity),0); const count=cart.reduce((s,i)=>s+i.quantity,0); document.getElementById('cartCount').innerText=count; document.getElementById('cartTotal').innerHTML=`Total: ${getSymbol()}${getDisplayPrice(total)}`; const c=document.getElementById('cartItemsList'); if(cart.length===0){ c.innerHTML='<p style="text-align:center;">Cart empty</p>'; return; } c.innerHTML=cart.map(item=>`<div class="cart-item"><div><strong>${item.name}</strong><br>${getSymbol()}${getDisplayPrice(item.price)} x${item.quantity}</div><div><button onclick="updateQty(${item.id}, ${item.quantity-1}, ${!!item.isChroma})">-</button> <span>${item.quantity}</span> <button onclick="updateQty(${item.id}, ${item.quantity+1}, ${!!item.isChroma})">+</button> <button onclick="removeFromCart(${item.id}, ${!!item.isChroma})"><i class="fas fa-trash"></i></button></div></div>`).join(''); }
+    function updateQty(id,n,isChroma) { if(n<=0) removeFromCart(id,isChroma); else { const i=cart.find(i=>i.id===id && (i.isChroma||false)===isChroma); if(i) i.quantity=n; updateCartUI(); } }
+    function removeFromCart(id,isChroma) { cart=cart.filter(i=>!(i.id===id && (i.isChroma||false)===isChroma)); updateCartUI(); }
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
     
-    function initiateCheckout() { if(!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; } if(cart.length===0) { showToast("Cart empty"); return; } if(!verifiedRobloxUser) { showToast("Please link your Roblox account first"); openProfilePanel(); return; } const orderId = 'ECHO-' + Date.now().toString(36).toUpperCase(); const orderData = { orderId, items: cart.map(i=>({ name:i.name, price:i.price, quantity:i.quantity })), subtotal: cart.reduce((s,i)=>s+(i.price*i.quantity),0), robloxUser: verifiedRobloxUser.username, total: cart.reduce((s,i)=>s+(i.price*i.quantity),0), status:'Processing', date: new Date().toISOString(), userEmail: currentUser.email, currency: currentCurrency, symbol: getSymbol() }; orders.unshift(orderData); localStorage.setItem('echoknives_orders', JSON.stringify(orders)); const receiptMessage = `📦 ORDER RECEIPT\nItems: ${cart.map(i=>`${i.name} x${i.quantity}`).join(', ')}\nTotal: ${getSymbol()}${getDisplayPrice(orderData.total)}\nRoblox: @${verifiedRobloxUser.username}\nStatus: Processing`; allMessages[orderId] = [{ sender:'system', text: receiptMessage }]; localStorage.setItem('echoknives_all_messages', JSON.stringify(allMessages)); const cartParam = encodeURIComponent(JSON.stringify(orderData.items)); const returnUrl = encodeURIComponent(window.location.origin + window.location.pathname); window.location.href = `${PAYMENT_SITE_URL}?cart=${cartParam}&roblox=${encodeURIComponent(verifiedRobloxUser.username)}&order_id=${orderData.orderId}&return=${returnUrl}`; }
+    function initiateCheckout() { if(!isLoggedIn) { performGoogleLogin(); return; } if(cart.length===0){ showToast("Cart empty"); return; } if(!verifiedRobloxUser){ showToast("Link Roblox first"); openProfilePanel(); return; } const orderId='ECHO-'+Date.now().toString(36).toUpperCase(); const orderData={orderId, items:cart.map(i=>({name:i.name,price:i.price,quantity:i.quantity})), total:cart.reduce((s,i)=>s+(i.price*i.quantity),0), robloxUser:verifiedRobloxUser.username, status:'Processing', date:new Date().toISOString(), userEmail:currentUser.email, currency:currentCurrency, symbol:getSymbol()}; orders.unshift(orderData); localStorage.setItem('echoknives_orders',JSON.stringify(orders)); allMessages[orderId]=[{sender:'system',text:`📦 ORDER: ${cart.map(i=>`${i.name} x${i.quantity}`).join(', ')} | Total: ${getSymbol()}${getDisplayPrice(orderData.total)}`}]; localStorage.setItem('echoknives_all_messages',JSON.stringify(allMessages)); addPoints(Math.floor(orderData.total)); window.location.href=`${PAYMENT_SITE_URL}?order=${orderId}`; }
     
-    // ========== ORDERS & CHAT ==========
-    function renderOrdersList() { const container = document.getElementById('ordersListContainer'); if(!container) return; let userOrders = (currentUser && currentUser.email === ADMIN_EMAIL) ? orders : orders.filter(o => o.userEmail === currentUser?.email); if(userOrders.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px;">No orders yet.</div>'; return; } container.innerHTML = userOrders.map(o => `<div class="order-item ${currentSelectedOrderId === o.orderId ? 'selected' : ''}" onclick="selectOrder('${o.orderId}')"><div><strong>Order #${o.orderId}</strong> <span style="background:${o.status === 'Delivered' ? '#10b981' : '#ef4444'}; color:white; font-size:10px; padding:2px 8px; border-radius:20px; margin-left:8px;">${o.status === 'Delivered' ? '✓ Delivered' : '⚠️ Processing'}</span></div><div><strong>User:</strong> ${o.robloxUser}</div><div>Items: ${o.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div><div>Total: ${o.symbol || '$'}${o.total}</div></div>`).join(''); }
-    function selectOrder(orderId) { currentSelectedOrderId = orderId; renderOrdersList(); loadChatMessages(orderId); }
-    function loadChatMessages(orderId) { const messages = allMessages[orderId] || []; const container = document.getElementById('chatMessagesList'); document.getElementById('chatOrderId').innerHTML = `#${orderId}`; if(!container) return; container.innerHTML = messages.map(msg => `<div class="${msg.sender === 'buyer' ? 'message-buyer' : 'message-system'}"><strong>${msg.sender === 'buyer' ? 'You' : 'System'}:</strong> ${msg.text}</div>`).join(''); container.scrollTop = container.scrollHeight; }
-    function sendChatMessage() { if(!currentSelectedOrderId) { showToast("Select an order first"); return; } const input = document.getElementById('chatMessageInput'); const text = input.value.trim(); if(!text) return; if(!allMessages[currentSelectedOrderId]) allMessages[currentSelectedOrderId] = []; allMessages[currentSelectedOrderId].push({ sender: 'buyer', text: text, timestamp: new Date().toISOString() }); localStorage.setItem('echoknives_all_messages', JSON.stringify(allMessages)); loadChatMessages(currentSelectedOrderId); input.value = ''; }
-    function showOrderTab(tab) { currentOrderTab = tab; document.querySelectorAll('.pending-tab').forEach(el=>el.classList.remove('active')); if(tab==='all') document.querySelector('.pending-tab:first-child').classList.add('active'); else document.querySelector('.pending-tab:last-child').classList.add('active'); renderOrdersList(); }
+    function renderOrdersList() { const container=document.getElementById('ordersListContainer'); if(!container) return; let userOrders=(currentUser?.email===ADMIN_EMAIL)?orders:orders.filter(o=>o.userEmail===currentUser?.email); if(userOrders.length===0){ container.innerHTML='<div style="text-align:center;padding:40px;">No orders</div>'; return; } container.innerHTML=userOrders.map(o=>`<div class="order-item ${currentSelectedOrderId===o.orderId?'selected':''}" onclick="selectOrder('${o.orderId}')"><div><strong>#${o.orderId}</strong> <span style="background:${o.status==='Delivered'?'#10b981':'#ef4444'};">${o.status}</span></div><div>${o.robloxUser}</div><div>${o.items.map(i=>`${i.name} x${i.quantity}`).join(', ')}</div><div>${o.symbol}${o.total}</div></div>`).join(''); }
+    function selectOrder(id) { currentSelectedOrderId=id; renderOrdersList(); loadChatMessages(id); }
+    function loadChatMessages(id) { const msgs=allMessages[id]||[]; const container=document.getElementById('chatMessagesList'); document.getElementById('chatOrderId').innerHTML=`#${id}`; if(!container) return; container.innerHTML=msgs.map(m=>`<div class="${m.sender==='buyer'?'message-buyer':'message-system'}"><strong>${m.sender==='buyer'?'You':'System'}:</strong> ${m.text}</div>`).join(''); container.scrollTop=container.scrollHeight; }
+    function sendChatMessage() { if(!currentSelectedOrderId){ showToast("Select order"); return; } const input=document.getElementById('chatMessageInput'); const text=input.value.trim(); if(!text) return; if(!allMessages[currentSelectedOrderId]) allMessages[currentSelectedOrderId]=[]; allMessages[currentSelectedOrderId].push({sender:'buyer',text}); localStorage.setItem('echoknives_all_messages',JSON.stringify(allMessages)); loadChatMessages(currentSelectedOrderId); input.value=''; }
+    function showOrderTab(tab) { currentOrderTab=tab; renderOrdersList(); }
     
-    // ========== PROFILE & ROBLOX ==========
-    function openProfilePanel() { if(!isLoggedIn) { performGoogleLogin(); return; } hideAllPages(); document.getElementById('profilePanel').style.display='block'; updateProfilePanel(); }
-    function updateProfilePanel() { if(verifiedRobloxUser) { document.getElementById('profileAvatarImg').src = verifiedRobloxUser.avatarUrl; document.getElementById('profileRobloxStatus').innerHTML = `✅ @${verifiedRobloxUser.username}`; } else { document.getElementById('profileAvatarImg').src = "https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120"; document.getElementById('profileRobloxStatus').innerHTML = "Not linked"; } document.getElementById('profilePoints').innerText = userPoints; document.getElementById('profileLuckBalance').innerText = luckBalance; document.getElementById('profileName').innerText = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Guest'; }
-    function updateHeaderDisplay() { if(verifiedRobloxUser && verifiedRobloxUser.avatarUrl) { document.getElementById('userAvatarDisplay').innerHTML = `<img src="${verifiedRobloxUser.avatarUrl}" style="width:100%; height:100%; object-fit:cover;">`; document.getElementById('userNameDisplay').innerHTML = `🎮 ${verifiedRobloxUser.username}`; } else if(currentUser) { document.getElementById('userNameDisplay').innerText = currentUser.displayName || currentUser.email?.split('@')[0]; document.getElementById('userAvatarDisplay').innerHTML = currentUser.photoURL ? `<img src="${currentUser.photoURL}" style="width:100%; height:100%; object-fit:cover;">` : `<i class="fas fa-user"></i>`; } else { document.getElementById('userNameDisplay').innerText = 'Guest'; document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`; } }
-    async function fetchRobloxAvatar(username) { if(!username) return; const img = document.getElementById('robloxAvatarImg'), display = document.getElementById('robloxDisplayName'); img.src="https://ui-avatars.com/api/?name=Loading&background=f59e0b&color=fff&size=120"; display.innerHTML=`Looking up @${username}...`; try { const res = await fetch(`${MIDDLEMAN_URL}/api/roblox/${encodeURIComponent(username)}`); const data = await res.json(); if(data.success && data.avatarUrl) { img.src=data.avatarUrl; display.innerHTML=`Verified @${data.username}`; pendingRobloxData=data; } else { img.src="https://ui-avatars.com/api/?name=Not+Found&background=ef4444&color=fff&size=120"; display.innerHTML="User not found"; pendingRobloxData=null; } } catch(e) { img.src="https://ui-avatars.com/api/?name=Error&background=ef4444&color=fff&size=120"; display.innerHTML="Connection error"; } }
-    function openRobloxVerification(fromProfile=false) { document.getElementById('robloxUsernameInput').value=''; document.getElementById('robloxAvatarImg').src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120"; document.getElementById('robloxDisplayName').innerHTML="Enter your username"; document.getElementById('robloxModal').classList.add('show'); let timer; document.getElementById('robloxUsernameInput').oninput = function() { clearTimeout(timer); timer = setTimeout(()=>{ if(this.value.trim().length>2) fetchRobloxAvatar(this.value.trim()); },500); }; window.pendingFromProfile=fromProfile; }
-    function closeRobloxModal() { document.getElementById('robloxModal').classList.remove('show'); }
-    function confirmRobloxAndSave() { const username = document.getElementById('robloxUsernameInput').value.trim(); if(!username) { showToast("Enter Roblox username"); return; } if(!pendingRobloxData) { showToast("Wait for avatar to load"); return; } verifiedRobloxUser = pendingRobloxData; localStorage.setItem('verifiedRobloxUser', JSON.stringify(verifiedRobloxUser)); updateHeaderDisplay(); closeRobloxModal(); if(window.pendingFromProfile) updateProfilePanel(); showToast(`Roblox account @${verifiedRobloxUser.username} linked!`); }
-    function unlinkRobloxAccount() { verifiedRobloxUser = null; localStorage.removeItem('verifiedRobloxUser'); updateHeaderDisplay(); updateProfilePanel(); showToast("Roblox account unlinked"); }
-    function switchGoogleAccount() { performGoogleLogin(); }
-    async function performGoogleLogout() { if(window.firebaseAuth) { await window.firebaseSignOut(window.firebaseAuth); } showToast("Logged out"); }
+    // Profile
+    function openProfilePanel() { if(!isLoggedIn){ performGoogleLogin(); return; } hideAllPages(); document.getElementById('profilePanel').style.display='block'; updateProfilePanel(); }
+    function updateProfilePanel() { if(verifiedRobloxUser){ document.getElementById('profileAvatarImg').src=verifiedRobloxUser.avatarUrl; document.getElementById('profileRobloxStatus').innerHTML=`✅ @${verifiedRobloxUser.username}`; } else { document.getElementById('profileAvatarImg').src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120"; document.getElementById('profileRobloxStatus').innerHTML="Not linked"; } document.getElementById('profilePoints').innerText=userPoints; document.getElementById('profileLuckBalance').innerText=luckBalance; document.getElementById('profileName').innerText=currentUser?.displayName||currentUser?.email?.split('@')[0]||'Guest'; }
+    function updateHeaderDisplay() { if(verifiedRobloxUser?.avatarUrl){ document.getElementById('userAvatarDisplay').innerHTML=`<img src="${verifiedRobloxUser.avatarUrl}">`; document.getElementById('userNameDisplay').innerHTML=`🎮 ${verifiedRobloxUser.username}`; } else if(currentUser){ document.getElementById('userNameDisplay').innerText=currentUser.displayName||currentUser.email?.split('@')[0]; document.getElementById('userAvatarDisplay').innerHTML=currentUser.photoURL?`<img src="${currentUser.photoURL}">`:`<i class="fas fa-user"></i>`; } else { document.getElementById('userNameDisplay').innerText='Guest'; document.getElementById('userAvatarDisplay').innerHTML=`<i class="fas fa-user"></i>`; } }
+    async function fetchRobloxAvatar(username) { const img=document.getElementById('robloxAvatarImg'), display=document.getElementById('robloxDisplayName'); img.src="https://ui-avatars.com/api/?name=Loading&background=f59e0b&color=fff&size=120"; display.innerHTML=`Looking up...`; try { const res=await fetch(`${MIDDLEMAN_URL}/api/roblox/${encodeURIComponent(username)}`); const data=await res.json(); if(data.success && data.avatarUrl){ img.src=data.avatarUrl; display.innerHTML=`✅ @${data.username}`; pendingRobloxData=data; } else { img.src="https://ui-avatars.com/api/?name=Not+Found&background=ef4444&color=fff&size=120"; display.innerHTML="User not found"; pendingRobloxData=null; } } catch(e){ img.src="https://ui-avatars.com/api/?name=Error&background=ef4444&color=fff&size=120"; display.innerHTML="Error"; } }
+    function openRobloxVerification(fromProfile){ document.getElementById('robloxUsernameInput').value=''; document.getElementById('robloxAvatarImg').src="https://ui-avatars.com/api/?name=Roblox&background=6c5ce7&color=fff&size=120"; document.getElementById('robloxDisplayName').innerHTML="Enter username"; document.getElementById('robloxModal').classList.add('show'); let timer; document.getElementById('robloxUsernameInput').oninput=function(){ clearTimeout(timer); timer=setTimeout(()=>{ if(this.value.trim().length>2) fetchRobloxAvatar(this.value.trim()); },500); }; window.pendingFromProfile=fromProfile; }
+    function closeRobloxModal(){ document.getElementById('robloxModal').classList.remove('show'); }
+    function confirmRobloxAndSave(){ const username=document.getElementById('robloxUsernameInput').value.trim(); if(!username){ showToast("Enter username"); return; } if(!pendingRobloxData){ showToast("Wait for avatar"); return; } verifiedRobloxUser=pendingRobloxData; localStorage.setItem('verifiedRobloxUser',JSON.stringify(verifiedRobloxUser)); updateHeaderDisplay(); closeRobloxModal(); if(window.pendingFromProfile) updateProfilePanel(); showToast(`Linked @${verifiedRobloxUser.username}`); }
+    function unlinkRobloxAccount(){ verifiedRobloxUser=null; localStorage.removeItem('verifiedRobloxUser'); updateHeaderDisplay(); updateProfilePanel(); showToast("Unlinked"); }
+    function switchGoogleAccount(){ performGoogleLogin(); }
+    async function performGoogleLogout(){ if(window.firebaseAuth){ await window.firebaseSignOut(window.firebaseAuth); } showToast("Logged out"); }
     
-    // ========== ADMIN INVENTORY ==========
-    function renderInventory() { const container = document.getElementById('inventoryList'); if(!container) return; container.innerHTML = items.map(item => `<div class="inventory-item"><span><strong>${item.name}</strong><br>₱${item.price}</span><div class="inventory-actions"><button class="edit-btn" onclick="editItemPrice(${item.id})">Edit Price</button><button class="edit-btn" onclick="editItemImage(${item.id})">Edit Image</button><button onclick="deleteItem(${item.id})" class="btn-danger">Delete</button></div></div>`).join(''); }
-    function editItemPrice(id) { const newPrice = prompt("Enter new price (PHP):"); if(newPrice && !isNaN(parseFloat(newPrice))) { const item = items.find(i=>i.id===id); if(item) { item.price = parseFloat(newPrice); item.originalPrice = Math.round(item.price*1.3); item.discount = Math.round((1-item.price/item.originalPrice)*100); saveItems(); renderInventory(); renderProducts(); showToast("Price updated!"); } } }
-    function editItemImage(id) { const newImage = prompt("Enter new image URL:"); if(newImage && newImage.trim()) { const item = items.find(i=>i.id===id); if(item) { item.image = newImage.trim(); saveItems(); renderInventory(); renderProducts(); showToast("Image updated!"); } } }
-    function deleteItem(id) { items = items.filter(i=>i.id!==id); saveItems(); renderInventory(); renderProducts(); showToast("Item deleted"); }
-    function saveItems() { localStorage.setItem('echoknives_items', JSON.stringify(items)); }
+    function renderInventory() { const container=document.getElementById('inventoryList'); if(!container) return; container.innerHTML=items.map(item=>`<div class="inventory-item"><span><strong>${item.name}</strong><br>₱${item.price}</span><div><button onclick="editItemPrice(${item.id})">Edit Price</button><button onclick="editItemImage(${item.id})">Edit Image</button><button onclick="deleteItem(${item.id})">Delete</button></div></div>`).join(''); }
+    function editItemPrice(id){ const np=prompt("New PHP price:"); if(np && !isNaN(parseFloat(np))){ const item=items.find(i=>i.id===id); if(item){ item.price=parseFloat(np); item.originalPrice=Math.round(item.price*1.33); item.discount=Math.round((1-item.price/item.originalPrice)*100); saveItems(); renderInventory(); renderProducts(); showToast("Updated!"); } } }
+    function editItemImage(id){ const ni=prompt("Image URL:"); if(ni && ni.trim()){ const item=items.find(i=>i.id===id); if(item){ item.image=ni.trim(); saveItems(); renderInventory(); renderProducts(); showToast("Image updated!"); } } }
+    function deleteItem(id){ items=items.filter(i=>i.id!==id); saveItems(); renderInventory(); renderProducts(); showToast("Deleted"); }
+    function saveItems(){ localStorage.setItem('echoknives_items',JSON.stringify(items)); }
     
-    function hideAllPages() { ['homePage','shopPage','gamesPage','ordersChatPage','adminPage','profilePanel'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; }); }
+    function hideAllPages(){ ['homePage','shopPage','gamesPage','ordersChatPage','adminPage','profilePanel'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; }); }
     
-    // ========== AUTHENTICATION ==========
-    window.handleAuthStateChanged = function(user) { 
-        if(user) { isLoggedIn=true; currentUser=user; updateHeaderDisplay(); loadLuckBalance(); const adminBtn = document.getElementById('adminNavBtn'); if(user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; else adminBtn.style.display = 'none'; showToast(`Welcome ${user.displayName || 'User'}!`); updateRewardButtons(); } else { isLoggedIn=false; currentUser=null; updateHeaderDisplay(); loadLuckBalance(); document.getElementById('adminNavBtn').style.display = 'none'; } renderProducts(); };
-    async function performGoogleLogin() { if(window.firebaseAuth) { try { await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } catch(e) { showToast("Login failed"); } } else showToast("Loading..."); }
+    window.handleAuthStateChanged=function(user){ if(user){ isLoggedIn=true; currentUser=user; updateHeaderDisplay(); loadLuckBalance(); loadPoints(); const adminBtn=document.getElementById('adminNavBtn'); if(user.email===ADMIN_EMAIL) adminBtn.style.display='block'; else adminBtn.style.display='none'; showToast(`Welcome ${user.displayName||'User'}!`); } else { isLoggedIn=false; currentUser=null; updateHeaderDisplay(); loadLuckBalance(); loadPoints(); document.getElementById('adminNavBtn').style.display='none'; } renderProducts(); };
+    async function performGoogleLogin(){ if(window.firebaseAuth){ try{ await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } catch(e){ showToast("Login failed"); } } else showToast("Loading..."); }
     
-    // ========== FILTERS & INIT ==========
-    document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderProducts(); }); });
-    function createParticles() { const c = document.getElementById('particles'); for(let i=0;i<80;i++){ const p=document.createElement('div'); p.classList.add('particle'); p.style.width=(Math.random()*6+2)+'px'; p.style.left=Math.random()*100+'%'; p.style.animationDelay=Math.random()*20+'s'; p.style.animationDuration=(Math.random()*15+10)+'s'; c.appendChild(p); } }
-    createParticles(); showHome(); renderProducts(); 
-    const savedItems = localStorage.getItem('echoknives_items'); if(savedItems) items = JSON.parse(savedItems);
+    document.querySelectorAll('.filter-btn').forEach(btn=>{ btn.addEventListener('click',()=>{ document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentFilter=btn.dataset.filter; renderProducts(); }); });
+    function createParticles(){ const c=document.getElementById('particles'); for(let i=0;i<80;i++){ const p=document.createElement('div'); p.classList.add('particle'); p.style.width=(Math.random()*6+2)+'px'; p.style.left=Math.random()*100+'%'; p.style.animationDelay=Math.random()*20+'s'; p.style.animationDuration=(Math.random()*15+10)+'s'; c.appendChild(p); } }
+    createParticles(); showHome(); renderProducts(); const savedItems=localStorage.getItem('echoknives_items'); if(savedItems) items=JSON.parse(savedItems);
     
     window.showHome=showHome; window.showShop=showShop; window.showGames=showGames; window.showOrdersAndChat=showOrdersAndChat; window.showAdmin=showAdmin; window.openProfilePanel=openProfilePanel;
-    window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.toggleCart=toggleCart; window.closeCart=closeCart;
-    window.changeCurrency=changeCurrency; window.performGoogleLogin=performGoogleLogin; window.performGoogleLogout=performGoogleLogout;
+    window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.toggleCart=toggleCart; window.closeCart=closeCart; window.changeCurrency=changeCurrency; window.performGoogleLogin=performGoogleLogin; window.performGoogleLogout=performGoogleLogout;
     window.openRobloxVerification=openRobloxVerification; window.closeRobloxModal=closeRobloxModal; window.confirmRobloxAndSave=confirmRobloxAndSave; window.unlinkRobloxAccount=unlinkRobloxAccount;
     window.initiateCheckout=initiateCheckout; window.openPurchaseModal=openPurchaseModal; window.closePurchaseModal=closePurchaseModal; window.confirmAddToCart=confirmAddToCart;
     window.selectOrder=selectOrder; window.sendChatMessage=sendChatMessage; window.showOrderTab=showOrderTab;
     window.startGame=startGame; window.selectCard=selectCard; window.resetGame=resetGame;
     window.giveSelfCredits=giveSelfCredits; window.addLuckCreditsAdmin=addLuckCreditsAdmin;
     window.showReferral=showReferral; window.claimDailyReward=claimDailyReward; window.claimFirstPurchase=claimFirstPurchase;
+    window.showRedeemModal=showRedeemModal; window.closeRedeemModal=closeRedeemModal; window.redeemItem=redeemItem;
 </script>
 </body>
 </html>
