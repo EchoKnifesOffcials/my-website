@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECHOKNIVES | Premium MM2 Shop</title>
+    <title>ECHOKNIVES | Secure MM2 Shop</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -121,7 +121,6 @@
         .messaging-container { background: rgba(0,0,0,0.5); border-radius: 30px; padding: 25px; border: 1px solid rgba(108,92,231,0.4); }
         .chat-window { background: linear-gradient(135deg, rgba(20,15,30,0.95), rgba(15,10,25,0.98)); border-radius: 30px; height: 500px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(108,92,231,0.3); }
         .chat-header { background: rgba(108,92,231,0.2); padding: 15px 20px; border-bottom: 1px solid rgba(108,92,231,0.3); }
-        .chat-header h3 { color: #a855f7; }
         .chat-messages-area { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
         .message-bubble { max-width: 80%; padding: 12px 18px; border-radius: 20px; margin-bottom: 5px; }
         .message-bubble.buyer { background: linear-gradient(135deg, #1e2a3a, #0f1a2a); align-self: flex-end; border-bottom-right-radius: 5px; }
@@ -136,25 +135,26 @@
         .cmd-btn { background: linear-gradient(135deg, #8b5cf6, #6d28d9); border: none; padding: 8px 18px; border-radius: 30px; color: white; cursor: pointer; font-size: 13px; transition: 0.2s; }
         .cmd-btn:hover { transform: scale(1.02); background: #a855f7; }
         
+        .pending-orders-section { background: rgba(0,0,0,0.4); border-radius: 20px; padding: 15px; margin-bottom: 20px; }
+        .pending-order-item { background: rgba(108,92,231,0.2); border-radius: 15px; padding: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; border: 1px solid rgba(108,92,231,0.3); }
+        .pending-order-item:hover { background: rgba(108,92,231,0.4); transform: translateX(5px); }
+        
         .admin-conversations { background: rgba(0,0,0,0.5); border-radius: 30px; padding: 20px; margin-top: 20px; border: 1px solid rgba(108,92,231,0.4); }
         .conversation-list { max-height: 400px; overflow-y: auto; }
         .convo-item { background: rgba(30,20,35,0.95); border-radius: 15px; padding: 15px; margin-bottom: 10px; cursor: pointer; border-left: 3px solid #6c5ce7; transition: 0.2s; }
         .convo-item:hover { transform: translateX(5px); background: rgba(108,92,231,0.15); }
         .convo-item.unread { border-left-color: #10b981; background: rgba(16,185,129,0.1); }
-        .convo-sender { font-weight: 700; color: #a855f7; }
-        .convo-preview { font-size: 13px; color: #ccc; margin-top: 5px; }
-        .convo-date { font-size: 11px; color: #888; float: right; }
+        
+        /* Receipt Modal */
+        .receipt-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); backdrop-filter: blur(20px); z-index: 10002; display: none; justify-content: center; align-items: center; }
+        .receipt-modal.show { display: flex; }
+        .receipt-content { background: linear-gradient(135deg, #1a1a2e, #0f0f1a); border-radius: 40px; padding: 35px; max-width: 500px; width: 90%; border: 1px solid #10b981; }
+        .receipt-header { text-align: center; margin-bottom: 25px; }
+        .receipt-header h2 { color: #10b981; }
+        .receipt-detail { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 15px; margin: 10px 0; }
 
         .profile-container { max-width: 550px; margin: 0 auto; }
         .profile-card-premium { background: linear-gradient(135deg, rgba(20,15,35,0.95), rgba(10,8,25,0.98)); backdrop-filter: blur(15px); border-radius: 50px; padding: 35px; border: 1px solid rgba(108,92,231,0.5); }
-        .profile-header { display: flex; align-items: center; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; }
-        .profile-avatar-premium { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, #6c5ce7, #a855f7); display: flex; align-items: center; justify-content: center; overflow: hidden; border: 3px solid rgba(255,255,255,0.3); }
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 30px 0; }
-        .stat-card { background: rgba(108,92,231,0.15); border-radius: 30px; padding: 20px; text-align: center; border: 1px solid rgba(108,92,231,0.3); }
-        .stat-value { font-size: 32px; font-weight: 800; color: #a855f7; font-family: 'Orbitron', monospace; }
-        .profile-actions-premium { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
-        .profile-action-btn { flex: 1; padding: 12px; border-radius: 40px; font-weight: 600; cursor: pointer; border: none; }
-        .profile-action-btn.primary { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
 
         .premium-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.96); backdrop-filter: blur(20px); z-index: 10000; display: none; justify-content: center; align-items: center; }
         .premium-modal.show { display: flex; }
@@ -207,40 +207,45 @@
 <div id="supportChatPage" class="container" style="display:none;">
     <h2 style="margin-bottom: 25px;"><i class="fas fa-headset"></i> Customer Support</h2>
     <div class="messaging-container">
+        <!-- Pending Orders Section -->
+        <div class="pending-orders-section">
+            <h3 style="margin-bottom: 10px;"><i class="fas fa-clock"></i> Your Pending Orders</h3>
+            <div id="pendingOrdersList"></div>
+        </div>
+        
         <div class="chat-window">
             <div class="chat-header">
-                <h3><i class="fas fa-comment-dots"></i> Live Support Chat</h3>
-                <p style="font-size: 12px; color: #aaa;">Our support team will respond within 24 hours</p>
+                <h3><i class="fas fa-comment-dots"></i> Support Chat</h3>
+                <p style="font-size: 12px; color: #aaa;">Messages are sent to admin and Discord webhook</p>
             </div>
             <div class="chat-messages-area" id="supportMessagesArea">
-                <div class="message-bubble system">💬 Welcome! Type !JoinUs to get private server link and bot invite.</div>
+                <div class="message-bubble system">💬 Welcome! Type your message below. Admin will respond shortly.</div>
             </div>
             <div class="chat-input-area">
-                <input type="text" id="supportChatInput" class="chat-input" placeholder="Type your message... Type !JoinUs for server invite" onkeypress="if(event.key==='Enter') sendSupportMessage()">
+                <input type="text" id="supportChatInput" class="chat-input" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendSupportMessage()">
                 <button class="chat-send-btn" onclick="sendSupportMessage()"><i class="fas fa-paper-plane"></i> Send</button>
             </div>
-            <div class="command-buttons" id="commandButtons" style="padding: 10px 20px;">
-                <button class="cmd-btn" onclick="sendJoinUsCommand()"><i class="fab fa-discord"></i> !JoinUs</button>
-            </div>
         </div>
-        <div style="margin-top: 20px; padding: 15px; background: rgba(16,185,129,0.1); border-radius: 20px; text-align: center;">
-            <p style="font-size: 13px;"><i class="fas fa-shield-alt"></i> All messages are encrypted and sent directly to admin. Include your order number if you have one.</p>
+        <div style="margin-top: 15px; text-align: center; font-size: 12px; color: #888;">
+            <p>Need help with an order? Click on your pending order above to open a conversation.</p>
         </div>
     </div>
 </div>
 
-<!-- ADMIN PANEL - View conversations and reply -->
+<!-- ADMIN PANEL -->
 <div id="adminPanelPage" class="container" style="display:none;">
     <h2 style="margin-bottom: 25px;"><i class="fas fa-inbox"></i> Admin Support Panel</h2>
     <div class="admin-conversations">
-        <h3 style="margin-bottom: 15px; color: #a855f7;"><i class="fas fa-users"></i> Active Conversations</h3>
+        <h3 style="margin-bottom: 15px; color: #a855f7;"><i class="fas fa-users"></i> Customer Conversations</h3>
         <div class="conversation-list" id="conversationList"></div>
     </div>
     <div id="adminChatView" style="margin-top: 25px; display: none;">
         <div class="chat-window" style="height: 450px;">
             <div class="chat-header">
                 <h3>Chat with: <span id="activeChatUserName"></span></h3>
-                <button class="cmd-btn" style="background:#ef4444; padding:5px 15px;" onclick="closeAdminChat()">Close Chat</button>
+                <button class="cmd-btn" style="background:#6c5ce7;" onclick="sendJoinUsCommandAdmin()">!JoinUs</button>
+                <button class="cmd-btn" style="background:#10b981;" onclick="sendSuccessCommand()">!Success</button>
+                <button class="cmd-btn" style="background:#ef4444;" onclick="closeAdminChat()">Close</button>
             </div>
             <div class="chat-messages-area" id="adminChatMessagesArea"></div>
             <div class="chat-input-area">
@@ -264,15 +269,18 @@
 
 <div id="robloxModal" class="premium-modal"><div class="premium-modal-content"><h2><i class="fab fa-roblox"></i> Verify Roblox</h2><img id="robloxAvatarImg" style="width:100px; height:100px; border-radius:50%; margin:15px auto;"><div id="robloxDisplayName">Enter username</div><input type="text" id="robloxUsernameInput" placeholder="Roblox Username"><div style="display:flex; gap:15px;"><button style="flex:1; background:#3b82f6;" onclick="confirmRobloxAndSave()">Link</button><button style="flex:1; background:#ef4444;" onclick="closeRobloxModal()">Cancel</button></div></div></div>
 
+<!-- Receipt Modal -->
+<div id="receiptModal" class="receipt-modal"><div class="receipt-content"><div class="receipt-header"><i class="fas fa-receipt" style="font-size: 50px; color: #10b981;"></i><h2>ORDER COMPLETED ✓</h2></div><div id="receiptDetails"></div><button class="btn-primary" style="margin-top: 20px; width: 100%;" onclick="closeReceiptModal()">Close</button></div></div>
+
 <div class="toast" id="toast"></div>
 
 <script>
     // ========== CONFIGURATION ==========
     const ADMIN_EMAIL = "ivanmendones13@gmail.com";
+    const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d";
     const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
     const PAYMENT_SITE_URL = "https://echoknivesmm2.onrender.com";
-    const PRIVATE_SERVER_LINK = "https://www.roblox.com/games/1234567890/MM2-Private-Server?privateServerLinkCode=ECHOKNIVES2024";
-    const BOT_INVITE_LINK = "https://discord.com/api/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=8&scope=bot";
+    const ROBLOX_PROFILE_URL = "https://www.roblox.com/users/4328926204/profile?friendshipSourceType=PlayerSearch"; // Sigmake5 Roblox profile
     
     let items = [
         { id: 1, name: "Batwing", type: "knife", price: 140, originalPrice: 210, discount: 33, image: "https://i.imgur.com/H6CL03y.jpeg" },
@@ -283,9 +291,9 @@
         { id: 6, name: "Lightbringer", type: "gun", price: 140, originalPrice: 240, discount: 42, image: "https://i.imgur.com/BUljuYV.jpeg" },
         { id: 7, name: "Ice Piercer", type: "gun", price: 365, originalPrice: 550, discount: 34, image: "https://i.imgur.com/cWwaIa3.jpeg" },
         { id: 8, name: "Ice Breaker", type: "knife", price: 255, originalPrice: 380, discount: 33, image: "https://i.imgur.com/SuTMxT7.jpeg" },
-        { id: 9, name: "Candy", type: "knife", price: 249, originalPrice: 380, discount: 34, image: "" },
-        { id: 10, name: "Sunset", type: "gun", price: 430, originalPrice: 650, discount: 34, image: "" },
-        { id: 11, name: "Sunrise", type: "gun", price: 799, originalPrice: 1200, discount: 33, image: "" }
+        { id: 9, name: "Candy", type: "knife", price: 249, originalPrice: 380, discount: 34, image: "https://i.imgur.com/PXBiQtb.jpeg" },
+        { id: 10, name: "Sunset", type: "gun", price: 430, originalPrice: 650, discount: 34, image: "https://i.imgur.com/dXJ2dSA.jpeg" },
+        { id: 11, name: "Sunrise", type: "gun", price: 799, originalPrice: 1200, discount: 33, image: "https://i.imgur.com/ttNyTxl.jpeg" }
     ];
     
     const exchangeRates = { PHP: 1, USD: 0.017, EUR: 0.016, GBP: 0.013, ROBUX: 1.7 };
@@ -296,6 +304,7 @@
     // Messaging System Storage
     let conversations = JSON.parse(localStorage.getItem('echoknives_support_conversations') || '[]');
     let activeConversationId = null;
+    let orders = JSON.parse(localStorage.getItem('echoknives_orders') || '[]');
     
     let cart = [], currentFilter = "all", isLoggedIn = false, currentUser = null, currentCurrency = "PHP";
     let userPoints = 0, luckBalance = 0;
@@ -312,8 +321,14 @@
     function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderProducts(); updateCartUI(); }
     function filterProducts() { currentSearchTerm = document.getElementById('searchInput').value.toLowerCase(); renderProducts(); }
     
+    async function sendDiscordNotification(title, description, fields) {
+        try {
+            await fetch(DISCORD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ embeds: [{ title, description, color: 0x6c5ce7, fields: fields || [], timestamp: new Date().toISOString() }] }) });
+        } catch(e) { console.log("Discord webhook error"); }
+    }
+    
     // Points System
-    function loadPoints() { const saved = localStorage.getItem(`points_${currentUser?.email || 'guest'}`); userPoints = saved ? parseInt(saved) : 0; document.getElementById('pointsBalance').innerText = userPoints; if(document.getElementById('profilePoints')) document.getElementById('profilePoints').innerText = userPoints; }
+    function loadPoints() { const saved = localStorage.getItem(`points_${currentUser?.email || 'guest'}`); userPoints = saved ? parseInt(saved) : 0; document.getElementById('pointsBalance').innerText = userPoints; }
     function savePoints() { localStorage.setItem(`points_${currentUser?.email || 'guest'}`, userPoints); loadPoints(); }
     function showRedeemModal() { if(!isLoggedIn) { performGoogleLogin(); return; } document.getElementById('redeemPointsDisplay').innerText = userPoints; document.getElementById('redeemModal').classList.add('show'); }
     function closeRedeemModal() { document.getElementById('redeemModal').classList.remove('show'); }
@@ -321,21 +336,19 @@
     
     function loadLuckBalance() { const saved = localStorage.getItem(`luck_balance_${currentUser?.email || 'guest'}`); luckBalance = saved ? parseInt(saved) : 0; updateLuckDisplay(); }
     function saveLuckBalance() { localStorage.setItem(`luck_balance_${currentUser?.email || 'guest'}`, luckBalance); }
-    function updateLuckDisplay() { document.getElementById('luckBalance').innerText = luckBalance; document.getElementById('userLuckBalance').innerText = luckBalance; if(document.getElementById('profileLuckBalance')) document.getElementById('profileLuckBalance').innerText = luckBalance; }
+    function updateLuckDisplay() { document.getElementById('luckBalance').innerText = luckBalance; document.getElementById('userLuckBalance').innerText = luckBalance; }
     function claimDailyReward() { if(!isLoggedIn) { performGoogleLogin(); return; } if(dailyClaimed) { showToast("Already claimed!"); return; } luckBalance += 50; saveLuckBalance(); updateLuckDisplay(); dailyClaimed = true; localStorage.setItem('dailyClaimed', 'true'); document.getElementById('claimDailyBtn').disabled = true; document.getElementById('claimDailyBtn').innerText = "Claimed ✓"; showToast("+50 credits!"); }
     function claimFirstPurchase() { if(!isLoggedIn) { performGoogleLogin(); return; } if(firstPurchaseClaimed) { showToast("Already claimed!"); return; } luckBalance += 200; saveLuckBalance(); updateLuckDisplay(); firstPurchaseClaimed = true; localStorage.setItem('firstPurchaseClaimed', 'true'); document.getElementById('firstPurchaseBtn').disabled = true; document.getElementById('firstPurchaseBtn').innerText = "Claimed ✓"; showToast("+200 credits!"); }
     
-    // Luck Game
     function startGame() { if(!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; } if(luckBalance < 50) { showToast(`Need 50 credits!`); return; } luckBalance -= 50; saveLuckBalance(); updateLuckDisplay(); const bombs = Array(7).fill({ type: 'bomb' }); const available = [...LUCK_ITEMS]; const prizes = []; for(let i=0;i<2 && available.length;i++){ const idx=Math.floor(Math.random()*available.length); prizes.push(available[idx]); available.splice(idx,1); } gameCards = [...bombs, ...prizes.map(p=>({type:'prize',name:p.name,image:p.image,id:p.id}))]; for(let i=gameCards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[gameCards[i],gameCards[j]]=[gameCards[j],gameCards[i]];} gameActive=true; selectedIndices=[]; renderGameGrid(); document.getElementById('gameResult').style.display='none'; document.getElementById('resetGameBtn').style.display='none'; document.getElementById('playGameBtn').disabled=true; document.getElementById('playGameBtn').innerText="Game in progress..."; }
     function renderGameGrid() { const grid = document.getElementById('gameGrid'); if(!grid) return; grid.innerHTML = gameCards.map((card,idx)=>`<div class="game-card ${selectedIndices.includes(idx)?'revealed':''}" onclick="selectCard(${idx})">${selectedIndices.includes(idx)?(card.type==='bomb'?'💣':(card.image?`<img src="${card.image}">`:`✨${card.name}`)):'❓'}</div>`).join(''); }
     function selectCard(idx) { if(!gameActive || selectedIndices.includes(idx) || selectedIndices.length>=2) return; selectedIndices.push(idx); renderGameGrid(); if(selectedIndices.length===2){ gameActive=false; const wins=selectedIndices.filter(i=>gameCards[i].type==='prize'); if(wins.length){ const names=wins.map(i=>gameCards[i].name); document.getElementById('gameResult').innerHTML=`<div style="color:#10b981;">🎉 You won: ${names.join(', ')}!</div>`; showToast(`Won ${names.join(', ')}!`); } else { document.getElementById('gameResult').innerHTML=`<div style="color:#ef4444;">💥 BOOM! You lost.</div>`; } document.getElementById('gameResult').style.display='block'; document.getElementById('resetGameBtn').style.display='block'; document.getElementById('playGameBtn').disabled=false; document.getElementById('playGameBtn').innerText="Start Game"; } }
     function resetGame() { gameActive=false; gameCards=[]; renderGameGrid(); document.getElementById('gameResult').style.display='none'; document.getElementById('resetGameBtn').style.display='none'; document.getElementById('playGameBtn').disabled=false; document.getElementById('playGameBtn').innerText="Start Game"; }
     
-    // Shop
     function showGames() { hideAllPages(); document.getElementById('gamesPage').style.display='block'; loadLuckBalance(); resetGame(); }
     function showHome() { hideAllPages(); document.getElementById('homePage').style.display='block'; }
     function showShop() { hideAllPages(); document.getElementById('shopPage').style.display='block'; renderProducts(); }
-    function showSupportChat() { hideAllPages(); document.getElementById('supportChatPage').style.display='block'; loadBuyerMessages(); }
+    function showSupportChat() { hideAllPages(); document.getElementById('supportChatPage').style.display='block'; loadBuyerMessages(); loadPendingOrders(); }
     function showAdminPanel() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; } hideAllPages(); document.getElementById('adminPanelPage').style.display='block'; renderConversationList(); }
     function showAdmin() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; } hideAllPages(); document.getElementById('adminPage').style.display='block'; renderInventory(); }
     
@@ -348,142 +361,38 @@
     function removeFromCart(id,isChroma) { cart=cart.filter(i=>!(i.id===id && (i.isChroma||false)===isChroma)); updateCartUI(); }
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
-    function initiateCheckout() { if(!isLoggedIn) { performGoogleLogin(); return; } if(cart.length===0){ showToast("Cart empty"); return; } if(!verifiedRobloxUser){ showToast("Link Roblox first"); openProfilePanel(); return; } const orderId = 'ECHO-' + Date.now().toString(36).toUpperCase(); const orderTotalPHP = cart.reduce((s,i)=>s+(i.price*i.quantity),0); const params = new URLSearchParams({ order_id: orderId, amount: orderTotalPHP.toString(), currency: currentCurrency, roblox_user: verifiedRobloxUser.username, items: JSON.stringify(cart.map(i => ({ name: i.name, quantity: i.quantity, price: i.price }))) }); window.location.href = `${PAYMENT_SITE_URL}?${params.toString()}`; }
+    function initiateCheckout() { if(!isLoggedIn) { performGoogleLogin(); return; } if(cart.length===0){ showToast("Cart empty"); return; } if(!verifiedRobloxUser){ showToast("Link Roblox first"); openProfilePanel(); return; } const orderId = 'ECHO-' + Date.now().toString(36).toUpperCase(); const orderTotalPHP = cart.reduce((s,i)=>s+(i.price*i.quantity),0); const orderData = { orderId, items: cart.map(i=>({ name:i.name, price:i.price, quantity:i.quantity })), total: orderTotalPHP, robloxUser: verifiedRobloxUser.username, status: 'Pending', date: new Date().toISOString(), userEmail: currentUser.email, currency: currentCurrency }; orders.unshift(orderData); localStorage.setItem('echoknives_orders', JSON.stringify(orders)); const params = new URLSearchParams({ order_id: orderId, amount: orderTotalPHP.toString(), currency: currentCurrency, roblox_user: verifiedRobloxUser.username, items: JSON.stringify(cart.map(i => ({ name: i.name, quantity: i.quantity, price: i.price }))) }); window.location.href = `${PAYMENT_SITE_URL}?${params.toString()}`; }
     
     // ========== MESSAGING SYSTEM ==========
-    function getOrCreateConversation() {
-        if(!currentUser) return null;
-        let conv = conversations.find(c => c.userEmail === currentUser.email);
-        if(!conv) {
-            conv = { id: Date.now().toString(), userEmail: currentUser.email, userName: currentUser.displayName || currentUser.email.split('@')[0], messages: [], unread: false, createdAt: new Date().toISOString() };
-            conversations.push(conv);
-            saveConversations();
-        }
-        return conv;
-    }
-    
+    function getOrCreateConversation() { if(!currentUser) return null; let conv = conversations.find(c => c.userEmail === currentUser.email); if(!conv) { conv = { id: Date.now().toString(), userEmail: currentUser.email, userName: currentUser.displayName || currentUser.email.split('@')[0], messages: [], unread: false, closed: false, receipt: null, createdAt: new Date().toISOString() }; conversations.push(conv); saveConversations(); } return conv; }
     function saveConversations() { localStorage.setItem('echoknives_support_conversations', JSON.stringify(conversations)); }
     
-    function loadBuyerMessages() {
-        const conv = getOrCreateConversation();
-        if(conv) { conv.unread = false; saveConversations(); renderBuyerMessages(conv.messages); }
-        else { document.getElementById('supportMessagesArea').innerHTML = '<div class="message-bubble system">Please login to send messages.</div>'; }
-    }
+    function loadPendingOrders() { const container = document.getElementById('pendingOrdersList'); if(!container || !currentUser) return; const userOrders = orders.filter(o => o.userEmail === currentUser.email && o.status === 'Pending'); if(userOrders.length === 0) { container.innerHTML = '<div style="text-align:center; padding:10px; color:#888;">No pending orders</div>'; return; } container.innerHTML = userOrders.map(order => `<div class="pending-order-item" onclick="openOrderConversation('${order.orderId}')"><strong>📦 ${order.orderId}</strong><br>Total: ₱${order.total}<br>Items: ${order.items.map(i=>i.name).join(', ')}</div>`).join(''); }
     
-    function renderBuyerMessages(messages) {
-        const container = document.getElementById('supportMessagesArea');
-        if(!container) return;
-        if(!messages || messages.length === 0) {
-            container.innerHTML = '<div class="message-bubble system">💬 Welcome! Type !JoinUs to get private server link and bot invite.</div>';
-            return;
-        }
-        container.innerHTML = messages.map(msg => `
-            <div class="message-bubble ${msg.sender === 'admin' ? 'admin' : 'buyer'}">
-                <div class="message-sender-name">${msg.sender === 'admin' ? '🛡️ Admin Support' : 'You'}</div>
-                <div>${msg.text}</div>
-                <div class="message-time">${new Date(msg.timestamp).toLocaleTimeString()}</div>
-                ${msg.type === 'joinus' ? `<div class="command-buttons" style="margin-top: 10px;">
-                    <button class="cmd-btn" onclick="window.open('${PRIVATE_SERVER_LINK}', '_blank')"><i class="fas fa-gamepad"></i> Join Private Server</button>
-                    <button class="cmd-btn" onclick="window.open('${BOT_INVITE_LINK}', '_blank')"><i class="fab fa-discord"></i> Add Bot</button>
-                </div>` : ''}
-            </div>
-        `).join('');
-        container.scrollTop = container.scrollHeight;
-    }
+    function openOrderConversation(orderId) { const conv = getOrCreateConversation(); if(conv) { const msg = { id: Date.now(), sender: 'buyer', text: `I need help with order ${orderId}`, timestamp: new Date().toISOString(), type: 'normal', orderId: orderId }; conv.messages.push(msg); saveConversations(); renderBuyerMessages(conv.messages); sendDiscordNotification("📦 Order Support Request", `${currentUser?.displayName || currentUser?.email} needs help with order ${orderId}`, [{ name: "Order ID", value: orderId }]); showToast("Message sent to support about this order"); } }
     
-    function sendSupportMessage() {
-        if(!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
-        const input = document.getElementById('supportChatInput');
-        let text = input.value.trim();
-        if(!text) return;
-        let isJoinUs = text.toLowerCase() === '!joinus';
-        if(isJoinUs) text = "🎮 !JoinUs - Requested server info";
-        const conv = getOrCreateConversation();
-        const newMsg = { id: Date.now(), sender: 'buyer', text: text, timestamp: new Date().toISOString(), type: isJoinUs ? 'joinus' : 'normal' };
-        conv.messages.push(newMsg);
-        conv.unread = true;
-        saveConversations();
-        renderBuyerMessages(conv.messages);
-        input.value = '';
-        if(isJoinUs) sendJoinUsCommand();
-        showToast("Message sent! Admin will respond shortly.");
-    }
+    function loadBuyerMessages() { const conv = getOrCreateConversation(); if(conv) { conv.unread = false; saveConversations(); renderBuyerMessages(conv.messages); } else { document.getElementById('supportMessagesArea').innerHTML = '<div class="message-bubble system">Please login to send messages.</div>'; } }
     
-    function sendJoinUsCommand() {
-        if(!isLoggedIn) { performGoogleLogin(); return; }
-        const conv = getOrCreateConversation();
-        const newMsg = { id: Date.now(), sender: 'buyer', text: "🎮 !JoinUs - Requested server info", timestamp: new Date().toISOString(), type: 'joinus' };
-        conv.messages.push(newMsg);
-        conv.unread = true;
-        saveConversations();
-        renderBuyerMessages(conv.messages);
-        showToast("JoinUs command sent! Check the message for buttons.");
-    }
+    function renderBuyerMessages(messages) { const container = document.getElementById('supportMessagesArea'); if(!container) return; if(!messages || messages.length === 0) { container.innerHTML = '<div class="message-bubble system">💬 Welcome! Type your message below.</div>'; return; } container.innerHTML = messages.map(msg => `<div class="message-bubble ${msg.sender === 'admin' ? 'admin' : 'buyer'}"><div class="message-sender-name">${msg.sender === 'admin' ? '🛡️ Admin Support' : 'You'}</div><div>${msg.text}</div><div class="message-time">${new Date(msg.timestamp).toLocaleTimeString()}</div></div>`).join(''); container.scrollTop = container.scrollHeight; }
+    
+    function sendSupportMessage() { if(!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; } const input = document.getElementById('supportChatInput'); let text = input.value.trim(); if(!text) return; const conv = getOrCreateConversation(); const newMsg = { id: Date.now(), sender: 'buyer', text: text, timestamp: new Date().toISOString(), type: 'normal' }; conv.messages.push(newMsg); conv.unread = true; saveConversations(); renderBuyerMessages(conv.messages); input.value = ''; showToast("Message sent! Admin will respond."); sendDiscordNotification("📨 New Support Message", `From: ${currentUser?.displayName || currentUser?.email}\nMessage: ${text}`, [{ name: "User Email", value: currentUser?.email }]); }
     
     // Admin Functions
-    function renderConversationList() {
-        const container = document.getElementById('conversationList');
-        if(!container) return;
-        if(conversations.length === 0) { container.innerHTML = '<div style="text-align:center;padding:40px;">No conversations yet.</div>'; return; }
-        container.innerHTML = conversations.map(conv => `
-            <div class="convo-item ${conv.unread ? 'unread' : ''}" onclick="openAdminConversation('${conv.id}')">
-                <div class="convo-sender"><i class="fas fa-user"></i> ${conv.userName}</div>
-                <div class="convo-preview">${conv.messages.length > 0 ? conv.messages[conv.messages.length-1].text.substring(0,60) : 'No messages'}</div>
-                <div class="convo-date">${new Date(conv.messages[conv.messages.length-1]?.timestamp || conv.createdAt).toLocaleString()}</div>
-                ${conv.unread ? '<span class="message-badge">New</span>' : ''}
-            </div>
-        `).join('');
-    }
+    function renderConversationList() { const container = document.getElementById('conversationList'); if(!container) return; if(conversations.length === 0) { container.innerHTML = '<div style="text-align:center;padding:40px;">No conversations yet.</div>'; return; } container.innerHTML = conversations.map(conv => `<div class="convo-item ${conv.unread && !conv.closed ? 'unread' : ''}" onclick="openAdminConversation('${conv.id}')"><div class="convo-sender"><i class="fas fa-user"></i> ${conv.userName} ${conv.closed ? '✓ CLOSED' : ''}</div><div class="convo-preview">${conv.messages.length > 0 ? conv.messages[conv.messages.length-1].text.substring(0,60) : 'No messages'}</div><div class="convo-date">${new Date(conv.messages[conv.messages.length-1]?.timestamp || conv.createdAt).toLocaleString()}</div>${conv.unread && !conv.closed ? '<span class="message-badge">New</span>' : ''}</div>`).join(''); }
     
-    function openAdminConversation(convId) {
-        const conv = conversations.find(c => c.id === convId);
-        if(!conv) return;
-        conv.unread = false;
-        saveConversations();
-        activeConversationId = convId;
-        document.getElementById('activeChatUserName').innerText = conv.userName;
-        renderAdminMessages(conv.messages);
-        document.getElementById('adminChatView').style.display = 'block';
-        renderConversationList();
-    }
+    function openAdminConversation(convId) { const conv = conversations.find(c => c.id === convId); if(!conv) return; if(conv.closed) { showToast("This conversation is closed. Use !Success to reopen or start new."); return; } conv.unread = false; saveConversations(); activeConversationId = convId; document.getElementById('activeChatUserName').innerText = conv.userName; renderAdminMessages(conv.messages); document.getElementById('adminChatView').style.display = 'block'; renderConversationList(); }
     
-    function renderAdminMessages(messages) {
-        const container = document.getElementById('adminChatMessagesArea');
-        if(!container) return;
-        container.innerHTML = messages.map(msg => `
-            <div class="message-bubble ${msg.sender === 'admin' ? 'admin' : 'buyer'}">
-                <div class="message-sender-name">${msg.sender === 'admin' ? '🛡️ Admin (You)' : msg.sender === 'buyer' ? conv?.userName : 'System'}</div>
-                <div>${msg.text}</div>
-                <div class="message-time">${new Date(msg.timestamp).toLocaleTimeString()}</div>
-                ${msg.type === 'joinus' ? `<div class="command-buttons" style="margin-top: 10px;">
-                    <button class="cmd-btn" onclick="window.open('${PRIVATE_SERVER_LINK}', '_blank')"><i class="fas fa-gamepad"></i> Join Private Server</button>
-                    <button class="cmd-btn" onclick="window.open('${BOT_INVITE_LINK}', '_blank')"><i class="fab fa-discord"></i> Add Bot</button>
-                </div>` : ''}
-            </div>
-        `).join('');
-        container.scrollTop = container.scrollHeight;
-    }
+    function renderAdminMessages(messages) { const container = document.getElementById('adminChatMessagesArea'); if(!container) return; container.innerHTML = messages.map(msg => `<div class="message-bubble ${msg.sender === 'admin' ? 'admin' : 'buyer'}"><div class="message-sender-name">${msg.sender === 'admin' ? '🛡️ Admin (You)' : msg.sender === 'buyer' ? activeConversationId ? conversations.find(c=>c.id===activeConversationId)?.userName : 'Buyer' : 'System'}</div><div>${msg.text}</div><div class="message-time">${new Date(msg.timestamp).toLocaleTimeString()}</div>${msg.type === 'joinus' ? `<div class="command-buttons"><button class="cmd-btn" onclick="window.open('${ROBLOX_PROFILE_URL}', '_blank')"><i class="fab fa-roblox"></i> View Profile</button></div>` : ''}</div>`).join(''); container.scrollTop = container.scrollHeight; }
     
-    function sendAdminReply() {
-        if(!activeConversationId) { showToast("Select a conversation first"); return; }
-        const input = document.getElementById('adminReplyInput');
-        const text = input.value.trim();
-        if(!text) return;
-        const conv = conversations.find(c => c.id === activeConversationId);
-        if(conv) {
-            const newMsg = { id: Date.now(), sender: 'admin', text: text, timestamp: new Date().toISOString(), type: 'normal' };
-            conv.messages.push(newMsg);
-            saveConversations();
-            renderAdminMessages(conv.messages);
-            input.value = '';
-            showToast(`Reply sent to ${conv.userName}`);
-        }
-    }
+    function sendAdminReply() { if(!activeConversationId) { showToast("Select a conversation first"); return; } const input = document.getElementById('adminReplyInput'); const text = input.value.trim(); if(!text) return; const conv = conversations.find(c => c.id === activeConversationId); if(conv && !conv.closed) { const newMsg = { id: Date.now(), sender: 'admin', text: text, timestamp: new Date().toISOString(), type: 'normal' }; conv.messages.push(newMsg); saveConversations(); renderAdminMessages(conv.messages); input.value = ''; showToast(`Reply sent to ${conv.userName}`); } else { showToast("Conversation is closed"); } }
     
-    function closeAdminChat() {
-        document.getElementById('adminChatView').style.display = 'none';
-        activeConversationId = null;
-    }
+    function sendJoinUsCommandAdmin() { if(!activeConversationId) { showToast("Select a conversation first"); return; } const conv = conversations.find(c => c.id === activeConversationId); if(conv && !conv.closed) { const newMsg = { id: Date.now(), sender: 'admin', text: "🎮 !JoinUs - Private server access", timestamp: new Date().toISOString(), type: 'joinus' }; conv.messages.push(newMsg); saveConversations(); renderAdminMessages(conv.messages); showToast("JoinUs command sent"); } }
+    
+    function sendSuccessCommand() { if(!activeConversationId) { showToast("Select a conversation first"); return; } const conv = conversations.find(c => c.id === activeConversationId); if(conv && !conv.closed) { conv.closed = true; const lastPurchase = orders.find(o => o.userEmail === conv.userEmail && o.status === 'Pending'); const paymentMethod = "Google Pay / Credit Card"; const receiptData = { orderId: lastPurchase?.orderId || "N/A", items: lastPurchase?.items || [], total: lastPurchase?.total || 0, paymentMethod: paymentMethod, robloxUser: lastPurchase?.robloxUser || "Not linked", date: new Date().toISOString() }; conv.receipt = receiptData; const receiptMsg = { id: Date.now(), sender: 'system', text: `✅ Order completed! Receipt generated.`, timestamp: new Date().toISOString(), type: 'receipt' }; conv.messages.push(receiptMsg); saveConversations(); renderConversationList(); showReceiptModal(receiptData); showToast("Order marked as Success! Receipt generated."); sendDiscordNotification("✅ Order Completed", `Order ${receiptData.orderId} completed for ${conv.userName}`, [{ name: "Total", value: `₱${receiptData.total}` }]); } }
+    
+    function showReceiptModal(receipt) { const container = document.getElementById('receiptDetails'); container.innerHTML = `<div class="receipt-detail"><strong>Order ID:</strong> ${receipt.orderId}</div><div class="receipt-detail"><strong>Items:</strong> ${receipt.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div><div class="receipt-detail"><strong>Total Paid:</strong> ₱${receipt.total}</div><div class="receipt-detail"><strong>Payment Method:</strong> ${receipt.paymentMethod}</div><div class="receipt-detail"><strong>Roblox User:</strong> ${receipt.robloxUser}</div><div class="receipt-detail"><strong>Date:</strong> ${new Date(receipt.date).toLocaleString()}</div>`; document.getElementById('receiptModal').classList.add('show'); }
+    function closeReceiptModal() { document.getElementById('receiptModal').classList.remove('show'); }
+    function closeAdminChat() { document.getElementById('adminChatView').style.display = 'none'; activeConversationId = null; }
     
     // Profile
     function openProfilePanel() { if(!isLoggedIn){ performGoogleLogin(); return; } hideAllPages(); document.getElementById('profilePanel').style.display='block'; updateProfilePanel(); }
@@ -497,7 +406,6 @@
     function switchGoogleAccount(){ performGoogleLogin(); }
     async function performGoogleLogout(){ if(window.firebaseAuth){ await window.firebaseSignOut(window.firebaseAuth); } showToast("Logged out"); }
     
-    // Admin Inventory
     function renderInventory() { const container=document.getElementById('inventoryList'); if(!container) return; container.innerHTML=items.map(item=>`<div style="background:rgba(0,0,0,0.5); border-radius:15px; padding:15px;"><strong>${item.name}</strong><br>₱${item.price}<br><button onclick="editItemPrice(${item.id})">Edit Price</button><button onclick="deleteItem(${item.id})">Delete</button></div>`).join(''); }
     function editItemPrice(id){ const np=prompt("New PHP price:"); if(np && !isNaN(parseFloat(np))){ const item=items.find(i=>i.id===id); if(item){ item.price=parseFloat(np); item.originalPrice=Math.round(item.price*1.33); item.discount=Math.round((1-item.price/item.originalPrice)*100); localStorage.setItem('echoknives_items',JSON.stringify(items)); renderInventory(); renderProducts(); showToast("Updated!"); } } }
     function deleteItem(id){ items=items.filter(i=>i.id!==id); localStorage.setItem('echoknives_items',JSON.stringify(items)); renderInventory(); renderProducts(); showToast("Deleted"); }
@@ -521,7 +429,9 @@
     window.giveSelfCredits=giveSelfCredits; window.editItemPrice=editItemPrice; window.deleteItem=deleteItem;
     window.showReferral=showReferral; window.claimDailyReward=claimDailyReward; window.claimFirstPurchase=claimFirstPurchase;
     window.showRedeemModal=showRedeemModal; window.closeRedeemModal=closeRedeemModal; window.redeemItem=redeemItem;
-    window.sendSupportMessage=sendSupportMessage; window.sendJoinUsCommand=sendJoinUsCommand; window.openAdminConversation=openAdminConversation; window.sendAdminReply=sendAdminReply; window.closeAdminChat=closeAdminChat;
+    window.sendSupportMessage=sendSupportMessage; window.openOrderConversation=openOrderConversation;
+    window.openAdminConversation=openAdminConversation; window.sendAdminReply=sendAdminReply; window.closeAdminChat=closeAdminChat;
+    window.sendJoinUsCommandAdmin=sendJoinUsCommandAdmin; window.sendSuccessCommand=sendSuccessCommand; window.closeReceiptModal=closeReceiptModal;
 </script>
 </body>
 </html>
