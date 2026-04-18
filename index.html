@@ -43,7 +43,7 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8edf3 100%);
+            background: linear-gradient(135deg, #f0f4f8 0%, #e8edf3 100%);
             color: #1a1a2e;
             min-height: 100vh;
             overflow-x: hidden;
@@ -57,7 +57,7 @@
             width: 100%;
             height: 100%;
             z-index: -2;
-            background: radial-gradient(circle at 20% 30%, #f5f7fa 0%, #e8edf3 100%);
+            background: radial-gradient(circle at 20% 30%, #f0f4f8 0%, #e8edf3 100%);
         }
         
         .glow-orb {
@@ -232,9 +232,74 @@
         .exchange-info { padding: 12px; text-align: center; background: white; }
         .exchange-name { font-weight: 700; font-size: 14px; color: #1a1a2e; }
         .exchange-credits { font-size: 16px; font-weight: 800; color: #f59e0b; margin-top: 4px; }
-        .exchange-credits span { font-size: 11px; color: #888; }
         
-        /* Trade Summary - Fixed at Bottom (Bloxswap Style) */
+        /* Convert Credits Section */
+        .convert-section {
+            background: white;
+            border-radius: 30px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid rgba(135, 206, 235, 0.2);
+        }
+        
+        .convert-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #87CEEB;
+        }
+        
+        .convert-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: flex-end;
+        }
+        
+        .convert-input-group {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .convert-input-group label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .convert-input-group input, .convert-input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            background: white;
+            font-size: 14px;
+        }
+        
+        .convert-btn {
+            background: linear-gradient(135deg, #87CEEB, #FFB6C1);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 40px;
+            color: #1a1a2e;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        
+        .convert-btn:hover { transform: scale(1.02); }
+        
+        .convert-result {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(135, 206, 235, 0.1);
+            border-radius: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        /* Trade Summary Bar */
         .trade-summary {
             position: fixed;
             bottom: 0;
@@ -280,8 +345,7 @@
         }
         
         .trade-preview-item img { width: 24px; height: 24px; object-fit: contain; border-radius: 6px; }
-        .trade-preview-item span { font-weight: 500; color: #1a1a2e; }
-        .remove-preview { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 12px; padding: 0 4px; }
+        .remove-preview { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 12px; }
         
         .trade-total-display {
             background: linear-gradient(135deg, #10b981, #059669);
@@ -290,11 +354,9 @@
             color: white;
             font-weight: 700;
             font-size: 18px;
-            text-align: center;
             min-width: 180px;
+            text-align: center;
         }
-        
-        .trade-total-display span { font-size: 24px; font-weight: 800; }
         
         .confirm-trade-btn {
             background: linear-gradient(135deg, #87CEEB, #FFB6C1);
@@ -304,13 +366,9 @@
             color: #1a1a2e;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
         }
-        .confirm-trade-btn:hover { transform: scale(1.02); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         
-        .empty-trade-preview { color: #888; font-size: 14px; }
-        
-        /* Confirmation Modal */
+        /* Modal */
         .confirmation-modal {
             position: fixed;
             top: 0;
@@ -339,26 +397,19 @@
             transition: transform 0.3s ease;
         }
         .confirmation-modal.show .confirmation-content { transform: scale(1); }
-        .confirmation-content h3 { color: #1a1a2e; margin-bottom: 20px; }
-        .confirmation-items { background: #f5f7fa; border-radius: 20px; padding: 15px; margin: 15px 0; max-height: 200px; overflow-y: auto; }
-        .confirmation-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e0e0e0; }
-        .confirmation-total { font-size: 24px; font-weight: 800; color: #10b981; margin: 15px 0; }
-        .confirm-yes { background: linear-gradient(135deg, #10b981, #059669); border: none; padding: 14px 30px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; margin-right: 10px; }
-        .confirm-no { background: #ef4444; border: none; padding: 14px 30px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; }
+        .confirm-yes { background: #10b981; border: none; padding: 12px 25px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; margin-right: 10px; }
+        .confirm-no { background: #ef4444; border: none; padding: 12px 25px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; }
         
         /* Cart Sidebar */
-        .cart-sidebar { position: fixed; top: 0; right: -500px; width: 500px; height: 100vh; background: white; z-index: 1000; transition: right 0.4s; padding: 25px; display: flex; flex-direction: column; border-left: 2px solid #87CEEB; box-shadow: -5px 0 30px rgba(0,0,0,0.1); }
+        .cart-sidebar { position: fixed; top: 0; right: -500px; width: 500px; height: 100vh; background: white; z-index: 1000; transition: right 0.4s; padding: 25px; display: flex; flex-direction: column; border-left: 2px solid #87CEEB; }
         .cart-sidebar.open { right: 0; }
-        .cart-header { display: flex; justify-content: space-between; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(135,206,235,0.3); }
-        .cart-header h3 { color: #1a1a2e; }
-        .close-cart { background: rgba(0,0,0,0.05); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 24px; }
         .cart-items { flex: 1; overflow-y: auto; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
         .cart-item-actions { display: flex; align-items: center; gap: 12px; }
         .cart-qty-btn { background: rgba(135,206,235,0.1); border: 1px solid rgba(135,206,235,0.3); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; }
         .cart-remove-btn { background: rgba(255,182,193,0.2); border: 1px solid rgba(255,182,193,0.4); color: #FFB6C1; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; }
         .cart-footer { margin-top: 20px; padding-top: 20px; border-top: 2px solid rgba(135,206,235,0.3); }
-        .cart-subtotal { display: flex; justify-content: space-between; font-size: 18px; color: #1a1a2e; }
+        .cart-subtotal { display: flex; justify-content: space-between; font-size: 18px; }
         .cart-subtotal span:last-child { font-weight: 800; color: #87CEEB; font-size: 22px; }
         .checkout-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #87CEEB, #FFB6C1); border: none; border-radius: 40px; color: #1a1a2e; font-weight: 700; cursor: pointer; margin-top: 15px; }
         
@@ -371,10 +422,9 @@
         .menu-item:hover { background: linear-gradient(135deg, #87CEEB, #FFB6C1); transform: translateX(8px); }
         
         /* Profile Card */
-        .profile-card { background: white; border-radius: 40px; padding: 35px; max-width: 500px; margin: 0 auto; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .profile-card { background: white; border-radius: 40px; padding: 35px; max-width: 500px; margin: 0 auto; text-align: center; }
         .profile-avatar { width: 120px; height: 120px; border-radius: 50%; margin-bottom: 20px; border: 3px solid #87CEEB; }
         
-        /* Modal */
         .premium-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 10000; display: none; align-items: center; justify-content: center; }
         .premium-modal.show { display: flex; }
         .premium-modal-content { background: white; border-radius: 40px; padding: 35px; max-width: 500px; width: 90%; text-align: center; }
@@ -390,9 +440,8 @@
             .cart-sidebar { width: 100%; right: -100%; }
             .items-exchange-grid { grid-template-columns: repeat(2, 1fr); }
             .products-grid { grid-template-columns: 1fr; }
-            .trade-summary-content { flex-direction: column; align-items: stretch; }
-            .trade-items-preview { justify-content: center; }
-            .trade-total-display { text-align: center; }
+            .convert-grid { flex-direction: column; }
+            .convert-input-group { width: 100%; }
         }
     </style>
 </head>
@@ -462,8 +511,38 @@
         <div class="container" style="padding-bottom: 100px;">
             <div class="exchange-header">
                 <h2><i class="fas fa-exchange-alt"></i> Exchange Items for Credits</h2>
-                <p>Select items to trade. You'll receive credits minus 20 fee per item (Bloxswap style)</p>
+                <p>Select items to trade. You'll receive credits based on item value (minus 20 fee per item)</p>
             </div>
+            
+            <!-- Convert Credits Section -->
+            <div class="convert-section">
+                <div class="convert-title"><i class="fas fa-chart-line"></i> Convert Credits to Currency</div>
+                <div class="convert-grid">
+                    <div class="convert-input-group">
+                        <label>Amount (Credits)</label>
+                        <input type="number" id="convertAmount" placeholder="Enter credit amount" value="100" min="10" step="10">
+                    </div>
+                    <div class="convert-input-group">
+                        <label>Convert to</label>
+                        <select id="convertCurrency">
+                            <option value="PHP">PHP (Philippine Peso)</option>
+                            <option value="USD">USD (US Dollar)</option>
+                            <option value="ROBUX">Robux</option>
+                        </select>
+                    </div>
+                    <div class="convert-input-group">
+                        <label>&nbsp;</label>
+                        <button class="convert-btn" onclick="convertCredits()"><i class="fas fa-calculator"></i> Calculate</button>
+                    </div>
+                </div>
+                <div class="convert-result" id="convertResult">
+                    Enter an amount to see conversion rate
+                </div>
+                <div style="font-size: 12px; color: #888; margin-top: 10px; text-align: center;">
+                    <i class="fas fa-info-circle"></i> Conversion includes 5% service fee. Minimum 10 credits.
+                </div>
+            </div>
+            
             <div class="items-exchange-grid" id="exchangeItemsGrid"></div>
         </div>
     </div>
@@ -487,18 +566,12 @@
     </div>
 </div>
 
-<!-- Trade Summary Bar (Fixed at Bottom) -->
+<!-- Trade Summary Bar -->
 <div id="tradeSummary" class="trade-summary hidden">
     <div class="trade-summary-content">
-        <div class="trade-items-preview" id="tradeItemsPreview">
-            <div class="empty-trade-preview">No items selected. Click on items above to add them to your trade.</div>
-        </div>
-        <div class="trade-total-display" id="tradeTotalDisplay">
-            + <span id="tradeTotalCredits">0</span> credits
-        </div>
-        <button class="confirm-trade-btn" onclick="showConfirmationModal()">
-            <i class="fas fa-exchange-alt"></i> Trade Now
-        </button>
+        <div class="trade-items-preview" id="tradeItemsPreview"><div class="empty-trade-preview">No items selected</div></div>
+        <div class="trade-total-display" id="tradeTotalDisplay">+ <span id="tradeTotalCredits">0</span> credits</div>
+        <button class="confirm-trade-btn" onclick="showConfirmationModal()"><i class="fas fa-exchange-alt"></i> Trade Now</button>
     </div>
 </div>
 
@@ -506,8 +579,8 @@
 <div id="confirmationModal" class="confirmation-modal">
     <div class="confirmation-content">
         <h3><i class="fas fa-exchange-alt"></i> Confirm Trade</h3>
-        <div id="confirmItemsList" class="confirmation-items"></div>
-        <div class="confirmation-total" id="confirmTotal">Total: 0 credits</div>
+        <div id="confirmItemsList" class="confirmation-items" style="max-height:200px; overflow-y:auto; margin:15px 0;"></div>
+        <div class="confirmation-total" id="confirmTotal" style="font-size:24px; font-weight:800; color:#10b981; margin:15px 0;">Total: 0 credits</div>
         <button class="confirm-yes" onclick="confirmTrade()">Confirm Trade</button>
         <button class="confirm-no" onclick="closeConfirmationModal()">Cancel</button>
     </div>
@@ -534,7 +607,7 @@
     const ADMIN_EMAIL = "ivanmendones13@gmail.com";
     const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d";
     
-    // Exchange Items
+    // Exchange Items with dynamic values (lower/higher based on actual value - 20 fee)
     const exchangeItems = [
         { id: 1, name: "Batwing", value: 140, image: "https://i.imgur.com/H6CL03y.jpeg" },
         { id: 2, name: "Harvester", value: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
@@ -562,6 +635,13 @@
         { id: 108, name: "Sunrise", type: "gun", price: 799, image: "https://i.imgur.com/ttNyTxl.jpeg" }
     ];
     
+    // Conversion rates (PHP base) with 5% markup
+    const conversionRates = {
+        PHP: { rate: 1, symbol: "₱", markup: 0.05 },
+        USD: { rate: 0.017, symbol: "$", markup: 0.05 },
+        ROBUX: { rate: 1.7, symbol: "R$", markup: 0.05 }
+    };
+    
     const exchangeRates = { PHP: 1, USD: 0.017, ROBUX: 1.7 };
     const currencySymbols = { PHP: "₱", USD: "$", ROBUX: "R$" };
     const ROBUX_MARKUP = 0.10;
@@ -571,12 +651,32 @@
     let selectedItemForModal = null, pendingRobloxData = null;
     let verifiedRobloxUser = JSON.parse(localStorage.getItem('verifiedRobloxUser') || 'null');
     let tradeCart = [];
-    let pendingConfirmation = false;
     
     function getSymbol() { return currencySymbols[currentCurrency] || "₱"; }
     function getDisplayPrice(phpPrice) { let rate = exchangeRates[currentCurrency] || 1; let converted = phpPrice * rate; if (currentCurrency === "ROBUX") converted = converted * (1 + ROBUX_MARKUP); return converted.toFixed(2); }
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
     function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderShopProducts(); updateCartUI(); }
+    
+    // Convert Credits Function
+    function convertCredits() {
+        let amount = parseInt(document.getElementById('convertAmount').value);
+        const currency = document.getElementById('convertCurrency').value;
+        
+        if (isNaN(amount) || amount < 10) {
+            document.getElementById('convertResult').innerHTML = '⚠️ Minimum 10 credits required';
+            return;
+        }
+        
+        const rate = conversionRates[currency];
+        const convertedValue = amount * rate.rate;
+        const fee = convertedValue * rate.markup;
+        const total = convertedValue + fee;
+        
+        document.getElementById('convertResult').innerHTML = `
+            💰 <strong>${amount} credits</strong> = <strong>${rate.symbol}${total.toFixed(2)}</strong><br>
+            <span style="font-size: 12px;">(Rate: ${rate.symbol}${rate.rate} per credit + 5% fee = ${rate.symbol}${fee.toFixed(2)} fee)</span>
+        `;
+    }
     
     function switchPage(pageId) {
         const pages = ['homePage', 'shopPage', 'exchangePage', 'adminPanelPage', 'profilePanel'];
@@ -599,15 +699,19 @@
     function renderExchangeItems() {
         const grid = document.getElementById('exchangeItemsGrid');
         if (!grid) return;
-        grid.innerHTML = exchangeItems.map(item => `
-            <div class="exchange-card ${tradeCart.some(i => i.id === item.id) ? 'selected' : ''}" onclick="toggleTradeItem(${item.id})">
-                <div class="exchange-image"><img src="${item.image}" alt="${item.name}"></div>
-                <div class="exchange-info">
-                    <div class="exchange-name">${item.name}</div>
-                    <div class="exchange-credits">+ ${Math.max(0, item.value - 20)} <span>credits</span></div>
+        grid.innerHTML = exchangeItems.map(item => {
+            const creditsValue = Math.max(0, item.value - 20);
+            return `
+                <div class="exchange-card ${tradeCart.some(i => i.id === item.id) ? 'selected' : ''}" onclick="toggleTradeItem(${item.id})">
+                    <div class="exchange-image"><img src="${item.image}" alt="${item.name}"></div>
+                    <div class="exchange-info">
+                        <div class="exchange-name">${item.name}</div>
+                        <div class="exchange-credits">+ ${creditsValue} <span>credits</span></div>
+                        <div style="font-size: 10px; color: #888;">Value: ${item.value} - 20 fee</div>
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
     
     function toggleTradeItem(itemId) {
@@ -636,7 +740,7 @@
             previewDiv.innerHTML = tradeCart.map(item => `
                 <div class="trade-preview-item">
                     <img src="${item.image}" alt="${item.name}">
-                    <span>${item.name}</span>
+                    <span>${item.name} (+${item.creditsValue})</span>
                     <button class="remove-preview" onclick="event.stopPropagation(); toggleTradeItem(${item.id})">×</button>
                 </div>
             `).join('');
@@ -649,13 +753,11 @@
         const itemsDiv = document.getElementById('confirmItemsList');
         const total = tradeCart.reduce((sum, item) => sum + item.creditsValue, 0);
         document.getElementById('confirmTotal').innerHTML = `Total: ${total} credits`;
-        itemsDiv.innerHTML = tradeCart.map(item => `<div class="confirmation-item"><span>${item.name}</span><span>+${item.creditsValue} credits</span></div>`).join('');
+        itemsDiv.innerHTML = tradeCart.map(item => `<div class="confirmation-item" style="display:flex; justify-content:space-between; padding:8px 0;"><span>${item.name}</span><span style="color:#f59e0b;">+${item.creditsValue} credits</span></div>`).join('');
         modal.classList.add('show');
     }
     
-    function closeConfirmationModal() {
-        document.getElementById('confirmationModal').classList.remove('show');
-    }
+    function closeConfirmationModal() { document.getElementById('confirmationModal').classList.remove('show'); }
     
     function confirmTrade() {
         if (!isLoggedIn) { showToast("Please login first"); performGoogleLogin(); return; }
@@ -670,7 +772,7 @@
         updateLuckDisplay();
         showToast(`✅ Trade completed! +${totalCredits} credits added!`);
         
-        fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎮 **TRADE COMPLETED**\n👤 User: ${currentUser.displayName || currentUser.email}\n📦 Items: ${itemNames}\n💰 Credits: ${totalCredits}\n🤖 Roblox: @${verifiedRobloxUser.username}` }) }).catch(() => {});
+        fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎮 **TRADE COMPLETED**\n👤 User: ${currentUser.displayName || currentUser.email}\n📦 Items: ${itemNames}\n💰 Credits: ${totalCredits}` }) }).catch(() => {});
         
         tradeCart = [];
         renderExchangeItems();
@@ -746,6 +848,7 @@
     window.toggleSideMenu = toggleSideMenu; window.closeSideMenu = closeSideMenu;
     window.toggleTradeItem = toggleTradeItem; window.showConfirmationModal = showConfirmationModal; window.closeConfirmationModal = closeConfirmationModal; window.confirmTrade = confirmTrade;
     window.updateQty = updateQty; window.removeFromCart = removeFromCart;
+    window.convertCredits = convertCredits;
 </script>
 </body>
 </html>
