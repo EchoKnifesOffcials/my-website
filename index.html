@@ -398,7 +398,7 @@
 
 <div class="page-container">
     <!-- HOME PAGE -->
-    <div id="homePage" class="page">
+    <div id="homePage" class="page active">
         <div class="hero">
             <div class="hero-content">
                 <div class="hero-badge"><i class="fas fa-shield-alt"></i> 256-bit SSL Encrypted</div>
@@ -517,9 +517,22 @@
     let cart = [], currentFilter = "all", isLoggedIn = false, currentUser = null, currentCurrency = "PHP";
     let userPoints = 0, luckBalance = 0;
     let selectedItem = null;
-    let verifiedRoblox = JSON.parse(localStorage.getItem('verifiedRoblox') || 'null');
+    let verifiedRoblox = null;
     let tradeCart = [];
     let pendingVerification = null;
+    let typingInterval = null;
+    
+    // Load saved data
+    function loadSavedData() {
+        const savedVerified = localStorage.getItem('verifiedRoblox');
+        if (savedVerified && savedVerified !== 'null') {
+            try {
+                verifiedRoblox = JSON.parse(savedVerified);
+            } catch(e) { verifiedRoblox = null; }
+        }
+        loadPoints();
+        loadLuckBalance();
+    }
     
     // Safety messages for typing animation
     const safetyMessages = ["🔒 256-bit SSL Encryption - Your data is 100% secure","✅ 5,000+ Happy Customers - 100% Legit Items","🚀 Instant Delivery - Get your items within minutes","🛡️ Trusted MM2 Marketplace Since 2022","💰 Best Prices Guaranteed - No Hidden Fees","⭐ 4.9/5 Star Rating from 1,000+ Reviews"];
@@ -543,7 +556,7 @@
     
     function getSymbol() { return currencySymbols[currentCurrency] || "₱"; }
     function getDisplayPrice(phpPrice) { let rate = exchangeRates[currentCurrency] || 1; let converted = phpPrice * rate; if (currentCurrency === "ROBUX") converted *= (1 + ROBUX_MARKUP); return converted.toFixed(2); }
-    function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+    function showToast(msg) { const t = document.getElementById('toast'); if(!t) return; t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
     function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderShop(); updateCartUI(); }
     
     function switchPage(pageId) {
@@ -561,10 +574,30 @@
     function showAdmin() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; } switchPage('adminPage'); }
     function openProfile() { if(!isLoggedIn){ performGoogleLogin(); return; } switchPage('profilePage'); }
     
-    function toggleSideMenu() { document.getElementById('sideMenu').classList.add('open'); document.getElementById('sideMenuOverlay').classList.add('open'); }
-    function closeSideMenu() { document.getElementById('sideMenu').classList.remove('open'); document.getElementById('sideMenuOverlay').classList.remove('open'); }
-    function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
-    function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+    function toggleSideMenu() { 
+        const menu = document.getElementById('sideMenu');
+        const overlay = document.getElementById('sideMenuOverlay');
+        if(menu) menu.classList.add('open');
+        if(overlay) overlay.classList.add('open');
+    }
+    function closeSideMenu() { 
+        const menu = document.getElementById('sideMenu');
+        const overlay = document.getElementById('sideMenuOverlay');
+        if(menu) menu.classList.remove('open');
+        if(overlay) overlay.classList.remove('open');
+    }
+    function toggleCart() { 
+        const cart = document.getElementById('cartSidebar');
+        const overlay = document.getElementById('overlay');
+        if(cart) cart.classList.add('open');
+        if(overlay) overlay.classList.add('show');
+    }
+    function closeCart() { 
+        const cart = document.getElementById('cartSidebar');
+        const overlay = document.getElementById('overlay');
+        if(cart) cart.classList.remove('open');
+        if(overlay) overlay.classList.remove('show');
+    }
     
     // Exchange Functions
     function renderExchange() {
@@ -572,12 +605,14 @@
         if (!grid) return;
         grid.innerHTML = exchangeItems.map(item => {
             const creditsValue = Math.max(0, item.value - 20);
-            return `<div class="exchange-card ${tradeCart.some(i => i.id === item.id) ? 'selected' : ''}" onclick="toggleTradeItem(${item.id})"><div class="exchange-image"><img src="${item.image}"></div><div class="exchange-info"><div class="exchange-name"><i class="fas fa-knife"></i> ${item.name}</div><div class="exchange-credits"><i class="fas fa-coins"></i> + ${creditsValue} credits</div><div style="font-size:10px;color:#888;"><i class="fas fa-tag"></i> Value: ${item.value} - 20 fee</div></div></div>`;
+            const isSelected = tradeCart.some(i => i.id === item.id);
+            return `<div class="exchange-card ${isSelected ? 'selected' : ''}" onclick="toggleTradeItem(${item.id})"><div class="exchange-image"><img src="${item.image}"></div><div class="exchange-info"><div class="exchange-name"><i class="fas fa-knife"></i> ${item.name}</div><div class="exchange-credits"><i class="fas fa-coins"></i> + ${creditsValue} credits</div><div style="font-size:10px;color:#888;"><i class="fas fa-tag"></i> Value: ${item.value} - 20 fee</div></div></div>`;
         }).join('');
     }
     
     function toggleTradeItem(id) {
         const item = exchangeItems.find(i => i.id === id);
+        if (!item) return;
         const existing = tradeCart.find(i => i.id === id);
         if (existing) tradeCart = tradeCart.filter(i => i.id !== id);
         else tradeCart.push({ ...item, creditsValue: Math.max(0, item.value - 20) });
@@ -589,11 +624,15 @@
         const summary = document.getElementById('tradeSummary');
         const preview = document.getElementById('tradeItemsPreview');
         const total = tradeCart.reduce((s, i) => s + i.creditsValue, 0);
-        document.getElementById('tradeTotalCredits').innerText = total;
-        if (tradeCart.length === 0) summary.classList.add('hidden');
-        else {
-            summary.classList.remove('hidden');
-            preview.innerHTML = tradeCart.map(item => `<div class="trade-preview-item"><img src="${item.image}"><span><i class="fas fa-knife"></i> ${item.name} (+${item.creditsValue})</span><button class="remove-preview" onclick="event.stopPropagation(); toggleTradeItem(${item.id})"><i class="fas fa-times"></i></button></div>`).join('');
+        const totalSpan = document.getElementById('tradeTotalCredits');
+        if(totalSpan) totalSpan.innerText = total;
+        if (tradeCart.length === 0) {
+            if(summary) summary.classList.add('hidden');
+        } else {
+            if(summary) summary.classList.remove('hidden');
+            if(preview) {
+                preview.innerHTML = tradeCart.map(item => `<div class="trade-preview-item"><img src="${item.image}"><span><i class="fas fa-knife"></i> ${item.name} (+${item.creditsValue})</span><button class="remove-preview" onclick="event.stopPropagation(); toggleTradeItem(${item.id})"><i class="fas fa-times"></i></button></div>`).join('');
+            }
         }
     }
     
@@ -602,12 +641,18 @@
         const modal = document.getElementById('confirmModal');
         const itemsDiv = document.getElementById('confirmItemsList');
         const total = tradeCart.reduce((s, i) => s + i.creditsValue, 0);
-        document.getElementById('confirmTotal').innerHTML = `<i class="fas fa-coins"></i> Total: ${total} credits`;
-        itemsDiv.innerHTML = tradeCart.map(item => `<div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee;"><span><i class="fas fa-knife"></i> ${item.name}</span><span style="color:#f59e0b;"><i class="fas fa-coins"></i> +${item.creditsValue} credits</span></div>`).join('');
-        modal.classList.add('show');
+        const confirmTotal = document.getElementById('confirmTotal');
+        if(confirmTotal) confirmTotal.innerHTML = `<i class="fas fa-coins"></i> Total: ${total} credits`;
+        if(itemsDiv) {
+            itemsDiv.innerHTML = tradeCart.map(item => `<div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee;"><span><i class="fas fa-knife"></i> ${item.name}</span><span style="color:#f59e0b;"><i class="fas fa-coins"></i> +${item.creditsValue} credits</span></div>`).join('');
+        }
+        if(modal) modal.classList.add('show');
     }
     
-    function closeConfirmModal() { document.getElementById('confirmModal').classList.remove('show'); }
+    function closeConfirmModal() { 
+        const modal = document.getElementById('confirmModal');
+        if(modal) modal.classList.remove('show');
+    }
     
     function finalizeTrade() {
         if (!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; }
@@ -618,7 +663,7 @@
         saveLuckBalance();
         updateLuckDisplay();
         showToast(`✅ +${total} credits added!`);
-        fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎮 TRADE: ${currentUser?.displayName} got +${total} credits for ${tradeCart.map(i=>i.name).join(', ')}` }) }).catch(()=>{});
+        fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎮 TRADE: ${currentUser?.displayName || currentUser?.email} got +${total} credits for ${tradeCart.map(i=>i.name).join(', ')}` }) }).catch(()=>{});
         tradeCart = [];
         renderExchange();
         updateTradeBar();
@@ -636,13 +681,14 @@
         if (!isLoggedIn) { showToast("Login first"); performGoogleLogin(); return; }
         if (!verifiedRoblox) { showToast("Verify Roblox first"); openVerificationModal(); return; }
         const item = redeemItems.find(i => i.id === id);
+        if (!item) return;
         if (luckBalance < item.cost) { showToast(`Need ${item.cost} credits! You have ${luckBalance}`); return; }
         if (confirm(`Redeem ${item.name} for ${item.cost} credits?`)) {
             luckBalance -= item.cost;
             saveLuckBalance();
             updateLuckDisplay();
             showToast(`✅ Redeemed ${item.name}!`);
-            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎁 REDEEM: ${currentUser?.displayName} redeemed ${item.name} for ${item.cost} credits` }) }).catch(()=>{});
+            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎁 REDEEM: ${currentUser?.displayName || currentUser?.email} redeemed ${item.name} for ${item.cost} credits` }) }).catch(()=>{});
             renderRedeem();
         }
     }
@@ -650,61 +696,157 @@
     // Shop Functions
     function renderShop() {
         let filtered = shopItems.filter(i => { if(currentFilter === 'knife') return i.type === 'knife'; if(currentFilter === 'gun') return i.type === 'gun'; return true; });
-        document.getElementById('productsGrid').innerHTML = filtered.map(item => `<div class="product-card" onclick="openPurchase(${item.id})"><div class="product-image"><img src="${item.image}"></div><div class="product-info"><div class="product-name"><i class="fas fa-${item.type === 'knife' ? 'knife' : 'gun'}"></i> ${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`).join('');
+        const grid = document.getElementById('productsGrid');
+        if(!grid) return;
+        grid.innerHTML = filtered.map(item => `<div class="product-card" onclick="openPurchase(${item.id})"><div class="product-image"><img src="${item.image}"></div><div class="product-info"><div class="product-name"><i class="fas fa-${item.type === 'knife' ? 'knife' : 'gun'}"></i> ${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`).join('');
     }
     
-    function openPurchase(id) { const item = shopItems.find(i => i.id === id); selectedItem = { ...item }; document.getElementById('modalItemImg').src = item.image; document.getElementById('modalItemName').innerHTML = `<i class="fas fa-${item.type === 'knife' ? 'knife' : 'gun'}"></i> ${item.name}`; document.getElementById('modalItemPrice').innerHTML = `${getSymbol()}${getDisplayPrice(item.price)}`; document.getElementById('modalQuantity').value = 1; document.getElementById('purchaseModal').classList.add('show'); }
-    function closePurchaseModal() { document.getElementById('purchaseModal').classList.remove('show'); selectedItem = null; }
-    function addToCart() { if(!selectedItem) return; const qty = parseInt(document.getElementById('modalQuantity').value) || 1; const existing = cart.find(i => i.id === selectedItem.id); if(existing) existing.quantity += qty; else cart.push({ ...selectedItem, quantity: qty }); updateCartUI(); showToast(`${qty}x ${selectedItem.name} added to cart`); closePurchaseModal(); }
+    function openPurchase(id) { 
+        const item = shopItems.find(i => i.id === id); 
+        if(!item) return;
+        selectedItem = { ...item }; 
+        const modalImg = document.getElementById('modalItemImg');
+        const modalName = document.getElementById('modalItemName');
+        const modalPrice = document.getElementById('modalItemPrice');
+        if(modalImg) modalImg.src = item.image;
+        if(modalName) modalName.innerHTML = `<i class="fas fa-${item.type === 'knife' ? 'knife' : 'gun'}"></i> ${item.name}`;
+        if(modalPrice) modalPrice.innerHTML = `${getSymbol()}${getDisplayPrice(item.price)}`;
+        const qtyInput = document.getElementById('modalQuantity');
+        if(qtyInput) qtyInput.value = 1;
+        const modal = document.getElementById('purchaseModal');
+        if(modal) modal.classList.add('show');
+    }
+    function closePurchaseModal() { 
+        const modal = document.getElementById('purchaseModal');
+        if(modal) modal.classList.remove('show');
+        selectedItem = null; 
+    }
+    function addToCart() { 
+        if(!selectedItem) return; 
+        const qtyInput = document.getElementById('modalQuantity');
+        const qty = parseInt(qtyInput ? qtyInput.value : 1) || 1; 
+        const existing = cart.find(i => i.id === selectedItem.id); 
+        if(existing) existing.quantity += qty; 
+        else cart.push({ ...selectedItem, quantity: qty }); 
+        updateCartUI(); 
+        showToast(`${qty}x ${selectedItem.name} added to cart`); 
+        closePurchaseModal(); 
+    }
     
     function updateCartUI() { 
         let total = cart.reduce((s,i) => s + (i.price * i.quantity), 0); 
         const count = cart.reduce((s,i) => s + i.quantity, 0); 
-        document.getElementById('cartCount').innerText = count; 
-        document.getElementById('cartTotal').innerHTML = `${getSymbol()}${getDisplayPrice(total)}`; 
-        const c = document.getElementById('cartItemsList'); 
-        if(cart.length === 0){ c.innerHTML = '<div style="text-align:center; padding:40px; color:#888;"><i class="fas fa-shopping-cart"></i> Your cart is empty</div>'; return; } 
-        c.innerHTML = cart.map(item => `<div class="cart-item"><div><div class="cart-item-name"><i class="fas fa-${item.type === 'knife' ? 'knife' : 'gun'}"></i> ${item.name}</div><div class="cart-item-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div><div class="cart-item-actions"><button class="cart-qty-btn" onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button><span>${item.quantity}</span><button class="cart-qty-btn" onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button><button class="cart-remove-btn" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button></div></div>`).join(''); 
+        const countSpan = document.getElementById('cartCount');
+        const cartTotalSpan = document.getElementById('cartTotal');
+        if(countSpan) countSpan.innerText = count; 
+        if(cartTotalSpan) cartTotalSpan.innerHTML = `${getSymbol()}${getDisplayPrice(total)}`; 
+        const container = document.getElementById('cartItemsList'); 
+        if(!container) return;
+        if(cart.length === 0){ container.innerHTML = '<div style="text-align:center; padding:40px; color:#888;"><i class="fas fa-shopping-cart"></i> Your cart is empty</div>'; return; } 
+        container.innerHTML = cart.map(item => `<div class="cart-item"><div><div class="cart-item-name"><i class="fas fa-${item.type === 'knife' ? 'knife' : 'gun'}"></i> ${item.name}</div><div class="cart-item-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div><div class="cart-item-actions"><button class="cart-qty-btn" onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button><span>${item.quantity}</span><button class="cart-qty-btn" onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button><button class="cart-remove-btn" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button></div></div>`).join(''); 
     }
-    function updateQty(id, n) { if(n <= 0) removeFromCart(id); else { const i = cart.find(i => i.id === id); if(i) i.quantity = n; updateCartUI(); } }
-    function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
-    function checkout() { if(!verifiedRoblox) { showToast("Verify Roblox first"); openVerificationModal(); return; } showToast("Checkout coming soon!"); }
+    function updateQty(id, n) { 
+        if(n <= 0) removeFromCart(id); 
+        else { 
+            const item = cart.find(i => i.id === id); 
+            if(item) item.quantity = n; 
+            updateCartUI(); 
+        } 
+    }
+    function removeFromCart(id) { 
+        cart = cart.filter(i => i.id !== id); 
+        updateCartUI(); 
+    }
+    function checkout() { 
+        if(!verifiedRoblox) { showToast("Verify Roblox first"); openVerificationModal(); return; } 
+        showToast("Checkout coming soon!"); 
+    }
     
     // Convert Credits
     function convertCredits() {
         let amount = parseInt(document.getElementById('convertAmount').value);
         const currency = document.getElementById('convertCurrency').value;
-        if (isNaN(amount) || amount < 10) { document.getElementById('convertResult').innerHTML = '<i class="fas fa-exclamation-triangle"></i> Minimum 10 credits'; return; }
+        const resultDiv = document.getElementById('convertResult');
+        if (isNaN(amount) || amount < 10) { 
+            if(resultDiv) resultDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Minimum 10 credits'; 
+            return; 
+        }
         const rates = { PHP: 1, USD: 0.017, ROBUX: 1.7 };
         const symbols = { PHP: "₱", USD: "$", ROBUX: "R$" };
         const converted = amount * rates[currency];
         const fee = converted * conversionMarkup;
         const total = converted + fee;
-        document.getElementById('convertResult').innerHTML = `<i class="fas fa-coins"></i> ${amount} credits = ${symbols[currency]}${total.toFixed(2)}<br><span style="font-size:12px;"><i class="fas fa-info-circle"></i> Rate: ${symbols[currency]}${rates[currency]} per credit + 5% fee = ${symbols[currency]}${fee.toFixed(2)} fee</span>`;
+        if(resultDiv) resultDiv.innerHTML = `<i class="fas fa-coins"></i> ${amount} credits = ${symbols[currency]}${total.toFixed(2)}<br><span style="font-size:12px;"><i class="fas fa-info-circle"></i> Rate: ${symbols[currency]}${rates[currency]} per credit + 5% fee = ${symbols[currency]}${fee.toFixed(2)} fee</span>`;
     }
     
     // Points System
-    function loadPoints() { const saved = localStorage.getItem(`points_${currentUser?.email || 'guest'}`); userPoints = saved ? parseInt(saved) : 0; document.getElementById('pointsBalance').innerText = userPoints; }
-    function savePoints() { localStorage.setItem(`points_${currentUser?.email || 'guest'}`, userPoints); loadPoints(); }
-    function showPointsRedeem() { if(!isLoggedIn) { performGoogleLogin(); return; } document.getElementById('pointsRedeemDisplay').innerText = userPoints; document.getElementById('pointsRedeemModal').classList.add('show'); }
-    function closePointsRedeemModal() { document.getElementById('pointsRedeemModal').classList.remove('show'); }
-    function redeemPointsItem(itemName, cost) { if(userPoints < cost) { showToast(`Need ${cost} points!`); return; } userPoints -= cost; savePoints(); showToast(`Redeemed ${itemName}!`); closePointsRedeemModal(); }
+    function loadPoints() { 
+        const key = `points_${currentUser?.email || 'guest'}`;
+        const saved = localStorage.getItem(key); 
+        userPoints = saved ? parseInt(saved) : 0; 
+        const pointsSpan = document.getElementById('pointsBalance');
+        if(pointsSpan) pointsSpan.innerText = userPoints;
+        const profilePoints = document.getElementById('profilePoints');
+        if(profilePoints) profilePoints.innerText = userPoints;
+    }
+    function savePoints() { 
+        localStorage.setItem(`points_${currentUser?.email || 'guest'}`, userPoints); 
+        loadPoints(); 
+    }
+    function showPointsRedeem() { 
+        if(!isLoggedIn) { performGoogleLogin(); return; } 
+        const pointsDisplay = document.getElementById('pointsRedeemDisplay');
+        if(pointsDisplay) pointsDisplay.innerText = userPoints;
+        const modal = document.getElementById('pointsRedeemModal');
+        if(modal) modal.classList.add('show');
+    }
+    function closePointsRedeemModal() { 
+        const modal = document.getElementById('pointsRedeemModal');
+        if(modal) modal.classList.remove('show');
+    }
+    function redeemPointsItem(itemName, cost) { 
+        if(userPoints < cost) { showToast(`Need ${cost} points!`); return; } 
+        userPoints -= cost; 
+        savePoints(); 
+        showToast(`Redeemed ${itemName}!`); 
+        closePointsRedeemModal(); 
+    }
     
     // Credits System
-    function loadLuckBalance() { const saved = localStorage.getItem(`credits_${currentUser?.email || 'guest'}`); luckBalance = saved ? parseInt(saved) : 0; updateLuckDisplay(); }
-    function saveLuckBalance() { localStorage.setItem(`credits_${currentUser?.email || 'guest'}`, luckBalance); }
-    function updateLuckDisplay() { document.getElementById('luckBalance').innerText = luckBalance; if(document.getElementById('profileCredits')) document.getElementById('profileCredits').innerText = luckBalance; }
+    function loadLuckBalance() { 
+        const key = `credits_${currentUser?.email || 'guest'}`;
+        const saved = localStorage.getItem(key); 
+        luckBalance = saved ? parseInt(saved) : 0; 
+        updateLuckDisplay(); 
+    }
+    function saveLuckBalance() { 
+        localStorage.setItem(`credits_${currentUser?.email || 'guest'}`, luckBalance); 
+    }
+    function updateLuckDisplay() { 
+        const luckSpan = document.getElementById('luckBalance');
+        if(luckSpan) luckSpan.innerText = luckBalance;
+        const profileCredits = document.getElementById('profileCredits');
+        if(profileCredits) profileCredits.innerText = luckBalance;
+    }
     
     // Roblox Verification
     async function openVerificationModal() {
         if(verifiedRoblox) { showToast(`Already verified as @${verifiedRoblox.username}`); return; }
-        document.getElementById('verifStep1').style.display = 'block';
-        document.getElementById('verifStep2').style.display = 'none';
-        document.getElementById('verifStep3').style.display = 'none';
-        document.getElementById('verifUsername').value = '';
-        document.getElementById('robloxVerifModal').classList.add('show');
+        const step1 = document.getElementById('verifStep1');
+        const step2 = document.getElementById('verifStep2');
+        const step3 = document.getElementById('verifStep3');
+        const usernameInput = document.getElementById('verifUsername');
+        if(step1) step1.style.display = 'block';
+        if(step2) step2.style.display = 'none';
+        if(step3) step3.style.display = 'none';
+        if(usernameInput) usernameInput.value = '';
+        const modal = document.getElementById('robloxVerifModal');
+        if(modal) modal.classList.add('show');
     }
-    function closeVerifModal() { document.getElementById('robloxVerifModal').classList.remove('show'); }
+    function closeVerifModal() { 
+        const modal = document.getElementById('robloxVerifModal');
+        if(modal) modal.classList.remove('show');
+    }
     
     async function checkUser() {
         const username = document.getElementById('verifUsername').value.trim();
@@ -717,11 +859,16 @@
             const codeRes = await fetch(`${ROBLOX_MIDDLEMAN}/api/generate-verification`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username }) });
             const codeData = await codeRes.json();
             pendingVerification = { username: data.username, displayName: data.displayName, avatarUrl: data.avatarUrl, code: codeData.verificationCode };
-            document.getElementById('verifStep1').style.display = 'none';
-            document.getElementById('verifStep2').style.display = 'block';
-            document.getElementById('verifAvatar').innerHTML = `<img src="${data.avatarUrl}" class="verification-avatar">`;
-            document.getElementById('verifDisplayName').innerHTML = `<i class="fab fa-roblox"></i> @${data.username} (${data.displayName})`;
-            document.getElementById('verifCode').innerHTML = `<strong><i class="fas fa-code"></i> Copy this code to your Roblox bio:</strong><br>${codeData.verificationCode}`;
+            const step1 = document.getElementById('verifStep1');
+            const step2 = document.getElementById('verifStep2');
+            const verifAvatar = document.getElementById('verifAvatar');
+            const verifDisplay = document.getElementById('verifDisplayName');
+            const verifCode = document.getElementById('verifCode');
+            if(step1) step1.style.display = 'none';
+            if(step2) step2.style.display = 'block';
+            if(verifAvatar) verifAvatar.innerHTML = `<img src="${data.avatarUrl}" class="verification-avatar">`;
+            if(verifDisplay) verifDisplay.innerHTML = `<i class="fab fa-roblox"></i> @${data.username} (${data.displayName})`;
+            if(verifCode) verifCode.innerHTML = `<strong><i class="fas fa-code"></i> Copy this code to your Roblox bio:</strong><br>${codeData.verificationCode}`;
         } catch(e) { showToast("Error"); }
     }
     
@@ -735,8 +882,10 @@
                 verifiedRoblox = pendingVerification;
                 localStorage.setItem('verifiedRoblox', JSON.stringify(verifiedRoblox));
                 updateHeaderDisplay();
-                document.getElementById('verifStep2').style.display = 'none';
-                document.getElementById('verifStep3').style.display = 'block';
+                const step2 = document.getElementById('verifStep2');
+                const step3 = document.getElementById('verifStep3');
+                if(step2) step2.style.display = 'none';
+                if(step3) step3.style.display = 'block';
                 showToast("✅ Roblox verified!");
             } else { showToast(data.message || "Code not found in bio"); }
         } catch(e) { showToast("Error verifying"); }
@@ -744,32 +893,98 @@
     
     // Profile & Auth
     function updateProfileUI() { 
-        if(verifiedRoblox) document.getElementById('profileAvatarImg').src = verifiedRoblox.avatarUrl;
-        document.getElementById('profilePoints').innerText = userPoints;
-        document.getElementById('profileCredits').innerText = luckBalance;
-        document.getElementById('profileName').innerText = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Guest';
-        document.getElementById('profileRobloxStatus').innerHTML = verifiedRoblox ? `<i class="fab fa-roblox"></i> Verified @${verifiedRoblox.username}` : "<i class="fab fa-roblox"></i> Not verified";
+        const profileAvatar = document.getElementById('profileAvatarImg');
+        const profileName = document.getElementById('profileName');
+        const profileStatus = document.getElementById('profileRobloxStatus');
+        if(verifiedRoblox && profileAvatar) profileAvatar.src = verifiedRoblox.avatarUrl;
+        const pointsSpan = document.getElementById('profilePoints');
+        const creditsSpan = document.getElementById('profileCredits');
+        if(pointsSpan) pointsSpan.innerText = userPoints;
+        if(creditsSpan) creditsSpan.innerText = luckBalance;
+        if(profileName) profileName.innerText = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Guest';
+        if(profileStatus) profileStatus.innerHTML = verifiedRoblox ? `<i class="fab fa-roblox"></i> Verified @${verifiedRoblox.username}` : "<i class='fab fa-roblox'></i> Not verified";
     }
     function updateHeaderDisplay() { 
-        if(verifiedRoblox) { document.getElementById('userAvatarDisplay').innerHTML = `<img src="${verifiedRoblox.avatarUrl}" style="width:100%; height:100%; object-fit:cover;">`; document.getElementById('userNameDisplay').innerHTML = `<i class="fab fa-roblox"></i> ${verifiedRoblox.username}`; } 
-        else if(currentUser) { document.getElementById('userNameDisplay').innerText = currentUser.displayName || currentUser.email?.split('@')[0]; document.getElementById('userAvatarDisplay').innerHTML = currentUser.photoURL ? `<img src="${currentUser.photoURL}" style="width:100%; height:100%; object-fit:cover;">` : `<i class="fas fa-user"></i>`; } 
-        else { document.getElementById('userNameDisplay').innerText = 'Guest'; document.getElementById('userAvatarDisplay').innerHTML = `<i class="fas fa-user"></i>`; } 
+        const userAvatar = document.getElementById('userAvatarDisplay');
+        const userName = document.getElementById('userNameDisplay');
+        if(verifiedRoblox && userAvatar) { 
+            userAvatar.innerHTML = `<img src="${verifiedRoblox.avatarUrl}" style="width:100%; height:100%; object-fit:cover;">`; 
+            if(userName) userName.innerHTML = `<i class="fab fa-roblox"></i> ${verifiedRoblox.username}`;
+        } 
+        else if(currentUser && userAvatar) { 
+            if(userName) userName.innerText = currentUser.displayName || currentUser.email?.split('@')[0]; 
+            userAvatar.innerHTML = currentUser.photoURL ? `<img src="${currentUser.photoURL}" style="width:100%; height:100%; object-fit:cover;">` : `<i class="fas fa-user"></i>`; 
+        } 
+        else if(userAvatar) { 
+            if(userName) userName.innerText = 'Guest'; 
+            userAvatar.innerHTML = `<i class="fas fa-user"></i>`; 
+        } 
     }
     
     window.handleAuthStateChanged = function(user) { 
-        if(user) { isLoggedIn = true; currentUser = user; updateHeaderDisplay(); loadLuckBalance(); loadPoints(); const adminBtn = document.getElementById('adminNavBtn'); if(user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; else adminBtn.style.display = 'none'; showToast(`Welcome ${user.displayName || 'User'}!`); updateProfileUI(); } 
-        else { isLoggedIn = false; currentUser = null; updateHeaderDisplay(); loadLuckBalance(); loadPoints(); document.getElementById('adminNavBtn').style.display = 'none'; } 
+        if(user) { 
+            isLoggedIn = true; 
+            currentUser = user; 
+            updateHeaderDisplay(); 
+            loadLuckBalance(); 
+            loadPoints(); 
+            const adminBtn = document.getElementById('adminNavBtn'); 
+            if(adminBtn && user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; 
+            else if(adminBtn) adminBtn.style.display = 'none'; 
+            showToast(`Welcome ${user.displayName || 'User'}!`); 
+            updateProfileUI(); 
+        } 
+        else { 
+            isLoggedIn = false; 
+            currentUser = null; 
+            updateHeaderDisplay(); 
+            loadLuckBalance(); 
+            loadPoints(); 
+            const adminBtn = document.getElementById('adminNavBtn'); 
+            if(adminBtn) adminBtn.style.display = 'none'; 
+        } 
         renderShop(); 
     };
-    async function performGoogleLogin() { if(window.firebaseAuth) { try { await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } catch(e) { showToast("Login failed"); } } else showToast("Loading..."); }
-    async function performGoogleLogout() { if(window.firebaseAuth) { await window.firebaseSignOut(window.firebaseAuth); } showToast("Logged out"); location.reload(); }
+    async function performGoogleLogin() { 
+        if(window.firebaseAuth) { 
+            try { 
+                await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); 
+            } catch(e) { 
+                showToast("Login failed: " + e.message); 
+            } 
+        } else showToast("Loading..."); 
+    }
+    async function performGoogleLogout() { 
+        if(window.firebaseAuth) { 
+            await window.firebaseSignOut(window.firebaseAuth); 
+            verifiedRoblox = null;
+            localStorage.removeItem('verifiedRoblox');
+            updateHeaderDisplay();
+        } 
+        showToast("Logged out"); 
+        location.reload(); 
+    }
     function switchGoogleAccount() { performGoogleLogin(); }
     
-    document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderShop(); }); });
+    // Initialize filter buttons
+    function initFilters() {
+        document.querySelectorAll('.filter-btn').forEach(btn => { 
+            btn.addEventListener('click', () => { 
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); 
+                btn.classList.add('active'); 
+                currentFilter = btn.dataset.filter; 
+                renderShop(); 
+            }); 
+        });
+    }
     
-    document.getElementById('homePage').classList.add('active');
-    renderShop();
-    setTimeout(typeEffect, 500);
+    // Initialize
+    loadSavedData();
+    setTimeout(() => {
+        typeEffect();
+        initFilters();
+        renderShop();
+    }, 100);
     
     // Expose global functions
     window.showHome=showHome; window.showShop=showShop; window.showExchange=showExchange; window.showRedeem=showRedeem; window.showAdmin=showAdmin; window.openProfile=openProfile;
