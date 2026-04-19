@@ -213,7 +213,7 @@
         .filter-btn { background: rgba(0,0,0,0.03); border: 1px solid rgba(135,206,235,0.3); padding: 8px 24px; border-radius: 30px; color: #444; cursor: pointer; transition: 0.2s; }
         .filter-btn:hover, .filter-btn.active { background: linear-gradient(135deg, #87CEEB, #FFB6C1); color: #1a1a2e; border-color: transparent; }
         
-        /* Products Grid - Shop Items */
+        /* Products Grid */
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
         .product-card { background: white; border-radius: 24px; overflow: hidden; transition: all 0.35s; border: 2px solid rgba(135,206,235,0.3); cursor: pointer; aspect-ratio: 1/1; display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         .product-card:hover { transform: translateY(-8px) scale(1.02); border-color: #87CEEB; box-shadow: 0 15px 30px rgba(135,206,235,0.15); }
@@ -224,7 +224,7 @@
         .product-name { font-weight: 800; color: #1a1a2e; font-size: 17px; }
         .product-price { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #87CEEB, #FFB6C1); -webkit-background-clip: text; background-clip: text; color: transparent; }
         
-        /* Exchange & Redeem Grids - 3 per row */
+        /* Exchange & Redeem Grids */
         .exchange-header, .redeem-header, .convert-header { text-align: center; margin-bottom: 30px; }
         .exchange-header h2, .redeem-header h2, .convert-header h2 { font-size: 32px; font-family: 'Orbitron', monospace; background: linear-gradient(135deg, #87CEEB, #FFB6C1); -webkit-background-clip: text; background-clip: text; color: transparent; }
         
@@ -263,118 +263,181 @@
         .confirm-trade-btn { background: linear-gradient(135deg, #87CEEB, #FFB6C1); border: none; padding: 12px 28px; border-radius: 40px; color: #1a1a2e; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .confirm-trade-btn:hover { transform: scale(1.02); }
         
-        /* Bot Control Panel */
-        .control-panel {
-            background: white;
-            border-radius: 30px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border: 2px solid rgba(135,206,235,0.4);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-        }
-        
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(135,206,235,0.3);
-        }
-        
-        .bot-status {
-            background: linear-gradient(135deg, #10b981, #059669);
-            padding: 8px 16px;
-            border-radius: 40px;
+        /* Bot Trade Modal - Popup for Exchange/Redeem/Shop */
+        .bot-trade-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            color: white;
-            font-size: 14px;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
-        
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #00ff88;
-            animation: pulse 2s infinite;
+        .bot-trade-modal.show {
+            opacity: 1;
+            visibility: visible;
         }
-        
-        .command-input-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        
-        .command-input {
-            flex: 2;
-            min-width: 200px;
-            padding: 14px 20px;
-            border-radius: 40px;
-            border: 2px solid rgba(135,206,235,0.4);
+        .bot-trade-content {
             background: white;
-            font-size: 14px;
-            outline: none;
-        }
-        
-        .command-btn {
-            padding: 14px 25px;
-            border-radius: 40px;
-            border: none;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .command-btn.send { background: linear-gradient(135deg, #87CEEB, #6c5ce7); color: white; }
-        .command-btn.stop { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
-        .command-btn.reset { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
-        
-        .logs-container {
-            background: #f5f7fa;
-            border-radius: 20px;
-            padding: 15px;
-            max-height: 300px;
+            border-radius: 50px;
+            padding: 40px;
+            max-width: 550px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            border: 3px solid #87CEEB;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            max-height: 90vh;
             overflow-y: auto;
         }
-        
-        .log-entry {
-            padding: 10px;
+        .bot-trade-modal.show .bot-trade-content {
+            transform: scale(1);
+        }
+        .bot-avatar-frame {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        .bot-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid #87CEEB;
+            box-shadow: 0 0 20px rgba(135,206,235,0.5);
+            object-fit: cover;
+            background: linear-gradient(135deg, #87CEEB, #FFB6C1);
+        }
+        .bot-info-card {
+            background: #f5f7fa;
+            border-radius: 30px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .bot-info-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
             margin: 8px 0;
             background: white;
-            border-radius: 12px;
-            border-left: 3px solid #87CEEB;
-            font-size: 13px;
+            border-radius: 20px;
         }
-        
-        .log-time { color: #888; font-size: 11px; margin-bottom: 4px; }
-        .log-message { color: #1a1a2e; }
-        
-        .stats-grid {
+        .bot-info-row i {
+            width: 30px;
+            font-size: 20px;
+            color: #87CEEB;
+        }
+        .bot-info-row .label {
+            color: #888;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        .bot-info-row .value {
+            color: #1a1a2e;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .transaction-details {
+            background: linear-gradient(135deg, #e8f4f8, #f0e6f0);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .transaction-amount {
+            font-size: 28px;
+            font-weight: 800;
+            color: #10b981;
+        }
+        .instructions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
         }
-        
-        .stat-card {
+        .instruction-step {
             background: #f5f7fa;
             border-radius: 20px;
             padding: 15px;
             text-align: center;
+            transition: all 0.3s;
             border: 1px solid rgba(135,206,235,0.3);
         }
+        .instruction-step:hover {
+            background: rgba(135,206,235,0.1);
+            transform: translateY(-3px);
+        }
+        .instruction-step i {
+            font-size: 28px;
+            color: #87CEEB;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .instruction-step p {
+            color: #666;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+        .instruction-step strong {
+            color: #1a1a2e;
+            display: block;
+            font-size: 13px;
+        }
+        .bot-actions {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0 15px;
+        }
+        .join-bot-btn, .view-profile-btn, .close-trade-modal {
+            flex: 1;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .join-bot-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .join-bot-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16,185,129,0.3);
+        }
+        .view-profile-btn {
+            background: linear-gradient(135deg, #87CEEB, #6c5ce7);
+            color: white;
+        }
+        .view-profile-btn:hover {
+            transform: translateY(-2px);
+        }
+        .close-trade-modal {
+            background: #ef4444;
+            color: white;
+            width: 100%;
+        }
+        .close-trade-modal:hover {
+            transform: translateY(-2px);
+        }
         
-        .stat-value { font-size: 28px; font-weight: 800; color: #87CEEB; }
-        .stat-label { font-size: 12px; color: #666; margin-top: 5px; }
-        
-        /* Modals */
-        .confirmation-modal, .premium-modal, .verification-modal, .bot-trade-modal { 
+        /* Other Modals */
+        .confirmation-modal, .premium-modal, .verification-modal { 
             position: fixed; 
             top: 0; 
             left: 0; 
@@ -390,43 +453,15 @@
             visibility: hidden; 
             transition: all 0.3s ease; 
         }
-        .confirmation-modal.show, .premium-modal.show, .verification-modal.show, .bot-trade-modal.show { opacity: 1; visibility: visible; }
-        .confirmation-content, .premium-modal-content, .verification-content, .bot-trade-content { 
-            background: white; 
-            border-radius: 40px; 
-            padding: 35px; 
-            max-width: 500px; 
-            width: 90%; 
-            text-align: center; 
-            transform: scale(0.9); 
-            transition: transform 0.3s ease; 
-            border: 2px solid rgba(135,206,235,0.4); 
-        }
-        .confirmation-modal.show .confirmation-content, .premium-modal.show .premium-modal-content, 
-        .verification-modal.show .verification-content, .bot-trade-modal.show .bot-trade-content { transform: scale(1); }
-        
+        .confirmation-modal.show, .premium-modal.show, .verification-modal.show { opacity: 1; visibility: visible; }
+        .confirmation-content, .premium-modal-content, .verification-content { background: white; border-radius: 40px; padding: 35px; max-width: 500px; width: 90%; text-align: center; transform: scale(0.9); transition: transform 0.3s ease; border: 2px solid rgba(135,206,235,0.4); }
+        .confirmation-modal.show .confirmation-content, .premium-modal.show .premium-modal-content, .verification-modal.show .verification-content { transform: scale(1); }
         .verification-avatar { width: 150px; height: 150px; border-radius: 50%; margin: 20px auto; border: 4px solid #87CEEB; object-fit: cover; }
         .verification-code { background: #f0f4f8; padding: 12px; border-radius: 20px; font-family: monospace; font-size: 14px; word-break: break-all; margin: 15px 0; border: 1px solid rgba(135,206,235,0.3); }
-        
         .btn-green { background: linear-gradient(135deg, #10b981, #059669); border: none; padding: 12px 25px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; margin: 5px; transition: 0.2s; }
         .btn-green:hover { transform: scale(1.02); }
         .btn-red { background: linear-gradient(135deg, #ef4444, #dc2626); border: none; padding: 12px 25px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; margin: 5px; transition: 0.2s; }
         .btn-red:hover { transform: scale(1.02); }
-        
-        input, select, textarea {
-            background: white;
-            border: 2px solid rgba(135, 206, 235, 0.4);
-            border-radius: 40px;
-            padding: 14px 20px;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            outline: none;
-            font-family: 'Inter', sans-serif;
-        }
-        input:focus, select:focus, textarea:focus {
-            border-color: #87CEEB;
-            box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.2);
-        }
         
         /* Cart Sidebar */
         .cart-sidebar { position: fixed; top: 0; right: -500px; width: 500px; height: 100vh; background: white; z-index: 1000; transition: right 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1); padding: 25px; display: flex; flex-direction: column; border-left: 3px solid #87CEEB; box-shadow: -5px 0 30px rgba(0,0,0,0.1); }
@@ -461,7 +496,10 @@
             transition: all 0.2s;
             width: 100%;
         }
-        .add-to-cart-btn:hover { transform: scale(1.02); box-shadow: 0 4px 15px rgba(16,185,129,0.3); }
+        .add-to-cart-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+        }
         
         /* Side Menu */
         .side-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: 0.3s; }
@@ -492,7 +530,9 @@
             .products-grid { grid-template-columns: 1fr; }
             .convert-grid { flex-direction: column; }
             .hero-title { font-size: 38px; }
-            .command-input-group { flex-direction: column; }
+            .instructions-grid { grid-template-columns: 1fr; }
+            .bot-actions { flex-direction: column; }
+            .bot-trade-content { padding: 20px; }
         }
     </style>
 </head>
@@ -510,7 +550,6 @@
         <button class="nav-link" onclick="showShop()"><i class="fas fa-store"></i> Shop</button>
         <button class="nav-link" onclick="showExchange()"><i class="fas fa-exchange-alt"></i> Exchange</button>
         <button class="nav-link" onclick="showRedeem()"><i class="fas fa-gift"></i> Redeem</button>
-        <button class="nav-link" onclick="showBotControl()"><i class="fas fa-robot"></i> Bot Control</button>
         <button class="nav-link" id="adminNavBtn" style="display:none;" onclick="showAdmin()"><i class="fas fa-crown"></i> Admin</button>
     </div>
     <div class="top-right">
@@ -530,7 +569,6 @@
     <div class="menu-item" onclick="showShop(); closeSideMenu()"><i class="fas fa-store"></i> Shop</div>
     <div class="menu-item" onclick="showExchange(); closeSideMenu()"><i class="fas fa-exchange-alt"></i> Exchange Items</div>
     <div class="menu-item" onclick="showRedeem(); closeSideMenu()"><i class="fas fa-gift"></i> Redeem Credits</div>
-    <div class="menu-item" onclick="showBotControl(); closeSideMenu()"><i class="fas fa-robot"></i> Bot Control</div>
     <div class="menu-item" onclick="openVerificationModal(); closeSideMenu()"><i class="fab fa-roblox"></i> Verify Roblox</div>
     <div class="menu-item" onclick="openProfile(); closeSideMenu()"><i class="fas fa-user-circle"></i> My Profile</div>
     <div class="menu-item" onclick="performGoogleLogout(); closeSideMenu()"><i class="fas fa-sign-out-alt"></i> Logout</div>
@@ -551,7 +589,7 @@
         </div>
     </div>
 
-    <!-- SHOP PAGE - Buy with Real Money -->
+    <!-- SHOP PAGE -->
     <div id="shopPage" class="page">
         <div class="container">
             <div class="filter-bar"><button class="filter-btn active" data-filter="all"><i class="fas fa-layer-group"></i> All</button><button class="filter-btn" data-filter="knife"><i class="fas fa-knife"></i> Knives</button><button class="filter-btn" data-filter="gun"><i class="fas fa-gun"></i> Guns</button></div>
@@ -559,7 +597,7 @@
         </div>
     </div>
 
-    <!-- EXCHANGE PAGE - Exchange Items for Credits (GET CREDITS) -->
+    <!-- EXCHANGE PAGE -->
     <div id="exchangePage" class="page">
         <div class="container" style="padding-bottom:100px;">
             <div class="exchange-header"><h2><i class="fas fa-exchange-alt"></i> Exchange Items for Credits</h2><p><i class="fas fa-info-circle"></i> Select items to trade. You'll receive credits minus 20 fee per item</p></div>
@@ -573,47 +611,11 @@
         </div>
     </div>
 
-    <!-- REDEEM PAGE - Spend Credits for Items (REDEEM CREDITS) -->
+    <!-- REDEEM PAGE -->
     <div id="redeemPage" class="page">
         <div class="container" style="padding-bottom:100px;">
             <div class="redeem-header"><h2><i class="fas fa-gift"></i> Redeem Credits for Weapons</h2><p><i class="fas fa-coins"></i> Spend your hard-earned credits to get rare MM2 items instantly!</p></div>
             <div class="items-redeem-grid" id="redeemItemsGrid"></div>
-        </div>
-    </div>
-
-    <!-- BOT CONTROL PAGE -->
-    <div id="botControlPage" class="page">
-        <div class="container">
-            <div class="control-panel">
-                <div class="panel-header">
-                    <h2><i class="fas fa-robot"></i> Bot Control Panel</h2>
-                    <div class="bot-status"><span class="status-dot"></span> Bot Status: <span id="botStatusText">Online</span></div>
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-value" id="totalTrades">0</div><div class="stat-label">Total Trades</div></div>
-                    <div class="stat-card"><div class="stat-value" id="activeTrades">0</div><div class="stat-label">Active Trades</div></div>
-                    <div class="stat-card"><div class="stat-value" id="botCredits">0</div><div class="stat-label">Bot Credits</div></div>
-                    <div class="stat-card"><div class="stat-value" id="queueLength">0</div><div class="stat-label">Queue Length</div></div>
-                </div>
-                
-                <div class="command-input-group">
-                    <input type="text" class="command-input" id="commandInput" placeholder="Enter command: get items from Username | give items to Username | check inventory | broadcast message">
-                    <button class="command-btn send" onclick="sendBotCommand()"><i class="fas fa-paper-plane"></i> Send Command</button>
-                    <button class="command-btn stop" onclick="emergencyStop()"><i class="fas fa-stop"></i> Emergency Stop</button>
-                    <button class="command-btn reset" onclick="resetBot()"><i class="fas fa-sync"></i> Reset Bot</button>
-                </div>
-                
-                <h3><i class="fas fa-list"></i> Trade Queue</h3>
-                <div class="logs-container" id="queueList">
-                    <div class="log-entry">No pending trades</div>
-                </div>
-                
-                <h3 style="margin-top: 20px;"><i class="fas fa-history"></i> Trade Logs</h3>
-                <div class="logs-container" id="tradeLogs">
-                    <div class="log-entry"><div class="log-time">--:--:--</div><div class="log-message">Bot is ready and waiting for commands...</div></div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -639,6 +641,68 @@
 <!-- Roblox Verification Modal -->
 <div id="robloxVerifModal" class="verification-modal"><div class="verification-content"><h2><i class="fab fa-roblox"></i> Verify Roblox Account</h2><div id="verifStep1"><div class="convert-input-group"><label><i class="fas fa-user"></i> Roblox Username</label><input type="text" id="verifUsername" placeholder="Enter your Roblox username"></div><button class="btn-green" onclick="checkUser()" style="width:100%;"><i class="fas fa-arrow-right"></i> Continue</button></div><div id="verifStep2" style="display:none;"><div id="verifAvatar"></div><h3 id="verifDisplayName" style="color:#1a1a2e;"></h3><div class="verification-code" id="verifCode"></div><p style="font-size:13px; color:#666;"><i class="fas fa-info-circle"></i> Copy this code to your Roblox profile bio, then click Verify</p><button class="btn-green" onclick="verifyBio()"><i class="fas fa-check-circle"></i> I've Added It - Verify</button><button class="btn-red" onclick="closeVerifModal()"><i class="fas fa-times"></i> Cancel</button></div><div id="verifStep3" style="display:none;"><i class="fas fa-check-circle" style="font-size:60px; color:#10b981;"></i><h3 style="color:#1a1a2e;">Verified!</h3><button class="btn-green" onclick="closeVerifModal()"><i class="fas fa-check"></i> Continue</button></div></div></div>
 
+<!-- Bot Trade Modal - Popup for Exchange/Redeem/Shop -->
+<div id="botTradeModal" class="bot-trade-modal">
+    <div class="bot-trade-content">
+        <div class="bot-avatar-frame">
+            <img class="bot-avatar" id="botModalAvatar" src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3D5E8F0E9A7B2C4D1F6E8A9B2C4D6F8E-1.png" alt="Bot Avatar" onerror="this.src='https://ui-avatars.com/api/?name=EchoKnivesBot&background=87CEEB&color=fff&size=120'">
+        </div>
+        <div class="bot-info-card">
+            <div class="bot-info-row">
+                <i class="fas fa-user-astronaut"></i>
+                <div>
+                    <div class="label">BOT NAME</div>
+                    <div class="value">EchoKnivesBot</div>
+                </div>
+            </div>
+            <div class="bot-info-row">
+                <i class="fas fa-tag"></i>
+                <div>
+                    <div class="label">USERNAME</div>
+                    <div class="value">SIGMAKE5</div>
+                </div>
+            </div>
+        </div>
+        <div class="transaction-details" id="transactionDetails">
+            <div class="transaction-amount" id="transactionAmount">+0 credits</div>
+            <div id="transactionItems" style="font-size: 12px; margin-top: 8px;"></div>
+        </div>
+        <div class="instructions-grid">
+            <div class="instruction-step">
+                <i class="fas fa-sign-in-alt"></i>
+                <strong>STEP 1</strong>
+                <p>Join the Bot</p>
+            </div>
+            <div class="instruction-step">
+                <i class="fas fa-clock"></i>
+                <strong>STEP 2</strong>
+                <p>Wait for your turn</p>
+            </div>
+            <div class="instruction-step">
+                <i class="fas fa-gift"></i>
+                <strong>STEP 3</strong>
+                <p>Give your items</p>
+            </div>
+            <div class="instruction-step">
+                <i class="fas fa-chart-line"></i>
+                <strong>STEP 4</strong>
+                <p>Get credits</p>
+            </div>
+        </div>
+        <div class="bot-actions">
+            <button class="join-bot-btn" onclick="joinBotServer()">
+                <i class="fas fa-arrow-right"></i> JOIN BOT
+            </button>
+            <button class="view-profile-btn" onclick="viewBotProfile()">
+                <i class="fab fa-roblox"></i> VIEW PROFILE
+            </button>
+        </div>
+        <button class="close-trade-modal" onclick="closeBotTradeModal()">
+            <i class="fas fa-times"></i> CANCEL
+        </button>
+    </div>
+</div>
+
 <!-- Cart Sidebar -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar"><div class="cart-header"><h3><i class="fas fa-shopping-bag"></i> Your Cart</h3><button class="close-cart" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItemsList"></div><div class="cart-footer"><div class="cart-subtotal"><span><i class="fas fa-receipt"></i> Subtotal</span><span id="cartTotal">₱0</span></div><button class="checkout-btn" onclick="checkout()"><i class="fas fa-lock"></i> Proceed to Checkout</button></div></div>
@@ -650,6 +714,8 @@
     const ADMIN_EMAIL = "ivanmendones13@gmail.com";
     const ROBLOX_MIDDLEMAN = "https://roblox-middlemanbot1.onrender.com";
     const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d";
+    const BOT_JOIN_LINK = "https://www.roblox.com/share?code=fb6282b4dbb22d408534c8aa259c960a&type=Server";
+    const BOT_PROFILE_LINK = "https://www.roblox.com/users/1/profile";
     
     // Exchange Items (Give items → Get credits)
     const exchangeItems = [
@@ -696,8 +762,7 @@
     let verifiedRoblox = JSON.parse(localStorage.getItem('verifiedRoblox') || 'null');
     let tradeCart = [];
     let pendingVerification = null;
-    let botLogs = [];
-    let botQueue = [];
+    let pendingTransaction = null;
     
     // Safety messages for typing animation
     const safetyMessages = ["🔒 256-bit SSL Encryption - Your data is 100% secure","✅ 5,000+ Happy Customers - 100% Legit Items","🚀 Instant Delivery - Get your items within minutes","🛡️ Trusted MM2 Marketplace Since 2022","💰 Best Prices Guaranteed - No Hidden Fees","⭐ 4.9/5 Star Rating from 1,000+ Reviews"];
@@ -725,19 +790,17 @@
     function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderShop(); updateCartUI(); }
     
     function switchPage(pageId) {
-        const pages = ['homePage', 'shopPage', 'exchangePage', 'redeemPage', 'botControlPage', 'adminPage', 'profilePage'];
+        const pages = ['homePage', 'shopPage', 'exchangePage', 'redeemPage', 'adminPage', 'profilePage'];
         pages.forEach(id => { const el = document.getElementById(id); if (el) { if (id === pageId) el.classList.add('active'); else el.classList.remove('active'); } });
         if (pageId === 'exchangePage') { renderExchange(); updateTradeBar(); }
         if (pageId === 'redeemPage') renderRedeem();
         if (pageId === 'profilePage') updateProfileUI();
-        if (pageId === 'botControlPage') updateBotUI();
     }
     
     function showHome() { switchPage('homePage'); }
     function showShop() { switchPage('shopPage'); renderShop(); }
     function showExchange() { switchPage('exchangePage'); }
     function showRedeem() { switchPage('redeemPage'); }
-    function showBotControl() { switchPage('botControlPage'); }
     function showAdmin() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; } switchPage('adminPage'); }
     function openProfile() { if(!isLoggedIn){ performGoogleLogin(); return; } switchPage('profilePage'); }
     
@@ -745,6 +808,90 @@
     function closeSideMenu() { document.getElementById('sideMenu').classList.remove('open'); document.getElementById('sideMenuOverlay').classList.remove('open'); }
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+    
+    // ========== BOT TRADE MODAL FUNCTIONS ==========
+    function openBotTradeModal(type, amount, items) {
+        const modal = document.getElementById('botTradeModal');
+        const transactionAmount = document.getElementById('transactionAmount');
+        const transactionItems = document.getElementById('transactionItems');
+        
+        if (type === 'exchange') {
+            transactionAmount.innerHTML = `<i class="fas fa-plus-circle"></i> +${amount} credits`;
+            transactionAmount.style.color = '#10b981';
+            transactionItems.innerHTML = `You will receive ${amount} credits for: ${items}`;
+        } else if (type === 'redeem') {
+            transactionAmount.innerHTML = `<i class="fas fa-minus-circle"></i> -${amount} credits`;
+            transactionAmount.style.color = '#f59e0b';
+            transactionItems.innerHTML = `You are spending ${amount} credits for: ${items}`;
+        } else if (type === 'shop') {
+            transactionAmount.innerHTML = `<i class="fas fa-shopping-cart"></i> Purchase: ${amount}`;
+            transactionAmount.style.color = '#87CEEB';
+            transactionItems.innerHTML = `You are purchasing: ${items}`;
+        }
+        
+        modal.classList.add('show');
+    }
+    
+    function closeBotTradeModal() {
+        const modal = document.getElementById('botTradeModal');
+        modal.classList.remove('show');
+        pendingTransaction = null;
+    }
+    
+    function joinBotServer() {
+        window.open(BOT_JOIN_LINK, '_blank');
+        showToast("Opening Roblox bot server...");
+        
+        // If there's a pending transaction, complete it after they join
+        if (pendingTransaction) {
+            setTimeout(() => {
+                if (confirm("Have you joined the bot and completed the trade? Click OK to confirm.")) {
+                    completePendingTransaction();
+                }
+            }, 5000);
+        }
+    }
+    
+    function viewBotProfile() {
+        window.open(BOT_PROFILE_LINK, '_blank');
+        showToast("Opening bot profile...");
+    }
+    
+    function completePendingTransaction() {
+        if (!pendingTransaction) return;
+        
+        if (pendingTransaction.type === 'exchange') {
+            luckBalance += pendingTransaction.amount;
+            saveLuckBalance();
+            updateLuckDisplay();
+            showToast(`✅ +${pendingTransaction.amount} credits added!`);
+            
+            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎮 EXCHANGE: ${currentUser?.displayName} exchanged ${pendingTransaction.items} for +${pendingTransaction.amount} credits` }) }).catch(()=>{});
+            
+            tradeCart = [];
+            renderExchange();
+            updateTradeBar();
+        } 
+        else if (pendingTransaction.type === 'redeem') {
+            luckBalance -= pendingTransaction.amount;
+            saveLuckBalance();
+            updateLuckDisplay();
+            showToast(`✅ Redeemed ${pendingTransaction.items}!`);
+            
+            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎁 REDEEM: ${currentUser?.displayName} redeemed ${pendingTransaction.items} for ${pendingTransaction.amount} credits` }) }).catch(()=>{});
+            
+            renderRedeem();
+        }
+        else if (pendingTransaction.type === 'shop') {
+            showToast(`✅ Purchase completed! You will receive ${pendingTransaction.items} soon.`);
+            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🛒 PURCHASE: ${currentUser?.displayName} purchased ${pendingTransaction.items} for ${pendingTransaction.amount}` }) }).catch(()=>{});
+            cart = [];
+            updateCartUI();
+        }
+        
+        closeBotTradeModal();
+        pendingTransaction = null;
+    }
     
     // ========== EXCHANGE FUNCTIONS (Get Credits) ==========
     function renderExchange() {
@@ -805,19 +952,19 @@
         if (tradeCart.length === 0) return;
         
         const total = tradeCart.reduce((s, i) => s + i.creditsValue, 0);
-        luckBalance += total;
-        saveLuckBalance();
-        updateLuckDisplay();
-        showToast(`✅ +${total} credits added!`);
+        const itemsList = tradeCart.map(i => i.name).join(', ');
         
-        addBotLog(`Trade completed: ${currentUser?.displayName} exchanged ${tradeCart.map(i=>i.name).join(', ')} for +${total} credits`, "success");
-        
-        fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎮 TRADE: ${currentUser?.displayName} got +${total} credits for ${tradeCart.map(i=>i.name).join(', ')}` }) }).catch(()=>{});
-        
-        tradeCart = [];
-        renderExchange();
-        updateTradeBar();
         closeConfirmModal();
+        
+        // Store pending transaction
+        pendingTransaction = {
+            type: 'exchange',
+            amount: total,
+            items: itemsList
+        };
+        
+        // Show bot trade modal
+        openBotTradeModal('exchange', total, itemsList);
     }
     
     // ========== REDEEM FUNCTIONS (Spend Credits) ==========
@@ -839,17 +986,16 @@
         
         const item = redeemItems.find(i => i.id === id);
         if (luckBalance < item.cost) { showToast(`Need ${item.cost} credits! You have ${luckBalance}`); return; }
-        if (confirm(`Redeem ${item.name} for ${item.cost} credits?`)) {
-            luckBalance -= item.cost;
-            saveLuckBalance();
-            updateLuckDisplay();
-            showToast(`✅ Redeemed ${item.name}!`);
-            
-            addBotLog(`Redeem: ${currentUser?.displayName} redeemed ${item.name} for ${item.cost} credits`, "success");
-            
-            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎁 REDEEM: ${currentUser?.displayName} redeemed ${item.name} for ${item.cost} credits` }) }).catch(()=>{});
-            renderRedeem();
-        }
+        
+        // Store pending transaction
+        pendingTransaction = {
+            type: 'redeem',
+            amount: item.cost,
+            items: item.name
+        };
+        
+        // Show bot trade modal
+        openBotTradeModal('redeem', item.cost, item.name);
     }
     
     // ========== SHOP FUNCTIONS (Real Money) ==========
@@ -890,7 +1036,22 @@
     }
     function updateQty(id, n) { if(n <= 0) removeFromCart(id); else { const i = cart.find(i => i.id === id); if(i) i.quantity = n; updateCartUI(); } }
     function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
-    function checkout() { if(!verifiedRoblox) { showToast("Verify Roblox first"); openVerificationModal(); return; } showToast("Checkout coming soon!"); }
+    function checkout() { 
+        if(!verifiedRoblox) { showToast("Verify Roblox first"); openVerificationModal(); return; }
+        if(cart.length === 0) { showToast("Cart is empty"); return; }
+        
+        const total = cart.reduce((s,i) => s + (i.price * i.quantity), 0);
+        const itemsList = cart.map(i => `${i.quantity}x ${i.name}`).join(', ');
+        const totalDisplay = `${getSymbol()}${getDisplayPrice(total)}`;
+        
+        pendingTransaction = {
+            type: 'shop',
+            amount: totalDisplay,
+            items: itemsList
+        };
+        
+        openBotTradeModal('shop', totalDisplay, itemsList);
+    }
     
     // ========== CONVERT CREDITS ==========
     function convertCredits() {
@@ -903,99 +1064,6 @@
         const fee = converted * conversionMarkup;
         const total = converted + fee;
         document.getElementById('convertResult').innerHTML = `<i class="fas fa-coins"></i> ${amount} credits = ${symbols[currency]}${total.toFixed(2)}<br><span style="font-size:12px;"><i class="fas fa-info-circle"></i> Rate: ${symbols[currency]}${rates[currency]} per credit + 5% fee = ${symbols[currency]}${fee.toFixed(2)} fee</span>`;
-    }
-    
-    // ========== BOT CONTROL FUNCTIONS ==========
-    function addBotLog(message, type = "info") {
-        const logEntry = { time: new Date().toLocaleTimeString(), message: message, type: type };
-        botLogs.unshift(logEntry);
-        if (botLogs.length > 50) botLogs.pop();
-        updateBotUI();
-    }
-    
-    function updateBotUI() {
-        const logsContainer = document.getElementById('tradeLogs');
-        if (logsContainer) {
-            logsContainer.innerHTML = botLogs.map(log => `
-                <div class="log-entry">
-                    <div class="log-time">${log.time}</div>
-                    <div class="log-message" style="color: ${log.type === 'error' ? '#ef4444' : log.type === 'success' ? '#10b981' : '#1a1a2e'}">${log.message}</div>
-                </div>
-            `).join('');
-        }
-        
-        const queueContainer = document.getElementById('queueList');
-        if (queueContainer) {
-            if (botQueue.length === 0) {
-                queueContainer.innerHTML = '<div class="log-entry">No pending trades</div>';
-            } else {
-                queueContainer.innerHTML = botQueue.map((item, i) => `
-                    <div class="log-entry">
-                        <div class="log-time">Queue Position: ${i + 1}</div>
-                        <div class="log-message">${item.command} - Status: ${item.status}</div>
-                    </div>
-                `).join('');
-            }
-        }
-        
-        document.getElementById('queueLength').innerText = botQueue.length;
-        document.getElementById('totalTrades').innerText = botLogs.filter(l => l.type === 'success').length;
-    }
-    
-    function sendBotCommand() {
-        const command = document.getElementById('commandInput').value.trim();
-        if (!command) return;
-        
-        addBotLog(`Command sent: ${command}`, "info");
-        
-        // Process command
-        if (command.toLowerCase().startsWith("get items from")) {
-            const username = command.replace(/get items from /i, "").trim();
-            addBotLog(`Bot will get items from ${username}`, "success");
-            botQueue.push({ command: command, username: username, status: "pending" });
-        } 
-        else if (command.toLowerCase().startsWith("give items to")) {
-            const username = command.replace(/give items to /i, "").trim();
-            addBotLog(`Bot will give items to ${username}`, "success");
-            botQueue.push({ command: command, username: username, status: "pending" });
-        }
-        else if (command.toLowerCase() === "check inventory") {
-            addBotLog(`Bot inventory: Batwing, Harvester, Icewing, Luger, Candy, Shark`, "info");
-        }
-        else if (command.toLowerCase().startsWith("broadcast")) {
-            const message = command.replace(/broadcast /i, "").trim();
-            addBotLog(`Bot broadcasting: ${message}`, "info");
-        }
-        else {
-            addBotLog(`Unknown command: ${command}`, "error");
-        }
-        
-        document.getElementById('commandInput').value = "";
-        updateBotUI();
-        
-        // Simulate bot processing queue
-        setTimeout(() => {
-            if (botQueue.length > 0) {
-                const processing = botQueue.shift();
-                addBotLog(`Processing: ${processing.command} - Completed!`, "success");
-                updateBotUI();
-            }
-        }, 3000);
-    }
-    
-    function emergencyStop() {
-        addBotLog(`⚠️ EMERGENCY STOP - Bot stopped all operations`, "error");
-        botQueue = [];
-        updateBotUI();
-        showToast("Bot emergency stopped");
-    }
-    
-    function resetBot() {
-        addBotLog(`Bot reset - Clearing all queues and logs`, "info");
-        botQueue = [];
-        botLogs = [];
-        updateBotUI();
-        showToast("Bot reset complete");
     }
     
     // ========== POINTS SYSTEM ==========
@@ -1072,7 +1140,7 @@
     }
     
     window.handleAuthStateChanged = function(user) { 
-        if(user) { isLoggedIn = true; currentUser = user; updateHeaderDisplay(); loadLuckBalance(); loadPoints(); const adminBtn = document.getElementById('adminNavBtn'); if(user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; else adminBtn.style.display = 'none'; showToast(`Welcome ${user.displayName || 'User'}!`); updateProfileUI(); addBotLog(`User ${user.displayName} logged in`, "success"); } 
+        if(user) { isLoggedIn = true; currentUser = user; updateHeaderDisplay(); loadLuckBalance(); loadPoints(); const adminBtn = document.getElementById('adminNavBtn'); if(user.email === ADMIN_EMAIL) adminBtn.style.display = 'block'; else adminBtn.style.display = 'none'; showToast(`Welcome ${user.displayName || 'User'}!`); updateProfileUI(); } 
         else { isLoggedIn = false; currentUser = null; updateHeaderDisplay(); loadLuckBalance(); loadPoints(); document.getElementById('adminNavBtn').style.display = 'none'; } 
         renderShop(); 
     };
@@ -1087,7 +1155,7 @@
     setTimeout(typeEffect, 500);
     
     // Expose global functions
-    window.showHome=showHome; window.showShop=showShop; window.showExchange=showExchange; window.showRedeem=showRedeem; window.showBotControl=showBotControl; window.showAdmin=showAdmin; window.openProfile=openProfile;
+    window.showHome=showHome; window.showShop=showShop; window.showExchange=showExchange; window.showRedeem=showRedeem; window.showAdmin=showAdmin; window.openProfile=openProfile;
     window.toggleCart=toggleCart; window.closeCart=closeCart; window.changeCurrency=changeCurrency; window.performGoogleLogin=performGoogleLogin; window.performGoogleLogout=performGoogleLogout;
     window.openPurchase=openPurchase; window.closePurchaseModal=closePurchaseModal; window.addToCart=addToCart; window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.checkout=checkout;
     window.toggleTradeItem=toggleTradeItem; window.showTradeConfirm=showTradeConfirm; window.closeConfirmModal=closeConfirmModal; window.finalizeTrade=finalizeTrade;
@@ -1095,7 +1163,7 @@
     window.showPointsRedeem=showPointsRedeem; window.closePointsRedeemModal=closePointsRedeemModal; window.redeemPointsItem=redeemPointsItem;
     window.openVerificationModal=openVerificationModal; window.closeVerifModal=closeVerifModal; window.checkUser=checkUser; window.verifyBio=verifyBio;
     window.toggleSideMenu=toggleSideMenu; window.closeSideMenu=closeSideMenu; window.switchGoogleAccount=switchGoogleAccount;
-    window.sendBotCommand=sendBotCommand; window.emergencyStop=emergencyStop; window.resetBot=resetBot;
+    window.openBotTradeModal=openBotTradeModal; window.closeBotTradeModal=closeBotTradeModal; window.joinBotServer=joinBotServer; window.viewBotProfile=viewBotProfile;
 </script>
 </body>
 </html>
