@@ -166,7 +166,7 @@
         
         .menu-icon { font-size: 24px; cursor: pointer; background: rgba(135, 206, 235, 0.1); padding: 8px 16px; border-radius: 40px; display: none; color: #1a1a2e; }
         
-        /* Page Transitions - NO WHITE FLASH */
+        /* Page Transitions */
         .page-container { position: relative; min-height: calc(100vh - 80px); }
         .page { 
             position: absolute; 
@@ -251,190 +251,306 @@
         .convert-btn:hover { transform: scale(1.02); }
         .convert-result { margin-top: 15px; padding: 12px; background: rgba(135,206,235,0.1); border-radius: 20px; text-align: center; font-weight: 600; border: 1px solid rgba(135,206,235,0.3); }
         
-        /* NEW Exchange Bottom Bar */
+        /* Exchange Bottom Bar - ONLY VIEW ITEMS */
         .exchange-bottom-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: white;
+            background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));
+            backdrop-filter: blur(10px);
             border-top: 3px solid #87CEEB;
-            box-shadow: 0 -5px 30px rgba(0,0,0,0.1);
-            padding: 15px 5%;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+            padding: 20px 5%;
             z-index: 50;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            gap: 20px;
             flex-wrap: wrap;
-            gap: 15px;
         }
         
         .view-items-btn {
             background: linear-gradient(135deg, #87CEEB, #6c5ce7);
             border: none;
-            padding: 12px 28px;
-            border-radius: 40px;
+            padding: 16px 40px;
+            border-radius: 60px;
             color: white;
-            font-weight: 700;
+            font-weight: 800;
+            font-size: 18px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            box-shadow: 0 4px 15px rgba(135,206,235,0.3);
         }
         
         .view-items-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(135,206,235,0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(135,206,235,0.4);
         }
         
-        .trade-now-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            border: none;
-            padding: 12px 28px;
+        .selected-count-badge {
+            background: rgba(255,255,255,0.3);
             border-radius: 40px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 18px;
-        }
-        
-        .trade-now-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(16,185,129,0.4);
-        }
-        
-        .selected-items-preview {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-            flex: 1;
-        }
-        
-        .selected-badge {
-            background: rgba(135,206,235,0.1);
-            border-radius: 30px;
-            padding: 8px 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            padding: 4px 12px;
             font-size: 14px;
         }
         
-        /* Bot Trade Modal */
-        .bot-trade-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+        /* Confirmation Modal */
+        .confirmation-modal, .premium-modal, .verification-modal, .bot-trade-modal { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.85); 
+            backdrop-filter: blur(20px); 
+            z-index: 1000; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: all 0.3s ease; 
+        }
+        .confirmation-modal.show, .premium-modal.show, .verification-modal.show, .bot-trade-modal.show { 
+            opacity: 1; 
+            visibility: visible; 
         }
         
-        .bot-trade-modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .bot-trade-content {
-            background: white;
-            border-radius: 40px;
+        /* Items Confirmation Modal */
+        .items-confirm-content {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border-radius: 50px;
             padding: 40px;
-            max-width: 500px;
+            max-width: 550px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            border: 2px solid rgba(135,206,235,0.5);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+        
+        .confirmation-modal.show .items-confirm-content {
+            transform: scale(1);
+        }
+        
+        .items-list-container {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 20px 0;
+            background: #f5f7fa;
+            border-radius: 30px;
+            padding: 15px;
+        }
+        
+        .confirm-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 20px;
+            border-left: 4px solid #87CEEB;
+        }
+        
+        /* Bot Trade Modal - EXCITING DESIGN */
+        .bot-trade-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 60px;
+            padding: 40px;
+            max-width: 550px;
             width: 90%;
             text-align: center;
             transform: scale(0.9);
             transition: transform 0.3s ease;
             border: 3px solid #87CEEB;
+            box-shadow: 0 0 50px rgba(135,206,235,0.3);
+            position: relative;
+            overflow: hidden;
         }
         
-        .bot-trade-modal.show .bot-trade-content {
-            transform: scale(1);
+        .bot-trade-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(135,206,235,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .bot-trade-content h2 {
+            color: white;
+            font-family: 'Orbitron', monospace;
+            font-size: 28px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .bot-avatar-frame {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 1;
         }
         
         .bot-avatar {
-            width: 120px;
-            height: 120px;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            margin: 20px auto;
             border: 4px solid #87CEEB;
+            box-shadow: 0 0 30px rgba(135,206,235,0.5);
             object-fit: cover;
             background: linear-gradient(135deg, #87CEEB, #FFB6C1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
+            animation: pulse 2s infinite;
         }
         
-        .bot-info {
-            background: #f5f7fa;
-            padding: 20px;
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(135,206,235,0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(135,206,235,0.8); }
+        }
+        
+        .bot-info-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
             border-radius: 30px;
+            padding: 20px;
             margin: 20px 0;
             text-align: left;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(135,206,235,0.3);
         }
         
-        .bot-info p {
-            margin: 10px 0;
+        .bot-info-row {
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-        
-        .instructions {
-            background: rgba(135,206,235,0.1);
-            padding: 15px;
-            border-radius: 20px;
-            margin: 20px 0;
-            text-align: left;
-        }
-        
-        .instructions h4 {
-            color: #87CEEB;
-            margin-bottom: 10px;
-        }
-        
-        .instructions ol {
-            margin-left: 20px;
-        }
-        
-        .instructions li {
+            gap: 15px;
+            padding: 12px;
             margin: 8px 0;
-            color: #555;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        
+        .bot-info-row:hover {
+            background: rgba(135,206,235,0.2);
+            transform: translateX(5px);
+        }
+        
+        .bot-info-row i {
+            width: 30px;
+            font-size: 20px;
+            color: #87CEEB;
+        }
+        
+        .bot-info-row .label {
+            color: #aaa;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .bot-info-row .value {
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .credit-amount {
+            font-size: 28px;
+            font-weight: 800;
+            color: #FFB6C1;
+            text-shadow: 0 0 10px rgba(255,182,193,0.5);
+        }
+        
+        .instructions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .instruction-step {
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(135,206,235,0.2);
+        }
+        
+        .instruction-step:hover {
+            background: rgba(135,206,235,0.15);
+            transform: translateY(-3px);
+        }
+        
+        .instruction-step i {
+            font-size: 28px;
+            color: #87CEEB;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .instruction-step p {
+            color: white;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .instruction-step strong {
+            color: #FFB6C1;
+            display: block;
+            font-size: 14px;
         }
         
         .bot-actions {
             display: flex;
             gap: 15px;
-            margin-top: 20px;
+            margin: 20px 0 15px;
+            position: relative;
+            z-index: 1;
         }
         
-        .bot-actions button {
+        .join-btn, .profile-btn, .close-bot-modal {
             flex: 1;
-            padding: 12px;
-            border-radius: 40px;
-            font-weight: 700;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 800;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s;
             border: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         .join-btn {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
+            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+        }
+        
+        .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16,185,129,0.4);
         }
         
         .profile-btn {
@@ -442,93 +558,61 @@
             color: white;
         }
         
+        .profile-btn:hover {
+            transform: translateY(-2px);
+        }
+        
         .close-bot-modal {
-            background: #ef4444;
+            background: rgba(239,68,68,0.9);
             color: white;
-            margin-top: 15px;
             width: 100%;
         }
         
-        /* Modals */
-        .confirmation-modal, .premium-modal, .verification-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
-        .confirmation-modal.show, .premium-modal.show, .verification-modal.show { opacity: 1; visibility: visible; }
-        .confirmation-content, .premium-modal-content, .verification-content { background: white; border-radius: 40px; padding: 35px; max-width: 500px; width: 90%; text-align: center; transform: scale(0.9); transition: transform 0.3s ease; border: 2px solid rgba(135,206,235,0.4); }
+        .close-bot-modal:hover {
+            background: #ef4444;
+            transform: translateY(-2px);
+        }
+        
+        /* Other Modals */
+        .confirmation-content, .premium-modal-content, .verification-content { 
+            background: white; 
+            border-radius: 40px; 
+            padding: 35px; 
+            max-width: 500px; 
+            width: 90%; 
+            text-align: center; 
+            transform: scale(0.9); 
+            transition: transform 0.3s ease; 
+            border: 2px solid rgba(135,206,235,0.4); 
+        }
         .confirmation-modal.show .confirmation-content, .premium-modal.show .premium-modal-content, .verification-modal.show .verification-content { transform: scale(1); }
-        .verification-avatar { width: 150px; height: 150px; border-radius: 50%; margin: 20px auto; border: 4px solid #87CEEB; object-fit: cover; }
-        .verification-code { background: #f0f4f8; padding: 12px; border-radius: 20px; font-family: monospace; font-size: 14px; word-break: break-all; margin: 15px 0; border: 1px solid rgba(135,206,235,0.3); }
+        
         .btn-green { background: linear-gradient(135deg, #10b981, #059669); border: none; padding: 12px 25px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; margin: 5px; transition: 0.2s; }
         .btn-green:hover { transform: scale(1.02); }
         .btn-red { background: linear-gradient(135deg, #ef4444, #dc2626); border: none; padding: 12px 25px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; margin: 5px; transition: 0.2s; }
         .btn-red:hover { transform: scale(1.02); }
         
-        /* Improved TextBox UI */
-        input, select, textarea {
-            background: white;
-            border: 2px solid rgba(135, 206, 235, 0.4);
-            border-radius: 40px;
-            padding: 14px 20px;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            outline: none;
-            font-family: 'Inter', sans-serif;
-        }
-        input:focus, select:focus, textarea:focus {
-            border-color: #87CEEB;
-            box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.2);
-        }
-        
         /* Cart Sidebar */
         .cart-sidebar { position: fixed; top: 0; right: -500px; width: 500px; height: 100vh; background: white; z-index: 1000; transition: right 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1); padding: 25px; display: flex; flex-direction: column; border-left: 3px solid #87CEEB; box-shadow: -5px 0 30px rgba(0,0,0,0.1); }
         .cart-sidebar.open { right: 0; }
         .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid rgba(135,206,235,0.3); }
-        .cart-header h3 { font-size: 24px; color: #1a1a2e; }
-        .close-cart { background: rgba(0,0,0,0.05); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 24px; transition: 0.2s; }
-        .close-cart:hover { background: #FFB6C1; transform: rotate(90deg); }
-        .cart-items { flex: 1; overflow-y: auto; padding-right: 10px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.06); animation: slideIn 0.3s ease; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        .cart-item-actions { display: flex; align-items: center; gap: 12px; }
-        .cart-qty-btn { background: rgba(135,206,235,0.1); border: 1px solid rgba(135,206,235,0.3); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; transition: 0.2s; font-weight: bold; }
-        .cart-qty-btn:hover { background: #87CEEB; transform: scale(1.05); }
-        .cart-remove-btn { background: rgba(255,182,193,0.2); border: 1px solid rgba(255,182,193,0.4); color: #FFB6C1; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; transition: 0.2s; }
-        .cart-remove-btn:hover { background: #FFB6C1; color: white; transform: scale(1.05); }
+        .cart-items { flex: 1; overflow-y: auto; }
         .cart-footer { margin-top: 20px; padding-top: 20px; border-top: 2px solid rgba(135,206,235,0.3); }
-        .cart-subtotal { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 18px; color: #1a1a2e; }
-        .cart-subtotal span:last-child { font-weight: 800; color: #87CEEB; font-size: 22px; }
-        .checkout-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #87CEEB, #FFB6C1); border: none; border-radius: 40px; color: #1a1a2e; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.2s; margin-top: 15px; }
-        .checkout-btn:hover { transform: scale(1.02); box-shadow: 0 4px 15px rgba(135,206,235,0.3); }
-        
-        /* Improved Add to Cart UI */
-        .add-to-cart-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border: none;
-            padding: 14px 30px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
-        }
-        .add-to-cart-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
-        }
+        .checkout-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #87CEEB, #FFB6C1); border: none; border-radius: 40px; color: #1a1a2e; font-weight: 700; cursor: pointer; }
         
         /* Side Menu */
         .side-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: 0.3s; }
         .side-menu-overlay.open { opacity: 1; visibility: visible; }
-        .side-menu { position: fixed; top: 0; left: -300px; width: 300px; height: 100vh; background: white; z-index: 1001; transition: left 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1); padding: 20px; border-right: 3px solid #87CEEB; box-shadow: 5px 0 30px rgba(0,0,0,0.05); }
+        .side-menu { position: fixed; top: 0; left: -300px; width: 300px; height: 100vh; background: white; z-index: 1001; transition: left 0.35s; padding: 20px; border-right: 3px solid #87CEEB; }
         .side-menu.open { left: 0; }
-        .menu-item { padding: 15px 20px; margin: 10px 0; border-radius: 40px; cursor: pointer; background: rgba(135,206,235,0.1); transition: all 0.2s; color: #1a1a2e; font-weight: 500; border: 1px solid rgba(135,206,235,0.2); }
-        .menu-item:hover { background: linear-gradient(135deg, #87CEEB, #FFB6C1); transform: translateX(8px); border-color: transparent; }
+        .menu-item { padding: 15px 20px; margin: 10px 0; border-radius: 40px; cursor: pointer; background: rgba(135,206,235,0.1); transition: all 0.2s; }
+        .menu-item:hover { background: linear-gradient(135deg, #87CEEB, #FFB6C1); transform: translateX(8px); }
         
         /* Profile Card */
-        .profile-card { background: white; border-radius: 40px; padding: 35px; max-width: 500px; margin: 0 auto; text-align: center; border: 2px solid rgba(135,206,235,0.4); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .profile-card { background: white; border-radius: 40px; padding: 35px; max-width: 500px; margin: 0 auto; text-align: center; border: 2px solid rgba(135,206,235,0.4); }
         .profile-avatar { width: 120px; height: 120px; border-radius: 50%; margin-bottom: 20px; border: 4px solid #87CEEB; object-fit: cover; }
         
-        .toast { position: fixed; bottom: 100px; left: 30px; background: #10b981; padding: 12px 24px; border-radius: 40px; z-index: 2000; transform: translateX(-400px); transition: transform 0.3s; color: white; font-weight: 500; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .toast { position: fixed; bottom: 100px; left: 30px; background: #10b981; padding: 12px 24px; border-radius: 40px; z-index: 2000; transform: translateX(-400px); transition: transform 0.3s; color: white; font-weight: 500; }
         .toast.show { transform: translateX(0); }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: 0.3s; }
         .overlay.show { opacity: 1; visibility: visible; }
@@ -537,12 +621,9 @@
             .nav-links { display: none; }
             .menu-icon { display: block; }
             .cart-sidebar { width: 100%; right: -100%; }
-            .items-exchange-grid, .items-redeem-grid { grid-template-columns: repeat(2, 1fr); }
             .products-grid { grid-template-columns: 1fr; }
-            .convert-grid { flex-direction: column; }
-            .hero-title { font-size: 38px; }
-            .exchange-bottom-bar { flex-direction: column; }
-            .selected-items-preview { justify-content: center; }
+            .instructions-grid { grid-template-columns: 1fr; }
+            .bot-actions { flex-direction: column; }
         }
     </style>
 </head>
@@ -633,47 +714,98 @@
     <div id="adminPage" class="page"><div class="container"><h2><i class="fas fa-crown"></i> Admin Panel</h2><div id="adminContent">Admin controls here</div></div></div>
 
     <!-- PROFILE PAGE -->
-    <div id="profilePage" class="page"><div class="container"><div class="profile-card"><img id="profileAvatarImg" src="https://ui-avatars.com/api/?name=User&background=87CEEB&color=fff&size=120" class="profile-avatar"><h2 id="profileName">Guest</h2><p id="profileRobloxStatus" style="background:rgba(135,206,235,0.1); display:inline-block; padding:6px 15px; border-radius:30px; margin:10px 0;"><i class="fab fa-roblox"></i> Not verified</p><div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:25px 0;"><div style="background:#f5f7fa; border-radius:30px; padding:20px; border:1px solid rgba(135,206,235,0.3);"><div style="font-size:32px; font-weight:800; color:#87CEEB;" id="profilePoints">0</div><div><i class="fas fa-star"></i> Points</div></div><div style="background:#f5f7fa; border-radius:30px; padding:20px; border:1px solid rgba(135,206,235,0.3);"><div style="font-size:32px; font-weight:800; color:#87CEEB;" id="profileCredits">0</div><div><i class="fas fa-coins"></i> Credits</div></div></div><button onclick="openVerificationModal()" class="btn-green" style="width:100%;"><i class="fab fa-roblox"></i> Verify Roblox</button><button onclick="switchGoogleAccount()" class="btn-red" style="width:100%; margin-top:10px;"><i class="fas fa-exchange-alt"></i> Switch Account</button></div></div></div>
+    <div id="profilePage" class="page"><div class="container"><div class="profile-card"><img id="profileAvatarImg" src="https://ui-avatars.com/api/?name=User&background=87CEEB&color=fff&size=120" class="profile-avatar"><h2 id="profileName">Guest</h2><p id="profileRobloxStatus" style="background:rgba(135,206,235,0.1); display:inline-block; padding:6px 15px; border-radius:30px; margin:10px 0;"><i class="fab fa-roblox"></i> Not verified</p><div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:25px 0;"><div style="background:#f5f7fa; border-radius:30px; padding:20px;"><div style="font-size:32px; font-weight:800; color:#87CEEB;" id="profilePoints">0</div><div><i class="fas fa-star"></i> Points</div></div><div style="background:#f5f7fa; border-radius:30px; padding:20px;"><div style="font-size:32px; font-weight:800; color:#87CEEB;" id="profileCredits">0</div><div><i class="fas fa-coins"></i> Credits</div></div></div><button onclick="openVerificationModal()" class="btn-green" style="width:100%;"><i class="fab fa-roblox"></i> Verify Roblox</button><button onclick="switchGoogleAccount()" class="btn-red" style="width:100%; margin-top:10px;"><i class="fas fa-exchange-alt"></i> Switch Account</button></div></div></div>
 </div>
 
-<!-- NEW Exchange Bottom Bar -->
+<!-- Exchange Bottom Bar - ONLY VIEW ITEMS BUTTON -->
 <div id="exchangeBottomBar" class="exchange-bottom-bar" style="display: none;">
-    <button class="view-items-btn" onclick="viewSelectedItems()">
-        <i class="fas fa-eye"></i> View Items (<span id="selectedCount">0</span>)
-    </button>
-    <div class="selected-items-preview" id="selectedItemsPreview"></div>
-    <button class="trade-now-btn" onclick="openBotTradeModal()">
-        <i class="fas fa-exchange-alt"></i> Trade Now!
+    <button class="view-items-btn" onclick="showItemsConfirmation()">
+        <i class="fas fa-eye"></i> View Items 
+        <span class="selected-count-badge" id="selectedCount">0</span>
     </button>
 </div>
 
-<!-- Bot Trade Modal -->
+<!-- Items Confirmation Modal -->
+<div id="itemsConfirmModal" class="confirmation-modal">
+    <div class="items-confirm-content">
+        <i class="fas fa-shopping-cart" style="font-size: 50px; color: #87CEEB; margin-bottom: 15px;"></i>
+        <h2 style="color: #1a1a2e; margin-bottom: 10px;">Your Selected Items</h2>
+        <p style="color: #666; margin-bottom: 20px;">Review the items you want to trade</p>
+        <div class="items-list-container" id="itemsConfirmList"></div>
+        <div style="font-size: 24px; font-weight: 800; color: #10b981; margin: 20px 0;">
+            <i class="fas fa-coins"></i> Total: <span id="confirmTotalCredits">0</span> credits
+        </div>
+        <button class="btn-green" onclick="proceedToBotTrade()">
+            <i class="fas fa-arrow-right"></i> Continue to Trade
+        </button>
+        <button class="btn-red" onclick="closeItemsConfirmModal()">
+            <i class="fas fa-times"></i> Cancel
+        </button>
+    </div>
+</div>
+
+<!-- Bot Trade Modal - EXCITING REDESIGN -->
 <div id="botTradeModal" class="bot-trade-modal">
     <div class="bot-trade-content">
-        <h2><i class="fab fa-roblox"></i> Trade with Bot</h2>
-        <div class="bot-avatar">
-            <i class="fas fa-robot"></i>
+        <h2><i class="fab fa-roblox"></i> TRADE WITH BOT</h2>
+        
+        <div class="bot-avatar-frame">
+            <img class="bot-avatar" src="https://www.roblox.com/headshot-thumbnail/image?userId=1&width=420&height=420&format=png" alt="EchoKnivesBot" onerror="this.src='https://ui-avatars.com/api/?name=EchoKnivesBot&background=87CEEB&color=fff&size=140'">
         </div>
-        <div class="bot-info">
-            <p><i class="fas fa-user"></i> <strong>Username:</strong> @SIGMAKE5</p>
-            <p><i class="fas fa-id-card"></i> <strong>Display Name:</strong> SIGMAKE5</p>
-            <p><i class="fas fa-chart-line"></i> <strong>Total Credits:</strong> <span id="botTradeTotal">0</span> credits</p>
+        
+        <div class="bot-info-card">
+            <div class="bot-info-row">
+                <i class="fas fa-user-astronaut"></i>
+                <div>
+                    <div class="label">BOT NAME</div>
+                    <div class="value">EchoKnivesBot</div>
+                </div>
+            </div>
+            <div class="bot-info-row">
+                <i class="fas fa-tag"></i>
+                <div>
+                    <div class="label">USERNAME</div>
+                    <div class="value">@SIGMAKE5</div>
+                </div>
+            </div>
+            <div class="bot-info-row">
+                <i class="fas fa-coins"></i>
+                <div>
+                    <div class="label">YOU WILL RECEIVE</div>
+                    <div class="value credit-amount" id="botTotalCredits">0</div>
+                </div>
+            </div>
         </div>
-        <div class="instructions">
-            <h4><i class="fas fa-info-circle"></i> How to Trade:</h4>
-            <ol>
-                <li>📱 <strong>Join the Bot</strong> - Click Join Bot below</li>
-                <li>⏳ <strong>Wait for your turn</strong> - Be patient in queue</li>
-                <li>🎁 <strong>Give your items</strong> - Trade items to the bot</li>
-                <li>💰 <strong>Get credits!</strong> - Receive credits instantly</li>
-            </ol>
+        
+        <div class="instructions-grid">
+            <div class="instruction-step">
+                <i class="fas fa-sign-in-alt"></i>
+                <strong>Step 1</strong>
+                <p>Join the Bot</p>
+            </div>
+            <div class="instruction-step">
+                <i class="fas fa-clock"></i>
+                <strong>Step 2</strong>
+                <p>Wait for your turn</p>
+            </div>
+            <div class="instruction-step">
+                <i class="fas fa-gift"></i>
+                <strong>Step 3</strong>
+                <p>Give your items</p>
+            </div>
+            <div class="instruction-step">
+                <i class="fas fa-chart-line"></i>
+                <strong>Step 4</strong>
+                <p>Get credits!</p>
+            </div>
         </div>
+        
         <div class="bot-actions">
             <button class="join-btn" onclick="joinBot()">
-                <i class="fas fa-sign-in-alt"></i> Join Bot
+                <i class="fas fa-arrow-right"></i> JOIN BOT
             </button>
             <button class="profile-btn" onclick="viewBotProfile()">
-                <i class="fab fa-roblox"></i> View Bot Profile
+                <i class="fab fa-roblox"></i> VIEW PROFILE
             </button>
         </div>
         <button class="close-bot-modal" onclick="closeBotTradeModal()">
@@ -682,22 +814,15 @@
     </div>
 </div>
 
-<!-- Confirmation Modal -->
-<div id="confirmModal" class="confirmation-modal"><div class="confirmation-content"><h3><i class="fas fa-question-circle"></i> Confirm Trade</h3><div id="confirmItemsList" style="max-height:200px; overflow-y:auto; margin:15px 0;"></div><div class="confirmation-total" id="confirmTotal" style="font-size:24px; font-weight:800; color:#10b981;"><i class="fas fa-coins"></i> Total: 0 credits</div><button class="btn-green" onclick="finalizeTrade()"><i class="fas fa-check"></i> Confirm</button><button class="btn-red" onclick="closeConfirmModal()"><i class="fas fa-times"></i> Cancel</button></div></div>
+<!-- Other Modals -->
+<div id="purchaseModal" class="premium-modal"><div class="premium-modal-content"><img id="modalItemImg" style="width:120px; height:120px; object-fit:contain;"><h3 id="modalItemName" style="margin:15px 0;"></h3><p id="modalItemPrice" style="font-size:24px; color:#87CEEB; font-weight:800;"></p><input type="number" id="modalQuantity" value="1" min="1" style="width:100%; padding:10px; margin:10px 0;"><button class="add-to-cart-btn" onclick="addToCart()"><i class="fas fa-cart-plus"></i> Add to Cart</button><button class="btn-red" onclick="closePurchaseModal()">Cancel</button></div></div>
 
-<!-- Purchase Modal (Improved Add to Cart UI) -->
-<div id="purchaseModal" class="premium-modal"><div class="premium-modal-content"><img id="modalItemImg" style="width:120px; height:120px; object-fit:contain; border-radius:20px;"><h3 id="modalItemName" style="margin:15px 0; color:#1a1a2e;"></h3><p id="modalItemPrice" style="font-size:24px; color:#87CEEB; font-weight:800;"></p><div class="convert-input-group" style="margin:15px 0;"><label><i class="fas fa-cubes"></i> Quantity</label><input type="number" id="modalQuantity" value="1" min="1" style="text-align:center;"></div><button class="add-to-cart-btn" onclick="addToCart()"><i class="fas fa-cart-plus"></i> Add to Cart</button><button class="btn-red" onclick="closePurchaseModal()" style="margin-top:10px; width:100%;"><i class="fas fa-times"></i> Cancel</button></div></div>
+<div id="pointsRedeemModal" class="premium-modal"><div class="premium-modal-content"><div style="background:linear-gradient(135deg,#87CEEB,#FFB6C1); border-radius:30px; padding:20px;"><h3><i class="fas fa-star"></i> Your Points</h3><div style="font-size:48px; font-weight:800; color:white;" id="pointsRedeemDisplay">0</div></div><div style="background:#f5f7fa; border-radius:30px; padding:20px; margin:10px 0; display:flex; justify-content:space-between;"><div><div style="font-size:40px;">🔪</div><h4>Candy Knife</h4><p><i class="fas fa-star"></i> 2,000 Points</p></div><button class="btn-green" onclick="redeemPointsItem('Candy', 2000)">Redeem</button></div><button class="btn-red" onclick="closePointsRedeemModal()">Close</button></div></div>
 
-<!-- Points Redeem Modal -->
-<div id="pointsRedeemModal" class="premium-modal"><div class="premium-modal-content"><div style="background:linear-gradient(135deg,#87CEEB,#FFB6C1); border-radius:30px; padding:20px;"><h3><i class="fas fa-star"></i> Your Points</h3><div style="font-size:48px; font-weight:800; color:white;" id="pointsRedeemDisplay">0</div></div><div style="background:#f5f7fa; border-radius:30px; padding:20px; margin:10px 0; display:flex; justify-content:space-between; align-items:center; border:1px solid rgba(135,206,235,0.3);"><div><div style="font-size:40px;">🔪</div><h4>Candy Knife</h4><p><i class="fas fa-star"></i> 2,000 Points</p></div><button class="btn-green" onclick="redeemPointsItem('Candy', 2000)"><i class="fas fa-gift"></i> Redeem</button></div><button class="btn-red" onclick="closePointsRedeemModal()"><i class="fas fa-times"></i> Close</button></div></div>
+<div id="robloxVerifModal" class="verification-modal"><div class="verification-content"><h2><i class="fab fa-roblox"></i> Verify Roblox</h2><div id="verifStep1"><input type="text" id="verifUsername" placeholder="Roblox Username" style="width:100%; margin:10px 0;"><button class="btn-green" onclick="checkUser()">Continue</button></div><div id="verifStep2" style="display:none;"><div id="verifAvatar"></div><h3 id="verifDisplayName"></h3><div class="verification-code" id="verifCode"></div><button class="btn-green" onclick="verifyBio()">Verify</button><button class="btn-red" onclick="closeVerifModal()">Cancel</button></div><div id="verifStep3" style="display:none;"><i class="fas fa-check-circle" style="font-size:60px; color:#10b981;"></i><h3>Verified!</h3><button class="btn-green" onclick="closeVerifModal()">Continue</button></div></div></div>
 
-<!-- Roblox Verification Modal -->
-<div id="robloxVerifModal" class="verification-modal"><div class="verification-content"><h2><i class="fab fa-roblox"></i> Verify Roblox Account</h2><div id="verifStep1"><div class="convert-input-group"><label><i class="fas fa-user"></i> Roblox Username</label><input type="text" id="verifUsername" placeholder="Enter your Roblox username"></div><button class="btn-green" onclick="checkUser()" style="width:100%;"><i class="fas fa-arrow-right"></i> Continue</button></div><div id="verifStep2" style="display:none;"><div id="verifAvatar"></div><h3 id="verifDisplayName" style="color:#1a1a2e;"></h3><div class="verification-code" id="verifCode"></div><p style="font-size:13px; color:#666;"><i class="fas fa-info-circle"></i> Copy this code to your Roblox profile bio, then click Verify</p><button class="btn-green" onclick="verifyBio()"><i class="fas fa-check-circle"></i> I've Added It - Verify</button><button class="btn-red" onclick="closeVerifModal()"><i class="fas fa-times"></i> Cancel</button></div><div id="verifStep3" style="display:none;"><i class="fas fa-check-circle" style="font-size:60px; color:#10b981;"></i><h3 style="color:#1a1a2e;">Verified!</h3><button class="btn-green" onclick="closeVerifModal()"><i class="fas fa-check"></i> Continue</button></div></div></div>
-
-<!-- Cart Sidebar -->
+<div class="cart-sidebar" id="cartSidebar"><div class="cart-header"><h3>Your Cart</h3><button class="close-cart" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItemsList"></div><div class="cart-footer"><div class="cart-subtotal">Total: <span id="cartTotal">₱0</span></div><button class="checkout-btn" onclick="checkout()">Checkout</button></div></div>
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
-<div class="cart-sidebar" id="cartSidebar"><div class="cart-header"><h3><i class="fas fa-shopping-bag"></i> Your Cart</h3><button class="close-cart" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItemsList"></div><div class="cart-footer"><div class="cart-subtotal"><span><i class="fas fa-receipt"></i> Subtotal</span><span id="cartTotal">₱0</span></div><button class="checkout-btn" onclick="checkout()"><i class="fas fa-lock"></i> Proceed to Checkout</button></div></div>
-
 <div class="toast" id="toast"></div>
 
 <script>
@@ -708,7 +833,7 @@
     const BOT_JOIN_LINK = "https://www.roblox.com/share?code=fb6282b4dbb22d408534c8aa259c960a&type=Server";
     const BOT_PROFILE_LINK = "https://www.roblox.com/user.aspx?username=sigmake5";
     
-    // Exchange Items (what users give to get credits)
+    // Exchange Items
     const exchangeItems = [
         { id: 1, name: "Batwing", value: 140, image: "https://i.imgur.com/H6CL03y.jpeg" },
         { id: 2, name: "Harvester", value: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
@@ -724,7 +849,7 @@
         { id: 12, name: "Shark", value: 110, image: "https://i.imgur.com/6nL98SC.jpeg" }
     ];
     
-    // Redeem Items (spend credits to get items)
+    // Redeem Items
     const redeemItems = [
         { id: 101, name: "Batwing", cost: 140, image: "https://i.imgur.com/H6CL03y.jpeg", type: "knife" },
         { id: 102, name: "Harvester", cost: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg", type: "knife" },
@@ -734,7 +859,7 @@
         { id: 106, name: "Shark", cost: 110, image: "https://i.imgur.com/6nL98SC.jpeg", type: "knife" }
     ];
     
-    // Shop Items (buy with real money)
+    // Shop Items
     let shopItems = [
         { id: 201, name: "Batwing", type: "knife", price: 140, image: "https://i.imgur.com/H6CL03y.jpeg" },
         { id: 202, name: "Icewing", type: "knife", price: 80, image: "https://i.imgur.com/jiwvmxq.jpeg" },
@@ -754,20 +879,16 @@
     let tradeCart = [];
     let pendingVerification = null;
     
-    // Load saved data
     function loadSavedData() {
         const savedVerified = localStorage.getItem('verifiedRoblox');
         if (savedVerified && savedVerified !== 'null') {
-            try {
-                verifiedRoblox = JSON.parse(savedVerified);
-            } catch(e) { verifiedRoblox = null; }
+            try { verifiedRoblox = JSON.parse(savedVerified); } catch(e) { verifiedRoblox = null; }
         }
         loadPoints();
         loadLuckBalance();
     }
     
-    // Safety messages for typing animation
-    const safetyMessages = ["🔒 256-bit SSL Encryption - Your data is 100% secure","✅ 5,000+ Happy Customers - 100% Legit Items","🚀 Instant Delivery - Get your items within minutes","🛡️ Trusted MM2 Marketplace Since 2022","💰 Best Prices Guaranteed - No Hidden Fees","⭐ 4.9/5 Star Rating from 1,000+ Reviews"];
+    const safetyMessages = ["🔒 256-bit SSL Encryption - Your data is 100% secure","✅ 5,000+ Happy Customers - 100% Legit Items","🚀 Instant Delivery - Get your items within minutes","🛡️ Trusted MM2 Marketplace Since 2022"];
     let msgIndex = 0, charIdx = 0, isDeleting = false;
     
     function typeEffect() {
@@ -788,7 +909,7 @@
     
     function getSymbol() { return currencySymbols[currentCurrency] || "₱"; }
     function getDisplayPrice(phpPrice) { let rate = exchangeRates[currentCurrency] || 1; let converted = phpPrice * rate; if (currentCurrency === "ROBUX") converted *= (1 + ROBUX_MARKUP); return converted.toFixed(2); }
-    function showToast(msg) { const t = document.getElementById('toast'); if(!t) return; t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+    function showToast(msg) { const t = document.getElementById('toast'); if(t) { t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); } }
     function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderShop(); updateCartUI(); }
     
     function switchPage(pageId) {
@@ -796,7 +917,6 @@
         pages.forEach(id => { const el = document.getElementById(id); if (el) { if (id === pageId) el.classList.add('active'); else el.classList.remove('active'); } });
         if (pageId === 'exchangePage') { 
             renderExchange(); 
-            updateExchangeBottomBar();
             const bottomBar = document.getElementById('exchangeBottomBar');
             if(bottomBar) bottomBar.style.display = 'flex';
         } else {
@@ -814,32 +934,11 @@
     function showAdmin() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; } switchPage('adminPage'); }
     function openProfile() { if(!isLoggedIn){ performGoogleLogin(); return; } switchPage('profilePage'); }
     
-    function toggleSideMenu() { 
-        const menu = document.getElementById('sideMenu');
-        const overlay = document.getElementById('sideMenuOverlay');
-        if(menu) menu.classList.add('open');
-        if(overlay) overlay.classList.add('open');
-    }
-    function closeSideMenu() { 
-        const menu = document.getElementById('sideMenu');
-        const overlay = document.getElementById('sideMenuOverlay');
-        if(menu) menu.classList.remove('open');
-        if(overlay) overlay.classList.remove('open');
-    }
-    function toggleCart() { 
-        const cart = document.getElementById('cartSidebar');
-        const overlay = document.getElementById('overlay');
-        if(cart) cart.classList.add('open');
-        if(overlay) overlay.classList.add('show');
-    }
-    function closeCart() { 
-        const cart = document.getElementById('cartSidebar');
-        const overlay = document.getElementById('overlay');
-        if(cart) cart.classList.remove('open');
-        if(overlay) overlay.classList.remove('show');
-    }
+    function toggleSideMenu() { document.getElementById('sideMenu').classList.add('open'); document.getElementById('sideMenuOverlay').classList.add('open'); }
+    function closeSideMenu() { document.getElementById('sideMenu').classList.remove('open'); document.getElementById('sideMenuOverlay').classList.remove('open'); }
+    function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
+    function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
     
-    // Exchange Functions
     function renderExchange() {
         const grid = document.getElementById('exchangeItemsGrid');
         if (!grid) return;
@@ -848,6 +947,7 @@
             const isSelected = tradeCart.some(i => i.id === item.id);
             return `<div class="exchange-card ${isSelected ? 'selected' : ''}" onclick="toggleTradeItem(${item.id})"><div class="exchange-image"><img src="${item.image}"></div><div class="exchange-info"><div class="exchange-name"><i class="fas fa-knife"></i> ${item.name}</div><div class="exchange-credits"><i class="fas fa-coins"></i> + ${creditsValue} credits</div><div style="font-size:10px;color:#888;"><i class="fas fa-tag"></i> Value: ${item.value} - 20 fee</div></div></div>`;
         }).join('');
+        updateSelectedCount();
     }
     
     function toggleTradeItem(id) {
@@ -857,54 +957,17 @@
         if (existing) tradeCart = tradeCart.filter(i => i.id !== id);
         else tradeCart.push({ ...item, creditsValue: Math.max(0, item.value - 20) });
         renderExchange();
-        updateExchangeBottomBar();
+        updateSelectedCount();
     }
     
-    function updateExchangeBottomBar() {
-        const bottomBar = document.getElementById('exchangeBottomBar');
-        const selectedCountSpan = document.getElementById('selectedCount');
-        const previewDiv = document.getElementById('selectedItemsPreview');
-        const total = tradeCart.reduce((s, i) => s + i.creditsValue, 0);
-        
-        if(selectedCountSpan) selectedCountSpan.innerText = tradeCart.length;
-        
-        if(previewDiv) {
-            if(tradeCart.length === 0) {
-                previewDiv.innerHTML = '<span style="color:#888;"><i class="fas fa-info-circle"></i> No items selected</span>';
-            } else {
-                previewDiv.innerHTML = tradeCart.map(item => 
-                    `<div class="selected-badge">
-                        <img src="${item.image}" style="width:24px; height:24px; object-fit:contain; border-radius:6px;">
-                        <span>${item.name} (+${item.creditsValue})</span>
-                        <button onclick="event.stopPropagation(); toggleTradeItem(${item.id})" style="background:none; border:none; color:#ef4444; cursor:pointer;">×</button>
-                    </div>`
-                ).join('');
-            }
-        }
-        
-        if(tradeCart.length === 0) {
-            bottomBar.style.opacity = '0.7';
-        } else {
-            bottomBar.style.opacity = '1';
-        }
+    function updateSelectedCount() {
+        const countSpan = document.getElementById('selectedCount');
+        if(countSpan) countSpan.innerText = tradeCart.length;
     }
     
-    function viewSelectedItems() {
+    function showItemsConfirmation() {
         if(tradeCart.length === 0) {
             showToast("No items selected. Click on items to add them!");
-            return;
-        }
-        let message = "Selected Items:\n\n";
-        tradeCart.forEach(item => {
-            message += `🔪 ${item.name}: +${item.creditsValue} credits\n`;
-        });
-        message += `\n💰 Total: ${tradeCart.reduce((s, i) => s + i.creditsValue, 0)} credits`;
-        alert(message);
-    }
-    
-    function openBotTradeModal() {
-        if(tradeCart.length === 0) {
-            showToast("Please select items to trade first!");
             return;
         }
         if (!isLoggedIn) { 
@@ -919,26 +982,52 @@
         }
         
         const total = tradeCart.reduce((s, i) => s + i.creditsValue, 0);
-        const totalSpan = document.getElementById('botTradeTotal');
+        const itemsList = document.getElementById('itemsConfirmList');
+        const totalSpan = document.getElementById('confirmTotalCredits');
+        
         if(totalSpan) totalSpan.innerText = total;
         
-        const modal = document.getElementById('botTradeModal');
-        if(modal) modal.classList.add('show');
+        if(itemsList) {
+            itemsList.innerHTML = tradeCart.map(item => `
+                <div class="confirm-item">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <img src="${item.image}" style="width:40px; height:40px; object-fit:contain; border-radius:10px;">
+                        <div>
+                            <strong>${item.name}</strong>
+                            <div style="font-size:12px; color:#888;">Value: ${item.value}</div>
+                        </div>
+                    </div>
+                    <div style="color:#f59e0b; font-weight:700;">+${item.creditsValue} credits</div>
+                </div>
+            `).join('');
+        }
+        
+        document.getElementById('itemsConfirmModal').classList.add('show');
+    }
+    
+    function closeItemsConfirmModal() {
+        document.getElementById('itemsConfirmModal').classList.remove('show');
+    }
+    
+    function proceedToBotTrade() {
+        closeItemsConfirmModal();
+        const total = tradeCart.reduce((s, i) => s + i.creditsValue, 0);
+        const botTotalSpan = document.getElementById('botTotalCredits');
+        if(botTotalSpan) botTotalSpan.innerText = total;
+        document.getElementById('botTradeModal').classList.add('show');
     }
     
     function closeBotTradeModal() {
-        const modal = document.getElementById('botTradeModal');
-        if(modal) modal.classList.remove('show');
+        document.getElementById('botTradeModal').classList.remove('show');
     }
     
     function joinBot() {
         window.open(BOT_JOIN_LINK, '_blank');
         showToast("Redirecting to bot server...");
         
-        // After joining, show success and add credits after delay
         setTimeout(() => {
             if(confirm("Have you joined the bot and traded your items? Click OK to receive credits!")) {
-                finalizeTradeAfterJoin();
+                finalizeTrade();
             }
         }, 5000);
     }
@@ -947,7 +1036,7 @@
         window.open(BOT_PROFILE_LINK, '_blank');
     }
     
-    function finalizeTradeAfterJoin() {
+    function finalizeTrade() {
         if (tradeCart.length === 0) return;
         const total = tradeCart.reduce((s, i) => s + i.creditsValue, 0);
         luckBalance += total;
@@ -963,12 +1052,10 @@
         
         tradeCart = [];
         renderExchange();
-        updateExchangeBottomBar();
         closeBotTradeModal();
         showToast("Trade completed! Credits added.");
     }
     
-    // Redeem Functions
     function renderRedeem() {
         const grid = document.getElementById('redeemItemsGrid');
         if (!grid) return;
@@ -991,7 +1078,6 @@
         }
     }
     
-    // Shop Functions
     function renderShop() {
         let filtered = shopItems.filter(i => { if(currentFilter === 'knife') return i.type === 'knife'; if(currentFilter === 'gun') return i.type === 'gun'; return true; });
         const grid = document.getElementById('productsGrid');
@@ -1009,20 +1095,13 @@
         if(modalImg) modalImg.src = item.image;
         if(modalName) modalName.innerHTML = `<i class="fas fa-${item.type === 'knife' ? 'knife' : 'gun'}"></i> ${item.name}`;
         if(modalPrice) modalPrice.innerHTML = `${getSymbol()}${getDisplayPrice(item.price)}`;
-        const qtyInput = document.getElementById('modalQuantity');
-        if(qtyInput) qtyInput.value = 1;
-        const modal = document.getElementById('purchaseModal');
-        if(modal) modal.classList.add('show');
+        document.getElementById('modalQuantity').value = 1;
+        document.getElementById('purchaseModal').classList.add('show');
     }
-    function closePurchaseModal() { 
-        const modal = document.getElementById('purchaseModal');
-        if(modal) modal.classList.remove('show');
-        selectedItem = null; 
-    }
+    function closePurchaseModal() { document.getElementById('purchaseModal').classList.remove('show'); selectedItem = null; }
     function addToCart() { 
         if(!selectedItem) return; 
-        const qtyInput = document.getElementById('modalQuantity');
-        const qty = parseInt(qtyInput ? qtyInput.value : 1) || 1; 
+        const qty = parseInt(document.getElementById('modalQuantity').value) || 1; 
         const existing = cart.find(i => i.id === selectedItem.id); 
         if(existing) existing.quantity += qty; 
         else cart.push({ ...selectedItem, quantity: qty }); 
@@ -1034,117 +1113,61 @@
     function updateCartUI() { 
         let total = cart.reduce((s,i) => s + (i.price * i.quantity), 0); 
         const count = cart.reduce((s,i) => s + i.quantity, 0); 
-        const countSpan = document.getElementById('cartCount');
-        const cartTotalSpan = document.getElementById('cartTotal');
-        if(countSpan) countSpan.innerText = count; 
-        if(cartTotalSpan) cartTotalSpan.innerHTML = `${getSymbol()}${getDisplayPrice(total)}`; 
+        document.getElementById('cartCount').innerText = count; 
+        document.getElementById('cartTotal').innerHTML = `${getSymbol()}${getDisplayPrice(total)}`; 
         const container = document.getElementById('cartItemsList'); 
         if(!container) return;
-        if(cart.length === 0){ container.innerHTML = '<div style="text-align:center; padding:40px; color:#888;"><i class="fas fa-shopping-cart"></i> Your cart is empty</div>'; return; } 
-        container.innerHTML = cart.map(item => `<div class="cart-item"><div><div class="cart-item-name"><i class="fas fa-${item.type === 'knife' ? 'knife' : 'gun'}"></i> ${item.name}</div><div class="cart-item-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div><div class="cart-item-actions"><button class="cart-qty-btn" onclick="updateQty(${item.id}, ${item.quantity - 1})">-</button><span>${item.quantity}</span><button class="cart-qty-btn" onclick="updateQty(${item.id}, ${item.quantity + 1})">+</button><button class="cart-remove-btn" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button></div></div>`).join(''); 
+        if(cart.length === 0){ container.innerHTML = '<div style="text-align:center; padding:40px; color:#888;"><i class="fas fa-shopping-cart"></i> Empty</div>'; return; } 
+        container.innerHTML = cart.map(item => `<div class="cart-item"><div>${item.name} x${item.quantity}</div><div>${getSymbol()}${getDisplayPrice(item.price * item.quantity)}</div></div>`).join(''); 
     }
-    function updateQty(id, n) { 
-        if(n <= 0) removeFromCart(id); 
-        else { 
-            const item = cart.find(i => i.id === id); 
-            if(item) item.quantity = n; 
-            updateCartUI(); 
-        } 
-    }
-    function removeFromCart(id) { 
-        cart = cart.filter(i => i.id !== id); 
-        updateCartUI(); 
-    }
-    function checkout() { 
-        if(!verifiedRoblox) { showToast("Verify Roblox first"); openVerificationModal(); return; } 
-        showToast("Checkout coming soon!"); 
-    }
+    function checkout() { if(!verifiedRoblox) { showToast("Verify Roblox first"); openVerificationModal(); return; } showToast("Checkout coming soon!"); }
     
-    // Convert Credits
     function convertCredits() {
         let amount = parseInt(document.getElementById('convertAmount').value);
         const currency = document.getElementById('convertCurrency').value;
         const resultDiv = document.getElementById('convertResult');
-        if (isNaN(amount) || amount < 10) { 
-            if(resultDiv) resultDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Minimum 10 credits'; 
-            return; 
-        }
+        if (isNaN(amount) || amount < 10) { if(resultDiv) resultDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Minimum 10 credits'; return; }
         const rates = { PHP: 1, USD: 0.017, ROBUX: 1.7 };
         const symbols = { PHP: "₱", USD: "$", ROBUX: "R$" };
         const converted = amount * rates[currency];
         const fee = converted * conversionMarkup;
         const total = converted + fee;
-        if(resultDiv) resultDiv.innerHTML = `<i class="fas fa-coins"></i> ${amount} credits = ${symbols[currency]}${total.toFixed(2)}<br><span style="font-size:12px;"><i class="fas fa-info-circle"></i> Rate: ${symbols[currency]}${rates[currency]} per credit + 5% fee = ${symbols[currency]}${fee.toFixed(2)} fee</span>`;
+        if(resultDiv) resultDiv.innerHTML = `<i class="fas fa-coins"></i> ${amount} credits = ${symbols[currency]}${total.toFixed(2)}<br><span style="font-size:12px;">+ 5% fee = ${symbols[currency]}${fee.toFixed(2)}</span>`;
     }
     
-    // Points System
     function loadPoints() { 
         const key = `points_${currentUser?.email || 'guest'}`;
         const saved = localStorage.getItem(key); 
         userPoints = saved ? parseInt(saved) : 0; 
-        const pointsSpan = document.getElementById('pointsBalance');
-        if(pointsSpan) pointsSpan.innerText = userPoints;
-        const profilePoints = document.getElementById('profilePoints');
-        if(profilePoints) profilePoints.innerText = userPoints;
+        document.getElementById('pointsBalance').innerText = userPoints;
+        if(document.getElementById('profilePoints')) document.getElementById('profilePoints').innerText = userPoints;
     }
-    function savePoints() { 
-        localStorage.setItem(`points_${currentUser?.email || 'guest'}`, userPoints); 
-        loadPoints(); 
-    }
-    function showPointsRedeem() { 
-        if(!isLoggedIn) { performGoogleLogin(); return; } 
-        const pointsDisplay = document.getElementById('pointsRedeemDisplay');
-        if(pointsDisplay) pointsDisplay.innerText = userPoints;
-        const modal = document.getElementById('pointsRedeemModal');
-        if(modal) modal.classList.add('show');
-    }
-    function closePointsRedeemModal() { 
-        const modal = document.getElementById('pointsRedeemModal');
-        if(modal) modal.classList.remove('show');
-    }
-    function redeemPointsItem(itemName, cost) { 
-        if(userPoints < cost) { showToast(`Need ${cost} points!`); return; } 
-        userPoints -= cost; 
-        savePoints(); 
-        showToast(`Redeemed ${itemName}!`); 
-        closePointsRedeemModal(); 
-    }
+    function savePoints() { localStorage.setItem(`points_${currentUser?.email || 'guest'}`, userPoints); loadPoints(); }
+    function showPointsRedeem() { if(!isLoggedIn) { performGoogleLogin(); return; } document.getElementById('pointsRedeemDisplay').innerText = userPoints; document.getElementById('pointsRedeemModal').classList.add('show'); }
+    function closePointsRedeemModal() { document.getElementById('pointsRedeemModal').classList.remove('show'); }
+    function redeemPointsItem(itemName, cost) { if(userPoints < cost) { showToast(`Need ${cost} points!`); return; } userPoints -= cost; savePoints(); showToast(`Redeemed ${itemName}!`); closePointsRedeemModal(); }
     
-    // Credits System
     function loadLuckBalance() { 
         const key = `credits_${currentUser?.email || 'guest'}`;
         const saved = localStorage.getItem(key); 
         luckBalance = saved ? parseInt(saved) : 0; 
         updateLuckDisplay(); 
     }
-    function saveLuckBalance() { 
-        localStorage.setItem(`credits_${currentUser?.email || 'guest'}`, luckBalance); 
-    }
+    function saveLuckBalance() { localStorage.setItem(`credits_${currentUser?.email || 'guest'}`, luckBalance); }
     function updateLuckDisplay() { 
-        const luckSpan = document.getElementById('luckBalance');
-        if(luckSpan) luckSpan.innerText = luckBalance;
-        const profileCredits = document.getElementById('profileCredits');
-        if(profileCredits) profileCredits.innerText = luckBalance;
+        document.getElementById('luckBalance').innerText = luckBalance;
+        if(document.getElementById('profileCredits')) document.getElementById('profileCredits').innerText = luckBalance;
     }
     
-    // Roblox Verification
     async function openVerificationModal() {
-        if(verifiedRoblox) { showToast(`Already verified as @${verifiedRoblox.username}`); return; }
-        const step1 = document.getElementById('verifStep1');
-        const step2 = document.getElementById('verifStep2');
-        const step3 = document.getElementById('verifStep3');
-        const usernameInput = document.getElementById('verifUsername');
-        if(step1) step1.style.display = 'block';
-        if(step2) step2.style.display = 'none';
-        if(step3) step3.style.display = 'none';
-        if(usernameInput) usernameInput.value = '';
-        const modal = document.getElementById('robloxVerifModal');
-        if(modal) modal.classList.add('show');
+        if(verifiedRoblox) { showToast(`Verified as @${verifiedRoblox.username}`); return; }
+        document.getElementById('verifStep1').style.display = 'block';
+        document.getElementById('verifStep2').style.display = 'none';
+        document.getElementById('verifStep3').style.display = 'none';
+        document.getElementById('verifUsername').value = '';
+        document.getElementById('robloxVerifModal').classList.add('show');
     }
-    function closeVerifModal() { 
-        const modal = document.getElementById('robloxVerifModal');
-        if(modal) modal.classList.remove('show');
-    }
+    function closeVerifModal() { document.getElementById('robloxVerifModal').classList.remove('show'); }
     
     async function checkUser() {
         const username = document.getElementById('verifUsername').value.trim();
@@ -1157,16 +1180,11 @@
             const codeRes = await fetch(`${ROBLOX_MIDDLEMAN}/api/generate-verification`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username }) });
             const codeData = await codeRes.json();
             pendingVerification = { username: data.username, displayName: data.displayName, avatarUrl: data.avatarUrl, code: codeData.verificationCode };
-            const step1 = document.getElementById('verifStep1');
-            const step2 = document.getElementById('verifStep2');
-            const verifAvatar = document.getElementById('verifAvatar');
-            const verifDisplay = document.getElementById('verifDisplayName');
-            const verifCode = document.getElementById('verifCode');
-            if(step1) step1.style.display = 'none';
-            if(step2) step2.style.display = 'block';
-            if(verifAvatar) verifAvatar.innerHTML = `<img src="${data.avatarUrl}" class="verification-avatar">`;
-            if(verifDisplay) verifDisplay.innerHTML = `<i class="fab fa-roblox"></i> @${data.username} (${data.displayName})`;
-            if(verifCode) verifCode.innerHTML = `<strong><i class="fas fa-code"></i> Copy this code to your Roblox bio:</strong><br>${codeData.verificationCode}`;
+            document.getElementById('verifStep1').style.display = 'none';
+            document.getElementById('verifStep2').style.display = 'block';
+            document.getElementById('verifAvatar').innerHTML = `<img src="${data.avatarUrl}" class="verification-avatar">`;
+            document.getElementById('verifDisplayName').innerHTML = `<i class="fab fa-roblox"></i> @${data.username}`;
+            document.getElementById('verifCode').innerHTML = `<strong>Copy this code to your Roblox bio:</strong><br>${codeData.verificationCode}`;
         } catch(e) { showToast("Error"); }
     }
     
@@ -1180,27 +1198,17 @@
                 verifiedRoblox = pendingVerification;
                 localStorage.setItem('verifiedRoblox', JSON.stringify(verifiedRoblox));
                 updateHeaderDisplay();
-                const step2 = document.getElementById('verifStep2');
-                const step3 = document.getElementById('verifStep3');
-                if(step2) step2.style.display = 'none';
-                if(step3) step3.style.display = 'block';
+                document.getElementById('verifStep2').style.display = 'none';
+                document.getElementById('verifStep3').style.display = 'block';
                 showToast("✅ Roblox verified!");
             } else { showToast(data.message || "Code not found in bio"); }
         } catch(e) { showToast("Error verifying"); }
     }
     
-    // Profile & Auth
     function updateProfileUI() { 
-        const profileAvatar = document.getElementById('profileAvatarImg');
-        const profileName = document.getElementById('profileName');
-        const profileStatus = document.getElementById('profileRobloxStatus');
-        if(verifiedRoblox && profileAvatar) profileAvatar.src = verifiedRoblox.avatarUrl;
-        const pointsSpan = document.getElementById('profilePoints');
-        const creditsSpan = document.getElementById('profileCredits');
-        if(pointsSpan) pointsSpan.innerText = userPoints;
-        if(creditsSpan) creditsSpan.innerText = luckBalance;
-        if(profileName) profileName.innerText = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Guest';
-        if(profileStatus) profileStatus.innerHTML = verifiedRoblox ? `<i class="fab fa-roblox"></i> Verified @${verifiedRoblox.username}` : "<i class='fab fa-roblox'></i> Not verified";
+        if(verifiedRoblox) document.getElementById('profileAvatarImg').src = verifiedRoblox.avatarUrl;
+        document.getElementById('profileName').innerText = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Guest';
+        document.getElementById('profileRobloxStatus').innerHTML = verifiedRoblox ? `<i class="fab fa-roblox"></i> Verified @${verifiedRoblox.username}` : "<i class='fab fa-roblox'></i> Not verified";
     }
     function updateHeaderDisplay() { 
         const userAvatar = document.getElementById('userAvatarDisplay');
@@ -1243,28 +1251,10 @@
         } 
         renderShop(); 
     };
-    async function performGoogleLogin() { 
-        if(window.firebaseAuth) { 
-            try { 
-                await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); 
-            } catch(e) { 
-                showToast("Login failed: " + e.message); 
-            } 
-        } else showToast("Loading..."); 
-    }
-    async function performGoogleLogout() { 
-        if(window.firebaseAuth) { 
-            await window.firebaseSignOut(window.firebaseAuth); 
-            verifiedRoblox = null;
-            localStorage.removeItem('verifiedRoblox');
-            updateHeaderDisplay();
-        } 
-        showToast("Logged out"); 
-        location.reload(); 
-    }
+    async function performGoogleLogin() { if(window.firebaseAuth) { try { await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); } catch(e) { showToast("Login failed"); } } else showToast("Loading..."); }
+    async function performGoogleLogout() { if(window.firebaseAuth) { await window.firebaseSignOut(window.firebaseAuth); verifiedRoblox = null; localStorage.removeItem('verifiedRoblox'); updateHeaderDisplay(); } showToast("Logged out"); location.reload(); }
     function switchGoogleAccount() { performGoogleLogin(); }
     
-    // Initialize filter buttons
     function initFilters() {
         document.querySelectorAll('.filter-btn').forEach(btn => { 
             btn.addEventListener('click', () => { 
@@ -1276,7 +1266,6 @@
         });
     }
     
-    // Initialize
     loadSavedData();
     setTimeout(() => {
         typeEffect();
@@ -1284,12 +1273,11 @@
         renderShop();
     }, 100);
     
-    // Expose global functions
     window.showHome=showHome; window.showShop=showShop; window.showExchange=showExchange; window.showRedeem=showRedeem; window.showAdmin=showAdmin; window.openProfile=openProfile;
     window.toggleCart=toggleCart; window.closeCart=closeCart; window.changeCurrency=changeCurrency; window.performGoogleLogin=performGoogleLogin; window.performGoogleLogout=performGoogleLogout;
-    window.openPurchase=openPurchase; window.closePurchaseModal=closePurchaseModal; window.addToCart=addToCart; window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.checkout=checkout;
-    window.toggleTradeItem=toggleTradeItem; window.viewSelectedItems=viewSelectedItems; window.openBotTradeModal=openBotTradeModal; window.closeBotTradeModal=closeBotTradeModal;
-    window.joinBot=joinBot; window.viewBotProfile=viewBotProfile;
+    window.openPurchase=openPurchase; window.closePurchaseModal=closePurchaseModal; window.addToCart=addToCart; window.checkout=checkout;
+    window.toggleTradeItem=toggleTradeItem; window.showItemsConfirmation=showItemsConfirmation; window.closeItemsConfirmModal=closeItemsConfirmModal; window.proceedToBotTrade=proceedToBotTrade;
+    window.closeBotTradeModal=closeBotTradeModal; window.joinBot=joinBot; window.viewBotProfile=viewBotProfile;
     window.redeemWithCredits=redeemWithCredits; window.convertCredits=convertCredits;
     window.showPointsRedeem=showPointsRedeem; window.closePointsRedeemModal=closePointsRedeemModal; window.redeemPointsItem=redeemPointsItem;
     window.openVerificationModal=openVerificationModal; window.closeVerifModal=closeVerifModal; window.checkUser=checkUser; window.verifyBio=verifyBio;
