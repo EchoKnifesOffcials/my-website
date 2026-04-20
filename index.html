@@ -49,7 +49,6 @@
             overflow-x: hidden;
         }
         
-        /* Animated Background */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -110,7 +109,6 @@
         ::-webkit-scrollbar-track { background: #e0e0e0; border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #87CEEB, #FFB6C1); border-radius: 10px; }
         
-        /* Header */
         .header {
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(12px);
@@ -166,7 +164,6 @@
         
         .menu-icon { font-size: 24px; cursor: pointer; background: rgba(135, 206, 235, 0.1); padding: 8px 16px; border-radius: 40px; display: none; color: #1a1a2e; }
         
-        /* Page Transitions */
         .page-container { position: relative; min-height: calc(100vh - 80px); }
         .page { 
             position: absolute; 
@@ -185,7 +182,6 @@
             position: relative;
         }
         
-        /* Hero Section */
         .hero { min-height: 55vh; display: flex; align-items: center; justify-content: space-between; padding: 40px 5%; flex-wrap: wrap; gap: 50px; }
         .hero-content { flex: 1; min-width: 300px; animation: fadeSlideUp 0.6s ease-out; }
         @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -193,7 +189,6 @@
         .hero-title span { background: linear-gradient(135deg, #87CEEB, #FFB6C1); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .hero-desc { font-size: 17px; color: #555; margin: 25px 0 35px; line-height: 1.6; }
         
-        /* Typing Animation */
         .typing-container { background: rgba(135,206,235,0.1); border-radius: 50px; padding: 15px 25px; margin: 20px 0; border-left: 4px solid #87CEEB; }
         .typing-text { font-size: 18px; font-weight: 500; color: #1a1a2e; min-height: 70px; }
         .typing-cursor { display: inline-block; width: 3px; height: 20px; background-color: #87CEEB; animation: blink 1s infinite; margin-left: 4px; vertical-align: middle; }
@@ -205,15 +200,12 @@
         .hero-image img { max-width: 100%; filter: drop-shadow(0 0 30px rgba(135,206,235,0.3)); animation: floatImage 4s infinite; border-radius: 20px; }
         @keyframes floatImage { 0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);} }
         
-        /* Container */
         .container { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
         
-        /* Filter Bar */
         .filter-bar { background: white; padding: 12px 20px; margin-bottom: 25px; border-radius: 50px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; border: 2px solid rgba(135,206,235,0.4); box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
         .filter-btn { background: rgba(0,0,0,0.03); border: 1px solid rgba(135,206,235,0.3); padding: 8px 24px; border-radius: 30px; color: #444; cursor: pointer; transition: 0.2s; }
         .filter-btn:hover, .filter-btn.active { background: linear-gradient(135deg, #87CEEB, #FFB6C1); color: #1a1a2e; border-color: transparent; }
         
-        /* Products Grid */
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
         .product-card { background: white; border-radius: 24px; overflow: hidden; transition: all 0.35s; border: 2px solid rgba(135,206,235,0.3); cursor: pointer; aspect-ratio: 1/1; display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         .product-card:hover { transform: translateY(-8px) scale(1.02); border-color: #87CEEB; box-shadow: 0 15px 30px rgba(135,206,235,0.15); }
@@ -224,7 +216,6 @@
         .product-name { font-weight: 800; color: #1a1a2e; font-size: 17px; }
         .product-price { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #87CEEB, #FFB6C1); -webkit-background-clip: text; background-clip: text; color: transparent; }
         
-        /* Exchange & Redeem Grids */
         .exchange-header, .redeem-header, .convert-header { text-align: center; margin-bottom: 30px; }
         .exchange-header h2, .redeem-header h2, .convert-header h2 { font-size: 32px; font-family: 'Orbitron', monospace; background: linear-gradient(135deg, #87CEEB, #FFB6C1); -webkit-background-clip: text; background-clip: text; color: transparent; }
         
@@ -239,7 +230,6 @@
         .exchange-name, .redeem-name { font-weight: 700; font-size: 14px; color: #1a1a2e; }
         .exchange-credits, .redeem-cost { font-size: 16px; font-weight: 800; color: #f59e0b; margin-top: 4px; }
         
-        /* Convert Section */
         .convert-section { background: white; border-radius: 30px; padding: 25px; margin: 30px 0; border: 2px solid rgba(135,206,235,0.4); }
         .convert-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; color: #87CEEB; }
         .convert-grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; }
@@ -251,193 +241,221 @@
         .convert-btn:hover { transform: scale(1.02); }
         .convert-result { margin-top: 15px; padding: 12px; background: rgba(135,206,235,0.1); border-radius: 20px; text-align: center; font-weight: 600; border: 1px solid rgba(135,206,235,0.3); }
         
-        /* Trade Summary Bar */
         .trade-summary { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 3px solid #87CEEB; box-shadow: 0 -5px 30px rgba(0,0,0,0.1); padding: 15px 5%; z-index: 50; transition: transform 0.3s ease; }
         .trade-summary.hidden { transform: translateY(100%); }
-        .trade-summary-content { max-width: 1400px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px; }
-        .trade-items-preview { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; flex: 2; }
-        .trade-preview-item { background: #f5f7fa; border-radius: 30px; padding: 5px 12px; display: flex; align-items: center; gap: 8px; font-size: 13px; border: 1px solid rgba(135,206,235,0.3); }
-        .trade-preview-item img { width: 24px; height: 24px; object-fit: contain; border-radius: 6px; }
-        .remove-preview { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 12px; }
-        .trade-total-display { background: linear-gradient(135deg, #10b981, #059669); padding: 10px 20px; border-radius: 40px; color: white; font-weight: 700; font-size: 18px; min-width: 180px; text-align: center; }
-        .confirm-trade-btn { background: linear-gradient(135deg, #87CEEB, #FFB6C1); border: none; padding: 12px 28px; border-radius: 40px; color: #1a1a2e; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .confirm-trade-btn:hover { transform: scale(1.02); }
         
-        /* Bot Trade Modal - Popup for Exchange/Redeem/Shop */
-        .bot-trade-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+        /* TRADE CHECK UI - MM2 Style */
+        .trade-check-container {
+            background: linear-gradient(135deg, #2d2d44, #1a1a2e);
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(135,206,235,0.4);
         }
-        .bot-trade-modal.show {
-            opacity: 1;
-            visibility: visible;
+        
+        .trade-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
         }
-        .bot-trade-content {
-            background: white;
-            border-radius: 50px;
-            padding: 40px;
-            max-width: 550px;
-            width: 90%;
+        
+        .trade-side {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+        }
+        
+        .trade-side h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 18px;
             text-align: center;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-            border: 3px solid #87CEEB;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-            max-height: 90vh;
+        }
+        
+        .trade-items-list {
+            min-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
         }
-        .bot-trade-modal.show .bot-trade-content {
-            transform: scale(1);
-        }
-        .bot-avatar-frame {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
-            position: relative;
-        }
-        .bot-avatar {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 4px solid #87CEEB;
-            box-shadow: 0 0 20px rgba(135,206,235,0.5);
-            object-fit: cover;
-            background: linear-gradient(135deg, #87CEEB, #FFB6C1);
-        }
-        .bot-info-card {
-            background: #f5f7fa;
-            border-radius: 30px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
-        }
-        .bot-info-row {
+        
+        .trade-item {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 12px;
-            margin: 8px 0;
-            background: white;
-            border-radius: 20px;
-        }
-        .bot-info-row i {
-            width: 30px;
-            font-size: 20px;
-            color: #87CEEB;
-        }
-        .bot-info-row .label {
-            color: #888;
-            font-size: 11px;
-            text-transform: uppercase;
-        }
-        .bot-info-row .value {
-            color: #1a1a2e;
-            font-weight: 700;
-            font-size: 14px;
-        }
-        .transaction-details {
-            background: linear-gradient(135deg, #e8f4f8, #f0e6f0);
-            border-radius: 20px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: center;
-        }
-        .transaction-amount {
-            font-size: 28px;
-            font-weight: 800;
-            color: #10b981;
-        }
-        .instructions-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            margin: 20px 0;
-        }
-        .instruction-step {
-            background: #f5f7fa;
-            border-radius: 20px;
-            padding: 15px;
-            text-align: center;
-            transition: all 0.3s;
-            border: 1px solid rgba(135,206,235,0.3);
-        }
-        .instruction-step:hover {
-            background: rgba(135,206,235,0.1);
-            transform: translateY(-3px);
-        }
-        .instruction-step i {
-            font-size: 28px;
-            color: #87CEEB;
-            margin-bottom: 10px;
-            display: block;
-        }
-        .instruction-step p {
-            color: #666;
-            font-size: 11px;
-            margin-top: 5px;
-        }
-        .instruction-step strong {
-            color: #1a1a2e;
-            display: block;
-            font-size: 13px;
-        }
-        .bot-actions {
-            display: flex;
-            gap: 15px;
-            margin: 20px 0 15px;
-        }
-        .join-bot-btn, .view-profile-btn, .close-trade-modal {
-            flex: 1;
-            padding: 14px;
-            border-radius: 50px;
-            font-weight: 700;
+            padding: 10px;
+            margin: 8px 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s;
-            border: none;
+            transition: all 0.2s;
+        }
+        
+        .trade-item:hover {
+            background: rgba(135,206,235,0.2);
+            transform: translateX(5px);
+        }
+        
+        .trade-item img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .trade-item-info {
+            flex: 1;
+        }
+        
+        .trade-item-name {
+            color: white;
             font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .trade-item-value {
+            color: #ffd700;
+            font-size: 12px;
+        }
+        
+        .remove-item {
+            background: rgba(239,68,68,0.3);
+            border: none;
+            color: #ef4444;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .remove-item:hover {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .trade-vs {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            font-size: 24px;
+            font-weight: 800;
+            color: #87CEEB;
+            background: rgba(135,206,235,0.2);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            align-self: center;
         }
-        .join-bot-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
+        
+        .trade-summary-info {
+            background: rgba(0,0,0,0.5);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .value-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .value-label {
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        .value-amount {
+            color: #ffd700;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .winner-badge {
+            text-align: center;
+            padding: 15px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: 800;
+        }
+        
+        .winner-win {
+            background: rgba(16,185,129,0.2);
+            border: 1px solid #10b981;
+            color: #10b981;
+        }
+        
+        .winner-lose {
+            background: rgba(239,68,68,0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+        
+        .winner-tie {
+            background: rgba(135,206,235,0.2);
+            border: 1px solid #87CEEB;
+            color: #87CEEB;
+        }
+        
+        .available-items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+        }
+        
+        .available-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .available-item:hover {
+            background: rgba(135,206,235,0.3);
+            transform: scale(1.05);
+        }
+        
+        .available-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        
+        .available-item-name {
+            font-size: 10px;
             color: white;
+            margin-top: 5px;
         }
-        .join-bot-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(16,185,129,0.3);
+        
+        .available-item-value {
+            font-size: 9px;
+            color: #ffd700;
         }
-        .view-profile-btn {
-            background: linear-gradient(135deg, #87CEEB, #6c5ce7);
+        
+        .reset-trade-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
             color: white;
-        }
-        .view-profile-btn:hover {
-            transform: translateY(-2px);
-        }
-        .close-trade-modal {
-            background: #ef4444;
-            color: white;
-            width: 100%;
-        }
-        .close-trade-modal:hover {
-            transform: translateY(-2px);
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
         }
         
         /* Other Modals */
-        .confirmation-modal, .premium-modal, .verification-modal { 
+        .confirmation-modal, .premium-modal, .verification-modal, .bot-trade-modal { 
             position: fixed; 
             top: 0; 
             left: 0; 
@@ -453,17 +471,29 @@
             visibility: hidden; 
             transition: all 0.3s ease; 
         }
-        .confirmation-modal.show, .premium-modal.show, .verification-modal.show { opacity: 1; visibility: visible; }
-        .confirmation-content, .premium-modal-content, .verification-content { background: white; border-radius: 40px; padding: 35px; max-width: 500px; width: 90%; text-align: center; transform: scale(0.9); transition: transform 0.3s ease; border: 2px solid rgba(135,206,235,0.4); }
-        .confirmation-modal.show .confirmation-content, .premium-modal.show .premium-modal-content, .verification-modal.show .verification-content { transform: scale(1); }
+        .confirmation-modal.show, .premium-modal.show, .verification-modal.show, .bot-trade-modal.show { opacity: 1; visibility: visible; }
+        .confirmation-content, .premium-modal-content, .verification-content, .bot-trade-content { 
+            background: white; 
+            border-radius: 40px; 
+            padding: 35px; 
+            max-width: 500px; 
+            width: 90%; 
+            text-align: center; 
+            transform: scale(0.9); 
+            transition: transform 0.3s ease; 
+            border: 2px solid rgba(135,206,235,0.4); 
+        }
+        .confirmation-modal.show .confirmation-content, .premium-modal.show .premium-modal-content, 
+        .verification-modal.show .verification-content, .bot-trade-modal.show .bot-trade-content { transform: scale(1); }
+        
         .verification-avatar { width: 150px; height: 150px; border-radius: 50%; margin: 20px auto; border: 4px solid #87CEEB; object-fit: cover; }
         .verification-code { background: #f0f4f8; padding: 12px; border-radius: 20px; font-family: monospace; font-size: 14px; word-break: break-all; margin: 15px 0; border: 1px solid rgba(135,206,235,0.3); }
+        
         .btn-green { background: linear-gradient(135deg, #10b981, #059669); border: none; padding: 12px 25px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; margin: 5px; transition: 0.2s; }
         .btn-green:hover { transform: scale(1.02); }
         .btn-red { background: linear-gradient(135deg, #ef4444, #dc2626); border: none; padding: 12px 25px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; margin: 5px; transition: 0.2s; }
         .btn-red:hover { transform: scale(1.02); }
         
-        /* Cart Sidebar */
         .cart-sidebar { position: fixed; top: 0; right: -500px; width: 500px; height: 100vh; background: white; z-index: 1000; transition: right 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1); padding: 25px; display: flex; flex-direction: column; border-left: 3px solid #87CEEB; box-shadow: -5px 0 30px rgba(0,0,0,0.1); }
         .cart-sidebar.open { right: 0; }
         .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid rgba(135,206,235,0.3); }
@@ -496,12 +526,8 @@
             transition: all 0.2s;
             width: 100%;
         }
-        .add-to-cart-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
-        }
+        .add-to-cart-btn:hover { transform: scale(1.02); box-shadow: 0 4px 15px rgba(16,185,129,0.3); }
         
-        /* Side Menu */
         .side-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: 0.3s; }
         .side-menu-overlay.open { opacity: 1; visibility: visible; }
         .side-menu { position: fixed; top: 0; left: -300px; width: 300px; height: 100vh; background: white; z-index: 1001; transition: left 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1); padding: 20px; border-right: 3px solid #87CEEB; box-shadow: 5px 0 30px rgba(0,0,0,0.05); }
@@ -509,7 +535,6 @@
         .menu-item { padding: 15px 20px; margin: 10px 0; border-radius: 40px; cursor: pointer; background: rgba(135,206,235,0.1); transition: all 0.2s; color: #1a1a2e; font-weight: 500; border: 1px solid rgba(135,206,235,0.2); }
         .menu-item:hover { background: linear-gradient(135deg, #87CEEB, #FFB6C1); transform: translateX(8px); border-color: transparent; }
         
-        /* Profile Card */
         .profile-card { background: white; border-radius: 40px; padding: 35px; max-width: 500px; margin: 0 auto; text-align: center; border: 2px solid rgba(135,206,235,0.4); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .profile-avatar { width: 120px; height: 120px; border-radius: 50%; margin-bottom: 20px; border: 4px solid #87CEEB; object-fit: cover; }
         
@@ -520,6 +545,8 @@
         
         @media (max-width: 1024px) {
             .items-exchange-grid, .items-redeem-grid { grid-template-columns: repeat(2, 1fr); }
+            .trade-grid { grid-template-columns: 1fr; gap: 15px; }
+            .trade-vs { align-self: center; margin: 10px auto; }
         }
         
         @media (max-width: 768px) {
@@ -530,9 +557,6 @@
             .products-grid { grid-template-columns: 1fr; }
             .convert-grid { flex-direction: column; }
             .hero-title { font-size: 38px; }
-            .instructions-grid { grid-template-columns: 1fr; }
-            .bot-actions { flex-direction: column; }
-            .bot-trade-content { padding: 20px; }
         }
     </style>
 </head>
@@ -550,6 +574,7 @@
         <button class="nav-link" onclick="showShop()"><i class="fas fa-store"></i> Shop</button>
         <button class="nav-link" onclick="showExchange()"><i class="fas fa-exchange-alt"></i> Exchange</button>
         <button class="nav-link" onclick="showRedeem()"><i class="fas fa-gift"></i> Redeem</button>
+        <button class="nav-link" onclick="showTradeCheck()"><i class="fas fa-balance-scale"></i> Trade Check</button>
         <button class="nav-link" id="adminNavBtn" style="display:none;" onclick="showAdmin()"><i class="fas fa-crown"></i> Admin</button>
     </div>
     <div class="top-right">
@@ -569,13 +594,13 @@
     <div class="menu-item" onclick="showShop(); closeSideMenu()"><i class="fas fa-store"></i> Shop</div>
     <div class="menu-item" onclick="showExchange(); closeSideMenu()"><i class="fas fa-exchange-alt"></i> Exchange Items</div>
     <div class="menu-item" onclick="showRedeem(); closeSideMenu()"><i class="fas fa-gift"></i> Redeem Credits</div>
+    <div class="menu-item" onclick="showTradeCheck(); closeSideMenu()"><i class="fas fa-balance-scale"></i> Trade Check</div>
     <div class="menu-item" onclick="openVerificationModal(); closeSideMenu()"><i class="fab fa-roblox"></i> Verify Roblox</div>
     <div class="menu-item" onclick="openProfile(); closeSideMenu()"><i class="fas fa-user-circle"></i> My Profile</div>
     <div class="menu-item" onclick="performGoogleLogout(); closeSideMenu()"><i class="fas fa-sign-out-alt"></i> Logout</div>
 </div>
 
 <div class="page-container">
-    <!-- HOME PAGE -->
     <div id="homePage" class="page active">
         <div class="hero">
             <div class="hero-content">
@@ -589,7 +614,6 @@
         </div>
     </div>
 
-    <!-- SHOP PAGE -->
     <div id="shopPage" class="page">
         <div class="container">
             <div class="filter-bar"><button class="filter-btn active" data-filter="all"><i class="fas fa-layer-group"></i> All</button><button class="filter-btn" data-filter="knife"><i class="fas fa-knife"></i> Knives</button><button class="filter-btn" data-filter="gun"><i class="fas fa-gun"></i> Guns</button></div>
@@ -597,7 +621,6 @@
         </div>
     </div>
 
-    <!-- EXCHANGE PAGE -->
     <div id="exchangePage" class="page">
         <div class="container" style="padding-bottom:100px;">
             <div class="exchange-header"><h2><i class="fas fa-exchange-alt"></i> Exchange Items for Credits</h2><p><i class="fas fa-info-circle"></i> Select items to trade. You'll receive credits minus 20 fee per item</p></div>
@@ -611,7 +634,6 @@
         </div>
     </div>
 
-    <!-- REDEEM PAGE -->
     <div id="redeemPage" class="page">
         <div class="container" style="padding-bottom:100px;">
             <div class="redeem-header"><h2><i class="fas fa-gift"></i> Redeem Credits for Weapons</h2><p><i class="fas fa-coins"></i> Spend your hard-earned credits to get rare MM2 items instantly!</p></div>
@@ -619,94 +641,80 @@
         </div>
     </div>
 
-    <!-- ADMIN PAGE -->
+    <!-- TRADE CHECK PAGE -->
+    <div id="tradeCheckPage" class="page">
+        <div class="container">
+            <h2 style="text-align:center; margin-bottom:30px;"><i class="fas fa-balance-scale"></i> Trade Value Checker</h2>
+            <div class="trade-check-container">
+                <div class="trade-grid">
+                    <!-- Your Offer -->
+                    <div class="trade-side">
+                        <h3><i class="fas fa-user"></i> Your Offer</h3>
+                        <div class="trade-items-list" id="yourOfferList">
+                            <div style="text-align:center; color:#aaa; padding:20px;">No items added</div>
+                        </div>
+                        <button class="reset-trade-btn" onclick="clearYourOffer()" style="width:100%; margin-top:10px;"><i class="fas fa-trash"></i> Clear Your Offer</button>
+                    </div>
+                    
+                    <div class="trade-vs">
+                        <span>VS</span>
+                    </div>
+                    
+                    <!-- Their Offer -->
+                    <div class="trade-side">
+                        <h3><i class="fas fa-robot"></i> Their Offer</h3>
+                        <div class="trade-items-list" id="theirOfferList">
+                            <div style="text-align:center; color:#aaa; padding:20px;">No items added</div>
+                        </div>
+                        <button class="reset-trade-btn" onclick="clearTheirOffer()" style="width:100%; margin-top:10px;"><i class="fas fa-trash"></i> Clear Their Offer</button>
+                    </div>
+                </div>
+                
+                <!-- Trade Summary -->
+                <div class="trade-summary-info">
+                    <div class="value-row">
+                        <span class="value-label"><i class="fas fa-box"></i> Your Total Value:</span>
+                        <span class="value-amount" id="yourTotalValue">0</span>
+                    </div>
+                    <div class="value-row">
+                        <span class="value-label"><i class="fas fa-box"></i> Their Total Value:</span>
+                        <span class="value-amount" id="theirTotalValue">0</span>
+                    </div>
+                    <div class="value-row">
+                        <span class="value-label"><i class="fas fa-chart-line"></i> Difference:</span>
+                        <span class="value-amount" id="valueDifference">0</span>
+                    </div>
+                    <div class="winner-badge" id="winnerBadge">Fair Trade</div>
+                </div>
+                
+                <!-- Available Items to Add -->
+                <h3 style="color:white; margin: 20px 0 10px;"><i class="fas fa-database"></i> Available Items (Click to add to Your Offer)</h3>
+                <div class="available-items-grid" id="availableItemsGrid"></div>
+                
+                <p style="color:#aaa; font-size:12px; text-align:center; margin-top:15px;">
+                    <i class="fas fa-info-circle"></i> Click on any item to add to YOUR OFFER. Values are based on MM2 trading values.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <div id="adminPage" class="page"><div class="container"><h2><i class="fas fa-crown"></i> Admin Panel</h2><div id="adminContent">Admin controls here</div></div></div>
 
-    <!-- PROFILE PAGE -->
     <div id="profilePage" class="page"><div class="container"><div class="profile-card"><img id="profileAvatarImg" src="https://ui-avatars.com/api/?name=User&background=87CEEB&color=fff&size=120" class="profile-avatar"><h2 id="profileName">Guest</h2><p id="profileRobloxStatus" style="background:rgba(135,206,235,0.1); display:inline-block; padding:6px 15px; border-radius:30px; margin:10px 0;"><i class="fab fa-roblox"></i> Not verified</p><div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:25px 0;"><div style="background:#f5f7fa; border-radius:30px; padding:20px; border:1px solid rgba(135,206,235,0.3);"><div style="font-size:32px; font-weight:800; color:#87CEEB;" id="profilePoints">0</div><div><i class="fas fa-star"></i> Points</div></div><div style="background:#f5f7fa; border-radius:30px; padding:20px; border:1px solid rgba(135,206,235,0.3);"><div style="font-size:32px; font-weight:800; color:#87CEEB;" id="profileCredits">0</div><div><i class="fas fa-coins"></i> Credits</div></div></div><button onclick="openVerificationModal()" class="btn-green" style="width:100%;"><i class="fab fa-roblox"></i> Verify Roblox</button><button onclick="switchGoogleAccount()" class="btn-red" style="width:100%; margin-top:10px;"><i class="fas fa-exchange-alt"></i> Switch Account</button></div></div></div>
 </div>
 
-<!-- Trade Summary Bar -->
-<div id="tradeSummary" class="trade-summary hidden"><div class="trade-summary-content"><div class="trade-items-preview" id="tradeItemsPreview"><div class="empty-trade-preview"><i class="fas fa-info-circle"></i> No items selected</div></div><div class="trade-total-display"><i class="fas fa-plus-circle"></i> <span id="tradeTotalCredits">0</span> credits</div><button class="confirm-trade-btn" onclick="showTradeConfirm()"><i class="fas fa-exchange-alt"></i> Trade Now</button></div></div>
-
-<!-- Confirmation Modal -->
+<!-- Other Modals -->
 <div id="confirmModal" class="confirmation-modal"><div class="confirmation-content"><h3><i class="fas fa-question-circle"></i> Confirm Trade</h3><div id="confirmItemsList" style="max-height:200px; overflow-y:auto; margin:15px 0;"></div><div class="confirmation-total" id="confirmTotal" style="font-size:24px; font-weight:800; color:#10b981;"><i class="fas fa-coins"></i> Total: 0 credits</div><button class="btn-green" onclick="finalizeTrade()"><i class="fas fa-check"></i> Confirm</button><button class="btn-red" onclick="closeConfirmModal()"><i class="fas fa-times"></i> Cancel</button></div></div>
 
-<!-- Purchase Modal -->
 <div id="purchaseModal" class="premium-modal"><div class="premium-modal-content"><img id="modalItemImg" style="width:120px; height:120px; object-fit:contain; border-radius:20px;"><h3 id="modalItemName" style="margin:15px 0; color:#1a1a2e;"></h3><p id="modalItemPrice" style="font-size:24px; color:#87CEEB; font-weight:800;"></p><div class="convert-input-group" style="margin:15px 0;"><label><i class="fas fa-cubes"></i> Quantity</label><input type="number" id="modalQuantity" value="1" min="1" style="text-align:center;"></div><button class="add-to-cart-btn" onclick="addToCart()"><i class="fas fa-cart-plus"></i> Add to Cart</button><button class="btn-red" onclick="closePurchaseModal()" style="margin-top:10px; width:100%;"><i class="fas fa-times"></i> Cancel</button></div></div>
 
-<!-- Points Redeem Modal -->
 <div id="pointsRedeemModal" class="premium-modal"><div class="premium-modal-content"><div style="background:linear-gradient(135deg,#87CEEB,#FFB6C1); border-radius:30px; padding:20px;"><h3><i class="fas fa-star"></i> Your Points</h3><div style="font-size:48px; font-weight:800; color:white;" id="pointsRedeemDisplay">0</div></div><div style="background:#f5f7fa; border-radius:30px; padding:20px; margin:10px 0; display:flex; justify-content:space-between; align-items:center; border:1px solid rgba(135,206,235,0.3);"><div><div style="font-size:40px;">🔪</div><h4>Candy Knife</h4><p><i class="fas fa-star"></i> 2,000 Points</p></div><button class="btn-green" onclick="redeemPointsItem('Candy', 2000)"><i class="fas fa-gift"></i> Redeem</button></div><button class="btn-red" onclick="closePointsRedeemModal()"><i class="fas fa-times"></i> Close</button></div></div>
 
-<!-- Roblox Verification Modal -->
 <div id="robloxVerifModal" class="verification-modal"><div class="verification-content"><h2><i class="fab fa-roblox"></i> Verify Roblox Account</h2><div id="verifStep1"><div class="convert-input-group"><label><i class="fas fa-user"></i> Roblox Username</label><input type="text" id="verifUsername" placeholder="Enter your Roblox username"></div><button class="btn-green" onclick="checkUser()" style="width:100%;"><i class="fas fa-arrow-right"></i> Continue</button></div><div id="verifStep2" style="display:none;"><div id="verifAvatar"></div><h3 id="verifDisplayName" style="color:#1a1a2e;"></h3><div class="verification-code" id="verifCode"></div><p style="font-size:13px; color:#666;"><i class="fas fa-info-circle"></i> Copy this code to your Roblox profile bio, then click Verify</p><button class="btn-green" onclick="verifyBio()"><i class="fas fa-check-circle"></i> I've Added It - Verify</button><button class="btn-red" onclick="closeVerifModal()"><i class="fas fa-times"></i> Cancel</button></div><div id="verifStep3" style="display:none;"><i class="fas fa-check-circle" style="font-size:60px; color:#10b981;"></i><h3 style="color:#1a1a2e;">Verified!</h3><button class="btn-green" onclick="closeVerifModal()"><i class="fas fa-check"></i> Continue</button></div></div></div>
 
-<!-- Bot Trade Modal - Popup for Exchange/Redeem/Shop -->
-<div id="botTradeModal" class="bot-trade-modal">
-    <div class="bot-trade-content">
-        <div class="bot-avatar-frame">
-            <img class="bot-avatar" id="botModalAvatar" src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3D5E8F0E9A7B2C4D1F6E8A9B2C4D6F8E-1.png" alt="Bot Avatar" onerror="this.src='https://ui-avatars.com/api/?name=EchoKnivesBot&background=87CEEB&color=fff&size=120'">
-        </div>
-        <div class="bot-info-card">
-            <div class="bot-info-row">
-                <i class="fas fa-user-astronaut"></i>
-                <div>
-                    <div class="label">BOT NAME</div>
-                    <div class="value">EchoKnivesBot</div>
-                </div>
-            </div>
-            <div class="bot-info-row">
-                <i class="fas fa-tag"></i>
-                <div>
-                    <div class="label">USERNAME</div>
-                    <div class="value">SIGMAKE5</div>
-                </div>
-            </div>
-        </div>
-        <div class="transaction-details" id="transactionDetails">
-            <div class="transaction-amount" id="transactionAmount">+0 credits</div>
-            <div id="transactionItems" style="font-size: 12px; margin-top: 8px;"></div>
-        </div>
-        <div class="instructions-grid">
-            <div class="instruction-step">
-                <i class="fas fa-sign-in-alt"></i>
-                <strong>STEP 1</strong>
-                <p>Join the Bot</p>
-            </div>
-            <div class="instruction-step">
-                <i class="fas fa-clock"></i>
-                <strong>STEP 2</strong>
-                <p>Wait for your turn</p>
-            </div>
-            <div class="instruction-step">
-                <i class="fas fa-gift"></i>
-                <strong>STEP 3</strong>
-                <p>Give your items</p>
-            </div>
-            <div class="instruction-step">
-                <i class="fas fa-chart-line"></i>
-                <strong>STEP 4</strong>
-                <p>Get credits</p>
-            </div>
-        </div>
-        <div class="bot-actions">
-            <button class="join-bot-btn" onclick="joinBotServer()">
-                <i class="fas fa-arrow-right"></i> JOIN BOT
-            </button>
-            <button class="view-profile-btn" onclick="viewBotProfile()">
-                <i class="fab fa-roblox"></i> VIEW PROFILE
-            </button>
-        </div>
-        <button class="close-trade-modal" onclick="closeBotTradeModal()">
-            <i class="fas fa-times"></i> CANCEL
-        </button>
-    </div>
-</div>
-
-<!-- Cart Sidebar -->
-<div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar"><div class="cart-header"><h3><i class="fas fa-shopping-bag"></i> Your Cart</h3><button class="close-cart" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItemsList"></div><div class="cart-footer"><div class="cart-subtotal"><span><i class="fas fa-receipt"></i> Subtotal</span><span id="cartTotal">₱0</span></div><button class="checkout-btn" onclick="checkout()"><i class="fas fa-lock"></i> Proceed to Checkout</button></div></div>
 
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -714,10 +722,119 @@
     const ADMIN_EMAIL = "ivanmendones13@gmail.com";
     const ROBLOX_MIDDLEMAN = "https://roblox-middlemanbot1.onrender.com";
     const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1488808773492543508/bpbJDBX3v1LLJXo0ri3xbi1Lbpu7BGXzVR1z4aCy1pP0bFqJsRrqM_ncNTi5ToDiCZ4d";
-    const BOT_JOIN_LINK = "https://www.roblox.com/share?code=fb6282b4dbb22d408534c8aa259c960a&type=Server";
-    const BOT_PROFILE_LINK = "https://www.roblox.com/users/1/profile";
     
-    // Exchange Items (Give items → Get credits)
+    // ========== MM2 ITEMS WITH VALUES (Based on rarity) ==========
+    const mm2Items = [
+        // Common (1-20) - Values 1-5
+        { name: "Combat", value: 1, image: "https://mm2valuess.com/wp-content/uploads/combat.png", rarity: "Common" },
+        { name: "Leaf", value: 1, image: "https://mm2valuess.com/wp-content/uploads/leaf.png", rarity: "Common" },
+        { name: "Lovely", value: 1, image: "https://mm2valuess.com/wp-content/uploads/lovely.png", rarity: "Common" },
+        { name: "Hardened", value: 1, image: "https://mm2valuess.com/wp-content/uploads/hardened.png", rarity: "Common" },
+        { name: "Checker", value: 2, image: "https://mm2valuess.com/wp-content/uploads/checker.png", rarity: "Common" },
+        { name: "Future", value: 2, image: "https://mm2valuess.com/wp-content/uploads/future.png", rarity: "Common" },
+        { name: "News", value: 2, image: "https://mm2valuess.com/wp-content/uploads/news.png", rarity: "Common" },
+        { name: "Clown", value: 2, image: "https://mm2valuess.com/wp-content/uploads/clown.png", rarity: "Common" },
+        { name: "Damp", value: 3, image: "https://mm2valuess.com/wp-content/uploads/damp.png", rarity: "Common" },
+        { name: "Whiteout", value: 3, image: "https://mm2valuess.com/wp-content/uploads/whiteout.png", rarity: "Common" },
+        { name: "Graffiti", value: 3, image: "https://mm2valuess.com/wp-content/uploads/graffiti.png", rarity: "Common" },
+        { name: "Bleached", value: 3, image: "https://mm2valuess.com/wp-content/uploads/bleached.png", rarity: "Common" },
+        { name: "Sandy", value: 4, image: "https://mm2valuess.com/wp-content/uploads/sandy.png", rarity: "Common" },
+        { name: "Dirt", value: 4, image: "https://mm2valuess.com/wp-content/uploads/dirt.png", rarity: "Common" },
+        { name: "Stone", value: 4, image: "https://mm2valuess.com/wp-content/uploads/stone.png", rarity: "Common" },
+        { name: "Wood", value: 4, image: "https://mm2valuess.com/wp-content/uploads/wood.png", rarity: "Common" },
+        { name: "Iron", value: 5, image: "https://mm2valuess.com/wp-content/uploads/iron.png", rarity: "Common" },
+        { name: "Stainless", value: 5, image: "https://mm2valuess.com/wp-content/uploads/stainless.png", rarity: "Common" },
+        { name: "Cardboard", value: 5, image: "https://mm2valuess.com/wp-content/uploads/cardboard.png", rarity: "Common" },
+        { name: "Paper", value: 5, image: "https://mm2valuess.com/wp-content/uploads/paper.png", rarity: "Common" },
+        // Uncommon (21-40) - Values 6-15
+        { name: "Copper", value: 6, image: "https://mm2valuess.com/wp-content/uploads/copper.png", rarity: "Uncommon" },
+        { name: "Shaded", value: 6, image: "https://mm2valuess.com/wp-content/uploads/shaded.png", rarity: "Uncommon" },
+        { name: "Bones", value: 7, image: "https://mm2valuess.com/wp-content/uploads/bones.png", rarity: "Uncommon" },
+        { name: "Xbox", value: 7, image: "https://mm2valuess.com/wp-content/uploads/xbox.png", rarity: "Uncommon" },
+        { name: "Love", value: 8, image: "https://mm2valuess.com/wp-content/uploads/love.png", rarity: "Uncommon" },
+        { name: "Tiger", value: 8, image: "https://mm2valuess.com/wp-content/uploads/tiger.png", rarity: "Uncommon" },
+        { name: "Zebra", value: 9, image: "https://mm2valuess.com/wp-content/uploads/zebra.png", rarity: "Uncommon" },
+        { name: "Leopard", value: 9, image: "https://mm2valuess.com/wp-content/uploads/leopard.png", rarity: "Uncommon" },
+        { name: "Floral", value: 10, image: "https://mm2valuess.com/wp-content/uploads/floral.png", rarity: "Uncommon" },
+        { name: "Nature", value: 10, image: "https://mm2valuess.com/wp-content/uploads/nature.png", rarity: "Uncommon" },
+        { name: "Circuit", value: 11, image: "https://mm2valuess.com/wp-content/uploads/circuit.png", rarity: "Uncommon" },
+        { name: "Byte", value: 11, image: "https://mm2valuess.com/wp-content/uploads/byte.png", rarity: "Uncommon" },
+        { name: "Sketch", value: 12, image: "https://mm2valuess.com/wp-content/uploads/sketch.png", rarity: "Uncommon" },
+        { name: "Splatter", value: 12, image: "https://mm2valuess.com/wp-content/uploads/splatter.png", rarity: "Uncommon" },
+        { name: "Brush", value: 13, image: "https://mm2valuess.com/wp-content/uploads/brush.png", rarity: "Uncommon" },
+        { name: "Ink", value: 13, image: "https://mm2valuess.com/wp-content/uploads/ink.png", rarity: "Uncommon" },
+        { name: "Fade", value: 14, image: "https://mm2valuess.com/wp-content/uploads/fade.png", rarity: "Uncommon" },
+        { name: "Denim", value: 14, image: "https://mm2valuess.com/wp-content/uploads/denim.png", rarity: "Uncommon" },
+        { name: "Camo", value: 15, image: "https://mm2valuess.com/wp-content/uploads/camo.png", rarity: "Uncommon" },
+        { name: "Military", value: 15, image: "https://mm2valuess.com/wp-content/uploads/military.png", rarity: "Uncommon" },
+        // Rare (41-60) - Values 16-35
+        { name: "Rainbow", value: 16, image: "https://mm2valuess.com/wp-content/uploads/rainbow.png", rarity: "Rare" },
+        { name: "Space", value: 17, image: "https://mm2valuess.com/wp-content/uploads/space.png", rarity: "Rare" },
+        { name: "Galaxy", value: 18, image: "https://mm2valuess.com/wp-content/uploads/galaxy.png", rarity: "Rare" },
+        { name: "Vortex", value: 19, image: "https://mm2valuess.com/wp-content/uploads/vortex.png", rarity: "Rare" },
+        { name: "Cosmos", value: 20, image: "https://mm2valuess.com/wp-content/uploads/cosmos.png", rarity: "Rare" },
+        { name: "Nova", value: 21, image: "https://mm2valuess.com/wp-content/uploads/nova.png", rarity: "Rare" },
+        { name: "Plasma", value: 22, image: "https://mm2valuess.com/wp-content/uploads/plasma.png", rarity: "Rare" },
+        { name: "Shock", value: 23, image: "https://mm2valuess.com/wp-content/uploads/shock.png", rarity: "Rare" },
+        { name: "Static", value: 24, image: "https://mm2valuess.com/wp-content/uploads/static.png", rarity: "Rare" },
+        { name: "Electric", value: 25, image: "https://mm2valuess.com/wp-content/uploads/electric.png", rarity: "Rare" },
+        { name: "Hazard", value: 26, image: "https://mm2valuess.com/wp-content/uploads/hazard.png", rarity: "Rare" },
+        { name: "Toxic", value: 27, image: "https://mm2valuess.com/wp-content/uploads/toxic.png", rarity: "Rare" },
+        { name: "Bio", value: 28, image: "https://mm2valuess.com/wp-content/uploads/bio.png", rarity: "Rare" },
+        { name: "Acid", value: 29, image: "https://mm2valuess.com/wp-content/uploads/acid.png", rarity: "Rare" },
+        { name: "Venom", value: 30, image: "https://mm2valuess.com/wp-content/uploads/venom.png", rarity: "Rare" },
+        { name: "Frozen", value: 31, image: "https://mm2valuess.com/wp-content/uploads/frozen.png", rarity: "Rare" },
+        { name: "Snow", value: 32, image: "https://mm2valuess.com/wp-content/uploads/snow.png", rarity: "Rare" },
+        { name: "Ice", value: 33, image: "https://mm2valuess.com/wp-content/uploads/ice.png", rarity: "Rare" },
+        { name: "Frost", value: 34, image: "https://mm2valuess.com/wp-content/uploads/frost.png", rarity: "Rare" },
+        { name: "Glacier", value: 35, image: "https://mm2valuess.com/wp-content/uploads/glacier.png", rarity: "Rare" },
+        // Legendary (61-75) - Values 36-80
+        { name: "Splash", value: 40, image: "https://mm2valuess.com/wp-content/uploads/splash.png", rarity: "Legendary" },
+        { name: "Predator", value: 45, image: "https://mm2valuess.com/wp-content/uploads/predator.png", rarity: "Legendary" },
+        { name: "Rune", value: 50, image: "https://mm2valuess.com/wp-content/uploads/rune.png", rarity: "Legendary" },
+        { name: "Elite", value: 55, image: "https://mm2valuess.com/wp-content/uploads/elite.png", rarity: "Legendary" },
+        { name: "Green Fire", value: 60, image: "https://mm2valuess.com/wp-content/uploads/green-fire.png", rarity: "Legendary" },
+        { name: "Blue Elite", value: 65, image: "https://mm2valuess.com/wp-content/uploads/blue-elite.png", rarity: "Legendary" },
+        { name: "Red Fire", value: 70, image: "https://mm2valuess.com/wp-content/uploads/red-fire.png", rarity: "Legendary" },
+        { name: "Alex", value: 75, image: "https://mm2valuess.com/wp-content/uploads/alex.png", rarity: "Legendary" },
+        { name: "Denis", value: 75, image: "https://mm2valuess.com/wp-content/uploads/denis.png", rarity: "Legendary" },
+        { name: "Sketchy", value: 80, image: "https://mm2valuess.com/wp-content/uploads/sketchy.png", rarity: "Legendary" },
+        { name: "Sub", value: 70, image: "https://mm2valuess.com/wp-content/uploads/sub.png", rarity: "Legendary" },
+        { name: "Goo", value: 65, image: "https://mm2valuess.com/wp-content/uploads/goo.png", rarity: "Legendary" },
+        { name: "Imbued", value: 80, image: "https://mm2valuess.com/wp-content/uploads/imbued.png", rarity: "Legendary" },
+        { name: "Ghost", value: 75, image: "https://mm2valuess.com/wp-content/uploads/ghost.png", rarity: "Legendary" },
+        { name: "Fusion", value: 80, image: "https://mm2valuess.com/wp-content/uploads/fusion.png", rarity: "Legendary" },
+        // Godly (76-90) - Values 100-500
+        { name: "Seer", value: 100, image: "https://mm2valuess.com/wp-content/uploads/seer.png", rarity: "Godly" },
+        { name: "Fang", value: 120, image: "https://mm2valuess.com/wp-content/uploads/fang.png", rarity: "Godly" },
+        { name: "Tides", value: 140, image: "https://mm2valuess.com/wp-content/uploads/tides.png", rarity: "Godly" },
+        { name: "Shark", value: 110, image: "https://mm2valuess.com/wp-content/uploads/shark.png", rarity: "Godly" },
+        { name: "Heat", value: 130, image: "https://mm2valuess.com/wp-content/uploads/heat.png", rarity: "Godly" },
+        { name: "Laser", value: 125, image: "https://mm2valuess.com/wp-content/uploads/laser.png", rarity: "Godly" },
+        { name: "Slasher", value: 115, image: "https://mm2valuess.com/wp-content/uploads/slasher.png", rarity: "Godly" },
+        { name: "Nightblade", value: 105, image: "https://mm2valuess.com/wp-content/uploads/nightblade.png", rarity: "Godly" },
+        { name: "Deathshard", value: 135, image: "https://mm2valuess.com/wp-content/uploads/deathshard.png", rarity: "Godly" },
+        { name: "Chill", value: 150, image: "https://mm2valuess.com/wp-content/uploads/chill.png", rarity: "Godly" },
+        { name: "Winters Edge", value: 200, image: "https://mm2valuess.com/wp-content/uploads/winters-edge.png", rarity: "Godly" },
+        { name: "BattleAxe", value: 180, image: "https://mm2valuess.com/wp-content/uploads/battleaxe.png", rarity: "Godly" },
+        { name: "Boneblade", value: 160, image: "https://mm2valuess.com/wp-content/uploads/boneblade.png", rarity: "Godly" },
+        { name: "Pumpking", value: 250, image: "https://mm2valuess.com/wp-content/uploads/pumpking.png", rarity: "Godly" },
+        { name: "Spider", value: 300, image: "https://mm2valuess.com/wp-content/uploads/spider.png", rarity: "Godly" },
+        // Chroma (91-95) - Values 500-1000
+        { name: "Chroma Seer", value: 500, image: "https://mm2valuess.com/wp-content/uploads/chroma-seer.png", rarity: "Chroma" },
+        { name: "Chroma Fang", value: 600, image: "https://mm2valuess.com/wp-content/uploads/chroma-fang.png", rarity: "Chroma" },
+        { name: "Chroma Heat", value: 700, image: "https://mm2valuess.com/wp-content/uploads/chroma-heat.png", rarity: "Chroma" },
+        { name: "Chroma Laser", value: 750, image: "https://mm2valuess.com/wp-content/uploads/chroma-laser.png", rarity: "Chroma" },
+        { name: "Chroma Slasher", value: 800, image: "https://mm2valuess.com/wp-content/uploads/chroma-slasher.png", rarity: "Chroma" },
+        // Ancient / Rarest (96-100) - Values 1000-5000
+        { name: "Hallowscythe", value: 1200, image: "https://mm2valuess.com/wp-content/uploads/hallowscythe.png", rarity: "Ancient" },
+        { name: "Icebreaker", value: 2000, image: "https://mm2valuess.com/wp-content/uploads/icebreaker.png", rarity: "Ancient" },
+        { name: "Swirly Axe", value: 2500, image: "https://mm2valuess.com/wp-content/uploads/swirly-axe.png", rarity: "Ancient" },
+        { name: "Harvester", value: 3000, image: "https://mm2valuess.com/wp-content/uploads/harvester.png", rarity: "Ancient" },
+        { name: "Corrupt", value: 5000, image: "https://mm2valuess.com/wp-content/uploads/corrupt.png", rarity: "Ancient" }
+    ];
+    
+    // Exchange Items
     const exchangeItems = [
         { id: 1, name: "Batwing", value: 140, image: "https://i.imgur.com/H6CL03y.jpeg" },
         { id: 2, name: "Harvester", value: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
@@ -733,7 +850,7 @@
         { id: 12, name: "Shark", value: 110, image: "https://i.imgur.com/6nL98SC.jpeg" }
     ];
     
-    // Redeem Items (Spend credits → Get items)
+    // Redeem Items
     const redeemItems = [
         { id: 101, name: "Batwing", cost: 140, image: "https://i.imgur.com/H6CL03y.jpeg", type: "knife" },
         { id: 102, name: "Harvester", cost: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg", type: "knife" },
@@ -743,7 +860,7 @@
         { id: 106, name: "Shark", cost: 110, image: "https://i.imgur.com/6nL98SC.jpeg", type: "knife" }
     ];
     
-    // Shop Items (Buy with real money)
+    // Shop Items
     let shopItems = [
         { id: 201, name: "Batwing", type: "knife", price: 140, image: "https://i.imgur.com/H6CL03y.jpeg" },
         { id: 202, name: "Icewing", type: "knife", price: 80, image: "https://i.imgur.com/jiwvmxq.jpeg" },
@@ -762,9 +879,11 @@
     let verifiedRoblox = JSON.parse(localStorage.getItem('verifiedRoblox') || 'null');
     let tradeCart = [];
     let pendingVerification = null;
-    let pendingTransaction = null;
     
-    // Safety messages for typing animation
+    // Trade Check Variables
+    let yourOffer = [];
+    let theirOffer = [];
+    
     const safetyMessages = ["🔒 256-bit SSL Encryption - Your data is 100% secure","✅ 5,000+ Happy Customers - 100% Legit Items","🚀 Instant Delivery - Get your items within minutes","🛡️ Trusted MM2 Marketplace Since 2022","💰 Best Prices Guaranteed - No Hidden Fees","⭐ 4.9/5 Star Rating from 1,000+ Reviews"];
     let msgIndex = 0, charIdx = 0, isDeleting = false;
     
@@ -790,10 +909,11 @@
     function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderShop(); updateCartUI(); }
     
     function switchPage(pageId) {
-        const pages = ['homePage', 'shopPage', 'exchangePage', 'redeemPage', 'adminPage', 'profilePage'];
+        const pages = ['homePage', 'shopPage', 'exchangePage', 'redeemPage', 'tradeCheckPage', 'adminPage', 'profilePage'];
         pages.forEach(id => { const el = document.getElementById(id); if (el) { if (id === pageId) el.classList.add('active'); else el.classList.remove('active'); } });
         if (pageId === 'exchangePage') { renderExchange(); updateTradeBar(); }
         if (pageId === 'redeemPage') renderRedeem();
+        if (pageId === 'tradeCheckPage') renderTradeCheck();
         if (pageId === 'profilePage') updateProfileUI();
     }
     
@@ -801,6 +921,7 @@
     function showShop() { switchPage('shopPage'); renderShop(); }
     function showExchange() { switchPage('exchangePage'); }
     function showRedeem() { switchPage('redeemPage'); }
+    function showTradeCheck() { switchPage('tradeCheckPage'); }
     function showAdmin() { if(!currentUser || currentUser.email !== ADMIN_EMAIL) { showToast("Admin only"); return; } switchPage('adminPage'); }
     function openProfile() { if(!isLoggedIn){ performGoogleLogin(); return; } switchPage('profilePage'); }
     
@@ -809,91 +930,112 @@
     function toggleCart() { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
     
-    // ========== BOT TRADE MODAL FUNCTIONS ==========
-    function openBotTradeModal(type, amount, items) {
-        const modal = document.getElementById('botTradeModal');
-        const transactionAmount = document.getElementById('transactionAmount');
-        const transactionItems = document.getElementById('transactionItems');
-        
-        if (type === 'exchange') {
-            transactionAmount.innerHTML = `<i class="fas fa-plus-circle"></i> +${amount} credits`;
-            transactionAmount.style.color = '#10b981';
-            transactionItems.innerHTML = `You will receive ${amount} credits for: ${items}`;
-        } else if (type === 'redeem') {
-            transactionAmount.innerHTML = `<i class="fas fa-minus-circle"></i> -${amount} credits`;
-            transactionAmount.style.color = '#f59e0b';
-            transactionItems.innerHTML = `You are spending ${amount} credits for: ${items}`;
-        } else if (type === 'shop') {
-            transactionAmount.innerHTML = `<i class="fas fa-shopping-cart"></i> Purchase: ${amount}`;
-            transactionAmount.style.color = '#87CEEB';
-            transactionItems.innerHTML = `You are purchasing: ${items}`;
+    // ========== TRADE CHECK FUNCTIONS ==========
+    function renderTradeCheck() {
+        // Render available items grid
+        const grid = document.getElementById('availableItemsGrid');
+        if (grid) {
+            grid.innerHTML = mm2Items.map(item => `
+                <div class="available-item" onclick="addToYourOffer('${item.name}', ${item.value}, '${item.image}')">
+                    <img src="${item.image}" onerror="this.src='https://via.placeholder.com/50/87CEEB/FFFFFF?text=${item.name}'">
+                    <div class="available-item-name">${item.name}</div>
+                    <div class="available-item-value">${item.value} val</div>
+                </div>
+            `).join('');
         }
         
-        modal.classList.add('show');
-    }
-    
-    function closeBotTradeModal() {
-        const modal = document.getElementById('botTradeModal');
-        modal.classList.remove('show');
-        pendingTransaction = null;
-    }
-    
-    function joinBotServer() {
-        window.open(BOT_JOIN_LINK, '_blank');
-        showToast("Opening Roblox bot server...");
+        // Render your offer
+        const yourList = document.getElementById('yourOfferList');
+        if (yourList) {
+            if (yourOffer.length === 0) {
+                yourList.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">No items added</div>';
+            } else {
+                yourList.innerHTML = yourOffer.map((item, index) => `
+                    <div class="trade-item">
+                        <img src="${item.image}" onerror="this.src='https://via.placeholder.com/40/87CEEB/FFFFFF?text=${item.name}'">
+                        <div class="trade-item-info">
+                            <div class="trade-item-name">${item.name}</div>
+                            <div class="trade-item-value">${item.value} value</div>
+                        </div>
+                        <button class="remove-item" onclick="removeFromYourOffer(${index})"><i class="fas fa-times"></i></button>
+                    </div>
+                `).join('');
+            }
+        }
         
-        // If there's a pending transaction, complete it after they join
-        if (pendingTransaction) {
-            setTimeout(() => {
-                if (confirm("Have you joined the bot and completed the trade? Click OK to confirm.")) {
-                    completePendingTransaction();
-                }
-            }, 5000);
+        // Render their offer
+        const theirList = document.getElementById('theirOfferList');
+        if (theirList) {
+            if (theirOffer.length === 0) {
+                theirList.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">No items added</div>';
+            } else {
+                theirList.innerHTML = theirOffer.map((item, index) => `
+                    <div class="trade-item">
+                        <img src="${item.image}" onerror="this.src='https://via.placeholder.com/40/87CEEB/FFFFFF?text=${item.name}'">
+                        <div class="trade-item-info">
+                            <div class="trade-item-name">${item.name}</div>
+                            <div class="trade-item-value">${item.value} value</div>
+                        </div>
+                        <button class="remove-item" onclick="removeFromTheirOffer(${index})"><i class="fas fa-times"></i></button>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        updateTradeValues();
+    }
+    
+    function addToYourOffer(name, value, image) {
+        yourOffer.push({ name: name, value: value, image: image });
+        renderTradeCheck();
+        showToast(`Added ${name} to your offer`);
+    }
+    
+    function removeFromYourOffer(index) {
+        yourOffer.splice(index, 1);
+        renderTradeCheck();
+    }
+    
+    function removeFromTheirOffer(index) {
+        theirOffer.splice(index, 1);
+        renderTradeCheck();
+    }
+    
+    function clearYourOffer() {
+        yourOffer = [];
+        renderTradeCheck();
+        showToast("Your offer cleared");
+    }
+    
+    function clearTheirOffer() {
+        theirOffer = [];
+        renderTradeCheck();
+        showToast("Their offer cleared");
+    }
+    
+    function updateTradeValues() {
+        const yourTotal = yourOffer.reduce((sum, item) => sum + item.value, 0);
+        const theirTotal = theirOffer.reduce((sum, item) => sum + item.value, 0);
+        const difference = yourTotal - theirTotal;
+        
+        document.getElementById('yourTotalValue').innerText = yourTotal;
+        document.getElementById('theirTotalValue').innerText = theirTotal;
+        document.getElementById('valueDifference').innerText = difference > 0 ? `+${difference}` : difference;
+        
+        const winnerDiv = document.getElementById('winnerBadge');
+        if (yourTotal > theirTotal) {
+            winnerDiv.innerHTML = '<i class="fas fa-trophy"></i> YOU ARE WINNING! +' + difference + ' value';
+            winnerDiv.className = 'winner-badge winner-win';
+        } else if (theirTotal > yourTotal) {
+            winnerDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> YOU ARE LOSING! ' + difference + ' value';
+            winnerDiv.className = 'winner-badge winner-lose';
+        } else {
+            winnerDiv.innerHTML = '<i class="fas fa-handshake"></i> FAIR TRADE!';
+            winnerDiv.className = 'winner-badge winner-tie';
         }
     }
     
-    function viewBotProfile() {
-        window.open(BOT_PROFILE_LINK, '_blank');
-        showToast("Opening bot profile...");
-    }
-    
-    function completePendingTransaction() {
-        if (!pendingTransaction) return;
-        
-        if (pendingTransaction.type === 'exchange') {
-            luckBalance += pendingTransaction.amount;
-            saveLuckBalance();
-            updateLuckDisplay();
-            showToast(`✅ +${pendingTransaction.amount} credits added!`);
-            
-            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎮 EXCHANGE: ${currentUser?.displayName} exchanged ${pendingTransaction.items} for +${pendingTransaction.amount} credits` }) }).catch(()=>{});
-            
-            tradeCart = [];
-            renderExchange();
-            updateTradeBar();
-        } 
-        else if (pendingTransaction.type === 'redeem') {
-            luckBalance -= pendingTransaction.amount;
-            saveLuckBalance();
-            updateLuckDisplay();
-            showToast(`✅ Redeemed ${pendingTransaction.items}!`);
-            
-            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎁 REDEEM: ${currentUser?.displayName} redeemed ${pendingTransaction.items} for ${pendingTransaction.amount} credits` }) }).catch(()=>{});
-            
-            renderRedeem();
-        }
-        else if (pendingTransaction.type === 'shop') {
-            showToast(`✅ Purchase completed! You will receive ${pendingTransaction.items} soon.`);
-            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🛒 PURCHASE: ${currentUser?.displayName} purchased ${pendingTransaction.items} for ${pendingTransaction.amount}` }) }).catch(()=>{});
-            cart = [];
-            updateCartUI();
-        }
-        
-        closeBotTradeModal();
-        pendingTransaction = null;
-    }
-    
-    // ========== EXCHANGE FUNCTIONS (Get Credits) ==========
+    // ========== EXCHANGE FUNCTIONS ==========
     function renderExchange() {
         const grid = document.getElementById('exchangeItemsGrid');
         if (!grid) return;
@@ -952,22 +1094,20 @@
         if (tradeCart.length === 0) return;
         
         const total = tradeCart.reduce((s, i) => s + i.creditsValue, 0);
-        const itemsList = tradeCart.map(i => i.name).join(', ');
+        luckBalance += total;
+        saveLuckBalance();
+        updateLuckDisplay();
+        showToast(`✅ +${total} credits added!`);
         
+        fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎮 TRADE: ${currentUser?.displayName} got +${total} credits for ${tradeCart.map(i=>i.name).join(', ')}` }) }).catch(()=>{});
+        
+        tradeCart = [];
+        renderExchange();
+        updateTradeBar();
         closeConfirmModal();
-        
-        // Store pending transaction
-        pendingTransaction = {
-            type: 'exchange',
-            amount: total,
-            items: itemsList
-        };
-        
-        // Show bot trade modal
-        openBotTradeModal('exchange', total, itemsList);
     }
     
-    // ========== REDEEM FUNCTIONS (Spend Credits) ==========
+    // ========== REDEEM FUNCTIONS ==========
     function renderRedeem() {
         const grid = document.getElementById('redeemItemsGrid');
         if (!grid) return;
@@ -986,19 +1126,17 @@
         
         const item = redeemItems.find(i => i.id === id);
         if (luckBalance < item.cost) { showToast(`Need ${item.cost} credits! You have ${luckBalance}`); return; }
-        
-        // Store pending transaction
-        pendingTransaction = {
-            type: 'redeem',
-            amount: item.cost,
-            items: item.name
-        };
-        
-        // Show bot trade modal
-        openBotTradeModal('redeem', item.cost, item.name);
+        if (confirm(`Redeem ${item.name} for ${item.cost} credits?`)) {
+            luckBalance -= item.cost;
+            saveLuckBalance();
+            updateLuckDisplay();
+            showToast(`✅ Redeemed ${item.name}!`);
+            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `🎁 REDEEM: ${currentUser?.displayName} redeemed ${item.name} for ${item.cost} credits` }) }).catch(()=>{});
+            renderRedeem();
+        }
     }
     
-    // ========== SHOP FUNCTIONS (Real Money) ==========
+    // ========== SHOP FUNCTIONS ==========
     function renderShop() {
         let filtered = shopItems.filter(i => { if(currentFilter === 'knife') return i.type === 'knife'; if(currentFilter === 'gun') return i.type === 'gun'; return true; });
         document.getElementById('productsGrid').innerHTML = filtered.map(item => `<div class="product-card" onclick="openPurchase(${item.id})"><div class="product-image"><img src="${item.image}" onerror="this.src='https://via.placeholder.com/150/87CEEB/FFFFFF?text=${item.name}'"></div><div class="product-info"><div class="product-name"><i class="fas fa-${item.type === 'knife' ? 'knife' : 'gun'}"></i> ${item.name}</div><div class="product-price">${getSymbol()}${getDisplayPrice(item.price)}</div></div></div>`).join('');
@@ -1036,24 +1174,8 @@
     }
     function updateQty(id, n) { if(n <= 0) removeFromCart(id); else { const i = cart.find(i => i.id === id); if(i) i.quantity = n; updateCartUI(); } }
     function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
-    function checkout() { 
-        if(!verifiedRoblox) { showToast("Verify Roblox first"); openVerificationModal(); return; }
-        if(cart.length === 0) { showToast("Cart is empty"); return; }
-        
-        const total = cart.reduce((s,i) => s + (i.price * i.quantity), 0);
-        const itemsList = cart.map(i => `${i.quantity}x ${i.name}`).join(', ');
-        const totalDisplay = `${getSymbol()}${getDisplayPrice(total)}`;
-        
-        pendingTransaction = {
-            type: 'shop',
-            amount: totalDisplay,
-            items: itemsList
-        };
-        
-        openBotTradeModal('shop', totalDisplay, itemsList);
-    }
+    function checkout() { if(!verifiedRoblox) { showToast("Verify Roblox first"); openVerificationModal(); return; } showToast("Checkout coming soon!"); }
     
-    // ========== CONVERT CREDITS ==========
     function convertCredits() {
         let amount = parseInt(document.getElementById('convertAmount').value);
         const currency = document.getElementById('convertCurrency').value;
@@ -1066,19 +1188,16 @@
         document.getElementById('convertResult').innerHTML = `<i class="fas fa-coins"></i> ${amount} credits = ${symbols[currency]}${total.toFixed(2)}<br><span style="font-size:12px;"><i class="fas fa-info-circle"></i> Rate: ${symbols[currency]}${rates[currency]} per credit + 5% fee = ${symbols[currency]}${fee.toFixed(2)} fee</span>`;
     }
     
-    // ========== POINTS SYSTEM ==========
     function loadPoints() { const saved = localStorage.getItem(`points_${currentUser?.email || 'guest'}`); userPoints = saved ? parseInt(saved) : 0; document.getElementById('pointsBalance').innerText = userPoints; }
     function savePoints() { localStorage.setItem(`points_${currentUser?.email || 'guest'}`, userPoints); loadPoints(); }
     function showPointsRedeem() { if(!isLoggedIn) { performGoogleLogin(); return; } document.getElementById('pointsRedeemDisplay').innerText = userPoints; document.getElementById('pointsRedeemModal').classList.add('show'); }
     function closePointsRedeemModal() { document.getElementById('pointsRedeemModal').classList.remove('show'); }
     function redeemPointsItem(itemName, cost) { if(userPoints < cost) { showToast(`Need ${cost} points!`); return; } userPoints -= cost; savePoints(); showToast(`Redeemed ${itemName}!`); closePointsRedeemModal(); }
     
-    // ========== CREDITS SYSTEM ==========
     function loadLuckBalance() { const saved = localStorage.getItem(`credits_${currentUser?.email || 'guest'}`); luckBalance = saved ? parseInt(saved) : 0; updateLuckDisplay(); }
     function saveLuckBalance() { localStorage.setItem(`credits_${currentUser?.email || 'guest'}`, luckBalance); }
     function updateLuckDisplay() { document.getElementById('luckBalance').innerText = luckBalance; if(document.getElementById('profileCredits')) document.getElementById('profileCredits').innerText = luckBalance; }
     
-    // ========== ROBLOX VERIFICATION ==========
     async function openVerificationModal() {
         if(verifiedRoblox) { showToast(`Already verified as @${verifiedRoblox.username}`); return; }
         document.getElementById('verifStep1').style.display = 'block';
@@ -1125,7 +1244,6 @@
         } catch(e) { showToast("Error verifying"); }
     }
     
-    // ========== PROFILE & AUTH ==========
     function updateProfileUI() { 
         if(verifiedRoblox) document.getElementById('profileAvatarImg').src = verifiedRoblox.avatarUrl;
         document.getElementById('profilePoints').innerText = userPoints;
@@ -1154,8 +1272,7 @@
     renderShop();
     setTimeout(typeEffect, 500);
     
-    // Expose global functions
-    window.showHome=showHome; window.showShop=showShop; window.showExchange=showExchange; window.showRedeem=showRedeem; window.showAdmin=showAdmin; window.openProfile=openProfile;
+    window.showHome=showHome; window.showShop=showShop; window.showExchange=showExchange; window.showRedeem=showRedeem; window.showTradeCheck=showTradeCheck; window.showAdmin=showAdmin; window.openProfile=openProfile;
     window.toggleCart=toggleCart; window.closeCart=closeCart; window.changeCurrency=changeCurrency; window.performGoogleLogin=performGoogleLogin; window.performGoogleLogout=performGoogleLogout;
     window.openPurchase=openPurchase; window.closePurchaseModal=closePurchaseModal; window.addToCart=addToCart; window.updateQty=updateQty; window.removeFromCart=removeFromCart; window.checkout=checkout;
     window.toggleTradeItem=toggleTradeItem; window.showTradeConfirm=showTradeConfirm; window.closeConfirmModal=closeConfirmModal; window.finalizeTrade=finalizeTrade;
@@ -1163,7 +1280,8 @@
     window.showPointsRedeem=showPointsRedeem; window.closePointsRedeemModal=closePointsRedeemModal; window.redeemPointsItem=redeemPointsItem;
     window.openVerificationModal=openVerificationModal; window.closeVerifModal=closeVerifModal; window.checkUser=checkUser; window.verifyBio=verifyBio;
     window.toggleSideMenu=toggleSideMenu; window.closeSideMenu=closeSideMenu; window.switchGoogleAccount=switchGoogleAccount;
-    window.openBotTradeModal=openBotTradeModal; window.closeBotTradeModal=closeBotTradeModal; window.joinBotServer=joinBotServer; window.viewBotProfile=viewBotProfile;
+    window.addToYourOffer=addToYourOffer; window.removeFromYourOffer=removeFromYourOffer; window.removeFromTheirOffer=removeFromTheirOffer;
+    window.clearYourOffer=clearYourOffer; window.clearTheirOffer=clearTheirOffer;
 </script>
 </body>
 </html>
