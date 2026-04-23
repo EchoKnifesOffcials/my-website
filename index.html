@@ -46,12 +46,11 @@
             --text-primary: #1e293b;
             --text-secondary: #64748b;
             --card-bg: rgba(255, 255, 255, 0.95);
-            --card-border: rgba(0, 212, 255, 0.2);
+            --card-border: rgba(0, 212, 255, 0.25);
             --accent-blue: #00d4ff;
             --accent-pink: #ff6b9d;
             --shadow-sm: 0 4px 15px rgba(0,0,0,0.05);
             --shadow-md: 0 8px 25px rgba(0,0,0,0.08);
-            --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
         }
         
         body.dark {
@@ -62,8 +61,6 @@
             --text-secondary: #cbd5e1;
             --card-bg: rgba(30, 41, 59, 0.9);
             --card-border: rgba(0, 212, 255, 0.3);
-            --shadow-sm: 0 4px 15px rgba(0,0,0,0.3);
-            --shadow-md: 0 8px 25px rgba(0,0,0,0.4);
         }
         
         body {
@@ -74,23 +71,41 @@
             transition: all 0.3s ease;
         }
         
-        /* Animated Background */
-        .glow-orb {
+        /* Loading Screen */
+        .loading-screen {
             position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.2;
-            z-index: -1;
-            animation: floatOrb 25s infinite ease-in-out;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0e1a, #03050b);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 30px;
+            transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.18, 1);
+            clip-path: circle(150% at 50% 50%);
         }
+        .loading-screen.hide { clip-path: circle(0% at 50% 50%); pointer-events: none; }
+        .diamond-loader { position: relative; width: 120px; height: 120px; animation: floatDiamond 2s ease-in-out infinite; }
+        @keyframes floatDiamond { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+        .diamond-loader i { font-size: 70px; background: linear-gradient(135deg, #00d4ff, #ff6b9d); -webkit-background-clip: text; background-clip: text; color: transparent; animation: diamondShine 1.5s infinite; }
+        @keyframes diamondShine { 0%,100% { filter: drop-shadow(0 0 10px #00d4ff); } 50% { filter: drop-shadow(0 0 30px #ff6b9d); } }
+        .loader-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 3px solid transparent; border-top-color: #00d4ff; animation: spin 1s linear infinite; }
+        .loader-ring:nth-child(2) { width: 90%; height: 90%; top: 5%; left: 5%; border-top-color: #ff6b9d; animation: spin 1.5s linear infinite reverse; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .loading-text { font-size: 18px; font-weight: 700; letter-spacing: 6px; background: linear-gradient(135deg, #00d4ff, #ff6b9d); -webkit-background-clip: text; background-clip: text; color: transparent; animation: textPulse 1.5s infinite; }
+        @keyframes textPulse { 0%,100% { opacity: 0.6; letter-spacing: 6px; } 50% { opacity: 1; letter-spacing: 10px; } }
+        .loading-progress { width: 200px; height: 2px; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; }
+        .loading-progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #00d4ff, #ff6b9d); animation: progressBar 2s ease-out forwards; }
+        @keyframes progressBar { 100% { width: 100%; } }
+        
+        .glow-orb { position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.2; z-index: -1; animation: floatOrb 25s infinite; }
         .orb-1 { width: 500px; height: 500px; background: #00d4ff; top: -200px; left: -200px; }
         .orb-2 { width: 400px; height: 400px; background: #ff6b9d; bottom: -150px; right: -150px; animation-delay: 8s; }
-        
-        @keyframes floatOrb {
-            0%,100% { transform: translate(0,0) scale(1); }
-            33% { transform: translate(60px,-60px) scale(1.1); }
-            66% { transform: translate(-40px,50px) scale(0.9); }
-        }
+        @keyframes floatOrb { 0%,100% { transform: translate(0,0); } 33% { transform: translate(60px,-60px); } 66% { transform: translate(-40px,50px); } }
         
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
@@ -111,40 +126,15 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
+        .logo { display: flex; align-items: center; gap: 12px; cursor: pointer; transition: transform 0.3s; }
         .logo:hover { transform: scale(1.02); }
         .logo-icon { font-size: 32px; color: #00d4ff; animation: iconPulse 2s infinite; }
         @keyframes iconPulse { 0%,100% { filter: drop-shadow(0 0 5px #00d4ff); } 50% { filter: drop-shadow(0 0 15px #ff6b9d); } }
         .logo-text { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #00d4ff, #ff6b9d); -webkit-background-clip: text; background-clip: text; color: transparent; }
         
         .nav-links { display: flex; gap: 8px; background: rgba(0,212,255,0.08); padding: 5px; border-radius: 60px; flex-wrap: wrap; }
-        .nav-link {
-            padding: 8px 18px;
-            border-radius: 40px;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-secondary);
-            background: transparent;
-            border: none;
-            transition: all 0.3s;
-            font-size: 13px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .nav-link:hover, .nav-link.active {
-            background: linear-gradient(135deg, #00d4ff, #ff6b9d);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0,212,255,0.4);
-        }
+        .nav-link { padding: 8px 18px; border-radius: 40px; cursor: pointer; font-weight: 600; color: var(--text-secondary); background: transparent; border: none; transition: all 0.3s; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
+        .nav-link:hover, .nav-link.active { background: linear-gradient(135deg, #00d4ff, #ff6b9d); color: white; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,212,255,0.4); }
         
         .top-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .points-display, .luck-balance {
@@ -163,90 +153,40 @@
         .luck-balance { background: linear-gradient(135deg, #00d4ff, #6c5ce7); }
         .points-display:hover, .luck-balance:hover { transform: translateY(-2px); }
         
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(0,212,255,0.1);
-            backdrop-filter: blur(8px);
-            padding: 5px 15px;
-            border-radius: 40px;
-            cursor: pointer;
-            border: 1px solid var(--card-border);
-        }
+        .user-info { display: flex; align-items: center; gap: 10px; background: rgba(0,212,255,0.1); backdrop-filter: blur(8px); padding: 5px 15px; border-radius: 40px; cursor: pointer; border: 1px solid var(--card-border); }
         .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #00d4ff, #ff6b9d); display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .menu-icon { font-size: 24px; cursor: pointer; background: rgba(0,212,255,0.1); padding: 8px 16px; border-radius: 40px; display: none; }
         
-        /* Container & Pages */
-        .container { max-width: 1400px; margin: 0 auto; padding: 30px 5%; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
         .page-container { position: relative; min-height: calc(100vh - 80px); }
-        .page {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s ease, visibility 0.4s;
-            transform: translateY(20px);
-        }
+        .page { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s; transform: translateY(20px); }
         .page.active { opacity: 1; visibility: visible; position: relative; transform: translateY(0); }
         
         /* Hero */
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(255,107,157,0.05));
-            border-radius: 40px;
-            margin: 20px;
-        }
-        .hero h1 { font-size: 52px; font-weight: 800; margin-bottom: 20px; }
-        .hero h1 span { background: linear-gradient(135deg, #00d4ff, #ff6b9d); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .btn-primary {
-            background: linear-gradient(135deg, #00d4ff, #ff6b9d);
-            border: none;
-            padding: 14px 35px;
-            border-radius: 40px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 20px;
-        }
+        .hero { min-height: 50vh; display: flex; align-items: center; justify-content: space-between; padding: 40px 5%; flex-wrap: wrap; gap: 50px; }
+        .hero-title { font-size: 52px; font-weight: 800; }
+        .hero-title span { background: linear-gradient(135deg, #00d4ff, #ff6b9d); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .hero-desc { font-size: 17px; color: var(--text-secondary); margin: 25px 0 35px; line-height: 1.6; }
+        .hero-badge { display: inline-block; background: rgba(0,212,255,0.15); padding: 8px 25px; border-radius: 40px; font-size: 13px; color: #00d4ff; margin-bottom: 25px; }
+        .btn-primary { background: linear-gradient(135deg, #00d4ff, #ff6b9d); border: none; padding: 14px 35px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,212,255,0.4); }
+        .hero-image img { max-width: 100%; border-radius: 24px; width: 300px; animation: floatImage 4s infinite; }
+        @keyframes floatImage { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         
-        /* Section Header */
-        .section-header { text-align: center; margin-bottom: 30px; }
-        .section-header h2 { font-size: 28px; font-weight: 800; background: linear-gradient(135deg, #00d4ff, #ff6b9d); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        
-        /* Filter Bar */
-        .filter-bar { display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; }
-        .filter-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 8px 24px;
-            border-radius: 40px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .filter-btn:hover, .filter-btn.active { background: linear-gradient(135deg, #00d4ff, #ff6b9d); color: white; border-color: transparent; transform: translateY(-2px); }
-        
-        /* Grids */
-        .products-grid, .exchange-grid, .redeem-grid, .sell-grid, .trades-grid {
+        /* Shop/Exchange Grids */
+        .products-grid, .exchange-grid, .redeem-grid, .sell-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 25px;
         }
-        
-        .product-card, .exchange-card, .redeem-card, .sell-card, .trade-card {
+        .product-card, .exchange-card, .redeem-card, .sell-card {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
             border-radius: 24px;
             padding: 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             border: 1px solid var(--card-border);
         }
         .product-card:hover, .exchange-card:hover, .redeem-card:hover, .sell-card:hover {
@@ -264,74 +204,141 @@
         .product-name { font-weight: 800; font-size: 16px; margin-bottom: 5px; }
         .product-price { font-size: 18px; font-weight: 700; color: #f59e0b; }
         
-        /* Wheel */
-        .draw-section {
+        /* Trade Hub - New Global UI */
+        .trades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        .trade-card {
             background: var(--card-bg);
-            border-radius: 40px;
-            padding: 30px;
-            text-align: center;
-            border: 1px solid var(--card-border);
-        }
-        .wheel-container {
-            position: relative;
-            width: 350px;
-            height: 350px;
-            margin: 20px auto;
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
             overflow: hidden;
-            border-radius: 50%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid var(--card-border);
+            transition: all 0.3s;
         }
-        .wheel-container::after {
-            content: '';
-            position: absolute;
+        .trade-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: #00d4ff; }
+        .trade-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(0,212,255,0.05);
+            border-bottom: 1px solid var(--card-border);
+        }
+        .trade-avatar { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #00d4ff, #ff6b9d); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .trade-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .trade-user-info h3 { font-size: 16px; margin-bottom: 4px; }
+        .trade-user-info p { font-size: 12px; color: var(--text-secondary); }
+        .trade-trusted { font-size: 11px; color: #f59e0b; margin-top: 4px; }
+        .trade-time { font-size: 10px; color: var(--text-muted); margin-left: auto; }
+        .trade-items-section {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(0,0,0,0.03);
+        }
+        .trade-offer, .trade-request {
+            flex: 1;
+            text-align: center;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 15px;
+        }
+        .trade-offer h4, .trade-request h4 { font-size: 12px; margin-bottom: 10px; color: var(--text-secondary); }
+        .trade-item-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .trade-item-display img { width: 60px; height: 60px; object-fit: contain; border-radius: 12px; background: rgba(0,0,0,0.1); padding: 8px; }
+        .trade-item-name { font-weight: 700; font-size: 14px; }
+        .trade-item-qty { font-size: 11px; color: #f59e0b; }
+        .trade-message {
+            padding: 12px 20px;
+            background: rgba(0,212,255,0.08);
+            font-size: 12px;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--card-border);
+        }
+        .trade-actions {
+            padding: 15px 20px;
+            display: flex;
+            gap: 12px;
+            border-top: 1px solid var(--card-border);
+        }
+        .accept-btn, .delete-btn, .message-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .accept-btn { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .delete-btn { background: #ef4444; color: white; }
+        .message-btn { background: rgba(0,212,255,0.2); color: var(--text-primary); }
+        .accept-btn:hover, .delete-btn:hover, .message-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+        
+        /* Create Trade Modal */
+        .modal-overlay {
+            position: fixed;
             top: 0;
-            left: 50%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.7));
-            z-index: 5;
-            pointer-events: none;
-            border-radius: 0 50% 50% 0;
-        }
-        .wheel {
+            left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 50%;
-            position: relative;
-            transition: transform 3.5s cubic-bezier(0.17,0.94,0.32,1.27);
-        }
-        .wheel-segment {
-            position: absolute;
-            width: 50%;
-            height: 50%;
-            transform-origin: 100% 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(16px);
+            z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
         }
-        .wheel-segment img { width: 35px; height: 35px; object-fit: contain; border-radius: 8px; }
-        .wheel-segment span { font-size: 9px; font-weight: 800; color: white; text-shadow: 1px 1px 0 black; }
-        .wheel-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 65px;
-            height: 65px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 32px;
+            max-width: 600px;
+            width: 90%;
+            padding: 30px;
+            border: 1px solid var(--card-border);
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .item-select-row { display: flex; gap: 15px; margin: 15px 0; flex-wrap: wrap; }
+        .item-select { flex: 1; }
+        .item-select label { display: block; font-size: 12px; margin-bottom: 5px; color: var(--text-secondary); }
+        .item-select select, .item-select input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 30px;
+            border: 1px solid var(--card-border);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        .check-box {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #00d4ff;
+            border-radius: 6px;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-size: 11px;
-            box-shadow: 0 0 0 4px #00d4ff;
-            z-index: 10;
             cursor: pointer;
         }
+        .check-box.checked { background: linear-gradient(135deg, #00d4ff, #ff6b9d); }
+        .check-box i { font-size: 12px; color: white; opacity: 0; }
+        .check-box.checked i { opacity: 1; }
         
-        /* Side Menu */
         .side-menu {
             position: fixed;
             top: 0;
@@ -361,54 +368,6 @@
         .menu-item i { width: 24px; color: #00d4ff; }
         .menu-item:hover { background: linear-gradient(135deg, #00d4ff, #ff6b9d); transform: translateX(8px); color: white; }
         
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(16px);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-        .modal-overlay.show { opacity: 1; visibility: visible; }
-        .modal-content {
-            background: var(--card-bg);
-            border-radius: 32px;
-            max-width: 500px;
-            width: 90%;
-            padding: 30px;
-            text-align: center;
-            border: 1px solid var(--card-border);
-            animation: modalIn 0.3s ease;
-        }
-        @keyframes modalIn {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .check-box {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #00d4ff;
-            border-radius: 6px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .check-box.checked { background: linear-gradient(135deg, #00d4ff, #ff6b9d); }
-        .check-box i { font-size: 12px; color: white; opacity: 0; }
-        .check-box.checked i { opacity: 1; }
-        
         .toast {
             position: fixed;
             bottom: 30px;
@@ -427,12 +386,19 @@
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .menu-icon { display: block; }
-            .hero h1 { font-size: 32px; }
-            .wheel-container { width: 280px; height: 280px; }
+            .hero-title { font-size: 32px; }
+            .hero { flex-direction: column; text-align: center; }
+            .trades-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+
+<div class="loading-screen" id="loadingScreen">
+    <div class="diamond-loader"><div class="loader-ring"></div><div class="loader-ring"></div><i class="fas fa-gem"></i></div>
+    <div class="loading-text">ECHOKNIVES</div>
+    <div class="loading-progress"><div class="loading-progress-bar"></div></div>
+</div>
 
 <div class="glow-orb orb-1"></div>
 <div class="glow-orb orb-2"></div>
@@ -446,7 +412,6 @@
         <button class="nav-link" onclick="showRedeem()"><i class="fas fa-gift"></i> Redeem</button>
         <button class="nav-link" onclick="showSell()"><i class="fas fa-tag"></i> Sell</button>
         <button class="nav-link" onclick="showTradeHub()"><i class="fas fa-handshake"></i> Trade Hub</button>
-        <button class="nav-link" onclick="showDraw()"><i class="fas fa-gem"></i> Luck Draw</button>
     </div>
     <div class="top-right">
         <div class="points-display"><i class="fas fa-star"></i> <span id="pointsBalance">0</span></div>
@@ -464,68 +429,56 @@
     <div class="menu-item" onclick="showRedeem();closeSideMenu()"><i class="fas fa-gift"></i> Redeem</div>
     <div class="menu-item" onclick="showSell();closeSideMenu()"><i class="fas fa-tag"></i> Sell Items</div>
     <div class="menu-item" onclick="showTradeHub();closeSideMenu()"><i class="fas fa-handshake"></i> Trade Hub</div>
-    <div class="menu-item" onclick="showDraw();closeSideMenu()"><i class="fas fa-gem"></i> Luck Draw</div>
     <div class="menu-item" onclick="openProfile();closeSideMenu()"><i class="fas fa-user"></i> Profile</div>
     <div class="menu-item" onclick="toggleTheme()"><i class="fas fa-moon"></i> Dark/Light</div>
 </div>
 
 <div class="page-container">
-    <!-- Home Page -->
     <div id="homePage" class="page active">
         <div class="hero">
-            <h1>Trade <span>MM2 Items</span><br>With Confidence</h1>
-            <p style="color: var(--text-secondary);">Exchange, redeem, and trade safely on the most premium MM2 platform</p>
-            <button class="btn-primary" onclick="showShop()">Start Trading →</button>
+            <div><div class="hero-badge"><i class="fas fa-shield-alt"></i> Secure Trading</div><h1 class="hero-title">TRADE <span>MM2 ITEMS</span><br>WITH CONFIDENCE</h1><p class="hero-desc">Exchange, redeem, and trade safely on the most premium MM2 platform</p><button class="btn-primary" onclick="showTradeHub()">Start Trading →</button></div>
+            <div class="hero-image"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="MM2 Hero"></div>
+        </div>
+    </div>
+    <div id="shopPage" class="page"><div class="container"><h2 style="margin-bottom:20px;"><i class="fas fa-store"></i> Premium Shop</h2><div class="products-grid" id="productsGrid"></div></div></div>
+    <div id="exchangePage" class="page"><div class="container"><h2 style="margin-bottom:20px;"><i class="fas fa-exchange-alt"></i> Exchange Items</h2><div class="exchange-grid" id="exchangeGrid"></div></div></div>
+    <div id="redeemPage" class="page"><div class="container"><h2 style="margin-bottom:20px;"><i class="fas fa-gift"></i> Redeem Credits</h2><div class="redeem-grid" id="redeemGrid"></div></div></div>
+    <div id="sellPage" class="page"><div class="container"><h2 style="margin-bottom:20px;"><i class="fas fa-tag"></i> Sell to Admins</h2><div class="sell-grid" id="sellGrid"></div></div></div>
+    
+    <!-- Trade Hub Page -->
+    <div id="tradeHubPage" class="page">
+        <div class="container">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; flex-wrap:wrap; gap:15px;">
+                <h2><i class="fas fa-handshake"></i> Global Trade Requests</h2>
+                <button class="btn-primary" onclick="openCreateTradeModal()"><i class="fas fa-plus"></i> Create Trade Listing</button>
+            </div>
+            <div class="trades-grid" id="tradesGrid"></div>
         </div>
     </div>
     
-    <!-- Shop Page -->
-    <div id="shopPage" class="page"><div class="container"><div class="section-header"><h2><i class="fas fa-store"></i> Premium Shop</h2></div><div class="filter-bar"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="knife">Knives</button><button class="filter-btn" data-filter="gun">Guns</button></div><div class="products-grid" id="productsGrid"></div></div></div>
-    
-    <!-- Exchange Page -->
-    <div id="exchangePage" class="page"><div class="container"><div class="section-header"><h2><i class="fas fa-exchange-alt"></i> Exchange Items</h2><p>Trade items for credits (20 credit fee per item)</p></div><div class="exchange-grid" id="exchangeGrid"></div></div></div>
-    
-    <!-- Redeem Page -->
-    <div id="redeemPage" class="page"><div class="container"><div class="section-header"><h2><i class="fas fa-gift"></i> Redeem Credits</h2></div><div class="redeem-grid" id="redeemGrid"></div></div></div>
-    
-    <!-- Sell Page -->
-    <div id="sellPage" class="page"><div class="container"><div class="section-header"><h2><i class="fas fa-tag"></i> Sell to Admins</h2><p>Get paid in ROBUX for your items</p></div><div class="sell-grid" id="sellGrid"></div></div></div>
-    
-    <!-- Trade Hub Page -->
-    <div id="tradeHubPage" class="page"><div class="container"><div class="section-header"><h2><i class="fas fa-handshake"></i> Trading Hub</h2></div><button class="btn-primary" onclick="openCreateTradeModal()" style="margin-bottom:20px;"><i class="fas fa-plus"></i> Create Trade Listing</button><div class="trades-grid" id="tradesGrid"></div></div></div>
-    
-    <!-- Luck Draw Page -->
-    <div id="drawPage" class="page"><div class="container"><div class="draw-section"><h2><i class="fas fa-gem"></i> Luck Draw</h2><p>🎫 Tickets: <span id="ticketCount">3</span></p><div class="wheel-container"><div class="wheel" id="wheel"></div><div class="wheel-center" onclick="spinWheel()">SPIN</div></div><button class="btn-primary" onclick="spinWheel()" style="margin-top:20px;">Spin Wheel (1 Ticket)</button></div></div></div>
-    
-    <!-- Profile Page -->
-    <div id="profilePage" class="page"><div class="container"><div style="background:var(--card-bg); border-radius:32px; padding:40px; text-align:center; max-width:500px; margin:0 auto;"><img id="profileAvatar" style="width:100px; border-radius:50%; margin-bottom:15px;"><h2 id="profileName">Guest</h2><p id="profileRoblox" style="color:var(--text-secondary);">Not verified</p><div style="display:flex; gap:30px; justify-content:center; margin:20px;"><div><h3>Points</h3><span id="profilePoints">0</span></div><div><h3>Credits</h3><span id="profileCredits">500</span></div></div><button onclick="simulateLogin()" class="nav-link" style="background:linear-gradient(135deg,#00d4ff,#ff6b9d); width:100%;"><i class="fab fa-google"></i> Login</button><button onclick="toggleTheme()" class="nav-link" style="margin-top:10px; width:100%;"><i class="fas fa-moon"></i> Toggle Theme</button></div></div></div>
+    <div id="profilePage" class="page"><div class="container"><div style="background:var(--card-bg); border-radius:32px; padding:40px; text-align:center; max-width:500px; margin:0 auto;"><img id="profileAvatar" style="width:100px; border-radius:50%; margin-bottom:15px;"><h2 id="profileName">Guest</h2><p id="profileRoblox" style="color:var(--text-secondary);">Not verified</p><div style="display:flex; gap:30px; justify-content:center; margin:20px;"><div><h3>Points</h3><span id="profilePoints">0</span></div><div><h3>Credits</h3><span id="profileCredits">500</span></div></div><button onclick="startVerification()" class="btn-primary" style="width:100%; margin-bottom:10px;"><i class="fab fa-roblox"></i> Verify Roblox</button><button onclick="toggleTheme()" class="btn-primary" style="width:100%; background:rgba(0,212,255,0.2);"><i class="fas fa-moon"></i> Toggle Theme</button></div></div></div>
 </div>
 
 <!-- Create Trade Modal -->
 <div id="tradeModal" class="modal-overlay">
     <div class="modal-content">
-        <h3><i class="fas fa-handshake"></i> Create Trade</h3>
-        <input type="text" id="tradeReceiver" placeholder="Trade with Roblox Username" style="width:100%; padding:12px; margin:15px 0; border-radius:30px; border:1px solid var(--card-border); background:var(--bg-secondary); color:var(--text-primary);">
-        <div style="display:flex; gap:10px; margin:10px 0;">
-            <input type="text" id="offerItem" placeholder="Item you offer" style="flex:1; padding:10px; border-radius:30px; border:1px solid var(--card-border); background:var(--bg-secondary);">
-            <input type="number" id="offerQty" placeholder="Qty" value="1" style="width:70px; padding:10px; border-radius:30px; border:1px solid var(--card-border);">
+        <h3 style="margin-bottom:20px;"><i class="fas fa-handshake"></i> Create Trade Listing</h3>
+        <div class="item-select-row">
+            <div class="item-select"><label>📦 You Offer</label><select id="offerItemSelect"></select><input type="number" id="offerQty" value="1" min="1" style="margin-top:8px;"></div>
+            <div class="item-select"><label>🎯 You Want</label><select id="requestItemSelect"></select><input type="number" id="requestQty" value="1" min="1" style="margin-top:8px;"></div>
         </div>
-        <div style="display:flex; gap:10px; margin:10px 0;">
-            <input type="text" id="requestItem" placeholder="Item you want" style="flex:1; padding:10px; border-radius:30px; border:1px solid var(--card-border); background:var(--bg-secondary);">
-            <input type="number" id="requestQty" placeholder="Qty" value="1" style="width:70px; padding:10px; border-radius:30px; border:1px solid var(--card-border);">
-        </div>
-        <textarea id="tradeMsg" placeholder="Optional message..." rows="2" style="width:100%; padding:12px; margin:10px 0; border-radius:20px; border:1px solid var(--card-border); background:var(--bg-secondary);"></textarea>
-        <div style="display:flex; gap:10px;">
-            <button onclick="submitTrade()" class="nav-link" style="background:#10b981; flex:1;">Publish</button>
-            <button onclick="closeTradeModal()" class="nav-link" style="background:#ef4444; flex:1;">Cancel</button>
-        </div>
+        <textarea id="tradeMessage" placeholder="Optional message..." rows="2" style="width:100%; padding:12px; border-radius:20px; margin:15px 0; border:1px solid var(--card-border); background:var(--bg-secondary);"></textarea>
+        <div style="display:flex; gap:10px;"><button onclick="submitTrade()" class="btn-primary" style="flex:1;">Publish Trade</button><button onclick="closeTradeModal()" class="btn-primary" style="flex:1; background:#ef4444;">Cancel</button></div>
     </div>
 </div>
+
+<!-- Verification Modal -->
+<div id="verifyModal" class="modal-overlay"><div class="modal-content"><h3><i class="fab fa-roblox"></i> Verify Roblox</h3><input type="text" id="robloxUser" placeholder="Roblox Username" style="width:100%; padding:12px; margin:15px 0; border-radius:30px;"><button onclick="verifyRoblox()" class="btn-primary">Verify & Continue</button></div></div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-    // MM2 Items
+    // MM2 Items Database
     const mm2Items = [
         { id: 1, name: "Batwing", value: 140, image: "https://i.imgur.com/H6CL03y.jpeg", type: "knife" },
         { id: 2, name: "Harvester", value: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg", type: "knife" },
@@ -537,133 +490,191 @@
         { id: 8, name: "Lightbringer", value: 140, image: "https://i.imgur.com/BUljuYV.jpeg", type: "gun" }
     ];
     
-    let currentFilter = "all";
+    // State
+    let currentUser = null;
+    let verifiedRoblox = JSON.parse(localStorage.getItem('verifiedRoblox') || 'null');
     let luckBalance = 500;
     let userPoints = 0;
-    let tickets = 3;
-    let trades = JSON.parse(localStorage.getItem('trades') || '[]');
-    let currentUser = null;
+    let trades = JSON.parse(localStorage.getItem('globalTrades') || '[]');
     
     function showToast(msg) { let t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
     function toggleTheme() { document.body.classList.toggle('dark'); localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); }
     if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
     
-    // Navigation
+    // Loading screen
+    window.addEventListener('load', () => { setTimeout(() => document.getElementById('loadingScreen').classList.add('hide'), 2500); renderShop(); renderExchange(); renderRedeem(); renderSell(); renderTrades(); });
+    
+    // Navigation - ALL must verify Roblox first
+    function requireVerification(callback) {
+        if (!verifiedRoblox) { showToast("Please verify your Roblox account first"); document.getElementById('verifyModal').classList.add('show'); return false; }
+        return true;
+    }
+    
     function showHome() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('homePage').classList.add('active'); }
-    function showShop() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('shopPage').classList.add('active'); renderShop(); }
-    function showExchange() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('exchangePage').classList.add('active'); renderExchange(); }
-    function showRedeem() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('redeemPage').classList.add('active'); renderRedeem(); }
-    function showSell() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('sellPage').classList.add('active'); renderSell(); }
-    function showTradeHub() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('tradeHubPage').classList.add('active'); renderTrades(); }
-    function showDraw() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('drawPage').classList.add('active'); generateWheel(); }
+    function showShop() { if(!requireVerification()) return; document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('shopPage').classList.add('active'); renderShop(); }
+    function showExchange() { if(!requireVerification()) return; document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('exchangePage').classList.add('active'); renderExchange(); }
+    function showRedeem() { if(!requireVerification()) return; document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('redeemPage').classList.add('active'); renderRedeem(); }
+    function showSell() { if(!requireVerification()) return; document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('sellPage').classList.add('active'); renderSell(); }
+    function showTradeHub() { if(!requireVerification()) return; document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('tradeHubPage').classList.add('active'); renderTrades(); }
     function openProfile() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('profilePage').classList.add('active'); updateProfileUI(); }
     function toggleSideMenu() { document.getElementById('sideMenu').classList.add('open'); }
     function closeSideMenu() { document.getElementById('sideMenu').classList.remove('open'); }
     
-    // Shop
-    function renderShop() {
-        let filtered = mm2Items.filter(i => currentFilter === 'all' || i.type === currentFilter);
-        document.getElementById('productsGrid').innerHTML = filtered.map(item => `
-            <div class="product-card" onclick="buyItem(${item.id})">
-                <img src="${item.image}"><div class="product-name">${item.name}</div>
-                <div class="product-price">${item.value} credits</div>
-                <small>${item.type}</small>
-            </div>
-        `).join('');
-    }
+    // Shop Functions
+    function renderShop() { document.getElementById('productsGrid').innerHTML = mm2Items.map(item => `<div class="product-card" onclick="buyItem(${item.id})"><img src="${item.image}"><div class="product-name">${item.name}</div><div class="product-price">${item.value} credits</div></div>`).join(''); }
     function buyItem(id) { let item = mm2Items.find(i=>i.id===id); if(luckBalance>=item.value){ luckBalance-=item.value; updateCredits(); showToast(`Purchased ${item.name}!`); } else showToast(`Need ${item.value} credits`); }
-    
-    // Exchange
-    function renderExchange() {
-        document.getElementById('exchangeGrid').innerHTML = mm2Items.map(item => `
-            <div class="exchange-card" onclick="exchangeItem(${item.id})">
-                <img src="${item.image}"><div class="product-name">${item.name}</div>
-                <div class="product-price">+ ${Math.max(0,item.value-20)} credits</div>
-            </div>
-        `).join('');
-    }
+    function renderExchange() { document.getElementById('exchangeGrid').innerHTML = mm2Items.map(item => `<div class="exchange-card" onclick="exchangeItem(${item.id})"><img src="${item.image}"><div class="product-name">${item.name}</div><div class="product-price">+ ${Math.max(0,item.value-20)} credits</div></div>`).join(''); }
     function exchangeItem(id) { let item = mm2Items.find(i=>i.id===id); luckBalance += Math.max(0,item.value-20); updateCredits(); showToast(`+${Math.max(0,item.value-20)} credits!`); renderExchange(); }
-    
-    // Redeem
-    function renderRedeem() {
-        document.getElementById('redeemGrid').innerHTML = mm2Items.map(item => `
-            <div class="redeem-card" onclick="redeemItem(${item.id})">
-                <img src="${item.image}"><div class="product-name">${item.name}</div>
-                <div class="product-price">${item.value} credits</div>
-            </div>
-        `).join('');
-    }
-    function redeemItem(id) { let item = mm2Items.find(i=>i.id===id); if(luckBalance>=item.value){ luckBalance-=item.value; updateCredits(); showToast(`Redeemed ${item.name}!`); renderRedeem(); } else showToast(`Need ${item.value} credits`); }
-    
-    // Sell
-    function renderSell() {
-        document.getElementById('sellGrid').innerHTML = mm2Items.slice(0,5).map(item => `
-            <div class="sell-card" onclick="sellItem(${item.id})">
-                <img src="${item.image}"><div class="product-name">${item.name}</div>
-                <div class="product-price">${item.value} ROBUX</div>
-            </div>
-        `).join('');
-    }
+    function renderRedeem() { document.getElementById('redeemGrid').innerHTML = mm2Items.map(item => `<div class="redeem-card" onclick="redeemItem(${item.id})"><img src="${item.image}"><div class="product-name">${item.name}</div><div class="product-price">${item.value} credits</div></div>`).join(''); }
+    function redeemItem(id) { let item = mm2Items.find(i=>i.id===id); if(luckBalance>=item.value){ luckBalance-=item.value; updateCredits(); showToast(`Redeemed ${item.name}!`); } else showToast(`Need ${item.value} credits`); }
+    function renderSell() { document.getElementById('sellGrid').innerHTML = mm2Items.slice(0,5).map(item => `<div class="sell-card" onclick="sellItem(${item.id})"><img src="${item.image}"><div class="product-name">${item.name}</div><div class="product-price">${item.value} ROBUX</div></div>`).join(''); }
     function sellItem(id) { let item = mm2Items.find(i=>i.id===id); if(confirm(`Sell ${item.name} for ${item.value} ROBUX?`)) showToast("Request sent to admin!"); }
+    function updateCredits() { document.getElementById('luckBalance').innerText = luckBalance; document.getElementById('profileCredits').innerText = luckBalance; }
     
-    // Trade Hub
-    function renderTrades() {
-        if(trades.length === 0) { document.getElementById('tradesGrid').innerHTML = '<div style="text-align:center; padding:40px;">No active trades. Create one!</div>'; return; }
-        document.getElementById('tradesGrid').innerHTML = trades.map(trade => `
-            <div class="trade-card">
-                <img src="https://ui-avatars.com/api/?name=${trade.creator}&background=00d4ff&color=fff" style="width:60px; border-radius:50%;">
-                <h4>${trade.creator}</h4>
-                <p><strong>Offers:</strong> ${trade.offerItem} x${trade.offerQty}</p>
-                <p><strong>Wants:</strong> ${trade.requestItem} x${trade.requestQty}</p>
-                <p><small>Trade with @${trade.receiver}</small></p>
-                ${trade.message ? `<p style="background:rgba(0,212,255,0.1); padding:8px; border-radius:12px;">💬 ${trade.message}</p>` : ''}
-                <button class="btn-primary" style="padding:8px 16px; font-size:12px; margin-top:10px;" onclick="acceptTrade('${trade.id}')">Accept Trade</button>
-            </div>
-        `).join('');
+    // Verification
+    function startVerification() { document.getElementById('verifyModal').classList.add('show'); }
+    function verifyRoblox() { let username = document.getElementById('robloxUser').value.trim(); if(!username){ showToast("Enter username"); return; } verifiedRoblox = { username: username, displayName: username, avatarUrl: `https://ui-avatars.com/api/?name=${username}&background=00d4ff&color=fff&size=100`, trustScore: 8 }; localStorage.setItem('verifiedRoblox', JSON.stringify(verifiedRoblox)); updateProfileUI(); document.getElementById('verifyModal').classList.remove('show'); showToast(`✅ Verified as @${username}!`); }
+    
+    // Trade Functions
+    function openCreateTradeModal() { if(!requireVerification()) return; populateItemSelects(); document.getElementById('tradeModal').classList.add('show'); }
+    function closeTradeModal() { document.getElementById('tradeModal').classList.remove('show'); }
+    function populateItemSelects() {
+        let options = mm2Items.map(i => `<option value="${i.id}" data-image="${i.image}" data-name="${i.name}">${i.name} (${i.value} value)</option>`).join('');
+        document.getElementById('offerItemSelect').innerHTML = options;
+        document.getElementById('requestItemSelect').innerHTML = options;
     }
     
-    function openCreateTradeModal() { document.getElementById('tradeModal').classList.add('show'); }
-    function closeTradeModal() { document.getElementById('tradeModal').classList.remove('show'); }
     function submitTrade() {
-        let receiver = document.getElementById('tradeReceiver').value;
-        let offerItem = document.getElementById('offerItem').value;
-        let offerQty = document.getElementById('offerQty').value;
-        let requestItem = document.getElementById('requestItem').value;
-        let requestQty = document.getElementById('requestQty').value;
-        let message = document.getElementById('tradeMsg').value;
-        if(!receiver || !offerItem || !requestItem) { showToast("Fill all fields"); return; }
-        let trade = { id: Date.now(), creator: currentUser?.displayName || "Trader", receiver, offerItem, offerQty, requestItem, requestQty, message };
+        let offerId = parseInt(document.getElementById('offerItemSelect').value);
+        let requestId = parseInt(document.getElementById('requestItemSelect').value);
+        let offerQty = parseInt(document.getElementById('offerQty').value);
+        let requestQty = parseInt(document.getElementById('requestQty').value);
+        let message = document.getElementById('tradeMessage').value;
+        let offerItem = mm2Items.find(i=>i.id===offerId);
+        let requestItem = mm2Items.find(i=>i.id===requestId);
+        
+        let trade = {
+            id: Date.now(),
+            creatorId: currentUser?.uid || 'guest',
+            creatorName: currentUser?.displayName || verifiedRoblox?.username || 'Trader',
+            creatorAvatar: currentUser?.photoURL || verifiedRoblox?.avatarUrl || `https://ui-avatars.com/api/?name=Trader&background=00d4ff&color=fff`,
+            creatorRoblox: verifiedRoblox?.username || 'Unknown',
+            trustScore: verifiedRoblox?.trustScore || 7,
+            createdAt: Date.now(),
+            offerItem: { id: offerItem.id, name: offerItem.name, image: offerItem.image, qty: offerQty },
+            requestItem: { id: requestItem.id, name: requestItem.name, image: requestItem.image, qty: requestQty },
+            message: message
+        };
         trades.unshift(trade);
-        localStorage.setItem('trades', JSON.stringify(trades));
+        localStorage.setItem('globalTrades', JSON.stringify(trades));
         renderTrades();
         closeTradeModal();
-        showToast("Trade published!");
-        document.getElementById('tradeReceiver').value = '';
-        document.getElementById('offerItem').value = '';
-        document.getElementById('requestItem').value = '';
-        document.getElementById('tradeMsg').value = '';
+        showToast("Trade published globally!");
     }
-    function acceptTrade(id) { showToast("Trade accepted! Contact the trader on Roblox."); }
     
-    // Wheel
-    let drawItems = [{name:"Batwing",image:"https://i.imgur.com/H6CL03y.jpeg",chance:10},{name:"Harvester",image:"https://i.imgur.com/jZkbQ4t.jpeg",chance:5},{name:"Icewing",image:"https://i.imgur.com/jiwvmxq.jpeg",chance:20},{name:"100 Credits",image:"https://placehold.co/40x40/00d4ff/white?text=100",chance:30,isCredits:true,amount:100},{name:"50 Credits",image:"https://placehold.co/40x40/ff6b9d/white?text=50",chance:35,isCredits:true,amount:50}];
-    let totalChance = drawItems.reduce((s,i)=>s+i.chance,0);
-    function generateWheel(){ let wheel=document.getElementById('wheel'); let a=360/drawItems.length; let c=['#ff6b9d','#00d4ff','#c084fc','#f59e0b','#10b981']; wheel.innerHTML=drawItems.map((item,i)=>`<div class="wheel-segment" style="transform:rotate(${i*a}deg); background:${c[i%c.length]};"><img src="${item.image}"><span>${item.name.substring(0,6)}</span></div>`).join(''); }
-    function spinWheel(){ if(tickets<1){showToast("No tickets!");return;} tickets--; document.getElementById('ticketCount').innerText=tickets; let rand=Math.random()*totalChance; let cum=0,prize=null; for(let p of drawItems){cum+=p.chance; if(rand<=cum){prize=p;break;}} let wheel=document.getElementById('wheel'); wheel.style.transform=`rotate(${Math.random()*3600+1800}deg)`; setTimeout(()=>{wheel.style.transform=''; if(prize.isCredits){luckBalance+=prize.amount; updateCredits(); showToast(`Won ${prize.amount} credits!`);}else showToast(`Won ${prize.name}!`);},3500); }
+    function deleteTrade(tradeId) {
+        if(confirm("Are you sure you want to delete your trade listing?")) {
+            trades = trades.filter(t => t.id != tradeId);
+            localStorage.setItem('globalTrades', JSON.stringify(trades));
+            renderTrades();
+            showToast("Trade deleted");
+        }
+    }
     
-    function updateCredits() { document.getElementById('luckBalance').innerText = luckBalance; document.getElementById('profileCredits').innerText = luckBalance; }
-    function updateProfileUI() { document.getElementById('profileName').innerHTML = currentUser?.displayName || 'Guest'; document.getElementById('profilePoints').innerHTML = userPoints; document.getElementById('profileCredits').innerHTML = luckBalance; if(currentUser?.photoURL) document.getElementById('profileAvatar').src = currentUser.photoURL; }
+    function messageTrader(trade) {
+        let msg = prompt(`Send a message to @${trade.creatorRoblox}:`);
+        if(msg) showToast(`Message sent to ${trade.creatorRoblox}!`);
+    }
     
-    function simulateLogin() { showToast("Demo Login!"); document.getElementById('userName').innerHTML = "Trader"; document.getElementById('userAvatar').innerHTML = '<i class="fas fa-user-astronaut"></i>'; currentUser = { displayName: "Trader" }; updateProfileUI(); }
+    function acceptTrade(trade) {
+        if(confirm(`Accept trade with ${trade.creatorName}?\n\nYou'll give: ${trade.offerItem.name} x${trade.offerItem.qty}\nYou'll receive: ${trade.requestItem.name} x${trade.requestItem.qty}\n\nContact them on Roblox @${trade.creatorRoblox} to complete the trade.`)) {
+            showToast(`Trade request sent! Contact ${trade.creatorRoblox} on Roblox.`);
+        }
+    }
     
-    window.handleAuthStateChanged = function(user) { currentUser = user; if(user){ document.getElementById('userName').innerHTML = user.displayName?.split(' ')[0] || user.email?.split('@')[0]; document.getElementById('userAvatar').innerHTML = user.photoURL ? `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;">` : `<i class="fas fa-user"></i>`; } else { document.getElementById('userName').innerHTML = 'Guest'; document.getElementById('userAvatar').innerHTML = `<i class="fas fa-user"></i>`; } updateProfileUI(); };
+    function timeAgo(timestamp) {
+        const seconds = Math.floor((Date.now() - timestamp) / 1000);
+        if (seconds < 60) return `${seconds} seconds ago`;
+        if (seconds < 3600) return `${Math.floor(seconds / 60)} minutes ago`;
+        if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
+        return `${Math.floor(seconds / 86400)} days ago`;
+    }
     
-    document.querySelectorAll('.filter-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentFilter=btn.dataset.filter; renderShop();});});
+    function renderTrades() {
+        const container = document.getElementById('tradesGrid');
+        if(trades.length === 0) { container.innerHTML = '<div style="text-align:center; padding:60px;">No active trades. Create the first one!</div>'; return; }
+        container.innerHTML = trades.map(trade => {
+            const isCreator = trade.creatorId === (currentUser?.uid || 'guest');
+            return `
+                <div class="trade-card">
+                    <div class="trade-header">
+                        <div class="trade-avatar"><img src="${trade.creatorAvatar}" onerror="this.src='https://ui-avatars.com/api/?name=${trade.creatorName}&background=00d4ff&color=fff'"></div>
+                        <div class="trade-user-info">
+                            <h3>${escapeHtml(trade.creatorName)}</h3>
+                            <p>@${escapeHtml(trade.creatorRoblox)}</p>
+                            <div class="trade-trusted"><i class="fas fa-star"></i> Trust Score: ${trade.trustScore}/10</div>
+                        </div>
+                        <div class="trade-time">${timeAgo(trade.createdAt)}</div>
+                    </div>
+                    <div class="trade-items-section">
+                        <div class="trade-offer">
+                            <h4><i class="fas fa-arrow-right"></i> Offering</h4>
+                            <div class="trade-item-display">
+                                <img src="${trade.offerItem.image}">
+                                <div class="trade-item-name">${trade.offerItem.name}</div>
+                                <div class="trade-item-qty">x${trade.offerItem.qty}</div>
+                            </div>
+                        </div>
+                        <div class="trade-request">
+                            <h4><i class="fas fa-arrow-left"></i> Want</h4>
+                            <div class="trade-item-display">
+                                <img src="${trade.requestItem.image}">
+                                <div class="trade-item-name">${trade.requestItem.name}</div>
+                                <div class="trade-item-qty">x${trade.requestItem.qty}</div>
+                            </div>
+                        </div>
+                    </div>
+                    ${trade.message ? `<div class="trade-message"><i class="fas fa-comment-dots"></i> ${escapeHtml(trade.message)}</div>` : ''}
+                    <div class="trade-actions">
+                        ${isCreator ? 
+                            `<button class="delete-btn" onclick="deleteTrade(${trade.id})"><i class="fas fa-trash"></i> Delete</button>` :
+                            `<button class="accept-btn" onclick="acceptTrade(${JSON.stringify(trade).replace(/"/g, '&quot;')})"><i class="fas fa-check"></i> Accept Trade</button>
+                             <button class="message-btn" onclick="messageTrader(${JSON.stringify(trade).replace(/"/g, '&quot;')})"><i class="fas fa-envelope"></i> Message</button>`
+                        }
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
     
-    renderShop(); renderExchange(); renderRedeem(); renderSell(); renderTrades(); generateWheel();
-    document.getElementById('homePage').classList.add('active');
+    function escapeHtml(text) { if(!text) return ''; return text.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
     
-    window.showHome=showHome; window.showShop=showShop; window.showExchange=showExchange; window.showRedeem=showRedeem; window.showSell=showSell; window.showTradeHub=showTradeHub; window.showDraw=showDraw; window.openProfile=openProfile; window.toggleSideMenu=toggleSideMenu; window.closeSideMenu=closeSideMenu; window.toggleTheme=toggleTheme; window.buyItem=buyItem; window.exchangeItem=exchangeItem; window.redeemItem=redeemItem; window.sellItem=sellItem; window.spinWheel=spinWheel; window.simulateLogin=simulateLogin; window.openCreateTradeModal=openCreateTradeModal; window.closeTradeModal=closeTradeModal; window.submitTrade=submitTrade; window.acceptTrade=acceptTrade;
+    function updateProfileUI() {
+        document.getElementById('profileName').innerHTML = currentUser?.displayName || verifiedRoblox?.username || 'Guest';
+        document.getElementById('profilePoints').innerHTML = userPoints;
+        document.getElementById('profileCredits').innerHTML = luckBalance;
+        if(verifiedRoblox) document.getElementById('profileRoblox').innerHTML = `✅ Verified @${verifiedRoblox.username}`;
+        if(verifiedRoblox?.avatarUrl) document.getElementById('profileAvatar').src = verifiedRoblox.avatarUrl;
+        else if(currentUser?.photoURL) document.getElementById('profileAvatar').src = currentUser.photoURL;
+    }
+    
+    window.handleAuthStateChanged = function(user) {
+        currentUser = user;
+        if(user) {
+            document.getElementById('userName').innerHTML = user.displayName?.split(' ')[0] || user.email?.split('@')[0];
+            document.getElementById('userAvatar').innerHTML = user.photoURL ? `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;">` : `<i class="fas fa-user"></i>`;
+        } else {
+            document.getElementById('userName').innerHTML = 'Guest';
+            document.getElementById('userAvatar').innerHTML = `<i class="fas fa-user"></i>`;
+        }
+        updateProfileUI();
+    };
+    
+    window.showHome=showHome; window.showShop=showShop; window.showExchange=showExchange; window.showRedeem=showRedeem; window.showSell=showSell; window.showTradeHub=showTradeHub; window.openProfile=openProfile; window.toggleSideMenu=toggleSideMenu; window.closeSideMenu=closeSideMenu; window.toggleTheme=toggleTheme;
+    window.buyItem=buyItem; window.exchangeItem=exchangeItem; window.redeemItem=redeemItem; window.sellItem=sellItem;
+    window.openCreateTradeModal=openCreateTradeModal; window.closeTradeModal=closeTradeModal; window.submitTrade=submitTrade;
+    window.deleteTrade=deleteTrade; window.acceptTrade=acceptTrade; window.messageTrader=messageTrader;
+    window.startVerification=startVerification; window.verifyRoblox=verifyRoblox;
 </script>
 </body>
 </html>
