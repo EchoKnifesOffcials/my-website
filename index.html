@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECHOKNIVES | Premium MM2 Trading Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>ECHOKNIVES | Premium MM2 Trading</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -34,6 +34,8 @@
         onAuthStateChanged(auth, (user) => {
             if (window.handleAuthStateChanged) window.handleAuthStateChanged(user);
         });
+        
+        window.dispatchEvent(new Event('firebase-ready'));
     </script>
     
     <style>
@@ -42,669 +44,365 @@
         :root {
             --bg-primary: #0a0e1a;
             --bg-secondary: #0f172a;
-            --card-bg: rgba(15, 25, 45, 0.7);
+            --bg-card: rgba(15, 25, 45, 0.7);
+            --glass-bg: rgba(10, 20, 35, 0.6);
+            --glass-border: rgba(0, 212, 255, 0.2);
+            --neon-blue: #00d4ff;
+            --neon-pink: #ff6b9d;
             --text-primary: #ffffff;
             --text-secondary: #a0aec0;
-            --accent-blue: #00d4ff;
-            --accent-pink: #ff6b9d;
-            --accent-purple: #c084fc;
-            --border-glow: rgba(0, 212, 255, 0.3);
-            --shadow-neon: 0 0 20px rgba(0, 212, 255, 0.3);
         }
         
-        body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(ellipse at 20% 30%, #0f172a, #020617);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow-x: hidden;
+        body.light {
+            --bg-primary: #f0f4f8;
+            --bg-secondary: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
         }
         
-        /* ========== CINEMATIC LOADING SCREEN ========== */
+        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); transition: all 0.3s ease; }
+        
+        /* Loading Screen */
         .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, #0a0e1a, #03050b);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 30px;
-            transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.18, 1);
-            clip-path: circle(150% at 50% 50%);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-primary); z-index: 10000;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease; flex-direction: column; gap: 20px;
         }
-        .loading-screen.hide { clip-path: circle(0% at 50% 50%); pointer-events: none; }
+        .loading-screen.hide { opacity: 0; visibility: hidden; }
+        .loading-spinner { width: 60px; height: 60px; border: 3px solid rgba(0,212,255,0.2); border-top-color: #00d4ff; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
         
-        .crystal-loader {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .crystal {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #00d4ff, #ff6b9d, #c084fc);
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            animation: crystalSpin 3s ease-in-out infinite, crystalPulse 2s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px #00d4ff);
-        }
-        @keyframes crystalSpin {
-            0%, 100% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.05); }
-        }
-        @keyframes crystalPulse {
-            0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 10px #00d4ff); }
-            50% { opacity: 1; filter: drop-shadow(0 0 30px #ff6b9d); }
-        }
-        .crystal-inner {
-            position: absolute;
-            width: 60%;
-            height: 60%;
-            background: rgba(10, 20, 35, 0.9);
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .crystal-inner i { font-size: 32px; color: white; animation: iconPulse 1.5s infinite; }
-        @keyframes iconPulse { 0%,100% { opacity: 0.7; } 50% { opacity: 1; text-shadow: 0 0 10px white; } }
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+        .star { position: absolute; background: white; border-radius: 50%; opacity: 0; animation: twinkle 3s infinite; }
+        @keyframes twinkle { 0%,100% { opacity: 0; } 50% { opacity: 0.6; } }
         
-        .loading-rings {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-        .ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 2px solid transparent;
-        }
-        .ring:nth-child(1) { width: 100%; height: 100%; border-top-color: #00d4ff; animation: rotateRing 1.5s linear infinite; }
-        .ring:nth-child(2) { width: 85%; height: 85%; top: 7.5%; left: 7.5%; border-bottom-color: #ff6b9d; animation: rotateRing 2s linear infinite reverse; }
-        .ring:nth-child(3) { width: 70%; height: 70%; top: 15%; left: 15%; border-left-color: #c084fc; animation: rotateRing 2.5s linear infinite; }
-        @keyframes rotateRing { 100% { transform: rotate(360deg); } }
-        
-        .loading-text {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 8px;
-            background: linear-gradient(135deg, #00d4ff, #ff6b9d);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: textFloat 1.5s ease-in-out infinite;
-        }
-        @keyframes textFloat { 0%,100% { transform: translateY(0); letter-spacing: 8px; } 50% { transform: translateY(-5px); letter-spacing: 10px; } }
-        .loading-bar {
-            width: 200px;
-            height: 2px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .loading-fill {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #00d4ff, #ff6b9d);
-            animation: fillBar 2.5s ease-out forwards;
-        }
-        @keyframes fillBar { 100% { width: 100%; } }
-        
-        /* ========== ANIMATED BACKGROUND ========== */
-        .stars-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
-        .star { position: absolute; background: white; border-radius: 50%; opacity: 0; animation: starTwinkle 3s infinite; }
-        @keyframes starTwinkle { 0%,100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.8; transform: scale(1); } }
-        
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.25;
-            z-index: -1;
-            animation: orbFloat 25s infinite ease-in-out;
-        }
+        .gradient-orb { position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.25; z-index: -1; animation: float 25s infinite; }
         .orb-1 { width: 500px; height: 500px; background: #00d4ff; top: -200px; left: -200px; }
         .orb-2 { width: 400px; height: 400px; background: #ff6b9d; bottom: -150px; right: -150px; animation-delay: 8s; }
-        .orb-3 { width: 350px; height: 350px; background: #c084fc; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-duration: 30s; }
-        @keyframes orbFloat {
-            0%,100% { transform: translate(0,0) scale(1); }
-            33% { transform: translate(60px,-60px) scale(1.1); }
-            66% { transform: translate(-40px,50px) scale(0.9); }
-        }
+        @keyframes float { 0%,100% { transform: translate(0,0); } 33% { transform: translate(50px,-50px); } 66% { transform: translate(-30px,40px); } }
         
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
         ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #00d4ff, #ff6b9d); border-radius: 10px; }
         
-        /* Header */
-        .header {
-            background: rgba(10, 20, 35, 0.7);
-            backdrop-filter: blur(16px);
-            padding: 12px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(0,212,255,0.3);
-            flex-wrap: wrap;
-            gap: 15px;
+        /* Glass Navigation */
+        .glass-nav {
+            position: sticky; top: 20px; margin: 0 5%; z-index: 100;
+            background: var(--glass-bg); backdrop-filter: blur(20px);
+            border-radius: 60px; border: 1px solid var(--glass-border);
+            padding: 8px 20px; display: flex; align-items: center;
+            justify-content: space-between; flex-wrap: wrap; gap: 15px;
         }
-        .logo { display: flex; align-items: center; gap: 12px; cursor: pointer; transition: transform 0.3s; }
-        .logo:hover { transform: scale(1.02); }
-        .logo i { font-size: 32px; color: #00d4ff; animation: logoGlow 2s infinite; }
-        @keyframes logoGlow { 0%,100% { filter: drop-shadow(0 0 5px #00d4ff); } 50% { filter: drop-shadow(0 0 15px #ff6b9d); } }
-        .logo-text { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #00d4ff, #ff6b9d); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo-icon { font-size: 28px; color: #00d4ff; animation: iconPulse 2s infinite; }
+        @keyframes iconPulse { 0%,100% { filter: drop-shadow(0 0 5px #00d4ff); } 50% { filter: drop-shadow(0 0 15px #ff6b9d); } }
+        .logo-text { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #00d4ff, #ff6b9d); -webkit-background-clip: text; background-clip: text; color: transparent; }
         
-        .nav-links { display: flex; gap: 8px; background: rgba(0,212,255,0.08); padding: 5px; border-radius: 60px; flex-wrap: wrap; }
-        .nav-link {
-            padding: 8px 20px;
-            border-radius: 40px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #a0aec0;
-            background: transparent;
-            border: none;
-            transition: all 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
-            font-size: 13px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .nav-link:hover, .nav-link.active {
-            background: linear-gradient(135deg, #00d4ff, #ff6b9d);
-            color: #0a0e1a;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0,212,255,0.4);
-        }
+        .nav-center { display: flex; gap: 8px; background: rgba(0,212,255,0.08); padding: 5px; border-radius: 50px; flex-wrap: wrap; }
+        .nav-link { padding: 10px 24px; border-radius: 40px; cursor: pointer; font-weight: 600; color: var(--text-secondary); background: transparent; border: none; transition: all 0.3s; font-size: 14px; }
+        .nav-link:hover, .nav-link.active { background: linear-gradient(135deg, #00d4ff, #ff6b9d); color: #0a0e1a; transform: translateY(-2px); }
         
-        .top-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        .points, .credits {
+        .nav-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .points-display, .luck-balance {
             background: linear-gradient(135deg, #f59e0b, #d97706);
-            padding: 6px 14px;
-            border-radius: 40px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 12px;
-            transition: transform 0.2s;
+            padding: 8px 16px; border-radius: 40px; display: flex; align-items: center;
+            gap: 8px; font-weight: 700; cursor: pointer; color: white; font-size: 12px;
         }
-        .credits { background: linear-gradient(135deg, #00d4ff, #6c5ce7); }
-        .points:hover, .credits:hover { transform: translateY(-2px); }
+        .luck-balance { background: linear-gradient(135deg, #00d4ff, #6c5ce7); }
+        .currency-selector { background: rgba(0,212,255,0.1); border: 1px solid var(--glass-border); border-radius: 30px; padding: 7px 14px; }
+        .currency-selector select { background: transparent; border: none; color: var(--text-primary); cursor: pointer; }
+        .nav-icon-btn { background: rgba(0,212,255,0.1); border: 1px solid var(--glass-border); padding: 8px 14px; border-radius: 40px; cursor: pointer; position: relative; }
+        .notification-badge { position: absolute; top: -5px; right: -5px; background: #ff6b9d; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; }
+        .user-avatar { background: rgba(0,212,255,0.1); border-radius: 40px; padding: 6px 16px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
         
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(0,212,255,0.1);
-            padding: 5px 15px;
-            border-radius: 40px;
-            cursor: pointer;
-            border: 1px solid rgba(0,212,255,0.3);
-            transition: all 0.2s;
-        }
-        .user-info:hover { background: rgba(0,212,255,0.2); }
-        .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #00d4ff, #ff6b9d); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .menu-icon { font-size: 24px; cursor: pointer; background: rgba(0,212,255,0.1); padding: 8px 16px; border-radius: 40px; display: none; }
-        
-        .container { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
-        .page { display: none; animation: pageFadeIn 0.5s ease; }
+        .page-container { min-height: calc(100vh - 120px); padding: 30px 5% 100px; }
+        .page { display: none; animation: fadeIn 0.4s ease; }
         .page.active { display: block; }
-        @keyframes pageFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(255,107,157,0.05));
-            border-radius: 48px;
-            margin-bottom: 40px;
-            animation: heroGlow 3s ease-in-out infinite;
-        }
-        @keyframes heroGlow { 0%,100% { box-shadow: 0 0 20px rgba(0,212,255,0.1); } 50% { box-shadow: 0 0 40px rgba(0,212,255,0.2); } }
-        .hero h1 { font-size: 56px; font-weight: 800; margin-bottom: 20px; }
-        .hero h1 span { background: linear-gradient(135deg, #00d4ff, #ff6b9d); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .hero p { color: #a0aec0; max-width: 600px; margin: 0 auto 25px; }
-        .btn-primary {
-            background: linear-gradient(135deg, #00d4ff, #ff6b9d);
-            border: none;
-            padding: 14px 40px;
-            border-radius: 60px;
-            color: #0a0e1a;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,212,255,0.4); }
+        .section-header { margin-bottom: 30px; }
+        .section-header h1 { font-size: 28px; background: linear-gradient(135deg, #00d4ff, #ff6b9d); -webkit-background-clip: text; background-clip: text; color: transparent; }
         
-        /* Info Sections (FAQ, About, Socials) */
-        .info-section {
-            background: rgba(15, 25, 45, 0.5);
-            backdrop-filter: blur(12px);
-            border-radius: 32px;
-            padding: 30px;
-            margin: 30px 0;
-            border: 1px solid rgba(0,212,255,0.2);
-            transition: all 0.3s;
-        }
-        .info-section:hover { border-color: #00d4ff; transform: translateY(-4px); }
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin: 25px 0;
-            flex-wrap: wrap;
-        }
-        .social-icon {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            background: rgba(0,212,255,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid rgba(0,212,255,0.3);
-        }
-        .social-icon:hover {
-            transform: translateY(-5px) scale(1.1);
-            background: linear-gradient(135deg, #00d4ff, #ff6b9d);
-            color: #0a0e1a;
-        }
-        .faq-item {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .faq-item:hover { background: rgba(0,212,255,0.1); }
-        .faq-question {
-            font-weight: 800;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            color: #a0aec0;
-            margin-top: 10px;
-        }
-        .faq-item.active .faq-answer { max-height: 200px; }
+        .filter-bar { display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; }
+        .filter-chip { background: var(--bg-card); border: 1px solid var(--glass-border); padding: 8px 24px; border-radius: 40px; cursor: pointer; transition: all 0.2s; }
+        .filter-chip:hover, .filter-chip.active { background: linear-gradient(135deg, #00d4ff, #ff6b9d); color: #0a0e1a; }
         
-        /* Grids */
-        .grid {
+        .products-grid, .exchange-grid, .redeem-grid, .items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 25px;
         }
-        .card {
-            background: rgba(15, 25, 45, 0.6);
-            backdrop-filter: blur(12px);
-            border-radius: 24px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid rgba(0,212,255,0.2);
+        .product-card, .exchange-card, .redeem-card {
+            background: var(--bg-card); backdrop-filter: blur(10px);
+            border-radius: 24px; padding: 20px; text-align: center;
+            cursor: pointer; transition: all 0.3s; border: 1px solid var(--glass-border);
         }
-        .card:hover { transform: translateY(-8px); border-color: #00d4ff; box-shadow: 0 20px 40px rgba(0,212,255,0.15); }
-        .card img { width: 100px; height: 100px; object-fit: contain; border-radius: 16px; margin-bottom: 12px; }
-        .card h4 { font-size: 14px; margin-bottom: 5px; }
-        .card p { font-size: 18px; font-weight: 700; color: #f59e0b; }
+        .product-card:hover, .exchange-card:hover, .redeem-card:hover {
+            transform: translateY(-8px); border-color: #00d4ff;
+            box-shadow: 0 20px 40px rgba(0,212,255,0.2);
+        }
+        .product-card img, .exchange-card img, .redeem-card img { width: 100px; height: 100px; object-fit: contain; border-radius: 12px; margin-bottom: 12px; }
+        .product-price { font-size: 18px; font-weight: 800; color: #f59e0b; }
         
-        /* Trades Grid */
-        .trades-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-        }
-        .trade-card {
-            background: rgba(15, 25, 45, 0.6);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            overflow: hidden;
-            border: 1px solid rgba(0,212,255,0.2);
-            transition: all 0.3s;
-        }
-        .trade-card:hover { transform: translateY(-5px); border-color: #00d4ff; box-shadow: var(--shadow-neon); }
-        .trade-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(0,0,0,0.2);
-            border-bottom: 1px solid rgba(0,212,255,0.2);
-        }
-        .trade-avatar { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #00d4ff, #ff6b9d); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .trade-info h4 { font-size: 14px; margin-bottom: 3px; }
-        .trade-info p { font-size: 11px; color: #a0aec0; }
-        .trust-badge { font-size: 10px; color: #f59e0b; margin-top: 3px; }
-        .trade-time { font-size: 10px; color: #a0aec0; margin-left: auto; }
-        .trade-items {
-            display: flex;
-            gap: 15px;
-            padding: 15px;
-        }
-        .trade-offer, .trade-request {
-            flex: 1;
-            text-align: center;
-            background: rgba(0,0,0,0.2);
-            border-radius: 20px;
-            padding: 12px;
-        }
-        .trade-offer img, .trade-request img { width: 50px; height: 50px; object-fit: contain; border-radius: 10px; }
-        .trade-message {
-            padding: 10px 15px;
-            background: rgba(0,212,255,0.05);
-            font-size: 12px;
-            color: #a0aec0;
-            border-top: 1px solid rgba(0,212,255,0.2);
-        }
-        .trade-actions {
-            display: flex;
-            gap: 10px;
-            padding: 15px;
-            border-top: 1px solid rgba(0,212,255,0.2);
-        }
-        .btn-accept, .btn-delete, .btn-message {
-            flex: 1;
-            padding: 8px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-        .btn-accept { background: #10b981; color: white; }
-        .btn-delete { background: #ef4444; color: white; }
-        .btn-message { background: rgba(0,212,255,0.2); color: white; }
-        .btn-accept:hover, .btn-delete:hover, .btn-message:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        /* Trade Checker */
+        .trade-checker-section { background: var(--bg-card); border-radius: 32px; padding: 30px; border: 1px solid var(--glass-border); }
+        .trade-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 25px 0; }
+        .trade-column { background: rgba(0,0,0,0.2); border-radius: 24px; padding: 20px; }
+        .trade-items-list { min-height: 120px; background: rgba(0,0,0,0.15); border-radius: 20px; padding: 15px; margin: 15px 0; display: flex; flex-wrap: wrap; gap: 10px; }
+        .trade-item-card { background: rgba(0,212,255,0.15); border-radius: 16px; padding: 8px 12px; display: flex; align-items: center; gap: 10px; }
+        .trade-item-card img { width: 35px; height: 35px; border-radius: 8px; }
+        .add-item-btn { background: rgba(0,212,255,0.15); border: 2px dashed var(--glass-border); border-radius: 20px; padding: 12px; text-align: center; cursor: pointer; width: 100%; }
+        .fairness-bar { height: 8px; border-radius: 10px; margin: 15px 0; transition: all 0.3s; }
         
-        /* Modals */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(16px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-        .modal.show { opacity: 1; visibility: visible; }
-        .modal-content {
-            background: rgba(15, 25, 45, 0.95);
-            border-radius: 32px;
-            max-width: 500px;
-            width: 90%;
-            padding: 30px;
-            border: 1px solid rgba(0,212,255,0.3);
-            animation: modalIn 0.3s ease;
-        }
-        @keyframes modalIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .modal-content select, .modal-content input, .modal-content textarea {
-            width: 100%;
-            padding: 12px;
-            border-radius: 30px;
-            border: 1px solid rgba(0,212,255,0.3);
-            background: rgba(0,0,0,0.3);
-            color: white;
-            margin: 10px 0;
-        }
+        /* Wheel */
+        .wheel-container { position: relative; width: 400px; height: 400px; margin: 0 auto; overflow: hidden; border-radius: 50%; }
+        .wheel-container::after { content: ''; position: absolute; top: 0; left: 50%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.7)); z-index: 5; border-radius: 0 50% 50% 0; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; position: relative; transition: transform 3.5s cubic-bezier(0.17,0.94,0.32,1.27); }
+        .wheel-segment { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .wheel-segment img { width: 35px; height: 35px; border-radius: 8px; }
+        .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 70px; height: 70px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; box-shadow: 0 0 0 4px #00d4ff; z-index: 10; cursor: pointer; }
         
-        .side-menu {
-            position: fixed;
-            top: 0;
-            left: -280px;
-            width: 260px;
-            height: 100vh;
-            background: rgba(10, 20, 35, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 1001;
-            transition: left 0.35s;
-            padding: 20px;
-            border-right: 1px solid #00d4ff;
-        }
-        .side-menu.open { left: 0; }
-        .menu-item {
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 30px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.2s;
-        }
-        .menu-item:hover { background: linear-gradient(135deg, #00d4ff, #ff6b9d); transform: translateX(8px); }
+        .pending-section { background: var(--bg-card); border-radius: 32px; padding: 25px; margin-top: 30px; }
+        .pending-tabs { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+        .pending-tab { padding: 10px 24px; border-radius: 40px; cursor: pointer; background: rgba(0,212,255,0.1); transition: all 0.2s; }
+        .pending-tab.active { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+        .pending-list { min-height: 150px; }
+        .pending-item { background: rgba(245,158,11,0.15); border: 1px solid #f59e0b; border-radius: 20px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
         
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: linear-gradient(135deg, #10b981, #059669);
-            padding: 12px 24px;
-            border-radius: 40px;
-            color: white;
-            font-weight: 600;
-            z-index: 2000;
-            transition: transform 0.3s;
-        }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #00d4ff, #ff6b9d); padding: 12px 28px; border-radius: 60px; z-index: 2000; transition: transform 0.3s; color: #0a0e1a; font-weight: 600; white-space: nowrap; }
         .toast.show { transform: translateX(-50%) translateY(0); }
         
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .menu-icon { display: block; }
-            .hero h1 { font-size: 32px; }
-            .trades-grid { grid-template-columns: 1fr; }
+            .nav-center { display: none; }
+            .trade-columns { grid-template-columns: 1fr; }
+            .wheel-container { width: 300px; height: 300px; }
         }
     </style>
 </head>
 <body>
 
 <div class="loading-screen" id="loadingScreen">
-    <div class="crystal-loader">
-        <div class="loading-rings"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
-        <div class="crystal"></div>
-        <div class="crystal-inner"><i class="fas fa-gem"></i></div>
-    </div>
-    <div class="loading-text">ECHOKNIVES</div>
-    <div class="loading-bar"><div class="loading-fill"></div></div>
+    <div class="loading-spinner"></div>
+    <div style="letter-spacing: 4px;">LOADING ECHOKNIVES</div>
 </div>
 
-<div class="stars-bg" id="starsBg"></div>
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="orb orb-3"></div>
+<div class="stars" id="stars"></div>
+<div class="gradient-orb orb-1"></div>
+<div class="gradient-orb orb-2"></div>
 
-<div class="header">
-    <div class="logo" onclick="showPage('home')"><i class="fas fa-gem"></i><span class="logo-text">ECHOKNIVES</span></div>
-    <div class="nav-links">
-        <button class="nav-link" onclick="showPage('home')">Home</button>
-        <button class="nav-link" onclick="showPage('shop')">Shop</button>
-        <button class="nav-link" onclick="showPage('exchange')">Exchange</button>
-        <button class="nav-link" onclick="showPage('redeem')">Redeem</button>
-        <button class="nav-link" onclick="showPage('trades')">Trades</button>
+<!-- Glass Navigation -->
+<div class="glass-nav">
+    <div class="logo" onclick="navigateTo('home')"><i class="fas fa-gem logo-icon"></i><span class="logo-text">ECHOKNIVES</span></div>
+    
+    <div class="nav-center">
+        <button class="nav-link" onclick="navigateTo('home')">Home</button>
+        <button class="nav-link" onclick="navigateTo('trade')">Trade Check</button>
+        <button class="nav-link" onclick="navigateTo('shop')">Shop</button>
+        <button class="nav-link" onclick="navigateTo('exchange')">Exchange</button>
+        <button class="nav-link" onclick="navigateTo('redeem')">Redeem</button>
+        <button class="nav-link" onclick="navigateTo('sell')">Sell</button>
+        <button class="nav-link" onclick="navigateTo('trading')">Trading Hub</button>
+        <button class="nav-link" onclick="navigateTo('draw')">Luck Draw</button>
     </div>
-    <div class="top-right">
-        <div class="points"><i class="fas fa-star"></i> <span id="pointsDisplay">0</span></div>
-        <div class="credits"><i class="fas fa-coins"></i> <span id="creditsDisplay">500</span></div>
-        <div class="user-info" onclick="openProfile()">
-            <div class="user-avatar" id="userAvatar"><i class="fas fa-user"></i></div>
-            <span id="userName">Guest</span>
-        </div>
-        <div class="menu-icon" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+    
+    <div class="nav-right">
+        <div class="points-display" onclick="showPoints()"><i class="fas fa-star"></i> <span id="pointsBalance">1,250</span></div>
+        <div class="luck-balance"><i class="fas fa-coins"></i> <span id="luckBalance">3,420</span></div>
+        <div class="currency-selector"><select id="currencySelect" onchange="changeCurrency()"><option value="USD">USD $</option><option value="PHP">PHP ₱</option><option value="ROBUX">ROBUX R$</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option></select></div>
+        <div class="nav-icon-btn" id="themeToggle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></div>
+        <div class="user-avatar" id="userInfo" onclick="handleAuth()"><div id="userAvatar"><i class="fas fa-user"></i></div><span id="userName">Guest</span></div>
     </div>
 </div>
 
-<div class="side-menu" id="sideMenu">
-    <div style="display:flex; justify-content:space-between;"><h3>Menu</h3><span onclick="toggleMenu()" style="font-size:24px;">×</span></div>
-    <div class="menu-item" onclick="showPage('home');toggleMenu()"><i class="fas fa-home"></i> Home</div>
-    <div class="menu-item" onclick="showPage('shop');toggleMenu()"><i class="fas fa-store"></i> Shop</div>
-    <div class="menu-item" onclick="showPage('exchange');toggleMenu()"><i class="fas fa-exchange-alt"></i> Exchange</div>
-    <div class="menu-item" onclick="showPage('redeem');toggleMenu()"><i class="fas fa-gift"></i> Redeem</div>
-    <div class="menu-item" onclick="showPage('trades');toggleMenu()"><i class="fas fa-handshake"></i> Trade Hub</div>
-    <div class="menu-item" onclick="openProfile();toggleMenu()"><i class="fas fa-user"></i> Profile</div>
-</div>
-
-<div class="container">
+<div class="page-container">
     <!-- Home Page -->
-    <div id="homePage" class="page active">
-        <div class="hero">
-            <h1>Trade <span>MM2 Items</span><br>With Confidence</h1>
-            <p>Secure trading platform with verified users, fair value checks, and real-time global trades</p>
-            <button class="btn-primary" onclick="showPage('shop')">Get Started →</button>
-        </div>
-        
-        <!-- About Section -->
-        <div class="info-section">
-            <h3 style="margin-bottom:15px;"><i class="fas fa-info-circle"></i> About ECHOKNIVES</h3>
-            <p>ECHOKNIVES is a premium MM2 trading platform launched in 2024. We provide a safe, fair, and transparent environment for Murder Mystery 2 players to trade items, exchange for credits, and redeem rare weapons. Trusted by thousands of traders worldwide.</p>
-        </div>
-        
-        <!-- Socials Section -->
-        <div class="info-section">
-            <h3 style="text-align:center; margin-bottom:20px;"><i class="fas fa-share-alt"></i> Follow Us</h3>
-            <div class="social-icons">
-                <div class="social-icon" onclick="window.open('https://tiktok.com/@echoknives', '_blank')"><i class="fab fa-tiktok"></i></div>
-                <div class="social-icon" onclick="window.open('https://twitter.com/echoknives', '_blank')"><i class="fab fa-twitter"></i></div>
-                <div class="social-icon" onclick="window.open('https://youtube.com/@echoknives', '_blank')"><i class="fab fa-youtube"></i></div>
-                <div class="social-icon" onclick="window.open('https://instagram.com/echoknives', '_blank')"><i class="fab fa-instagram"></i></div>
-            </div>
-        </div>
-        
-        <!-- FAQ Section -->
-        <div class="info-section">
-            <h3 style="margin-bottom:20px;"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h3>
-            <div class="faq-item" onclick="this.classList.toggle('active')">
-                <div class="faq-question">❓ How do I earn credits? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">Exchange your MM2 items in the Exchange tab! Each item gives credits minus a small 20 credit fee.</div>
-            </div>
-            <div class="faq-item" onclick="this.classList.toggle('active')">
-                <div class="faq-question">❓ Is cross-trading allowed? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">NO! Cross trading (MM2 for non-MM2 items) is strictly prohibited and results in a permanent ban.</div>
-            </div>
-            <div class="faq-item" onclick="this.classList.toggle('active')">
-                <div class="faq-question">❓ How do I verify my Roblox account? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">Go to Profile → Verify Roblox, enter your username, and click verify. Your avatar and username will be displayed on trades.</div>
-            </div>
-            <div class="faq-item" onclick="this.classList.toggle('active')">
-                <div class="faq-question">❓ How do I create a trade? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">Go to the Trades page and click "Create Trade". Select items you offer and want, then publish for everyone to see!</div>
-            </div>
+    <div id="homePage" class="page">
+        <div style="text-align:center; padding:60px 20px;">
+            <h1 style="font-size:56px;">Trade <span style="background:linear-gradient(135deg,#00d4ff,#ff6b9d); -webkit-background-clip:text; background-clip:text; color:transparent;">MM2 Items</span></h1>
+            <p style="color:var(--text-secondary); margin:20px 0;">The safest place to trade Murder Mystery 2 items</p>
+            <button class="filter-chip" onclick="navigateTo('trade')" style="padding:14px 40px;">Start Trading →</button>
         </div>
     </div>
     
-    <!-- Shop Page -->
-    <div id="shopPage" class="page">
-        <h2 style="margin-bottom:20px;"><i class="fas fa-store"></i> Premium Shop</h2>
-        <div class="grid" id="shopGrid"></div>
-    </div>
-    
-    <!-- Exchange Page -->
-    <div id="exchangePage" class="page">
-        <h2 style="margin-bottom:20px;"><i class="fas fa-exchange-alt"></i> Exchange Items</h2>
-        <div class="grid" id="exchangeGrid"></div>
-    </div>
-    
-    <!-- Redeem Page -->
-    <div id="redeemPage" class="page">
-        <h2 style="margin-bottom:20px;"><i class="fas fa-gift"></i> Redeem Credits</h2>
-        <div class="grid" id="redeemGrid"></div>
-    </div>
-    
-    <!-- Trades Page -->
-    <div id="tradesPage" class="page">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:15px;">
-            <h2><i class="fas fa-handshake"></i> Global Trades</h2>
-            <button class="btn-primary" onclick="openCreateTrade()"><i class="fas fa-plus"></i> Create Trade</button>
+    <!-- Trade Checker -->
+    <div id="tradePage" class="page">
+        <div class="trade-checker-section">
+            <h2><i class="fas fa-balance-scale"></i> Trade Value Checker</h2>
+            <div class="trade-columns">
+                <div class="trade-column"><h3><i class="fas fa-user"></i> Your Offer</h3><div class="trade-items-list" id="yourOfferList"></div><div class="add-item-btn" onclick="openItemSelector('your')"><i class="fas fa-plus"></i> Add Item</div></div>
+                <div class="trade-column"><h3><i class="fas fa-users"></i> Their Offer</h3><div class="trade-items-list" id="theirOfferList"></div><div class="add-item-btn" onclick="openItemSelector('their')"><i class="fas fa-plus"></i> Add Item</div></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:15px; background:rgba(0,0,0,0.2); border-radius:20px;">
+                <span>Your Value: <strong id="yourTotalValue">0</strong></span><span>→</span><span>Their Value: <strong id="theirTotalValue">0</strong></span>
+            </div>
+            <div class="fairness-bar" id="fairnessBar"></div>
+            <div id="fairnessText" style="text-align:center;"></div>
         </div>
-        <div class="trades-grid" id="tradesGrid"></div>
+    </div>
+    
+    <!-- Shop -->
+    <div id="shopPage" class="page"><div class="section-header"><h1>Premium Shop</h1></div><div class="filter-bar"><div class="filter-chip active" data-filter="all">All</div><div class="filter-chip" data-filter="knife">Knives</div><div class="filter-chip" data-filter="gun">Guns</div></div><div class="products-grid" id="productsGrid"></div></div>
+    
+    <!-- Exchange -->
+    <div id="exchangePage" class="page"><div class="section-header"><h1>Exchange Items</h1><p>Get credits for your items</p></div><div class="exchange-grid" id="exchangeGrid"></div></div>
+    
+    <!-- Redeem -->
+    <div id="redeemPage" class="page"><div class="section-header"><h1>Redeem Credits</h1><p>Spend credits on rare items</p></div><div class="redeem-grid" id="redeemGrid"></div></div>
+    
+    <!-- Sell -->
+    <div id="sellPage" class="page"><div class="section-header"><h1>Sell Items to Admins</h1><p>Get paid in ROBUX</p></div><div class="items-grid" id="sellGrid"></div></div>
+    
+    <!-- Trading Hub -->
+    <div id="tradingPage" class="page"><div class="section-header"><h1>Trading Hub</h1><p>Browse active trade listings</p></div><div id="tradeListings" style="text-align:center; padding:40px;">No active trades. Create one!</div><button class="filter-chip" onclick="createTrade()" style="margin-top:20px;">+ Create Trade Listing</button></div>
+    
+    <!-- Luck Draw with Wheel -->
+    <div id="drawPage" class="page">
+        <div class="section-header"><h1>Luck Draw</h1><p>Tickets: <span id="ticketCount">3</span></p></div>
+        <div style="position:relative; width:400px; height:400px; margin:0 auto;"><div class="wheel-container"><div class="wheel" id="wheel"></div><div class="wheel-center" onclick="spinWheel()">SPIN</div></div></div>
+        <button class="filter-chip" onclick="spinWheel()" style="margin:20px auto; display:block;">Spin Wheel (1 Ticket)</button>
+        <div><input type="text" id="codeInput" placeholder="Enter promo code" style="padding:12px; border-radius:40px; width:200px;"><button onclick="redeemCode()" style="padding:12px 24px; border-radius:40px;">Redeem</button></div>
+    </div>
+    
+    <!-- Pending Transfers -->
+    <div id="pendingPage" class="page">
+        <div class="pending-section">
+            <h2><i class="fas fa-clock"></i> Pending Transfers</h2>
+            <div class="pending-tabs"><div class="pending-tab active" data-tab="exchange">Pending Exchange</div><div class="pending-tab" data-tab="redeem">Pending Redeem</div><div class="pending-tab" data-tab="purchase">Pending Purchase</div></div>
+            <div class="pending-list" id="pendingList">No pending transfers</div>
+        </div>
     </div>
 </div>
-
-<!-- Modals -->
-<div id="tradeModal" class="modal"><div class="modal-content"><h3 style="margin-bottom:15px;"><i class="fas fa-handshake"></i> Create Trade</h3><select id="offerItem"></select><input type="number" id="offerQty" placeholder="Quantity" value="1" min="1"><select id="requestItem"></select><input type="number" id="requestQty" placeholder="Quantity" value="1" min="1"><textarea id="tradeMsg" placeholder="Optional message..." rows="2"></textarea><div style="display:flex; gap:10px; margin-top:15px;"><button class="btn-primary" onclick="submitTrade()" style="flex:1;">Publish</button><button onclick="closeTradeModal()" style="flex:1; background:#ef4444; border:none; border-radius:30px; color:white;">Cancel</button></div></div></div>
-<div id="verifyModal" class="modal"><div class="modal-content"><h3><i class="fab fa-roblox"></i> Verify Roblox</h3><p style="margin:15px 0; font-size:14px;">You must verify your Roblox account to trade</p><input type="text" id="robloxUser" placeholder="Roblox Username"><button class="btn-primary" onclick="verifyRoblox()" style="width:100%;">Verify Account</button></div></div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-    // Items Database
-    const items = [
-        { id: 1, name: "Batwing", value: 140, image: "https://i.imgur.com/H6CL03y.jpeg" },
-        { id: 2, name: "Harvester", value: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg" },
-        { id: 3, name: "Icewing", value: 80, image: "https://i.imgur.com/jiwvmxq.jpeg" },
-        { id: 4, name: "Luger", value: 165, image: "https://i.imgur.com/eEvMBRh.jpeg" },
-        { id: 5, name: "Candy", value: 249, image: "https://i.imgur.com/PXBiQtb.jpeg" },
-        { id: 6, name: "Shark", value: 110, image: "https://i.imgur.com/6nL98SC.jpeg" }
+    // MM2 Items Database
+    const mm2Items = [
+        { id: 1, name: "Batwing", value: 140, image: "https://i.imgur.com/H6CL03y.jpeg", type: "knife" },
+        { id: 2, name: "Harvester", value: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg", type: "knife" },
+        { id: 3, name: "Icewing", value: 80, image: "https://i.imgur.com/jiwvmxq.jpeg", type: "knife" },
+        { id: 4, name: "Luger", value: 165, image: "https://i.imgur.com/eEvMBRh.jpeg", type: "gun" },
+        { id: 5, name: "Candy", value: 249, image: "https://i.imgur.com/PXBiQtb.jpeg", type: "knife" },
+        { id: 6, name: "Shark", value: 110, image: "https://i.imgur.com/6nL98SC.jpeg", type: "knife" },
+        { id: 7, name: "Darkbringer", value: 140, image: "https://i.imgur.com/8oxgzwa.jpeg", type: "gun" },
+        { id: 8, name: "Lightbringer", value: 140, image: "https://i.imgur.com/BUljuYV.jpeg", type: "gun" }
     ];
     
-    let currentUser = null;
-    let verifiedUser = JSON.parse(localStorage.getItem('verifiedUser') || 'null');
-    let credits = 500;
-    let points = 0;
-    let trades = JSON.parse(localStorage.getItem('trades') || '[]');
+    let yourOffer = [], theirOffer = [];
+    let currentFilter = "all";
+    let userPoints = 1250, userCredits = 3420, userTickets = 3;
+    let pendingExchanges = [], pendingRedeems = [], pendingPurchases = [];
+    let currentPendingTab = "exchange";
+    let notificationCount = 2;
+    let currentCurrency = "USD";
+    const currencySymbols = {USD:"$",PHP:"₱",ROBUX:"R$",EUR:"€",GBP:"£"};
+    const exchangeRates = {USD:1,PHP:56,ROBUX:1.7,EUR:0.92,GBP:0.79};
     
-    // Stars Background
-    for(let i=0;i<200;i++){let s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.width=s.style.height=(Math.random()*2+1)+'px';s.style.animationDelay=Math.random()*5+'s';document.getElementById('starsBg').appendChild(s);}
+    function showToast(msg) { let t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+    function changeCurrency() { currentCurrency = document.getElementById('currencySelect').value; renderShop(); }
+    function getDisplayPrice(p) { let r = exchangeRates[currentCurrency]; let v = p * r; return v.toFixed(2); }
     
-    // Loading
-    window.addEventListener('load', () => { setTimeout(() => document.getElementById('loadingScreen').classList.add('hide'), 2500); renderShop(); renderExchange(); renderRedeem(); renderTrades(); if(!verifiedUser) setTimeout(() => document.getElementById('verifyModal').classList.add('show'), 3000); });
+    function navigateTo(page) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(page + 'Page').classList.add('active');
+        document.title = `${page.charAt(0).toUpperCase() + page.slice(1)} | ECHOKNIVES`;
+        if(page === 'trade') renderTradeChecker();
+        if(page === 'shop') renderShop();
+        if(page === 'exchange') renderExchange();
+        if(page === 'redeem') renderRedeem();
+        if(page === 'sell') renderSell();
+        if(page === 'draw') { generateWheel(); updateDisplay(); }
+        if(page === 'pending') renderPendingList();
+    }
     
-    function showToast(msg) { let t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
-    function toggleMenu() { document.getElementById('sideMenu').classList.toggle('open'); }
-    function showPage(page) { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(page+'Page').classList.add('active'); }
-    function openProfile() { showPage('profile'); updateProfileUI(); }
+    function toggleTheme() {
+        document.body.classList.toggle('light');
+        const icon = document.getElementById('themeIcon');
+        icon.className = document.body.classList.contains('light') ? 'fas fa-sun' : 'fas fa-moon';
+        localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    }
+    if(localStorage.getItem('theme') === 'light') { document.body.classList.add('light'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
     
-    function renderShop() { document.getElementById('shopGrid').innerHTML = items.map(i => `<div class="card" onclick="buyItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><p>${i.value} credits</p></div>`).join(''); }
-    function buyItem(id) { if(!verifiedUser){ showToast("Verify Roblox first"); document.getElementById('verifyModal').classList.add('show'); return; } let i=items.find(x=>x.id===id); if(credits>=i.value){ credits-=i.value; updateCredits(); showToast(`Purchased ${i.name}!`); }else showToast(`Need ${i.value} credits`); }
-    function renderExchange() { document.getElementById('exchangeGrid').innerHTML = items.map(i => `<div class="card" onclick="exchangeItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><p>+ ${Math.max(0,i.value-20)} credits</p></div>`).join(''); }
-    function exchangeItem(id) { if(!verifiedUser){ showToast("Verify Roblox first"); document.getElementById('verifyModal').classList.add('show'); return; } let i=items.find(x=>x.id===id); credits+=Math.max(0,i.value-20); updateCredits(); showToast(`+${Math.max(0,i.value-20)} credits!`); }
-    function renderRedeem() { document.getElementById('redeemGrid').innerHTML = items.map(i => `<div class="card" onclick="redeemItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><p>${i.value} credits</p></div>`).join(''); }
-    function redeemItem(id) { if(!verifiedUser){ showToast("Verify Roblox first"); document.getElementById('verifyModal').classList.add('show'); return; } let i=items.find(x=>x.id===id); if(credits>=i.value){ credits-=i.value; updateCredits(); showToast(`Redeemed ${i.name}!`); }else showToast(`Need ${i.value} credits`); }
-    function updateCredits() { document.getElementById('creditsDisplay').innerText = credits; if(document.getElementById('profileCredits')) document.getElementById('profileCredits').innerText = credits; }
+    function updateDisplay() {
+        document.getElementById('pointsBalance').innerText = userPoints;
+        document.getElementById('luckBalance').innerText = userCredits;
+        document.getElementById('ticketCount').innerText = userTickets;
+    }
     
-    function verifyRoblox() { let u=document.getElementById('robloxUser').value.trim(); if(!u){ showToast("Enter username"); return; } verifiedUser={username:u,displayName:u,avatar:`https://ui-avatars.com/api/?name=${u}&background=00d4ff&color=fff&size=100`,trustScore:7}; localStorage.setItem('verifiedUser',JSON.stringify(verifiedUser)); document.getElementById('verifyModal').classList.remove('show'); updateProfileUI(); showToast(`✅ Verified as @${u}!`); }
-    function updateProfileUI() { if(verifiedUser){ document.getElementById('userName').innerHTML=verifiedUser.displayName; document.getElementById('userAvatar').innerHTML=`<img src="${verifiedUser.avatar}" style="width:100%;height:100%;object-fit:cover;">`; } }
+    // Trade Checker
+    function renderTradeChecker() {
+        document.getElementById('yourOfferList').innerHTML = yourOffer.map(i => `<div class="trade-item-card"><img src="${i.image}"><span>${i.name}</span><button onclick="removeFromOffer('your',${i.id})" style="background:none;border:none;color:#ef4444;">×</button></div>`).join('') || '<div style="color:var(--text-secondary);">No items</div>';
+        document.getElementById('theirOfferList').innerHTML = theirOffer.map(i => `<div class="trade-item-card"><img src="${i.image}"><span>${i.name}</span><button onclick="removeFromOffer('their',${i.id})" style="background:none;border:none;color:#ef4444;">×</button></div>`).join('') || '<div style="color:var(--text-secondary);">No items</div>';
+        let yourTotal = yourOffer.reduce((s,i)=>s+i.value,0);
+        let theirTotal = theirOffer.reduce((s,i)=>s+i.value,0);
+        document.getElementById('yourTotalValue').innerText = yourTotal;
+        document.getElementById('theirTotalValue').innerText = theirTotal;
+        let diff = Math.abs(yourTotal - theirTotal);
+        let percent = (diff / Math.max(yourTotal, theirTotal)) * 100;
+        let bar = document.getElementById('fairnessBar');
+        let text = document.getElementById('fairnessText');
+        if(yourTotal===0 && theirTotal===0) { bar.style.width='0%'; text.innerHTML='Select items'; return; }
+        if(percent <= 10) { bar.style.width='100%'; bar.style.background='#10b981'; text.innerHTML='✅ FAIR TRADE!'; }
+        else if(percent <= 25) { bar.style.width='66%'; bar.style.background='#f59e0b'; text.innerHTML='⚠️ SLIGHTLY UNBALANCED'; }
+        else { bar.style.width='33%'; bar.style.background='#ef4444'; text.innerHTML='❌ BAD TRADE!'; }
+    }
+    function removeFromOffer(side, id) { if(side==='your') yourOffer=yourOffer.filter(i=>i.id!==id); else theirOffer=theirOffer.filter(i=>i.id!==id); renderTradeChecker(); }
+    function openItemSelector(side) { let items = mm2Items.map(i=>`${i.name} (${i.value})`).join('\n'); let selected = prompt(`Select item:\n${items}`); if(selected) { let item = mm2Items.find(i=>i.name.toLowerCase()===selected.toLowerCase().split(' ')[0]); if(item) { if(side==='your') yourOffer.push({...item}); else theirOffer.push({...item}); renderTradeChecker(); showToast(`Added ${item.name}`); } } }
     
-    function openCreateTrade() { if(!verifiedUser){ showToast("Verify Roblox first"); document.getElementById('verifyModal').classList.add('show'); return; } let opts=items.map(i=>`<option value="${i.id}" data-name="${i.name}">${i.name} (${i.value})</option>`).join(''); document.getElementById('offerItem').innerHTML='<option value="">Select item</option>'+opts; document.getElementById('requestItem').innerHTML='<option value="">Select item</option>'+opts; document.getElementById('tradeModal').classList.add('show'); }
-    function closeTradeModal() { document.getElementById('tradeModal').classList.remove('show'); }
-    function submitTrade() { let offerId=parseInt(document.getElementById('offerItem').value); let requestId=parseInt(document.getElementById('requestItem').value); let offerQty=parseInt(document.getElementById('offerQty').value); let requestQty=parseInt(document.getElementById('requestQty').value); let msg=document.getElementById('tradeMsg').value; if(!offerId||!requestId){ showToast("Select items"); return; } let offer=items.find(i=>i.id===offerId); let request=items.find(i=>i.id===requestId); let trade={id:Date.now(),creatorId:currentUser?.uid||'guest',creatorName:verifiedUser?.displayName||'Trader',creatorAvatar:verifiedUser?.avatar||`https://ui-avatars.com/api/?name=Trader&background=00d4ff&color=fff`,creatorRoblox:verifiedUser?.username||'Unknown',trustScore:verifiedUser?.trustScore||7,createdAt:Date.now(),offer:{id:offer.id,name:offer.name,image:offer.image,qty:offerQty},request:{id:request.id,name:request.name,image:request.image,qty:requestQty},message:msg}; trades.unshift(trade); localStorage.setItem('trades',JSON.stringify(trades)); renderTrades(); closeTradeModal(); showToast("Trade published!"); }
-    function deleteTrade(id) { if(confirm("Delete this trade?")){ trades=trades.filter(t=>t.id!==id); localStorage.setItem('trades',JSON.stringify(trades)); renderTrades(); showToast("Trade deleted"); } }
-    function acceptTrade(trade) { if(confirm(`Accept trade with ${trade.creatorName}?\n\nYou give: ${trade.offer.name} x${trade.offer.qty}\nYou get: ${trade.request.name} x${trade.request.qty}\n\nContact @${trade.creatorRoblox} on Roblox to complete.`)){ showToast(`Request sent! Contact @${trade.creatorRoblox}`); } }
-    function messageTrader(trade) { let msg=prompt(`Message to @${trade.creatorRoblox}:`); if(msg) showToast(`Message sent to ${trade.creatorRoblox}!`); }
-    function timeAgo(ts) { let s=Math.floor((Date.now()-ts)/1000); if(s<60) return `${s}s ago`; if(s<3600) return `${Math.floor(s/60)}m ago`; if(s<86400) return `${Math.floor(s/3600)}h ago`; return `${Math.floor(s/86400)}d ago`; }
-    function renderTrades() { let c=document.getElementById('tradesGrid'); if(trades.length===0){ c.innerHTML='<div style="text-align:center; padding:60px;">No active trades. Create the first one!</div>'; return; } let uid=currentUser?.uid||'guest'; c.innerHTML=trades.map(t=>{ let isCreator=t.creatorId===uid; return `<div class="trade-card"><div class="trade-header"><div class="trade-avatar"><img src="${t.creatorAvatar}" style="width:100%;height:100%;object-fit:cover;"></div><div class="trade-info"><h4>${escapeHtml(t.creatorName)}</h4><p>@${escapeHtml(t.creatorRoblox)}</p><div class="trust-badge"><i class="fas fa-star"></i> Trust: ${t.trustScore}/10</div></div><div class="trade-time">${timeAgo(t.createdAt)}</div></div><div class="trade-items"><div class="trade-offer"><h5>📦 Offering</h5><img src="${t.offer.image}"><div><strong>${t.offer.name}</strong> x${t.offer.qty}</div></div><div class="trade-request"><h5>🎯 Want</h5><img src="${t.request.image}"><div><strong>${t.request.name}</strong> x${t.request.qty}</div></div></div>${t.message?`<div class="trade-message"><i class="fas fa-comment"></i> ${escapeHtml(t.message)}</div>`:''}<div class="trade-actions">${isCreator?`<button class="btn-delete" onclick="deleteTrade(${t.id})"><i class="fas fa-trash"></i> Delete</button>`:`<button class="btn-accept" onclick='acceptTrade(${JSON.stringify(t).replace(/'/g, "\\'")})'><i class="fas fa-check"></i> Accept</button><button class="btn-message" onclick='messageTrader(${JSON.stringify(t).replace(/'/g, "\\'")})'><i class="fas fa-envelope"></i> Message</button>`}</div></div>`; }).join(''); }
-    function escapeHtml(str){ if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+    // Shop
+    function renderShop() {
+        let filtered = mm2Items.filter(i => currentFilter==='all' || i.type===currentFilter);
+        document.getElementById('productsGrid').innerHTML = filtered.map(i => `<div class="product-card" onclick="buyItem(${i.id})"><img src="${i.image}"><h3>${i.name}</h3><div class="product-price">${currencySymbols[currentCurrency]}${getDisplayPrice(i.value)}</div></div>`).join('');
+    }
+    function buyItem(id) { let item = mm2Items.find(i=>i.id===id); if(userCredits >= item.value) { userCredits -= item.value; updateDisplay(); pendingPurchases.push({id:Date.now(), name:item.name, date:new Date().toISOString()}); showToast(`Purchased ${item.name}!`); renderPendingList(); } else showToast("Not enough credits!"); }
     
-    window.handleAuthStateChanged = function(user){ currentUser=user; if(user){ document.getElementById('userName').innerHTML=user.displayName?.split(' ')[0]||user.email?.split('@')[0]; document.getElementById('userAvatar').innerHTML=user.photoURL?`<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;">`:`<i class="fas fa-user"></i>`; } updateProfileUI(); };
-    window.showPage=showPage; window.toggleMenu=toggleMenu; window.buyItem=buyItem; window.exchangeItem=exchangeItem; window.redeemItem=redeemItem; window.openCreateTrade=openCreateTrade; window.closeTradeModal=closeTradeModal; window.submitTrade=submitTrade; window.deleteTrade=deleteTrade; window.acceptTrade=acceptTrade; window.messageTrader=messageTrader; window.verifyRoblox=verifyRoblox; window.openProfile=openProfile;
+    // Exchange
+    function renderExchange() { document.getElementById('exchangeGrid').innerHTML = mm2Items.map(i => `<div class="exchange-card" onclick="exchangeItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div style="color:#f59e0b;">+ ${Math.max(0,i.value-20)} credits</div></div>`).join(''); }
+    function exchangeItem(id) { let item = mm2Items.find(i=>i.id===id); let credits = Math.max(0, item.value-20); userCredits += credits; updateDisplay(); pendingExchanges.push({id:Date.now(), name:item.name, credits, date:new Date().toISOString()}); showToast(`+${credits} credits from ${item.name}!`); renderPendingList(); }
+    
+    // Redeem
+    function renderRedeem() { document.getElementById('redeemGrid').innerHTML = mm2Items.map(i => `<div class="redeem-card" onclick="redeemItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="product-price">${i.value} credits</div></div>`).join(''); }
+    function redeemItem(id) { let item = mm2Items.find(i=>i.id===id); if(userCredits >= item.value) { userCredits -= item.value; updateDisplay(); pendingRedeems.push({id:Date.now(), name:item.name, cost:item.value, date:new Date().toISOString()}); showToast(`Redeemed ${item.name}!`); renderPendingList(); } else showToast("Not enough credits!"); }
+    
+    // Sell
+    function renderSell() { document.getElementById('sellGrid').innerHTML = mm2Items.slice(0,4).map(i => `<div class="product-card" onclick="sellItem(${i.id})"><img src="${i.image}"><h3>${i.name}</h3><div class="product-price">${i.value} ROBUX</div></div>`).join(''); }
+    function sellItem(id) { let item = mm2Items.find(i=>i.id===id); if(confirm(`Sell ${item.name} for ${item.value} ROBUX? Admin will contact.`)) showToast("Sell request sent!"); }
+    
+    // Trading Hub
+    function createTrade() { showToast("Trade creation coming soon!"); }
+    
+    // Wheel
+    function generateWheel() { let wheel = document.getElementById('wheel'); let prizes = ["Batwing", "Harvester", "Icewing", "100 Credits", "50 Credits"]; let a = 360/prizes.length; let colors = ['#ff6b9d','#00d4ff','#c084fc','#f59e0b','#10b981']; wheel.innerHTML = prizes.map((p,i)=>`<div class="wheel-segment" style="transform:rotate(${i*a}deg); background:${colors[i%colors.length]}; width:50%; height:50%; position:absolute; transform-origin:100% 100%; display:flex; align-items:center; justify-content:center; flex-direction:column;"><img src="https://placehold.co/35x35/00d4ff/white?text=${p.charAt(0)}"><span>${p}</span></div>`).join(''); }
+    function spinWheel() { if(userTickets<1){ showToast("Need tickets!"); return; } userTickets--; updateDisplay(); let prizes = ["Batwing (140 value)", "Harvester (500)", "Icewing (80)", "100 Credits", "50 Credits"]; let prize = prizes[Math.floor(Math.random()*prizes.length)]; showToast(`🎉 Won: ${prize}!`); if(prize.includes("Credits")) { let amt = parseInt(prize); userCredits += amt; updateDisplay(); } }
+    function redeemCode() { let code = document.getElementById('codeInput').value; if(code.toUpperCase() === "CENTURY") { userTickets++; updateDisplay(); showToast("+1 Ticket!"); document.getElementById('codeInput').value=''; } else showToast("Invalid code!"); }
+    
+    // Pending Transfers
+    function renderPendingList() {
+        let items = currentPendingTab === 'exchange' ? pendingExchanges : currentPendingTab === 'redeem' ? pendingRedeems : pendingPurchases;
+        let listDiv = document.getElementById('pendingList');
+        if(items.length === 0) { listDiv.innerHTML = '<div style="text-align:center; padding:40px;">No pending transfers</div>'; return; }
+        listDiv.innerHTML = items.map(item => `<div class="pending-item"><div><strong>${item.name}</strong><br><small>${new Date(item.date).toLocaleString()}</small></div><button onclick="cancelPending('${currentPendingTab}', '${item.id}')" style="background:#ef4444; border:none; padding:8px 16px; border-radius:40px; color:white; cursor:pointer;">Cancel</button></div>`).join('');
+    }
+    function cancelPending(type, id) { if(type === 'exchange') pendingExchanges = pendingExchanges.filter(i => i.id != id); else if(type === 'redeem') pendingRedeems = pendingRedeems.filter(i => i.id != id); else pendingPurchases = pendingPurchases.filter(i => i.id != id); renderPendingList(); showToast("Cancelled"); }
+    document.querySelectorAll('.pending-tab').forEach(tab => { tab.addEventListener('click', () => { document.querySelectorAll('.pending-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); currentPendingTab = tab.dataset.tab; renderPendingList(); }); });
+    
+    // Auth
+    function handleAuth() { if(window.firebaseAuth) window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider); else showToast("Login demo: Guest mode active"); }
+    window.handleAuthStateChanged = function(user) { if(user) { document.getElementById('userName').innerHTML = user.displayName?.split(' ')[0] || 'User'; document.getElementById('userAvatar').innerHTML = user.photoURL ? `<img src="${user.photoURL}" style="width:24px;height:24px;border-radius:50%;">` : `<i class="fas fa-user"></i>`; showToast(`Welcome ${user.displayName}!`); } };
+    function showPoints() { showToast(`Points: ${userPoints}`); }
+    
+    // Initialize
+    document.querySelectorAll('.filter-chip').forEach(btn => { btn.addEventListener('click', () => { if(btn.dataset.filter) { document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; renderShop(); } }); });
+    for(let i=0;i<100;i++) { let s = document.createElement('div'); s.className='star'; s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%'; s.style.width=s.style.height=(Math.random()*2+1)+'px'; s.style.animationDelay=Math.random()*5+'s'; document.getElementById('stars').appendChild(s); }
+    setTimeout(() => document.getElementById('loadingScreen').classList.add('hide'), 1500);
+    renderShop(); renderExchange(); renderRedeem(); renderSell(); generateWheel(); updateDisplay();
+    window.navigateTo = navigateTo; window.toggleTheme = toggleTheme; window.changeCurrency = changeCurrency; window.handleAuth = handleAuth;
+    window.buyItem = buyItem; window.exchangeItem = exchangeItem; window.redeemItem = redeemItem; window.sellItem = sellItem;
+    window.removeFromOffer = removeFromOffer; window.openItemSelector = openItemSelector; window.spinWheel = spinWheel; window.redeemCode = redeemCode;
+    window.createTrade = createTrade; window.cancelPending = cancelPending; window.showPoints = showPoints;
 </script>
 </body>
 </html>
