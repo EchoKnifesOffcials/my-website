@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        /* RESET & BASE */
         * {
             margin: 0;
             padding: 0;
@@ -76,6 +75,14 @@
             animation: spin 1s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text {
+            font-size: 14px;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, var(--blue), var(--pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
         /* BACKGROUND STARS */
         .stars {
@@ -99,17 +106,34 @@
             50% { opacity: 0.7; }
         }
 
-        /* NAVIGATION BAR */
+        /* GLASS ORBS */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+            z-index: -1;
+            animation: float 25s infinite;
+        }
+        .orb-1 { width: 500px; height: 500px; background: #00d4ff; top: -200px; left: -200px; }
+        .orb-2 { width: 400px; height: 400px; background: #ff6b9d; bottom: -150px; right: -150px; animation-delay: 8s; }
+        @keyframes float {
+            0%,100% { transform: translate(0,0); }
+            33% { transform: translate(50px,-50px); }
+            66% { transform: translate(-30px,40px); }
+        }
+
+        /* GLASS NAVIGATION WITH SLIDER */
         .navbar {
             position: sticky;
-            top: 15px;
+            top: 20px;
             margin: 0 5%;
             z-index: 100;
             background: var(--glass);
             backdrop-filter: blur(16px);
-            border-radius: 50px;
+            border-radius: 60px;
             border: 1px solid var(--border);
-            padding: 8px 20px;
+            padding: 6px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -125,6 +149,11 @@
         .logo i {
             font-size: 28px;
             color: var(--blue);
+            animation: logoGlow 2s infinite;
+        }
+        @keyframes logoGlow {
+            0%,100% { filter: drop-shadow(0 0 5px var(--blue)); }
+            50% { filter: drop-shadow(0 0 15px var(--pink)); }
         }
         .logo span {
             font-size: 20px;
@@ -134,26 +163,49 @@
             background-clip: text;
             color: transparent;
         }
-        .nav-links {
+
+        /* SLIDER MENU */
+        .menu-container {
+            position: relative;
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+            background: rgba(0, 212, 255, 0.08);
+            border-radius: 50px;
+            padding: 5px;
         }
-        .nav-btn {
-            padding: 8px 20px;
+        .menu-list {
+            display: flex;
+            list-style: none;
+            position: relative;
+            gap: 5px;
+        }
+        .menu-btn {
+            padding: 8px 22px;
             border-radius: 40px;
             cursor: pointer;
             font-weight: 600;
             color: var(--text-dim);
             background: transparent;
             border: none;
-            transition: 0.2s;
+            transition: color 0.3s;
+            font-size: 14px;
+            position: relative;
+            z-index: 2;
         }
-        .nav-btn:hover, .nav-btn.active {
-            background: linear-gradient(135deg, var(--blue), var(--pink));
+        .menu-btn.active {
             color: #0a0e1a;
-            transform: translateY(-2px);
         }
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(135deg, var(--blue), var(--pink));
+            border-radius: 40px;
+            transition: transform 0.35s cubic-bezier(0.4, 1.2, 0.5, 1), width 0.35s cubic-bezier(0.4, 1.2, 0.5, 1);
+            z-index: 1;
+        }
+
+        /* RIGHT ICONS */
         .right-icons {
             display: flex;
             align-items: center;
@@ -212,7 +264,7 @@
         }
         .page {
             display: none;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.4s ease;
         }
         .page.active {
             display: block;
@@ -252,7 +304,7 @@
             color: #0a0e1a;
         }
 
-        /* PRODUCT GRID */
+        /* GRID */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -473,7 +525,8 @@
         }
 
         @media (max-width: 768px) {
-            .nav-links { display: none; }
+            .menu-container { overflow-x: auto; max-width: 100%; }
+            .menu-list { flex-wrap: nowrap; }
             .trade-columns { grid-template-columns: 1fr; }
             .wheel-wrapper { width: 280px; height: 280px; }
             .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
@@ -485,29 +538,37 @@
 
 <div class="loading" id="loading">
     <div class="spinner"></div>
-    <div>LOADING ECHOKNIVES</div>
+    <div class="loading-text">LOADING ECHOKNIVES</div>
 </div>
 
 <div class="stars" id="stars"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 
+<!-- GLASS NAVIGATION WITH SLIDER -->
 <div class="navbar">
-    <div class="logo" onclick="navigate('home')">
+    <div class="logo" onclick="navigateTo('home')">
         <i class="fas fa-gem"></i>
         <span>ECHOKNIVES</span>
     </div>
-    <div class="nav-links">
-        <button class="nav-btn" onclick="navigate('home')">Home</button>
-        <button class="nav-btn" onclick="navigate('trade')">Trade Check</button>
-        <button class="nav-btn" onclick="navigate('shop')">Shop</button>
-        <button class="nav-btn" onclick="navigate('exchange')">Exchange</button>
-        <button class="nav-btn" onclick="navigate('redeem')">Redeem</button>
-        <button class="nav-btn" onclick="navigate('sell')">Sell</button>
-        <button class="nav-btn" onclick="navigate('hub')">Trade Hub</button>
-        <button class="nav-btn" onclick="navigate('draw')">Luck Draw</button>
-        <button class="nav-btn" onclick="navigate('pending')">Pending</button>
+    
+    <div class="menu-container">
+        <div class="slider" id="navSlider"></div>
+        <ul class="menu-list" id="menuList">
+            <li><button class="menu-btn active" data-page="home" onclick="navigateTo('home')">Home</button></li>
+            <li><button class="menu-btn" data-page="trade" onclick="navigateTo('trade')">Trade Check</button></li>
+            <li><button class="menu-btn" data-page="shop" onclick="navigateTo('shop')">Shop</button></li>
+            <li><button class="menu-btn" data-page="exchange" onclick="navigateTo('exchange')">Exchange</button></li>
+            <li><button class="menu-btn" data-page="redeem" onclick="navigateTo('redeem')">Redeem</button></li>
+            <li><button class="menu-btn" data-page="sell" onclick="navigateTo('sell')">Sell</button></li>
+            <li><button class="menu-btn" data-page="hub" onclick="navigateTo('hub')">Trade Hub</button></li>
+            <li><button class="menu-btn" data-page="draw" onclick="navigateTo('draw')">Luck Draw</button></li>
+            <li><button class="menu-btn" data-page="pending" onclick="navigateTo('pending')">Pending</button></li>
+        </ul>
     </div>
+    
     <div class="right-icons">
-        <div class="points" onclick="alert('Points: ' + points)"><i class="fas fa-star"></i> <span id="pointsDisplay">1,250</span></div>
+        <div class="points" onclick="showPoints()"><i class="fas fa-star"></i> <span id="pointsDisplay">1,250</span></div>
         <div class="credits"><i class="fas fa-coins"></i> <span id="creditsDisplay">3,420</span></div>
         <div class="currency"><select id="currencySelect" onchange="changeCurrency()"><option value="USD">USD $</option><option value="PHP">PHP ₱</option><option value="ROBUX">ROBUX R$</option></select></div>
         <div class="theme-btn" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></div>
@@ -521,7 +582,7 @@
         <div style="text-align:center; padding:60px 20px;">
             <h1 style="font-size:52px;">Trade <span style="background:linear-gradient(135deg,var(--blue),var(--pink)); -webkit-background-clip:text; background-clip:text; color:transparent;">MM2 Items</span></h1>
             <p style="color:var(--text-dim); margin:20px 0;">The safest place to trade Murder Mystery 2 items</p>
-            <button class="chip" onclick="navigate('trade')" style="padding:12px 40px;">Start Trading →</button>
+            <button class="chip" onclick="navigateTo('trade')" style="padding:12px 40px;">Start Trading →</button>
         </div>
     </div>
 
@@ -649,6 +710,36 @@
     const symbols = { USD: "$", PHP: "₱", ROBUX: "R$" };
     const rates = { USD: 1, PHP: 56, ROBUX: 1.7 };
 
+    // SLIDER FUNCTION (from your code)
+    const moveSlider = (element, animate = true) => {
+        if (!element) return;
+        const slider = document.getElementById('navSlider');
+        const curve = '0.35s cubic-bezier(0.4, 1.2, 0.5, 1)';
+        slider.style.transition = animate ? `transform ${curve}, width ${curve}, background 0.4s` : 'none';
+        const parentLi = element.parentElement;
+        slider.style.width = `${element.offsetWidth}px`;
+        slider.style.transform = `translateX(${parentLi.offsetLeft}px)`;
+    };
+
+    // Initialize slider on load
+    function initSlider() {
+        const activeBtn = document.querySelector('.menu-btn.active');
+        if (activeBtn) moveSlider(activeBtn, false);
+    }
+
+    // Update active menu and slider
+    function updateActiveMenu(pageId) {
+        const buttons = document.querySelectorAll('.menu-btn');
+        buttons.forEach(btn => {
+            if (btn.dataset.page === pageId) {
+                btn.classList.add('active');
+                moveSlider(btn, true);
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+
     // Helper functions
     function showToast(msg) {
         const toast = document.getElementById('toast');
@@ -676,10 +767,11 @@
     }
 
     // Navigation
-    function navigate(page) {
+    function navigateTo(page) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(page + 'Page').classList.add('active');
         document.title = page.charAt(0).toUpperCase() + page.slice(1) + " | ECHOKNIVES";
+        updateActiveMenu(page);
         
         if (page === 'trade') renderTrade();
         if (page === 'shop') renderShop();
@@ -914,13 +1006,13 @@
 
     // Pending
     function renderPending() {
-        let items = pendingTab === 'exchange' ? pendingExchanges : pendingTab === 'redeem' ? pendingRedeems : pendingPurchases;
+        let itemsList = pendingTab === 'exchange' ? pendingExchanges : pendingTab === 'redeem' ? pendingRedeems : pendingPurchases;
         let div = document.getElementById('pendingList');
-        if (items.length === 0) {
+        if (itemsList.length === 0) {
             div.innerHTML = '<div style="text-align:center; padding:40px;">No pending transfers</div>';
             return;
         }
-        div.innerHTML = items.map(i => `
+        div.innerHTML = itemsList.map(i => `
             <div class="pending-item">
                 <div><strong>${i.name}</strong><br><small>${i.date}</small></div>
                 <button onclick="cancelPending('${pendingTab}', '${i.id}')" style="background:#ef4444; border:none; padding:8px 16px; border-radius:40px; color:white; cursor:pointer;">Cancel</button>
@@ -955,6 +1047,10 @@
         showToast("Demo Mode - Features available as Guest");
     }
 
+    function showPoints() {
+        showToast(`Points: ${points}\nCredits: ${credits}\nTickets: ${tickets}`);
+    }
+
     // Stars background
     for (let i = 0; i < 120; i++) {
         let s = document.createElement('div');
@@ -984,9 +1080,10 @@
     renderRedeem();
     renderSell();
     initWheel();
+    initSlider();
 
     // Make functions global
-    window.navigate = navigate;
+    window.navigateTo = navigateTo;
     window.toggleTheme = toggleTheme;
     window.changeCurrency = changeCurrency;
     window.handleLogin = handleLogin;
@@ -1001,6 +1098,7 @@
     window.redeemCode = redeemCode;
     window.switchPendingTab = switchPendingTab;
     window.cancelPending = cancelPending;
+    window.showPoints = showPoints;
 </script>
 </body>
 </html>
