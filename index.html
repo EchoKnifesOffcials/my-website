@@ -191,7 +191,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* HERO BANNER WITH CURVED IMAGE */
+        /* HERO BANNER */
         .hero-banner {
             position: relative;
             margin: 20px auto;
@@ -201,21 +201,10 @@
             overflow: hidden;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
         }
-        .hero-banner:hover {
-            transform: scale(1.02);
-            box-shadow: 0 30px 60px -12px rgba(56, 189, 248, 0.3);
-        }
-        .hero-banner img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.5s ease;
-        }
-        .hero-banner:hover img {
-            transform: scale(1.05);
-        }
+        .hero-banner:hover { transform: scale(1.02); }
+        .hero-banner img { width: 100%; height: auto; display: block; }
         .banner-overlay {
             position: absolute;
             top: 0;
@@ -229,10 +218,6 @@
             justify-content: center;
             gap: 15px;
         }
-        .banner-text {
-            text-align: center;
-            padding: 20px;
-        }
         .banner-text h2 {
             font-size: 2rem;
             font-weight: 800;
@@ -240,11 +225,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-        }
-        .banner-text p {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 500;
         }
         .start-trading-btn {
             background: linear-gradient(135deg, #38bdf8, #0ea5e9);
@@ -256,13 +236,8 @@
             color: #0f172a;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
-            margin-top: 10px;
         }
-        .start-trading-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.6);
-        }
+        .start-trading-btn:hover { transform: scale(1.05); }
 
         /* SOCIALS SECTION */
         .socials-section {
@@ -271,7 +246,6 @@
             background: var(--bg-card);
             backdrop-filter: blur(12px);
             border-radius: 32px;
-            border: 1px solid var(--glass-border);
             text-align: center;
         }
         .social-icons {
@@ -306,7 +280,6 @@
             gap: 0.6rem;
             padding: 0.8rem;
             margin: 30px auto 0;
-            max-width: 100%;
             background: rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(25px);
             border-radius: 2rem;
@@ -318,10 +291,10 @@
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 1rem;
-            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: all 0.3s;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             cursor: pointer;
             color: var(--text-primary);
             font-size: 1.1rem;
@@ -379,22 +352,26 @@
             width: 70px;
             height: 70px;
             object-fit: contain;
-            border-radius: 12px;
+            border-radius: 16px;
             margin-bottom: 10px;
         }
         .price { font-size: 14px; font-weight: 700; color: var(--accent); }
 
-        /* TRADE CARD */
+        /* BEAUTIFUL TRADE CARD */
         .trade-card {
             background: var(--bg-card);
             backdrop-filter: blur(12px);
-            border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 32px;
+            padding: 24px;
+            margin-bottom: 24px;
             border: 1px solid var(--glass-border);
             transition: all 0.3s;
         }
-        .trade-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .trade-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.15);
+        }
         .trade-header {
             display: flex;
             align-items: center;
@@ -405,20 +382,133 @@
             padding-bottom: 15px;
             border-bottom: 1px solid var(--glass-border);
         }
-        .trader-info { display: flex; align-items: center; gap: 15px; }
-        .trader-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--gradient); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .trader-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .trust-rating { background: rgba(56, 189, 248, 0.15); padding: 5px 12px; border-radius: 20px; font-size: 12px; }
-        .trade-timer { background: rgba(245, 158, 11, 0.15); padding: 5px 12px; border-radius: 20px; font-size: 12px; color: var(--warning); }
-        .trade-items-row { display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap; margin: 20px 0; }
-        .trade-item-box { text-align: center; flex: 1; min-width: 120px; }
-        .trade-item-box img { width: 80px; height: 80px; object-fit: contain; border-radius: 16px; background: rgba(0,0,0,0.2); padding: 10px; }
-        .trade-transfer-icon { font-size: 28px; color: var(--accent); }
-        .trade-actions { display: flex; justify-content: center; gap: 15px; margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--glass-border); }
-        .trade-btn { background: rgba(56, 189, 248, 0.1); border: none; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-size: 12px; }
-        .trade-btn:hover { background: var(--accent); color: #0f172a; }
-        .delete-btn { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
-        .delete-btn:hover { background: var(--danger); color: white; }
+        .trader-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .trader-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .trader-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .trader-details h4 { font-size: 16px; margin-bottom: 2px; }
+        .trader-details p { font-size: 11px; color: var(--text-secondary); }
+        .trust-rating {
+            background: rgba(56, 189, 248, 0.15);
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+        }
+        .trade-timer {
+            background: rgba(245, 158, 11, 0.15);
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: var(--warning);
+        }
+        
+        /* BEAUTIFUL TRADE ITEMS ROW */
+        .trade-items-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 28px;
+        }
+        .trade-item-box {
+            text-align: center;
+            flex: 1;
+            min-width: 140px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 24px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+        .trade-item-box:hover { transform: scale(1.02); background: rgba(56, 189, 248, 0.1); }
+        .trade-item-box .item-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        .trade-item-box .item-images img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            transition: transform 0.2s;
+        }
+        .trade-item-box .item-images img:hover {
+            transform: scale(1.05);
+        }
+        .trade-item-box p {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-top: 8px;
+        }
+        .trade-swap-icon {
+            font-size: 40px;
+            background: var(--gradient);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0f172a;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+        }
+        
+        .trade-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--glass-border);
+        }
+        .trade-btn {
+            background: rgba(56, 189, 248, 0.1);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .trade-btn:hover {
+            background: var(--accent);
+            color: #0f172a;
+            transform: translateY(-2px);
+        }
+        .delete-btn {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+        .delete-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
 
         /* TRADE CHECKER */
         .trade-section {
@@ -459,7 +549,7 @@
             gap: 6px;
             font-size: 11px;
         }
-        .trade-item img { width: 22px; height: 22px; border-radius: 5px; }
+        .trade-item img { width: 22px; height: 22px; border-radius: 8px; }
         .add-btn {
             background: rgba(56, 189, 248, 0.1);
             border: 1px dashed var(--glass-border);
@@ -562,8 +652,7 @@
             justify-content: center;
             flex-direction: column;
         }
-        .wheel-seg img { width: 25px; height: 25px; border-radius: 5px; }
-        .wheel-seg span { font-size: 7px; font-weight: 700; color: white; text-shadow: 1px 1px 0 black; }
+        .wheel-seg img { width: 25px; height: 25px; border-radius: 8px; }
         .wheel-center {
             position: absolute;
             top: 50%;
@@ -611,10 +700,8 @@
         .item-select select { width: 100%; padding: 8px; background: transparent; border: none; color: var(--text-primary); }
         .selected-items-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
         .selected-item-badge { background: rgba(56, 189, 248, 0.15); padding: 4px 12px; border-radius: 20px; font-size: 12px; display: flex; align-items: center; gap: 8px; }
-        .message-item { background: var(--bg-card); border-radius: 20px; padding: 15px; margin-bottom: 12px; }
         .terms-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-deep); z-index: 2000; overflow-y: auto; display: none; padding: 80px 5% 40px; }
         .terms-page.active { display: block; }
-        .terms-content { max-width: 800px; margin: 0 auto; background: var(--bg-card); border-radius: 32px; padding: 30px; }
         .close-terms { position: sticky; top: 20px; float: right; background: var(--danger); border: none; padding: 8px 20px; border-radius: 40px; color: white; cursor: pointer; }
         .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--gradient); padding: 8px 16px; border-radius: 40px; z-index: 2000; transition: 0.3s; color: #0f172a; font-weight: 600; font-size: 12px; white-space: nowrap; }
         .toast.show { transform: translateX(-50%) translateY(0); }
@@ -647,10 +734,7 @@
         <div class="hero-banner" onclick="startVerification()">
             <img src="https://i.imgur.com/nBZskYR.jpeg" alt="EchoKnives Banner">
             <div class="banner-overlay">
-                <div class="banner-text">
-                    <h2>Trade on EchoKnives</h2>
-                    <p>Secure • Fast • Premium MM2 Trading</p>
-                </div>
+                <div class="banner-text"><h2>Trade on EchoKnives</h2></div>
                 <button class="start-trading-btn" onclick="event.stopPropagation(); navigateTo('tradehub')">Start Trading <i class="fas fa-arrow-right"></i></button>
             </div>
         </div>
@@ -705,16 +789,8 @@
         <div class="trade-section">
             <h2 class="section-title"><i class="fas fa-balance-scale"></i> Trade Value Checker</h2>
             <div class="trade-columns">
-                <div class="trade-box">
-                    <h3>Your Offer</h3>
-                    <div class="trade-items" id="yourItems"></div>
-                    <div class="add-btn" onclick="openItemSelector('your')"><i class="fas fa-plus"></i> Add Item</div>
-                </div>
-                <div class="trade-box">
-                    <h3>Their Offer</h3>
-                    <div class="trade-items" id="theirItems"></div>
-                    <div class="add-btn" onclick="openItemSelector('their')"><i class="fas fa-plus"></i> Add Item</div>
-                </div>
+                <div class="trade-box"><h3>Your Offer</h3><div class="trade-items" id="yourItems"></div><div class="add-btn" onclick="openItemSelector('your')"><i class="fas fa-plus"></i> Add Item</div></div>
+                <div class="trade-box"><h3>Their Offer</h3><div class="trade-items" id="theirItems"></div><div class="add-btn" onclick="openItemSelector('their')"><i class="fas fa-plus"></i> Add Item</div></div>
             </div>
             <div class="value-bar"><span>Your Value: <strong id="yourVal">0</strong></span><span>→</span><span>Their Value: <strong id="theirVal">0</strong></span></div>
             <div class="fairness-bar" id="fairnessBar"></div>
@@ -722,10 +798,10 @@
         </div>
     </div>
 
-    <!-- TRADE HUB PAGE -->
+    <!-- TRADE HUB PAGE - GLOBAL TRADES -->
     <div id="tradehubPage" class="page">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
-            <h2 class="section-title"><i class="fas fa-handshake"></i> Trading Hub</h2>
+            <h2 class="section-title"><i class="fas fa-handshake"></i> Global Trading Hub</h2>
             <button class="chip" onclick="openCreateTradeModal()"><i class="fas fa-plus"></i> Create Trade Offer</button>
         </div>
         <div id="tradeListingsContainer"></div>
@@ -817,6 +893,9 @@
 <div class="toast" id="toast"></div>
 
 <script>
+    // ============ BACKEND API ============
+    const API_URL = "https://trade-web-server-x21h.onrender.com";
+    
     // ============ ITEMS DATABASE ============
     const items = [
         { id: 1, name: "Batwing", value: 140, image: "https://i.imgur.com/H6CL03y.jpeg", type: "knife" },
@@ -834,7 +913,7 @@
     let shopFilter = "all";
     let yourOffer = [], theirOffer = [];
     let currency = "USD";
-    let tradeListings = [];
+    let globalTrades = [];
     let tradeTimers = {};
     let offerItems = [], requestItems = [];
     let pendingExchanges = [], pendingRedeems = [], pendingPurchases = [];
@@ -867,7 +946,7 @@
         if(page === 'redeem') renderRedeem();
         if(page === 'sell') renderSell();
         if(page === 'tradecheck') renderTradeCheck();
-        if(page === 'tradehub') renderTradeHub();
+        if(page === 'tradehub') fetchGlobalTrades();
         if(page === 'pending') renderPending();
         if(page === 'draw') { initWheel(); updateDisplay(); }
         
@@ -877,66 +956,69 @@
         else balanceBar.classList.remove('hide-balance');
     }
     
-    // ============ SHOP FUNCTIONS ============
-    function renderShop() {
-        let filtered = items.filter(i => shopFilter === 'all' || i.type === shopFilter);
-        document.getElementById('shopGrid').innerHTML = filtered.map(i => `<div class="card" onclick="buyItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="price">${getPrice(i.value)}</div></div>`).join('');
+    // ============ GLOBAL TRADES (BACKEND) ============
+    async function fetchGlobalTrades() {
+        try {
+            const response = await fetch(`${API_URL}/api/trades`);
+            const data = await response.json();
+            if (data.success) {
+                globalTrades = data.trades;
+                renderTradeHub();
+            } else {
+                globalTrades = [];
+                renderTradeHub();
+            }
+        } catch (error) {
+            console.log("Backend offline, using local trades");
+            globalTrades = [];
+            renderTradeHub();
+        }
     }
-    function filterShop(f) { shopFilter = f; renderShop(); }
-    function buyItem(id) { let i = items.find(x=>x.id===id); if(credits >= i.value){ credits -= i.value; pendingPurchases.unshift({id:Date.now(), name:i.name, date:new Date().toLocaleTimeString()}); updateDisplay(); renderPending(); showToast(`✅ Purchased ${i.name}!`); } else showToast(`❌ Need ${i.value} credits!`); }
     
-    function renderExchange() { document.getElementById('exchangeGrid').innerHTML = items.map(i => `<div class="card" onclick="exchangeItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="price">+ ${Math.max(0,i.value-20)}</div></div>`).join(''); }
-    function exchangeItem(id) { let i = items.find(x=>x.id===id); let g = Math.max(0,i.value-20); credits += g; pendingExchanges.unshift({id:Date.now(), name:i.name, gain:g, date:new Date().toLocaleTimeString()}); updateDisplay(); renderPending(); showToast(`✅ +${g} credits!`); }
-    
-    function renderRedeem() { document.getElementById('redeemGrid').innerHTML = items.map(i => `<div class="card" onclick="redeemItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="price">${i.value} credits</div></div>`).join(''); }
-    function redeemItem(id) { let i = items.find(x=>x.id===id); if(credits >= i.value){ credits -= i.value; pendingRedeems.unshift({id:Date.now(), name:i.name, cost:i.value, date:new Date().toLocaleTimeString()}); updateDisplay(); renderPending(); showToast(`✅ Redeemed ${i.name}!`); } else showToast(`❌ Need ${i.value} credits!`); }
-    
-    function renderSell() { document.getElementById('sellGrid').innerHTML = items.slice(0,6).map(i => `<div class="card" onclick="if(confirm('Sell ${i.name} for ${i.value} ROBUX?')) showToast('Request sent')"><img src="${i.image}"><h4>${i.name}</h4><div class="price">${i.value} ROBUX</div></div>`).join(''); }
-    
-    // ============ TRADE CHECKER ============
-    function renderTradeCheck() {
-        document.getElementById('yourItems').innerHTML = yourOffer.map(i => `<div class="trade-item"><img src="${i.image}">${i.name}<button onclick="removeItem('your',${i.id})" style="background:none;border:none;color:#ef4444;">×</button></div>`).join('') || '<div style="color:var(--text-secondary);">No items</div>';
-        document.getElementById('theirItems').innerHTML = theirOffer.map(i => `<div class="trade-item"><img src="${i.image}">${i.name}<button onclick="removeItem('their',${i.id})" style="background:none;border:none;color:#ef4444;">×</button></div>`).join('') || '<div style="color:var(--text-secondary);">No items</div>';
-        let y = yourOffer.reduce((s,i)=>s+i.value,0), t = theirOffer.reduce((s,i)=>s+i.value,0);
-        document.getElementById('yourVal').innerText = y; document.getElementById('theirVal').innerText = t;
-        let bar = document.getElementById('fairnessBar'), text = document.getElementById('fairnessText');
-        if(y===0 && t===0){ bar.style.width='0%'; text.innerHTML='Select items'; return; }
-        let percent = (Math.abs(y-t)/Math.max(y,t))*100;
-        if(percent<=10){ bar.style.width='100%'; bar.style.background='#10b981'; text.innerHTML='✅ FAIR TRADE!'; }
-        else if(percent<=25){ bar.style.width='66%'; bar.style.background='#f59e0b'; text.innerHTML='⚠️ SLIGHTLY UNBALANCED'; }
-        else{ bar.style.width='33%'; bar.style.background='#ef4444'; text.innerHTML='❌ BAD TRADE!'; }
-    }
-    function removeItem(side,id) { if(side==='your') yourOffer=yourOffer.filter(i=>i.id!==id); else theirOffer=theirOffer.filter(i=>i.id!==id); renderTradeCheck(); }
-    function openItemSelector(side) { let s = prompt(`Enter item name:\n${items.map(i=>i.name).join(', ')}`); if(s){ let item = items.find(i=>i.name.toLowerCase()===s.toLowerCase()); if(item){ if(side==='your') yourOffer.push({...item}); else theirOffer.push({...item}); renderTradeCheck(); showToast(`Added ${item.name}`); } } }
-    
-    // ============ TRADE HUB WITH 1-HOUR TIMER ============
     function renderTradeHub() {
         const container = document.getElementById('tradeListingsContainer');
-        if (tradeListings.length === 0) {
-            container.innerHTML = '<div style="text-align:center; padding:60px;">No active trades. Create one!</div>';
+        if (globalTrades.length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding:60px;">🌍 No global trades yet. Be the first to create one!</div>';
             return;
         }
-        container.innerHTML = tradeListings.map(trade => {
+        
+        container.innerHTML = globalTrades.map(trade => {
             const timeLeft = getTimeLeft(trade.expiresAt);
-            const isOwner = trade.userId === (userRobloxData?.robloxId || 'guest');
+            const isOwner = trade.requesterId === (userRobloxData?.robloxId || `guest_${Date.now()}`);
+            const offerItemsArray = trade.itemsOffered || [];
+            const requestItemsArray = trade.itemsRequested || [];
+            
             return `
                 <div class="trade-card">
                     <div class="trade-header">
                         <div class="trader-info">
-                            <div class="trader-avatar"><img src="${trade.avatarUrl || 'https://ui-avatars.com/api/?name=' + (trade.userName?.charAt(0) || 'U') + '&background=38bdf8&color=fff'}"></div>
-                            <div><h4>${trade.userName || "Anonymous"}</h4><p>@${trade.userRoblox || "unknown"}</p></div>
+                            <div class="trader-avatar"><img src="${trade.requesterInfo?.avatarUrl || 'https://ui-avatars.com/api/?name=' + (trade.requesterName?.charAt(0) || 'U') + '&background=38bdf8&color=fff'}" onerror="this.src='https://ui-avatars.com/api/?name=U&background=38bdf8&color=fff'"></div>
+                            <div class="trader-details">
+                                <h4>${trade.requesterName || "Anonymous"}</h4>
+                                <p>@${trade.requesterRobloxUsername || "unknown"}</p>
+                            </div>
                         </div>
-                        <div class="trust-rating"><i class="fas fa-star"></i> Trust: ${trade.trustRating || 8.5}/10</div>
+                        <div class="trust-rating"><i class="fas fa-star"></i> Trust: 8.5/10</div>
                         <div class="trade-timer"><i class="fas fa-clock"></i> ${timeLeft}</div>
                     </div>
                     <div class="trade-items-row">
-                        <div class="trade-item-box"><div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center;">${trade.offerItems.map(item => `<img src="${item.image}" style="width:60px; height:60px; border-radius:12px;">`).join('')}</div><p>${trade.offerItems.map(i => i.name).join(', ')}</p></div>
-                        <div class="trade-transfer-icon"><i class="fas fa-arrow-right"></i></div>
-                        <div class="trade-item-box"><div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center;">${trade.requestItems.map(item => `<img src="${item.image}" style="width:60px; height:60px; border-radius:12px;">`).join('')}</div><p>${trade.requestItems.map(i => i.name).join(', ')}</p></div>
+                        <div class="trade-item-box">
+                            <div class="item-images">
+                                ${offerItemsArray.map(item => `<img src="${item.image}" alt="${item.name}" title="${item.name}">`).join('')}
+                            </div>
+                            <p>${offerItemsArray.map(i => i.name).join(', ')}</p>
+                        </div>
+                        <div class="trade-swap-icon"><i class="fas fa-exchange-alt"></i></div>
+                        <div class="trade-item-box">
+                            <div class="item-images">
+                                ${requestItemsArray.map(item => `<img src="${item.image}" alt="${item.name}" title="${item.name}">`).join('')}
+                            </div>
+                            <p>${requestItemsArray.map(i => i.name).join(', ')}</p>
+                        </div>
                     </div>
                     <div class="trade-actions">
-                        <button class="trade-btn" onclick="messageTrader('${trade.id}')"><i class="fas fa-comment"></i> Message</button>
-                        ${isOwner ? `<button class="trade-btn delete-btn" onclick="deleteTrade('${trade.id}')"><i class="fas fa-trash"></i> Delete Offer</button>` : `<button class="trade-btn" onclick="acceptTradeOffer('${trade.id}')"><i class="fas fa-handshake"></i> Accept Trade</button>`}
+                        <button class="trade-btn" onclick="messageTrader('${trade.id}')"><i class="fas fa-comment"></i> Message Trader</button>
+                        ${isOwner ? `<button class="trade-btn delete-btn" onclick="deleteGlobalTrade('${trade.id}')"><i class="fas fa-trash"></i> Delete Offer</button>` : `<button class="trade-btn" onclick="acceptGlobalTrade('${trade.id}')"><i class="fas fa-handshake"></i> Accept Trade</button>`}
                     </div>
                 </div>
             `;
@@ -952,33 +1034,75 @@
         return `${Math.floor(minutes / 60)}h ${minutes % 60}m left`;
     }
     
-    function startTradeTimer(tradeId) {
-        if (tradeTimers[tradeId]) clearTimeout(tradeTimers[tradeId]);
-        tradeTimers[tradeId] = setTimeout(() => {
-            tradeListings = tradeListings.filter(t => t.id !== tradeId);
+    async function postTradeListing() {
+        if (offerItems.length === 0 || requestItems.length === 0) {
+            showToast("Please add items to both sides");
+            return;
+        }
+        if (!userRobloxData) {
+            showToast("Please verify your Roblox account first");
+            startVerification();
+            return;
+        }
+        
+        const tradeData = {
+            requesterId: userRobloxData.robloxId || `user_${Date.now()}`,
+            requesterName: userRobloxData.displayName || "Guest",
+            requesterRobloxUsername: userRobloxData.username || "guest",
+            requesterInfo: { avatarUrl: userRobloxData.avatarUrl },
+            itemsOffered: offerItems,
+            itemsRequested: requestItems,
+            message: "Trade offer",
+            expiresAt: new Date(Date.now() + 3600000).toISOString()
+        };
+        
+        try {
+            const response = await fetch(`${API_URL}/api/trades`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(tradeData)
+            });
+            const data = await response.json();
+            if (data.success) {
+                showToast("✅ Trade posted globally!");
+                offerItems = [];
+                requestItems = [];
+                updateItemDisplays();
+                closeCreateTradeModal();
+                fetchGlobalTrades();
+            } else {
+                showToast("Error posting trade");
+            }
+        } catch (error) {
+            showToast("Backend error, but trade saved locally");
+            const localTrade = { ...tradeData, id: Date.now().toString(), status: 'pending' };
+            globalTrades.unshift(localTrade);
             renderTradeHub();
-            showToast("⏰ Trade offer expired and was removed");
-        }, 3600000);
-    }
-    
-    function deleteTrade(tradeId) {
-        tradeListings = tradeListings.filter(t => t.id !== tradeId);
-        if (tradeTimers[tradeId]) clearTimeout(tradeTimers[tradeId]);
-        renderTradeHub();
-        showToast("Trade offer removed");
-    }
-    
-    function acceptTradeOffer(tradeId) {
-        const trade = tradeListings.find(t => t.id === tradeId);
-        if (trade) {
-            showToast(`Trade offer accepted! Contact ${trade.userName} on Roblox/Discord to complete.`);
+            offerItems = [];
+            requestItems = [];
+            updateItemDisplays();
+            closeCreateTradeModal();
         }
     }
     
-    function messageTrader(tradeId) {
-        showToast("Messaging feature - Contact trader via Discord/Roblox");
+    async function deleteGlobalTrade(tradeId) {
+        try {
+            await fetch(`${API_URL}/api/trades/${tradeId}`, { method: 'DELETE', body: JSON.stringify({ userId: userRobloxData?.robloxId }), headers: { 'Content-Type': 'application/json' } });
+        } catch(e) {}
+        globalTrades = globalTrades.filter(t => t.id !== tradeId);
+        renderTradeHub();
+        showToast("Trade removed");
     }
     
+    function acceptGlobalTrade(tradeId) {
+        showToast("Trade accepted! Contact the trader on Discord/Roblox to complete the trade.");
+    }
+    
+    function messageTrader(tradeId) {
+        showToast("💬 Messaging feature - Contact trader via Discord or Roblox!");
+    }
+    
+    // ============ TRADE MODAL FUNCTIONS ============
     function openCreateTradeModal() {
         if (!userRobloxData) { showToast("Please verify your Roblox account first"); startVerification(); return; }
         document.getElementById('createTradeModal').classList.add('active');
@@ -999,28 +1123,37 @@
     function removeOfferItem(id) { offerItems = offerItems.filter(i => i.id !== id); updateItemDisplays(); }
     function removeRequestItem(id) { requestItems = requestItems.filter(i => i.id !== id); updateItemDisplays(); }
     
-    function postTradeListing() {
-        if (offerItems.length === 0 || requestItems.length === 0) { showToast("Add items to both sides"); return; }
-        const newTrade = {
-            id: Date.now().toString(),
-            userId: userRobloxData?.robloxId || 'guest',
-            userName: userRobloxData?.displayName || "Guest",
-            userRoblox: userRobloxData?.username || "guest",
-            avatarUrl: userRobloxData?.avatarUrl,
-            trustRating: 8.5,
-            offerItems: [...offerItems],
-            requestItems: [...requestItems],
-            createdAt: new Date().toISOString(),
-            expiresAt: new Date(Date.now() + 3600000).toISOString()
-        };
-        tradeListings.unshift(newTrade);
-        renderTradeHub();
-        startTradeTimer(newTrade.id);
-        offerItems = []; requestItems = [];
-        updateItemDisplays();
-        closeCreateTradeModal();
-        showToast("✅ Trade posted! Your offer will expire in 1 hour.");
+    // ============ SHOP FUNCTIONS ============
+    function renderShop() {
+        let filtered = items.filter(i => shopFilter === 'all' || i.type === shopFilter);
+        document.getElementById('shopGrid').innerHTML = filtered.map(i => `<div class="card" onclick="buyItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="price">${getPrice(i.value)}</div></div>`).join('');
     }
+    function filterShop(f) { shopFilter = f; renderShop(); }
+    function buyItem(id) { let i = items.find(x=>x.id===id); if(credits >= i.value){ credits -= i.value; pendingPurchases.unshift({id:Date.now(), name:i.name, date:new Date().toLocaleTimeString()}); updateDisplay(); renderPending(); showToast(`✅ Purchased ${i.name}!`); } else showToast(`❌ Need ${i.value} credits!`); }
+    
+    function renderExchange() { document.getElementById('exchangeGrid').innerHTML = items.map(i => `<div class="card" onclick="exchangeItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="price">+ ${Math.max(0,i.value-20)}</div></div>`).join(''); }
+    function exchangeItem(id) { let i = items.find(x=>x.id===id); let g = Math.max(0,i.value-20); credits += g; pendingExchanges.unshift({id:Date.now(), name:i.name, gain:g, date:new Date().toLocaleTimeString()}); updateDisplay(); renderPending(); showToast(`✅ +${g} credits!`); }
+    
+    function renderRedeem() { document.getElementById('redeemGrid').innerHTML = items.map(i => `<div class="card" onclick="redeemItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="price">${i.value} credits</div></div>`).join(''); }
+    function redeemItem(id) { let i = items.find(x=>x.id===id); if(credits >= i.value){ credits -= i.value; pendingRedeems.unshift({id:Date.now(), name:i.name, cost:i.value, date:new Date().toLocaleTimeString()}); updateDisplay(); renderPending(); showToast(`✅ Redeemed ${i.name}!`); } else showToast(`❌ Need ${i.value} credits!`); }
+    
+    function renderSell() { document.getElementById('sellGrid').innerHTML = items.slice(0,6).map(i => `<div class="card" onclick="if(confirm('Sell ${i.name} for ${i.value} ROBUX?')) showToast('Request sent')"><img src="${i.image}"><h4>${i.name}</h4><div class="price">${i.value} ROBUX</div></div>`).join(''); }
+    
+    // ============ TRADE CHECKER ============
+    function renderTradeCheck() {
+        document.getElementById('yourItems').innerHTML = yourOffer.map(i => `<div class="trade-item"><img src="${i.image}">${i.name}<button onclick="removeItem('your',${i.id})" style="background:none;border:none;color:#ef4444;">×</button></div>`).join('') || '<div>No items</div>';
+        document.getElementById('theirItems').innerHTML = theirOffer.map(i => `<div class="trade-item"><img src="${i.image}">${i.name}<button onclick="removeItem('their',${i.id})" style="background:none;border:none;color:#ef4444;">×</button></div>`).join('') || '<div>No items</div>';
+        let y = yourOffer.reduce((s,i)=>s+i.value,0), t = theirOffer.reduce((s,i)=>s+i.value,0);
+        document.getElementById('yourVal').innerText = y; document.getElementById('theirVal').innerText = t;
+        let bar = document.getElementById('fairnessBar'), text = document.getElementById('fairnessText');
+        if(y===0 && t===0){ bar.style.width='0%'; text.innerHTML='Select items'; return; }
+        let percent = (Math.abs(y-t)/Math.max(y,t))*100;
+        if(percent<=10){ bar.style.width='100%'; bar.style.background='#10b981'; text.innerHTML='✅ FAIR TRADE!'; }
+        else if(percent<=25){ bar.style.width='66%'; bar.style.background='#f59e0b'; text.innerHTML='⚠️ SLIGHTLY UNBALANCED'; }
+        else{ bar.style.width='33%'; bar.style.background='#ef4444'; text.innerHTML='❌ BAD TRADE!'; }
+    }
+    function removeItem(side,id) { if(side==='your') yourOffer=yourOffer.filter(i=>i.id!==id); else theirOffer=theirOffer.filter(i=>i.id!==id); renderTradeCheck(); }
+    function openItemSelector(side) { let s = prompt(`Enter item name:\n${items.map(i=>i.name).join(', ')}`); if(s){ let item = items.find(i=>i.name.toLowerCase()===s.toLowerCase()); if(item){ if(side==='your') yourOffer.push({...item}); else theirOffer.push({...item}); renderTradeCheck(); showToast(`Added ${item.name}`); } } }
     
     // ============ PENDING TRANSFERS ============
     function renderPending() {
@@ -1067,7 +1200,7 @@
     window.fetchRobloxUser = fetchRobloxUser; window.closeModalAndEnter = closeModalAndEnter; window.openTermsPage = openTermsPage; window.closeTermsPage = closeTermsPage;
     window.openCreateTradeModal = openCreateTradeModal; window.closeCreateTradeModal = closeCreateTradeModal;
     window.addOfferItem = addOfferItem; window.addRequestItem = addRequestItem; window.removeOfferItem = removeOfferItem; window.removeRequestItem = removeRequestItem;
-    window.postTradeListing = postTradeListing; window.deleteTrade = deleteTrade; window.acceptTradeOffer = acceptTradeOffer; window.messageTrader = messageTrader;
+    window.postTradeListing = postTradeListing; window.deleteGlobalTrade = deleteGlobalTrade; window.acceptGlobalTrade = acceptGlobalTrade; window.messageTrader = messageTrader;
     window.switchPendingTab = switchPendingTab; window.cancelPending = cancelPending;
 </script>
 </body>
