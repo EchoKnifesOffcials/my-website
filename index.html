@@ -782,24 +782,21 @@
     </div>
 </div>
 
-<div id="termsPage" class="terms-page"><button class="close-terms" onclick="closeTermsPage()">Close</button><div class="terms-content"><h1>Terms & Conditions</h1><p>By using ECHOKNIVES, you agree to our terms. Cross-trading is strictly prohibited. Scamming will result in permanent ban.</p></div></div>
+<div id="termsPage" class="terms-page"><button class="close-terms" onclick="closeTermsPage()">Close</button><div class="terms-content"><h1>Terms & Conditions</h1><p>By using ECHOKNIVES, you agree to our terms. Cross-trading is strictly prohibited.</p></div></div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-    // ============ CONSTANTS ============
-    const API_URL = "https://trade-web-server-x21h.onrender.com";
-    const DEFAULT_AVATAR = "https://ui-avatars.com/api/?background=38bdf8&color=fff&size=100&rounded=true";
-    
+    // ============ MM2 ITEMS (Official Images) ============
     const items = [
-        { id: 1, name: "Batwing", value: 140, image: "https://i.imgur.com/H6CL03y.jpeg", type: "knife", fallback: "https://placehold.co/70x70/38bdf8/white?text=BW" },
-        { id: 2, name: "Harvester", value: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg", type: "knife", fallback: "https://placehold.co/70x70/38bdf8/white?text=HV" },
-        { id: 3, name: "Icewing", value: 80, image: "https://i.imgur.com/jiwvmxq.jpeg", type: "knife", fallback: "https://placehold.co/70x70/38bdf8/white?text=IW" },
-        { id: 4, name: "Luger", value: 165, image: "https://i.imgur.com/eEvMBRh.jpeg", type: "gun", fallback: "https://placehold.co/70x70/38bdf8/white?text=LG" },
-        { id: 5, name: "Candy", value: 249, image: "https://i.imgur.com/PXBiQtb.jpeg", type: "knife", fallback: "https://placehold.co/70x70/38bdf8/white?text=CD" },
-        { id: 6, name: "Shark", value: 110, image: "https://i.imgur.com/6nL98SC.jpeg", type: "knife", fallback: "https://placehold.co/70x70/38bdf8/white?text=SK" },
-        { id: 7, name: "Darkbringer", value: 140, image: "https://i.imgur.com/8oxgzwa.jpeg", type: "gun", fallback: "https://placehold.co/70x70/38bdf8/white?text=DB" },
-        { id: 8, name: "Lightbringer", value: 140, image: "https://i.imgur.com/BUljuYV.jpeg", type: "gun", fallback: "https://placehold.co/70x70/38bdf8/white?text=LB" }
+        { id: 1, name: "Batwing", value: 140, image: "https://i.imgur.com/H6CL03y.jpeg", type: "knife" },
+        { id: 2, name: "Harvester", value: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg", type: "knife" },
+        { id: 3, name: "Icewing", value: 80, image: "https://i.imgur.com/jiwvmxq.jpeg", type: "knife" },
+        { id: 4, name: "Luger", value: 165, image: "https://i.imgur.com/eEvMBRh.jpeg", type: "gun" },
+        { id: 5, name: "Candy", value: 249, image: "https://i.imgur.com/PXBiQtb.jpeg", type: "knife" },
+        { id: 6, name: "Shark", value: 110, image: "https://i.imgur.com/6nL98SC.jpeg", type: "knife" },
+        { id: 7, name: "Darkbringer", value: 140, image: "https://i.imgur.com/8oxgzwa.jpeg", type: "gun" },
+        { id: 8, name: "Lightbringer", value: 140, image: "https://i.imgur.com/BUljuYV.jpeg", type: "gun" }
     ];
     
     // ============ GLOBAL STATE ============
@@ -807,10 +804,12 @@
     let shopFilter = "all";
     let yourOffer = [], theirOffer = [];
     let currency = "USD";
-    let globalTrades = [];
     let offerItems = [], requestItems = [];
     let userRobloxData = JSON.parse(localStorage.getItem('robloxUserData') || 'null');
     let isSpinning = false;
+    
+    // Load trades from localStorage (GLOBAL across sessions)
+    let globalTrades = JSON.parse(localStorage.getItem('globalTrades') || '[]');
     
     // Load pending transfers from localStorage
     let pendingExchanges = JSON.parse(localStorage.getItem('pendingExchanges') || '[]');
@@ -821,10 +820,21 @@
     const symbols = { USD: "$", PHP: "₱", ROBUX: "R$" };
     const rates = { USD: 1, PHP: 56, ROBUX: 1.7 };
     
-    function savePendingToStorage() {
+    function saveAllToStorage() {
+        localStorage.setItem('globalTrades', JSON.stringify(globalTrades));
         localStorage.setItem('pendingExchanges', JSON.stringify(pendingExchanges));
         localStorage.setItem('pendingRedeems', JSON.stringify(pendingRedeems));
         localStorage.setItem('pendingPurchases', JSON.stringify(pendingPurchases));
+        localStorage.setItem('points', points);
+        localStorage.setItem('credits', credits);
+        localStorage.setItem('tickets', tickets);
+    }
+    
+    function loadFromStorage() {
+        points = parseInt(localStorage.getItem('points')) || 1250;
+        credits = parseInt(localStorage.getItem('credits')) || 3420;
+        tickets = parseInt(localStorage.getItem('tickets')) || 3;
+        updateDisplay();
     }
     
     function showToast(msg) { let t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
@@ -850,7 +860,7 @@
         if(page === 'redeem') renderRedeem();
         if(page === 'sell') renderSell();
         if(page === 'tradecheck') renderTradeCheck();
-        if(page === 'tradehub') fetchGlobalTrades();
+        if(page === 'tradehub') renderTradeHub();
         if(page === 'pending') renderPending();
         if(page === 'draw') { initWheel(); updateDisplay(); }
         if(page === 'profile') updateProfileDisplay();
@@ -861,48 +871,7 @@
         else balanceBar.classList.remove('hide-balance');
     }
     
-    // ============ GLOBAL TRADES (FIXED) ============
-    async function fetchGlobalTrades() {
-        try {
-            const response = await fetch(`${API_URL}/api/trades`);
-            const data = await response.json();
-            if (data.success && data.trades) {
-                globalTrades = data.trades.filter(t => t.status === 'pending');
-                renderTradeHub();
-                startAllTradeTimers();
-            } else {
-                globalTrades = [];
-                renderTradeHub();
-            }
-        } catch (error) {
-            console.log("Backend offline, using demo trades");
-            if (globalTrades.length === 0) {
-                globalTrades = [{
-                    id: "demo1", requesterName: "DemoTrader", requesterRobloxUsername: "demouser",
-                    requesterInfo: { avatarUrl: null }, itemsOffered: [items[0]], itemsRequested: [items[3]],
-                    createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 1800000).toISOString()
-                }];
-            }
-            renderTradeHub();
-        }
-    }
-    
-    function startAllTradeTimers() {
-        globalTrades.forEach(trade => {
-            if (trade.expiresAt && new Date(trade.expiresAt) > new Date()) {
-                const timeLeft = new Date(trade.expiresAt) - new Date();
-                setTimeout(() => {
-                    globalTrades = globalTrades.filter(t => t.id !== trade.id);
-                    renderTradeHub();
-                    showToast(`⏰ Trade from ${trade.requesterName} has expired`);
-                }, timeLeft);
-            } else if (trade.expiresAt && new Date(trade.expiresAt) <= new Date()) {
-                globalTrades = globalTrades.filter(t => t.id !== trade.id);
-            }
-        });
-        renderTradeHub();
-    }
-    
+    // ============ TRADE HUB (GLOBAL localStorage) ============
     function renderTradeHub() {
         const container = document.getElementById('tradeListingsContainer');
         if (globalTrades.length === 0) {
@@ -914,34 +883,34 @@
         
         container.innerHTML = globalTrades.map(trade => {
             const timeLeft = getTimeLeft(trade.expiresAt);
-            const isOwner = trade.requesterId === userId;
-            const offerItemsArray = trade.itemsOffered || [];
-            const requestItemsArray = trade.itemsRequested || [];
+            const isOwner = trade.userId === userId;
+            const offerItemsArray = trade.offerItems || [];
+            const requestItemsArray = trade.requestItems || [];
             
             return `
                 <div class="trade-card">
                     <div class="trade-header">
                         <div class="trader-info">
-                            <div class="trader-avatar"><img src="${trade.requesterInfo?.avatarUrl || DEFAULT_AVATAR}" onerror="this.src='${DEFAULT_AVATAR}'"></div>
-                            <div><h4>${escapeHtml(trade.requesterName || "Anonymous")}</h4><p>@${escapeHtml(trade.requesterRobloxUsername || "unknown")}</p></div>
+                            <div class="trader-avatar"><img src="${trade.avatarUrl || 'https://ui-avatars.com/api/?name=' + (trade.userName?.charAt(0) || 'U') + '&background=38bdf8&color=fff'}" onerror="this.src='https://ui-avatars.com/api/?name=U&background=38bdf8&color=fff'"></div>
+                            <div><h4>${escapeHtml(trade.userName || "Anonymous")}</h4><p>@${escapeHtml(trade.userRoblox || "unknown")}</p></div>
                         </div>
                         <div class="trust-rating"><i class="fas fa-star"></i> Trust: 8.5/10</div>
                         <div class="trade-timer"><i class="fas fa-clock"></i> ${timeLeft}</div>
                     </div>
                     <div class="trade-items-row">
                         <div class="trade-item-box">
-                            <div class="item-images">${offerItemsArray.map(item => `<img src="${item.image}" onerror="this.src='${item.fallback || 'https://placehold.co/70x70/38bdf8/white?text=?'}" title="${item.name}">`).join('')}</div>
+                            <div class="item-images">${offerItemsArray.map(item => `<img src="${item.image}" onerror="this.src='https://placehold.co/70x70/38bdf8/white?text=${item.name.charAt(0)}'" title="${item.name}">`).join('')}</div>
                             <p>${offerItemsArray.map(i => i.name).join(', ')}</p>
                         </div>
                         <div class="trade-swap-icon"><i class="fas fa-exchange-alt"></i></div>
                         <div class="trade-item-box">
-                            <div class="item-images">${requestItemsArray.map(item => `<img src="${item.image}" onerror="this.src='${item.fallback || 'https://placehold.co/70x70/38bdf8/white?text=?'}" title="${item.name}">`).join('')}</div>
+                            <div class="item-images">${requestItemsArray.map(item => `<img src="${item.image}" onerror="this.src='https://placehold.co/70x70/38bdf8/white?text=${item.name.charAt(0)}'" title="${item.name}">`).join('')}</div>
                             <p>${requestItemsArray.map(i => i.name).join(', ')}</p>
                         </div>
                     </div>
                     <div class="trade-actions">
                         <button class="trade-btn" onclick="messageTrader('${trade.id}')"><i class="fas fa-comment"></i> Message</button>
-                        ${isOwner ? `<button class="trade-btn delete-btn" onclick="deleteGlobalTrade('${trade.id}')"><i class="fas fa-trash"></i> Delete</button>` : `<button class="trade-btn" onclick="acceptGlobalTrade('${trade.id}')"><i class="fas fa-handshake"></i> Accept</button>`}
+                        ${isOwner ? `<button class="trade-btn delete-btn" onclick="deleteTrade('${trade.id}')"><i class="fas fa-trash"></i> Delete</button>` : `<button class="trade-btn" onclick="acceptTrade('${trade.id}')"><i class="fas fa-handshake"></i> Accept</button>`}
                     </div>
                 </div>
             `;
@@ -959,56 +928,55 @@
         return `${Math.floor(minutes / 60)}h ${minutes % 60}m left`;
     }
     
-    async function postTradeListing() {
+    function postTradeListing() {
         if (offerItems.length === 0 || requestItems.length === 0) { showToast("Please add items to both sides"); return; }
         if (!userRobloxData) { showToast("Please verify your Roblox account first"); startVerification(); return; }
         
-        const tradeData = {
-            requesterId: userRobloxData.robloxId,
-            requesterName: userRobloxData.displayName,
-            requesterRobloxUsername: userRobloxData.username,
-            requesterInfo: { avatarUrl: userRobloxData.avatarUrl },
-            itemsOffered: offerItems,
-            itemsRequested: requestItems,
-            message: "Trade offer",
+        const newTrade = {
+            id: Date.now().toString(),
+            userId: userRobloxData.robloxId,
+            userName: userRobloxData.displayName,
+            userRoblox: userRobloxData.username,
+            avatarUrl: userRobloxData.avatarUrl,
+            offerItems: [...offerItems],
+            requestItems: [...requestItems],
+            createdAt: new Date().toISOString(),
             expiresAt: new Date(Date.now() + 3600000).toISOString()
         };
         
-        try {
-            const response = await fetch(`${API_URL}/api/trades`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(tradeData)
-            });
-            const data = await response.json();
-            if (data.success) {
-                showToast("✅ Trade posted globally!");
-                offerItems = []; requestItems = [];
-                updateItemDisplays();
-                closeCreateTradeModal();
-                fetchGlobalTrades();
-            } else {
-                showToast("Error posting trade");
-            }
-        } catch (error) {
-            showToast("Trade saved locally");
-            const localTrade = { ...tradeData, id: Date.now().toString(), status: 'pending' };
-            globalTrades.unshift(localTrade);
+        globalTrades.unshift(newTrade);
+        saveAllToStorage();
+        
+        // Set timer to auto-delete after 1 hour
+        setTimeout(() => {
+            globalTrades = globalTrades.filter(t => t.id !== newTrade.id);
+            saveAllToStorage();
             renderTradeHub();
-            offerItems = []; requestItems = [];
-            updateItemDisplays();
-            closeCreateTradeModal();
-        }
+            showToast(`⏰ Trade from ${newTrade.userName} has expired`);
+        }, 3600000);
+        
+        renderTradeHub();
+        offerItems = [];
+        requestItems = [];
+        updateItemDisplays();
+        closeCreateTradeModal();
+        showToast("✅ Trade posted globally!");
     }
     
-    async function deleteGlobalTrade(tradeId) {
-        try { await fetch(`${API_URL}/api/trades/${tradeId}`, { method: 'DELETE', body: JSON.stringify({ userId: userRobloxData?.robloxId }), headers: { 'Content-Type': 'application/json' } }); } catch(e) {}
+    function deleteTrade(tradeId) {
         globalTrades = globalTrades.filter(t => t.id !== tradeId);
+        saveAllToStorage();
         renderTradeHub();
         showToast("Trade removed");
     }
     
-    function acceptGlobalTrade(tradeId) { showToast("Trade accepted! Contact the trader on Discord/Roblox to complete."); }
+    function acceptTrade(tradeId) {
+        const trade = globalTrades.find(t => t.id === tradeId);
+        if (trade) {
+            showToast(`Trade accepted! Contact ${trade.userName} on Discord/Roblox to complete.`);
+        }
+    }
+    
     function messageTrader(tradeId) { showToast("💬 Contact trader via Discord or Roblox!"); }
     
     // ============ TRADE MODAL ============
@@ -1035,23 +1003,23 @@
     // ============ SHOP FUNCTIONS ============
     function renderShop() {
         let filtered = items.filter(i => shopFilter === 'all' || i.type === shopFilter);
-        document.getElementById('shopGrid').innerHTML = filtered.map(i => `<div class="card" onclick="buyItem(${i.id})"><img src="${i.image}" onerror="this.src='${i.fallback}'"><h4>${i.name}</h4><div class="price">${getPrice(i.value)}</div></div>`).join('');
+        document.getElementById('shopGrid').innerHTML = filtered.map(i => `<div class="card" onclick="buyItem(${i.id})"><img src="${i.image}" onerror="this.src='https://placehold.co/70x70/38bdf8/white?text=${i.name.charAt(0)}'"><h4>${i.name}</h4><div class="price">${getPrice(i.value)}</div></div>`).join('');
     }
     function filterShop(f) { shopFilter = f; renderShop(); }
-    function buyItem(id) { let i = items.find(x=>x.id===id); if(credits >= i.value){ credits -= i.value; pendingPurchases.unshift({id:Date.now(), name:i.name, date:new Date().toLocaleTimeString()}); savePendingToStorage(); updateDisplay(); renderPending(); showToast(`✅ Purchased ${i.name}!`); } else showToast(`❌ Need ${i.value} credits!`); }
+    function buyItem(id) { let i = items.find(x=>x.id===id); if(credits >= i.value){ credits -= i.value; pendingPurchases.unshift({id:Date.now(), name:i.name, date:new Date().toLocaleTimeString()}); saveAllToStorage(); updateDisplay(); renderPending(); showToast(`✅ Purchased ${i.name}!`); } else showToast(`❌ Need ${i.value} credits!`); }
     
-    function renderExchange() { document.getElementById('exchangeGrid').innerHTML = items.map(i => `<div class="card" onclick="exchangeItem(${i.id})"><img src="${i.image}" onerror="this.src='${i.fallback}'"><h4>${i.name}</h4><div class="price">+ ${Math.max(0,i.value-20)}</div></div>`).join(''); }
-    function exchangeItem(id) { let i = items.find(x=>x.id===id); let g = Math.max(0,i.value-20); credits += g; pendingExchanges.unshift({id:Date.now(), name:i.name, gain:g, date:new Date().toLocaleTimeString()}); savePendingToStorage(); updateDisplay(); renderPending(); showToast(`✅ +${g} credits!`); }
+    function renderExchange() { document.getElementById('exchangeGrid').innerHTML = items.map(i => `<div class="card" onclick="exchangeItem(${i.id})"><img src="${i.image}" onerror="this.src='https://placehold.co/70x70/38bdf8/white?text=${i.name.charAt(0)}'"><h4>${i.name}</h4><div class="price">+ ${Math.max(0,i.value-20)}</div></div>`).join(''); }
+    function exchangeItem(id) { let i = items.find(x=>x.id===id); let g = Math.max(0,i.value-20); credits += g; pendingExchanges.unshift({id:Date.now(), name:i.name, gain:g, date:new Date().toLocaleTimeString()}); saveAllToStorage(); updateDisplay(); renderPending(); showToast(`✅ +${g} credits!`); }
     
-    function renderRedeem() { document.getElementById('redeemGrid').innerHTML = items.map(i => `<div class="card" onclick="redeemItem(${i.id})"><img src="${i.image}" onerror="this.src='${i.fallback}'"><h4>${i.name}</h4><div class="price">${i.value} credits</div></div>`).join(''); }
-    function redeemItem(id) { let i = items.find(x=>x.id===id); if(credits >= i.value){ credits -= i.value; pendingRedeems.unshift({id:Date.now(), name:i.name, cost:i.value, date:new Date().toLocaleTimeString()}); savePendingToStorage(); updateDisplay(); renderPending(); showToast(`✅ Redeemed ${i.name}!`); } else showToast(`❌ Need ${i.value} credits!`); }
+    function renderRedeem() { document.getElementById('redeemGrid').innerHTML = items.map(i => `<div class="card" onclick="redeemItem(${i.id})"><img src="${i.image}" onerror="this.src='https://placehold.co/70x70/38bdf8/white?text=${i.name.charAt(0)}'"><h4>${i.name}</h4><div class="price">${i.value} credits</div></div>`).join(''); }
+    function redeemItem(id) { let i = items.find(x=>x.id===id); if(credits >= i.value){ credits -= i.value; pendingRedeems.unshift({id:Date.now(), name:i.name, cost:i.value, date:new Date().toLocaleTimeString()}); saveAllToStorage(); updateDisplay(); renderPending(); showToast(`✅ Redeemed ${i.name}!`); } else showToast(`❌ Need ${i.value} credits!`); }
     
-    function renderSell() { document.getElementById('sellGrid').innerHTML = items.slice(0,6).map(i => `<div class="card" onclick="if(confirm('Sell ${i.name} for ${i.value} ROBUX?')) showToast('Request sent')"><img src="${i.image}" onerror="this.src='${i.fallback}'"><h4>${i.name}</h4><div class="price">${i.value} ROBUX</div></div>`).join(''); }
+    function renderSell() { document.getElementById('sellGrid').innerHTML = items.slice(0,6).map(i => `<div class="card" onclick="if(confirm('Sell ${i.name} for ${i.value} ROBUX?')) showToast('Request sent')"><img src="${i.image}" onerror="this.src='https://placehold.co/70x70/38bdf8/white?text=${i.name.charAt(0)}'"><h4>${i.name}</h4><div class="price">${i.value} ROBUX</div></div>`).join(''); }
     
     // ============ TRADE CHECKER ============
     function renderTradeCheck() {
-        document.getElementById('yourItems').innerHTML = yourOffer.map(i => `<div class="trade-item"><img src="${i.image}" onerror="this.src='${i.fallback}'">${i.name}<button onclick="removeItem('your',${i.id})" style="background:none;border:none;color:#ef4444;">×</button></div>`).join('') || '<div>No items</div>';
-        document.getElementById('theirItems').innerHTML = theirOffer.map(i => `<div class="trade-item"><img src="${i.image}" onerror="this.src='${i.fallback}'">${i.name}<button onclick="removeItem('their',${i.id})" style="background:none;border:none;color:#ef4444;">×</button></div>`).join('') || '<div>No items</div>';
+        document.getElementById('yourItems').innerHTML = yourOffer.map(i => `<div class="trade-item"><img src="${i.image}" onerror="this.src='https://placehold.co/22x22/38bdf8/white?text=${i.name.charAt(0)}'">${i.name}<button onclick="removeItem('your',${i.id})" style="background:none;border:none;color:#ef4444;">×</button></div>`).join('') || '<div>No items</div>';
+        document.getElementById('theirItems').innerHTML = theirOffer.map(i => `<div class="trade-item"><img src="${i.image}" onerror="this.src='https://placehold.co/22x22/38bdf8/white?text=${i.name.charAt(0)}'">${i.name}<button onclick="removeItem('their',${i.id})" style="background:none;border:none;color:#ef4444;">×</button></div>`).join('') || '<div>No items</div>';
         let y = yourOffer.reduce((s,i)=>s+i.value,0), t = theirOffer.reduce((s,i)=>s+i.value,0);
         document.getElementById('yourVal').innerText = y; document.getElementById('theirVal').innerText = t;
         let bar = document.getElementById('fairnessBar'), text = document.getElementById('fairnessText');
@@ -1076,12 +1044,12 @@
         if(type === 'exchange') pendingExchanges = pendingExchanges.filter(i => i.id != id);
         else if(type === 'redeem') pendingRedeems = pendingRedeems.filter(i => i.id != id);
         else pendingPurchases = pendingPurchases.filter(i => i.id != id);
-        savePendingToStorage();
+        saveAllToStorage();
         renderPending();
         showToast("Cancelled");
     }
     
-    // ============ WHEEL (FIXED SPIN COOLDOWN) ============
+    // ============ WHEEL ============
     function initWheel() { 
         let wheel = document.getElementById('wheel'); 
         let prizes = ["Batwing", "Harvester", "Icewing", "100 Credits", "50 Credits"]; 
@@ -1093,19 +1061,18 @@
         if(isSpinning) { showToast("Wait, wheel is spinning..."); return; }
         if(tickets<1){ showToast("Need tickets! Use 'CENTURY'"); return; } 
         isSpinning = true;
-        tickets--; updateDisplay(); 
-        let p = [{name:"Batwing"},{name:"Harvester"},{name:"Icewing"},{isCredits:true,amount:100},{isCredits:true,amount:50}][Math.floor(Math.random()*5)]; 
+        tickets--; updateDisplay(); saveAllToStorage();
+        let p = [{name:"Batwing", value:140},{name:"Harvester", value:500},{name:"Icewing", value:80},{isCredits:true,amount:100},{isCredits:true,amount:50}][Math.floor(Math.random()*5)]; 
         let wheel = document.getElementById('wheel'); 
-        let spins = 10;
         wheel.style.transform = `rotate(${Math.random()*3600+1800}deg)`; 
         setTimeout(() => { 
             wheel.style.transform = ''; 
-            if(p.isCredits){ credits += p.amount; updateDisplay(); showToast(`🎉 Won ${p.amount} credits!`); } 
+            if(p.isCredits){ credits += p.amount; updateDisplay(); saveAllToStorage(); showToast(`🎉 Won ${p.amount} credits!`); } 
             else showToast(`🎉 Won ${p.name}!`); 
             isSpinning = false;
         }, 3000); 
     }
-    function redeemCode() { let code = document.getElementById('codeInput').value.trim().toUpperCase(); if(code==="CENTURY"){ tickets++; updateDisplay(); showToast("🎫 +1 Ticket!"); document.getElementById('codeInput').value=''; } else showToast("Invalid code!"); }
+    function redeemCode() { let code = document.getElementById('codeInput').value.trim().toUpperCase(); if(code==="CENTURY"){ tickets++; updateDisplay(); saveAllToStorage(); showToast("🎫 +1 Ticket!"); document.getElementById('codeInput').value=''; } else showToast("Invalid code! Try 'CENTURY'"); }
     
     // ============ THEME & AUTH ============
     function toggleTheme() { document.body.classList.toggle('light'); let icon=document.getElementById('themeIcon'); icon.className=document.body.classList.contains('light')?'fas fa-sun':'fas fa-moon'; localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark'); }
@@ -1148,7 +1115,8 @@
     // Particles
     for(let i=0;i<50;i++){ let p=document.createElement('div'); p.className='particle'; p.style.width=p.style.height=(Math.random()*4+2)+'px'; p.style.left=Math.random()*100+'%'; p.style.animationDelay=Math.random()*8+'s'; p.style.animationDuration=(Math.random()*6+4)+'s'; document.getElementById('particles').appendChild(p); }
     
-    updateDisplay(); renderShop(); renderExchange(); renderRedeem(); renderSell(); initWheel(); updateProfileDisplay();
+    loadFromStorage();
+    renderShop(); renderExchange(); renderRedeem(); renderSell(); initWheel(); renderTradeHub(); updateProfileDisplay();
     
     window.navigateTo = navigateTo; window.toggleTheme = toggleTheme; window.changeCurrency = changeCurrency;
     window.filterShop = filterShop; window.buyItem = buyItem; window.exchangeItem = exchangeItem; window.redeemItem = redeemItem;
@@ -1157,7 +1125,7 @@
     window.fetchRobloxUser = fetchRobloxUser; window.closeModalAndEnter = closeModalAndEnter; window.openTermsPage = openTermsPage; window.closeTermsPage = closeTermsPage;
     window.openCreateTradeModal = openCreateTradeModal; window.closeCreateTradeModal = closeCreateTradeModal;
     window.addOfferItem = addOfferItem; window.addRequestItem = addRequestItem; window.removeOfferItem = removeOfferItem; window.removeRequestItem = removeRequestItem;
-    window.postTradeListing = postTradeListing; window.deleteGlobalTrade = deleteGlobalTrade; window.acceptGlobalTrade = acceptGlobalTrade; window.messageTrader = messageTrader;
+    window.postTradeListing = postTradeListing; window.deleteTrade = deleteTrade; window.acceptTrade = acceptTrade; window.messageTrader = messageTrader;
     window.switchPendingTab = switchPendingTab; window.cancelPending = cancelPending;
 </script>
 </body>
