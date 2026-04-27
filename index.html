@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>ECHOKNIVES | Premium MM2 Trading</title>
     
+    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/hP2t6wb.jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
@@ -16,36 +17,36 @@
         }
 
         :root {
-            --bg-deep: #0a0f1a;
-            --bg-surface: #111827;
-            --bg-elevated: #1a2332;
-            --bg-card: rgba(26, 35, 50, 0.75);
-            --glass: rgba(17, 24, 39, 0.6);
-            --glass-border: rgba(56, 189, 248, 0.2);
-            --text-primary: #f1f5f9;
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #0f172a;
+            --bg-card: rgba(15, 25, 45, 0.8);
+            --glass: rgba(10, 20, 35, 0.7);
+            --glass-border: rgba(0, 212, 255, 0.2);
+            --text-primary: #ffffff;
             --text-secondary: #94a3b8;
-            --accent: #38bdf8;
-            --accent-dark: #0ea5e9;
+            --accent: #00d4ff;
+            --accent-pink: #ff6b9d;
+            --accent-purple: #c084fc;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --gradient: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            --gradient: linear-gradient(135deg, #00d4ff, #ff6b9d, #c084fc);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         body.light {
-            --bg-deep: #e8edf2;
-            --bg-surface: #f1f5f9;
-            --bg-elevated: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-primary: #f0f4f8;
+            --bg-secondary: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.9);
             --glass: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(14, 165, 233, 0.25);
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
+            --glass-border: rgba(0, 212, 255, 0.3);
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-deep);
+            background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
@@ -53,6 +54,30 @@
         }
 
         /* PREMIUM ANIMATED BACKGROUND */
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: float 25s infinite;
+        }
+        .orb-1 { width: 500px; height: 500px; background: #00d4ff; top: -200px; left: -200px; opacity: 0.25; }
+        .orb-2 { width: 400px; height: 400px; background: #ff6b9d; bottom: -150px; right: -150px; opacity: 0.2; animation-delay: 8s; }
+        .orb-3 { width: 350px; height: 350px; background: #c084fc; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.15; animation-duration: 30s; }
+        @keyframes float {
+            0%,100% { transform: translate(0,0); }
+            33% { transform: translate(50px,-50px); }
+            66% { transform: translate(-30px,40px); }
+        }
+
         .particles {
             position: fixed;
             top: 0;
@@ -60,214 +85,194 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: -2;
+            z-index: -1;
         }
         .particle {
             position: absolute;
             background: radial-gradient(circle, var(--accent), transparent);
             border-radius: 50%;
             opacity: 0;
-            animation: rise 8s infinite;
+            animation: rise 6s infinite;
         }
         @keyframes rise {
             0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
             100% { transform: translateY(-20vh) scale(1.5); opacity: 0; }
         }
 
-        .gradient-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background: radial-gradient(ellipse at 30% 40%, var(--bg-deep), #05080f);
-        }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #00d4ff, #ff6b9d); border-radius: 10px; }
 
-        .glow-orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.2;
-            z-index: -1;
-            animation: float 20s infinite;
-        }
-        .orb-1 { width: 400px; height: 400px; background: #38bdf8; top: -150px; left: -150px; }
-        .orb-2 { width: 350px; height: 350px; background: #0ea5e9; bottom: -120px; right: -120px; animation-delay: 7s; }
-        @keyframes float {
-            0%,100% { transform: translate(0,0); }
-            33% { transform: translate(40px,-40px); }
-            66% { transform: translate(-30px,30px); }
-        }
-
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-surface); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
-
-        /* PREMIUM HEADER */
-        .premium-header {
+        /* PREMIUM HEADER - BLOXSWAP STYLE */
+        .header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            padding: 12px 20px;
+            padding: 12px 5%;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: transparent;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px;
         }
-        .logo-area {
+        .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             cursor: pointer;
         }
-        .diamond {
-            font-size: 28px;
-            color: var(--accent);
-            animation: diamondShine 2s ease-in-out infinite;
+        .logo-icon {
+            font-size: 32px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: iconShine 2s infinite;
         }
-        @keyframes diamondShine {
-            0%,100% { filter: drop-shadow(0 0 5px var(--accent)); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 15px var(--accent)); transform: scale(1.05); }
+        @keyframes iconShine {
+            0%,100% { filter: drop-shadow(0 0 5px #00d4ff); }
+            50% { filter: drop-shadow(0 0 15px #ff6b9d); }
         }
-        .site-title {
-            font-size: 20px;
+        .logo-text {
+            font-size: 22px;
             font-weight: 800;
             background: var(--gradient);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        .balance-bar {
+        .logo-badge {
+            font-size: 9px;
+            background: rgba(0,212,255,0.2);
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        /* BALANCE DISPLAY */
+        .balance-section {
             display: flex;
-            gap: 8px;
+            gap: 12px;
             align-items: center;
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            padding: 6px 15px;
-            border-radius: 50px;
-            border: 1px solid var(--glass-border);
             flex-wrap: wrap;
         }
-        .balance-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        .currency-selector select {
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 4px 10px;
-            font-size: 11px;
-            color: var(--text-primary);
-        }
-        .theme-toggle-header {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
+        .balance-card {
+            background: rgba(0,212,255,0.1);
+            backdrop-filter: blur(8px);
             border-radius: 40px;
-            padding: 6px 12px;
-            cursor: pointer;
-        }
-
-        /* HAMBURGER MENU BUTTON - OG THREE LINES */
-        .menu-toggle {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 40px;
-            padding: 10px 14px;
-            cursor: pointer;
+            padding: 6px 16px;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s;
+            border: 1px solid var(--glass-border);
+            transition: all 0.2s;
         }
-        .menu-toggle:hover {
-            background: var(--accent);
-            color: #0f172a;
-        }
-        .menu-toggle i {
-            font-size: 20px;
-        }
-        .menu-toggle span {
-            font-size: 13px;
-            font-weight: 500;
-        }
-        @media (max-width: 768px) {
-            .menu-toggle span { display: none; }
+        .balance-card:hover { transform: translateY(-2px); background: rgba(0,212,255,0.15); }
+        .balance-icon { font-size: 16px; color: var(--accent); }
+        .balance-value { font-weight: 700; font-size: 14px; }
+        .currency-selector select {
+            background: rgba(0,212,255,0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 6px 12px;
+            color: var(--text-primary);
+            font-size: 12px;
+            cursor: pointer;
         }
 
-        /* SIDE MENU - SLIDE IN ANIMATION */
+        /* RIGHT MENU BUTTONS */
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .icon-btn {
+            background: rgba(0,212,255,0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 8px 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+        }
+        .icon-btn:hover { background: var(--accent); color: #0a0e1a; transform: translateY(-2px); }
+        .notification-badge { position: relative; }
+        .badge-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* SIDE MENU - STAR PETS STYLE */
         .side-menu {
             position: fixed;
             top: 0;
             right: -320px;
             width: 300px;
             height: 100vh;
-            background: var(--bg-elevated);
+            background: var(--bg-secondary);
             backdrop-filter: blur(20px);
             z-index: 200;
-            transition: right 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            padding: 70px 20px 20px;
+            transition: right 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            padding: 80px 20px 20px;
             border-left: 1px solid var(--glass-border);
-            box-shadow: -5px 0 30px rgba(0,0,0,0.3);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.5);
         }
-        .side-menu.open {
-            right: 0;
-        }
+        .side-menu.open { right: 0; }
         .menu-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0,0,0,0.5);
             z-index: 199;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s;
         }
-        .menu-overlay.open {
-            opacity: 1;
-            visibility: visible;
-        }
+        .menu-overlay.open { opacity: 1; visibility: visible; }
         .menu-item {
-            padding: 14px 18px;
+            padding: 14px 20px;
             margin: 8px 0;
-            border-radius: 40px;
+            border-radius: 50px;
             cursor: pointer;
-            background: rgba(56, 189, 248, 0.08);
+            background: rgba(0,212,255,0.08);
             transition: all 0.2s;
             display: flex;
             align-items: center;
             gap: 14px;
             font-weight: 500;
         }
-        .menu-item:hover {
+        .menu-item:hover, .menu-item.active {
             background: var(--gradient);
-            color: #0f172a;
-            transform: translateX(-5px);
+            color: #0a0e1a;
+            transform: translateX(-8px);
         }
-        .menu-item i {
-            width: 24px;
-            font-size: 18px;
-        }
+        .menu-item i { width: 24px; }
 
         /* BACK BUTTON */
-        .back-button {
+        .back-btn {
             position: fixed;
-            bottom: 90px;
+            bottom: 20px;
             left: 20px;
             background: var(--glass);
             backdrop-filter: blur(12px);
@@ -277,28 +282,25 @@
             cursor: pointer;
             z-index: 99;
             font-size: 13px;
-            transition: all 0.2s;
-            display: flex;
+            display: none;
             align-items: center;
             gap: 8px;
+            transition: all 0.2s;
         }
-        .back-button:hover {
-            background: var(--accent);
-            color: #0f172a;
-        }
+        .back-btn:hover { background: var(--accent); color: #0a0e1a; }
 
         /* MAIN CONTENT */
-        .container {
+        .main-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 80px 4% 90px;
+            padding: 80px 5% 100px;
         }
         .page {
             display: none;
-            animation: fadeSlide 0.4s ease;
+            animation: fadeIn 0.4s ease;
         }
         .page.active { display: block; }
-        @keyframes fadeSlide {
+        @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
@@ -306,17 +308,15 @@
         /* HERO SECTION */
         .hero {
             text-align: center;
-            padding: 20px 15px 30px;
+            padding: 40px 20px;
         }
         .hero-badge {
             display: inline-block;
-            background: rgba(56, 189, 248, 0.12);
-            backdrop-filter: blur(8px);
+            background: rgba(0,212,255,0.15);
             padding: 8px 20px;
             border-radius: 60px;
             font-size: 13px;
             margin-bottom: 30px;
-            border: 1px solid var(--glass-border);
         }
         .hero-title {
             font-size: 56px;
@@ -324,100 +324,79 @@
             margin-bottom: 20px;
             line-height: 1.2;
         }
-        .hero-title span {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .hero-desc {
-            font-size: 18px;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 30px;
-        }
-
-        .preview-image { margin: 40px auto; max-width: 320px; }
-        .preview-image img { width: 100%; border-radius: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); transition: transform 0.3s; }
-        .preview-image img:hover { transform: scale(1.02); }
-
-        .get-started-wrapper { margin: 30px auto 40px; }
-        .get-started-btn {
+        .hero-title span { background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .hero-desc { font-size: 18px; color: var(--text-secondary); max-width: 600px; margin: 0 auto 30px; }
+        .hero-image { margin: 40px auto; max-width: 320px; }
+        .hero-image img { width: 100%; border-radius: 32px; box-shadow: var(--shadow); transition: transform 0.3s; }
+        .hero-image img:hover { transform: scale(1.02); }
+        .btn-gradient {
             background: var(--gradient);
             border: none;
-            padding: 16px 48px;
+            padding: 14px 42px;
             border-radius: 60px;
             font-size: 18px;
             font-weight: 700;
-            color: #0f172a;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+            box-shadow: 0 0 20px rgba(0,212,255,0.3);
         }
-        .get-started-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
-        }
+        .btn-gradient:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(0,212,255,0.5); }
 
-        /* SOCIALS SECTION */
-        .socials-section {
+        /* SOCIALS */
+        .socials {
             margin-top: 50px;
-            padding: 30px 20px;
-            background: var(--bg-card);
+            padding: 30px;
+            background: var(--glass);
             backdrop-filter: blur(12px);
             border-radius: 32px;
-            border: 1px solid var(--glass-border);
             text-align: center;
         }
-        .socials-title { font-size: 20px; margin-bottom: 25px; color: var(--accent); }
-        .social-icons { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .social-icons { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-top: 20px; }
         .social-icon {
-            width: 55px; height: 55px; background: rgba(56, 189, 248, 0.1); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.3s;
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary); font-size: 26px;
-        }
-        .social-icon:hover { transform: translateY(-5px); background: var(--gradient); color: #0f172a; }
-        .social-label { margin-top: 15px; font-size: 13px; color: var(--text-secondary); }
-
-        /* DOCK */
-        .dock-container {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            padding: 1rem;
-            margin: 40px auto 0;
-            max-width: 100%;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(25px);
-            border-radius: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            flex-wrap: wrap;
-        }
-        .dock-btn {
-            min-width: 3.2rem;
-            padding: 0 1.2rem;
-            height: 3.2rem;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 1rem;
-            transition: all 0.3s;
+            width: 50px;
+            height: 50px;
+            background: rgba(0,212,255,0.1);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            gap: 8px;
+            transition: all 0.3s;
+            font-size: 24px;
         }
-        .dock-btn span { font-size: 13px; }
-        .dock-btn:hover, .dock-btn.active {
-            transform: translateY(-5px) scale(1.05);
-            background: var(--accent);
-            color: #0f172a;
+        .social-icon:hover { transform: translateY(-5px); background: var(--gradient); color: #0a0e1a; }
+
+        /* DOCK - STAR PETS STYLE */
+        .dock {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 12px 20px;
+            margin-top: 40px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border-radius: 60px;
+            flex-wrap: wrap;
+        }
+        .dock-item {
+            padding: 10px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .dock-item:hover, .dock-item.active {
+            background: var(--gradient);
+            color: #0a0e1a;
+            transform: translateY(-3px);
         }
 
-        /* SECTION TITLE */
-        .section-title {
+        /* SECTION HEADER */
+        .section-header {
             font-size: 28px;
             margin-bottom: 25px;
             background: var(--gradient);
@@ -426,105 +405,117 @@
             color: transparent;
         }
 
-        /* FILTER CHIPS */
+        /* FILTERS */
         .filters { display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
-        .chip {
-            background: var(--bg-card);
+        .filter-chip {
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             padding: 8px 24px;
             border-radius: 40px;
             cursor: pointer;
             transition: 0.2s;
-            font-weight: 500;
-            font-size: 13px;
         }
-        .chip:hover, .chip.active { background: var(--gradient); color: #0f172a; }
+        .filter-chip:hover, .filter-chip.active { background: var(--gradient); color: #0a0e1a; }
 
-        /* GRID */
-        .grid {
+        /* PRODUCT GRID */
+        .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
             gap: 20px;
         }
-        .card {
-            background: var(--bg-card);
+        .product-card {
+            background: var(--glass);
             backdrop-filter: blur(12px);
             border-radius: 24px;
-            padding: 16px;
+            padding: 18px;
             text-align: center;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s;
             border: 1px solid var(--glass-border);
         }
-        .card:hover { transform: translateY(-6px); border-color: var(--accent); }
-        .card img { width: 80px; height: 80px; object-fit: contain; border-radius: 16px; margin-bottom: 12px; }
-        .card h4 { font-size: 14px; margin-bottom: 6px; }
-        .price { font-size: 16px; font-weight: 700; color: var(--accent); }
+        .product-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: var(--shadow); }
+        .product-card img { width: 90px; height: 90px; object-fit: contain; border-radius: 16px; margin-bottom: 12px; }
+        .product-card h4 { font-size: 14px; margin-bottom: 6px; }
+        .product-price { font-size: 16px; font-weight: 700; color: var(--accent); }
 
-        /* TRADE CHECKER */
-        .trade-section {
-            background: var(--bg-card);
-            border-radius: 32px;
-            padding: 25px;
+        /* TRADE CARD */
+        .trade-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s;
         }
-        .trade-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin: 20px 0; }
-        .trade-box { background: rgba(0, 0, 0, 0.2); border-radius: 24px; padding: 20px; }
-        .trade-items { min-height: 100px; background: rgba(0, 0, 0, 0.15); border-radius: 20px; padding: 12px; margin: 12px 0; display: flex; flex-wrap: wrap; gap: 10px; }
-        .trade-item { background: rgba(56, 189, 248, 0.12); border-radius: 30px; padding: 6px 12px; display: flex; align-items: center; gap: 8px; font-size: 12px; }
-        .trade-item img { width: 25px; height: 25px; border-radius: 6px; }
-        .add-btn { background: rgba(56, 189, 248, 0.1); border: 1px dashed var(--glass-border); border-radius: 30px; padding: 10px; text-align: center; cursor: pointer; font-size: 13px; }
-        .value-bar { display: flex; justify-content: space-between; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-radius: 20px; margin: 15px 0; }
-        .fairness-bar { height: 6px; border-radius: 10px; margin: 12px 0; transition: 0.3s; }
-
-        /* PENDING SECTION */
-        .pending-section {
-            background: var(--bg-card);
-            border-radius: 32px;
-            padding: 25px;
+        .trade-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .trade-header {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--glass-border);
         }
-        .pending-tabs { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-        .pending-tab {
+        .trade-user { display: flex; align-items: center; gap: 12px; }
+        .trade-avatar {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .trade-timer {
+            background: rgba(245,158,11,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .trade-items {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .trade-item-slot { text-align: center; }
+        .trade-item-slot img { width: 70px; height: 70px; border-radius: 16px; background: rgba(0,0,0,0.2); padding: 8px; }
+        .trade-arrow { font-size: 28px; color: var(--accent); }
+        .trade-actions { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
+        .trade-btn {
+            background: rgba(0,212,255,0.1);
+            border: none;
             padding: 8px 20px;
             border-radius: 40px;
             cursor: pointer;
-            background: rgba(56, 189, 248, 0.1);
-            font-size: 13px;
+            transition: 0.2s;
         }
-        .pending-tab.active { background: var(--gradient); color: #0f172a; }
-        .pending-item {
-            background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 20px;
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+        .trade-btn:hover { background: var(--accent); color: #0a0e1a; }
 
-        /* CREATE TRADE MODAL - CUSTOM UI */
-        .create-trade-modal {
+        /* CREATE TRADE MODAL */
+        .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0,0,0,0.95);
             backdrop-filter: blur(20px);
             z-index: 1000;
             display: none;
             align-items: center;
             justify-content: center;
         }
-        .create-trade-modal.active { display: flex; }
-        .create-trade-content {
-            background: var(--bg-elevated);
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--bg-secondary);
             border-radius: 40px;
             padding: 30px;
             max-width: 700px;
             width: 90%;
-            border: 1px solid var(--glass-border);
             max-height: 85vh;
             overflow-y: auto;
         }
@@ -536,10 +527,10 @@
         }
         .slot-group h4 { margin-bottom: 12px; color: var(--accent); }
         .slot-items {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0,0,0,0.2);
             border-radius: 24px;
             padding: 15px;
-            min-height: 180px;
+            min-height: 200px;
         }
         .slot-grid {
             display: grid;
@@ -547,7 +538,7 @@
             gap: 10px;
         }
         .slot-card {
-            background: rgba(56, 189, 248, 0.08);
+            background: rgba(0,212,255,0.08);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 12px;
@@ -555,354 +546,262 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .slot-card:hover {
-            background: rgba(56, 189, 248, 0.2);
-            transform: scale(1.02);
-        }
-        .slot-card.selected {
-            border-color: var(--accent);
-            background: rgba(56, 189, 248, 0.2);
-        }
-        .slot-card img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            border-radius: 16px;
-            margin-bottom: 8px;
-        }
-        .slot-card p { font-size: 12px; font-weight: 500; }
-        .selected-item {
-            background: rgba(56, 189, 248, 0.15);
-            border-radius: 20px;
-            padding: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-        .selected-item img { width: 45px; height: 45px; border-radius: 12px; }
-        .selected-item button {
-            background: none;
-            border: none;
-            color: var(--danger);
-            cursor: pointer;
-            margin-left: auto;
-        }
-        .trade-preview {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 24px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-        }
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            border-radius: 40px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .loading-overlay.active { display: flex; }
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(56, 189, 248, 0.2);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+        .slot-card:hover, .slot-card.filled { background: rgba(0,212,255,0.2); transform: scale(1.02); }
+        .slot-card img { width: 55px; height: 55px; border-radius: 12px; margin-bottom: 6px; }
+        .slot-card p { font-size: 11px; }
 
-        /* TRADE CARD */
-        .trade-card {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid var(--glass-border);
-        }
-        .trade-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-        .trade-header {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        .trader-info { display: flex; align-items: center; gap: 12px; }
-        .trader-avatar { width: 45px; height: 45px; border-radius: 50%; background: var(--gradient); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .trade-timer { background: rgba(245, 158, 11, 0.15); padding: 4px 12px; border-radius: 20px; font-size: 12px; }
-        .trade-items-row { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 15px 0; flex-wrap: wrap; }
-        .trade-item-box { text-align: center; }
-        .trade-item-box img { width: 60px; height: 60px; border-radius: 12px; background: rgba(0,0,0,0.2); padding: 8px; }
-        .trade-actions { display: flex; justify-content: center; gap: 12px; margin-top: 15px; }
-        .trade-btn {
-            background: rgba(56, 189, 248, 0.1);
-            border: none;
-            padding: 8px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-        }
-        .delete-btn { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+        /* LOADING SKELETON */
+        .skeleton { background: linear-gradient(90deg, var(--glass) 25%, rgba(0,212,255,0.1) 50%, var(--glass) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        /* WHEEL */
-        .wheel-wrapper { position: relative; width: 280px; height: 280px; margin: 0 auto; }
-        @media (min-width: 768px) { .wheel-wrapper { width: 340px; height: 340px; } }
-        .wheel-container { width: 100%; height: 100%; overflow: hidden; border-radius: 50%; box-shadow: 0 10px 25px rgba(0,0,0,0.3); position: relative; }
-        .wheel-container::after { content: ''; position: absolute; top: 0; left: 50%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.6)); border-radius: 0 50% 50% 0; z-index: 5; pointer-events: none; }
-        .wheel { width: 100%; height: 100%; border-radius: 50%; position: relative; transition: transform 3s cubic-bezier(0.17,0.94,0.32,1.27); }
-        .wheel-seg { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; }
-        .wheel-seg img { width: 28px; height: 28px; border-radius: 6px; }
-        .wheel-seg span { font-size: 8px; font-weight: 700; color: white; text-shadow: 1px 1px 0 black; }
-        .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 55px; height: 55px; background: var(--bg-elevated); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 10px; box-shadow: 0 0 0 3px var(--accent); z-index: 10; cursor: pointer; }
-
-        /* MODAL */
-        .modal-overlay {
+        /* TOAST */
+        .toast {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--gradient);
+            padding: 12px 24px;
+            border-radius: 60px;
+            z-index: 2000;
+            transition: 0.3s;
+            color: #0a0e1a;
+            font-weight: 600;
+            white-space: nowrap;
         }
-        .modal-overlay.active { display: flex; }
-        .modal-content {
-            background: var(--bg-elevated);
-            border-radius: 32px;
-            padding: 30px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            border: 1px solid var(--glass-border);
-        }
-        .confirm-buttons { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
-
-        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--gradient); padding: 12px 24px; border-radius: 40px; z-index: 2000; transition: 0.3s; color: #0f172a; font-weight: 600; font-size: 13px; white-space: nowrap; }
         .toast.show { transform: translateX(-50%) translateY(0); }
-        .hide-balance { display: none !important; }
 
         @media (max-width: 768px) {
-            .trade-columns { grid-template-columns: 1fr; }
-            .trade-slots { grid-template-columns: 1fr; }
-            .dock-btn span { display: none; }
             .hero-title { font-size: 36px; }
+            .dock-item span { display: none; }
+            .dock-item { padding: 10px 16px; }
+            .trade-slots { grid-template-columns: 1fr; }
+            .balance-card span { display: none; }
+            .header { padding: 10px 4%; }
         }
     </style>
 </head>
 <body>
 
-<div class="gradient-bg"></div>
+<div class="background-effects">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+</div>
 <div class="particles" id="particles"></div>
-<div class="glow-orb orb-1"></div>
-<div class="glow-orb orb-2"></div>
 
-<!-- HAMBURGER MENU BUTTON - TOP RIGHT -->
-<div style="position: fixed; top: 15px; right: 20px; z-index: 101;">
-    <div class="menu-toggle" onclick="toggleSideMenu()">
-        <i class="fas fa-bars"></i>
-        <span>Menu</span>
+<!-- HEADER -->
+<div class="header">
+    <div class="logo" onclick="navigateTo('home')">
+        <i class="fas fa-gem logo-icon"></i>
+        <span class="logo-text">ECHOKNIVES</span>
+        <span class="logo-badge">BETA</span>
+    </div>
+    <div class="balance-section" id="balanceSection">
+        <div class="balance-card"><i class="fas fa-star balance-icon"></i><span class="balance-value" id="pointsValue">1,250</span><span> pts</span></div>
+        <div class="balance-card"><i class="fas fa-coins balance-icon"></i><span class="balance-value" id="creditsValue">3,420</span><span> cr</span></div>
+        <div class="currency-selector"><select id="currencySelect" onchange="changeCurrency()"><option value="USD">USD</option><option value="PHP">PHP</option><option value="ROBUX">ROBUX</option></select></div>
+    </div>
+    <div class="header-actions">
+        <div class="icon-btn notification-badge" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></div>
+        <div class="icon-btn" onclick="toggleSideMenu()"><i class="fas fa-bars"></i><span>Menu</span></div>
     </div>
 </div>
 
-<!-- SIDE MENU - SLIDE IN -->
+<!-- SIDE MENU -->
 <div class="menu-overlay" id="menuOverlay" onclick="toggleSideMenu()"></div>
 <div class="side-menu" id="sideMenu">
-    <div class="menu-item" onclick="navigateTo('home'); toggleSideMenu()"><i class="fas fa-home"></i> Home</div>
-    <div class="menu-item" onclick="navigateTo('shop'); toggleSideMenu()"><i class="fas fa-store"></i> Shop</div>
-    <div class="menu-item" onclick="navigateTo('exchange'); toggleSideMenu()"><i class="fas fa-exchange-alt"></i> Exchange</div>
-    <div class="menu-item" onclick="navigateTo('redeem'); toggleSideMenu()"><i class="fas fa-gift"></i> Redeem</div>
-    <div class="menu-item" onclick="navigateTo('sell'); toggleSideMenu()"><i class="fas fa-tag"></i> Sell</div>
-    <div class="menu-item" onclick="navigateTo('tradehub'); toggleSideMenu()"><i class="fas fa-handshake"></i> Trade Hub</div>
-    <div class="menu-item" onclick="navigateTo('tradechecker'); toggleSideMenu()"><i class="fas fa-balance-scale"></i> Trade Checker</div>
-    <div class="menu-item" onclick="navigateTo('pending'); toggleSideMenu()"><i class="fas fa-clock"></i> Pending</div>
-    <div class="menu-item" onclick="navigateTo('draw'); toggleSideMenu()"><i class="fas fa-gem"></i> Luck Draw</div>
-    <div class="menu-item" onclick="navigateTo('profile'); toggleSideMenu()"><i class="fas fa-user"></i> Profile</div>
-    <div class="menu-item" onclick="toggleTheme(); toggleSideMenu()"><i class="fas fa-moon"></i> Dark/Light Mode</div>
+    <div class="menu-item" data-page="home" onclick="navigateTo('home'); toggleSideMenu()"><i class="fas fa-home"></i> Home</div>
+    <div class="menu-item" data-page="shop" onclick="navigateTo('shop'); toggleSideMenu()"><i class="fas fa-store"></i> Shop</div>
+    <div class="menu-item" data-page="exchange" onclick="navigateTo('exchange'); toggleSideMenu()"><i class="fas fa-exchange-alt"></i> Exchange</div>
+    <div class="menu-item" data-page="redeem" onclick="navigateTo('redeem'); toggleSideMenu()"><i class="fas fa-gift"></i> Redeem</div>
+    <div class="menu-item" data-page="tradehub" onclick="navigateTo('tradehub'); toggleSideMenu()"><i class="fas fa-handshake"></i> Trade Hub</div>
+    <div class="menu-item" data-page="tradecheck" onclick="navigateTo('tradecheck'); toggleSideMenu()"><i class="fas fa-balance-scale"></i> Trade Check</div>
+    <div class="menu-item" data-page="draw" onclick="navigateTo('draw'); toggleSideMenu()"><i class="fas fa-gem"></i> Luck Draw</div>
+    <div class="menu-item" data-page="pending" onclick="navigateTo('pending'); toggleSideMenu()"><i class="fas fa-clock"></i> Pending</div>
+    <div class="menu-item" data-page="profile" onclick="navigateTo('profile'); toggleSideMenu()"><i class="fas fa-user"></i> Profile</div>
 </div>
 
 <!-- BACK BUTTON -->
-<div class="back-button" id="backButton" onclick="goBack()" style="display: none;">
-    <i class="fas fa-arrow-left"></i> <span>Back</span>
-</div>
+<div class="back-btn" id="backBtn" onclick="goBack()"><i class="fas fa-arrow-left"></i><span>Back</span></div>
 
-<!-- PREMIUM HEADER -->
-<div class="premium-header">
-    <div class="logo-area" onclick="navigateTo('home')">
-        <i class="fas fa-gem diamond"></i>
-        <span class="site-title">ECHOKNIVES</span>
-    </div>
-    <div class="balance-bar" id="balanceBar">
-        <div class="balance-item"><i class="fas fa-star"></i> <span id="pointsDisplay">1,250</span></div>
-        <div class="balance-item"><i class="fas fa-coins"></i> <span id="creditsDisplay">3,420</span></div>
-        <div class="currency-selector"><select id="currencySelect" onchange="changeCurrency()"><option value="USD">USD $</option><option value="PHP">PHP ₱</option><option value="ROBUX">ROBUX R$</option></select></div>
-    </div>
-    <div class="theme-toggle-header" onclick="toggleTheme()">
-        <i class="fas fa-moon" id="themeIcon"></i>
-    </div>
-</div>
-
-<div class="container">
+<!-- MAIN CONTENT -->
+<div class="main-content">
     <!-- HOME PAGE -->
     <div id="homePage" class="page active">
         <div class="hero">
             <div class="hero-badge"><i class="fas fa-shield-alt"></i> Secure Trading Platform</div>
             <h1 class="hero-title">Trade <span>MM2 Items</span><br>With Confidence</h1>
-            <p class="hero-desc">The most premium Murder Mystery 2 trading platform.</p>
-            <div class="preview-image"><img src="https://i.imgur.com/HlYE8bz.jpeg" alt="MM2 Trading Preview"></div>
-            <div class="get-started-wrapper"><button class="get-started-btn" onclick="startVerification()"><i class="fab fa-roblox"></i> Get Started</button></div>
-            <div class="socials-section">
-                <div class="socials-title"><i class="fas fa-share-alt"></i> Connect With Us</div>
+            <p class="hero-desc">The #1 premium Murder Mystery 2 trading platform. Safe, fast, and trusted by thousands.</p>
+            <div class="hero-image"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="Trading"></div>
+            <button class="btn-gradient" onclick="navigateTo('tradehub')"><i class="fas fa-rocket"></i> Start Trading</button>
+            <div class="socials">
+                <div><i class="fas fa-share-alt"></i> Connect With Us</div>
                 <div class="social-icons">
-                    <div class="social-icon" onclick="window.open('https://discord.gg/echoknives', '_blank')"><i class="fab fa-discord"></i></div>
-                    <div class="social-icon" onclick="window.open('https://twitter.com/echoknives', '_blank')"><i class="fab fa-twitter"></i></div>
-                    <div class="social-icon" onclick="window.open('https://github.com/echoknives', '_blank')"><i class="fab fa-github"></i></div>
-                    <div class="social-icon" onclick="window.open('https://youtube.com/@echoknives', '_blank')"><i class="fab fa-youtube"></i></div>
+                    <div class="social-icon" onclick="window.open('https://discord.gg/echoknives','_blank')"><i class="fab fa-discord"></i></div>
+                    <div class="social-icon" onclick="window.open('https://twitter.com/echoknives','_blank')"><i class="fab fa-twitter"></i></div>
+                    <div class="social-icon" onclick="window.open('https://github.com/echoknives','_blank')"><i class="fab fa-github"></i></div>
                 </div>
             </div>
-            <div class="dock-container">
-                <div class="dock-btn" onclick="navigateTo('shop')"><i class="fas fa-store"></i><span>Shop</span></div>
-                <div class="dock-btn" onclick="navigateTo('exchange')"><i class="fas fa-exchange-alt"></i><span>Exchange</span></div>
-                <div class="dock-btn" onclick="navigateTo('redeem')"><i class="fas fa-gift"></i><span>Redeem</span></div>
-                <div class="dock-btn" onclick="navigateTo('tradehub')"><i class="fas fa-handshake"></i><span>Trade Hub</span></div>
-                <div class="dock-btn" onclick="navigateTo('draw')"><i class="fas fa-gem"></i><span>Draw</span></div>
-                <div class="dock-btn" onclick="navigateTo('profile')"><i class="fas fa-user"></i><span>Profile</span></div>
+            <div class="dock">
+                <div class="dock-item" onclick="navigateTo('shop')"><i class="fas fa-store"></i><span>Shop</span></div>
+                <div class="dock-item" onclick="navigateTo('exchange')"><i class="fas fa-exchange-alt"></i><span>Exchange</span></div>
+                <div class="dock-item" onclick="navigateTo('tradehub')"><i class="fas fa-handshake"></i><span>Trade</span></div>
+                <div class="dock-item" onclick="navigateTo('draw')"><i class="fas fa-gem"></i><span>Draw</span></div>
+                <div class="dock-item" onclick="navigateTo('profile')"><i class="fas fa-user"></i><span>Profile</span></div>
             </div>
         </div>
     </div>
 
-    <!-- SHOP, EXCHANGE, REDEEM, SELL PAGES (Simplified but functional) -->
-    <div id="shopPage" class="page"><h2 class="section-title"><i class="fas fa-store"></i> Premium Shop</h2><div class="filters"><div class="chip active" onclick="filterShop('all')">All</div><div class="chip" onclick="filterShop('knife')">Knives</div><div class="chip" onclick="filterShop('gun')">Guns</div></div><div class="grid" id="shopGrid"></div></div>
-    <div id="exchangePage" class="page"><h2 class="section-title"><i class="fas fa-exchange-alt"></i> Exchange Items</h2><div class="grid" id="exchangeGrid"></div></div>
-    <div id="redeemPage" class="page"><h2 class="section-title"><i class="fas fa-gift"></i> Redeem Credits</h2><div class="grid" id="redeemGrid"></div></div>
-    <div id="sellPage" class="page"><h2 class="section-title"><i class="fas fa-tag"></i> Sell to Admins</h2><div class="grid" id="sellGrid"></div></div>
+    <!-- SHOP PAGE -->
+    <div id="shopPage" class="page">
+        <h2 class="section-header"><i class="fas fa-store"></i> Premium Shop</h2>
+        <div class="filters">
+            <div class="filter-chip active" data-filter="all" onclick="filterShop('all')">All</div>
+            <div class="filter-chip" data-filter="knife" onclick="filterShop('knife')">🔪 Knives</div>
+            <div class="filter-chip" data-filter="gun" onclick="filterShop('gun')">🔫 Guns</div>
+        </div>
+        <div class="product-grid" id="shopGrid"></div>
+    </div>
 
-    <!-- TRADE HUB -->
+    <!-- EXCHANGE PAGE -->
+    <div id="exchangePage" class="page">
+        <h2 class="section-header"><i class="fas fa-exchange-alt"></i> Exchange Items</h2>
+        <div class="product-grid" id="exchangeGrid"></div>
+    </div>
+
+    <!-- REDEEM PAGE -->
+    <div id="redeemPage" class="page">
+        <h2 class="section-header"><i class="fas fa-gift"></i> Redeem Credits</h2>
+        <div class="product-grid" id="redeemGrid"></div>
+    </div>
+
+    <!-- TRADE HUB PAGE -->
     <div id="tradehubPage" class="page">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
-            <h2 class="section-title"><i class="fas fa-handshake"></i> Trading Hub</h2>
-            <button class="chip" onclick="openCreateTradeModal()"><i class="fas fa-plus"></i> Create Trade</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+            <h2 class="section-header"><i class="fas fa-handshake"></i> Trading Hub</h2>
+            <button class="filter-chip" onclick="openCreateTradeModal()"><i class="fas fa-plus"></i> Create Trade</button>
         </div>
-        <div id="tradeListingsContainer"></div>
+        <div id="tradeListingsContainer"><div class="skeleton" style="height: 200px; border-radius: 28px;"></div></div>
     </div>
 
-    <!-- TRADE CHECKER -->
-    <div id="tradecheckerPage" class="page">
-        <div class="trade-section">
-            <h2 class="section-title"><i class="fas fa-balance-scale"></i> Trade Value Checker</h2>
-            <div class="trade-columns">
-                <div class="trade-box"><h3>Your Offer</h3><div class="trade-items" id="yourItems"></div><button class="add-btn" onclick="openTradeItemSelector('your')">+ Add Item</button></div>
-                <div class="trade-box"><h3>Their Offer</h3><div class="trade-items" id="theirItems"></div><button class="add-btn" onclick="openTradeItemSelector('their')">+ Add Item</button></div>
+    <!-- TRADE CHECK PAGE -->
+    <div id="tradecheckPage" class="page">
+        <h2 class="section-header"><i class="fas fa-balance-scale"></i> Trade Value Checker</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+            <div style="background: var(--glass); border-radius: 28px; padding: 20px;">
+                <h3><i class="fas fa-user"></i> Your Offer</h3>
+                <div id="yourOfferList" style="min-height: 100px; background: rgba(0,0,0,0.2); border-radius: 20px; padding: 12px; margin: 12px 0;"></div>
+                <button class="filter-chip" onclick="openItemSelector('your')">+ Add Item</button>
             </div>
-            <div class="value-bar"><span>Your Value: <strong id="yourVal">0</strong></span><span>→</span><span>Their Value: <strong id="theirVal">0</strong></span></div>
-            <div class="fairness-bar" id="fairnessBar"></div>
-            <div id="fairnessText" style="text-align:center;"></div>
+            <div style="background: var(--glass); border-radius: 28px; padding: 20px;">
+                <h3><i class="fas fa-users"></i> Their Offer</h3>
+                <div id="theirOfferList" style="min-height: 100px; background: rgba(0,0,0,0.2); border-radius: 20px; padding: 12px; margin: 12px 0;"></div>
+                <button class="filter-chip" onclick="openItemSelector('their')">+ Add Item</button>
+            </div>
+        </div>
+        <div style="margin-top: 20px; background: var(--glass); border-radius: 28px; padding: 20px;">
+            <div style="display: flex; justify-content: space-between;"><span>Your Value: <strong id="yourTotal">0</strong></span><span>Their Value: <strong id="theirTotal">0</strong></span></div>
+            <div id="fairnessBar" style="height: 8px; border-radius: 10px; margin: 15px 0; background: #334155;"></div>
+            <div id="fairnessText" style="text-align: center;"></div>
         </div>
     </div>
 
-    <!-- PENDING TRANSFERS -->
-    <div id="pendingPage" class="page">
-        <div class="pending-section">
-            <h2 class="section-title"><i class="fas fa-clock"></i> Pending Transfers</h2>
-            <div class="pending-tabs"><div class="pending-tab active" onclick="switchPendingTab('exchange')">Exchange</div><div class="pending-tab" onclick="switchPendingTab('redeem')">Redeem</div><div class="pending-tab" onclick="switchPendingTab('purchase')">Purchase</div></div>
-            <div id="pendingList">No pending transfers</div>
-        </div>
-    </div>
-
-    <!-- LUCK DRAW -->
+    <!-- LUCK DRAW PAGE -->
     <div id="drawPage" class="page">
-        <h2 class="section-title"><i class="fas fa-gem"></i> Luck Draw</h2>
-        <p>Tickets: <span id="ticketCount">3</span> | <span id="drawCredits">0 credits</span></p>
-        <div class="wheel-wrapper"><div class="wheel-container"><div class="wheel" id="wheel"></div><div class="wheel-center" onclick="spinWheel()">SPIN</div></div></div>
-        <button class="chip" onclick="spinWheel()" style="margin:15px auto; display:block;">Spin Wheel (1 Ticket)</button>
-        <div style="display:flex; gap:8px; justify-content:center;"><input type="text" id="codeInput" placeholder="Promo Code" style="padding:10px; border-radius:40px; background:var(--bg-surface); border:1px solid var(--glass-border);"><button class="chip" onclick="redeemCode()">Redeem</button></div>
+        <h2 class="section-header"><i class="fas fa-gem"></i> Luck Draw</h2>
+        <p>Tickets: <span id="ticketCount">3</span> | Credits: <span id="drawCredits">3,420</span></p>
+        <div style="display: flex; justify-content: center; margin: 30px 0;">
+            <div style="width: 300px; height: 300px; position: relative;">
+                <div style="width: 100%; height: 100%; overflow: hidden; border-radius: 50%; box-shadow: var(--shadow);">
+                    <div id="wheel" style="width: 100%; height: 100%; position: relative; transition: transform 3.5s cubic-bezier(0.17,0.94,0.32,1.27);"></div>
+                </div>
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; box-shadow: 0 0 0 3px var(--accent); cursor: pointer;" onclick="spinWheel()">SPIN</div>
+            </div>
+        </div>
+        <button class="filter-chip" onclick="spinWheel()" style="margin: 0 auto; display: block;">Spin (1 Ticket)</button>
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+            <input type="text" id="codeInput" placeholder="Promo Code" style="padding: 12px; border-radius: 40px; background: var(--glass); border: 1px solid var(--glass-border); color: var(--text-primary);">
+            <button class="filter-chip" onclick="redeemCode()">Redeem</button>
+        </div>
     </div>
 
-    <!-- PROFILE -->
+    <!-- PENDING PAGE -->
+    <div id="pendingPage" class="page">
+        <h2 class="section-header"><i class="fas fa-clock"></i> Pending Transfers</h2>
+        <div class="filters">
+            <div class="filter-chip active" onclick="switchPending('exchange')">Exchange</div>
+            <div class="filter-chip" onclick="switchPending('redeem')">Redeem</div>
+            <div class="filter-chip" onclick="switchPending('purchase')">Purchase</div>
+        </div>
+        <div id="pendingList"></div>
+    </div>
+
+    <!-- PROFILE PAGE -->
     <div id="profilePage" class="page">
-        <div style="background:var(--bg-card); border-radius:32px; padding:25px; text-align:center;">
-            <div style="width:70px; height:70px; background:var(--gradient); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px;"><i class="fas fa-user" style="font-size:32px;"></i></div>
-            <h2 id="profileName">Guest User</h2>
-            <p id="profileRoblox" style="color:var(--text-secondary);">Not verified</p>
-            <div style="display:flex; gap:15px; justify-content:center; margin:20px 0;"><div><strong id="profilePoints">1,250</strong><br><small>Points</small></div><div><strong id="profileCredits">3,420</strong><br><small>Credits</small></div><div><strong id="profileTickets">3</strong><br><small>Tickets</small></div></div>
-            <button class="chip" onclick="startVerification()">Link Roblox</button>
+        <div style="background: var(--glass); border-radius: 40px; padding: 35px; text-align: center; max-width: 450px; margin: 0 auto;">
+            <div style="width: 100px; height: 100px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;"><i class="fas fa-user" style="font-size: 48px;"></i></div>
+            <h2 id="profileName">Trader</h2>
+            <p style="color: var(--text-secondary);">Member since 2024</p>
+            <div style="display: flex; gap: 30px; justify-content: center; margin: 25px 0;">
+                <div><strong id="profilePoints">1,250</strong><br><small>Points</small></div>
+                <div><strong id="profileCredits">3,420</strong><br><small>Credits</small></div>
+            </div>
+            <button class="filter-chip" onclick="startVerification()"><i class="fab fa-roblox"></i> Link Roblox</button>
         </div>
     </div>
 </div>
 
-<!-- CREATE TRADE MODAL - CUSTOM UI WITH SLOTS -->
-<div id="createTradeModal" class="create-trade-modal">
-    <div class="create-trade-content">
-        <h3 style="text-align:center; margin-bottom:20px;"><i class="fas fa-plus-circle"></i> Create Trade Offer</h3>
-        <div class="trade-slots">
-            <div class="slot-group">
-                <h4><i class="fas fa-arrow-right"></i> You Offer (Up to 4 items)</h4>
-                <div class="slot-items" id="offerSlotsContainer">
-                    <div class="slot-grid" id="offerSlots"></div>
-                </div>
-            </div>
-            <div class="slot-group">
-                <h4><i class="fas fa-arrow-left"></i> You Want (Up to 4 items)</h4>
-                <div class="slot-items" id="requestSlotsContainer">
-                    <div class="slot-grid" id="requestSlots"></div>
-                </div>
-            </div>
-        </div>
-        <div class="trade-preview" id="tradePreview"></div>
-        <button class="chip" onclick="confirmCreateTrade()" style="width:100%; padding:12px;"><i class="fas fa-check"></i> Create Trade</button>
-        <button class="chip" onclick="closeCreateTradeModal()" style="width:100%; margin-top:10px; background:rgba(239,68,68,0.2);">Cancel</button>
-        <div class="loading-overlay" id="createTradeLoading"><div class="loading-spinner"></div><p>Posting trade...</p></div>
-    </div>
-</div>
-
-<!-- CONFIRMATION MODAL -->
-<div id="confirmModal" class="modal-overlay">
+<!-- CREATE TRADE MODAL -->
+<div id="createTradeModal" class="modal">
     <div class="modal-content">
-        <i class="fas fa-question-circle" style="font-size:48px; color:var(--warning); margin-bottom:15px;"></i>
-        <h3 id="confirmTitle">Confirm Trade</h3>
-        <p id="confirmMessage">Are you sure you want to post this trade?</p>
-        <div class="confirm-buttons">
-            <button class="chip" onclick="closeConfirmModal()">Cancel</button>
-            <button class="chip" style="background:var(--success); color:white;" onclick="executeCreateTrade()">Confirm</button>
+        <h3 style="text-align: center;"><i class="fas fa-plus-circle"></i> Create Trade Offer</h3>
+        <div class="trade-slots">
+            <div class="slot-group"><h4><i class="fas fa-arrow-right"></i> You Offer</h4><div class="slot-items"><div class="slot-grid" id="offerSlots"></div></div></div>
+            <div class="slot-group"><h4><i class="fas fa-arrow-left"></i> You Want</h4><div class="slot-items"><div class="slot-grid" id="requestSlots"></div></div></div>
+        </div>
+        <button class="filter-chip" onclick="confirmCreateTrade()" style="width: 100%; padding: 12px;">Create Trade</button>
+        <button class="filter-chip" onclick="closeCreateTradeModal()" style="width: 100%; margin-top: 10px; background: rgba(239,68,68,0.2);">Cancel</button>
+        <div id="createLoading" style="display: none; text-align: center; margin-top: 15px;"><div style="width: 30px; height: 30px; border: 2px solid var(--accent); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div><p>Posting trade...</p></div>
+    </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div id="confirmModal" class="modal">
+    <div class="modal-content" style="max-width: 350px; text-align: center;">
+        <i class="fas fa-question-circle" style="font-size: 48px; color: var(--warning); margin-bottom: 15px;"></i>
+        <h3 id="confirmTitle">Confirm</h3>
+        <p id="confirmMsg">Are you sure?</p>
+        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+            <button class="filter-chip" onclick="closeConfirmModal()">Cancel</button>
+            <button class="filter-chip" style="background: var(--success); color: white;" onclick="executeCreateTrade()">Confirm</button>
         </div>
     </div>
 </div>
 
 <!-- ITEM SELECTOR MODAL -->
-<div id="itemSelectorModal" class="modal-overlay">
-    <div class="modal-content" style="max-width:500px;">
-        <h3><i class="fas fa-box"></i> Select Item</h3>
-        <div class="grid" style="grid-template-columns:repeat(3,1fr); gap:10px; margin:15px 0;" id="itemSelectorGrid"></div>
-        <button class="chip" onclick="closeItemSelector()">Cancel</button>
+<div id="itemSelectorModal" class="modal">
+    <div class="modal-content" style="max-width: 500px;">
+        <h3>Select Item</h3>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0;" id="itemSelectorGrid"></div>
+        <button class="filter-chip" onclick="closeItemSelector()">Cancel</button>
     </div>
 </div>
 
-<!-- VERIFICATION MODAL (Simplified) -->
-<div id="verificationModal" class="modal-overlay">
-    <div class="modal-content">
+<!-- VERIFICATION MODAL -->
+<div id="verificationModal" class="modal">
+    <div class="modal-content" style="max-width: 350px; text-align: center;">
         <h3><i class="fab fa-roblox"></i> Link Roblox</h3>
-        <input type="text" id="robloxUsername" placeholder="Enter Roblox Username">
-        <div class="terms-checkbox" style="display:flex; gap:10px; margin:15px 0;"><input type="checkbox" id="termsCheckbox"><label>I agree to the <span class="terms-link" onclick="openTermsPage()">Terms</span></label></div>
-        <button class="chip" onclick="verifyRoblox()">Continue</button>
+        <input type="text" id="robloxUsername" placeholder="Username" style="width: 100%; padding: 12px; border-radius: 40px; margin: 15px 0; background: var(--glass); border: 1px solid var(--glass-border); color: var(--text-primary);">
+        <div style="display: flex; gap: 10px; margin: 15px 0;"><input type="checkbox" id="termsCheck"> <label>I agree to <span style="color: var(--accent); cursor: pointer;" onclick="alert('Terms: No cross-trading. Scammers banned.')">Terms</span></label></div>
+        <button class="filter-chip" onclick="verifyRoblox()">Verify</button>
     </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-    // ============ ITEMS DATABASE ============
+    // ============ DATA ============
     const items = [
         { id: 1, name: "Batwing", value: 140, image: "https://i.imgur.com/H6CL03y.jpeg", type: "knife" },
         { id: 2, name: "Harvester", value: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg", type: "knife" },
@@ -914,7 +813,7 @@
         { id: 8, name: "Lightbringer", value: 140, image: "https://i.imgur.com/BUljuYV.jpeg", type: "gun" }
     ];
 
-    // ============ GLOBAL STATE ============
+    // State
     let points = 1250, credits = 3420, tickets = 3;
     let shopFilter = "all";
     let yourOffer = [], theirOffer = [];
@@ -922,327 +821,248 @@
     let pendingExchanges = [], pendingRedeems = [], pendingPurchases = [];
     let pendingTab = "exchange";
     let tradeListings = [];
-    let messages = [];
-    
-    // Create trade slots (4 each)
     let offerSlots = [null, null, null, null];
     let requestSlots = [null, null, null, null];
     let currentSelectorSide = null;
     let currentSelectorSlot = null;
     let pendingCreateTrade = null;
+    let currentPage = "home";
 
     const symbols = { USD: "$", PHP: "₱", ROBUX: "R$" };
     const rates = { USD: 1, PHP: 56, ROBUX: 1.7 };
 
-    function showToast(msg) { let t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
-    function getPrice(v) { let p = v * rates[currency]; if(currency === "ROBUX") p *= 1.1; return symbols[currency] + p.toFixed(2); }
-    function changeCurrency() { currency = document.getElementById('currencySelect').value; renderShop(); }
-    
-    function updateDisplay() {
-        document.getElementById('pointsDisplay').innerText = points;
-        document.getElementById('creditsDisplay').innerText = credits;
-        document.getElementById('ticketCount').innerText = tickets;
-        document.getElementById('drawCredits').innerText = credits + " credits";
-        document.getElementById('profilePoints').innerText = points;
-        document.getElementById('profileCredits').innerText = credits;
-        document.getElementById('profileTickets').innerText = tickets;
+    function showToast(msg) {
+        let t = document.getElementById('toast');
+        t.innerText = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2500);
     }
 
-    // ============ NAVIGATION ============
+    function getDisplayPrice(v) { let p = v * rates[currency]; if(currency === "ROBUX") p *= 1.1; return symbols[currency] + p.toFixed(2); }
+    function changeCurrency() { currency = document.getElementById('currencySelect').value; renderShop(); }
+
+    function updateDisplay() {
+        document.getElementById('pointsValue').innerText = points;
+        document.getElementById('creditsValue').innerText = credits;
+        document.getElementById('ticketCount').innerText = tickets;
+        document.getElementById('drawCredits').innerText = credits;
+        document.getElementById('profilePoints').innerText = points;
+        document.getElementById('profileCredits').innerText = credits;
+    }
+
+    // Navigation
     function goBack() { navigateTo('home'); }
-    
+
     function navigateTo(page) {
+        currentPage = page;
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(page + 'Page').classList.add('active');
         
-        const backBtn = document.getElementById('backButton');
-        if (page === 'home') backBtn.style.display = 'none';
-        else backBtn.style.display = 'flex';
+        // Update active menu items
+        document.querySelectorAll('.menu-item').forEach(m => {
+            if (m.dataset.page === page) m.classList.add('active');
+            else m.classList.remove('active');
+        });
+        document.querySelectorAll('.dock-item').forEach(d => {
+            if (d.onclick?.toString().includes(page)) d.classList.add('active');
+            else d.classList.remove('active');
+        });
+
+        // Show/hide back button
+        document.getElementById('backBtn').style.display = page === 'home' ? 'none' : 'flex';
+        
+        // Hide balance on certain pages
+        const hideBalance = ['home', 'tradehub', 'tradecheck', 'draw', 'pending', 'profile'];
+        document.getElementById('balanceSection').style.display = hideBalance.includes(page) ? 'none' : 'flex';
         
         if(page === 'shop') renderShop();
         if(page === 'exchange') renderExchange();
         if(page === 'redeem') renderRedeem();
-        if(page === 'sell') renderSell();
         if(page === 'tradehub') fetchTradeListings();
-        if(page === 'tradechecker') renderTradeChecker();
+        if(page === 'tradecheck') renderTradeCheck();
         if(page === 'pending') renderPending();
-        if(page === 'draw') { initWheel(); updateDisplay(); }
-        if(page === 'profile') updateProfileDisplay();
-        
-        const hideBalancePages = ['home', 'tradehub', 'tradechecker', 'draw', 'pending', 'profile'];
-        const balanceBar = document.getElementById('balanceBar');
-        if(hideBalancePages.includes(page)) balanceBar.classList.add('hide-balance');
-        else balanceBar.classList.remove('hide-balance');
+        if(page === 'draw') initWheel();
+        if(page === 'profile') updateDisplay();
     }
 
     function toggleSideMenu() {
         document.getElementById('sideMenu').classList.toggle('open');
         document.getElementById('menuOverlay').classList.toggle('open');
     }
+    function toggleTheme() {
+        document.body.classList.toggle('light');
+        let icon = document.getElementById('themeIcon');
+        icon.className = document.body.classList.contains('light') ? 'fas fa-sun' : 'fas fa-moon';
+        localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    }
+    if(localStorage.getItem('theme') === 'light') { document.body.classList.add('light'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
 
-    // ============ SHOP FUNCTIONS ============
+    // Shop
     function renderShop() {
         let filtered = items.filter(i => shopFilter === 'all' || i.type === shopFilter);
-        document.getElementById('shopGrid').innerHTML = filtered.map(i => `<div class="card" onclick="buyItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="price">${getPrice(i.value)}</div></div>`).join('');
+        document.getElementById('shopGrid').innerHTML = filtered.map(i => `<div class="product-card" onclick="buyItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="product-price">${getDisplayPrice(i.value)}</div></div>`).join('');
     }
-    function filterShop(f) { shopFilter = f; renderShop(); }
+    function filterShop(filter) { shopFilter = filter; renderShop(); }
     function buyItem(id) { let i = items.find(x=>x.id===id); if(credits >= i.value){ credits -= i.value; updateDisplay(); showToast(`Purchased ${i.name}!`); } else showToast(`Need ${i.value} credits!`); }
-    
-    function renderExchange() { document.getElementById('exchangeGrid').innerHTML = items.map(i => `<div class="card" onclick="exchangeItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="price">+ ${Math.max(0,i.value-20)} credits</div></div>`).join(''); }
-    function exchangeItem(id) { let i = items.find(x=>x.id===id); let g = Math.max(0,i.value-20); credits += g; updateDisplay(); showToast(`+${g} credits from ${i.name}!`); }
-    
-    function renderRedeem() { document.getElementById('redeemGrid').innerHTML = items.map(i => `<div class="card" onclick="redeemItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="price">${i.value} credits</div></div>`).join(''); }
+
+    function renderExchange() { document.getElementById('exchangeGrid').innerHTML = items.map(i => `<div class="product-card" onclick="exchangeItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="product-price">+ ${Math.max(0,i.value-20)} cr</div></div>`).join(''); }
+    function exchangeItem(id) { let i = items.find(x=>x.id===id); let g = Math.max(0,i.value-20); credits += g; updateDisplay(); showToast(`+${g} credits for ${i.name}!`); }
+
+    function renderRedeem() { document.getElementById('redeemGrid').innerHTML = items.map(i => `<div class="product-card" onclick="redeemItem(${i.id})"><img src="${i.image}"><h4>${i.name}</h4><div class="product-price">${i.value} cr</div></div>`).join(''); }
     function redeemItem(id) { let i = items.find(x=>x.id===id); if(credits >= i.value){ credits -= i.value; updateDisplay(); showToast(`Redeemed ${i.name}!`); } else showToast(`Need ${i.value} credits!`); }
-    
-    function renderSell() { document.getElementById('sellGrid').innerHTML = items.slice(0,6).map(i => `<div class="card" onclick="if(confirm('Sell ${i.name} for ${i.value} ROBUX?')) showToast('Request sent')"><img src="${i.image}"><h4>${i.name}</h4><div class="price">${i.value} ROBUX</div></div>`).join(''); }
 
-    // ============ TRADE CHECKER ============
-    function renderTradeChecker() {
-        document.getElementById('yourItems').innerHTML = yourOffer.map(i => `<div class="trade-item"><img src="${i.image}">${i.name}<button onclick="removeTradeItem('your',${i.id})" style="background:none;border:none;color:#ef4444;">×</button></div>`).join('') || '<div>No items</div>';
-        document.getElementById('theirItems').innerHTML = theirOffer.map(i => `<div class="trade-item"><img src="${i.image}">${i.name}<button onclick="removeTradeItem('their',${i.id})" style="background:none;border:none;color:#ef4444;">×</button></div>`).join('') || '<div>No items</div>';
+    // Trade Check
+    function renderTradeCheck() {
+        document.getElementById('yourOfferList').innerHTML = yourOffer.map(i => `<div style="display: inline-flex; background: rgba(0,212,255,0.15); border-radius: 30px; padding: 5px 12px; margin: 5px; align-items: center; gap: 8px;"><img src="${i.image}" style="width: 25px;">${i.name}<button onclick="removeTradeItem('your',${i.id})" style="background: none; border: none; color: #ef4444;">×</button></div>`).join('') || '<div style="color: var(--text-secondary);">No items</div>';
+        document.getElementById('theirOfferList').innerHTML = theirOffer.map(i => `<div style="display: inline-flex; background: rgba(0,212,255,0.15); border-radius: 30px; padding: 5px 12px; margin: 5px; align-items: center; gap: 8px;"><img src="${i.image}" style="width: 25px;">${i.name}<button onclick="removeTradeItem('their',${i.id})" style="background: none; border: none; color: #ef4444;">×</button></div>`).join('') || '<div style="color: var(--text-secondary);">No items</div>';
         let y = yourOffer.reduce((s,i)=>s+i.value,0), t = theirOffer.reduce((s,i)=>s+i.value,0);
-        document.getElementById('yourVal').innerText = y; document.getElementById('theirVal').innerText = t;
+        document.getElementById('yourTotal').innerText = y;
+        document.getElementById('theirTotal').innerText = t;
         let bar = document.getElementById('fairnessBar'), text = document.getElementById('fairnessText');
-        if(y===0 && t===0){ bar.style.width='0%'; text.innerHTML='Select items'; return; }
+        if(y===0 && t===0) { bar.style.width = '0%'; text.innerHTML = 'Select items'; return; }
         let diff = Math.abs(y-t), percent = (diff/Math.max(y,t))*100;
-        if(percent<=10){ bar.style.width='100%'; bar.style.background='#10b981'; text.innerHTML='✅ FAIR TRADE!'; }
-        else if(percent<=25){ bar.style.width='66%'; bar.style.background='#f59e0b'; text.innerHTML='⚠️ SLIGHTLY UNBALANCED'; }
-        else{ bar.style.width='33%'; bar.style.background='#ef4444'; text.innerHTML='❌ BAD TRADE!'; }
+        if(percent <= 10) { bar.style.width = '100%'; bar.style.background = '#10b981'; text.innerHTML = '✅ FAIR TRADE!'; }
+        else if(percent <= 25) { bar.style.width = '66%'; bar.style.background = '#f59e0b'; text.innerHTML = '⚠️ SLIGHTLY UNBALANCED'; }
+        else { bar.style.width = '33%'; bar.style.background = '#ef4444'; text.innerHTML = '❌ BAD TRADE!'; }
     }
-    function removeTradeItem(side,id) { if(side==='your') yourOffer=yourOffer.filter(i=>i.id!==id); else theirOffer=theirOffer.filter(i=>i.id!==id); renderTradeChecker(); }
-    function openTradeItemSelector(side) { currentSelectorSide = side; showItemSelector(items); }
+    function removeTradeItem(side, id) { if(side === 'your') yourOffer = yourOffer.filter(i=>i.id!==id); else theirOffer = theirOffer.filter(i=>i.id!==id); renderTradeCheck(); }
+    function openItemSelector(side) { currentSelectorSide = side; showItemSelector(items); }
 
-    // ============ CREATE TRADE MODAL ============
+    // Create Trade
     function openCreateTradeModal() {
         offerSlots = [null, null, null, null];
         requestSlots = [null, null, null, null];
-        renderCreateTradeSlots();
+        renderTradeSlots();
         document.getElementById('createTradeModal').classList.add('active');
     }
-    
-    function closeCreateTradeModal() {
-        document.getElementById('createTradeModal').classList.remove('active');
-        document.getElementById('createTradeLoading').classList.remove('active');
+    function closeCreateTradeModal() { document.getElementById('createTradeModal').classList.remove('active'); document.getElementById('createLoading').style.display = 'none'; }
+    function renderTradeSlots() {
+        document.getElementById('offerSlots').innerHTML = offerSlots.map((item, idx) => `<div class="slot-card ${item ? 'filled' : ''}" onclick="openSlotSelector('offer', ${idx})">${item ? `<img src="${item.image}"><p>${item.name}</p>` : `<i class="fas fa-plus" style="font-size: 24px;"></i><p>Add</p>`}</div>`).join('');
+        document.getElementById('requestSlots').innerHTML = requestSlots.map((item, idx) => `<div class="slot-card ${item ? 'filled' : ''}" onclick="openSlotSelector('request', ${idx})">${item ? `<img src="${item.image}"><p>${item.name}</p>` : `<i class="fas fa-plus" style="font-size: 24px;"></i><p>Add</p>`}</div>`).join('');
     }
-    
-    function renderCreateTradeSlots() {
-        const offerContainer = document.getElementById('offerSlots');
-        const requestContainer = document.getElementById('requestSlots');
-        const preview = document.getElementById('tradePreview');
-        
-        offerContainer.innerHTML = offerSlots.map((item, idx) => `
-            <div class="slot-card ${item ? 'selected' : ''}" onclick="openSlotSelector('offer', ${idx})">
-                ${item ? `<img src="${item.image}"><p>${item.name}</p>` : `<i class="fas fa-plus" style="font-size:24px;"></i><p>Add Item</p>`}
-            </div>
-        `).join('');
-        
-        requestContainer.innerHTML = requestSlots.map((item, idx) => `
-            <div class="slot-card ${item ? 'selected' : ''}" onclick="openSlotSelector('request', ${idx})">
-                ${item ? `<img src="${item.image}"><p>${item.name}</p>` : `<i class="fas fa-plus" style="font-size:24px;"></i><p>Add Item</p>`}
-            </div>
-        `).join('');
-        
-        const offerItems = offerSlots.filter(i => i);
-        const requestItems = requestSlots.filter(i => i);
-        preview.innerHTML = `
-            <strong>Preview:</strong><br>
-            You Offer: ${offerItems.map(i => i.name).join(', ') || 'Nothing'} (${offerItems.reduce((s,i)=>s+i.value,0)} value)<br>
-            You Want: ${requestItems.map(i => i.name).join(', ') || 'Nothing'} (${requestItems.reduce((s,i)=>s+i.value,0)} value)
-        `;
-    }
-    
-    function openSlotSelector(side, slotIndex) {
-        currentSelectorSide = side;
-        currentSelectorSlot = slotIndex;
-        showItemSelector(items);
-    }
-    
+    function openSlotSelector(side, slot) { currentSelectorSide = side; currentSelectorSlot = slot; showItemSelector(items); }
     function showItemSelector(itemList) {
-        const grid = document.getElementById('itemSelectorGrid');
-        grid.innerHTML = itemList.map(item => `
-            <div class="slot-card" onclick="selectItemForSlot(${item.id})" style="cursor:pointer;">
-                <img src="${item.image}"><p>${item.name}</p><small>${item.value}</small>
-            </div>
-        `).join('');
+        document.getElementById('itemSelectorGrid').innerHTML = itemList.map(item => `<div class="slot-card" onclick="selectItem(${item.id})"><img src="${item.image}"><p>${item.name}</p><small>${item.value}</small></div>`).join('');
         document.getElementById('itemSelectorModal').classList.add('active');
     }
-    
-    function selectItemForSlot(itemId) {
-        const item = items.find(i => i.id === itemId);
-        if (currentSelectorSide === 'offer') {
-            offerSlots[currentSelectorSlot] = item;
-        } else {
-            requestSlots[currentSelectorSlot] = item;
-        }
+    function selectItem(id) {
+        const item = items.find(i => i.id === id);
+        if (currentSelectorSide === 'offer') offerSlots[currentSelectorSlot] = item;
+        else requestSlots[currentSelectorSlot] = item;
         closeItemSelector();
-        renderCreateTradeSlots();
+        renderTradeSlots();
     }
-    
-    function closeItemSelector() {
-        document.getElementById('itemSelectorModal').classList.remove('active');
-        currentSelectorSide = null;
-        currentSelectorSlot = null;
-    }
-    
+    function closeItemSelector() { document.getElementById('itemSelectorModal').classList.remove('active'); currentSelectorSide = null; currentSelectorSlot = null; }
     function confirmCreateTrade() {
-        const offerItems = offerSlots.filter(i => i);
-        const requestItems = requestSlots.filter(i => i);
-        if (offerItems.length === 0) { showToast("Add at least one item you're offering"); return; }
-        if (requestItems.length === 0) { showToast("Add at least one item you want"); return; }
-        
-        pendingCreateTrade = { offerItems, requestItems };
-        document.getElementById('confirmTitle').innerText = "Confirm Trade";
-        document.getElementById('confirmMessage').innerHTML = `You offer: ${offerItems.map(i=>i.name).join(', ')}<br>You want: ${requestItems.map(i=>i.name).join(', ')}<br>Post this trade?`;
+        const offer = offerSlots.filter(i => i);
+        const request = requestSlots.filter(i => i);
+        if (offer.length === 0) { showToast("Add items you're offering"); return; }
+        if (request.length === 0) { showToast("Add items you want"); return; }
+        pendingCreateTrade = { offer, request };
+        document.getElementById('confirmTitle').innerText = "Post Trade?";
+        document.getElementById('confirmMsg').innerHTML = `You offer: ${offer.map(i=>i.name).join(', ')}<br>You want: ${request.map(i=>i.name).join(', ')}`;
         document.getElementById('confirmModal').classList.add('active');
     }
-    
-    function closeConfirmModal() {
-        document.getElementById('confirmModal').classList.remove('active');
-        pendingCreateTrade = null;
-    }
-    
-    async function executeCreateTrade() {
+    function closeConfirmModal() { document.getElementById('confirmModal').classList.remove('active'); pendingCreateTrade = null; }
+    function executeCreateTrade() {
         closeConfirmModal();
-        const loading = document.getElementById('createTradeLoading');
-        loading.classList.add('active');
-        
-        const tradeData = {
-            requesterId: `user_${Date.now()}`,
-            requesterName: "Trader",
-            requesterRobloxUsername: "trader",
-            receiverRobloxUsername: "any",
-            itemsOffered: pendingCreateTrade.offerItems,
-            itemsRequested: pendingCreateTrade.requestItems,
-            message: "Trade offer"
-        };
-        
-        try {
-            const response = await fetch('https://trade-web-server-x21h.onrender.com/api/trades', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(tradeData)
-            });
-            const data = await response.json();
-            
-            loading.classList.remove('active');
-            
-            if (data.success) {
-                showToast("✅ Trade posted successfully!");
-                closeCreateTradeModal();
-                fetchTradeListings();
-                navigateTo('tradehub');
-            } else {
-                showToast("Error: " + (data.error || "Failed to post"));
-            }
-        } catch (error) {
-            loading.classList.remove('active');
-            // Fallback - local storage
+        document.getElementById('createLoading').style.display = 'block';
+        setTimeout(() => {
             const newTrade = {
                 id: Date.now().toString(),
                 status: 'pending',
                 createdAt: new Date().toISOString(),
                 expiresAt: new Date(Date.now() + 3600000).toISOString(),
                 requesterName: "Trader",
-                itemsOffered: pendingCreateTrade.offerItems,
-                itemsRequested: pendingCreateTrade.requestItems
+                itemsOffered: pendingCreateTrade.offer,
+                itemsRequested: pendingCreateTrade.request
             };
             tradeListings.unshift(newTrade);
             renderTradeHub();
-            showToast("✅ Trade posted (local mode)");
+            document.getElementById('createLoading').style.display = 'none';
             closeCreateTradeModal();
+            showToast("✅ Trade posted!");
             navigateTo('tradehub');
-        }
+        }, 1000);
     }
-    
-    // ============ TRADE HUB ============
-    async function fetchTradeListings() {
+
+    // Trade Hub
+    function fetchTradeListings() {
         const container = document.getElementById('tradeListingsContainer');
-        container.innerHTML = '<div class="loading-spinner" style="margin:30px auto;"></div>';
-        try {
-            const response = await fetch('https://trade-web-server-x21h.onrender.com/api/trades');
-            const data = await response.json();
-            if (data.success) {
-                tradeListings = data.trades;
-                renderTradeHub();
-            }
-        } catch (error) {
+        container.innerHTML = '<div class="skeleton" style="height: 200px; border-radius: 28px;"></div>';
+        setTimeout(() => {
             if (tradeListings.length === 0) {
-                container.innerHTML = '<div class="empty-state"><i class="fas fa-handshake"></i><p>No active trades</p></div>';
+                container.innerHTML = '<div style="text-align: center; padding: 60px; background: var(--glass); border-radius: 28px;"><i class="fas fa-handshake" style="font-size: 48px; margin-bottom: 15px;"></i><p>No active trades. Create one!</p></div>';
             } else {
                 renderTradeHub();
             }
-        }
+        }, 500);
     }
-    
     function renderTradeHub() {
         const container = document.getElementById('tradeListingsContainer');
-        if (tradeListings.length === 0) {
-            container.innerHTML = '<div class="empty-state"><i class="fas fa-handshake"></i><p>No active trades. Create one!</p></div>';
-            return;
-        }
         container.innerHTML = tradeListings.map(trade => `
             <div class="trade-card">
                 <div class="trade-header">
-                    <div class="trader-info"><div class="trader-avatar"><i class="fas fa-user"></i></div><div><strong>${trade.requesterName || "Anonymous"}</strong></div></div>
+                    <div class="trade-user"><div class="trade-avatar"><i class="fas fa-user"></i></div><div><strong>${trade.requesterName}</strong></div></div>
                     <div class="trade-timer"><i class="fas fa-clock"></i> ${getTimeLeft(trade.expiresAt)}</div>
                 </div>
-                <div class="trade-items-row">
-                    <div class="trade-item-box"><div>${trade.itemsOffered?.map(i => `<img src="${i.image}" title="${i.name}">`).join('') || 'No items'}</div><p>${trade.itemsOffered?.map(i => i.name).join(', ')}</p></div>
-                    <i class="fas fa-arrow-right"></i>
-                    <div class="trade-item-box"><div>${trade.itemsRequested?.map(i => `<img src="${i.image}" title="${i.name}">`).join('') || 'No items'}</div><p>${trade.itemsRequested?.map(i => i.name).join(', ')}</p></div>
+                <div class="trade-items">
+                    <div class="trade-item-slot"><div style="display: flex; gap: 8px;">${trade.itemsOffered?.map(i => `<img src="${i.image}" title="${i.name}">`).join('') || 'No items'}</div><p>${trade.itemsOffered?.map(i=>i.name).join(', ')}</p></div>
+                    <div class="trade-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="trade-item-slot"><div style="display: flex; gap: 8px;">${trade.itemsRequested?.map(i => `<img src="${i.image}" title="${i.name}">`).join('') || 'No items'}</div><p>${trade.itemsRequested?.map(i=>i.name).join(', ')}</p></div>
                 </div>
-                <div class="trade-actions"><button class="trade-btn" onclick="showToast('Message feature soon')"><i class="fas fa-comment"></i> Message</button></div>
+                <div class="trade-actions"><button class="trade-btn" onclick="showToast('Message feature coming soon')"><i class="fas fa-comment"></i> Message</button></div>
             </div>
         `).join('');
     }
-    
-    function getTimeLeft(expiresAt) {
-        if (!expiresAt) return "1h";
-        const diff = new Date(expiresAt) - new Date();
-        if (diff <= 0) return "Expired";
-        const minutes = Math.floor(diff / 60000);
-        if (minutes < 60) return `${minutes}m`;
-        return `${Math.floor(minutes / 60)}h`;
-    }
-    
-    // ============ PENDING ============
+    function getTimeLeft(expiresAt) { if(!expiresAt) return "1h"; let diff = new Date(expiresAt) - new Date(); if(diff <= 0) return "Expired"; let m = Math.floor(diff/60000); return m<60 ? `${m}m` : `${Math.floor(m/60)}h`; }
+
+    // Pending
     function renderPending() {
         let list = pendingTab === 'exchange' ? pendingExchanges : pendingTab === 'redeem' ? pendingRedeems : pendingPurchases;
         let div = document.getElementById('pendingList');
-        if (list.length === 0) { div.innerHTML = '<div class="empty-state"><i class="fas fa-clock"></i><p>No pending transfers</p></div>'; return; }
-        div.innerHTML = list.map(i => `<div class="pending-item"><div><strong>${i.name}</strong><br><small>${i.date}</small></div><button onclick="cancelPending('${pendingTab}','${i.id}')" style="background:#ef4444;border:none;padding:6px 14px;border-radius:30px;">Cancel</button></div>`).join('');
+        if(list.length === 0) { div.innerHTML = '<div style="text-align: center; padding: 60px;"><i class="fas fa-clock"></i><p>No pending transfers</p></div>'; return; }
+        div.innerHTML = list.map(i => `<div style="background: var(--glass); border-radius: 20px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"><div><strong>${i.name}</strong><br><small>${i.date}</small></div><button onclick="cancelPending('${pendingTab}','${i.id}')" style="background: #ef4444; border: none; padding: 6px 16px; border-radius: 30px; color: white; cursor: pointer;">Cancel</button></div>`).join('');
     }
-    function switchPendingTab(tab) { pendingTab = tab; document.querySelectorAll('.pending-tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active'); renderPending(); }
-    function cancelPending(type, id) { if(type === 'exchange') pendingExchanges = pendingExchanges.filter(i => i.id != id); else if(type === 'redeem') pendingRedeems = pendingRedeems.filter(i => i.id != id); else pendingPurchases = pendingPurchases.filter(i => i.id != id); renderPending(); showToast("Cancelled"); }
-    
-    // ============ WHEEL ============
-    function initWheel() { let wheel = document.getElementById('wheel'); let prizes = ["Batwing", "Harvester", "Icewing", "100 Credits", "50 Credits"]; let angle = 360 / prizes.length; let colors = ['#38bdf8', '#0ea5e9', '#0284c7', '#0369a1', '#075985']; wheel.innerHTML = prizes.map((p, i) => `<div class="wheel-seg" style="transform:rotate(${i*angle}deg); background:${colors[i%colors.length]};"><img src="https://placehold.co/30x30/${colors[i%colors.length].replace('#','')}/white?text=${p.charAt(0)}"><span>${p}</span></div>`).join(''); }
-    function spinWheel() { if(tickets<1){ showToast("Need tickets! Use code 'CENTURY'"); return; } tickets--; updateDisplay(); let prizes = [{name:"Batwing"},{name:"Harvester"},{name:"Icewing"},{isCredits:true,amount:100},{isCredits:true,amount:50}]; let p = prizes[Math.floor(Math.random()*prizes.length)]; let wheel = document.getElementById('wheel'); wheel.style.transform = `rotate(${Math.random()*3600+1800}deg)`; setTimeout(() => { wheel.style.transform = ''; if(p.isCredits){ credits += p.amount; updateDisplay(); showToast(`Won ${p.amount} credits!`); } else showToast(`Won ${p.name}!`); }, 3000); }
+    function switchPending(tab) { pendingTab = tab; renderPending(); }
+    function cancelPending(type, id) { if(type === 'exchange') pendingExchanges = pendingExchanges.filter(i=>i.id!=id); else if(type === 'redeem') pendingRedeems = pendingRedeems.filter(i=>i.id!=id); else pendingPurchases = pendingPurchases.filter(i=>i.id!=id); renderPending(); showToast("Cancelled"); }
+
+    // Wheel
+    function initWheel() {
+        let wheel = document.getElementById('wheel');
+        let prizes = ["Batwing", "Harvester", "Icewing", "100 Credits", "50 Credits"];
+        let angle = 360 / prizes.length;
+        let colors = ['#00d4ff', '#ff6b9d', '#c084fc', '#f59e0b', '#10b981'];
+        wheel.innerHTML = prizes.map((p, i) => `<div style="position: absolute; width: 50%; height: 50%; transform: rotate(${i*angle}deg); transform-origin: 100% 100%; background: ${colors[i%colors.length]}; display: flex; align-items: center; justify-content: center; flex-direction: column; border-radius: 0 0 100% 0;"><span style="font-size: 10px; font-weight: bold;">${p}</span></div>`).join('');
+    }
+    function spinWheel() {
+        if(tickets < 1) { showToast("Need tickets! Use code 'CENTURY'"); return; }
+        tickets--; updateDisplay();
+        let prizes = [{name:"Batwing"},{name:"Harvester"},{name:"Icewing"},{isCredits:true,amount:100},{isCredits:true,amount:50}];
+        let p = prizes[Math.floor(Math.random()*prizes.length)];
+        let wheel = document.getElementById('wheel');
+        wheel.style.transform = `rotate(${Math.random()*3600+1800}deg)`;
+        setTimeout(() => { wheel.style.transform = ''; if(p.isCredits){ credits += p.amount; updateDisplay(); showToast(`🎉 Won ${p.amount} credits!`); } else showToast(`🎉 Won ${p.name}!`); }, 3000);
+    }
     function redeemCode() { let code = document.getElementById('codeInput').value.trim().toUpperCase(); if(code === "CENTURY"){ tickets++; updateDisplay(); showToast("+1 Ticket!"); document.getElementById('codeInput').value = ''; } else showToast("Invalid code!"); }
-    
-    // ============ THEME & VERIFICATION ============
-    function toggleTheme() { document.body.classList.toggle('light'); let icon = document.getElementById('themeIcon'); icon.className = document.body.classList.contains('light') ? 'fas fa-sun' : 'fas fa-moon'; localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark'); }
-    if(localStorage.getItem('theme') === 'light'){ document.body.classList.add('light'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
-    
+
+    // Verification
     function startVerification() { document.getElementById('verificationModal').classList.add('active'); }
-    function verifyRoblox() { document.getElementById('verificationModal').classList.remove('active'); showToast("Verified! (Demo)"); }
-    function openTermsPage() { alert("Terms: No cross-trading. Scammers banned."); }
-    function updateProfileDisplay() { document.getElementById('profileName').innerText = "Guest User"; }
-    
+    function verifyRoblox() { document.getElementById('verificationModal').classList.remove('active'); showToast("Roblox linked! (Demo)"); }
+
     // Particles
-    for(let i=0;i<50;i++){ let p=document.createElement('div'); p.className='particle'; p.style.width=p.style.height=(Math.random()*4+2)+'px'; p.style.left=Math.random()*100+'%'; p.style.animationDelay=Math.random()*8+'s'; p.style.animationDuration=(Math.random()*6+4)+'s'; document.getElementById('particles').appendChild(p); }
-    
-    updateDisplay(); renderShop(); renderExchange(); renderRedeem(); renderSell(); initWheel();
+    for(let i=0;i<60;i++){ let p=document.createElement('div'); p.className='particle'; p.style.width=p.style.height=(Math.random()*4+2)+'px'; p.style.left=Math.random()*100+'%'; p.style.animationDelay=Math.random()*8+'s'; p.style.animationDuration=(Math.random()*6+4)+'s'; document.getElementById('particles').appendChild(p); }
+
+    updateDisplay(); renderShop(); renderExchange(); renderRedeem(); initWheel();
     
     window.navigateTo = navigateTo; window.goBack = goBack; window.toggleTheme = toggleTheme; window.changeCurrency = changeCurrency;
     window.filterShop = filterShop; window.buyItem = buyItem; window.exchangeItem = exchangeItem; window.redeemItem = redeemItem;
     window.spinWheel = spinWheel; window.redeemCode = redeemCode; window.startVerification = startVerification; window.verifyRoblox = verifyRoblox;
     window.openCreateTradeModal = openCreateTradeModal; window.closeCreateTradeModal = closeCreateTradeModal;
-    window.openSlotSelector = openSlotSelector; window.selectItemForSlot = selectItemForSlot; window.closeItemSelector = closeItemSelector;
+    window.openSlotSelector = openSlotSelector; window.selectItem = selectItem; window.closeItemSelector = closeItemSelector;
     window.confirmCreateTrade = confirmCreateTrade; window.closeConfirmModal = closeConfirmModal; window.executeCreateTrade = executeCreateTrade;
-    window.removeTradeItem = removeTradeItem; window.openTradeItemSelector = openTradeItemSelector;
-    window.switchPendingTab = switchPendingTab; window.cancelPending = cancelPending;
-    window.toggleSideMenu = toggleSideMenu;
+    window.removeTradeItem = removeTradeItem; window.openItemSelector = openItemSelector;
+    window.switchPending = switchPending; window.cancelPending = cancelPending; window.toggleSideMenu = toggleSideMenu;
 </script>
 </body>
 </html>
