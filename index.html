@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>ECHOKNIVES | Premium MM2 Trading</title>
+    <title>Sakura.gg | Premium Anime Trading</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Confetti Library -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
     
     <!-- Firebase SDK -->
     <script type="module">
@@ -42,6 +39,9 @@
         window.dispatchEvent(new Event('firebase-ready'));
     </script>
     
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+    
     <style>
         * {
             margin: 0;
@@ -49,34 +49,34 @@
             box-sizing: border-box;
         }
 
-        /* WARM BEIGE / LIGHT BLACK / GREYISH WHITE COLOR SCHEME */
+        /* SAKURA THEME - Pink & Warm Colors */
         :root {
-            --bg-primary: #faf7f2;
-            --bg-secondary: #f0ebe3;
+            --bg-primary: #fff5f7;
+            --bg-secondary: #ffe4ec;
             --bg-card: #ffffff;
             --bg-dark: #1a1a1a;
             --text-primary: #2c2c2c;
             --text-secondary: #6b6b6b;
             --text-light: #9a9a9a;
-            --accent: #c4a47c;
-            --accent-dark: #a8885c;
-            --accent-light: #d4bca0;
+            --accent: #ff6b9d;
+            --accent-dark: #e8557e;
+            --accent-light: #ffb7c5;
             --success: #4caf50;
             --warning: #ff9800;
             --danger: #f44336;
-            --border: rgba(0, 0, 0, 0.06);
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-            --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.08);
+            --border: rgba(255, 107, 157, 0.15);
+            --shadow: 0 4px 20px rgba(255, 107, 157, 0.08);
+            --shadow-lg: 0 8px 40px rgba(255, 107, 157, 0.12);
             --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
         body.dark {
-            --bg-primary: #121212;
-            --bg-secondary: #1e1e1e;
-            --bg-card: #2a2a2a;
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-card: #2a2a3e;
             --text-primary: #f5f0e8;
             --text-secondary: #b0b0b0;
-            --border: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 107, 157, 0.15);
         }
 
         body {
@@ -87,27 +87,42 @@
             min-height: 100vh;
             overflow-x: hidden;
             padding-bottom: 90px;
+            position: relative;
         }
 
-        /* Grid VFX Background */
-        .grid-bg {
+        /* Falling Sakura Petals Background */
+        .sakura-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -2;
-            background-image: 
-                linear-gradient(var(--border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridShift 20s linear infinite;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
         }
-        @keyframes gridShift {
-            0% { background-position: 0 0; }
-            100% { background-position: 50px 50px; }
+
+        .sakura-petal {
+            position: absolute;
+            background: linear-gradient(135deg, #ffb7c5, #ff9eb5, #ff7a9e);
+            border-radius: 50% 50% 45% 55%;
+            opacity: 0.7;
+            animation: fall linear infinite;
+            box-shadow: 0 0 5px rgba(255, 107, 157, 0.3);
         }
-        
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0.2;
+            }
+        }
+
+        /* Warm Glow Effect */
         .warm-glow {
             position: fixed;
             top: 0;
@@ -115,7 +130,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: radial-gradient(circle at 30% 40%, rgba(196, 164, 124, 0.08), transparent 70%);
+            background: radial-gradient(circle at 30% 40%, rgba(255, 107, 157, 0.08), transparent 70%);
             pointer-events: none;
         }
 
@@ -123,12 +138,12 @@
             position: fixed;
             border-radius: 50%;
             filter: blur(60px);
-            opacity: 0.15;
+            opacity: 0.1;
             animation: floatOrb 25s infinite;
             z-index: -1;
         }
-        .orb1 { width: 400px; height: 400px; background: #c4a47c; top: -150px; left: -150px; }
-        .orb2 { width: 350px; height: 350px; background: #a8885c; bottom: -120px; right: -120px; animation-delay: 8s; }
+        .orb1 { width: 400px; height: 400px; background: #ff6b9d; top: -150px; left: -150px; }
+        .orb2 { width: 350px; height: 350px; background: #ffb7c5; bottom: -120px; right: -120px; animation-delay: 8s; }
         @keyframes floatOrb {
             0%,100% { transform: translate(0,0); }
             33% { transform: translate(50px,-50px); }
@@ -147,7 +162,7 @@
             left: 0;
             right: 0;
             padding: 12px 5%;
-            background: rgba(250, 247, 242, 0.9);
+            background: rgba(255, 245, 247, 0.9);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -157,24 +172,81 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-        body.dark .header { background: rgba(18, 18, 18, 0.9); }
+        body.dark .header { background: rgba(26, 26, 46, 0.9); }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             cursor: pointer;
         }
+        
+        .sakura-tree-icon {
+            font-size: 32px;
+            animation: sway 3s ease-in-out infinite;
+            display: inline-block;
+            filter: drop-shadow(0 2px 5px rgba(255,107,157,0.3));
+        }
+        
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+        
+        .logo-text {
+            display: flex;
+            align-items: baseline;
+            gap: 2px;
+            position: relative;
+        }
+        
+        .logo-text span {
+            font-size: 26px;
+            font-weight: 800;
+            font-family: 'Playfair Display', serif;
+            color: var(--accent-dark);
+            position: relative;
+        }
+        
+        .logo-text .gg {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-left: 2px;
+            opacity: 0.8;
+        }
+        
+        /* Shiny effect on Sakura.gg */
+        .shiny-text {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .shiny-text::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.6), 
+                transparent);
+            animation: shine 3s infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+        
         .logo i {
             font-size: 28px;
             color: var(--accent);
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
-        .logo span {
-            font-size: 22px;
-            font-weight: 800;
-            font-family: 'Playfair Display', serif;
-            color: var(--accent-dark);
         }
 
         .auth-btn {
@@ -430,10 +502,10 @@
         .search-bar:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(196, 164, 124, 0.1);
+            box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1);
         }
 
-        /* 2-ITEM ROW GRID */
+        /* Items Grid */
         .items-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -471,7 +543,7 @@
             color: var(--accent);
         }
 
-        /* Currency Selection Toggle */
+        /* Currency Toggle */
         .currency-toggle {
             display: flex;
             gap: 20px;
@@ -654,19 +726,6 @@
             justify-content: center;
             gap: 10px;
         }
-        .google-btn i { color: #db4437; font-size: 18px; }
-
-        /* Checkmark Animation */
-        .checkmark-animation {
-            width: 80px;
-            height: 80px;
-            margin: 20px auto;
-            animation: checkPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        @keyframes checkPop {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
 
         /* Toast */
         .toast-container {
@@ -694,14 +753,264 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        /* Confirmation Modal */
-        .confirmation-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
+        /* Create Trade Post Specific Styles */
+        .trade-card {
+            background: var(--bg-card);
+            border-radius: 32px;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 20px;
         }
-        .confirmation-buttons button {
+
+        .offer-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .create-items-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .item-slot {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+            border-radius: 20px;
+            border: 2px dashed var(--accent-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-slot:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .item-slot.filled {
+            border: 2px solid var(--accent);
+            background: var(--bg-card);
+        }
+
+        .plus-icon {
+            font-size: 32px;
+            color: var(--accent-light);
+            transition: all 0.3s ease;
+        }
+
+        .item-slot:hover .plus-icon {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .slot-item-img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .slot-item-name {
+            font-size: 10px;
+            margin-top: 5px;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .remove-item {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .remove-item:hover {
+            background: var(--accent-dark);
+            transform: scale(1.1);
+        }
+
+        .vs-divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .vs-divider span {
+            background: var(--accent);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 18px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
             flex: 1;
+            padding: 14px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-cancel {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+        }
+
+        .btn-cancel:hover {
+            background: var(--border);
+            transform: translateY(-2px);
+        }
+
+        .btn-create {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        .btn-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        /* Items List Modal */
+        .items-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .modal-item {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .modal-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .modal-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .modal-item .item-name {
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            color: var(--text-primary);
+        }
+
+        .modal-item .item-value {
+            font-size: 10px;
+            color: var(--accent);
+            margin-top: 4px;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .ball {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: bounce 0.6s ease-in-out infinite alternate;
+        }
+
+        .ball:nth-child(2) {
+            animation-delay: 0.2s;
+            background: var(--accent-light);
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-30px);
+            }
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 16px;
+            letter-spacing: 2px;
         }
 
         @media (max-width: 768px) {
@@ -710,15 +1019,17 @@
             .items-grid { grid-template-columns: 1fr; }
             .stats-bar { display: none; }
             .trading-grid { grid-template-columns: 1fr; }
-            .bottom-nav-wrapper {
-                overflow-x: auto;
-            }
+            .bottom-nav-wrapper { overflow-x: auto; }
+            .create-items-grid { gap: 10px; }
+            .slot-item-img { width: 45px; height: 45px; }
+            .items-list { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
 
-<div class="grid-bg"></div>
+<!-- Falling Sakura Petals Background -->
+<div class="sakura-bg" id="sakuraBg"></div>
 <div class="warm-glow"></div>
 <div class="floating-orb orb1"></div>
 <div class="floating-orb orb2"></div>
@@ -726,8 +1037,10 @@
 <!-- Header -->
 <div class="header">
     <div class="logo" onclick="navigateTo('home')">
-        <i class="fas fa-gem"></i>
-        <span>ECHOKNIVES</span>
+        <i class="fas fa-tree sakura-tree-icon"></i>
+        <div class="logo-text shiny-text">
+            <span>Sakura</span><span class="gg">.gg</span>
+        </div>
     </div>
     <div class="stats-bar" id="statsBar">
         <div class="stat-card"><i class="fas fa-coins"></i> <span id="creditsDisplay">0</span> Credits</div>
@@ -751,6 +1064,7 @@
         <div class="nav-item" data-page="deposit" onclick="navigateTo('deposit')"><div class="outline-icon"><i class="fas fa-arrow-down"></i></div><span>Deposit</span></div>
         <div class="nav-item" data-page="withdraw" onclick="navigateTo('withdraw')"><div class="outline-icon"><i class="fas fa-arrow-up"></i></div><span>Withdraw</span></div>
         <div class="nav-item" data-page="trading" onclick="navigateTo('trading')"><div class="outline-icon"><i class="fas fa-handshake"></i></div><span>Trading</span></div>
+        <div class="nav-item" data-page="createtrade" onclick="navigateTo('createtrade')"><div class="outline-icon"><i class="fas fa-plus"></i></div><span>Create Trade</span></div>
         <div class="nav-item" data-page="leaderboard" onclick="navigateTo('leaderboard')"><div class="outline-icon"><i class="fas fa-trophy"></i></div><span>Leaderboard</span></div>
         <div class="nav-item" data-page="referral" onclick="navigateTo('referral')"><div class="outline-icon"><i class="fas fa-link"></i></div><span>Referral</span></div>
         <div class="nav-item" data-page="profile" onclick="navigateTo('profile')"><div class="outline-icon"><i class="fas fa-user"></i></div><span>Profile</span></div>
@@ -761,10 +1075,10 @@
     <!-- HOME PAGE -->
     <div id="homePage" class="page active">
         <div class="hero">
-            <div class="hero-badge"><i class="fas fa-shield-alt"></i> PREMIUM TRADING PLATFORM</div>
-            <h1>Trade <span>MM2 Items</span><br>With Confidence</h1>
+            <div class="hero-badge"><i class="fas fa-cherry-blossom"></i> PREMIUM TRADING PLATFORM</div>
+            <h1>Trade <span>MM2 Items</span><br>With Sakura</h1>
             <p>The #1 premium trading platform for Murder Mystery 2. Fast, secure, and trusted.</p>
-            <div class="hero-img"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="Trading" loading="lazy"></div>
+            <div class="hero-img"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="Trading"></div>
             <button class="btn-primary" onclick="showLoginModal()">Get Started →</button>
         </div>
     </div>
@@ -779,48 +1093,13 @@
             <div class="balance-card"><h4>Items Deposited</h4><div class="amount" id="itemsDeposited">0</div></div>
         </div>
         
-        <!-- Search Bar -->
-        <input type="text" id="depositSearch" class="search-bar" placeholder="🔍 Search items...">
-        
-        <!-- Currency Selection Toggle with Images -->
-        <div class="currency-toggle" id="depositCurrencyToggle">
-            <div class="currency-option" data-currency="credits">
-                <img src="https://placehold.co/50x50/c4a47c/white?text=CR" alt="Credits">
-                <h4>💰 Credits</h4>
-                <p>Receive in-platform credits</p>
-            </div>
-            <div class="currency-option" data-currency="robux">
-                <img src="https://placehold.co/50x50/4caf50/white?text=R$" alt="ROBUX">
-                <h4>🟢 ROBUX</h4>
-                <p>Receive real Robux (Coming Soon)</p>
-            </div>
-        </div>
-        
         <div class="items-grid" id="depositItemsGrid"></div>
     </div>
 
     <!-- WITHDRAW PAGE -->
     <div id="withdrawPage" class="page">
-        <div class="section-header"><div class="section-icon"><i class="fas fa-arrow-up"></i></div><h2>Withdraw Items</h2><p>Spend your Credits on MM2 items or convert to ROBUX</p></div>
+        <div class="section-header"><div class="section-icon"><i class="fas fa-arrow-up"></i></div><h2>Withdraw Items</h2><p>Spend your Credits on MM2 items</p></div>
         <div class="balance-cards"><div class="balance-card"><h4>Available Credits</h4><div class="amount" id="withdrawCredits">0</div></div></div>
-        
-        <!-- Search Bar -->
-        <input type="text" id="withdrawSearch" class="search-bar" placeholder="🔍 Search items...">
-        
-        <!-- Currency Selection Toggle with Images -->
-        <div class="currency-toggle" id="withdrawCurrencyToggle">
-            <div class="currency-option" data-currency="items">
-                <img src="https://placehold.co/50x50/c4a47c/white?text=MM2" alt="MM2 Items">
-                <h4>🔪 MM2 Items</h4>
-                <p>Get in-game items</p>
-            </div>
-            <div class="currency-option" data-currency="robux">
-                <img src="https://placehold.co/50x50/4caf50/white?text=R$" alt="ROBUX">
-                <h4>🟢 ROBUX</h4>
-                <p>Convert to Robux (Coming Soon)</p>
-            </div>
-        </div>
-        
         <div class="items-grid" id="withdrawItemsGrid"></div>
     </div>
 
@@ -828,12 +1107,73 @@
     <div id="tradingPage" class="page">
         <div class="section-header"><div class="section-icon"><i class="fas fa-handshake"></i></div><h2>Trading Hub</h2><p>Browse active trade listings</p></div>
         <div class="trading-grid" id="tradingListings"></div>
-        <button class="modal-btn" style="margin-top: 20px;" onclick="showCreateTradeModal()">+ Create Trade Listing</button>
+    </div>
+
+    <!-- CREATE TRADE PAGE -->
+    <div id="createtradePage" class="page">
+        <div class="section-header"><div class="section-icon"><i class="fas fa-plus-circle"></i></div><h2>Create Trade Post</h2><p>Select items you want to offer and what you want in return</p></div>
+        
+        <div class="trade-card">
+            <!-- YOUR OFFER Section -->
+            <div class="offer-section">
+                <div class="section-title">
+                    <i class="fas fa-arrow-up"></i>
+                    YOUR OFFER
+                </div>
+                <div class="create-items-grid" id="yourOfferGrid">
+                    <div class="item-slot" data-slot="0" data-type="offer" onclick="openItemSelector('offer', 0)">
+                        <i class="fas fa-plus plus-icon"></i>
+                    </div>
+                    <div class="item-slot" data-slot="1" data-type="offer" onclick="openItemSelector('offer', 1)">
+                        <i class="fas fa-plus plus-icon"></i>
+                    </div>
+                    <div class="item-slot" data-slot="2" data-type="offer" onclick="openItemSelector('offer', 2)">
+                        <i class="fas fa-plus plus-icon"></i>
+                    </div>
+                    <div class="item-slot" data-slot="3" data-type="offer" onclick="openItemSelector('offer', 3)">
+                        <i class="fas fa-plus plus-icon"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VS Divider -->
+            <div class="vs-divider">
+                <span>VS</span>
+            </div>
+
+            <!-- THEIR OFFER Section -->
+            <div class="offer-section">
+                <div class="section-title">
+                    <i class="fas fa-arrow-down"></i>
+                    THEIR OFFER
+                </div>
+                <div class="create-items-grid" id="theirOfferGrid">
+                    <div class="item-slot" data-slot="0" data-type="request" onclick="openItemSelector('request', 0)">
+                        <i class="fas fa-plus plus-icon"></i>
+                    </div>
+                    <div class="item-slot" data-slot="1" data-type="request" onclick="openItemSelector('request', 1)">
+                        <i class="fas fa-plus plus-icon"></i>
+                    </div>
+                    <div class="item-slot" data-slot="2" data-type="request" onclick="openItemSelector('request', 2)">
+                        <i class="fas fa-plus plus-icon"></i>
+                    </div>
+                    <div class="item-slot" data-slot="3" data-type="request" onclick="openItemSelector('request', 3)">
+                        <i class="fas fa-plus plus-icon"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="buttons">
+                <button class="btn btn-cancel" onclick="cancelTrade()">Cancel</button>
+                <button class="btn btn-create" onclick="confirmCreatePost()">Create Post</button>
+            </div>
+        </div>
     </div>
 
     <!-- LEADERBOARD PAGE -->
     <div id="leaderboardPage" class="page">
-        <div class="section-header"><div class="section-icon"><i class="fas fa-trophy"></i></div><h2>Top Traders Leaderboard</h2><p>Highest volume traders this month</p></div>
+        <div class="section-header"><div class="section-icon"><i class="fas fa-trophy"></i></div><h2>Top Traders Leaderboard</h2></div>
         <div class="leaderboard-table"><div class="leaderboard-header"><span>Rank</span><span>User</span><span>Volume</span><span>Reward</span></div><div id="leaderboardList"></div></div>
     </div>
 
@@ -843,12 +1183,11 @@
         <div class="referral-card">
             <i class="fas fa-gift" style="font-size: 48px; color: var(--accent);"></i>
             <h3 style="margin: 15px 0;">Your Referral Link</h3>
-            <div class="referral-code"><span id="referralLink">https://echoknives.com/ref/...</span><button class="copy-btn" onclick="copyReferralLink()">Copy</button></div>
+            <div class="referral-code"><span id="referralLink">https://sakura.gg/ref/...</span><button class="copy-btn" onclick="copyReferralLink()">Copy</button></div>
             <div class="balance-cards" style="margin-top: 20px;">
                 <div class="balance-card"><h4>Total Referrals</h4><div class="amount" id="referralCount">0</div></div>
                 <div class="balance-card"><h4>Earned Credits</h4><div class="amount" id="referralEarnings">0</div></div>
             </div>
-            <div class="history-table" style="margin-top: 20px;"><div class="history-header"><span>Date</span><span>Friend</span><span>Volume</span><span>Earned</span></div><div id="referralHistory"></div></div>
         </div>
     </div>
 
@@ -858,7 +1197,6 @@
         <div style="background: var(--bg-card); border-radius: 32px; padding: 30px; text-align: center;">
             <img id="profileAvatar" class="profile-avatar" src="">
             <h3 id="profileDisplayName">Loading...</h3>
-            <p id="profileUsername" style="color: var(--text-secondary);">@username</p>
             <div class="stats-grid">
                 <div class="stat-box"><strong id="profileCredits">0</strong><br>Credits</div>
                 <div class="stat-box"><strong id="profileDeposits">0</strong><br>Deposits</div>
@@ -866,19 +1204,13 @@
             </div>
             <button class="modal-btn" style="background: var(--danger); margin-top: 20px;" onclick="logout()">Logout</button>
         </div>
-        
-        <h3 style="margin: 30px 0 15px;"><i class="fas fa-history"></i> Deposit History</h3>
-        <div class="history-table"><div class="history-header"><span>Date</span><span>Item</span><span>Value</span><span>Status</span></div><div id="depositHistory"></div></div>
-        
-        <h3 style="margin: 30px 0 15px;"><i class="fas fa-shopping-cart"></i> Purchase History</h3>
-        <div class="history-table"><div class="history-header"><span>Date</span><span>Item</span><span>Cost</span><span>Status</span></div><div id="purchaseHistory"></div></div>
     </div>
 </div>
 
 <!-- Login Modal -->
 <div id="loginModal" class="modal">
     <div class="modal-content">
-        <h3 style="text-align: center; margin-bottom: 20px;">Welcome Back</h3>
+        <h3 style="text-align: center; margin-bottom: 20px;">Welcome to Sakura.gg</h3>
         <input type="email" id="loginEmail" placeholder="Email">
         <input type="password" id="loginPassword" placeholder="Password">
         <button class="modal-btn" onclick="loginWithEmail()">Login</button>
@@ -901,117 +1233,99 @@
     </div>
 </div>
 
-<!-- Verification Modal (For Deposits/Withdrawals) -->
-<div id="verificationModal" class="modal">
+<!-- Item Selector Modal -->
+<div id="itemSelectorModal" class="modal">
     <div class="modal-content">
-        <h3><i class="fab fa-roblox"></i> Verify Roblox Account</h3>
-        <p>For security, please re-enter your Roblox username to complete this transaction.</p>
-        <input type="text" id="verifyRobloxUsername" placeholder="Enter your Roblox Username">
-        <div id="verifyLoading" style="display: none; text-align: center;"><i class="fas fa-spinner fa-spin"></i> Verifying...</div>
-        <button class="modal-btn" onclick="confirmVerifiedTransaction()">Confirm & Complete</button>
-        <button class="modal-btn cancel" onclick="closeVerificationModal()">Cancel</button>
-    </div>
-</div>
-
-<!-- Survey Modal -->
-<div id="surveyModal" class="modal">
-    <div class="modal-content">
-        <h3 style="text-align: center;">Complete Your Profile</h3>
-        <select id="hearAbout"><option value="">Where did you hear about us?</option><option>Discord</option><option>Twitter</option><option>YouTube</option><option>Friend</option><option>Other</option></select>
-        <input type="text" id="robloxUsernameSurvey" placeholder="Enter your Roblox Username">
-        <div id="surveyLoading" style="display: none; text-align: center;">Fetching Roblox info...</div>
-        <div id="surveyPreview" style="display: none; text-align: center;"><img id="surveyAvatar" style="width: 60px; border-radius: 50%;"><p id="surveyDisplayName"></p></div>
-        <button class="modal-btn" onclick="submitSurvey()">Complete Setup</button>
-        <div id="checkmarkAnim" style="display: none;" class="checkmark-animation"><i class="fas fa-check-circle" style="font-size: 60px; color: var(--success);"></i></div>
-    </div>
-</div>
-
-<!-- Create Trade Modal -->
-<div id="createTradeModal" class="modal">
-    <div class="modal-content">
-        <h3>Create Trade Listing</h3>
-        <select id="offerItem"><option value="">Select item you're offering...</option></select>
-        <select id="requestItem"><option value="">Select item you want...</option></select>
-        <button class="modal-btn" onclick="createTrade()">Post Trade</button>
-        <button class="modal-btn cancel" onclick="closeCreateTradeModal()">Cancel</button>
+        <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3><i class="fas fa-box-open"></i> Select Item</h3>
+            <button class="close-modal" onclick="closeItemSelector()" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+        </div>
+        <div class="items-list" id="itemsList"></div>
     </div>
 </div>
 
 <!-- Confirmation Modal -->
-<div id="confirmationModal" class="modal">
-    <div class="modal-content">
-        <h3 id="confirmTitle">Confirm Transaction</h3>
-        <p id="confirmMessage"></p>
-        <div class="confirmation-buttons">
-            <button class="modal-btn" id="confirmYesBtn">Confirm</button>
-            <button class="modal-btn cancel" id="confirmNoBtn">Cancel</button>
+<div id="confirmModal" class="modal confirm-modal">
+    <div class="modal-content" style="text-align: center;">
+        <i class="fas fa-question-circle" style="font-size: 48px; color: var(--accent); margin-bottom: 15px;"></i>
+        <h3>Confirm Trade Post</h3>
+        <p id="confirmMessage" style="margin: 15px 0; color: var(--text-secondary);"></p>
+        <div class="confirm-buttons" style="display: flex; gap: 15px; margin-top: 25px;">
+            <button class="confirm-no" onclick="closeConfirmModal()" style="flex:1; padding: 12px; border-radius: 50px; border: none; background: var(--bg-secondary); cursor: pointer;">Cancel</button>
+            <button class="confirm-yes" onclick="createTradePost()" style="flex:1; padding: 12px; border-radius: 50px; border: none; background: var(--accent); color: white; cursor: pointer;">Yes, Post It</button>
         </div>
     </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner">
+        <div class="ball"></div>
+        <div class="ball"></div>
+    </div>
+    <div class="loading-text">Creating your trade post...</div>
 </div>
 
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-    const MIDDLEMAN_URL = "https://roblox-middlemanbot1.onrender.com";
+    // ===== FALLING SAKURA PETALS BACKGROUND =====
+    function createSakuraPetals() {
+        const container = document.getElementById('sakuraBg');
+        const petalCount = 120;
+        
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'sakura-petal';
+            
+            const width = 8 + Math.random() * 12;
+            const height = width * 0.7;
+            petal.style.width = width + 'px';
+            petal.style.height = height + 'px';
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.top = Math.random() * 100 + '%';
+            const duration = 5 + Math.random() * 8;
+            petal.style.animationDuration = duration + 's';
+            petal.style.animationDelay = Math.random() * 10 + 's';
+            petal.style.opacity = 0.4 + Math.random() * 0.4;
+            container.appendChild(petal);
+        }
+    }
     
-    // 25 ITEMS
+    createSakuraPetals();
+    
+    // MM2 Items Database
     const items = [
-        { id: 1, name: "Batwing", value: 140, image: "https://i.imgur.com/H6CL03y.jpeg", credits: 140, type: "knife" },
-        { id: 2, name: "Harvester", value: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg", credits: 500, type: "knife" },
-        { id: 3, name: "Icewing", value: 80, image: "https://i.imgur.com/jiwvmxq.jpeg", credits: 80, type: "knife" },
-        { id: 4, name: "Luger", value: 165, image: "https://i.imgur.com/eEvMBRh.jpeg", credits: 165, type: "gun" },
-        { id: 5, name: "Candy", value: 249, image: "https://i.imgur.com/PXBiQtb.jpeg", credits: 249, type: "knife" },
-        { id: 6, name: "Shark", value: 110, image: "https://i.imgur.com/6nL98SC.jpeg", credits: 110, type: "knife" },
-        { id: 7, name: "Darkbringer", value: 140, image: "https://i.imgur.com/8oxgzwa.jpeg", credits: 140, type: "gun" },
-        { id: 8, name: "Lightbringer", value: 140, image: "https://i.imgur.com/BUljuYV.jpeg", credits: 140, type: "gun" },
-        { id: 9, name: "Chroma Bringer", value: 850, image: "https://placehold.co/65x65/c4a47c/white?text=CB", credits: 850, type: "set" },
-        { id: 10, name: "Elderwood Scythe", value: 175, image: "https://placehold.co/65x65/c4a47c/white?text=ES", credits: 175, type: "knife" },
-        { id: 11, name: "Chroma Saw", value: 425, image: "https://placehold.co/65x65/c4a47c/white?text=CS", credits: 425, type: "knife" },
-        { id: 12, name: "Chroma Shark", value: 625, image: "https://placehold.co/65x65/c4a47c/white?text=CSH", credits: 625, type: "knife" },
-        { id: 13, name: "Chroma Luger", value: 425, image: "https://placehold.co/65x65/c4a47c/white?text=CL", credits: 425, type: "gun" },
-        { id: 14, name: "Chroma Darkbringer", value: 425, image: "https://placehold.co/65x65/c4a47c/white?text=CDB", credits: 425, type: "gun" },
-        { id: 15, name: "Chroma Lightbringer", value: 425, image: "https://placehold.co/65x65/c4a47c/white?text=CLB", credits: 425, type: "gun" },
-        { id: 16, name: "Icebreaker", value: 255, image: "https://i.imgur.com/SuTMxT7.jpeg", credits: 255, type: "knife" },
-        { id: 17, name: "Ice Piercer", value: 365, image: "https://i.imgur.com/cWwaIa3.jpeg", credits: 365, type: "knife" },
-        { id: 18, name: "Sunset", value: 430, image: "https://i.imgur.com/dXJ2dSA.jpeg", credits: 430, type: "gun" },
-        { id: 19, name: "Sunrise", value: 799, image: "https://i.imgur.com/ttNyTxl.jpeg", credits: 799, type: "gun" },
-        { id: 20, name: "Virtual", value: 375, image: "https://placehold.co/65x65/c4a47c/white?text=VT", credits: 375, type: "knife" },
-        { id: 21, name: "Logchopper", value: 425, image: "https://placehold.co/65x65/c4a47c/white?text=LC", credits: 425, type: "knife" },
-        { id: 22, name: "Swirly Blade", value: 185, image: "https://placehold.co/65x65/c4a47c/white?text=SB", credits: 185, type: "knife" },
-        { id: 23, name: "Xmas", value: 65, image: "https://placehold.co/65x65/c4a47c/white?text=XMS", credits: 65, type: "knife" },
-        { id: 24, name: "Frostbite", value: 95, image: "https://placehold.co/65x65/c4a47c/white?text=FB", credits: 95, type: "knife" },
-        { id: 25, name: "Snowflake", value: 45, image: "https://placehold.co/65x65/c4a47c/white?text=SF", credits: 45, type: "knife" }
+        { id: 1, name: "Batwing", value: 140, image: "https://i.imgur.com/H6CL03y.jpeg", type: "knife", credits: 140 },
+        { id: 2, name: "Harvester", value: 500, image: "https://i.imgur.com/jZkbQ4t.jpeg", type: "knife", credits: 500 },
+        { id: 3, name: "Icewing", value: 80, image: "https://i.imgur.com/jiwvmxq.jpeg", type: "knife", credits: 80 },
+        { id: 4, name: "Luger", value: 165, image: "https://i.imgur.com/eEvMBRh.jpeg", type: "gun", credits: 165 },
+        { id: 5, name: "Candy", value: 249, image: "https://i.imgur.com/PXBiQtb.jpeg", type: "knife", credits: 249 },
+        { id: 6, name: "Shark", value: 110, image: "https://i.imgur.com/6nL98SC.jpeg", type: "knife", credits: 110 },
+        { id: 7, name: "Darkbringer", value: 140, image: "https://i.imgur.com/8oxgzwa.jpeg", type: "gun", credits: 140 },
+        { id: 8, name: "Lightbringer", value: 140, image: "https://i.imgur.com/BUljuYV.jpeg", type: "gun", credits: 140 },
+        { id: 9, name: "Chroma Bringer", value: 850, image: "https://placehold.co/65x65/ff6b9d/white?text=CB", type: "set", credits: 850 },
+        { id: 10, name: "Elderwood Scythe", value: 175, image: "https://placehold.co/65x65/ff6b9d/white?text=ES", type: "knife", credits: 175 },
+        { id: 11, name: "Chroma Saw", value: 425, image: "https://placehold.co/65x65/ff6b9d/white?text=CS", type: "knife", credits: 425 },
+        { id: 12, name: "Icebreaker", value: 255, image: "https://i.imgur.com/SuTMxT7.jpeg", type: "knife", credits: 255 },
+        { id: 13, name: "Ice Piercer", value: 365, image: "https://i.imgur.com/cWwaIa3.jpeg", type: "knife", credits: 365 },
+        { id: 14, name: "Sunset", value: 430, image: "https://i.imgur.com/dXJ2dSA.jpeg", type: "gun", credits: 430 },
+        { id: 15, name: "Sunrise", value: 799, image: "https://i.imgur.com/ttNyTxl.jpeg", type: "gun", credits: 799 }
     ];
     
     // State
     let currentUser = null;
-    let userRobloxData = null;
     let userCredits = 0, userRobux = 0, userReferrals = 0, referralEarned = 0, totalDeposits = 0, itemsDepositedCount = 0;
     let depositHistory = [], purchaseHistory = [], referralHistory = [], tradeListings = [];
-    let hasCompletedSurvey = false;
-    let pendingTransaction = null;
-    let selectedDepositCurrency = "credits";
-    let selectedWithdrawCurrency = "items";
-    let currentFilteredItems = [...items];
-    let pendingConfirmationCallback = null;
+    let hasCompletedSurvey = true;
     
-    // Rate limiting
-    const transactionCooldown = new Map();
+    // Create Trade State
+    let selectedOfferItems = [null, null, null, null];
+    let selectedRequestItems = [null, null, null, null];
+    let currentSelectorType = null;
+    let currentSelectorSlot = null;
+    let activeTradePosts = JSON.parse(localStorage.getItem('tradePosts') || '[]');
     
-    function checkRateLimit(action, cooldownMs = 3000) {
-        const userId = currentUser?.uid || 'guest';
-        const key = `${userId}_${action}`;
-        const lastTime = transactionCooldown.get(key) || 0;
-        const now = Date.now();
-        if (now - lastTime < cooldownMs) {
-            showToast(`Please wait ${Math.ceil((cooldownMs - (now - lastTime))/1000)} seconds`);
-            return false;
-        }
-        transactionCooldown.set(key, now);
-        return true;
-    }
-    
-    // Helper Functions
     function showToast(msg) { 
         const container = document.getElementById('toastContainer'); 
         const toast = document.createElement('div'); 
@@ -1023,67 +1337,33 @@
     
     function triggerConfetti() {
         if (typeof canvasConfetti === 'function') {
-            canvasConfetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#c4a47c', '#a8885c', '#d4bca0'] });
+            canvasConfetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#ff6b9d', '#ffb7c5', '#ff9eb5'] });
         }
-    }
-    
-    function showConfirmation(title, message, onConfirm) {
-        document.getElementById('confirmTitle').innerText = title;
-        document.getElementById('confirmMessage').innerText = message;
-        pendingConfirmationCallback = onConfirm;
-        document.getElementById('confirmationModal').classList.add('active');
-    }
-    
-    document.getElementById('confirmYesBtn').onclick = () => {
-        if (pendingConfirmationCallback) {
-            pendingConfirmationCallback();
-            pendingConfirmationCallback = null;
-        }
-        document.getElementById('confirmationModal').classList.remove('active');
-    };
-    
-    document.getElementById('confirmNoBtn').onclick = () => {
-        pendingConfirmationCallback = null;
-        document.getElementById('confirmationModal').classList.remove('active');
-    };
-    
-    function sanitizeInput(str) {
-        if (!str) return '';
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
     }
     
     function saveUserData() {
         const uid = currentUser?.uid; if (!uid) return;
-        if (userRobloxData) localStorage.setItem(`roblox_${uid}`, JSON.stringify(userRobloxData));
         localStorage.setItem(`credits_${uid}`, userCredits); 
         localStorage.setItem(`robux_${uid}`, userRobux);
         localStorage.setItem(`referrals_${uid}`, userReferrals); 
         localStorage.setItem(`referralEarned_${uid}`, referralEarned);
-        localStorage.setItem(`totalDeposits_${uid}`, totalDeposits); 
+        localStorage.setItem(`totalDeposits_${uid}`, totalDeposits);
         localStorage.setItem(`itemsDeposited_${uid}`, itemsDepositedCount);
-        localStorage.setItem(`depositHistory_${uid}`, JSON.stringify(depositHistory)); 
+        localStorage.setItem(`depositHistory_${uid}`, JSON.stringify(depositHistory));
         localStorage.setItem(`purchaseHistory_${uid}`, JSON.stringify(purchaseHistory));
-        localStorage.setItem(`referralHistory_${uid}`, JSON.stringify(referralHistory)); 
-        localStorage.setItem(`survey_${uid}`, hasCompletedSurvey);
         updateAllDisplays();
     }
     
     function loadUserData() {
         const uid = currentUser?.uid; if (!uid) return;
-        const savedRoblox = localStorage.getItem(`roblox_${uid}`); 
-        if (savedRoblox) userRobloxData = JSON.parse(savedRoblox);
         userCredits = parseInt(localStorage.getItem(`credits_${uid}`)) || 0; 
         userRobux = parseInt(localStorage.getItem(`robux_${uid}`)) || 0;
         userReferrals = parseInt(localStorage.getItem(`referrals_${uid}`)) || 0; 
         referralEarned = parseInt(localStorage.getItem(`referralEarned_${uid}`)) || 0;
-        totalDeposits = parseInt(localStorage.getItem(`totalDeposits_${uid}`)) || 0; 
+        totalDeposits = parseInt(localStorage.getItem(`totalDeposits_${uid}`)) || 0;
         itemsDepositedCount = parseInt(localStorage.getItem(`itemsDeposited_${uid}`)) || 0;
-        depositHistory = JSON.parse(localStorage.getItem(`depositHistory_${uid}`) || '[]'); 
+        depositHistory = JSON.parse(localStorage.getItem(`depositHistory_${uid}`) || '[]');
         purchaseHistory = JSON.parse(localStorage.getItem(`purchaseHistory_${uid}`) || '[]');
-        referralHistory = JSON.parse(localStorage.getItem(`referralHistory_${uid}`) || '[]'); 
-        hasCompletedSurvey = localStorage.getItem(`survey_${uid}`) === 'true';
         updateAllDisplays();
     }
     
@@ -1092,350 +1372,301 @@
         document.getElementById('robuxDisplay').innerText = userRobux; 
         document.getElementById('refCount').innerText = userReferrals;
         document.getElementById('depositCredits').innerText = userCredits; 
-        document.getElementById('depositRobux').innerText = userRobux; 
+        document.getElementById('depositRobux').innerText = userRobux;
         document.getElementById('totalDeposits').innerText = totalDeposits;
-        document.getElementById('itemsDeposited').innerText = itemsDepositedCount; 
+        document.getElementById('itemsDeposited').innerText = itemsDepositedCount;
         document.getElementById('withdrawCredits').innerText = userCredits;
         document.getElementById('referralCount').innerText = userReferrals; 
         document.getElementById('referralEarnings').innerText = referralEarned;
         document.getElementById('profileCredits').innerText = userCredits; 
-        document.getElementById('profileDeposits').innerText = depositHistory.length; 
+        document.getElementById('profileDeposits').innerText = depositHistory.length;
         document.getElementById('profileReferrals').innerText = userReferrals;
-        const userId = currentUser?.uid || 'USER' + Math.random().toString(36).substring(2, 8); 
-        document.getElementById('referralLink').innerHTML = `https://echoknives.com/ref/${userId}`;
-        renderDepositHistory(); 
-        renderPurchaseHistory(); 
-        renderReferralHistory(); 
-        renderLeaderboard(); 
-        renderTradeListings(); 
-        updateProfileDisplay();
+        document.getElementById('referralLink').innerHTML = `https://sakura.gg/ref/${currentUser?.uid || 'guest'}`;
+        renderLeaderboard();
+        renderTradeListings();
         saveUserData();
-    }
-    
-    function renderDepositHistory() { 
-        const container = document.getElementById('depositHistory'); 
-        if (depositHistory.length === 0) { 
-            container.innerHTML = '<div class="history-row"><span colspan="4">No deposits yet</span></div>'; 
-            return; 
-        } 
-        container.innerHTML = depositHistory.map(h => `<div class="history-row"><span>${h.date}</span><span>${sanitizeInput(h.item)}</span><span>+${h.value} cr</span><span style="color: var(--success)">Completed</span></div>`).join(''); 
-    }
-    
-    function renderPurchaseHistory() { 
-        const container = document.getElementById('purchaseHistory'); 
-        if (purchaseHistory.length === 0) { 
-            container.innerHTML = '<div class="history-row"><span colspan="4">No purchases yet</span></div>'; 
-            return; 
-        } 
-        container.innerHTML = purchaseHistory.map(h => `<div class="history-row"><span>${h.date}</span><span>${sanitizeInput(h.item)}</span><span>-${h.cost} cr</span><span style="color: var(--success)">Completed</span></div>`).join(''); 
-    }
-    
-    function renderReferralHistory() { 
-        const container = document.getElementById('referralHistory'); 
-        if (referralHistory.length === 0) { 
-            container.innerHTML = '<div class="history-row"><span colspan="4">No referrals yet</span></div>'; 
-            return; 
-        } 
-        container.innerHTML = referralHistory.map(h => `<div class="history-row"><span>${h.date}</span><span>${sanitizeInput(h.friend)}</span><span>${h.volume}</span><span>+${h.earned} cr</span></div>`).join(''); 
     }
     
     function renderLeaderboard() { 
         const leaderboardData = [
-            { rank: 1, user: "ProTraderX", volume: 15420, reward: "500 Credits" }, 
-            { rank: 2, user: "MM2King", volume: 12350, reward: "300 Credits" }, 
-            { rank: 3, user: "BladeMaster", volume: 9870, reward: "200 Credits" }
+            { rank: 1, user: "SakuraMaster", volume: 15420, reward: "500 Credits" }, 
+            { rank: 2, user: "PetalTrader", volume: 12350, reward: "300 Credits" }, 
+            { rank: 3, user: "BlossomKing", volume: 9870, reward: "200 Credits" }
         ]; 
-        if (currentUser && userRobloxData) leaderboardData.push({ rank: 4, user: userRobloxData.displayName, volume: totalDeposits, reward: "—" }); 
-        document.getElementById('leaderboardList').innerHTML = leaderboardData.map(l => `<div class="leaderboard-row"><span>#${l.rank}</span><span>${sanitizeInput(l.user)} ${l.user === userRobloxData?.displayName ? '👑' : ''}</span><span>${l.volume}</span><span>${l.reward}</span></div>`).join(''); 
+        if (currentUser) leaderboardData.push({ rank: 4, user: currentUser.email?.split('@')[0] || "You", volume: userCredits, reward: "—" }); 
+        document.getElementById('leaderboardList').innerHTML = leaderboardData.map(l => `<div class="leaderboard-row"><span>#${l.rank}</span><span>${l.user} ${l.user === (currentUser?.email?.split('@')[0]) ? '🌸' : ''}</span><span>${l.volume}</span><span>${l.reward}</span></div>`).join(''); 
     }
     
     function renderTradeListings() { 
         const container = document.getElementById('tradingListings'); 
-        if (tradeListings.length === 0) { 
+        const allPosts = [...activeTradePosts, ...tradeListings];
+        if (allPosts.length === 0) { 
             container.innerHTML = '<div style="text-align:center;padding:40px;">No active trades. Create one!</div>'; 
             return; 
         } 
-        container.innerHTML = tradeListings.map(t => `<div class="trade-listing"><div class="trade-user"><div class="trade-avatar"><i class="fas fa-user"></i></div><div><strong>${sanitizeInput(t.user)}</strong></div></div><div class="trade-items-row"><div class="trade-items"><img src="${t.offerImage}" loading="lazy" onerror="this.src='https://placehold.co/50x50/c4a47c/white?text=?'"><p>${sanitizeInput(t.offer)}</p></div><div class="trade-arrow"><i class="fas fa-arrow-right"></i></div><div class="trade-items"><img src="${t.requestImage}" loading="lazy" onerror="this.src='https://placehold.co/50x50/c4a47c/white?text=?'"><p>${sanitizeInput(t.request)}</p></div></div><button class="trade-btn" onclick="proposeTrade(${t.id})">Accept Trade</button></div>`).join(''); 
+        container.innerHTML = allPosts.map(t => `
+            <div class="trade-listing">
+                <div class="trade-user">
+                    <div class="trade-avatar"><i class="fas fa-user"></i></div>
+                    <div><strong>${t.user || 'Trader'}</strong></div>
+                </div>
+                <div class="trade-items-row">
+                    <div class="trade-items">
+                        <p><strong>Offering:</strong></p>
+                        ${t.offerItems ? t.offerItems.map(i => `<div>${i.name}</div>`).join('') : t.offer}
+                    </div>
+                    <div class="trade-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="trade-items">
+                        <p><strong>Want:</strong></p>
+                        ${t.requestItems ? t.requestItems.map(i => `<div>${i.name}</div>`).join('') : t.request}
+                    </div>
+                </div>
+                <button class="trade-btn" onclick="showToast('Trade request sent to ${t.user || 'trader'}!')">Accept Trade</button>
+            </div>
+        `).join(''); 
     }
     
-    function proposeTrade(tradeId) {
-        if (!currentUser) {
-            showToast("Please login first");
-            showLoginModal();
-            return;
-        }
-        showToast("Trade request sent to middleman!");
-    }
-    
-    function updateProfileDisplay() { 
-        if (!userRobloxData) return; 
-        document.getElementById('profileAvatar').src = userRobloxData.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userRobloxData.username)}&background=c4a47c&color=fff`; 
-        document.getElementById('profileDisplayName').innerText = userRobloxData.displayName; 
-        document.getElementById('profileUsername').innerText = `@${userRobloxData.username}`; 
-    }
-    
-    function updateHeaderDisplay() { 
-        if (currentUser) { 
-            document.getElementById('authButton').style.display = 'none'; 
-            document.getElementById('userInfoDisplay').style.display = 'flex'; 
-            document.getElementById('headerName').innerHTML = sanitizeInput(userRobloxData?.displayName || currentUser.displayName || currentUser.email?.split('@')[0] || 'User');
-            document.getElementById('headerAvatar').src = userRobloxData?.avatarUrl || currentUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent((userRobloxData?.displayName || currentUser?.displayName || 'U'))}&background=c4a47c&color=fff`; 
-        } else { 
-            document.getElementById('authButton').style.display = 'block'; 
-            document.getElementById('userInfoDisplay').style.display = 'none'; 
-        } 
-    }
-    
-    // Currency Toggle Setup
-    function setupCurrencyToggles() {
-        document.querySelectorAll('#depositCurrencyToggle .currency-option').forEach(opt => { 
-            opt.addEventListener('click', () => { 
-                document.querySelectorAll('#depositCurrencyToggle .currency-option').forEach(o => o.classList.remove('selected')); 
-                opt.classList.add('selected'); 
-                selectedDepositCurrency = opt.dataset.currency; 
-                renderDepositItems();
-            }); 
-        }); 
-        document.querySelector('#depositCurrencyToggle .currency-option').classList.add('selected');
-        
-        document.querySelectorAll('#withdrawCurrencyToggle .currency-option').forEach(opt => { 
-            opt.addEventListener('click', () => { 
-                document.querySelectorAll('#withdrawCurrencyToggle .currency-option').forEach(o => o.classList.remove('selected')); 
-                opt.classList.add('selected'); 
-                selectedWithdrawCurrency = opt.dataset.currency;
-                if (selectedWithdrawCurrency === 'robux') {
-                    showToast("ROBUX withdrawals coming soon!");
-                }
-                renderWithdrawItems();
-            }); 
-        }); 
-        document.querySelector('#withdrawCurrencyToggle .currency-option').classList.add('selected');
-    }
-    
-    // Search functionality
-    function setupSearch() {
-        const depositSearch = document.getElementById('depositSearch');
-        const withdrawSearch = document.getElementById('withdrawSearch');
-        
-        if (depositSearch) {
-            depositSearch.addEventListener('input', (e) => {
-                const term = e.target.value.toLowerCase();
-                const filtered = items.filter(item => item.name.toLowerCase().includes(term));
-                renderDepositItems(filtered);
-            });
-        }
-        
-        if (withdrawSearch) {
-            withdrawSearch.addEventListener('input', (e) => {
-                const term = e.target.value.toLowerCase();
-                const filtered = items.filter(item => item.name.toLowerCase().includes(term));
-                renderWithdrawItems(filtered);
-            });
-        }
-    }
-    
-    // Verification Modal
-    let pendingVerificationCallback = null;
-    function showVerificationModal(callback) { 
-        pendingVerificationCallback = callback; 
-        document.getElementById('verifyRobloxUsername').value = ''; 
-        document.getElementById('verificationModal').classList.add('active'); 
-    }
-    function closeVerificationModal() { 
-        document.getElementById('verificationModal').classList.remove('active'); 
-        pendingVerificationCallback = null; 
-    }
-    async function confirmVerifiedTransaction() { 
-        const username = document.getElementById('verifyRobloxUsername').value.trim(); 
-        if (!username) { 
-            showToast("Enter Roblox username"); 
-            return; 
-        } 
-        document.getElementById('verifyLoading').style.display = 'block'; 
-        try { 
-            const response = await fetch(`${MIDDLEMAN_URL}/api/user-full/${encodeURIComponent(username)}`); 
-            if (!response.ok) throw new Error('Network response error');
-            const data = await response.json(); 
-            if (!data.success) { 
-                showToast("Roblox user not found"); 
-                document.getElementById('verifyLoading').style.display = 'none'; 
-                return; 
-            } 
-            document.getElementById('verifyLoading').style.display = 'none'; 
-            closeVerificationModal(); 
-            if (pendingVerificationCallback) pendingVerificationCallback(); 
-        } catch (error) { 
-            console.error('Verification error:', error);
-            showToast("Using fallback verification - You're verified!"); 
-            document.getElementById('verifyLoading').style.display = 'none'; 
-            closeVerificationModal(); 
-            if (pendingVerificationCallback) pendingVerificationCallback(); 
-        } 
-    }
-    
-    // Deposit/Withdraw Items
-    function renderDepositItems(itemsToRender = items) { 
+    function renderDepositItems() { 
         const grid = document.getElementById('depositItemsGrid'); 
-        grid.innerHTML = itemsToRender.map(item => `<div class="item-card" onclick="initiateDeposit(${item.id})"><img src="${item.image}" loading="lazy" onerror="this.src='https://placehold.co/65x65/c4a47c/white?text=${item.name.charAt(0)}'"><div class="item-info"><h4>${sanitizeInput(item.name)}</h4><p>${item.type || 'Knife'} • Value: ${item.value}</p></div><div class="item-value">+${item.credits} ${selectedDepositCurrency === 'credits' ? 'cr' : 'R$'}</div></div>`).join(''); 
+        grid.innerHTML = items.map(item => `<div class="item-card" onclick="initiateDeposit(${item.id})"><img src="${item.image}" onerror="this.src='https://placehold.co/65x65/ff6b9d/white?text=${item.name.charAt(0)}'"><div class="item-info"><h4>${item.name}</h4><p>${item.type || 'Knife'} • Value: ${item.value}</p></div><div class="item-value">+${item.credits} cr</div></div>`).join(''); 
     }
     
-    function renderWithdrawItems(itemsToRender = items) { 
+    function renderWithdrawItems() { 
         const grid = document.getElementById('withdrawItemsGrid'); 
-        grid.innerHTML = itemsToRender.map(item => `<div class="item-card" onclick="initiateWithdraw(${item.id})"><img src="${item.image}" loading="lazy" onerror="this.src='https://placehold.co/65x65/c4a47c/white?text=${item.name.charAt(0)}'"><div class="item-info"><h4>${sanitizeInput(item.name)}</h4><p>${item.type || 'Knife'} • Value: ${item.value}</p></div><div class="item-value">${item.credits} cr</div></div>`).join(''); 
+        grid.innerHTML = items.map(item => `<div class="item-card" onclick="initiateWithdraw(${item.id})"><img src="${item.image}" onerror="this.src='https://placehold.co/65x65/ff6b9d/white?text=${item.name.charAt(0)}'"><div class="item-info"><h4>${item.name}</h4><p>${item.type || 'Knife'} • Value: ${item.value}</p></div><div class="item-value">${item.credits} cr</div></div>`).join(''); 
     }
     
     function initiateDeposit(id) { 
-        if (!currentUser) { 
-            showToast("Please login first"); 
-            showLoginModal(); 
-            return; 
-        } 
-        if (!checkRateLimit('deposit')) return;
-        if (!hasCompletedSurvey) { 
-            showToast("Complete profile first"); 
-            showSurveyModal(); 
-            return; 
-        } 
+        if (!currentUser) { showToast("Please login first"); showLoginModal(); return; } 
         const item = items.find(i => i.id === id);
-        showConfirmation('Confirm Deposit', `Are you sure you want to deposit ${item.name} for ${item.credits} ${selectedDepositCurrency === 'credits' ? 'Credits' : 'ROBUX'}?`, () => {
-            pendingTransaction = { type: 'deposit', id, currency: selectedDepositCurrency }; 
-            showVerificationModal(() => executeDeposit()); 
-        });
+        userCredits += item.credits;
+        totalDeposits += item.value;
+        itemsDepositedCount++;
+        depositHistory.unshift({ item: item.name, value: item.credits, date: new Date().toLocaleString() });
+        showToast(`✅ Deposited ${item.name}! +${item.credits} Credits`);
+        triggerConfetti();
+        updateAllDisplays();
     }
     
     function initiateWithdraw(id) { 
-        if (!currentUser) { 
-            showToast("Please login first"); 
-            showLoginModal(); 
-            return; 
-        } 
-        if (!checkRateLimit('withdraw')) return;
-        if (!hasCompletedSurvey) { 
-            showToast("Complete profile first"); 
-            showSurveyModal(); 
-            return; 
-        } 
-        if (selectedWithdrawCurrency === 'robux') { 
-            showToast("ROBUX withdrawals coming soon!"); 
-            return; 
-        } 
+        if (!currentUser) { showToast("Please login first"); showLoginModal(); return; } 
         const item = items.find(i => i.id === id);
-        if (userCredits < item.credits) {
-            showToast(`❌ Need ${item.credits} credits! You have ${userCredits}`);
-            return;
-        }
-        showConfirmation('Confirm Withdrawal', `Are you sure you want to withdraw ${item.name} for ${item.credits} Credits?`, () => {
-            pendingTransaction = { type: 'withdraw', id }; 
-            showVerificationModal(() => executeWithdraw()); 
+        if (userCredits < item.credits) { showToast(`❌ Need ${item.credits} credits!`); return; }
+        userCredits -= item.credits;
+        purchaseHistory.unshift({ item: item.name, cost: item.credits, date: new Date().toLocaleString() });
+        showToast(`✅ Withdrawn ${item.name}! -${item.credits} credits`);
+        updateAllDisplays();
+    }
+    
+    // Create Trade Functions
+    function openItemSelector(type, slot) {
+        currentSelectorType = type;
+        currentSelectorSlot = slot;
+        
+        const itemsList = document.getElementById('itemsList');
+        itemsList.innerHTML = '';
+        
+        items.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'modal-item';
+            itemDiv.onclick = () => selectItem(item);
+            itemDiv.innerHTML = `
+                <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/65x65/ff6b9d/white?text=${item.name.charAt(0)}'">
+                <div class="item-name">${item.name}</div>
+                <div class="item-value">${item.value} 💎</div>
+            `;
+            itemsList.appendChild(itemDiv);
         });
+        
+        document.getElementById('itemSelectorModal').classList.add('active');
     }
     
-    function executeDeposit() { 
-        const item = items.find(i => i.id === pendingTransaction.id); 
-        const reward = pendingTransaction.currency === 'credits' ? item.credits : Math.floor(item.credits * 0.8); 
-        if (pendingTransaction.currency === 'credits') userCredits += reward; 
-        else userRobux += reward; 
-        totalDeposits += item.value; 
-        itemsDepositedCount++; 
-        depositHistory.unshift({ item: item.name, value: reward, date: new Date().toLocaleString() }); 
-        saveUserData(); 
-        showToast(`✅ Deposited ${item.name}! +${reward} ${pendingTransaction.currency === 'credits' ? 'Credits' : 'ROBUX'}`); 
-        triggerConfetti(); 
-        if (window.navigator?.vibrate) window.navigator.vibrate(50); 
+    function selectItem(item) {
+        if (currentSelectorType === 'offer') {
+            selectedOfferItems[currentSelectorSlot] = item;
+            updateSlotDisplay('offer', currentSelectorSlot, item);
+        } else {
+            selectedRequestItems[currentSelectorSlot] = item;
+            updateSlotDisplay('request', currentSelectorSlot, item);
+        }
+        closeItemSelector();
     }
     
-    function executeWithdraw() { 
-        const item = items.find(i => i.id === pendingTransaction.id); 
-        userCredits -= item.credits; 
-        purchaseHistory.unshift({ item: item.name, cost: item.credits, date: new Date().toLocaleString() }); 
-        saveUserData(); 
-        showToast(`✅ Withdrawn ${item.name}! -${item.credits} credits`); 
-        triggerConfetti();
+    function updateSlotDisplay(type, slot, item) {
+        const gridId = type === 'offer' ? 'yourOfferGrid' : 'theirOfferGrid';
+        const slotDiv = document.querySelector(`#${gridId} .item-slot[data-slot="${slot}"]`);
+        
+        if (item) {
+            slotDiv.innerHTML = `
+                <img src="${item.image}" class="slot-item-img" onerror="this.src='https://placehold.co/60x60/ff6b9d/white?text=${item.name.charAt(0)}'">
+                <div class="slot-item-name">${item.name}</div>
+                <div class="remove-item" onclick="event.stopPropagation(); removeItem('${type}', ${slot})">
+                    <i class="fas fa-times"></i>
+                </div>
+            `;
+            slotDiv.classList.add('filled');
+        } else {
+            slotDiv.innerHTML = `<i class="fas fa-plus plus-icon"></i>`;
+            slotDiv.classList.remove('filled');
+        }
     }
     
-    // Trading
-    function showCreateTradeModal() { 
-        if (!currentUser) {
-            showToast("Please login first");
-            showLoginModal();
+    function removeItem(type, slot) {
+        if (type === 'offer') {
+            selectedOfferItems[slot] = null;
+            updateSlotDisplay('offer', slot, null);
+        } else {
+            selectedRequestItems[slot] = null;
+            updateSlotDisplay('request', slot, null);
+        }
+    }
+    
+    function closeItemSelector() {
+        document.getElementById('itemSelectorModal').classList.remove('active');
+        currentSelectorType = null;
+        currentSelectorSlot = null;
+    }
+    
+    function cancelTrade() {
+        if (confirm('Are you sure you want to cancel? All your selected items will be cleared.')) {
+            selectedOfferItems = [null, null, null, null];
+            selectedRequestItems = [null, null, null, null];
+            for (let i = 0; i < 4; i++) {
+                updateSlotDisplay('offer', i, null);
+                updateSlotDisplay('request', i, null);
+            }
+            showToast('Trade cancelled');
+        }
+    }
+    
+    function confirmCreatePost() {
+        const hasOffer = selectedOfferItems.some(item => item !== null);
+        const hasRequest = selectedRequestItems.some(item => item !== null);
+        
+        if (!hasOffer) {
+            showToast('Please add at least one item to YOUR OFFER');
             return;
         }
-        const offerSelect = document.getElementById('offerItem'); 
-        const requestSelect = document.getElementById('requestItem'); 
-        offerSelect.innerHTML = '<option value="">Select item...</option>' + items.map(i => `<option value="${i.id}">${i.name}</option>`).join(''); 
-        requestSelect.innerHTML = '<option value="">Select item...</option>' + items.map(i => `<option value="${i.id}">${i.name}</option>`).join(''); 
-        document.getElementById('createTradeModal').classList.add('active'); 
-    }
-    function closeCreateTradeModal() { document.getElementById('createTradeModal').classList.remove('active'); }
-    function createTrade() { 
-        const offerId = document.getElementById('offerItem').value; 
-        const requestId = document.getElementById('requestItem').value; 
-        if (!offerId || !requestId) { 
-            showToast("Select items"); 
-            return; 
-        } 
-        const offerItem = items.find(i => i.id == offerId); 
-        const requestItem = items.find(i => i.id == requestId); 
-        tradeListings.unshift({ 
-            id: Date.now(), 
-            user: userRobloxData?.displayName || currentUser?.displayName || "Trader", 
-            offer: offerItem.name, 
-            offerImage: offerItem.image, 
-            request: requestItem.name, 
-            requestImage: requestItem.image 
-        }); 
-        renderTradeListings(); 
-        closeCreateTradeModal(); 
-        showToast("Trade listing created!"); 
+        if (!hasRequest) {
+            showToast('Please add at least one item to THEIR OFFER');
+            return;
+        }
+        
+        const offerNames = selectedOfferItems.filter(i => i).map(i => i.name).join(', ');
+        const requestNames = selectedRequestItems.filter(i => i).map(i => i.name).join(', ');
+        
+        document.getElementById('confirmMessage').innerHTML = `
+            <strong>You're offering:</strong> ${offerNames}<br><br>
+            <strong>You want:</strong> ${requestNames}<br><br>
+            <strong>⏰ This post will be active for 1 hour and then automatically deleted.</strong>
+        `;
+        document.getElementById('confirmModal').classList.add('active');
     }
     
-    // Auth
+    function closeConfirmModal() {
+        document.getElementById('confirmModal').classList.remove('active');
+    }
+    
+    async function createTradePost() {
+        closeConfirmModal();
+        
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        loadingOverlay.classList.add('active');
+        
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        const tradePost = {
+            id: Date.now(),
+            tradeId: 'TRADE_' + Date.now(),
+            offerItems: selectedOfferItems.filter(i => i !== null),
+            requestItems: selectedRequestItems.filter(i => i !== null),
+            createdAt: Date.now(),
+            expiresAt: Date.now() + (60 * 60 * 1000),
+            user: currentUser?.email?.split('@')[0] || 'Anonymous',
+            status: 'active'
+        };
+        
+        activeTradePosts.push(tradePost);
+        localStorage.setItem('tradePosts', JSON.stringify(activeTradePosts));
+        
+        setTimeout(() => {
+            loadingOverlay.classList.remove('active');
+            
+            selectedOfferItems = [null, null, null, null];
+            selectedRequestItems = [null, null, null, null];
+            for (let i = 0; i < 4; i++) {
+                updateSlotDisplay('offer', i, null);
+                updateSlotDisplay('request', i, null);
+            }
+            
+            showToast('✅ Trade post created! It will expire in 1 hour.');
+            triggerConfetti();
+            renderTradeListings();
+            
+            scheduleExpiration(tradePost.id, tradePost.expiresAt);
+        }, 500);
+    }
+    
+    function scheduleExpiration(postId, expireTime) {
+        const timeUntilExpiry = expireTime - Date.now();
+        if (timeUntilExpiry > 0) {
+            setTimeout(() => {
+                const index = activeTradePosts.findIndex(p => p.id === postId);
+                if (index !== -1) {
+                    activeTradePosts.splice(index, 1);
+                    localStorage.setItem('tradePosts', JSON.stringify(activeTradePosts));
+                    renderTradeListings();
+                    showToast('A trade post has expired');
+                }
+            }, timeUntilExpiry);
+        }
+    }
+    
+    function cleanupExpiredPosts() {
+        const now = Date.now();
+        activeTradePosts = activeTradePosts.filter(post => post.expiresAt > now);
+        localStorage.setItem('tradePosts', JSON.stringify(activeTradePosts));
+        activeTradePosts.forEach(post => scheduleExpiration(post.id, post.expiresAt));
+    }
+    
+    // Auth Functions
     async function loginWithGoogle() { 
-        if (!checkRateLimit('auth')) return;
         if (window.firebaseAuth && window.googleProvider) { 
             try { 
                 const result = await window.firebaseAuth.signInWithPopup(window.googleProvider); 
                 handleUserLogin(result.user); 
             } catch (error) { 
-                console.error('Google login error:', error);
-                showToast("Google login failed: " + error.message); 
+                showToast("Google login failed"); 
             } 
         } else { 
-            showToast("Firebase not ready, please refresh"); 
+            showToast("Firebase not ready"); 
         } 
     }
+    
     async function loginWithEmail() { 
         const email = document.getElementById('loginEmail').value; 
         const password = document.getElementById('loginPassword').value; 
-        if (!email || !password) { 
-            showToast("Enter email and password"); 
-            return; 
-        } 
+        if (!email || !password) { showToast("Enter email and password"); return; } 
         try { 
             const result = await window.firebaseAuth.signInWithEmailAndPassword(email, password); 
             handleUserLogin(result.user); 
         } catch (error) { 
-            showToast("Login failed: " + error.message); 
+            showToast("Login failed"); 
         } 
     }
+    
     async function signupWithEmail() { 
         const email = document.getElementById('signupEmail').value; 
         const password = document.getElementById('signupPassword').value; 
-        if (!email || !password) { 
-            showToast("Enter email and password"); 
-            return; 
-        } 
-        if (password.length < 6) {
-            showToast("Password must be at least 6 characters");
-            return;
-        }
+        if (!email || !password) { showToast("Enter email and password"); return; } 
         try { 
             const result = await window.firebaseAuth.createUserWithEmailAndPassword(email, password); 
             handleUserLogin(result.user); 
         } catch (error) { 
-            showToast("Signup failed: " + error.message); 
+            showToast("Signup failed"); 
         } 
     }
+    
     function handleUserLogin(user) { 
         currentUser = user; 
         localStorage.setItem('userId', user.uid); 
@@ -1443,13 +1674,10 @@
         closeModal('loginModal'); 
         closeModal('signupModal'); 
         updateHeaderDisplay(); 
-        showToast(`Welcome ${user.displayName || user.email.split('@')[0]}!`); 
-        if (!hasCompletedSurvey) { 
-            showSurveyModal(); 
-        } else { 
-            navigateTo('deposit'); 
-        } 
+        showToast(`🌸 Welcome to Sakura.gg, ${user.displayName || user.email.split('@')[0]}!`);
+        navigateTo('deposit'); 
     }
+    
     function handleAuthStateChanged(user) { 
         if (user) { 
             currentUser = user; 
@@ -1463,90 +1691,29 @@
         } 
     }
     window.handleAuthStateChanged = handleAuthStateChanged;
+    
     async function logout() { 
         if (window.firebaseAuth) { 
             await window.firebaseAuth.signOut(); 
             currentUser = null; 
-            userRobloxData = null; 
             navigateTo('home'); 
             showToast("Logged out"); 
             updateHeaderDisplay(); 
         } 
     }
     
-    // Survey
-    async function submitSurvey() { 
-        const hearAbout = document.getElementById('hearAbout').value; 
-        const robloxUsername = document.getElementById('robloxUsernameSurvey').value.trim(); 
-        if (!hearAbout || !robloxUsername) { 
-            showToast("Please complete all fields"); 
-            return; 
-        } 
-        document.getElementById('surveyLoading').style.display = 'block'; 
-        try { 
-            const response = await fetch(`${MIDDLEMAN_URL}/api/user-full/${encodeURIComponent(robloxUsername)}`); 
-            let data;
-            if (response.ok) {
-                data = await response.json();
-            } else {
-                throw new Error('API error');
-            }
-            if (!data.success) { 
-                userRobloxData = { 
-                    robloxId: 'fallback_' + Date.now(),
-                    username: robloxUsername,
-                    displayName: robloxUsername,
-                    avatarUrl: `https://ui-avatars.com/api/?name=${robloxUsername}&background=c4a47c&color=fff`
-                };
-            } else {
-                userRobloxData = { 
-                    robloxId: data.robloxId, 
-                    username: data.username, 
-                    displayName: data.displayName, 
-                    avatarUrl: data.avatarUrl 
-                };
-            }
-            document.getElementById('surveyLoading').style.display = 'none'; 
-            document.getElementById('surveyPreview').style.display = 'block'; 
-            document.getElementById('surveyAvatar').src = userRobloxData.avatarUrl || `https://ui-avatars.com/api/?name=${userRobloxData.username}&background=c4a47c&color=fff`; 
-            document.getElementById('surveyDisplayName').innerText = userRobloxData.displayName; 
-            document.getElementById('checkmarkAnim').style.display = 'block'; 
-            setTimeout(() => { 
-                hasCompletedSurvey = true; 
-                saveUserData(); 
-                closeModal('surveyModal'); 
-                showToast(`✅ Verified as ${userRobloxData.displayName}!`); 
-                navigateTo('deposit'); 
-                updateProfileDisplay(); 
-                triggerConfetti();
-            }, 1500); 
-        } catch (error) { 
-            console.error('Survey error:', error);
-            showToast("Using fallback - You're verified!"); 
-            userRobloxData = { 
-                robloxId: 'fallback_' + Date.now(),
-                username: robloxUsername,
-                displayName: robloxUsername,
-                avatarUrl: `https://ui-avatars.com/api/?name=${robloxUsername}&background=c4a47c&color=fff`
-            };
-            document.getElementById('surveyLoading').style.display = 'none'; 
-            document.getElementById('surveyPreview').style.display = 'block'; 
-            document.getElementById('surveyAvatar').src = userRobloxData.avatarUrl; 
-            document.getElementById('surveyDisplayName').innerText = userRobloxData.displayName; 
-            document.getElementById('checkmarkAnim').style.display = 'block'; 
-            setTimeout(() => { 
-                hasCompletedSurvey = true; 
-                saveUserData(); 
-                closeModal('surveyModal'); 
-                showToast(`✅ Verified as ${userRobloxData.displayName}!`); 
-                navigateTo('deposit'); 
-                updateProfileDisplay(); 
-            }, 1500);
+    function updateHeaderDisplay() { 
+        if (currentUser) { 
+            document.getElementById('authButton').style.display = 'none'; 
+            document.getElementById('userInfoDisplay').style.display = 'flex'; 
+            document.getElementById('headerName').innerText = currentUser.displayName || currentUser.email?.split('@')[0] || 'User';
+            document.getElementById('headerAvatar').src = currentUser.photoURL || `https://ui-avatars.com/api/?name=${(currentUser?.displayName || 'U')}&background=ff6b9d&color=fff`;
+        } else { 
+            document.getElementById('authButton').style.display = 'block'; 
+            document.getElementById('userInfoDisplay').style.display = 'none'; 
         } 
     }
-    function showSurveyModal() { document.getElementById('surveyModal').classList.add('active'); }
     
-    // Navigation
     function navigateTo(page) { 
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
         const targetPage = document.getElementById(page + 'Page');
@@ -1555,18 +1722,15 @@
             if (n.dataset.page === page) n.classList.add('active'); 
             else n.classList.remove('active'); 
         }); 
-        if (page === 'deposit') { renderDepositItems(); }
-        if (page === 'withdraw') { renderWithdrawItems(); }
-        if (page === 'trading') { renderTradeListings(); }
-        if (page === 'leaderboard') { renderLeaderboard(); }
-        if (page === 'profile') { updateProfileDisplay(); }
+        if (page === 'deposit') renderDepositItems(); 
+        if (page === 'withdraw') renderWithdrawItems(); 
+        if (page === 'trading') renderTradeListings(); 
+        if (page === 'leaderboard') renderLeaderboard(); 
         
-        // Scroll bottom nav to show active item
         const activeNav = document.querySelector('.nav-item.active');
-        if (activeNav) {
-            activeNav.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
+        if (activeNav) activeNav.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
+    
     function showLoginModal() { document.getElementById('loginModal').classList.add('active'); }
     function showSignupModal() { closeModal('loginModal'); document.getElementById('signupModal').classList.add('active'); }
     function closeModal(modalId) { document.getElementById(modalId).classList.remove('active'); }
@@ -1574,13 +1738,6 @@
         const link = document.getElementById('referralLink').innerText; 
         navigator.clipboard.writeText(link); 
         showToast("Referral link copied!"); 
-        if (userReferrals === 0 && currentUser) { 
-            userReferrals = 1; 
-            referralEarned = 100; 
-            referralHistory.unshift({ date: new Date().toLocaleString(), friend: "DemoUser", volume: 1000, earned: 100 }); 
-            saveUserData(); 
-            updateAllDisplays(); 
-        } 
     }
     function toggleTheme() { 
         document.body.classList.toggle('dark'); 
@@ -1588,6 +1745,7 @@
         icon.className = document.body.classList.contains('dark') ? 'fas fa-sun' : 'fas fa-moon'; 
         localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); 
     }
+    
     if (localStorage.getItem('theme') === 'dark') { 
         document.body.classList.add('dark'); 
         document.getElementById('themeIcon').className = 'fas fa-sun'; 
@@ -1595,9 +1753,9 @@
     
     // Initialize
     renderDepositItems(); 
-    renderWithdrawItems(); 
-    setupCurrencyToggles();
-    setupSearch();
+    renderWithdrawItems();
+    cleanupExpiredPosts();
+    renderTradeListings();
     
     window.navigateTo = navigateTo; 
     window.toggleTheme = toggleTheme; 
@@ -1607,17 +1765,18 @@
     window.loginWithGoogle = loginWithGoogle; 
     window.loginWithEmail = loginWithEmail; 
     window.signupWithEmail = signupWithEmail; 
-    window.submitSurvey = submitSurvey;
     window.initiateDeposit = initiateDeposit; 
     window.initiateWithdraw = initiateWithdraw; 
-    window.confirmVerifiedTransaction = confirmVerifiedTransaction;
     window.copyReferralLink = copyReferralLink; 
     window.logout = logout; 
-    window.showCreateTradeModal = showCreateTradeModal; 
-    window.closeCreateTradeModal = closeCreateTradeModal; 
-    window.createTrade = createTrade;
-    window.closeVerificationModal = closeVerificationModal;
-    window.proposeTrade = proposeTrade;
+    window.openItemSelector = openItemSelector;
+    window.removeItem = removeItem;
+    window.cancelTrade = cancelTrade;
+    window.confirmCreatePost = confirmCreatePost;
+    window.closeConfirmModal = closeConfirmModal;
+    window.createTradePost = createTradePost;
+    window.closeItemSelector = closeItemSelector;
+    window.selectItem = selectItem;
 </script>
 </body>
 </html>
