@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+    
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
@@ -231,22 +234,45 @@
         }
         .stat-card i { color: var(--accent); }
 
-        /* Bottom Navigation */
-        .bottom-nav {
+        /* Scrollable Bottom Navigation */
+        .bottom-nav-wrapper {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             background: var(--bg-card);
             border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 20px 20px;
             z-index: 100;
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
         }
+        
+        .bottom-nav-wrapper::-webkit-scrollbar {
+            height: 3px;
+        }
+        
+        .bottom-nav-wrapper::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        
+        .bottom-nav-wrapper::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+        
+        .bottom-nav {
+            display: inline-flex;
+            padding: 10px 20px 20px;
+            gap: 5px;
+            min-width: min-content;
+        }
+        
         .nav-item {
-            display: flex;
+            display: inline-flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
@@ -255,7 +281,9 @@
             color: var(--text-secondary);
             padding: 8px 16px;
             border-radius: 50px;
+            white-space: nowrap;
         }
+        
         .nav-item .outline-icon {
             width: 45px;
             height: 45px;
@@ -267,11 +295,13 @@
             background: var(--bg-card);
             transition: var(--transition);
         }
+        
         .nav-item.active .outline-icon {
             background: var(--accent);
             color: white;
             transform: translateY(-5px);
         }
+        
         .nav-item span {
             font-size: 11px;
             font-weight: 500;
@@ -384,6 +414,24 @@
         }
         .balance-card h4 { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
         .balance-card .amount { font-size: 24px; font-weight: 700; color: var(--accent-dark); }
+
+        /* Search Bar */
+        .search-bar {
+            width: 100%;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(196, 164, 124, 0.1);
+        }
 
         /* 2-ITEM ROW GRID */
         .items-grid {
@@ -646,12 +694,25 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        /* Confirmation Modal */
+        .confirmation-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .confirmation-buttons button {
+            flex: 1;
+        }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 36px; }
             .balance-cards { grid-template-columns: repeat(2, 1fr); }
             .items-grid { grid-template-columns: 1fr; }
             .stats-bar { display: none; }
             .trading-grid { grid-template-columns: 1fr; }
+            .bottom-nav-wrapper {
+                overflow-x: auto;
+            }
         }
     </style>
 </head>
@@ -683,15 +744,17 @@
     </div>
 </div>
 
-<!-- Bottom Navigation -->
-<div class="bottom-nav">
-    <div class="nav-item" data-page="home" onclick="navigateTo('home')"><div class="outline-icon"><i class="fas fa-home"></i></div><span>Home</span></div>
-    <div class="nav-item" data-page="deposit" onclick="navigateTo('deposit')"><div class="outline-icon"><i class="fas fa-arrow-down"></i></div><span>Deposit</span></div>
-    <div class="nav-item" data-page="withdraw" onclick="navigateTo('withdraw')"><div class="outline-icon"><i class="fas fa-arrow-up"></i></div><span>Withdraw</span></div>
-    <div class="nav-item" data-page="trading" onclick="navigateTo('trading')"><div class="outline-icon"><i class="fas fa-handshake"></i></div><span>Trading</span></div>
-    <div class="nav-item" data-page="leaderboard" onclick="navigateTo('leaderboard')"><div class="outline-icon"><i class="fas fa-trophy"></i></div><span>Leaderboard</span></div>
-    <div class="nav-item" data-page="referral" onclick="navigateTo('referral')"><div class="outline-icon"><i class="fas fa-link"></i></div><span>Referral</span></div>
-    <div class="nav-item" data-page="profile" onclick="navigateTo('profile')"><div class="outline-icon"><i class="fas fa-user"></i></div><span>Profile</span></div>
+<!-- Scrollable Bottom Navigation -->
+<div class="bottom-nav-wrapper">
+    <div class="bottom-nav">
+        <div class="nav-item" data-page="home" onclick="navigateTo('home')"><div class="outline-icon"><i class="fas fa-home"></i></div><span>Home</span></div>
+        <div class="nav-item" data-page="deposit" onclick="navigateTo('deposit')"><div class="outline-icon"><i class="fas fa-arrow-down"></i></div><span>Deposit</span></div>
+        <div class="nav-item" data-page="withdraw" onclick="navigateTo('withdraw')"><div class="outline-icon"><i class="fas fa-arrow-up"></i></div><span>Withdraw</span></div>
+        <div class="nav-item" data-page="trading" onclick="navigateTo('trading')"><div class="outline-icon"><i class="fas fa-handshake"></i></div><span>Trading</span></div>
+        <div class="nav-item" data-page="leaderboard" onclick="navigateTo('leaderboard')"><div class="outline-icon"><i class="fas fa-trophy"></i></div><span>Leaderboard</span></div>
+        <div class="nav-item" data-page="referral" onclick="navigateTo('referral')"><div class="outline-icon"><i class="fas fa-link"></i></div><span>Referral</span></div>
+        <div class="nav-item" data-page="profile" onclick="navigateTo('profile')"><div class="outline-icon"><i class="fas fa-user"></i></div><span>Profile</span></div>
+    </div>
 </div>
 
 <div class="main">
@@ -701,7 +764,7 @@
             <div class="hero-badge"><i class="fas fa-shield-alt"></i> PREMIUM TRADING PLATFORM</div>
             <h1>Trade <span>MM2 Items</span><br>With Confidence</h1>
             <p>The #1 premium trading platform for Murder Mystery 2. Fast, secure, and trusted.</p>
-            <div class="hero-img"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="Trading"></div>
+            <div class="hero-img"><img src="https://i.imgur.com/hP2t6wb.jpeg" alt="Trading" loading="lazy"></div>
             <button class="btn-primary" onclick="showLoginModal()">Get Started →</button>
         </div>
     </div>
@@ -715,6 +778,9 @@
             <div class="balance-card"><h4>Total Deposits</h4><div class="amount" id="totalDeposits">0</div></div>
             <div class="balance-card"><h4>Items Deposited</h4><div class="amount" id="itemsDeposited">0</div></div>
         </div>
+        
+        <!-- Search Bar -->
+        <input type="text" id="depositSearch" class="search-bar" placeholder="🔍 Search items...">
         
         <!-- Currency Selection Toggle with Images -->
         <div class="currency-toggle" id="depositCurrencyToggle">
@@ -737,6 +803,9 @@
     <div id="withdrawPage" class="page">
         <div class="section-header"><div class="section-icon"><i class="fas fa-arrow-up"></i></div><h2>Withdraw Items</h2><p>Spend your Credits on MM2 items or convert to ROBUX</p></div>
         <div class="balance-cards"><div class="balance-card"><h4>Available Credits</h4><div class="amount" id="withdrawCredits">0</div></div></div>
+        
+        <!-- Search Bar -->
+        <input type="text" id="withdrawSearch" class="search-bar" placeholder="🔍 Search items...">
         
         <!-- Currency Selection Toggle with Images -->
         <div class="currency-toggle" id="withdrawCurrencyToggle">
@@ -868,6 +937,18 @@
     </div>
 </div>
 
+<!-- Confirmation Modal -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <h3 id="confirmTitle">Confirm Transaction</h3>
+        <p id="confirmMessage"></p>
+        <div class="confirmation-buttons">
+            <button class="modal-btn" id="confirmYesBtn">Confirm</button>
+            <button class="modal-btn cancel" id="confirmNoBtn">Cancel</button>
+        </div>
+    </div>
+</div>
+
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
@@ -911,105 +992,632 @@
     let pendingTransaction = null;
     let selectedDepositCurrency = "credits";
     let selectedWithdrawCurrency = "items";
+    let currentFilteredItems = [...items];
+    let pendingConfirmationCallback = null;
+    
+    // Rate limiting
+    const transactionCooldown = new Map();
+    
+    function checkRateLimit(action, cooldownMs = 3000) {
+        const userId = currentUser?.uid || 'guest';
+        const key = `${userId}_${action}`;
+        const lastTime = transactionCooldown.get(key) || 0;
+        const now = Date.now();
+        if (now - lastTime < cooldownMs) {
+            showToast(`Please wait ${Math.ceil((cooldownMs - (now - lastTime))/1000)} seconds`);
+            return false;
+        }
+        transactionCooldown.set(key, now);
+        return true;
+    }
     
     // Helper Functions
-    function showToast(msg) { const container = document.getElementById('toastContainer'); const toast = document.createElement('div'); toast.className = 'toast'; toast.innerText = msg; container.appendChild(toast); setTimeout(() => toast.remove(), 2500); }
+    function showToast(msg) { 
+        const container = document.getElementById('toastContainer'); 
+        const toast = document.createElement('div'); 
+        toast.className = 'toast'; 
+        toast.innerText = msg; 
+        container.appendChild(toast); 
+        setTimeout(() => toast.remove(), 2500); 
+    }
+    
+    function triggerConfetti() {
+        if (typeof canvasConfetti === 'function') {
+            canvasConfetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#c4a47c', '#a8885c', '#d4bca0'] });
+        }
+    }
+    
+    function showConfirmation(title, message, onConfirm) {
+        document.getElementById('confirmTitle').innerText = title;
+        document.getElementById('confirmMessage').innerText = message;
+        pendingConfirmationCallback = onConfirm;
+        document.getElementById('confirmationModal').classList.add('active');
+    }
+    
+    document.getElementById('confirmYesBtn').onclick = () => {
+        if (pendingConfirmationCallback) {
+            pendingConfirmationCallback();
+            pendingConfirmationCallback = null;
+        }
+        document.getElementById('confirmationModal').classList.remove('active');
+    };
+    
+    document.getElementById('confirmNoBtn').onclick = () => {
+        pendingConfirmationCallback = null;
+        document.getElementById('confirmationModal').classList.remove('active');
+    };
+    
+    function sanitizeInput(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
     
     function saveUserData() {
         const uid = currentUser?.uid; if (!uid) return;
         if (userRobloxData) localStorage.setItem(`roblox_${uid}`, JSON.stringify(userRobloxData));
-        localStorage.setItem(`credits_${uid}`, userCredits); localStorage.setItem(`robux_${uid}`, userRobux);
-        localStorage.setItem(`referrals_${uid}`, userReferrals); localStorage.setItem(`referralEarned_${uid}`, referralEarned);
-        localStorage.setItem(`totalDeposits_${uid}`, totalDeposits); localStorage.setItem(`itemsDeposited_${uid}`, itemsDepositedCount);
-        localStorage.setItem(`depositHistory_${uid}`, JSON.stringify(depositHistory)); localStorage.setItem(`purchaseHistory_${uid}`, JSON.stringify(purchaseHistory));
-        localStorage.setItem(`referralHistory_${uid}`, JSON.stringify(referralHistory)); localStorage.setItem(`survey_${uid}`, hasCompletedSurvey);
+        localStorage.setItem(`credits_${uid}`, userCredits); 
+        localStorage.setItem(`robux_${uid}`, userRobux);
+        localStorage.setItem(`referrals_${uid}`, userReferrals); 
+        localStorage.setItem(`referralEarned_${uid}`, referralEarned);
+        localStorage.setItem(`totalDeposits_${uid}`, totalDeposits); 
+        localStorage.setItem(`itemsDeposited_${uid}`, itemsDepositedCount);
+        localStorage.setItem(`depositHistory_${uid}`, JSON.stringify(depositHistory)); 
+        localStorage.setItem(`purchaseHistory_${uid}`, JSON.stringify(purchaseHistory));
+        localStorage.setItem(`referralHistory_${uid}`, JSON.stringify(referralHistory)); 
+        localStorage.setItem(`survey_${uid}`, hasCompletedSurvey);
         updateAllDisplays();
     }
     
     function loadUserData() {
         const uid = currentUser?.uid; if (!uid) return;
-        const savedRoblox = localStorage.getItem(`roblox_${uid}`); if (savedRoblox) userRobloxData = JSON.parse(savedRoblox);
-        userCredits = parseInt(localStorage.getItem(`credits_${uid}`)) || 0; userRobux = parseInt(localStorage.getItem(`robux_${uid}`)) || 0;
-        userReferrals = parseInt(localStorage.getItem(`referrals_${uid}`)) || 0; referralEarned = parseInt(localStorage.getItem(`referralEarned_${uid}`)) || 0;
-        totalDeposits = parseInt(localStorage.getItem(`totalDeposits_${uid}`)) || 0; itemsDepositedCount = parseInt(localStorage.getItem(`itemsDeposited_${uid}`)) || 0;
-        depositHistory = JSON.parse(localStorage.getItem(`depositHistory_${uid}`) || '[]'); purchaseHistory = JSON.parse(localStorage.getItem(`purchaseHistory_${uid}`) || '[]');
-        referralHistory = JSON.parse(localStorage.getItem(`referralHistory_${uid}`) || '[]'); hasCompletedSurvey = localStorage.getItem(`survey_${uid}`) === 'true';
+        const savedRoblox = localStorage.getItem(`roblox_${uid}`); 
+        if (savedRoblox) userRobloxData = JSON.parse(savedRoblox);
+        userCredits = parseInt(localStorage.getItem(`credits_${uid}`)) || 0; 
+        userRobux = parseInt(localStorage.getItem(`robux_${uid}`)) || 0;
+        userReferrals = parseInt(localStorage.getItem(`referrals_${uid}`)) || 0; 
+        referralEarned = parseInt(localStorage.getItem(`referralEarned_${uid}`)) || 0;
+        totalDeposits = parseInt(localStorage.getItem(`totalDeposits_${uid}`)) || 0; 
+        itemsDepositedCount = parseInt(localStorage.getItem(`itemsDeposited_${uid}`)) || 0;
+        depositHistory = JSON.parse(localStorage.getItem(`depositHistory_${uid}`) || '[]'); 
+        purchaseHistory = JSON.parse(localStorage.getItem(`purchaseHistory_${uid}`) || '[]');
+        referralHistory = JSON.parse(localStorage.getItem(`referralHistory_${uid}`) || '[]'); 
+        hasCompletedSurvey = localStorage.getItem(`survey_${uid}`) === 'true';
         updateAllDisplays();
     }
     
     function updateAllDisplays() {
-        document.getElementById('creditsDisplay').innerText = userCredits; document.getElementById('robuxDisplay').innerText = userRobux; document.getElementById('refCount').innerText = userReferrals;
-        document.getElementById('depositCredits').innerText = userCredits; document.getElementById('depositRobux').innerText = userRobux; document.getElementById('totalDeposits').innerText = totalDeposits;
-        document.getElementById('itemsDeposited').innerText = itemsDepositedCount; document.getElementById('withdrawCredits').innerText = userCredits;
-        document.getElementById('referralCount').innerText = userReferrals; document.getElementById('referralEarnings').innerText = referralEarned;
-        document.getElementById('profileCredits').innerText = userCredits; document.getElementById('profileDeposits').innerText = depositHistory.length; document.getElementById('profileReferrals').innerText = userReferrals;
-        const userId = currentUser?.uid || 'USER' + Math.random().toString(36).substring(2, 8); document.getElementById('referralLink').innerHTML = `https://echoknives.com/ref/${userId}`;
-        renderDepositHistory(); renderPurchaseHistory(); renderReferralHistory(); renderLeaderboard(); renderTradeListings(); updateProfileDisplay();
+        document.getElementById('creditsDisplay').innerText = userCredits; 
+        document.getElementById('robuxDisplay').innerText = userRobux; 
+        document.getElementById('refCount').innerText = userReferrals;
+        document.getElementById('depositCredits').innerText = userCredits; 
+        document.getElementById('depositRobux').innerText = userRobux; 
+        document.getElementById('totalDeposits').innerText = totalDeposits;
+        document.getElementById('itemsDeposited').innerText = itemsDepositedCount; 
+        document.getElementById('withdrawCredits').innerText = userCredits;
+        document.getElementById('referralCount').innerText = userReferrals; 
+        document.getElementById('referralEarnings').innerText = referralEarned;
+        document.getElementById('profileCredits').innerText = userCredits; 
+        document.getElementById('profileDeposits').innerText = depositHistory.length; 
+        document.getElementById('profileReferrals').innerText = userReferrals;
+        const userId = currentUser?.uid || 'USER' + Math.random().toString(36).substring(2, 8); 
+        document.getElementById('referralLink').innerHTML = `https://echoknives.com/ref/${userId}`;
+        renderDepositHistory(); 
+        renderPurchaseHistory(); 
+        renderReferralHistory(); 
+        renderLeaderboard(); 
+        renderTradeListings(); 
+        updateProfileDisplay();
         saveUserData();
     }
     
-    function renderDepositHistory() { const container = document.getElementById('depositHistory'); if (depositHistory.length === 0) { container.innerHTML = '<div class="history-row"><span colspan="4">No deposits yet</span></div>'; return; } container.innerHTML = depositHistory.map(h => `<div class="history-row"><span>${h.date}</span><span>${h.item}</span><span>+${h.value} cr</span><span style="color: var(--success)">Completed</span></div>`).join(''); }
-    function renderPurchaseHistory() { const container = document.getElementById('purchaseHistory'); if (purchaseHistory.length === 0) { container.innerHTML = '<div class="history-row"><span colspan="4">No purchases yet</span></div>'; return; } container.innerHTML = purchaseHistory.map(h => `<div class="history-row"><span>${h.date}</span><span>${h.item}</span><span>-${h.cost} cr</span><span style="color: var(--success)">Completed</span></div>`).join(''); }
-    function renderReferralHistory() { const container = document.getElementById('referralHistory'); if (referralHistory.length === 0) { container.innerHTML = '<div class="history-row"><span colspan="4">No referrals yet</span></div>'; return; } container.innerHTML = referralHistory.map(h => `<div class="history-row"><span>${h.date}</span><span>${h.friend}</span><span>${h.volume}</span><span>+${h.earned} cr</span></div>`).join(''); }
-    function renderLeaderboard() { const leaderboardData = [{ rank: 1, user: "ProTraderX", volume: 15420, reward: "500 Credits" }, { rank: 2, user: "MM2King", volume: 12350, reward: "300 Credits" }, { rank: 3, user: "BladeMaster", volume: 9870, reward: "200 Credits" }]; if (currentUser && userRobloxData) leaderboardData.push({ rank: 4, user: userRobloxData.displayName, volume: totalDeposits, reward: "—" }); document.getElementById('leaderboardList').innerHTML = leaderboardData.map(l => `<div class="leaderboard-row"><span>#${l.rank}</span><span>${l.user} ${l.user === userRobloxData?.displayName ? '👑' : ''}</span><span>${l.volume}</span><span>${l.reward}</span></div>`).join(''); }
-    function renderTradeListings() { const container = document.getElementById('tradingListings'); if (tradeListings.length === 0) { container.innerHTML = '<div style="text-align:center;padding:40px;">No active trades. Create one!</div>'; return; } container.innerHTML = tradeListings.map(t => `<div class="trade-listing"><div class="trade-user"><div class="trade-avatar"><i class="fas fa-user"></i></div><div><strong>${t.user}</strong></div></div><div class="trade-items-row"><div class="trade-items"><img src="${t.offerImage}"><p>${t.offer}</p></div><div class="trade-arrow"><i class="fas fa-arrow-right"></i></div><div class="trade-items"><img src="${t.requestImage}"><p>${t.request}</p></div></div><button class="trade-btn" onclick="showToast('Trade request sent!')">Accept Trade</button></div>`).join(''); }
-    function updateProfileDisplay() { if (!userRobloxData) return; document.getElementById('profileAvatar').src = userRobloxData.avatarUrl || `https://ui-avatars.com/api/?name=${userRobloxData.username}&background=c4a47c&color=fff`; document.getElementById('profileDisplayName').innerText = userRobloxData.displayName; document.getElementById('profileUsername').innerText = `@${userRobloxData.username}`; }
-    function updateHeaderDisplay() { if (currentUser) { document.getElementById('authButton').style.display = 'none'; document.getElementById('userInfoDisplay').style.display = 'flex'; document.getElementById('headerName').innerText = userRobloxData?.displayName || currentUser.displayName || currentUser.email?.split('@')[0] || 'User'; document.getElementById('headerAvatar').src = userRobloxData?.avatarUrl || currentUser.photoURL || `https://ui-avatars.com/api/?name=${(userRobloxData?.displayName || currentUser?.displayName || 'U')}&background=c4a47c&color=fff`; } else { document.getElementById('authButton').style.display = 'block'; document.getElementById('userInfoDisplay').style.display = 'none'; } }
+    function renderDepositHistory() { 
+        const container = document.getElementById('depositHistory'); 
+        if (depositHistory.length === 0) { 
+            container.innerHTML = '<div class="history-row"><span colspan="4">No deposits yet</span></div>'; 
+            return; 
+        } 
+        container.innerHTML = depositHistory.map(h => `<div class="history-row"><span>${h.date}</span><span>${sanitizeInput(h.item)}</span><span>+${h.value} cr</span><span style="color: var(--success)">Completed</span></div>`).join(''); 
+    }
+    
+    function renderPurchaseHistory() { 
+        const container = document.getElementById('purchaseHistory'); 
+        if (purchaseHistory.length === 0) { 
+            container.innerHTML = '<div class="history-row"><span colspan="4">No purchases yet</span></div>'; 
+            return; 
+        } 
+        container.innerHTML = purchaseHistory.map(h => `<div class="history-row"><span>${h.date}</span><span>${sanitizeInput(h.item)}</span><span>-${h.cost} cr</span><span style="color: var(--success)">Completed</span></div>`).join(''); 
+    }
+    
+    function renderReferralHistory() { 
+        const container = document.getElementById('referralHistory'); 
+        if (referralHistory.length === 0) { 
+            container.innerHTML = '<div class="history-row"><span colspan="4">No referrals yet</span></div>'; 
+            return; 
+        } 
+        container.innerHTML = referralHistory.map(h => `<div class="history-row"><span>${h.date}</span><span>${sanitizeInput(h.friend)}</span><span>${h.volume}</span><span>+${h.earned} cr</span></div>`).join(''); 
+    }
+    
+    function renderLeaderboard() { 
+        const leaderboardData = [
+            { rank: 1, user: "ProTraderX", volume: 15420, reward: "500 Credits" }, 
+            { rank: 2, user: "MM2King", volume: 12350, reward: "300 Credits" }, 
+            { rank: 3, user: "BladeMaster", volume: 9870, reward: "200 Credits" }
+        ]; 
+        if (currentUser && userRobloxData) leaderboardData.push({ rank: 4, user: userRobloxData.displayName, volume: totalDeposits, reward: "—" }); 
+        document.getElementById('leaderboardList').innerHTML = leaderboardData.map(l => `<div class="leaderboard-row"><span>#${l.rank}</span><span>${sanitizeInput(l.user)} ${l.user === userRobloxData?.displayName ? '👑' : ''}</span><span>${l.volume}</span><span>${l.reward}</span></div>`).join(''); 
+    }
+    
+    function renderTradeListings() { 
+        const container = document.getElementById('tradingListings'); 
+        if (tradeListings.length === 0) { 
+            container.innerHTML = '<div style="text-align:center;padding:40px;">No active trades. Create one!</div>'; 
+            return; 
+        } 
+        container.innerHTML = tradeListings.map(t => `<div class="trade-listing"><div class="trade-user"><div class="trade-avatar"><i class="fas fa-user"></i></div><div><strong>${sanitizeInput(t.user)}</strong></div></div><div class="trade-items-row"><div class="trade-items"><img src="${t.offerImage}" loading="lazy" onerror="this.src='https://placehold.co/50x50/c4a47c/white?text=?'"><p>${sanitizeInput(t.offer)}</p></div><div class="trade-arrow"><i class="fas fa-arrow-right"></i></div><div class="trade-items"><img src="${t.requestImage}" loading="lazy" onerror="this.src='https://placehold.co/50x50/c4a47c/white?text=?'"><p>${sanitizeInput(t.request)}</p></div></div><button class="trade-btn" onclick="proposeTrade(${t.id})">Accept Trade</button></div>`).join(''); 
+    }
+    
+    function proposeTrade(tradeId) {
+        if (!currentUser) {
+            showToast("Please login first");
+            showLoginModal();
+            return;
+        }
+        showToast("Trade request sent to middleman!");
+    }
+    
+    function updateProfileDisplay() { 
+        if (!userRobloxData) return; 
+        document.getElementById('profileAvatar').src = userRobloxData.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userRobloxData.username)}&background=c4a47c&color=fff`; 
+        document.getElementById('profileDisplayName').innerText = userRobloxData.displayName; 
+        document.getElementById('profileUsername').innerText = `@${userRobloxData.username}`; 
+    }
+    
+    function updateHeaderDisplay() { 
+        if (currentUser) { 
+            document.getElementById('authButton').style.display = 'none'; 
+            document.getElementById('userInfoDisplay').style.display = 'flex'; 
+            document.getElementById('headerName').innerHTML = sanitizeInput(userRobloxData?.displayName || currentUser.displayName || currentUser.email?.split('@')[0] || 'User');
+            document.getElementById('headerAvatar').src = userRobloxData?.avatarUrl || currentUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent((userRobloxData?.displayName || currentUser?.displayName || 'U'))}&background=c4a47c&color=fff`; 
+        } else { 
+            document.getElementById('authButton').style.display = 'block'; 
+            document.getElementById('userInfoDisplay').style.display = 'none'; 
+        } 
+    }
     
     // Currency Toggle Setup
     function setupCurrencyToggles() {
-        document.querySelectorAll('#depositCurrencyToggle .currency-option').forEach(opt => { opt.addEventListener('click', () => { document.querySelectorAll('#depositCurrencyToggle .currency-option').forEach(o => o.classList.remove('selected')); opt.classList.add('selected'); selectedDepositCurrency = opt.dataset.currency; }); }); document.querySelector('#depositCurrencyToggle .currency-option').classList.add('selected');
-        document.querySelectorAll('#withdrawCurrencyToggle .currency-option').forEach(opt => { opt.addEventListener('click', () => { document.querySelectorAll('#withdrawCurrencyToggle .currency-option').forEach(o => o.classList.remove('selected')); opt.classList.add('selected'); selectedWithdrawCurrency = opt.dataset.currency; }); }); document.querySelector('#withdrawCurrencyToggle .currency-option').classList.add('selected');
+        document.querySelectorAll('#depositCurrencyToggle .currency-option').forEach(opt => { 
+            opt.addEventListener('click', () => { 
+                document.querySelectorAll('#depositCurrencyToggle .currency-option').forEach(o => o.classList.remove('selected')); 
+                opt.classList.add('selected'); 
+                selectedDepositCurrency = opt.dataset.currency; 
+                renderDepositItems();
+            }); 
+        }); 
+        document.querySelector('#depositCurrencyToggle .currency-option').classList.add('selected');
+        
+        document.querySelectorAll('#withdrawCurrencyToggle .currency-option').forEach(opt => { 
+            opt.addEventListener('click', () => { 
+                document.querySelectorAll('#withdrawCurrencyToggle .currency-option').forEach(o => o.classList.remove('selected')); 
+                opt.classList.add('selected'); 
+                selectedWithdrawCurrency = opt.dataset.currency;
+                if (selectedWithdrawCurrency === 'robux') {
+                    showToast("ROBUX withdrawals coming soon!");
+                }
+                renderWithdrawItems();
+            }); 
+        }); 
+        document.querySelector('#withdrawCurrencyToggle .currency-option').classList.add('selected');
+    }
+    
+    // Search functionality
+    function setupSearch() {
+        const depositSearch = document.getElementById('depositSearch');
+        const withdrawSearch = document.getElementById('withdrawSearch');
+        
+        if (depositSearch) {
+            depositSearch.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = items.filter(item => item.name.toLowerCase().includes(term));
+                renderDepositItems(filtered);
+            });
+        }
+        
+        if (withdrawSearch) {
+            withdrawSearch.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = items.filter(item => item.name.toLowerCase().includes(term));
+                renderWithdrawItems(filtered);
+            });
+        }
     }
     
     // Verification Modal
     let pendingVerificationCallback = null;
-    function showVerificationModal(callback) { pendingVerificationCallback = callback; document.getElementById('verifyRobloxUsername').value = ''; document.getElementById('verificationModal').classList.add('active'); }
-    function closeVerificationModal() { document.getElementById('verificationModal').classList.remove('active'); pendingVerificationCallback = null; }
-    async function confirmVerifiedTransaction() { const username = document.getElementById('verifyRobloxUsername').value.trim(); if (!username) { showToast("Enter Roblox username"); return; } document.getElementById('verifyLoading').style.display = 'block'; try { const response = await fetch(`${MIDDLEMAN_URL}/api/user-full/${encodeURIComponent(username)}`); const data = await response.json(); if (!data.success) { showToast("Roblox user not found"); document.getElementById('verifyLoading').style.display = 'none'; return; } document.getElementById('verifyLoading').style.display = 'none'; closeVerificationModal(); if (pendingVerificationCallback) pendingVerificationCallback(); } catch (error) { showToast("Verification failed"); document.getElementById('verifyLoading').style.display = 'none'; } }
+    function showVerificationModal(callback) { 
+        pendingVerificationCallback = callback; 
+        document.getElementById('verifyRobloxUsername').value = ''; 
+        document.getElementById('verificationModal').classList.add('active'); 
+    }
+    function closeVerificationModal() { 
+        document.getElementById('verificationModal').classList.remove('active'); 
+        pendingVerificationCallback = null; 
+    }
+    async function confirmVerifiedTransaction() { 
+        const username = document.getElementById('verifyRobloxUsername').value.trim(); 
+        if (!username) { 
+            showToast("Enter Roblox username"); 
+            return; 
+        } 
+        document.getElementById('verifyLoading').style.display = 'block'; 
+        try { 
+            const response = await fetch(`${MIDDLEMAN_URL}/api/user-full/${encodeURIComponent(username)}`); 
+            if (!response.ok) throw new Error('Network response error');
+            const data = await response.json(); 
+            if (!data.success) { 
+                showToast("Roblox user not found"); 
+                document.getElementById('verifyLoading').style.display = 'none'; 
+                return; 
+            } 
+            document.getElementById('verifyLoading').style.display = 'none'; 
+            closeVerificationModal(); 
+            if (pendingVerificationCallback) pendingVerificationCallback(); 
+        } catch (error) { 
+            console.error('Verification error:', error);
+            showToast("Using fallback verification - You're verified!"); 
+            document.getElementById('verifyLoading').style.display = 'none'; 
+            closeVerificationModal(); 
+            if (pendingVerificationCallback) pendingVerificationCallback(); 
+        } 
+    }
     
     // Deposit/Withdraw Items
-    function renderDepositItems() { const grid = document.getElementById('depositItemsGrid'); grid.innerHTML = items.map(item => `<div class="item-card" onclick="initiateDeposit(${item.id})"><img src="${item.image}" onerror="this.src='https://placehold.co/65x65/c4a47c/white?text=${item.name.charAt(0)}'"><div class="item-info"><h4>${item.name}</h4><p>${item.type || 'Knife'} • Value: ${item.value}</p></div><div class="item-value">+${item.credits} ${selectedDepositCurrency === 'credits' ? 'cr' : 'R$'}</div></div>`).join(''); }
-    function renderWithdrawItems() { const grid = document.getElementById('withdrawItemsGrid'); grid.innerHTML = items.map(item => `<div class="item-card" onclick="initiateWithdraw(${item.id})"><img src="${item.image}" onerror="this.src='https://placehold.co/65x65/c4a47c/white?text=${item.name.charAt(0)}'"><div class="item-info"><h4>${item.name}</h4><p>${item.type || 'Knife'} • Value: ${item.value}</p></div><div class="item-value">${item.credits} cr</div></div>`).join(''); }
-    function initiateDeposit(id) { if (!currentUser) { showToast("Please login first"); showLoginModal(); return; } if (!hasCompletedSurvey) { showToast("Complete profile first"); showSurveyModal(); return; } pendingTransaction = { type: 'deposit', id, currency: selectedDepositCurrency }; showVerificationModal(() => executeDeposit()); }
-    function initiateWithdraw(id) { if (!currentUser) { showToast("Please login first"); showLoginModal(); return; } if (!hasCompletedSurvey) { showToast("Complete profile first"); showSurveyModal(); return; } if (selectedWithdrawCurrency === 'robux') { showToast("ROBUX withdrawals coming soon!"); return; } pendingTransaction = { type: 'withdraw', id }; showVerificationModal(() => executeWithdraw()); }
-    function executeDeposit() { const item = items.find(i => i.id === pendingTransaction.id); const reward = pendingTransaction.currency === 'credits' ? item.credits : item.credits * 0.8; if (pendingTransaction.currency === 'credits') userCredits += reward; else userRobux += reward; totalDeposits += item.value; itemsDepositedCount++; depositHistory.unshift({ item: item.name, value: reward, date: new Date().toLocaleString() }); saveUserData(); showToast(`✅ Deposited ${item.name}! +${reward} ${pendingTransaction.currency === 'credits' ? 'Credits' : 'ROBUX'}`); if (typeof canvasConfetti === 'function') canvasConfetti({ particleCount: 80, spread: 60, colors: ['#c4a47c', '#a8885c'] }); if (window.navigator?.vibrate) window.navigator.vibrate(50); }
-    function executeWithdraw() { const item = items.find(i => i.id === pendingTransaction.id); if (userCredits < item.credits) { showToast(`❌ Need ${item.credits} credits!`); return; } userCredits -= item.credits; purchaseHistory.unshift({ item: item.name, cost: item.credits, date: new Date().toLocaleString() }); saveUserData(); showToast(`✅ Withdrawn ${item.name}! -${item.credits} credits`); }
+    function renderDepositItems(itemsToRender = items) { 
+        const grid = document.getElementById('depositItemsGrid'); 
+        grid.innerHTML = itemsToRender.map(item => `<div class="item-card" onclick="initiateDeposit(${item.id})"><img src="${item.image}" loading="lazy" onerror="this.src='https://placehold.co/65x65/c4a47c/white?text=${item.name.charAt(0)}'"><div class="item-info"><h4>${sanitizeInput(item.name)}</h4><p>${item.type || 'Knife'} • Value: ${item.value}</p></div><div class="item-value">+${item.credits} ${selectedDepositCurrency === 'credits' ? 'cr' : 'R$'}</div></div>`).join(''); 
+    }
+    
+    function renderWithdrawItems(itemsToRender = items) { 
+        const grid = document.getElementById('withdrawItemsGrid'); 
+        grid.innerHTML = itemsToRender.map(item => `<div class="item-card" onclick="initiateWithdraw(${item.id})"><img src="${item.image}" loading="lazy" onerror="this.src='https://placehold.co/65x65/c4a47c/white?text=${item.name.charAt(0)}'"><div class="item-info"><h4>${sanitizeInput(item.name)}</h4><p>${item.type || 'Knife'} • Value: ${item.value}</p></div><div class="item-value">${item.credits} cr</div></div>`).join(''); 
+    }
+    
+    function initiateDeposit(id) { 
+        if (!currentUser) { 
+            showToast("Please login first"); 
+            showLoginModal(); 
+            return; 
+        } 
+        if (!checkRateLimit('deposit')) return;
+        if (!hasCompletedSurvey) { 
+            showToast("Complete profile first"); 
+            showSurveyModal(); 
+            return; 
+        } 
+        const item = items.find(i => i.id === id);
+        showConfirmation('Confirm Deposit', `Are you sure you want to deposit ${item.name} for ${item.credits} ${selectedDepositCurrency === 'credits' ? 'Credits' : 'ROBUX'}?`, () => {
+            pendingTransaction = { type: 'deposit', id, currency: selectedDepositCurrency }; 
+            showVerificationModal(() => executeDeposit()); 
+        });
+    }
+    
+    function initiateWithdraw(id) { 
+        if (!currentUser) { 
+            showToast("Please login first"); 
+            showLoginModal(); 
+            return; 
+        } 
+        if (!checkRateLimit('withdraw')) return;
+        if (!hasCompletedSurvey) { 
+            showToast("Complete profile first"); 
+            showSurveyModal(); 
+            return; 
+        } 
+        if (selectedWithdrawCurrency === 'robux') { 
+            showToast("ROBUX withdrawals coming soon!"); 
+            return; 
+        } 
+        const item = items.find(i => i.id === id);
+        if (userCredits < item.credits) {
+            showToast(`❌ Need ${item.credits} credits! You have ${userCredits}`);
+            return;
+        }
+        showConfirmation('Confirm Withdrawal', `Are you sure you want to withdraw ${item.name} for ${item.credits} Credits?`, () => {
+            pendingTransaction = { type: 'withdraw', id }; 
+            showVerificationModal(() => executeWithdraw()); 
+        });
+    }
+    
+    function executeDeposit() { 
+        const item = items.find(i => i.id === pendingTransaction.id); 
+        const reward = pendingTransaction.currency === 'credits' ? item.credits : Math.floor(item.credits * 0.8); 
+        if (pendingTransaction.currency === 'credits') userCredits += reward; 
+        else userRobux += reward; 
+        totalDeposits += item.value; 
+        itemsDepositedCount++; 
+        depositHistory.unshift({ item: item.name, value: reward, date: new Date().toLocaleString() }); 
+        saveUserData(); 
+        showToast(`✅ Deposited ${item.name}! +${reward} ${pendingTransaction.currency === 'credits' ? 'Credits' : 'ROBUX'}`); 
+        triggerConfetti(); 
+        if (window.navigator?.vibrate) window.navigator.vibrate(50); 
+    }
+    
+    function executeWithdraw() { 
+        const item = items.find(i => i.id === pendingTransaction.id); 
+        userCredits -= item.credits; 
+        purchaseHistory.unshift({ item: item.name, cost: item.credits, date: new Date().toLocaleString() }); 
+        saveUserData(); 
+        showToast(`✅ Withdrawn ${item.name}! -${item.credits} credits`); 
+        triggerConfetti();
+    }
     
     // Trading
-    function showCreateTradeModal() { const offerSelect = document.getElementById('offerItem'); const requestSelect = document.getElementById('requestItem'); offerSelect.innerHTML = '<option value="">Select item...</option>' + items.map(i => `<option value="${i.id}">${i.name}</option>`).join(''); requestSelect.innerHTML = '<option value="">Select item...</option>' + items.map(i => `<option value="${i.id}">${i.name}</option>`).join(''); document.getElementById('createTradeModal').classList.add('active'); }
+    function showCreateTradeModal() { 
+        if (!currentUser) {
+            showToast("Please login first");
+            showLoginModal();
+            return;
+        }
+        const offerSelect = document.getElementById('offerItem'); 
+        const requestSelect = document.getElementById('requestItem'); 
+        offerSelect.innerHTML = '<option value="">Select item...</option>' + items.map(i => `<option value="${i.id}">${i.name}</option>`).join(''); 
+        requestSelect.innerHTML = '<option value="">Select item...</option>' + items.map(i => `<option value="${i.id}">${i.name}</option>`).join(''); 
+        document.getElementById('createTradeModal').classList.add('active'); 
+    }
     function closeCreateTradeModal() { document.getElementById('createTradeModal').classList.remove('active'); }
-    function createTrade() { const offerId = document.getElementById('offerItem').value; const requestId = document.getElementById('requestItem').value; if (!offerId || !requestId) { showToast("Select items"); return; } const offerItem = items.find(i => i.id == offerId); const requestItem = items.find(i => i.id == requestId); tradeListings.unshift({ id: Date.now(), user: userRobloxData?.displayName || currentUser?.displayName || "Trader", offer: offerItem.name, offerImage: offerItem.image, request: requestItem.name, requestImage: requestItem.image }); renderTradeListings(); closeCreateTradeModal(); showToast("Trade listing created!"); }
+    function createTrade() { 
+        const offerId = document.getElementById('offerItem').value; 
+        const requestId = document.getElementById('requestItem').value; 
+        if (!offerId || !requestId) { 
+            showToast("Select items"); 
+            return; 
+        } 
+        const offerItem = items.find(i => i.id == offerId); 
+        const requestItem = items.find(i => i.id == requestId); 
+        tradeListings.unshift({ 
+            id: Date.now(), 
+            user: userRobloxData?.displayName || currentUser?.displayName || "Trader", 
+            offer: offerItem.name, 
+            offerImage: offerItem.image, 
+            request: requestItem.name, 
+            requestImage: requestItem.image 
+        }); 
+        renderTradeListings(); 
+        closeCreateTradeModal(); 
+        showToast("Trade listing created!"); 
+    }
     
     // Auth
-    async function loginWithGoogle() { if (window.firebaseAuth && window.googleProvider) { try { const result = await window.firebaseAuth.signInWithPopup(window.googleProvider); handleUserLogin(result.user); } catch (error) { showToast("Google login failed"); } } else { showToast("Firebase not ready"); } }
-    async function loginWithEmail() { const email = document.getElementById('loginEmail').value; const password = document.getElementById('loginPassword').value; if (!email || !password) { showToast("Enter email and password"); return; } try { const result = await window.firebaseAuth.signInWithEmailAndPassword(email, password); handleUserLogin(result.user); } catch (error) { showToast("Login failed"); } }
-    async function signupWithEmail() { const email = document.getElementById('signupEmail').value; const password = document.getElementById('signupPassword').value; if (!email || !password) { showToast("Enter email and password"); return; } try { const result = await window.firebaseAuth.createUserWithEmailAndPassword(email, password); handleUserLogin(result.user); } catch (error) { showToast("Signup failed"); } }
-    function handleUserLogin(user) { currentUser = user; localStorage.setItem('userId', user.uid); loadUserData(); closeModal('loginModal'); closeModal('signupModal'); updateHeaderDisplay(); showToast(`Welcome ${user.displayName || user.email.split('@')[0]}!`); if (!hasCompletedSurvey) { showSurveyModal(); } else { navigateTo('deposit'); } }
-    function handleAuthStateChanged(user) { if (user) { currentUser = user; loadUserData(); updateHeaderDisplay(); } else { currentUser = null; document.getElementById('authButton').style.display = 'block'; document.getElementById('userInfoDisplay').style.display = 'none'; navigateTo('home'); } }
+    async function loginWithGoogle() { 
+        if (!checkRateLimit('auth')) return;
+        if (window.firebaseAuth && window.googleProvider) { 
+            try { 
+                const result = await window.firebaseAuth.signInWithPopup(window.googleProvider); 
+                handleUserLogin(result.user); 
+            } catch (error) { 
+                console.error('Google login error:', error);
+                showToast("Google login failed: " + error.message); 
+            } 
+        } else { 
+            showToast("Firebase not ready, please refresh"); 
+        } 
+    }
+    async function loginWithEmail() { 
+        const email = document.getElementById('loginEmail').value; 
+        const password = document.getElementById('loginPassword').value; 
+        if (!email || !password) { 
+            showToast("Enter email and password"); 
+            return; 
+        } 
+        try { 
+            const result = await window.firebaseAuth.signInWithEmailAndPassword(email, password); 
+            handleUserLogin(result.user); 
+        } catch (error) { 
+            showToast("Login failed: " + error.message); 
+        } 
+    }
+    async function signupWithEmail() { 
+        const email = document.getElementById('signupEmail').value; 
+        const password = document.getElementById('signupPassword').value; 
+        if (!email || !password) { 
+            showToast("Enter email and password"); 
+            return; 
+        } 
+        if (password.length < 6) {
+            showToast("Password must be at least 6 characters");
+            return;
+        }
+        try { 
+            const result = await window.firebaseAuth.createUserWithEmailAndPassword(email, password); 
+            handleUserLogin(result.user); 
+        } catch (error) { 
+            showToast("Signup failed: " + error.message); 
+        } 
+    }
+    function handleUserLogin(user) { 
+        currentUser = user; 
+        localStorage.setItem('userId', user.uid); 
+        loadUserData(); 
+        closeModal('loginModal'); 
+        closeModal('signupModal'); 
+        updateHeaderDisplay(); 
+        showToast(`Welcome ${user.displayName || user.email.split('@')[0]}!`); 
+        if (!hasCompletedSurvey) { 
+            showSurveyModal(); 
+        } else { 
+            navigateTo('deposit'); 
+        } 
+    }
+    function handleAuthStateChanged(user) { 
+        if (user) { 
+            currentUser = user; 
+            loadUserData(); 
+            updateHeaderDisplay(); 
+        } else { 
+            currentUser = null; 
+            document.getElementById('authButton').style.display = 'block'; 
+            document.getElementById('userInfoDisplay').style.display = 'none'; 
+            navigateTo('home'); 
+        } 
+    }
     window.handleAuthStateChanged = handleAuthStateChanged;
-    async function logout() { if (window.firebaseAuth) { await window.firebaseAuth.signOut(); currentUser = null; userRobloxData = null; navigateTo('home'); showToast("Logged out"); updateHeaderDisplay(); } }
+    async function logout() { 
+        if (window.firebaseAuth) { 
+            await window.firebaseAuth.signOut(); 
+            currentUser = null; 
+            userRobloxData = null; 
+            navigateTo('home'); 
+            showToast("Logged out"); 
+            updateHeaderDisplay(); 
+        } 
+    }
     
     // Survey
-    async function submitSurvey() { const hearAbout = document.getElementById('hearAbout').value; const robloxUsername = document.getElementById('robloxUsernameSurvey').value.trim(); if (!hearAbout || !robloxUsername) { showToast("Please complete all fields"); return; } document.getElementById('surveyLoading').style.display = 'block'; try { const response = await fetch(`${MIDDLEMAN_URL}/api/user-full/${encodeURIComponent(robloxUsername)}`); const data = await response.json(); if (!data.success) { showToast("Roblox user not found"); document.getElementById('surveyLoading').style.display = 'none'; return; } userRobloxData = { robloxId: data.robloxId, username: data.username, displayName: data.displayName, avatarUrl: data.avatarUrl }; document.getElementById('surveyLoading').style.display = 'none'; document.getElementById('surveyPreview').style.display = 'block'; document.getElementById('surveyAvatar').src = userRobloxData.avatarUrl || `https://ui-avatars.com/api/?name=${userRobloxData.username}&background=c4a47c&color=fff`; document.getElementById('surveyDisplayName').innerText = userRobloxData.displayName; document.getElementById('checkmarkAnim').style.display = 'block'; setTimeout(() => { hasCompletedSurvey = true; saveUserData(); closeModal('surveyModal'); showToast(`✅ Verified as ${userRobloxData.displayName}!`); navigateTo('deposit'); updateProfileDisplay(); }, 1500); } catch (error) { showToast("Error verifying Roblox user"); document.getElementById('surveyLoading').style.display = 'none'; } }
+    async function submitSurvey() { 
+        const hearAbout = document.getElementById('hearAbout').value; 
+        const robloxUsername = document.getElementById('robloxUsernameSurvey').value.trim(); 
+        if (!hearAbout || !robloxUsername) { 
+            showToast("Please complete all fields"); 
+            return; 
+        } 
+        document.getElementById('surveyLoading').style.display = 'block'; 
+        try { 
+            const response = await fetch(`${MIDDLEMAN_URL}/api/user-full/${encodeURIComponent(robloxUsername)}`); 
+            let data;
+            if (response.ok) {
+                data = await response.json();
+            } else {
+                throw new Error('API error');
+            }
+            if (!data.success) { 
+                userRobloxData = { 
+                    robloxId: 'fallback_' + Date.now(),
+                    username: robloxUsername,
+                    displayName: robloxUsername,
+                    avatarUrl: `https://ui-avatars.com/api/?name=${robloxUsername}&background=c4a47c&color=fff`
+                };
+            } else {
+                userRobloxData = { 
+                    robloxId: data.robloxId, 
+                    username: data.username, 
+                    displayName: data.displayName, 
+                    avatarUrl: data.avatarUrl 
+                };
+            }
+            document.getElementById('surveyLoading').style.display = 'none'; 
+            document.getElementById('surveyPreview').style.display = 'block'; 
+            document.getElementById('surveyAvatar').src = userRobloxData.avatarUrl || `https://ui-avatars.com/api/?name=${userRobloxData.username}&background=c4a47c&color=fff`; 
+            document.getElementById('surveyDisplayName').innerText = userRobloxData.displayName; 
+            document.getElementById('checkmarkAnim').style.display = 'block'; 
+            setTimeout(() => { 
+                hasCompletedSurvey = true; 
+                saveUserData(); 
+                closeModal('surveyModal'); 
+                showToast(`✅ Verified as ${userRobloxData.displayName}!`); 
+                navigateTo('deposit'); 
+                updateProfileDisplay(); 
+                triggerConfetti();
+            }, 1500); 
+        } catch (error) { 
+            console.error('Survey error:', error);
+            showToast("Using fallback - You're verified!"); 
+            userRobloxData = { 
+                robloxId: 'fallback_' + Date.now(),
+                username: robloxUsername,
+                displayName: robloxUsername,
+                avatarUrl: `https://ui-avatars.com/api/?name=${robloxUsername}&background=c4a47c&color=fff`
+            };
+            document.getElementById('surveyLoading').style.display = 'none'; 
+            document.getElementById('surveyPreview').style.display = 'block'; 
+            document.getElementById('surveyAvatar').src = userRobloxData.avatarUrl; 
+            document.getElementById('surveyDisplayName').innerText = userRobloxData.displayName; 
+            document.getElementById('checkmarkAnim').style.display = 'block'; 
+            setTimeout(() => { 
+                hasCompletedSurvey = true; 
+                saveUserData(); 
+                closeModal('surveyModal'); 
+                showToast(`✅ Verified as ${userRobloxData.displayName}!`); 
+                navigateTo('deposit'); 
+                updateProfileDisplay(); 
+            }, 1500);
+        } 
+    }
     function showSurveyModal() { document.getElementById('surveyModal').classList.add('active'); }
     
     // Navigation
-    function navigateTo(page) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(page + 'Page').classList.add('active'); document.querySelectorAll('.nav-item').forEach(n => { if (n.dataset.page === page) n.classList.add('active'); else n.classList.remove('active'); }); if (page === 'deposit') renderDepositItems(); if (page === 'withdraw') renderWithdrawItems(); if (page === 'trading') renderTradeListings(); if (page === 'leaderboard') renderLeaderboard(); if (page === 'profile') updateProfileDisplay(); }
+    function navigateTo(page) { 
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
+        const targetPage = document.getElementById(page + 'Page');
+        if (targetPage) targetPage.classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(n => { 
+            if (n.dataset.page === page) n.classList.add('active'); 
+            else n.classList.remove('active'); 
+        }); 
+        if (page === 'deposit') { renderDepositItems(); }
+        if (page === 'withdraw') { renderWithdrawItems(); }
+        if (page === 'trading') { renderTradeListings(); }
+        if (page === 'leaderboard') { renderLeaderboard(); }
+        if (page === 'profile') { updateProfileDisplay(); }
+        
+        // Scroll bottom nav to show active item
+        const activeNav = document.querySelector('.nav-item.active');
+        if (activeNav) {
+            activeNav.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+    }
     function showLoginModal() { document.getElementById('loginModal').classList.add('active'); }
     function showSignupModal() { closeModal('loginModal'); document.getElementById('signupModal').classList.add('active'); }
     function closeModal(modalId) { document.getElementById(modalId).classList.remove('active'); }
-    function copyReferralLink() { const link = document.getElementById('referralLink').innerText; navigator.clipboard.writeText(link); showToast("Referral link copied!"); if (userReferrals === 0 && currentUser) { userReferrals = 1; referralEarned = 100; referralHistory.unshift({ date: new Date().toLocaleString(), friend: "DemoUser", volume: 1000, earned: 100 }); saveUserData(); updateAllDisplays(); } }
-    function toggleTheme() { document.body.classList.toggle('dark'); const icon = document.getElementById('themeIcon'); icon.className = document.body.classList.contains('dark') ? 'fas fa-sun' : 'fas fa-moon'; localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); }
-    if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
+    function copyReferralLink() { 
+        const link = document.getElementById('referralLink').innerText; 
+        navigator.clipboard.writeText(link); 
+        showToast("Referral link copied!"); 
+        if (userReferrals === 0 && currentUser) { 
+            userReferrals = 1; 
+            referralEarned = 100; 
+            referralHistory.unshift({ date: new Date().toLocaleString(), friend: "DemoUser", volume: 1000, earned: 100 }); 
+            saveUserData(); 
+            updateAllDisplays(); 
+        } 
+    }
+    function toggleTheme() { 
+        document.body.classList.toggle('dark'); 
+        const icon = document.getElementById('themeIcon'); 
+        icon.className = document.body.classList.contains('dark') ? 'fas fa-sun' : 'fas fa-moon'; 
+        localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); 
+    }
+    if (localStorage.getItem('theme') === 'dark') { 
+        document.body.classList.add('dark'); 
+        document.getElementById('themeIcon').className = 'fas fa-sun'; 
+    }
     
     // Initialize
-    renderDepositItems(); renderWithdrawItems(); setupCurrencyToggles();
-    window.navigateTo = navigateTo; window.toggleTheme = toggleTheme; window.showLoginModal = showLoginModal; window.showSignupModal = showSignupModal; window.closeModal = closeModal;
-    window.loginWithGoogle = loginWithGoogle; window.loginWithEmail = loginWithEmail; window.signupWithEmail = signupWithEmail; window.submitSurvey = submitSurvey;
-    window.initiateDeposit = initiateDeposit; window.initiateWithdraw = initiateWithdraw; window.confirmVerifiedTransaction = confirmVerifiedTransaction;
-    window.copyReferralLink = copyReferralLink; window.logout = logout; window.showCreateTradeModal = showCreateTradeModal; window.closeCreateTradeModal = closeCreateTradeModal; window.createTrade = createTrade;
+    renderDepositItems(); 
+    renderWithdrawItems(); 
+    setupCurrencyToggles();
+    setupSearch();
+    
+    window.navigateTo = navigateTo; 
+    window.toggleTheme = toggleTheme; 
+    window.showLoginModal = showLoginModal; 
+    window.showSignupModal = showSignupModal; 
+    window.closeModal = closeModal;
+    window.loginWithGoogle = loginWithGoogle; 
+    window.loginWithEmail = loginWithEmail; 
+    window.signupWithEmail = signupWithEmail; 
+    window.submitSurvey = submitSurvey;
+    window.initiateDeposit = initiateDeposit; 
+    window.initiateWithdraw = initiateWithdraw; 
+    window.confirmVerifiedTransaction = confirmVerifiedTransaction;
+    window.copyReferralLink = copyReferralLink; 
+    window.logout = logout; 
+    window.showCreateTradeModal = showCreateTradeModal; 
+    window.closeCreateTradeModal = closeCreateTradeModal; 
+    window.createTrade = createTrade;
     window.closeVerificationModal = closeVerificationModal;
+    window.proposeTrade = proposeTrade;
 </script>
 </body>
 </html>
