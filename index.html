@@ -2,46 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>EchoKnives | Global MM2 Trading & Games</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>BloxHub | Premium Roblox Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
-    
-    <!-- Firebase SDKs -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, query, where, onSnapshot, updateDoc, doc, deleteDoc, getDocs, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyBCXRjm9iSht9xKhKommS6aDzMGWqYJRO4",
-            authDomain: "echoknives-ca45e.firebaseapp.com",
-            projectId: "echoknives-ca45e",
-            storageBucket: "echoknives-ca45e.firebasestorage.app",
-            messagingSenderId: "434863562437",
-            appId: "1:434863562437:web:94b6ece21ad684d1bcdaac"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        
-        // Make db available globally
-        window.db = db;
-        window.collection = collection;
-        window.addDoc = addDoc;
-        window.onSnapshot = onSnapshot;
-        window.query = query;
-        window.where = where;
-        window.updateDoc = updateDoc;
-        window.doc = doc;
-        window.deleteDoc = deleteDoc;
-        window.orderBy = orderBy;
-        window.limit = limit;
-        window.getDocs = getDocs;
-        
-        console.log("🔥 Firebase connected!");
-    </script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -50,66 +15,1029 @@
         }
 
         :root {
-            --bg-dark: #0a0a0f;
-            --bg-surface: #111118;
-            --card-bg: #181822;
-            --border: #2a2a38;
-            --accent: #b97cfc;
-            --accent-pink: #ff6b9d;
-            --text-primary: #eaeef2;
-            --text-secondary: #8e8e9e;
-            --shadow: 0 8px 20px rgba(0,0,0,0.4);
+            --bg-deep: #05070a;
+            --bg-dark: #070b14;
+            --bg-surface: #0e121c;
+            --bg-card: #131724;
+            --bg-card-hover: #181e2d;
+            --border-dim: rgba(56, 189, 248, 0.08);
+            --border-glow: rgba(56, 189, 248, 0.2);
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 20px rgba(59,130,246,0.2);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.25s ease;
+            --transition-slow: 0.4s ease;
         }
 
         body {
-            background: var(--bg-dark);
             font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
             color: var(--text-primary);
             overflow-x: hidden;
-            min-height: 100vh;
+            scroll-behavior: smooth;
         }
 
-        /* revolving grey/black VFX */
-        .vortex {
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-surface); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 10px; }
+
+        /* Animated Background */
+        .cyber-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            background: radial-gradient(circle at 30% 40%, rgba(120,120,150,0.08), transparent 70%);
+            z-index: -2;
+            background: radial-gradient(ellipse at 20% 30%, rgba(59,130,246,0.08), transparent 50%),
+                        radial-gradient(ellipse at 80% 70%, rgba(6,182,212,0.06), transparent 50%);
         }
-        .vortex::before {
-            content: "";
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: conic-gradient(from 0deg, #2a2a38, #1a1a26, #2a2a38, #1a1a26);
-            animation: spinSlow 20s linear infinite;
-            border-radius: 40%;
-            opacity: 0.35;
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: linear-gradient(var(--border-dim) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--border-dim) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.3;
+            animation: gridMove 20s linear infinite;
         }
-        @keyframes spinSlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
         }
 
-        .glass-header {
-            background: rgba(12,12,18,0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            padding: 14px 24px;
+        /* Floating Particles */
+        .particle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatParticle linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-20vh); opacity: 0; }
+        }
+
+        /* Glass Navigation */
+        .glass-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(7, 11, 20, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-dim);
+        }
+        .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 16px 28px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 110;
         }
         .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .nav-links { display: flex; gap: 28px; }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-cyan); }
+        .nav-buttons { display: flex; gap: 12px; }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-dim);
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        .btn-secondary:hover { background: rgba(59,130,246,0.1); border-color: var(--accent-blue); }
+
+        /* Mobile Menu */
+        .mobile-menu-btn { display: none; font-size: 1.5rem; cursor: pointer; }
+        @media (max-width: 768px) {
+            .nav-links, .nav-buttons { display: none; }
+            .mobile-menu-btn { display: block; }
+            .nav-container { padding: 14px 20px; }
+        }
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 260px;
+            height: 100vh;
+            background: var(--bg-surface);
+            backdrop-filter: blur(20px);
+            z-index: 200;
+            transition: right 0.3s ease;
+            padding: 80px 24px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            border-left: 1px solid var(--border-dim);
+        }
+        .mobile-nav.open { right: 0; }
+        .mobile-nav a { color: white; text-decoration: none; font-size: 1.1rem; cursor: pointer; }
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 199;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        .mobile-nav-overlay.active { opacity: 1; visibility: visible; }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 28px 60px;
+            position: relative;
+            z-index: 2;
+        }
+        .page { display: none; animation: fadeIn 0.3s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            padding: 60px 0 40px;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(59,130,246,0.15);
+            padding: 6px 14px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 24px;
+            border: 1px solid var(--border-glow);
+        }
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #fff, var(--accent-cyan));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .hero p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 32px; max-width: 90%; }
+        .hero-stats { display: flex; gap: 32px; margin-top: 32px; }
+        .stat-item h3 { font-size: 1.8rem; font-weight: 700; }
+        .stat-item p { font-size: 0.8rem; color: var(--text-muted); }
+        .floating-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            border: 1px solid var(--border-dim);
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .section-header h2 { font-size: 1.8rem; font-weight: 700; }
+
+        /* Game Selector Grid */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .game-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--border-dim);
+            position: relative;
+            overflow: hidden;
+        }
+        .game-card:hover, .game-card.selected {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+            box-shadow: var(--shadow-glow);
+        }
+        .game-card.selected::before {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+        .game-icon { font-size: 2.5rem; margin-bottom: 8px; }
+        .game-name { font-size: 0.85rem; font-weight: 500; }
+
+        /* Cards Grid */
+        .items-grid, .creators-grid, .commissions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        .item-card, .creator-card, .commission-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            transition: all 0.3s;
+            border: 1px solid var(--border-dim);
+            cursor: pointer;
+            animation: fadeScale 0.4s ease;
+        }
+        @keyframes fadeScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .item-card:hover, .creator-card:hover, .commission-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-cyan);
+            box-shadow: var(--shadow-glow);
+        }
+        .item-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #1a1f2e, #0f1320);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        .item-title { font-weight: 600; margin-bottom: 8px; }
+        .item-price { color: var(--accent-cyan); font-weight: 700; }
+        .creator-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .trust-meter {
+            height: 6px;
+            background: var(--bg-surface);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+        .trust-fill {
+            width: 92%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--accent-cyan));
+            border-radius: 10px;
+        }
+        .reputation-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(59,130,246,0.15);
+            padding: 4px 10px;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* Filters */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .filter-chip {
+            background: var(--bg-surface);
+            padding: 6px 16px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border-dim);
+        }
+        .filter-chip.active, .filter-chip:hover {
+            background: var(--accent-cyan);
+            color: white;
+            border-color: var(--accent-cyan);
+        }
+        .search-input {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-dim);
+            padding: 8px 16px;
+            border-radius: 40px;
+            color: white;
+            width: 250px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .search-input:focus { border-color: var(--accent-cyan); }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(20px);
+            z-index: 300;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            max-width: 550px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-dim);
+            animation: modalPop 0.3s ease;
+        }
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-content input, .modal-content select, .modal-content textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-dim);
+            border-radius: var(--radius-md);
+            color: white;
+            margin-bottom: 16px;
+            outline: none;
+        }
+        .modal-content input:focus, .modal-content select:focus, .modal-content textarea:focus {
+            border-color: var(--accent-cyan);
+        }
+        .image-preview {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin-top: 8px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(7,11,20,0.95);
+            backdrop-filter: blur(20px);
+            display: none;
+            justify-content: space-around;
+            padding: 12px 20px;
+            border-top: 1px solid var(--border-dim);
+            z-index: 100;
+        }
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+        .bottom-nav-item.active { color: var(--accent-cyan); }
+        @media (max-width: 768px) {
+            .main-content { padding: 0 16px 80px; }
+            .hero { grid-template-columns: 1fr; text-align: center; padding: 40px 0; }
+            .hero p { max-width: 100%; }
+            .hero-stats { justify-content: center; }
+            .bottom-nav { display: flex; }
+            .game-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .game-card { padding: 12px; }
+            .game-icon { font-size: 1.8rem; }
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            background: var(--bg-card);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 12px 20px;
+            border-radius: 12px;
+            animation: slideIn 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-hover) 50%, var(--bg-card) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-lg);
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body>
+<div class="cyber-bg"></div>
+<div class="cyber-grid"></div>
+<div id="particles"></div>
+
+<!-- Glass Navbar -->
+<nav class="glass-nav">
+    <div class="nav-container">
+        <div class="logo">BLOXHUB</div>
+        <div class="nav-links">
+            <a class="nav-link active" data-page="home">Market</a>
+            <a class="nav-link" data-page="commissions">Commissions</a>
+            <a class="nav-link" data-page="creators">Creators</a>
+            <a class="nav-link" data-page="profile">Profile</a>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn-secondary" id="loginBtn">Sign In</button>
+            <button class="btn-primary" id="createCommissionNavBtn">Post Commission</button>
+        </div>
+        <div class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></div>
+    </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+    <a data-page="home">Market</a>
+    <a data-page="commissions">Commissions</a>
+    <a data-page="creators">Creators</a>
+    <a data-page="profile">Profile</a>
+    <hr style="border-color: var(--border-dim); margin: 10px 0;">
+    <button class="btn-primary" id="mobileCreateBtn" style="width:100%;">Post Commission</button>
+</div>
+<div class="mobile-nav-overlay" id="mobileOverlay"></div>
+
+<main class="main-content">
+    <!-- HOME PAGE -->
+    <div id="homePage" class="page active">
+        <div class="hero">
+            <div class="hero-left">
+                <div class="hero-badge"><i class="fas fa-crown"></i> Premier Roblox Marketplace</div>
+                <h1>Trade, Create,<br><span class="hero-gradient">Dominate the Economy</span></h1>
+                <p>The most advanced platform for Roblox item trading, creator commissions, and secure escrow transactions.</p>
+                <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                    <button class="btn-primary" id="exploreBtn">Start Trading <i class="fas fa-arrow-right"></i></button>
+                    <button class="btn-secondary" id="postCommissionHeroBtn">Hire Creators</button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item"><h3 id="totalVolume">$2.4M</h3><p>Volume Traded</p></div>
+                    <div class="stat-item"><h3 id="activeUsers">12.5K</h3><p>Active Users</p></div>
+                    <div class="stat-item"><h3 id="satisfaction">98%</h3><p>Satisfaction</p></div>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="floating-card">
+                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #06b6d4); border-radius: 16px;"></div>
+                        <div><strong>Dominus Empyreus</strong><div class="item-price">1,250,000 <span style="color:var(--text-muted)">RAP</span></div></div>
+                    </div>
+                    <div style="height: 2px; background: var(--border-dim); margin: 12px 0;"></div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span><i class="fas fa-chart-line" style="color: var(--success);"></i> +12.5%</span>
+                        <span><i class="fas fa-users"></i> 124 offers</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header"><h2>🔥 Trending Items</h2><a href="#" style="color: var(--accent-cyan);">View All →</a></div>
+        <div class="items-grid" id="trendingGrid"></div>
+
+        <div class="section-header"><h2>⭐ Top Rated Creators</h2></div>
+        <div class="creators-grid" id="creatorsGrid"></div>
+    </div>
+
+    <!-- COMMISSIONS PAGE -->
+    <div id="commissionsPage" class="page">
+        <div class="section-header"><h2>🎨 Commission Marketplace</h2><button class="btn-primary" id="createCommissionBtn">+ Post Commission</button></div>
+        
+        <!-- Game Selector -->
+        <div class="game-grid" id="gameGrid"></div>
+        
+        <!-- Filters -->
+        <div class="filter-bar">
+            <div class="category-filters" id="categoryFilters"></div>
+            <input type="text" class="search-input" id="commissionSearch" placeholder="Search commissions...">
+        </div>
+        
+        <!-- Commissions Grid -->
+        <div id="isLoading" class="skeleton" style="height: 200px; display: none;"></div>
+        <div class="commissions-grid" id="commissionsGrid"></div>
+        <div id="noResultsMsg" style="display: none; text-align: center; padding: 40px; color: var(--text-muted);">No commissions found. Be the first to post one!</div>
+    </div>
+
+    <!-- CREATORS PAGE -->
+    <div id="creatorsPage" class="page">
+        <div class="section-header"><h2>🏆 Top Creators</h2><input type="text" class="search-input" id="creatorSearch" placeholder="Search creators..." style="width: 250px;"></div>
+        <div class="creators-grid" id="allCreatorsGrid"></div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div id="profilePage" class="page">
+        <div class="relative rounded-2xl overflow-hidden mb-8">
+            <div class="h-32 bg-gradient-to-r from-cyan-500/20 to-blue-500/20"></div>
+            <div class="flex items-end gap-4 mt-[-50px] ml-6">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 border-4 border-gray-950 flex items-center justify-center text-3xl">👤</div>
+                <div><h1 class="text-2xl font-bold">CurrentUser</h1><div class="flex items-center gap-2 text-sm text-gray-400"><i class="fas fa-shield-alt text-cyan-400"></i> Verified Seller</div></div>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="col-span-2 space-y-6">
+                <div class="bg-gray-900/50 rounded-2xl p-5 border border-gray-800"><h3 class="font-semibold mb-3">About</h3><p class="text-gray-400">Professional Roblox creator specializing in GFX and scripting. 5+ years of experience.</p></div>
+                <div class="bg-gray-900/50 rounded-2xl p-5 border border-gray-800"><h3 class="font-semibold mb-3">Recent Commissions</h3><div id="userCommissionsList" class="space-y-3"></div></div>
+            </div>
+            <div class="space-y-6">
+                <div class="bg-gray-900/50 rounded-2xl p-5 border border-gray-800"><h3 class="font-semibold mb-3">Stats</h3><div class="space-y-2"><div class="flex justify-between"><span>Completed Trades</span><span class="text-cyan-400">47</span></div><div class="flex justify-between"><span>Completed Commissions</span><span class="text-cyan-400" id="userCommissionCount">0</span></div><div class="flex justify-between"><span>Trust Score</span><span class="text-green-400">98%</span></div></div></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="bottom-nav" id="bottomNav">
+    <div class="bottom-nav-item active" data-page="home"><i class="fas fa-home"></i><span>Home</span></div>
+    <div class="bottom-nav-item" data-page="commissions"><i class="fas fa-brush"></i><span>Commissions</span></div>
+    <div class="bottom-nav-item" data-page="creators"><i class="fas fa-users"></i><span>Creators</span></div>
+    <div class="bottom-nav-item" data-page="profile"><i class="fas fa-user"></i><span>Profile</span></div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Create Commission Modal -->
+<div id="commissionModal" class="modal">
+    <div class="modal-content">
+        <h2 class="text-xl font-bold mb-4">Create Commission</h2>
+        <input type="text" id="commissionTitle" placeholder="Title" required>
+        <textarea id="commissionDesc" rows="3" placeholder="Description"></textarea>
+        <select id="commissionCategory">
+            <option value="gfx">🎨 GFX</option>
+            <option value="scripting">💻 Scripting</option>
+            <option value="ui">✨ UI Design</option>
+            <option value="animation">🎬 Animation</option>
+            <option value="music">🎵 Music</option>
+            <option value="thumbnail">📸 Thumbnails</option>
+            <option value="modeling">🗿 3D Modeling</option>
+            <option value="discord">💬 Discord Setup</option>
+        </select>
+        <select id="commissionGame">
+            <option value="mm2">Murder Mystery 2</option>
+            <option value="ps99">Pet Simulator 99</option>
+            <option value="bloxfruits">Blox Fruits</option>
+            <option value="adoptme">Adopt Me</option>
+            <option value="bladeball">Blade Ball</option>
+            <option value="animedefenders">Anime Defenders</option>
+        </select>
+        <input type="number" id="commissionPrice" placeholder="Price ($)" required>
+        <input type="number" id="commissionDelivery" placeholder="Delivery (days)" required>
+        <input type="text" id="commissionTags" placeholder="Tags (comma separated)">
+        <label class="cursor-pointer flex items-center gap-2"><i class="fas fa-upload"></i> Upload Thumbnail</label>
+        <input type="file" id="commissionImage" accept="image/*" style="display: none;">
+        <div id="imagePreview"></div>
+        <div class="flex gap-3 mt-4">
+            <button class="btn-primary flex-1" id="submitCommission">Post Commission</button>
+            <button class="btn-secondary" id="closeModalBtn">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    // DATA
+    // ============================================================
+    const GAMES = [
+        { id: 'mm2', name: 'Murder Mystery 2', icon: '🔪', color: '#ff4444' },
+        { id: 'ps99', name: 'Pet Simulator 99', icon: '🐾', color: '#ff9900' },
+        { id: 'bloxfruits', name: 'Blox Fruits', icon: '🍎', color: '#ff3366' },
+        { id: 'adoptme', name: 'Adopt Me', icon: '🐕', color: '#66ccff' },
+        { id: 'bladeball', name: 'Blade Ball', icon: '⚔️', color: '#44ffaa' },
+        { id: 'animedefenders', name: 'Anime Defenders', icon: '🎌', color: '#ff66cc' }
+    ];
+
+    const CATEGORIES = [
+        { id: 'all', name: 'All', icon: '🎯' },
+        { id: 'gfx', name: 'GFX', icon: '🎨' },
+        { id: 'scripting', name: 'Scripting', icon: '💻' },
+        { id: 'ui', name: 'UI Design', icon: '✨' },
+        { id: 'animation', name: 'Animation', icon: '🎬' },
+        { id: 'music', name: 'Music', icon: '🎵' },
+        { id: 'thumbnail', name: 'Thumbnails', icon: '📸' },
+        { id: 'modeling', name: '3D Modeling', icon: '🗿' },
+        { id: 'discord', name: 'Discord', icon: '💬' }
+    ];
+
+    let commissions = [
+        { id: 1, title: "Pro Thumbnail Design", description: "Professional YouTube thumbnail with high CTR", category: "gfx", game: "mm2", price: 25, delivery: 2, tags: ["youtube", "thumbnail"], seller: "PixelMaster", rating: 4.9, sales: 127, image: null },
+        { id: 2, title: "Custom MM2 Script", description: "Full auto-farm script with anti-ban", category: "scripting", game: "mm2", price: 120, delivery: 5, tags: ["script", "auto"], seller: "CodeWizard", rating: 4.8, sales: 89, image: null },
+        { id: 3, title: "Anime Character Model", description: "High quality rigged anime model", category: "modeling", game: "bloxfruits", price: 45, delivery: 3, tags: ["anime", "3d"], seller: "3DArtist", rating: 4.9, sales: 234, image: null }
+    ];
+
+    let selectedGame = 'mm2';
+    let selectedCategory = 'all';
+    let searchTerm = '';
+    let currentUser = "CurrentUser";
+
+    // Load from localStorage
+    const savedCommissions = localStorage.getItem('bloxhub_commissions');
+    if (savedCommissions) commissions = JSON.parse(savedCommissions);
+
+    function saveCommissions() { localStorage.setItem('bloxhub_commissions', JSON.stringify(commissions)); }
+
+    // Helper Functions
+    function showToast(msg, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = msg;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Particles
+    function createParticles() {
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 80; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = Math.random() * 10 + 5 + 's';
+            p.style.animationDelay = Math.random() * 10 + 's';
+            container.appendChild(p);
+        }
+    }
+    createParticles();
+
+    // Render Functions
+    function renderGames() {
+        const container = document.getElementById('gameGrid');
+        container.innerHTML = GAMES.map(game => `
+            <div class="game-card ${selectedGame === game.id ? 'selected' : ''}" data-game="${game.id}">
+                <div class="game-icon">${game.icon}</div>
+                <div class="game-name">${game.name}</div>
+            </div>
+        `).join('');
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('click', () => {
+                selectedGame = card.dataset.game;
+                renderGames();
+                renderCommissions();
+                showToast(`Switched to ${GAMES.find(g => g.id === selectedGame).name}`, 'info');
+            });
+        });
+    }
+
+    function renderCategoryFilters() {
+        const container = document.getElementById('categoryFilters');
+        container.innerHTML = CATEGORIES.map(cat => `
+            <div class="filter-chip ${selectedCategory === cat.id ? 'active' : ''}" data-category="${cat.id}">
+                ${cat.icon} ${cat.name}
+            </div>
+        `).join('');
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                selectedCategory = chip.dataset.category;
+                renderCategoryFilters();
+                renderCommissions();
+            });
+        });
+    }
+
+    function renderCommissions() {
+        const container = document.getElementById('commissionsGrid');
+        const isLoading = document.getElementById('isLoading');
+        isLoading.style.display = 'block';
+        setTimeout(() => {
+            let filtered = commissions.filter(c => {
+                const matchesGame = c.game === selectedGame;
+                const matchesCategory = selectedCategory === 'all' || c.category === selectedCategory;
+                const matchesSearch = c.title.toLowerCase().includes(searchTerm.toLowerCase()) || c.description.toLowerCase().includes(searchTerm.toLowerCase());
+                return matchesGame && matchesCategory && matchesSearch;
+            });
+            
+            const noResults = document.getElementById('noResultsMsg');
+            if (filtered.length === 0) {
+                noResults.style.display = 'block';
+                container.innerHTML = '';
+            } else {
+                noResults.style.display = 'none';
+                container.innerHTML = filtered.map(comm => `
+                    <div class="commission-card" data-id="${comm.id}">
+                        ${comm.image ? `<img src="${comm.image}" class="w-full h-32 object-cover rounded-lg mb-3">` : ''}
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="reputation-badge">${CATEGORIES.find(c => c.id === comm.category)?.icon} ${comm.category}</span>
+                            ${comm.seller === currentUser ? `<button class="delete-commission text-red-400 hover:text-red-300" data-id="${comm.id}"><i class="fas fa-trash"></i></button>` : ''}
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">${comm.title}</h3>
+                        <p class="text-gray-400 text-sm mb-2">${comm.description.substring(0, 80)}...</p>
+                        <div class="flex flex-wrap gap-1 mb-2">
+                            ${comm.tags.map(tag => `<span class="text-xs px-2 py-0.5 rounded-full bg-gray-800">#${tag}</span>`).join('')}
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div><span class="text-2xl font-bold text-cyan-400">$${comm.price}</span><div class="text-xs text-gray-500">${comm.delivery} days</div></div>
+                            <div><i class="fas fa-star text-yellow-400"></i> ${comm.rating} (${comm.sales})</div>
+                        </div>
+                        <button class="w-full mt-3 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:shadow-lg transition-all">Order Now</button>
+                    </div>
+                `).join('');
+            }
+            isLoading.style.display = 'none';
+        }, 200);
+    }
+
+    function renderTrending() {
+        const container = document.getElementById('trendingGrid');
+        const items = [
+            { name: "Dominus Empyreus", price: 1250000, change: "+12.5%", icon: "👑" },
+            { name: "Sparkle Time Fedora", price: 425000, change: "+5.2%", icon: "🎩" },
+            { name: "Clockwork Shades", price: 125000, change: "-2.1%", icon: "😎" },
+            { name: "Faces", price: 89000, change: "+18%", icon: "😊" }
+        ];
+        container.innerHTML = items.map(item => `
+            <div class="item-card">
+                <div class="item-image">${item.icon}</div>
+                <div class="item-title">${item.name}</div>
+                <div class="item-price">${item.price.toLocaleString()} R$</div>
+                <div class="text-green-400 text-sm">${item.change}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderCreators() {
+        const creators = [
+            { name: "PixelArtisan", trust: 98, completed: 342, avatar: "🎨", badge: "Verified" },
+            { name: "CodeMaster", trust: 96, completed: 287, avatar: "💻", badge: "Trusted" },
+            { name: "3D_Wizard", trust: 99, completed: 512, avatar: "✨", badge: "Elite" }
+        ];
+        const container = document.getElementById('creatorsGrid');
+        const allContainer = document.getElementById('allCreatorsGrid');
+        const creatorHtml = creators.map(c => `
+            <div class="creator-card">
+                <div class="creator-avatar">${c.avatar}</div>
+                <h3 class="font-semibold">${c.name}</h3>
+                <div class="reputation-badge"><i class="fas fa-shield-alt"></i> ${c.badge}</div>
+                <div class="trust-meter"><div class="trust-fill" style="width:${c.trust}%"></div></div>
+                <div class="text-sm">✅ ${c.completed} completed</div>
+                <button class="w-full mt-3 py-2 rounded-xl bg-gray-800 hover:bg-cyan-500 transition">Hire</button>
+            </div>
+        `).join('');
+        container.innerHTML = creatorHtml;
+        allContainer.innerHTML = creatorHtml;
+    }
+
+    function renderUserCommissions() {
+        const userCommissions = commissions.filter(c => c.seller === currentUser);
+        const container = document.getElementById('userCommissionsList');
+        const countSpan = document.getElementById('userCommissionCount');
+        countSpan.innerText = userCommissions.length;
+        if (userCommissions.length === 0) {
+            container.innerHTML = '<div class="text-gray-500">No commissions yet.</div>';
+            return;
+        }
+        container.innerHTML = userCommissions.map(c => `
+            <div class="flex justify-between items-center py-2 border-b border-gray-800">
+                <span>${c.title}</span>
+                <span class="text-cyan-400">$${c.price}</span>
+                <button class="delete-commission text-red-400 text-sm" data-id="${c.id}">Delete</button>
+            </div>
+        `).join('');
+        document.querySelectorAll('.delete-commission').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                commissions = commissions.filter(c => c.id !== id);
+                saveCommissions();
+                renderCommissions();
+                renderUserCommissions();
+                showToast('Commission deleted', 'info');
+            });
+        });
+    }
+
+    // Create Commission
+    function openCreateModal() {
+        document.getElementById('commissionModal').classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('commissionModal').classList.remove('active');
+        document.getElementById('commissionTitle').value = '';
+        document.getElementById('commissionDesc').value = '';
+        document.getElementById('commissionPrice').value = '';
+        document.getElementById('commissionDelivery').value = '';
+        document.getElementById('commissionTags').value = '';
+        document.getElementById('imagePreview').innerHTML = '';
+    }
+
+    document.getElementById('createCommissionBtn')?.addEventListener('click', openCreateModal);
+    document.getElementById('createCommissionNavBtn')?.addEventListener('click', openCreateModal);
+    document.getElementById('postCommissionHeroBtn')?.addEventListener('click', openCreateModal);
+    document.getElementById('mobileCreateBtn')?.addEventListener('click', openCreateModal);
+    document.getElementById('closeModalBtn')?.addEventListener('click', closeModal);
+
+    document.getElementById('submitCommission')?.addEventListener('click', () => {
+        const title = document.getElementById('commissionTitle').value;
+        const description = document.getElementById('commissionDesc').value;
+        const category = document.getElementById('commissionCategory').value;
+        const game = document.getElementById('commissionGame').value;
+        const price = parseFloat(document.getElementById('commissionPrice').value);
+        const delivery = parseInt(document.getElementById('commissionDelivery').value);
+        const tagsStr = document.getElementById('commissionTags').value;
+        const tags = tagsStr ? tagsStr.split(',').map(t => t.trim()) : [];
+        
+        if (!title || !description || !price || !delivery) {
+            showToast('Please fill all required fields', 'error');
+            return;
+        }
+        
+        const newCommission = {
+            id: Date.now(),
+            title, description, category, game, price, delivery, tags,
+            seller: currentUser,
+            rating: 5.0,
+            sales: 0,
+            image: null
+        };
+        
+        commissions.unshift(newCommission);
+        saveCommissions();
+        renderCommissions();
+        renderUserCommissions();
+        closeModal();
+        showToast('Commission posted successfully!', 'success');
+        
+        // Switch to commissions page
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('commissionsPage').classList.add('active');
+        document.querySelectorAll('.nav-link, .bottom-nav-item').forEach(n => n.classList.remove('active'));
+    });
+
+    // Image upload
+    document.querySelector('label[for="commissionImage"]')?.addEventListener('click', () => {
+        document.getElementById('commissionImage').click();
+    });
+    document.getElementById('commissionImage')?.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                const preview = document.getElementById('imagePreview');
+                preview.innerHTML = `<img src="${ev.target.result}" class="image-preview">`;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Search input
+    document.getElementById('commissionSearch')?.addEventListener('input', (e) => {
+        searchTerm = e.target.value;
+        renderCommissions();
+    });
+
+    // Navigation
+    function switchPage(page) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(page + 'Page').classList.add('active');
+        document.querySelectorAll('.nav-link, .bottom-nav-item').forEach(n => n.classList.remove('active'));
+        document.querySelectorAll(`[data-page="${page}"]`).forEach(n => n.classList.add('active'));
+        if (page === 'profile') renderUserCommissions();
+        window.scrollTo(0, 0);
+    }
+
+    document.querySelectorAll('.nav-link, .bottom-nav-item, .mobile-nav a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            const page = link.dataset.page;
+            if (page) switchPage(page);
+        });
+    });
+    document.getElementById('exploreBtn')?.addEventListener('click', () => switchPage('commissions'));
+
+    // Mobile menu
+    document.getElementById('mobileMenuBtn').onclick = () => {
+        document.getElementById('mobileNav').classList.toggle('open');
+        document.getElementById('mobileOverlay').classList.toggle('active');
+    };
+    document.getElementById('mobileOverlay').onclick = () => {
+        document.getElementById('mobileNav').classList.remove('open');
+        document.getElementById('mobileOverlay').classList.remove('active');
+    };
+    document.getElementById('loginBtn')?.addEventListener('click', () => showToast('🔐 Login system would connect here', 'info'));
+
+    // Initialize
+    renderGames();
+    renderCategoryFilters();
+    renderCommissions();
+    renderTrending();
+    renderCreators();
+    renderUserCommissions();
+</script>
+</body>
+</html>        .logo {
             font-size: 1.5rem;
             font-weight: 800;
             background: linear-gradient(135deg, #b97cfc, #ff6b9d);
