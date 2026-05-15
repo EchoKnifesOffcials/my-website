@@ -5,56 +5,721 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Bloxview | MM2 & Adopt Me Market Tracker</title>
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #111118;
+            --bg-card: #15151f;
+            --border: #252530;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --cyan: #00f3ff;
+            --cyan-dark: #00c4d0;
+            --purple: #8b5cf6;
+            --purple-dark: #7c3aed;
+            --green: #10b981;
+            --red: #ef4444;
+            --yellow: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Glass Navigation */
+        .glass-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 15, 0.8);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .logo-container:hover {
+            opacity: 0.8;
+        }
+
+        .trading-symbol {
+            font-size: 1.5rem;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            cursor: pointer;
+            transition: color 0.2s;
+            color: var(--text-secondary);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--cyan);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        button {
+            padding: 0.5rem 1.25rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            border: none;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 243, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--cyan);
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border);
+            padding: 5rem 1.5rem 2rem;
+            transition: right 0.3s ease;
+            z-index: 200;
+        }
+
+        .mobile-nav.open {
+            right: 0;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: 1rem 0;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+
+        .mobile-nav a:hover {
+            color: var(--cyan);
+        }
+
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 199;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: none;
+            justify-content: space-around;
+            padding: 0.75rem 1rem;
+            background: rgba(17, 17, 24, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+            font-size: 0.75rem;
+        }
+
+        .bottom-nav-item i {
+            font-size: 1.25rem;
+        }
+
+        .bottom-nav-item.active, .bottom-nav-item:hover {
+            color: var(--cyan);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 73px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.05), rgba(139, 92, 246, 0.05));
+            border-radius: 32px;
+            border: 1px solid var(--border);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 243, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .gap-4 { gap: 1rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-8 { margin-bottom: 2rem; }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item h3 {
+            font-size: 1.5rem;
+            color: var(--cyan);
+        }
+
+        .stat-item p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .floating-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .demand-high {
+            color: var(--green);
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .timeframe-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .timeframe-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .timeframe-btn:hover, .timeframe-btn.active {
+            background: var(--cyan);
+            color: var(--bg-primary);
+            border-color: var(--cyan);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .price-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .price-info {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+        }
+
+        .item-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .current-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+
+        .price-change {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .price-change.up { color: var(--green); }
+        .price-change.down { color: var(--red); }
+
+        .price-stats {
+            display: flex;
+            gap: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        canvas {
+            max-height: 350px;
+            width: 100%;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+
+        /* Items Grid */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .item-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            cursor: pointer;
+        }
+
+        .item-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--cyan);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .item-name-card {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .item-icon {
+            font-size: 1.5rem;
+        }
+
+        .item-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--cyan);
+            margin: 0.5rem 0;
+        }
+
+        .item-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .demand-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .demand-high { background: rgba(16, 185, 129, 0.2); color: var(--green); }
+        .demand-medium { background: rgba(245, 158, 11, 0.2); color: var(--yellow); }
+        .demand-low { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+        }
+
+        .item-info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .price-large {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+
+        .demand-meter {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            height: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .demand-fill {
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .demand-fill.demand-high { background: var(--green); }
+        .demand-fill.demand-medium { background: var(--yellow); }
+        .demand-fill.demand-low { background: var(--red); }
+
+        .warning-box, .terms-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        select, input[type="number"] {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.75rem;
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1100;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toast {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--cyan);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .loading-skeleton {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skeleton-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.25rem;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-secondary);
+        }
+
+        .w-full { width: 100%; }
+        .text-center { text-align: center; }
+        .text-gray-400 { color: var(--text-secondary); }
+        .text-red-400 { color: var(--red); }
+        .text-green-400 { color: var(--green); }
+        .text-cyan-400 { color: var(--cyan); }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .font-bold { font-weight: 700; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 0.75rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .w-24 { width: 6rem; }
+        .h-24 { height: 6rem; }
+        .rounded-full { border-radius: 50%; }
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: 1fr; }
+        .gap-6 { gap: 1.5rem; }
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .justify-between { justify-content: space-between; }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-buttons { display: none; }
+            .mobile-menu-btn { display: block; }
+            .bottom-nav { display: flex; }
+            .main-content { padding: 1rem 1rem 5rem; }
+            .hero { grid-template-columns: 1fr; gap: 2rem; }
+            h1 { font-size: 2rem; }
+            .section-header { flex-direction: column; align-items: stretch; }
+            .timeframe-buttons { justify-content: center; }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .hero { gap: 2rem; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
     
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <!-- Navigation Bar -->
     <nav class="glass-nav" aria-label="Main navigation">
         <div class="nav-container">
             <div class="logo-container" id="logoBtn" tabindex="0" role="button" aria-label="Home">
                 <div class="trading-symbol"><i class="fas fa-chart-line"></i></div>
                 <div class="logo">BLOXVIEW</div>
             </div>
-            <div class="nav-links" role="list">
-                <a role="listitem" class="nav-link active" data-page="home">Home</a>
-                <a role="listitem" class="nav-link" data-page="mm2">MM2 Items</a>
-                <a role="listitem" class="nav-link" data-page="adoptme">Adopt Me</a>
-                <a role="listitem" class="nav-link" data-page="inventory">Inventory</a>
-                <a role="listitem" class="nav-link" data-page="profile">Profile</a>
+            <div class="nav-links">
+                <a class="nav-link active" data-page="home">Home</a>
+                <a class="nav-link" data-page="mm2">MM2 Items</a>
+                <a class="nav-link" data-page="adoptme">Adopt Me</a>
+                <a class="nav-link" data-page="inventory">Inventory</a>
+                <a class="nav-link" data-page="profile">Profile</a>
             </div>
             <div class="nav-buttons">
-                <button class="btn-secondary" id="loginBtn" aria-label="Sign in">Sign In</button>
-                <button class="btn-primary" id="depositNavBtn" aria-label="Deposit items">Deposit</button>
+                <button class="btn-secondary" id="loginBtn">Sign In</button>
+                <button class="btn-primary" id="depositNavBtn">Deposit</button>
             </div>
-            <div class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu" role="button"><i class="fas fa-bars"></i></div>
+            <div class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu"><i class="fas fa-bars"></i></div>
         </div>
     </nav>
 
-    <!-- Mobile Navigation -->
-    <div class="mobile-nav" id="mobileNav" role="navigation" aria-label="Mobile menu">
+    <div class="mobile-nav" id="mobileNav">
         <a data-page="home">Home</a>
         <a data-page="mm2">MM2 Items</a>
         <a data-page="adoptme">Adopt Me</a>
         <a data-page="inventory">Inventory</a>
         <a data-page="profile">Profile</a>
-        <hr>
-        <button class="btn-primary" id="mobileDepositBtn">Deposit</button>
+        <hr style="margin: 1rem 0; border-color: var(--border);">
+        <button class="btn-primary" id="mobileDepositBtn" style="width: 100%;">Deposit</button>
     </div>
     <div class="mobile-nav-overlay" id="mobileOverlay"></div>
 
-    <!-- Main Content -->
     <main class="main-content">
-        <!-- HOME PAGE -->
         <div id="homePage" class="page active">
             <div class="hero">
                 <div class="hero-left">
@@ -74,19 +739,21 @@
                 <div class="hero-right">
                     <div class="floating-card">
                         <div style="width:60px;height:60px;background:linear-gradient(135deg,#00f3ff,#8b5cf6);border-radius:16px;margin-bottom:12px"></div>
-                        <div><strong>Harvester</strong><div style="color:var(--cyan);font-size:1.5rem;font-weight:700">2,200 R$</div><div class="demand-high"><i class="fas fa-fire"></i> High Demand</div></div>
+                        <div>
+                            <strong>Harvester</strong>
+                            <div style="color:var(--cyan);font-size:1.5rem;font-weight:700">2,200 R$</div>
+                            <div class="demand-high"><i class="fas fa-fire"></i> High Demand</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Chart Section -->
             <div class="section-header">
                 <h2>📈 Live Price Charts</h2>
                 <div class="timeframe-buttons">
-                    <button class="timeframe-btn active" data-timeframe="1D">1D</button>
-                    <button class="timeframe-btn" data-timeframe="1W">1W</button>
-                    <button class="timeframe-btn" data-timeframe="1M">1M</button>
-                    <button class="timeframe-btn" data-timeframe="3M">3M</button>
+                    <button class="timeframe-btn active" data-timeframe="7">1W</button>
+                    <button class="timeframe-btn" data-timeframe="30">1M</button>
+                    <button class="timeframe-btn" data-timeframe="90">3M</button>
                 </div>
             </div>
 
@@ -94,7 +761,7 @@
                 <div class="price-header">
                     <div class="price-info">
                         <span class="item-name" id="selectedItemName">Harvester</span>
-                        <span class="current-price" id="currentPrice">$2,200</span>
+                        <span class="current-price" id="currentPrice">2,200</span>
                         <span class="price-change up" id="priceChange">+12.5%</span>
                     </div>
                     <div class="price-stats">
@@ -117,27 +784,24 @@
             <div class="items-grid" id="trendingGrid"></div>
         </div>
 
-        <!-- MM2 PAGE -->
         <div id="mm2Page" class="page">
             <div class="section-header"><h2>🔪 MM2 Items</h2></div>
             <div class="filter-bar">
-                <input type="text" class="search-input" id="mm2Search" placeholder="Search MM2 items..." aria-label="Search MM2 items">
+                <input type="text" class="search-input" id="mm2Search" placeholder="Search MM2 items...">
             </div>
             <div id="mm2Loading" class="loading-skeleton" style="display: none;"></div>
             <div class="items-grid" id="mm2Grid"></div>
         </div>
 
-        <!-- ADOPT ME PAGE -->
         <div id="adoptmePage" class="page">
             <div class="section-header"><h2>🐾 Adopt Me Pets</h2></div>
             <div class="filter-bar">
-                <input type="text" class="search-input" id="adoptSearch" placeholder="Search Adopt Me pets..." aria-label="Search Adopt Me items">
+                <input type="text" class="search-input" id="adoptSearch" placeholder="Search Adopt Me pets...">
             </div>
             <div id="adoptLoading" class="loading-skeleton" style="display: none;"></div>
             <div class="items-grid" id="adoptGrid"></div>
         </div>
 
-        <!-- INVENTORY PAGE -->
         <div id="inventoryPage" class="page">
             <div class="section-header">
                 <h2>📦 My Inventory</h2>
@@ -148,30 +812,36 @@
             <div id="inventoryEmpty" class="empty-state" style="display:none">
                 <i class="fas fa-box-open fa-3x mb-3"></i>
                 <p>No items in inventory</p>
+                <button class="btn-primary mt-4" id="emptyDepositBtn">Deposit Your First Item</button>
             </div>
         </div>
 
-        <!-- PROFILE PAGE -->
         <div id="profilePage" class="page">
             <div class="profile-header mb-8">
                 <div class="w-24 h-24 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center text-3xl mx-auto">👤</div>
-                <h1 class="text-2xl font-bold text-center mt-4">CurrentUser</h1>
-                <p class="text-center text-gray-400">Verified Trader</p>
+                <h1 class="text-2xl font-bold text-center mt-4" id="profileUsername">Guest User</h1>
+                <p class="text-center text-gray-400" id="profileStatus">Not Signed In</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="dashboard-card">
+                <div class="dashboard-card" style="background: var(--bg-card); border-radius: 20px; padding: 1.5rem; border: 1px solid var(--border);">
                     <h3>Trading Stats</h3>
                     <div class="space-y-2 mt-3">
                         <div class="flex justify-between"><span>Total Deposits</span><span class="text-cyan-400" id="profileDeposits">0</span></div>
-                        <div class="flex justify-between"><span>Member Since</span><span>Jan 2024</span></div>
-                        <div class="flex justify-between"><span>Trust Score</span><span class="text-green-400">98%</span></div>
+                        <div class="flex justify-between"><span>Inventory Value</span><span class="text-cyan-400" id="profileValue">0 R$</span></div>
+                        <div class="flex justify-between"><span>Member Since</span><span id="profileMemberSince">Not registered</span></div>
+                        <div class="flex justify-between"><span>Trust Score</span><span class="text-green-400" id="profileTrust">N/A</span></div>
+                    </div>
+                </div>
+                <div class="dashboard-card" style="background: var(--bg-card); border-radius: 20px; padding: 1.5rem; border: 1px solid var(--border);">
+                    <h3>Recent Activity</h3>
+                    <div class="space-y-2 mt-3" id="recentActivity">
+                        <p class="text-gray-400">No recent activity</p>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Bottom Navigation (Mobile) -->
     <div class="bottom-nav" id="bottomNav">
         <div class="bottom-nav-item active" data-page="home"><i class="fas fa-home"></i><span>Home</span></div>
         <div class="bottom-nav-item" data-page="mm2"><i class="fas fa-khanda"></i><span>MM2</span></div>
@@ -180,39 +850,36 @@
         <div class="bottom-nav-item" data-page="profile"><i class="fas fa-user"></i><span>Profile</span></div>
     </div>
 
-    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Item Detail Modal -->
     <div id="itemModal" class="modal">
         <div class="modal-content">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2 class="text-xl font-bold" id="modalItemName">Item Name</h2>
-                <button onclick="closeItemModal()" style="background:none;border:none;color:white;font-size:24px;cursor:pointer;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center" aria-label="Close">&times;</button>
+                <button id="closeModalBtn" style="background:none;border:none;color:white;font-size:24px;cursor:pointer;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center">&times;</button>
             </div>
             <div class="item-info-panel">
                 <div class="info-row"><span>💰 Current Value</span><span class="price-large" id="modalItemValue">0 R$</span></div>
                 <div class="info-row"><span>📈 24h Change</span><span id="modalItemChange" class="trend-up">+0%</span></div>
                 <div class="info-row"><span>⭐ Rarity</span><span id="modalItemRarity">Common</span></div>
                 <div class="info-row"><span>📊 Demand</span><span id="modalItemDemand">Medium</span></div>
-                <div class="demand-meter"><div class="demand-fill demand-medium" id="modalDemandFill" style="width: 50%"></div></div>
-                <div class="info-row"><span>📦 Stock Available</span><span id="modalItemStock" class="stock-badge stock-medium">0</span></div>
+                <div class="demand-meter"><div class="demand-fill" id="modalDemandFill" style="width: 50%"></div></div>
+                <div class="info-row"><span>📦 Stock Available</span><span id="modalItemStock">0</span></div>
                 <div class="info-row"><span>📈 7d Volume</span><span id="modalItemVolume">0</span></div>
                 <div class="info-row"><span>🔥 Trend</span><span id="modalItemTrend">Stable</span></div>
                 <div class="info-row"><span>📅 Last Updated</span><span id="modalItemUpdated">Just now</span></div>
-                <button class="btn-primary w-full mt-4" id="modalDepositBtn">Deposit to Bot</button>
+                <button class="btn-primary w-full mt-4" id="modalDepositBtn">Deposit to Inventory</button>
             </div>
         </div>
     </div>
 
-    <!-- Deposit Modal -->
     <div id="depositModal" class="modal">
         <div class="modal-content">
             <h2 class="text-xl font-bold mb-2">📥 Deposit Item</h2>
-            <p class="text-gray-400 mb-4">Item will be tracked by our bot</p>
+            <p class="text-gray-400 mb-4">Item will be added to your inventory</p>
             <div class="warning-box">
-                <i class="fas fa-exclamation-triangle"></i> <strong>⚠️ IRREVERSIBLE TRANSACTION</strong>
-                <p class="text-sm mt-2">Once confirmed, this deposit cannot be undone.</p>
+                <i class="fas fa-exclamation-triangle"></i> <strong>⚠️ SIMULATED TRANSACTION</strong>
+                <p class="text-sm mt-2">This is a demo. No actual items will be transferred.</p>
             </div>
             <div class="form-group">
                 <label>Game</label>
@@ -227,72 +894,464 @@
             </div>
             <div class="form-group mt-3">
                 <label>Quantity</label>
-                <input type="number" id="depositQuantity" value="1" min="1" class="w-full p-3 rounded-xl bg-gray-800 border border-gray-700">
+                <input type="number" id="depositQuantity" value="1" min="1" max="100" class="w-full p-3 rounded-xl bg-gray-800 border border-gray-700">
             </div>
-            <div class="terms-box">
-                <strong>📜 Terms of Service</strong>
-                <p class="mt-2">By depositing, you agree this transaction is final and irreversible.</p>
-            </div>
-            <label class="checkbox-label">
-                <input type="checkbox" id="termsCheckbox"> <span>I understand this deposit is <strong class="text-red-400">IRREVERSIBLE</strong></span>
+            <label class="checkbox-label mt-3">
+                <input type="checkbox" id="termsCheckbox"> <span>I confirm this deposit</span>
             </label>
             <div class="flex gap-3 mt-4">
-                <button class="btn-primary flex-1" id="confirmDepositBtn" disabled>Confirm Deposit</button>
+                <button class="btn-primary flex-1" id="confirmDepositBtn">Confirm Deposit</button>
                 <button class="btn-secondary" id="closeDepositModal">Cancel</button>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript Files - Load in order -->
     <script>
-        // Global variables for data
-        let MM2_ITEMS = [];
-        let ADOPT_ITEMS = [];
-        
-        // Load data first
-        async function loadData() {
-            try {
-                const response = await fetch('data/items.json');
-                const data = await response.json();
-                MM2_ITEMS = data.mm2;
-                ADOPT_ITEMS = data.adoptme;
-                console.log(`Loaded ${MM2_ITEMS.length} MM2 items and ${ADOPT_ITEMS.length} Adopt Me items`);
-                
-                // Initialize the app after data loads
-                if (typeof initApp === 'function') {
-                    initApp();
+        // Complete application state
+        const App = {
+            mm2Items: [],
+            adoptItems: [],
+            inventory: [],
+            currentUser: { name: 'Guest User', signedIn: false, memberSince: null, deposits: [] },
+            selectedItem: null,
+            priceChart: null,
+            currentTimeframe: 7,
+            currentChartItem: 'Harvester',
+            searchFilters: { mm2: '', adopt: '' },
+            
+            async init() {
+                await this.loadData();
+                this.loadInventory();
+                this.loadUser();
+                this.setupEventListeners();
+                this.initChart();
+                this.renderAll();
+                this.showToast('Welcome to Bloxview!', 'success');
+            },
+            
+            async loadData() {
+                try {
+                    const response = await fetch('data/items.json');
+                    const data = await response.json();
+                    this.mm2Items = data.mm2;
+                    this.adoptItems = data.adoptme;
+                } catch (error) {
+                    console.log('Using fallback data');
+                    this.mm2Items = [
+                        { id: 1, name: "Harvester", value: 2200, change: 12.5, icon: "🔪", rarity: "ancient", demand: "high", demandPercent: 85, stock: 342, volume: 1250, trend: "bullish", game: "mm2" },
+                        { id: 2, name: "Batwing", value: 140, change: 5.2, icon: "🦇", rarity: "godly", demand: "medium", demandPercent: 50, stock: 1250, volume: 890, trend: "stable", game: "mm2" },
+                        { id: 3, name: "Corrupt", value: 1250, change: 8.3, icon: "🗡️", rarity: "ancient", demand: "high", demandPercent: 85, stock: 89, volume: 2340, trend: "bullish", game: "mm2" },
+                        { id: 4, name: "Luger", value: 165, change: -2.1, icon: "🔫", rarity: "godly", demand: "medium", demandPercent: 50, stock: 2300, volume: 560, trend: "bearish", game: "mm2" },
+                        { id: 5, name: "Chroma Darkbringer", value: 1850, change: 15.3, icon: "⚫", rarity: "chroma", demand: "high", demandPercent: 92, stock: 23, volume: 890, trend: "bullish", game: "mm2" },
+                        { id: 6, name: "Elderwood Scythe", value: 450, change: 3.2, icon: "🌿", rarity: "godly", demand: "medium", demandPercent: 55, stock: 432, volume: 445, trend: "stable", game: "mm2" }
+                    ];
+                    this.adoptItems = [
+                        { id: 101, name: "Shadow Dragon", value: 1250, change: 15.2, icon: "🐉", rarity: "legendary", demand: "high", demandPercent: 85, stock: 45, volume: 320, trend: "bullish", game: "adoptme" },
+                        { id: 102, name: "Frost Dragon", value: 980, change: 8.3, icon: "❄️", rarity: "legendary", demand: "high", demandPercent: 85, stock: 67, volume: 280, trend: "bullish", game: "adoptme" },
+                        { id: 103, name: "Giraffe", value: 850, change: 5.2, icon: "🦒", rarity: "legendary", demand: "medium", demandPercent: 50, stock: 89, volume: 150, trend: "stable", game: "adoptme" },
+                        { id: 104, name: "Bat Dragon", value: 1100, change: 10.5, icon: "🦇", rarity: "legendary", demand: "high", demandPercent: 88, stock: 34, volume: 410, trend: "bullish", game: "adoptme" },
+                        { id: 105, name: "Owl", value: 720, change: 4.8, icon: "🦉", rarity: "legendary", demand: "medium", demandPercent: 60, stock: 156, volume: 230, trend: "stable", game: "adoptme" }
+                    ];
                 }
-            } catch (error) {
-                console.error('Error loading items:', error);
-                // Fallback data
-                MM2_ITEMS = [
-                    { id: 1, name: "Harvester", value: 2200, change: "+12.5", icon: "🔪", rarity: "ancient", demand: "high", demandPercent: 85, stock: 342, volume: 1250, trend: "bullish" },
-                    { id: 2, name: "Batwing", value: 140, change: "+5.2", icon: "🦇", rarity: "godly", demand: "medium", demandPercent: 50, stock: 1250, volume: 890, trend: "stable" },
-                    { id: 3, name: "Corrupt", value: 1250, change: "+8.3", icon: "🗡️", rarity: "ancient", demand: "high", demandPercent: 85, stock: 89, volume: 2340, trend: "bullish" },
-                    { id: 4, name: "Luger", value: 165, change: "-2.1", icon: "🔫", rarity: "godly", demand: "medium", demandPercent: 50, stock: 2300, volume: 560, trend: "bearish" }
-                ];
-                ADOPT_ITEMS = [
-                    { id: 101, name: "Shadow Dragon", value: 1250, change: "+15.2", icon: "🐉", rarity: "legendary", demand: "high", demandPercent: 85, stock: 45, volume: 320, trend: "bullish" },
-                    { id: 102, name: "Frost Dragon", value: 980, change: "+8.3", icon: "❄️", rarity: "legendary", demand: "high", demandPercent: 85, stock: 67, volume: 280, trend: "bullish" },
-                    { id: 103, name: "Giraffe", value: 850, change: "+5.2", icon: "🦒", rarity: "legendary", demand: "medium", demandPercent: 50, stock: 89, volume: 150, trend: "stable" }
-                ];
-                
-                if (typeof initApp === 'function') {
-                    initApp();
+            },
+            
+            loadInventory() {
+                const saved = localStorage.getItem('bloxview_inventory');
+                if (saved) {
+                    this.inventory = JSON.parse(saved);
+                } else {
+                    this.inventory = [];
                 }
+            },
+            
+            saveInventory() {
+                localStorage.setItem('bloxview_inventory', JSON.stringify(this.inventory));
+            },
+            
+            loadUser() {
+                const saved = localStorage.getItem('bloxview_user');
+                if (saved) {
+                    this.currentUser = JSON.parse(saved);
+                }
+            },
+            
+            saveUser() {
+                localStorage.setItem('bloxview_user', JSON.stringify(this.currentUser));
+            },
+            
+            addToInventory(item, quantity = 1) {
+                const existing = this.inventory.find(i => i.id === item.id && i.game === item.game);
+                if (existing) {
+                    existing.quantity += quantity;
+                } else {
+                    this.inventory.push({ ...item, quantity, depositDate: new Date().toISOString() });
+                }
+                this.saveInventory();
+                
+                if (this.currentUser.signedIn) {
+                    this.currentUser.deposits.push({ item: item.name, game: item.game, quantity, date: new Date().toISOString() });
+                    this.saveUser();
+                }
+                
+                this.renderAll();
+                this.showToast(`Deposited ${quantity}x ${item.name}!`, 'success');
+            },
+            
+            setupEventListeners() {
+                // Navigation
+                document.querySelectorAll('.nav-link, .bottom-nav-item, .mobile-nav a').forEach(el => {
+                    el.addEventListener('click', (e) => {
+                        const page = el.dataset.page;
+                        if (page) this.switchPage(page);
+                    });
+                });
+                
+                document.getElementById('logoBtn')?.addEventListener('click', () => this.switchPage('home'));
+                document.getElementById('mobileMenuBtn')?.addEventListener('click', () => this.toggleMobileNav());
+                document.getElementById('mobileOverlay')?.addEventListener('click', () => this.toggleMobileNav());
+                
+                // Buttons
+                document.getElementById('loginBtn')?.addEventListener('click', () => this.toggleLogin());
+                document.getElementById('depositNavBtn')?.addEventListener('click', () => this.openDepositModal());
+                document.getElementById('depositHeroBtn')?.addEventListener('click', () => this.openDepositModal());
+                document.getElementById('depositInventoryBtn')?.addEventListener('click', () => this.openDepositModal());
+                document.getElementById('emptyDepositBtn')?.addEventListener('click', () => this.openDepositModal());
+                document.getElementById('exploreBtn')?.addEventListener('click', () => this.switchPage('mm2'));
+                document.getElementById('mobileDepositBtn')?.addEventListener('click', () => {
+                    this.toggleMobileNav();
+                    this.openDepositModal();
+                });
+                
+                // Search
+                document.getElementById('mm2Search')?.addEventListener('input', (e) => {
+                    this.searchFilters.mm2 = e.target.value.toLowerCase();
+                    this.renderMM2();
+                });
+                document.getElementById('adoptSearch')?.addEventListener('input', (e) => {
+                    this.searchFilters.adopt = e.target.value.toLowerCase();
+                    this.renderAdopt();
+                });
+                
+                // Chart
+                document.querySelectorAll('.timeframe-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.timeframe-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.currentTimeframe = parseInt(btn.dataset.timeframe);
+                        this.updateChart();
+                    });
+                });
+                
+                document.querySelectorAll('.chart-item-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.currentChartItem = btn.dataset.item;
+                        this.updateChart();
+                    });
+                });
+                
+                // Modals
+                document.getElementById('closeModalBtn')?.addEventListener('click', () => this.closeItemModal());
+                document.getElementById('modalDepositBtn')?.addEventListener('click', () => {
+                    if (this.selectedItem) {
+                        this.addToInventory(this.selectedItem, 1);
+                        this.closeItemModal();
+                    }
+                });
+                
+                document.getElementById('closeDepositModal')?.addEventListener('click', () => this.closeDepositModal());
+                document.getElementById('depositGame')?.addEventListener('change', () => this.updateDepositItems());
+                document.getElementById('confirmDepositBtn')?.addEventListener('click', () => this.confirmDeposit());
+                document.getElementById('termsCheckbox')?.addEventListener('change', (e) => {
+                    document.getElementById('confirmDepositBtn').disabled = !e.target.checked;
+                });
+                
+                // Close modals on overlay click
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            modal.classList.remove('active');
+                        }
+                    });
+                });
+            },
+            
+            switchPage(pageId) {
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                document.getElementById(`${pageId}Page`).classList.add('active');
+                
+                document.querySelectorAll('.nav-link, .bottom-nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if (nav.dataset.page === pageId) nav.classList.add('active');
+                });
+                
+                if (pageId === 'inventory') this.renderInventory();
+                if (pageId === 'profile') this.renderProfile();
+                window.scrollTo(0, 0);
+            },
+            
+            toggleMobileNav() {
+                const nav = document.getElementById('mobileNav');
+                const overlay = document.getElementById('mobileOverlay');
+                nav.classList.toggle('open');
+                overlay.classList.toggle('active');
+            },
+            
+            toggleLogin() {
+                if (!this.currentUser.signedIn) {
+                    const username = prompt('Enter username:');
+                    if (username) {
+                        this.currentUser = {
+                            name: username,
+                            signedIn: true,
+                            memberSince: new Date().toISOString(),
+                            deposits: this.currentUser.deposits || []
+                        };
+                        this.saveUser();
+                        this.renderProfile();
+                        this.showToast(`Welcome ${username}!`, 'success');
+                        document.getElementById('loginBtn').textContent = 'Sign Out';
+                    }
+                } else {
+                    this.currentUser = { name: 'Guest User', signedIn: false, memberSince: null, deposits: [] };
+                    this.saveUser();
+                    this.renderProfile();
+                    this.showToast('Signed out', 'info');
+                    document.getElementById('loginBtn').textContent = 'Sign In';
+                }
+            },
+            
+            openDepositModal() {
+                this.updateDepositItems();
+                document.getElementById('termsCheckbox').checked = false;
+                document.getElementById('confirmDepositBtn').disabled = true;
+                document.getElementById('depositQuantity').value = 1;
+                document.getElementById('depositModal').classList.add('active');
+            },
+            
+            closeDepositModal() {
+                document.getElementById('depositModal').classList.remove('active');
+            },
+            
+            updateDepositItems() {
+                const game = document.getElementById('depositGame').value;
+                const items = game === 'mm2' ? this.mm2Items : this.adoptItems;
+                const select = document.getElementById('depositItem');
+                select.innerHTML = items.map(item => `<option value="${item.id}">${item.name} - ${item.value} R$</option>`).join('');
+            },
+            
+            confirmDeposit() {
+                const game = document.getElementById('depositGame').value;
+                const itemId = parseInt(document.getElementById('depositItem').value);
+                const quantity = parseInt(document.getElementById('depositQuantity').value);
+                
+                const items = game === 'mm2' ? this.mm2Items : this.adoptItems;
+                const item = items.find(i => i.id === itemId);
+                
+                if (item && quantity > 0 && quantity <= 100) {
+                    this.addToInventory(item, quantity);
+                    this.closeDepositModal();
+                }
+            },
+            
+            openItemModal(item) {
+                this.selectedItem = item;
+                document.getElementById('modalItemName').textContent = item.name;
+                document.getElementById('modalItemValue').textContent = `${item.value} R$`;
+                const changeClass = item.change >= 0 ? 'trend-up' : 'trend-down';
+                const changeColor = item.change >= 0 ? 'var(--green)' : 'var(--red)';
+                document.getElementById('modalItemChange').innerHTML = `${item.change >= 0 ? '+' : ''}${item.change}%`;
+                document.getElementById('modalItemChange').style.color = changeColor;
+                document.getElementById('modalItemRarity').textContent = item.rarity.charAt(0).toUpperCase() + item.rarity.slice(1);
+                document.getElementById('modalItemDemand').textContent = item.demand.charAt(0).toUpperCase() + item.demand.slice(1);
+                document.getElementById('modalDemandFill').style.width = `${item.demandPercent}%`;
+                document.getElementById('modalDemandFill').className = `demand-fill demand-${item.demand}`;
+                document.getElementById('modalItemStock').textContent = item.stock;
+                document.getElementById('modalItemVolume').textContent = item.volume;
+                document.getElementById('modalItemTrend').textContent = item.trend.charAt(0).toUpperCase() + item.trend.slice(1);
+                document.getElementById('itemModal').classList.add('active');
+            },
+            
+            closeItemModal() {
+                document.getElementById('itemModal').classList.remove('active');
+                this.selectedItem = null;
+            },
+            
+            initChart() {
+                const ctx = document.getElementById('priceChart').getContext('2d');
+                this.priceChart = new Chart(ctx, {
+                    type: 'line',
+                    data: { labels: [], datasets: [{ label: 'Price (R$)', data: [], borderColor: '#00f3ff', backgroundColor: 'rgba(0, 243, 255, 0.1)', tension: 0.4, fill: true }] },
+                    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#a0a0b0' } } }, scales: { y: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0' } }, x: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0' } } } }
+                });
+                this.updateChart();
+            },
+            
+            updateChart() {
+                const item = [...this.mm2Items, ...this.adoptItems].find(i => i.name === this.currentChartItem);
+                if (!item) return;
+                
+                const basePrice = item.value;
+                const days = this.currentTimeframe;
+                const labels = [];
+                const data = [];
+                
+                for (let i = days; i >= 0; i--) {
+                    labels.push(`${i}d ago`);
+                    const volatility = 0.05;
+                    const trend = item.trend === 'bullish' ? 0.01 : (item.trend === 'bearish' ? -0.005 : 0);
+                    const change = (Math.random() - 0.5) * volatility + trend;
+                    const price = basePrice * (1 + change * (days - i) / days);
+                    data.push(Math.max(price * 0.8, Math.min(price * 1.2, price)));
+                }
+                
+                this.priceChart.data.labels = labels.reverse();
+                this.priceChart.data.datasets[0].data = data.reverse();
+                this.priceChart.update();
+                
+                document.getElementById('selectedItemName').textContent = item.name;
+                document.getElementById('currentPrice').textContent = item.value;
+                document.getElementById('priceChange').textContent = `${item.change >= 0 ? '+' : ''}${item.change}%`;
+                document.getElementById('priceChange').className = `price-change ${item.change >= 0 ? 'up' : 'down'}`;
+                document.getElementById('volume24h').textContent = item.volume;
+                document.getElementById('demandLevel').textContent = item.demand.charAt(0).toUpperCase() + item.demand.slice(1);
+                document.getElementById('stockLevel').textContent = item.stock;
+            },
+            
+            renderAll() {
+                this.renderTrending();
+                this.renderMM2();
+                this.renderAdopt();
+                this.renderInventory();
+                this.renderProfile();
+            },
+            
+            renderTrending() {
+                const trending = [...this.mm2Items, ...this.adoptItems].sort((a, b) => b.change - a.change).slice(0, 6);
+                const grid = document.getElementById('trendingGrid');
+                if (grid) grid.innerHTML = trending.map(item => this.renderItemCard(item)).join('');
+                document.querySelectorAll('#trendingGrid .item-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const id = parseInt(card.dataset.id);
+                        const game = card.dataset.game;
+                        const item = (game === 'mm2' ? this.mm2Items : this.adoptItems).find(i => i.id === id);
+                        if (item) this.openItemModal(item);
+                    });
+                });
+            },
+            
+            renderMM2() {
+                const filtered = this.mm2Items.filter(item => 
+                    item.name.toLowerCase().includes(this.searchFilters.mm2)
+                );
+                const grid = document.getElementById('mm2Grid');
+                if (grid) grid.innerHTML = filtered.map(item => this.renderItemCard(item)).join('');
+                document.querySelectorAll('#mm2Grid .item-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const item = this.mm2Items.find(i => i.id === parseInt(card.dataset.id));
+                        if (item) this.openItemModal(item);
+                    });
+                });
+            },
+            
+            renderAdopt() {
+                const filtered = this.adoptItems.filter(item => 
+                    item.name.toLowerCase().includes(this.searchFilters.adopt)
+                );
+                const grid = document.getElementById('adoptGrid');
+                if (grid) grid.innerHTML = filtered.map(item => this.renderItemCard(item)).join('');
+                document.querySelectorAll('#adoptGrid .item-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const item = this.adoptItems.find(i => i.id === parseInt(card.dataset.id));
+                        if (item) this.openItemModal(item);
+                    });
+                });
+            },
+            
+            renderItemCard(item) {
+                return `
+                    <div class="item-card" data-id="${item.id}" data-game="${item.game}">
+                        <div class="item-header">
+                            <span class="item-name-card">${item.name}</span>
+                            <span class="item-icon">${item.icon}</span>
+                        </div>
+                        <div class="item-value">${item.value.toLocaleString()} R$</div>
+                        <div class="item-details">
+                            <span class="price-change ${item.change >= 0 ? 'up' : 'down'}">${item.change >= 0 ? '+' : ''}${item.change}%</span>
+                            <span class="demand-badge demand-${item.demand}">${item.demand.toUpperCase()} DEMAND</span>
+                        </div>
+                    </div>
+                `;
+            },
+            
+            renderInventory() {
+                const grid = document.getElementById('inventoryGrid');
+                const empty = document.getElementById('inventoryEmpty');
+                
+                if (this.inventory.length === 0) {
+                    if (grid) grid.innerHTML = '';
+                    if (empty) empty.style.display = 'block';
+                    return;
+                }
+                
+                if (empty) empty.style.display = 'none';
+                if (grid) {
+                    grid.innerHTML = this.inventory.map(item => `
+                        <div class="item-card">
+                            <div class="item-header">
+                                <span class="item-name-card">${item.name}</span>
+                                <span class="item-icon">${item.icon}</span>
+                            </div>
+                            <div class="item-value">${(item.value * item.quantity).toLocaleString()} R$</div>
+                            <div class="item-details">
+                                <span>Qty: ${item.quantity}</span>
+                                <span class="demand-badge demand-${item.demand}">${item.demand.toUpperCase()}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            },
+            
+            renderProfile() {
+                document.getElementById('profileUsername').textContent = this.currentUser.name;
+                document.getElementById('profileStatus').textContent = this.currentUser.signedIn ? 'Verified Trader' : 'Not Signed In';
+                document.getElementById('profileDeposits').textContent = this.currentUser.deposits?.length || 0;
+                document.getElementById('profileTrust').textContent = this.currentUser.signedIn ? '98%' : 'N/A';
+                
+                const totalValue = this.inventory.reduce((sum, item) => sum + (item.value * item.quantity), 0);
+                document.getElementById('profileValue').textContent = `${totalValue.toLocaleString()} R$`;
+                
+                if (this.currentUser.memberSince) {
+                    const date = new Date(this.currentUser.memberSince);
+                    document.getElementById('profileMemberSince').textContent = date.toLocaleDateString();
+                } else {
+                    document.getElementById('profileMemberSince').textContent = 'Not registered';
+                }
+                
+                const activityDiv = document.getElementById('recentActivity');
+                if (this.currentUser.deposits && this.currentUser.deposits.length > 0) {
+                    const recent = this.currentUser.deposits.slice(-5).reverse();
+                    activityDiv.innerHTML = recent.map(d => `
+                        <div class="flex justify-between text-sm">
+                            <span>${d.quantity}x ${d.item}</span>
+                            <span class="text-gray-400">${new Date(d.date).toLocaleDateString()}</span>
+                        </div>
+                    `).join('');
+                } else {
+                    activityDiv.innerHTML = '<p class="text-gray-400">No recent activity</p>';
+                }
+            },
+            
+            showToast(message, type = 'info') {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i> ${message}`;
+                container.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
             }
-        }
+        };
         
-        // Start loading data
-        loadData();
+        App.init();
     </script>
-    
-    <!-- Load JS files in correct order -->
-    <script src="js/utils.js"></script>
-    <script src="js/economy.js"></script>
-    <script src="js/market.js"></script>
-    <script src="js/inventory.js"></script>
-    <script src="js/charts.js"></script>
-    <script src="js/app.js"></script>
 </body>
 </html>
