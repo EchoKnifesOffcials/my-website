@@ -37,7 +37,6 @@
             overflow-x: hidden;
         }
 
-        /* Glass Navigation */
         .glass-nav {
             position: sticky;
             top: 0;
@@ -111,6 +110,7 @@
             background: var(--bg-card);
             border-radius: 50px;
             border: 1px solid var(--border);
+            cursor: pointer;
         }
 
         .user-avatar {
@@ -127,6 +127,12 @@
             border-radius: 50%;
             display: inline-block;
             margin-left: 4px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         button {
@@ -160,7 +166,7 @@
             color: var(--text-primary);
         }
 
-        .btn-secondary:hover {
+        .btn-secondary:hover:not(:disabled) {
             border-color: var(--cyan);
             background: rgba(0, 243, 255, 0.1);
         }
@@ -171,8 +177,14 @@
             color: var(--red);
         }
 
-        .btn-danger:hover {
+        .btn-danger:hover:not(:disabled) {
             background: rgba(239, 68, 68, 0.1);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--green), #059669);
+            border: none;
+            color: white;
         }
 
         .mobile-menu-btn {
@@ -181,7 +193,6 @@
             cursor: pointer;
         }
 
-        /* Mobile Navigation */
         .mobile-nav {
             position: fixed;
             top: 0;
@@ -229,7 +240,6 @@
             visibility: visible;
         }
 
-        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -263,7 +273,6 @@
             color: var(--cyan);
         }
 
-        /* Main Content */
         .main-content {
             max-width: 1400px;
             margin: 0 auto;
@@ -285,7 +294,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Hero Section */
         .hero {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -347,7 +355,6 @@
             font-size: 0.875rem;
         }
 
-        /* Verification Banner */
         .verification-banner {
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(239, 68, 68, 0.1));
             border: 1px solid var(--orange);
@@ -361,7 +368,6 @@
             gap: 1rem;
         }
 
-        /* Verification Modal */
         .verification-modal {
             max-width: 500px;
             text-align: center;
@@ -389,7 +395,7 @@
             padding: 1rem;
             border-radius: 12px;
             font-family: monospace;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             word-break: break-all;
             margin: 1rem 0;
         }
@@ -404,11 +410,16 @@
             animation: spin 0.6s linear infinite;
         }
 
+        .loading-spinner-large {
+            width: 40px;
+            height: 40px;
+            border-width: 3px;
+        }
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Section Header */
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -444,7 +455,6 @@
             border-color: var(--cyan);
         }
 
-        /* Chart Container */
         .chart-container {
             background: var(--bg-card);
             border-radius: 20px;
@@ -499,7 +509,6 @@
             width: 100%;
         }
 
-        /* Filter Bar */
         .filter-bar {
             margin-bottom: 2rem;
         }
@@ -520,7 +529,6 @@
             border-color: var(--cyan);
         }
 
-        /* Items Grid */
         .items-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -583,7 +591,6 @@
         .demand-medium { background: rgba(245, 158, 11, 0.2); color: var(--yellow); }
         .demand-low { background: rgba(239, 68, 68, 0.2); color: var(--red); }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -649,12 +656,21 @@
         .demand-fill.demand-medium { background: var(--yellow); }
         .demand-fill.demand-low { background: var(--red); }
 
-        .warning-box, .terms-box {
+        .warning-box, .terms-box, .info-box {
             background: rgba(239, 68, 68, 0.1);
             border: 1px solid rgba(239, 68, 68, 0.3);
             border-radius: 12px;
             padding: 1rem;
             margin: 1rem 0;
+        }
+
+        .info-box {
+            background: rgba(0, 243, 255, 0.1);
+            border-color: rgba(0, 243, 255, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
         }
 
         .form-group label {
@@ -720,6 +736,20 @@
             font-size: 0.75rem;
         }
 
+        .progress-bar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--cyan);
+            transition: width 0.3s;
+        }
+
         .w-full { width: 100%; }
         .text-center { text-align: center; }
         .text-gray-400 { color: var(--text-secondary); }
@@ -745,6 +775,7 @@
         .gap-6 { gap: 1.5rem; }
         .space-y-2 > * + * { margin-top: 0.5rem; }
         .justify-between { justify-content: space-between; }
+        .hidden { display: none; }
 
         @media (max-width: 768px) {
             .nav-links, .nav-buttons:not(.mobile-show) { display: none; }
@@ -766,7 +797,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
     <nav class="glass-nav" aria-label="Main navigation">
@@ -788,26 +818,26 @@
                     <span id="userName"></span>
                     <span class="verification-badge"></span>
                 </div>
-                <button class="btn-secondary" id="loginBtn">Sign In / Verify</button>
-                <button class="btn-primary" id="depositNavBtn">Deposit</button>
+                <button class="btn-secondary" id="loginBtn"><i class="fas fa-user-plus"></i> Sign In / Verify</button>
+                <button class="btn-primary" id="depositNavBtn"><i class="fas fa-plus"></i> Deposit</button>
             </div>
             <div class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu"><i class="fas fa-bars"></i></div>
         </div>
     </nav>
 
     <div class="mobile-nav" id="mobileNav">
-        <a data-page="home">Home</a>
-        <a data-page="mm2">MM2 Items</a>
-        <a data-page="adoptme">Adopt Me</a>
-        <a data-page="inventory">Inventory</a>
-        <a data-page="profile">Profile</a>
+        <a data-page="home"><i class="fas fa-home"></i> Home</a>
+        <a data-page="mm2"><i class="fas fa-khanda"></i> MM2 Items</a>
+        <a data-page="adoptme"><i class="fas fa-paw"></i> Adopt Me</a>
+        <a data-page="inventory"><i class="fas fa-box"></i> Inventory</a>
+        <a data-page="profile"><i class="fas fa-user"></i> Profile</a>
         <hr style="margin: 1rem 0; border-color: var(--border);">
-        <button class="btn-primary" id="mobileDepositBtn" style="width: 100%;">Deposit</button>
+        <button class="btn-primary" id="mobileDepositBtn" style="width: 100%;"><i class="fas fa-plus"></i> Deposit</button>
+        <button class="btn-secondary" id="mobileLoginBtn" style="width: 100%; margin-top: 0.5rem;"><i class="fas fa-user-plus"></i> Sign In</button>
     </div>
     <div class="mobile-nav-overlay" id="mobileOverlay"></div>
 
     <main class="main-content">
-        <!-- Verification Required Banner (shown to unverified users) -->
         <div id="verifyBanner" class="verification-banner" style="display: none;">
             <div>
                 <i class="fas fa-shield-alt" style="color: var(--orange);"></i>
@@ -899,7 +929,7 @@
         <div id="inventoryPage" class="page">
             <div class="section-header">
                 <h2>📦 My Inventory</h2>
-                <button class="btn-primary" id="depositInventoryBtn">+ Deposit New</button>
+                <button class="btn-primary" id="depositInventoryBtn"><i class="fas fa-plus"></i> Deposit New</button>
             </div>
             <div class="items-grid" id="inventoryGrid"></div>
             <div id="inventoryEmpty" class="empty-state" style="display:none">
@@ -920,16 +950,17 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="dashboard-card" style="background: var(--bg-card); border-radius: 20px; padding: 1.5rem; border: 1px solid var(--border);">
-                    <h3>Trading Stats</h3>
+                    <h3><i class="fas fa-chart-line"></i> Trading Stats</h3>
                     <div class="space-y-2 mt-3">
                         <div class="flex justify-between"><span>Total Deposits</span><span class="text-cyan-400" id="profileDeposits">0</span></div>
                         <div class="flex justify-between"><span>Inventory Value</span><span class="text-cyan-400" id="profileValue">0 R$</span></div>
                         <div class="flex justify-between"><span>Verified Since</span><span id="profileVerifiedSince">Not verified</span></div>
                         <div class="flex justify-between"><span>Trust Score</span><span class="text-green-400" id="profileTrust">N/A</span></div>
                     </div>
+                    <div class="progress-bar mt-3"><div class="progress-fill" id="trustProgress" style="width: 0%"></div></div>
                 </div>
                 <div class="dashboard-card" style="background: var(--bg-card); border-radius: 20px; padding: 1.5rem; border: 1px solid var(--border);">
-                    <h3>Roblox Identity</h3>
+                    <h3><i class="fab fa-roblox"></i> Roblox Identity</h3>
                     <div class="space-y-2 mt-3">
                         <div class="flex justify-between"><span>Roblox Username</span><span id="profileRobloxUser">Not linked</span></div>
                         <div class="flex justify-between"><span>Display Name</span><span id="profileDisplayName">-</span></div>
@@ -962,12 +993,12 @@
                     <label>Enter your Roblox Username</label>
                     <input type="text" id="robloxUsername" placeholder="e.g., BuilderBoy" style="text-align: center;">
                 </div>
-                <button class="btn-primary w-full mt-4" id="fetchRobloxBtn">Fetch Profile <i class="fas fa-search"></i></button>
+                <button class="btn-primary w-full mt-4" id="fetchRobloxBtn"><i class="fas fa-search"></i> Fetch Profile</button>
             </div>
             
             <div id="step2Verification" style="display: none;">
                 <div class="roblox-preview">
-                    <div id="avatarLoading" style="display: none;" class="text-center mb-3"><div class="loading-spinner"></div> Loading avatar...</div>
+                    <div id="avatarLoading" style="display: none;" class="text-center mb-3"><div class="loading-spinner loading-spinner-large"></div><br>Loading avatar...</div>
                     <img id="verificationAvatar" class="roblox-avatar-preview" alt="Roblox Avatar" style="display: none;">
                     <h3 id="verificationDisplayName"></h3>
                     <p id="verificationUsername" class="text-gray-400"></p>
@@ -981,15 +1012,20 @@
             </div>
             
             <div id="step3Verification" style="display: none;">
-                <div class="warning-box">
+                <div class="info-box">
                     <i class="fas fa-code"></i>
                     <strong>Bio Verification Required</strong>
                     <p class="text-sm mt-2">Copy this exact sentence into your Roblox profile bio, then click "Verify"</p>
                 </div>
                 <div class="verification-code" id="verificationCodeDisplay"></div>
                 <p class="text-sm text-gray-400 mb-3">This proves you control the account</p>
-                <button class="btn-primary w-full" id="completeVerificationBtn">✓ I've Added It - Verify Me</button>
-                <button class="btn-secondary w-full mt-2" id="refreshVerificationBtn">⟳ Check Again</button>
+                <button class="btn-primary w-full" id="completeVerificationBtn"><i class="fas fa-check"></i> I've Added It - Verify Me</button>
+                <button class="btn-secondary w-full mt-2" id="refreshVerificationBtn"><i class="fas fa-sync"></i> Check Again</button>
+            </div>
+            
+            <div id="verificationLoading" style="display: none;" class="text-center">
+                <div class="loading-spinner loading-spinner-large"></div>
+                <p class="mt-3">Verifying...</p>
             </div>
         </div>
     </div>
@@ -1010,7 +1046,7 @@
                 <div class="info-row"><span>📦 Stock Available</span><span id="modalItemStock">0</span></div>
                 <div class="info-row"><span>📈 7d Volume</span><span id="modalItemVolume">0</span></div>
                 <div class="info-row"><span>🔥 Trend</span><span id="modalItemTrend">Stable</span></div>
-                <button class="btn-primary w-full mt-4" id="modalDepositBtn">Deposit to Inventory</button>
+                <button class="btn-primary w-full mt-4" id="modalDepositBtn"><i class="fas fa-plus"></i> Deposit to Inventory</button>
             </div>
         </div>
     </div>
@@ -1018,9 +1054,9 @@
     <!-- Deposit Modal -->
     <div id="depositModal" class="modal">
         <div class="modal-content">
-            <h2 class="text-xl font-bold mb-2">📥 Deposit Item</h2>
+            <h2 class="text-xl font-bold mb-2"><i class="fas fa-download"></i> Deposit Item</h2>
             <p class="text-gray-400 mb-4">Item will be added to your inventory</p>
-            <div class="warning-box">
+            <div class="warning-box" id="depositWarningBox">
                 <i class="fas fa-shield-alt"></i> <strong>Verified Only</strong>
                 <p class="text-sm mt-2">You must be verified to deposit items</p>
             </div>
@@ -1031,26 +1067,31 @@
                     <option value="adoptme">Adopt Me</option>
                 </select>
             </div>
-            <div class="form-group mt-3">
+            <div class="form-group">
                 <label>Item</label>
                 <select id="depositItem" class="w-full"></select>
             </div>
-            <div class="form-group mt-3">
+            <div class="form-group">
                 <label>Quantity</label>
                 <input type="number" id="depositQuantity" value="1" min="1" max="100" class="w-full">
             </div>
-            <label class="checkbox-label mt-3">
-                <input type="checkbox" id="termsCheckbox"> <span>I confirm this deposit</span>
+            <label class="checkbox-label">
+                <input type="checkbox" id="termsCheckbox"> <span>I confirm this deposit is accurate</span>
             </label>
             <div class="flex gap-3 mt-4">
-                <button class="btn-primary flex-1" id="confirmDepositBtn" disabled>Confirm Deposit</button>
+                <button class="btn-primary flex-1" id="confirmDepositBtn" disabled><i class="fas fa-check"></i> Confirm Deposit</button>
                 <button class="btn-secondary" id="closeDepositModal">Cancel</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Complete application with REAL Roblox API integration
+        // API Configuration
+        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:3001/api' 
+            : 'https://api.bloxview.com/api';
+        
+        // Complete application with backend integration
         const App = {
             mm2Items: [],
             adoptItems: [],
@@ -1059,6 +1100,7 @@
                 name: 'Guest User', 
                 signedIn: false, 
                 verified: false,
+                token: null,
                 robloxUsername: null,
                 robloxDisplayName: null,
                 robloxId: null,
@@ -1072,75 +1114,164 @@
             currentTimeframe: 7,
             currentChartItem: 'Harvester',
             searchFilters: { mm2: '', adopt: '' },
-            requestCount: 0,
-            lastRequestReset: Date.now(),
+            pendingProfile: null,
+            pendingVerificationCode: null,
             
-            // Rate limiting
-            checkRateLimit() {
-                if (Date.now() - this.lastRequestReset > 3600000) {
-                    this.requestCount = 0;
-                    this.lastRequestReset = Date.now();
-                }
-                this.requestCount++;
-                return this.requestCount <= 100;
-            },
-            
-            // Generate random verification sentence (AI-generated style)
-            generateVerificationCode() {
-                const adjectives = ['CRIMSON', 'GOLDEN', 'SILVER', 'EMERALD', 'SAPPHIRE', 'RADIANT', 'SHADOW', 'PHANTOM', 'ETERNAL', 'MYSTIC', 'BLAZING', 'FROSTBORN', 'THUNDER', 'NEBULA'];
-                const nouns = ['PHOENIX', 'DRAGON', 'WOLF', 'EAGLE', 'TIGER', 'WIZARD', 'KNIGHT', 'GUARDIAN', 'SENTINEL', 'PROPHET', 'LEGEND', 'MYTH'];
-                const verbs = ['FLIES', 'HUNTS', 'SHINES', 'PROTECTS', 'GUIDES', 'WATCHES', 'DREAMS', 'RISES', 'FALLS', 'ENDURES', 'REIGNS', 'AWAKENS'];
-                const numbers = Math.floor(Math.random() * 9000) + 1000;
+            // API Helper
+            async apiCall(endpoint, options = {}) {
+                const headers = {
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                };
                 
-                return `${adjectives[Math.floor(Math.random() * adjectives.length)]} ${nouns[Math.floor(Math.random() * nouns.length)]} ${verbs[Math.floor(Math.random() * verbs.length)]} AT ${numbers}`;
-            },
-            
-            // Hash function for anti-tamper
-            hashData(data) {
-                return CryptoJS.SHA256(data + "bloxview_secret_salt").toString();
-            },
-            
-            // REAL Roblox API calls
-            async fetchRobloxUserByUsername(username) {
+                if (this.currentUser.token) {
+                    headers['Authorization'] = `Bearer ${this.currentUser.token}`;
+                }
+                
                 try {
-                    // Step 1: Get user ID from username
-                    const userResponse = await fetch(`https://users.roblox.com/v1/users/search?keyword=${encodeURIComponent(username)}&limit=1`);
-                    const userData = await userResponse.json();
+                    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                        ...options,
+                        headers
+                    });
                     
-                    if (!userData.data || userData.data.length === 0) {
-                        throw new Error('User not found');
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.error || `HTTP ${response.status}`);
                     }
                     
-                    const user = userData.data[0];
-                    
-                    // Step 2: Get detailed user info
-                    const detailResponse = await fetch(`https://users.roblox.com/v1/users/${user.id}`);
-                    const userDetail = await detailResponse.json();
-                    
-                    // Step 3: Get avatar thumbnail
-                    const avatarResponse = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${user.id}&size=420x420&format=Png&isCircular=false`);
-                    const avatarData = await avatarResponse.json();
-                    
-                    const avatarUrl = avatarData.data?.[0]?.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userDetail.displayName || username)}&background=00f3ff&color=fff&size=200`;
-                    
-                    return {
-                        id: userDetail.id,
-                        name: userDetail.name,
-                        displayName: userDetail.displayName,
-                        created: userDetail.created,
-                        avatarUrl: avatarUrl,
-                        isVerified: true
-                    };
+                    return await response.json();
                 } catch (error) {
-                    console.error('Roblox API error:', error);
-                    return null;
+                    console.error('API Error:', error);
+                    throw error;
                 }
             },
             
-            calculateAccountAge(createdDate) {
-                const age = (Date.now() - new Date(createdDate).getTime()) / (1000 * 3600 * 24);
-                if (age < 30) return { text: `${Math.floor(age)} days (⚠️ Account too new - need 30+ days)`, valid: false };
-                return { text: `${Math.floor(age)} days old ✓`, valid: true };
+            async init() {
+                await this.loadData();
+                this.loadInventory();
+                this.loadUser();
+                this.setupEventListeners();
+                this.initChart();
+                this.renderAll();
+                this.checkVerificationStatus();
+                this.showToast('Welcome to Bloxview! Verify your Roblox account to start trading.', 'info');
+                await this.collectFingerprint();
+            },
+            
+            async collectFingerprint() {
+                const fingerprint = {
+                    webdriver: navigator.webdriver,
+                    languages: navigator.languages,
+                    plugins: Array.from(navigator.plugins || []).map(p => p.name),
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform,
+                    hardwareConcurrency: navigator.hardwareConcurrency,
+                    deviceMemory: navigator.deviceMemory,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    screenResolution: `${screen.width}x${screen.height}`,
+                    colorDepth: screen.colorDepth,
+                    touchPoints: navigator.maxTouchPoints
+                };
+                
+                try {
+                    await this.apiCall('/fingerprint', {
+                        method: 'POST',
+                        body: JSON.stringify(fingerprint)
+                    });
+                } catch (e) {
+                    // Fingerprint collection is optional
+                }
+            },
+            
+            async loadData() {
+                // Fallback data if API isn't available
+                this.mm2Items = [
+                    { id: 1, name: "Harvester", value: 2200, change: 12.5, icon: "🔪", rarity: "ancient", demand: "high", demandPercent: 85, stock: 342, volume: 1250, trend: "bullish", game: "mm2" },
+                    { id: 2, name: "Batwing", value: 140, change: 5.2, icon: "🦇", rarity: "godly", demand: "medium", demandPercent: 50, stock: 1250, volume: 890, trend: "stable", game: "mm2" },
+                    { id: 3, name: "Corrupt", value: 1250, change: 8.3, icon: "🗡️", rarity: "ancient", demand: "high", demandPercent: 85, stock: 89, volume: 2340, trend: "bullish", game: "mm2" },
+                    { id: 4, name: "Luger", value: 165, change: -2.1, icon: "🔫", rarity: "godly", demand: "medium", demandPercent: 50, stock: 2300, volume: 560, trend: "bearish", game: "mm2" },
+                    { id: 5, name: "Chroma Darkbringer", value: 1850, change: 15.3, icon: "⚫", rarity: "chroma", demand: "high", demandPercent: 92, stock: 23, volume: 890, trend: "bullish", game: "mm2" },
+                    { id: 6, name: "Elderwood Scythe", value: 450, change: 3.2, icon: "🌿", rarity: "godly", demand: "medium", demandPercent: 55, stock: 432, volume: 445, trend: "stable", game: "mm2" }
+                ];
+                this.adoptItems = [
+                    { id: 101, name: "Shadow Dragon", value: 1250, change: 15.2, icon: "🐉", rarity: "legendary", demand: "high", demandPercent: 85, stock: 45, volume: 320, trend: "bullish", game: "adoptme" },
+                    { id: 102, name: "Frost Dragon", value: 980, change: 8.3, icon: "❄️", rarity: "legendary", demand: "high", demandPercent: 85, stock: 67, volume: 280, trend: "bullish", game: "adoptme" },
+                    { id: 103, name: "Giraffe", value: 850, change: 5.2, icon: "🦒", rarity: "legendary", demand: "medium", demandPercent: 50, stock: 89, volume: 150, trend: "stable", game: "adoptme" },
+                    { id: 104, name: "Bat Dragon", value: 1100, change: 10.5, icon: "🦇", rarity: "legendary", demand: "high", demandPercent: 88, stock: 34, volume: 410, trend: "bullish", game: "adoptme" },
+                    { id: 105, name: "Owl", value: 720, change: 4.8, icon: "🦉", rarity: "legendary", demand: "medium", demandPercent: 60, stock: 156, volume: 230, trend: "stable", game: "adoptme" }
+                ];
+            },
+            
+            loadInventory() {
+                const saved = localStorage.getItem('bloxview_inventory');
+                if (saved) {
+                    try {
+                        this.inventory = JSON.parse(saved);
+                    } catch(e) { this.inventory = []; }
+                } else {
+                    this.inventory = [];
+                }
+            },
+            
+            saveInventory() {
+                localStorage.setItem('bloxview_inventory', JSON.stringify(this.inventory));
+            },
+            
+            loadUser() {
+                const saved = localStorage.getItem('bloxview_user');
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        this.currentUser = parsed;
+                    } catch(e) { }
+                }
+            },
+            
+            saveUser() {
+                localStorage.setItem('bloxview_user', JSON.stringify(this.currentUser));
+            },
+            
+            checkVerificationStatus() {
+                const banner = document.getElementById('verifyBanner');
+                const depositWarning = document.getElementById('depositWarningBox');
+                
+                if (this.currentUser.verified) {
+                    if (banner) banner.style.display = 'none';
+                    if (depositWarning) depositWarning.style.display = 'none';
+                    document.getElementById('loginBtn').innerHTML = '<i class="fas fa-check-circle"></i> Verified';
+                    document.getElementById('userBadge').style.display = 'flex';
+                    document.getElementById('userName').textContent = this.currentUser.robloxDisplayName || this.currentUser.robloxUsername;
+                    document.getElementById('userAvatar').src = this.currentUser.robloxAvatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(this.currentUser.robloxUsername || 'User') + '&background=00f3ff&color=fff';
+                } else {
+                    if (banner) banner.style.display = 'flex';
+                    if (depositWarning) depositWarning.style.display = 'block';
+                    document.getElementById('loginBtn').innerHTML = '<i class="fas fa-user-plus"></i> Sign In / Verify';
+                    document.getElementById('userBadge').style.display = 'none';
+                }
+            },
+            
+            async fetchRobloxUser(username) {
+                this.showToast('Fetching Roblox profile...', 'info');
+                
+                try {
+                    const result = await this.apiCall(`/roblox/user/${encodeURIComponent(username)}`);
+                    return result;
+                } catch (error) {
+                    // Fallback to simulated data if API is unavailable
+                    console.warn('API unavailable, using fallback');
+                    const mockId = Math.floor(Math.random() * 1000000000);
+                    const mockDate = new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString();
+                    return {
+                        id: mockId,
+                        username: username.toLowerCase(),
+                        displayName: username,
+                        created: mockDate,
+                        accountAgeDays: 45,
+                        isAccountOldEnough: true,
+                        avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=00f3ff&color=fff&size=200`,
+                        profileUrl: `https://www.roblox.com/users/${mockId}/profile`
+                    };
+                }
             },
             
             async startVerification() {
@@ -1148,6 +1279,8 @@
                 document.getElementById('step1Verification').style.display = 'block';
                 document.getElementById('step2Verification').style.display = 'none';
                 document.getElementById('step3Verification').style.display = 'none';
+                document.getElementById('verificationLoading').style.display = 'none';
+                document.getElementById('robloxUsername').value = '';
             },
             
             async fetchAndPreview() {
@@ -1157,32 +1290,24 @@
                     return;
                 }
                 
-                if (!this.checkRateLimit()) {
-                    this.showToast('Rate limit exceeded. Please wait.', 'error');
-                    return;
-                }
-                
-                this.showToast('Fetching profile from Roblox...', 'info');
-                
-                // Show loading state
                 const fetchBtn = document.getElementById('fetchRobloxBtn');
                 const originalText = fetchBtn.innerHTML;
                 fetchBtn.innerHTML = '<div class="loading-spinner"></div> Loading...';
                 fetchBtn.disabled = true;
                 
-                const profile = await this.fetchRobloxUserByUsername(username);
-                
-                fetchBtn.innerHTML = originalText;
-                fetchBtn.disabled = false;
-                
-                if (profile) {
-                    const ageCheck = this.calculateAccountAge(profile.created);
-                    if (!ageCheck.valid) {
-                        this.showToast(ageCheck.text, 'error');
+                try {
+                    const profile = await this.fetchRobloxUser(username);
+                    
+                    if (!profile || !profile.id) {
+                        this.showToast('User not found. Check the username.', 'error');
                         return;
                     }
                     
-                    // Show avatar with proper loading
+                    if (!profile.isAccountOldEnough) {
+                        this.showToast(`Account must be at least 30 days old. Current: ${profile.accountAgeDays} days`, 'error');
+                        return;
+                    }
+                    
                     const avatarImg = document.getElementById('verificationAvatar');
                     const loadingDiv = document.getElementById('avatarLoading');
                     
@@ -1196,29 +1321,63 @@
                     
                     avatarImg.src = profile.avatarUrl;
                     document.getElementById('verificationDisplayName').textContent = profile.displayName;
-                    document.getElementById('verificationUsername').textContent = `@${profile.name}`;
-                    document.getElementById('accountAgeBadge').innerHTML = `<i class="fas fa-calendar-alt"></i> ${ageCheck.text}`;
+                    document.getElementById('verificationUsername').textContent = `@${profile.username}`;
+                    document.getElementById('accountAgeBadge').innerHTML = `<i class="fas fa-calendar-alt"></i> ${profile.accountAgeDays} days old ✓`;
                     
                     this.pendingProfile = profile;
-                    this.pendingUsername = profile.name;
                     
                     document.getElementById('step1Verification').style.display = 'none';
                     document.getElementById('step2Verification').style.display = 'block';
-                } else {
-                    this.showToast('User not found. Check the username and try again.', 'error');
+                } catch (error) {
+                    this.showToast('Error fetching profile: ' + error.message, 'error');
+                } finally {
+                    fetchBtn.innerHTML = originalText;
+                    fetchBtn.disabled = false;
                 }
             },
             
-            confirmIdentity() {
-                if (this.pendingProfile) {
-                    document.getElementById('step2Verification').style.display = 'none';
-                    document.getElementById('step3Verification').style.display = 'block';
+            async confirmIdentity() {
+                if (!this.pendingProfile) return;
+                
+                document.getElementById('step2Verification').style.display = 'none';
+                document.getElementById('verificationLoading').style.display = 'block';
+                
+                try {
+                    // Start verification on backend
+                    const result = await this.apiCall('/verify/start', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            robloxId: this.pendingProfile.id,
+                            robloxUsername: this.pendingProfile.username
+                        })
+                    });
                     
-                    const code = this.generateVerificationCode();
-                    this.pendingVerificationCode = code;
-                    document.getElementById('verificationCodeDisplay').innerHTML = `"${code}"`;
+                    if (result.success) {
+                        this.pendingVerificationCode = result.code;
+                        document.getElementById('verificationLoading').style.display = 'none';
+                        document.getElementById('step3Verification').style.display = 'block';
+                        document.getElementById('verificationCodeDisplay').innerHTML = `"${result.code}"`;
+                        this.showToast(`Add this exact sentence to your Roblox bio!`, 'info');
+                    } else {
+                        throw new Error(result.error || 'Verification start failed');
+                    }
+                } catch (error) {
+                    // Fallback: Generate local code
+                    const fallbackCode = this.generateVerificationCode();
+                    this.pendingVerificationCode = fallbackCode;
+                    document.getElementById('verificationLoading').style.display = 'none';
+                    document.getElementById('step3Verification').style.display = 'block';
+                    document.getElementById('verificationCodeDisplay').innerHTML = `"${fallbackCode}"`;
                     this.showToast(`Add this exact sentence to your Roblox bio!`, 'info');
                 }
+            },
+            
+            generateVerificationCode() {
+                const adjectives = ['CRIMSON', 'GOLDEN', 'SILVER', 'EMERALD', 'SAPPHIRE', 'RADIANT', 'SHADOW', 'PHANTOM', 'ETERNAL', 'MYSTIC'];
+                const nouns = ['PHOENIX', 'DRAGON', 'WOLF', 'EAGLE', 'TIGER', 'WIZARD', 'KNIGHT', 'GUARDIAN', 'SENTINEL', 'PROPHET'];
+                const verbs = ['FLIES', 'HUNTS', 'SHINES', 'PROTECTS', 'GUIDES', 'WATCHES', 'DREAMS', 'RISES', 'FALLS', 'ENDURES'];
+                const numbers = Math.floor(Math.random() * 9000) + 1000;
+                return `${adjectives[Math.floor(Math.random() * adjectives.length)]}_${nouns[Math.floor(Math.random() * nouns.length)]}_${verbs[Math.floor(Math.random() * verbs.length)]}_${numbers}`;
             },
             
             denyIdentity() {
@@ -1231,116 +1390,68 @@
             async completeVerification() {
                 if (!this.pendingProfile || !this.pendingVerificationCode) return;
                 
-                this.showToast('Verifying bio... (In production, this would check your Roblox bio)', 'info');
+                document.getElementById('step3Verification').style.display = 'none';
+                document.getElementById('verificationLoading').style.display = 'block';
                 
-                // In production: This would call Roblox API to read the user's bio
-                // For demo: Simulate verification
+                try {
+                    const result = await this.apiCall('/verify/check', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            robloxId: this.pendingProfile.id,
+                            robloxUsername: this.pendingProfile.username
+                        })
+                    });
+                    
+                    if (result.success && result.verified) {
+                        this.completeVerificationSuccess(result);
+                    } else {
+                        this.showToast(result.message || 'Verification failed. Make sure you added the exact code to your bio.', 'error');
+                        document.getElementById('verificationLoading').style.display = 'none';
+                        document.getElementById('step3Verification').style.display = 'block';
+                    }
+                } catch (error) {
+                    // For demo: Simulate successful verification
+                    this.simulateVerificationSuccess();
+                }
+            },
+            
+            simulateVerificationSuccess() {
                 setTimeout(() => {
-                    this.currentUser = {
-                        ...this.currentUser,
-                        signedIn: true,
-                        verified: true,
-                        robloxUsername: this.pendingProfile.name,
-                        robloxDisplayName: this.pendingProfile.displayName,
-                        robloxId: this.pendingProfile.id,
-                        robloxAvatar: this.pendingProfile.avatarUrl,
-                        verifiedSince: new Date().toISOString(),
-                        verificationCode: this.pendingVerificationCode,
-                        verificationHash: this.hashData(this.pendingVerificationCode + this.pendingProfile.id),
-                        deposits: this.currentUser.deposits || []
-                    };
-                    
-                    this.saveUser();
-                    this.checkVerificationStatus();
-                    this.renderProfile();
-                    document.getElementById('verificationModal').classList.remove('active');
-                    this.showToast(`Verified as ${this.pendingProfile.displayName}! You can now trade.`, 'success');
-                    
-                    this.pendingProfile = null;
-                    this.pendingVerificationCode = null;
+                    this.completeVerificationSuccess({
+                        token: 'demo_token_' + Math.random().toString(36).substring(7),
+                        user: {
+                            id: this.pendingProfile.id,
+                            username: this.pendingProfile.username,
+                            displayName: this.pendingProfile.displayName,
+                            avatarUrl: this.pendingProfile.avatarUrl,
+                            verifiedAt: new Date().toISOString()
+                        }
+                    });
                 }, 1500);
             },
             
-            async init() {
-                await this.loadData();
-                this.loadInventory();
-                this.loadUser();
-                this.setupEventListeners();
-                this.initChart();
-                this.renderAll();
-                this.checkVerificationStatus();
-                this.showToast('Welcome to Bloxview! Verify your Roblox account to start trading.', 'info');
-            },
-            
-            async loadData() {
-                try {
-                    const response = await fetch('data/items.json');
-                    const data = await response.json();
-                    this.mm2Items = data.mm2;
-                    this.adoptItems = data.adoptme;
-                } catch (error) {
-                    this.mm2Items = [
-                        { id: 1, name: "Harvester", value: 2200, change: 12.5, icon: "🔪", rarity: "ancient", demand: "high", demandPercent: 85, stock: 342, volume: 1250, trend: "bullish", game: "mm2" },
-                        { id: 2, name: "Batwing", value: 140, change: 5.2, icon: "🦇", rarity: "godly", demand: "medium", demandPercent: 50, stock: 1250, volume: 890, trend: "stable", game: "mm2" },
-                        { id: 3, name: "Corrupt", value: 1250, change: 8.3, icon: "🗡️", rarity: "ancient", demand: "high", demandPercent: 85, stock: 89, volume: 2340, trend: "bullish", game: "mm2" },
-                        { id: 4, name: "Luger", value: 165, change: -2.1, icon: "🔫", rarity: "godly", demand: "medium", demandPercent: 50, stock: 2300, volume: 560, trend: "bearish", game: "mm2" },
-                        { id: 5, name: "Chroma Darkbringer", value: 1850, change: 15.3, icon: "⚫", rarity: "chroma", demand: "high", demandPercent: 92, stock: 23, volume: 890, trend: "bullish", game: "mm2" },
-                        { id: 6, name: "Elderwood Scythe", value: 450, change: 3.2, icon: "🌿", rarity: "godly", demand: "medium", demandPercent: 55, stock: 432, volume: 445, trend: "stable", game: "mm2" }
-                    ];
-                    this.adoptItems = [
-                        { id: 101, name: "Shadow Dragon", value: 1250, change: 15.2, icon: "🐉", rarity: "legendary", demand: "high", demandPercent: 85, stock: 45, volume: 320, trend: "bullish", game: "adoptme" },
-                        { id: 102, name: "Frost Dragon", value: 980, change: 8.3, icon: "❄️", rarity: "legendary", demand: "high", demandPercent: 85, stock: 67, volume: 280, trend: "bullish", game: "adoptme" },
-                        { id: 103, name: "Giraffe", value: 850, change: 5.2, icon: "🦒", rarity: "legendary", demand: "medium", demandPercent: 50, stock: 89, volume: 150, trend: "stable", game: "adoptme" },
-                        { id: 104, name: "Bat Dragon", value: 1100, change: 10.5, icon: "🦇", rarity: "legendary", demand: "high", demandPercent: 88, stock: 34, volume: 410, trend: "bullish", game: "adoptme" },
-                        { id: 105, name: "Owl", value: 720, change: 4.8, icon: "🦉", rarity: "legendary", demand: "medium", demandPercent: 60, stock: 156, volume: 230, trend: "stable", game: "adoptme" }
-                    ];
-                }
-            },
-            
-            loadInventory() {
-                const saved = localStorage.getItem('bloxview_inventory');
-                if (saved) {
-                    this.inventory = JSON.parse(saved);
-                } else {
-                    this.inventory = [];
-                }
-            },
-            
-            saveInventory() {
-                localStorage.setItem('bloxview_inventory', JSON.stringify(this.inventory));
-            },
-            
-            loadUser() {
-                const saved = localStorage.getItem('bloxview_user');
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    if (parsed.dataHash === this.hashData(JSON.stringify(parsed.userData))) {
-                        this.currentUser = parsed.userData;
-                    }
-                }
-            },
-            
-            saveUser() {
-                const toSave = {
-                    userData: this.currentUser,
-                    dataHash: this.hashData(JSON.stringify(this.currentUser))
+            completeVerificationSuccess(result) {
+                this.currentUser = {
+                    ...this.currentUser,
+                    signedIn: true,
+                    verified: true,
+                    token: result.token,
+                    robloxUsername: result.user.username,
+                    robloxDisplayName: result.user.displayName,
+                    robloxId: result.user.id,
+                    robloxAvatar: result.user.avatarUrl,
+                    verifiedSince: result.user.verifiedAt || new Date().toISOString(),
+                    deposits: this.currentUser.deposits || []
                 };
-                localStorage.setItem('bloxview_user', JSON.stringify(toSave));
-            },
-            
-            checkVerificationStatus() {
-                const banner = document.getElementById('verifyBanner');
-                if (this.currentUser.verified) {
-                    if (banner) banner.style.display = 'none';
-                    document.getElementById('loginBtn').innerHTML = '<i class="fas fa-check-circle"></i> Verified';
-                    document.getElementById('userBadge').style.display = 'flex';
-                    document.getElementById('userName').textContent = this.currentUser.robloxDisplayName || this.currentUser.robloxUsername;
-                    document.getElementById('userAvatar').src = this.currentUser.robloxAvatar;
-                } else {
-                    if (banner && this.currentUser.signedIn) banner.style.display = 'flex';
-                    document.getElementById('loginBtn').innerHTML = 'Sign In / Verify';
-                    document.getElementById('userBadge').style.display = 'none';
-                }
+                
+                this.saveUser();
+                this.checkVerificationStatus();
+                this.renderProfile();
+                document.getElementById('verificationModal').classList.remove('active');
+                this.showToast(`Verified as ${result.user.displayName}! You can now trade.`, 'success');
+                
+                this.pendingProfile = null;
+                this.pendingVerificationCode = null;
             },
             
             addToInventory(item, quantity = 1) {
@@ -1359,6 +1470,7 @@
                 this.saveInventory();
                 
                 if (this.currentUser.signedIn) {
+                    this.currentUser.deposits = this.currentUser.deposits || [];
                     this.currentUser.deposits.push({ item: item.name, game: item.game, quantity, date: new Date().toISOString() });
                     this.saveUser();
                 }
@@ -1382,6 +1494,10 @@
                 
                 // Buttons
                 document.getElementById('loginBtn')?.addEventListener('click', () => this.startVerification());
+                document.getElementById('mobileLoginBtn')?.addEventListener('click', () => {
+                    this.toggleMobileNav();
+                    this.startVerification();
+                });
                 document.getElementById('verifyNowBtn')?.addEventListener('click', () => this.startVerification());
                 document.getElementById('depositNavBtn')?.addEventListener('click', () => this.openDepositModal());
                 document.getElementById('depositHeroBtn')?.addEventListener('click', () => this.openDepositModal());
@@ -1428,7 +1544,11 @@
                 });
                 
                 // Modals
-                document.getElementById('closeModalBtn')?.addEventListener('click', () => this.closeItemModal());
+                const closeModalBtn = document.getElementById('closeModalBtn');
+                if (closeModalBtn) {
+                    closeModalBtn.addEventListener('click', () => this.closeItemModal());
+                }
+                
                 document.getElementById('modalDepositBtn')?.addEventListener('click', () => {
                     if (this.selectedItem) {
                         this.addToInventory(this.selectedItem, 1);
@@ -1443,6 +1563,15 @@
                     document.getElementById('confirmDepositBtn').disabled = !e.target.checked;
                 });
                 
+                // Close modals on escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        document.querySelectorAll('.modal.active').forEach(modal => {
+                            modal.classList.remove('active');
+                        });
+                    }
+                });
+                
                 // Close modals on overlay click
                 document.querySelectorAll('.modal').forEach(modal => {
                     modal.addEventListener('click', (e) => {
@@ -1455,7 +1584,8 @@
             
             switchPage(pageId) {
                 document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-                document.getElementById(`${pageId}Page`).classList.add('active');
+                const targetPage = document.getElementById(`${pageId}Page`);
+                if (targetPage) targetPage.classList.add('active');
                 
                 document.querySelectorAll('.nav-link, .bottom-nav-item').forEach(nav => {
                     nav.classList.remove('active');
@@ -1495,7 +1625,9 @@
                 const game = document.getElementById('depositGame').value;
                 const items = game === 'mm2' ? this.mm2Items : this.adoptItems;
                 const select = document.getElementById('depositItem');
-                select.innerHTML = items.map(item => `<option value="${item.id}">${item.name} - ${item.value} R$</option>`).join('');
+                if (select) {
+                    select.innerHTML = items.map(item => `<option value="${item.id}">${item.name} - ${item.value} R$</option>`).join('');
+                }
             },
             
             confirmDeposit() {
@@ -1545,7 +1677,8 @@
             },
             
             updateChart() {
-                const item = [...this.mm2Items, ...this.adoptItems].find(i => i.name === this.currentChartItem);
+                const allItems = [...this.mm2Items, ...this.adoptItems];
+                const item = allItems.find(i => i.name === this.currentChartItem);
                 if (!item) return;
                 
                 const basePrice = item.value;
@@ -1586,15 +1719,18 @@
             renderTrending() {
                 const trending = [...this.mm2Items, ...this.adoptItems].sort((a, b) => b.change - a.change).slice(0, 6);
                 const grid = document.getElementById('trendingGrid');
-                if (grid) grid.innerHTML = trending.map(item => this.renderItemCard(item)).join('');
-                document.querySelectorAll('#trendingGrid .item-card').forEach(card => {
-                    card.addEventListener('click', () => {
-                        const id = parseInt(card.dataset.id);
-                        const game = card.dataset.game;
-                        const item = (game === 'mm2' ? this.mm2Items : this.adoptItems).find(i => i.id === id);
-                        if (item) this.openItemModal(item);
+                if (grid) {
+                    grid.innerHTML = trending.map(item => this.renderItemCard(item)).join('');
+                    document.querySelectorAll('#trendingGrid .item-card').forEach(card => {
+                        card.addEventListener('click', () => {
+                            const id = parseInt(card.dataset.id);
+                            const game = card.dataset.game;
+                            const items = game === 'mm2' ? this.mm2Items : this.adoptItems;
+                            const item = items.find(i => i.id === id);
+                            if (item) this.openItemModal(item);
+                        });
                     });
-                });
+                }
             },
             
             renderMM2() {
@@ -1602,13 +1738,15 @@
                     item.name.toLowerCase().includes(this.searchFilters.mm2)
                 );
                 const grid = document.getElementById('mm2Grid');
-                if (grid) grid.innerHTML = filtered.map(item => this.renderItemCard(item)).join('');
-                document.querySelectorAll('#mm2Grid .item-card').forEach(card => {
-                    card.addEventListener('click', () => {
-                        const item = this.mm2Items.find(i => i.id === parseInt(card.dataset.id));
-                        if (item) this.openItemModal(item);
+                if (grid) {
+                    grid.innerHTML = filtered.map(item => this.renderItemCard(item)).join('');
+                    document.querySelectorAll('#mm2Grid .item-card').forEach(card => {
+                        card.addEventListener('click', () => {
+                            const item = this.mm2Items.find(i => i.id === parseInt(card.dataset.id));
+                            if (item) this.openItemModal(item);
+                        });
                     });
-                });
+                }
             },
             
             renderAdopt() {
@@ -1616,13 +1754,15 @@
                     item.name.toLowerCase().includes(this.searchFilters.adopt)
                 );
                 const grid = document.getElementById('adoptGrid');
-                if (grid) grid.innerHTML = filtered.map(item => this.renderItemCard(item)).join('');
-                document.querySelectorAll('#adoptGrid .item-card').forEach(card => {
-                    card.addEventListener('click', () => {
-                        const item = this.adoptItems.find(i => i.id === parseInt(card.dataset.id));
-                        if (item) this.openItemModal(item);
+                if (grid) {
+                    grid.innerHTML = filtered.map(item => this.renderItemCard(item)).join('');
+                    document.querySelectorAll('#adoptGrid .item-card').forEach(card => {
+                        card.addEventListener('click', () => {
+                            const item = this.adoptItems.find(i => i.id === parseInt(card.dataset.id));
+                            if (item) this.openItemModal(item);
+                        });
                     });
-                });
+                }
             },
             
             renderItemCard(item) {
@@ -1645,7 +1785,7 @@
                 const grid = document.getElementById('inventoryGrid');
                 const empty = document.getElementById('inventoryEmpty');
                 
-                if (this.inventory.length === 0) {
+                if (!this.inventory || this.inventory.length === 0) {
                     if (grid) grid.innerHTML = '';
                     if (empty) empty.style.display = 'block';
                     return;
@@ -1681,11 +1821,12 @@
                     if (this.currentUser.verifiedSince) {
                         const date = new Date(this.currentUser.verifiedSince);
                         document.getElementById('profileVerifiedSince').textContent = date.toLocaleDateString();
-                        const age = (Date.now() - date.getTime()) / (1000 * 3600 * 24);
-                        document.getElementById('profileAccountAge').textContent = `Verified ${Math.floor(age)} days ago`;
+                        const daysSince = Math.floor((Date.now() - date.getTime()) / (1000 * 3600 * 24));
+                        document.getElementById('profileAccountAge').textContent = `Verified ${daysSince} days ago`;
                     }
                     
                     document.getElementById('profileTrust').textContent = '100%';
+                    document.getElementById('trustProgress').style.width = '100%';
                     document.getElementById('profileTrustBadge').innerHTML = '<span class="trust-badge"><i class="fas fa-shield-alt"></i> Verified Roblox Account</span>';
                 } else {
                     document.getElementById('profileUsername').textContent = 'Guest User';
@@ -1697,26 +1838,32 @@
                     document.getElementById('profileVerifiedSince').textContent = 'Not verified';
                     document.getElementById('profileAccountAge').textContent = '-';
                     document.getElementById('profileTrust').textContent = 'N/A';
+                    document.getElementById('trustProgress').style.width = '0%';
                     document.getElementById('profileTrustBadge').innerHTML = '<span class="trust-badge" style="background:rgba(239,68,68,0.2);"><i class="fas fa-exclamation-triangle"></i> Verification Required</span>';
                 }
                 
                 document.getElementById('profileDeposits').textContent = this.currentUser.deposits?.length || 0;
-                const totalValue = this.inventory.reduce((sum, item) => sum + (item.value * item.quantity), 0);
+                const totalValue = (this.inventory || []).reduce((sum, item) => sum + (item.value * item.quantity), 0);
                 document.getElementById('profileValue').textContent = `${totalValue.toLocaleString()} R$`;
             },
             
             showToast(message, type = 'info') {
                 const container = document.getElementById('toastContainer');
+                if (!container) return;
+                
                 const toast = document.createElement('div');
                 toast.className = 'toast';
                 const icon = type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle');
                 toast.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
                 container.appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
+                setTimeout(() => toast.remove(), 4000);
             }
         };
         
-        App.init();
+        // Initialize app when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init();
+        });
     </script>
 </body>
 </html>
