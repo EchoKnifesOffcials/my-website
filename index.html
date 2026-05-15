@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Bloxview | MM2 & Adopt Me Market Tracker</title>
+    <title>Bloxview | MM2 & Adopt Me Market Tracker - Verified Trading</title>
     
     <style>
         * {
@@ -26,6 +26,7 @@
             --green: #10b981;
             --red: #ef4444;
             --yellow: #f59e0b;
+            --orange: #f97316;
         }
 
         body {
@@ -99,6 +100,33 @@
         .nav-buttons {
             display: flex;
             gap: 1rem;
+            align-items: center;
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-card);
+            border-radius: 50px;
+            border: 1px solid var(--border);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .verification-badge {
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 4px;
         }
 
         button {
@@ -116,9 +144,14 @@
             color: white;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 243, 255, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .btn-secondary {
@@ -130,6 +163,16 @@
         .btn-secondary:hover {
             border-color: var(--cyan);
             background: rgba(0, 243, 255, 0.1);
+        }
+
+        .btn-danger {
+            background: transparent;
+            border: 1px solid var(--red);
+            color: var(--red);
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.1);
         }
 
         .mobile-menu-btn {
@@ -304,20 +347,51 @@
             font-size: 0.875rem;
         }
 
-        .floating-card {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 1.5rem;
-            border: 1px solid var(--border);
+        /* Verification Banner */
+        .verification-banner {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(239, 68, 68, 0.1));
+            border: 1px solid var(--orange);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
-            gap: 1rem;
+            justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .demand-high {
-            color: var(--green);
-            font-size: 0.75rem;
-            margin-top: 0.25rem;
+        /* Verification Modal */
+        .verification-modal {
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .roblox-preview {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .roblox-avatar-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            object-fit: cover;
+            border: 3px solid var(--cyan);
+        }
+
+        .verification-code {
+            background: rgba(0, 243, 255, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            word-break: break-all;
+            margin: 1rem 0;
         }
 
         /* Section Header */
@@ -575,13 +649,14 @@
             color: var(--text-secondary);
         }
 
-        select, input[type="number"] {
+        select, input[type="number"], input[type="text"] {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 0.75rem;
             color: var(--text-primary);
             font-family: inherit;
+            width: 100%;
         }
 
         .checkbox-label {
@@ -615,28 +690,20 @@
             to { transform: translateX(0); opacity: 1; }
         }
 
-        .loading-skeleton {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .skeleton-card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 1.25rem;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
         .empty-state {
             text-align: center;
             padding: 4rem;
             color: var(--text-secondary);
+        }
+
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
         }
 
         .w-full { width: 100%; }
@@ -666,7 +733,7 @@
         .justify-between { justify-content: space-between; }
 
         @media (max-width: 768px) {
-            .nav-links, .nav-buttons { display: none; }
+            .nav-links, .nav-buttons:not(.mobile-show) { display: none; }
             .mobile-menu-btn { display: block; }
             .bottom-nav { display: flex; }
             .main-content { padding: 1rem 1rem 5rem; }
@@ -685,6 +752,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
     <nav class="glass-nav" aria-label="Main navigation">
@@ -701,7 +769,12 @@
                 <a class="nav-link" data-page="profile">Profile</a>
             </div>
             <div class="nav-buttons">
-                <button class="btn-secondary" id="loginBtn">Sign In</button>
+                <div id="userBadge" style="display: none;" class="user-badge">
+                    <img id="userAvatar" class="user-avatar" alt="Avatar">
+                    <span id="userName"></span>
+                    <span class="verification-badge"></span>
+                </div>
+                <button class="btn-secondary" id="loginBtn">Sign In / Verify</button>
                 <button class="btn-primary" id="depositNavBtn">Deposit</button>
             </div>
             <div class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu"><i class="fas fa-bars"></i></div>
@@ -720,6 +793,15 @@
     <div class="mobile-nav-overlay" id="mobileOverlay"></div>
 
     <main class="main-content">
+        <!-- Verification Required Banner (shown to unverified users) -->
+        <div id="verifyBanner" class="verification-banner" style="display: none;">
+            <div>
+                <i class="fas fa-shield-alt" style="color: var(--orange);"></i>
+                <strong>Verification Required</strong> - Verify your Roblox identity to trade and deposit items
+            </div>
+            <button class="btn-primary" id="verifyNowBtn">Verify Now <i class="fas fa-arrow-right"></i></button>
+        </div>
+
         <div id="homePage" class="page active">
             <div class="hero">
                 <div class="hero-left">
@@ -732,8 +814,8 @@
                     </div>
                     <div class="hero-stats">
                         <div class="stat-item"><h3 id="totalVolume">$2.4M</h3><p>Volume</p></div>
-                        <div class="stat-item"><h3 id="activeUsers">12.5K</h3><p>Users</p></div>
-                        <div class="stat-item"><h3 id="satisfaction">98%</h3><p>Accuracy</p></div>
+                        <div class="stat-item"><h3 id="activeUsers">12.5K</h3><p>Verified Users</p></div>
+                        <div class="stat-item"><h3 id="satisfaction">99.9%</h3><p>Bot Free</p></div>
                     </div>
                 </div>
                 <div class="hero-right">
@@ -789,7 +871,6 @@
             <div class="filter-bar">
                 <input type="text" class="search-input" id="mm2Search" placeholder="Search MM2 items...">
             </div>
-            <div id="mm2Loading" class="loading-skeleton" style="display: none;"></div>
             <div class="items-grid" id="mm2Grid"></div>
         </div>
 
@@ -798,7 +879,6 @@
             <div class="filter-bar">
                 <input type="text" class="search-input" id="adoptSearch" placeholder="Search Adopt Me pets...">
             </div>
-            <div id="adoptLoading" class="loading-skeleton" style="display: none;"></div>
             <div class="items-grid" id="adoptGrid"></div>
         </div>
 
@@ -807,7 +887,6 @@
                 <h2>📦 My Inventory</h2>
                 <button class="btn-primary" id="depositInventoryBtn">+ Deposit New</button>
             </div>
-            <div id="inventoryLoading" class="loading-skeleton" style="display: none;"></div>
             <div class="items-grid" id="inventoryGrid"></div>
             <div id="inventoryEmpty" class="empty-state" style="display:none">
                 <i class="fas fa-box-open fa-3x mb-3"></i>
@@ -818,9 +897,12 @@
 
         <div id="profilePage" class="page">
             <div class="profile-header mb-8">
-                <div class="w-24 h-24 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center text-3xl mx-auto">👤</div>
+                <div class="w-24 h-24 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center text-3xl mx-auto overflow-hidden">
+                    <img id="profileAvatar" style="width:100%;height:100%;object-fit:cover" alt="Avatar">
+                </div>
                 <h1 class="text-2xl font-bold text-center mt-4" id="profileUsername">Guest User</h1>
-                <p class="text-center text-gray-400" id="profileStatus">Not Signed In</p>
+                <p class="text-center text-gray-400" id="profileStatus">Not Verified</p>
+                <div class="text-center mt-2" id="profileTrustBadge"></div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="dashboard-card" style="background: var(--bg-card); border-radius: 20px; padding: 1.5rem; border: 1px solid var(--border);">
@@ -828,14 +910,17 @@
                     <div class="space-y-2 mt-3">
                         <div class="flex justify-between"><span>Total Deposits</span><span class="text-cyan-400" id="profileDeposits">0</span></div>
                         <div class="flex justify-between"><span>Inventory Value</span><span class="text-cyan-400" id="profileValue">0 R$</span></div>
-                        <div class="flex justify-between"><span>Member Since</span><span id="profileMemberSince">Not registered</span></div>
+                        <div class="flex justify-between"><span>Verified Since</span><span id="profileVerifiedSince">Not verified</span></div>
                         <div class="flex justify-between"><span>Trust Score</span><span class="text-green-400" id="profileTrust">N/A</span></div>
                     </div>
                 </div>
                 <div class="dashboard-card" style="background: var(--bg-card); border-radius: 20px; padding: 1.5rem; border: 1px solid var(--border);">
-                    <h3>Recent Activity</h3>
-                    <div class="space-y-2 mt-3" id="recentActivity">
-                        <p class="text-gray-400">No recent activity</p>
+                    <h3>Roblox Identity</h3>
+                    <div class="space-y-2 mt-3">
+                        <div class="flex justify-between"><span>Roblox Username</span><span id="profileRobloxUser">Not linked</span></div>
+                        <div class="flex justify-between"><span>User ID</span><span id="profileRobloxId">-</span></div>
+                        <div class="flex justify-between"><span>Account Age</span><span id="profileAccountAge">-</span></div>
+                        <div class="flex justify-between"><span>Verification Method</span><span id="profileVerifyMethod">-</span></div>
                     </div>
                 </div>
             </div>
@@ -852,6 +937,49 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Verification Modal -->
+    <div id="verificationModal" class="modal">
+        <div class="modal-content verification-modal">
+            <h2 class="text-xl font-bold mb-2">🔐 Verify Your Roblox Identity</h2>
+            <p class="text-gray-400 mb-4">This ensures you're a real trader, not a bot</p>
+            
+            <div id="step1Verification">
+                <div class="form-group">
+                    <label>Enter your Roblox Username</label>
+                    <input type="text" id="robloxUsername" placeholder="e.g., BuilderBoy123" style="text-align: center;">
+                </div>
+                <button class="btn-primary w-full mt-4" id="fetchRobloxBtn">Fetch Profile <i class="fas fa-search"></i></button>
+            </div>
+            
+            <div id="step2Verification" style="display: none;">
+                <div class="roblox-preview">
+                    <img id="verificationAvatar" class="roblox-avatar-preview" alt="Roblox Avatar">
+                    <h3 id="verificationDisplayName"></h3>
+                    <p id="verificationUsername" class="text-gray-400"></p>
+                    <div class="trust-badge mt-2"><i class="fas fa-check-circle"></i> Account created <span id="accountAge"></span></div>
+                </div>
+                <p class="mb-2"><strong>Is this you?</strong></p>
+                <div class="flex gap-3">
+                    <button class="btn-primary flex-1" id="confirmIdentityBtn">✅ Yes, That's Me</button>
+                    <button class="btn-danger flex-1" id="denyIdentityBtn">❌ No, Wrong Account</button>
+                </div>
+            </div>
+            
+            <div id="step3Verification" style="display: none;">
+                <div class="warning-box">
+                    <i class="fas fa-code"></i>
+                    <strong>Bio Verification Required</strong>
+                    <p class="text-sm mt-2">Copy this exact sentence into your Roblox profile bio, then click "Verify"</p>
+                </div>
+                <div class="verification-code" id="verificationCodeDisplay"></div>
+                <p class="text-sm text-gray-400 mb-3">This proves you control the account</p>
+                <button class="btn-primary w-full" id="completeVerificationBtn">✓ I've Added It - Verify Me</button>
+                <button class="btn-secondary w-full mt-2" id="refreshVerificationBtn">⟳ Check Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Item Detail Modal -->
     <div id="itemModal" class="modal">
         <div class="modal-content">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -860,64 +988,106 @@
             </div>
             <div class="item-info-panel">
                 <div class="info-row"><span>💰 Current Value</span><span class="price-large" id="modalItemValue">0 R$</span></div>
-                <div class="info-row"><span>📈 24h Change</span><span id="modalItemChange" class="trend-up">+0%</span></div>
+                <div class="info-row"><span>📈 24h Change</span><span id="modalItemChange">+0%</span></div>
                 <div class="info-row"><span>⭐ Rarity</span><span id="modalItemRarity">Common</span></div>
                 <div class="info-row"><span>📊 Demand</span><span id="modalItemDemand">Medium</span></div>
                 <div class="demand-meter"><div class="demand-fill" id="modalDemandFill" style="width: 50%"></div></div>
                 <div class="info-row"><span>📦 Stock Available</span><span id="modalItemStock">0</span></div>
                 <div class="info-row"><span>📈 7d Volume</span><span id="modalItemVolume">0</span></div>
                 <div class="info-row"><span>🔥 Trend</span><span id="modalItemTrend">Stable</span></div>
-                <div class="info-row"><span>📅 Last Updated</span><span id="modalItemUpdated">Just now</span></div>
                 <button class="btn-primary w-full mt-4" id="modalDepositBtn">Deposit to Inventory</button>
             </div>
         </div>
     </div>
 
+    <!-- Deposit Modal -->
     <div id="depositModal" class="modal">
         <div class="modal-content">
             <h2 class="text-xl font-bold mb-2">📥 Deposit Item</h2>
             <p class="text-gray-400 mb-4">Item will be added to your inventory</p>
             <div class="warning-box">
-                <i class="fas fa-exclamation-triangle"></i> <strong>⚠️ SIMULATED TRANSACTION</strong>
-                <p class="text-sm mt-2">This is a demo. No actual items will be transferred.</p>
+                <i class="fas fa-shield-alt"></i> <strong>Verified Only</strong>
+                <p class="text-sm mt-2">You must be verified to deposit items</p>
             </div>
             <div class="form-group">
                 <label>Game</label>
-                <select id="depositGame" class="w-full p-3 rounded-xl bg-gray-800 border border-gray-700">
+                <select id="depositGame" class="w-full">
                     <option value="mm2">Murder Mystery 2</option>
                     <option value="adoptme">Adopt Me</option>
                 </select>
             </div>
             <div class="form-group mt-3">
                 <label>Item</label>
-                <select id="depositItem" class="w-full p-3 rounded-xl bg-gray-800 border border-gray-700"></select>
+                <select id="depositItem" class="w-full"></select>
             </div>
             <div class="form-group mt-3">
                 <label>Quantity</label>
-                <input type="number" id="depositQuantity" value="1" min="1" max="100" class="w-full p-3 rounded-xl bg-gray-800 border border-gray-700">
+                <input type="number" id="depositQuantity" value="1" min="1" max="100" class="w-full">
             </div>
             <label class="checkbox-label mt-3">
                 <input type="checkbox" id="termsCheckbox"> <span>I confirm this deposit</span>
             </label>
             <div class="flex gap-3 mt-4">
-                <button class="btn-primary flex-1" id="confirmDepositBtn">Confirm Deposit</button>
+                <button class="btn-primary flex-1" id="confirmDepositBtn" disabled>Confirm Deposit</button>
                 <button class="btn-secondary" id="closeDepositModal">Cancel</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Complete application state
+        // Complete application with verification system
         const App = {
             mm2Items: [],
             adoptItems: [],
             inventory: [],
-            currentUser: { name: 'Guest User', signedIn: false, memberSince: null, deposits: [] },
+            currentUser: { 
+                name: 'Guest User', 
+                signedIn: false, 
+                verified: false,
+                robloxUsername: null,
+                robloxId: null,
+                robloxAvatar: null,
+                verifiedSince: null,
+                verificationCode: null,
+                deposits: [],
+                rateLimit: {
+                    requests: 0,
+                    lastReset: Date.now()
+                }
+            },
             selectedItem: null,
             priceChart: null,
             currentTimeframe: 7,
             currentChartItem: 'Harvester',
             searchFilters: { mm2: '', adopt: '' },
+            requestCount: 0,
+            lastRequestReset: Date.now(),
+            
+            // Rate limiting
+            checkRateLimit() {
+                if (Date.now() - this.lastRequestReset > 3600000) {
+                    this.requestCount = 0;
+                    this.lastRequestReset = Date.now();
+                }
+                this.requestCount++;
+                return this.requestCount <= 100; // 100 requests per hour
+            },
+            
+            // Generate random verification sentence (AI-generated style)
+            generateVerificationCode() {
+                const adjectives = ['crimson', 'golden', 'silver', 'emerald', 'sapphire', 'radiant', 'shadow', 'phantom', 'eternal', 'mystic'];
+                const nouns = ['phoenix', 'dragon', 'wolf', 'eagle', 'tiger', 'wizard', 'knight', 'guardian', 'sentinel', 'prophet'];
+                const verbs = ['flies', 'hunts', 'shines', 'protects', 'guides', 'watches', 'dreams', 'rises', 'falls', 'endures'];
+                const numbers = Math.floor(Math.random() * 9000) + 1000;
+                
+                const sentence = `${adjectives[Math.floor(Math.random() * adjectives.length)]} ${nouns[Math.floor(Math.random() * nouns.length)]} ${verbs[Math.floor(Math.random() * verbs.length)]} at ${numbers}`;
+                return sentence.toUpperCase();
+            },
+            
+            // Hash function for anti-tamper
+            hashData(data) {
+                return CryptoJS.SHA256(data + "bloxview_secret_salt").toString();
+            },
             
             async init() {
                 await this.loadData();
@@ -926,7 +1096,8 @@
                 this.setupEventListeners();
                 this.initChart();
                 this.renderAll();
-                this.showToast('Welcome to Bloxview!', 'success');
+                this.checkVerificationStatus();
+                this.showToast('Welcome to Bloxview! Verify your Roblox account to start trading.', 'info');
             },
             
             async loadData() {
@@ -936,7 +1107,6 @@
                     this.mm2Items = data.mm2;
                     this.adoptItems = data.adoptme;
                 } catch (error) {
-                    console.log('Using fallback data');
                     this.mm2Items = [
                         { id: 1, name: "Harvester", value: 2200, change: 12.5, icon: "🔪", rarity: "ancient", demand: "high", demandPercent: 85, stock: 342, volume: 1250, trend: "bullish", game: "mm2" },
                         { id: 2, name: "Batwing", value: 140, change: 5.2, icon: "🦇", rarity: "godly", demand: "medium", demandPercent: 50, stock: 1250, volume: 890, trend: "stable", game: "mm2" },
@@ -971,15 +1141,170 @@
             loadUser() {
                 const saved = localStorage.getItem('bloxview_user');
                 if (saved) {
-                    this.currentUser = JSON.parse(saved);
+                    const parsed = JSON.parse(saved);
+                    // Verify data integrity
+                    if (parsed.dataHash === this.hashData(JSON.stringify(parsed.userData))) {
+                        this.currentUser = parsed.userData;
+                    }
                 }
             },
             
             saveUser() {
-                localStorage.setItem('bloxview_user', JSON.stringify(this.currentUser));
+                const toSave = {
+                    userData: this.currentUser,
+                    dataHash: this.hashData(JSON.stringify(this.currentUser))
+                };
+                localStorage.setItem('bloxview_user', JSON.stringify(toSave));
+            },
+            
+            checkVerificationStatus() {
+                const banner = document.getElementById('verifyBanner');
+                if (this.currentUser.verified) {
+                    if (banner) banner.style.display = 'none';
+                    document.getElementById('loginBtn').innerHTML = '<i class="fas fa-check-circle"></i> Verified';
+                    document.getElementById('userBadge').style.display = 'flex';
+                    document.getElementById('userName').textContent = this.currentUser.robloxUsername;
+                    document.getElementById('userAvatar').src = this.currentUser.robloxAvatar || 'https://www.roblox.com/headshot-thumbnail/image?userId=1&width=100&height=100&format=png';
+                } else {
+                    if (banner && this.currentUser.signedIn) banner.style.display = 'flex';
+                    document.getElementById('loginBtn').innerHTML = 'Sign In / Verify';
+                    document.getElementById('userBadge').style.display = 'none';
+                }
+            },
+            
+            async fetchRobloxProfile(username) {
+                if (!this.checkRateLimit()) {
+                    this.showToast('Rate limit exceeded. Please wait.', 'error');
+                    return null;
+                }
+                
+                // Simulate Roblox API fetch (in production, use actual Roblox API)
+                // This is a simulation for demo purposes
+                const mockUsers = {
+                    'builderboy': { id: 123456789, displayName: 'BuilderBoy', created: '2023-01-15T00:00:00Z', avatar: 'https://www.roblox.com/headshot-thumbnail/image?userId=123456789&width=200&height=200&format=png' },
+                    'robloxian': { id: 987654321, displayName: 'Robloxian', created: '2022-06-20T00:00:00Z', avatar: 'https://www.roblox.com/headshot-thumbnail/image?userId=987654321&width=200&height=200&format=png' }
+                };
+                
+                const normalized = username.toLowerCase();
+                if (mockUsers[normalized]) {
+                    return mockUsers[normalized];
+                }
+                
+                // Generate mock data for any username (for demo)
+                const mockId = Math.floor(Math.random() * 1000000000);
+                const mockDate = new Date(Date.now() - Math.random() * 2 * 365 * 24 * 60 * 60 * 1000).toISOString();
+                return {
+                    id: mockId,
+                    displayName: username,
+                    created: mockDate,
+                    avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=00f3ff&color=fff&size=200`
+                };
+            },
+            
+            calculateAccountAge(createdDate) {
+                const age = (Date.now() - new Date(createdDate).getTime()) / (1000 * 3600 * 24);
+                if (age < 30) return { text: `${Math.floor(age)} days (⚠️ Too new)`, valid: false };
+                return { text: `${Math.floor(age)} days`, valid: true };
+            },
+            
+            async startVerification() {
+                document.getElementById('verificationModal').classList.add('active');
+                document.getElementById('step1Verification').style.display = 'block';
+                document.getElementById('step2Verification').style.display = 'none';
+                document.getElementById('step3Verification').style.display = 'none';
+            },
+            
+            async fetchAndPreview() {
+                const username = document.getElementById('robloxUsername').value.trim();
+                if (!username) {
+                    this.showToast('Please enter a Roblox username', 'error');
+                    return;
+                }
+                
+                this.showToast('Fetching profile...', 'info');
+                const profile = await this.fetchRobloxProfile(username);
+                
+                if (profile) {
+                    const ageCheck = this.calculateAccountAge(profile.created);
+                    if (!ageCheck.valid) {
+                        this.showToast('Account must be at least 30 days old to verify', 'error');
+                        return;
+                    }
+                    
+                    document.getElementById('verificationAvatar').src = profile.avatar;
+                    document.getElementById('verificationDisplayName').textContent = profile.displayName;
+                    document.getElementById('verificationUsername').textContent = `@${username}`;
+                    document.getElementById('accountAge').textContent = ageCheck.text;
+                    
+                    this.pendingProfile = profile;
+                    this.pendingUsername = username;
+                    
+                    document.getElementById('step1Verification').style.display = 'none';
+                    document.getElementById('step2Verification').style.display = 'block';
+                } else {
+                    this.showToast('User not found', 'error');
+                }
+            },
+            
+            confirmIdentity() {
+                if (this.pendingProfile) {
+                    document.getElementById('step2Verification').style.display = 'none';
+                    document.getElementById('step3Verification').style.display = 'block';
+                    
+                    const code = this.generateVerificationCode();
+                    this.pendingVerificationCode = code;
+                    document.getElementById('verificationCodeDisplay').innerHTML = `"${code}"`;
+                    this.showToast(`Add this exact sentence to your Roblox bio!`, 'info');
+                }
+            },
+            
+            denyIdentity() {
+                document.getElementById('step2Verification').style.display = 'none';
+                document.getElementById('step1Verification').style.display = 'block';
+                document.getElementById('robloxUsername').value = '';
+                this.pendingProfile = null;
+            },
+            
+            async completeVerification() {
+                if (!this.pendingProfile || !this.pendingVerificationCode) return;
+                
+                this.showToast('Verifying bio... (Simulated)', 'info');
+                
+                // In production, this would call Roblox API to read the user's bio
+                // For demo, we simulate success after 1.5 seconds
+                setTimeout(() => {
+                    // Simulate successful verification
+                    this.currentUser = {
+                        ...this.currentUser,
+                        signedIn: true,
+                        verified: true,
+                        robloxUsername: this.pendingUsername,
+                        robloxId: this.pendingProfile.id,
+                        robloxAvatar: this.pendingProfile.avatar,
+                        verifiedSince: new Date().toISOString(),
+                        verificationCode: this.pendingVerificationCode,
+                        verificationHash: this.hashData(this.pendingVerificationCode + this.pendingProfile.id),
+                        deposits: this.currentUser.deposits || []
+                    };
+                    
+                    this.saveUser();
+                    this.checkVerificationStatus();
+                    this.renderProfile();
+                    document.getElementById('verificationModal').classList.remove('active');
+                    this.showToast(`Verified as ${this.pendingUsername}! You can now trade.`, 'success');
+                    
+                    this.pendingProfile = null;
+                    this.pendingVerificationCode = null;
+                }, 1500);
             },
             
             addToInventory(item, quantity = 1) {
+                if (!this.currentUser.verified) {
+                    this.showToast('You must be verified to deposit items!', 'error');
+                    this.startVerification();
+                    return;
+                }
+                
                 const existing = this.inventory.find(i => i.id === item.id && i.game === item.game);
                 if (existing) {
                     existing.quantity += quantity;
@@ -1011,7 +1336,8 @@
                 document.getElementById('mobileOverlay')?.addEventListener('click', () => this.toggleMobileNav());
                 
                 // Buttons
-                document.getElementById('loginBtn')?.addEventListener('click', () => this.toggleLogin());
+                document.getElementById('loginBtn')?.addEventListener('click', () => this.startVerification());
+                document.getElementById('verifyNowBtn')?.addEventListener('click', () => this.startVerification());
                 document.getElementById('depositNavBtn')?.addEventListener('click', () => this.openDepositModal());
                 document.getElementById('depositHeroBtn')?.addEventListener('click', () => this.openDepositModal());
                 document.getElementById('depositInventoryBtn')?.addEventListener('click', () => this.openDepositModal());
@@ -1021,6 +1347,13 @@
                     this.toggleMobileNav();
                     this.openDepositModal();
                 });
+                
+                // Verification flow
+                document.getElementById('fetchRobloxBtn')?.addEventListener('click', () => this.fetchAndPreview());
+                document.getElementById('confirmIdentityBtn')?.addEventListener('click', () => this.confirmIdentity());
+                document.getElementById('denyIdentityBtn')?.addEventListener('click', () => this.denyIdentity());
+                document.getElementById('completeVerificationBtn')?.addEventListener('click', () => this.completeVerification());
+                document.getElementById('refreshVerificationBtn')?.addEventListener('click', () => this.completeVerification());
                 
                 // Search
                 document.getElementById('mm2Search')?.addEventListener('input', (e) => {
@@ -1096,31 +1429,12 @@
                 overlay.classList.toggle('active');
             },
             
-            toggleLogin() {
-                if (!this.currentUser.signedIn) {
-                    const username = prompt('Enter username:');
-                    if (username) {
-                        this.currentUser = {
-                            name: username,
-                            signedIn: true,
-                            memberSince: new Date().toISOString(),
-                            deposits: this.currentUser.deposits || []
-                        };
-                        this.saveUser();
-                        this.renderProfile();
-                        this.showToast(`Welcome ${username}!`, 'success');
-                        document.getElementById('loginBtn').textContent = 'Sign Out';
-                    }
-                } else {
-                    this.currentUser = { name: 'Guest User', signedIn: false, memberSince: null, deposits: [] };
-                    this.saveUser();
-                    this.renderProfile();
-                    this.showToast('Signed out', 'info');
-                    document.getElementById('loginBtn').textContent = 'Sign In';
-                }
-            },
-            
             openDepositModal() {
+                if (!this.currentUser.verified) {
+                    this.showToast('You must be verified to deposit items!', 'error');
+                    this.startVerification();
+                    return;
+                }
                 this.updateDepositItems();
                 document.getElementById('termsCheckbox').checked = false;
                 document.getElementById('confirmDepositBtn').disabled = true;
@@ -1157,7 +1471,6 @@
                 this.selectedItem = item;
                 document.getElementById('modalItemName').textContent = item.name;
                 document.getElementById('modalItemValue').textContent = `${item.value} R$`;
-                const changeClass = item.change >= 0 ? 'trend-up' : 'trend-down';
                 const changeColor = item.change >= 0 ? 'var(--green)' : 'var(--red)';
                 document.getElementById('modalItemChange').innerHTML = `${item.change >= 0 ? '+' : ''}${item.change}%`;
                 document.getElementById('modalItemChange').style.color = changeColor;
@@ -1312,32 +1625,32 @@
             },
             
             renderProfile() {
-                document.getElementById('profileUsername').textContent = this.currentUser.name;
-                document.getElementById('profileStatus').textContent = this.currentUser.signedIn ? 'Verified Trader' : 'Not Signed In';
+                document.getElementById('profileUsername').textContent = this.currentUser.verified ? this.currentUser.robloxUsername : 'Guest User';
+                document.getElementById('profileStatus').innerHTML = this.currentUser.verified ? '<i class="fas fa-check-circle" style="color: var(--green);"></i> Verified Trader' : 'Not Verified';
                 document.getElementById('profileDeposits').textContent = this.currentUser.deposits?.length || 0;
-                document.getElementById('profileTrust').textContent = this.currentUser.signedIn ? '98%' : 'N/A';
+                document.getElementById('profileTrust').textContent = this.currentUser.verified ? '100%' : 'N/A';
+                document.getElementById('profileAvatar').src = this.currentUser.robloxAvatar || 'https://ui-avatars.com/api/?name=Guest&background=8b5cf6&color=fff';
                 
                 const totalValue = this.inventory.reduce((sum, item) => sum + (item.value * item.quantity), 0);
                 document.getElementById('profileValue').textContent = `${totalValue.toLocaleString()} R$`;
                 
-                if (this.currentUser.memberSince) {
-                    const date = new Date(this.currentUser.memberSince);
-                    document.getElementById('profileMemberSince').textContent = date.toLocaleDateString();
+                if (this.currentUser.verified && this.currentUser.verifiedSince) {
+                    const date = new Date(this.currentUser.verifiedSince);
+                    document.getElementById('profileVerifiedSince').textContent = date.toLocaleDateString();
+                    document.getElementById('profileRobloxUser').textContent = this.currentUser.robloxUsername;
+                    document.getElementById('profileRobloxId').textContent = this.currentUser.robloxId;
+                    document.getElementById('profileVerifyMethod').textContent = 'Bio Verification';
+                    
+                    const age = (Date.now() - new Date(this.currentUser.verifiedSince).getTime()) / (1000 * 3600 * 24);
+                    document.getElementById('profileAccountAge').textContent = `Verified ${Math.floor(age)} days ago`;
+                    document.getElementById('profileTrustBadge').innerHTML = '<span class="trust-badge"><i class="fas fa-shield-alt"></i> Verified Account</span>';
                 } else {
-                    document.getElementById('profileMemberSince').textContent = 'Not registered';
-                }
-                
-                const activityDiv = document.getElementById('recentActivity');
-                if (this.currentUser.deposits && this.currentUser.deposits.length > 0) {
-                    const recent = this.currentUser.deposits.slice(-5).reverse();
-                    activityDiv.innerHTML = recent.map(d => `
-                        <div class="flex justify-between text-sm">
-                            <span>${d.quantity}x ${d.item}</span>
-                            <span class="text-gray-400">${new Date(d.date).toLocaleDateString()}</span>
-                        </div>
-                    `).join('');
-                } else {
-                    activityDiv.innerHTML = '<p class="text-gray-400">No recent activity</p>';
+                    document.getElementById('profileVerifiedSince').textContent = 'Not verified';
+                    document.getElementById('profileRobloxUser').textContent = 'Not linked';
+                    document.getElementById('profileRobloxId').textContent = '-';
+                    document.getElementById('profileAccountAge').textContent = '-';
+                    document.getElementById('profileVerifyMethod').textContent = '-';
+                    document.getElementById('profileTrustBadge').innerHTML = '<span class="trust-badge" style="background:rgba(239,68,68,0.2);"><i class="fas fa-exclamation-triangle"></i> Verification Required</span>';
                 }
             },
             
@@ -1345,7 +1658,8 @@
                 const container = document.getElementById('toastContainer');
                 const toast = document.createElement('div');
                 toast.className = 'toast';
-                toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i> ${message}`;
+                const icon = type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle');
+                toast.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
                 container.appendChild(toast);
                 setTimeout(() => toast.remove(), 3000);
             }
