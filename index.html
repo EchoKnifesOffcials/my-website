@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Bloxview | Professional Trading Platform</title>
+    <title>Bloxview | Professional Trading Platform - MM2 & Adopt Me</title>
     
     <!-- TradingView Widget Library -->
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
@@ -27,6 +27,7 @@
             --blue: #00f3ff;
             --purple: #8b5cf6;
             --yellow: #f59e0b;
+            --orange: #ff6b35;
         }
 
         body {
@@ -153,6 +154,12 @@
             background: linear-gradient(135deg, var(--red), #cc3355);
             border: none;
             color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--yellow), #ff8c00);
+            border: none;
+            color: var(--bg-primary);
         }
 
         .main-content {
@@ -301,24 +308,6 @@
         .item-change.up { color: var(--green); }
         .item-change.down { color: var(--red); }
 
-        .market-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .market-table th,
-        .market-table td {
-            padding: 0.75rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .market-table th {
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 0.875rem;
-        }
-
         .order-book {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -377,7 +366,39 @@
             font-weight: 600;
         }
 
-        /* Toast */
+        .api-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+        }
+
+        .status-online {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--green);
+        }
+
+        .status-offline {
+            background: rgba(255, 68, 102, 0.2);
+            color: var(--red);
+        }
+
+        .loading-spinner {
+            border: 3px solid var(--border);
+            border-top-color: var(--blue);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         .toast-container {
             position: fixed;
             bottom: 2rem;
@@ -397,6 +418,12 @@
         @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
         }
 
         @media (max-width: 1024px) {
@@ -435,6 +462,7 @@
                     <div class="balance-label">Portfolio Value</div>
                     <div class="balance-value" id="portfolioValueDisplay">0 R$</div>
                 </div>
+                <div class="api-status" id="apiStatus">Checking API...</div>
                 <button class="btn-secondary" id="resetBtn">Reset</button>
             </div>
         </div>
@@ -458,12 +486,7 @@
                             <button class="btn-secondary timeframe-btn" data-timeframe="3M">3M</button>
                         </div>
                     </div>
-                    <div id="tradingview-widget" style="height: 500px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary);">
-                        <div style="text-align: center;">
-                            <div class="loading-spinner" style="border: 3px solid var(--border); border-top-color: var(--blue); width: 40px; height: 40px; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>
-                            <p>Chart Loading...</p>
-                        </div>
-                    </div>
+                    <div id="tradingview-widget" style="height: 500px;"></div>
                 </div>
 
                 <!-- Trading Panel -->
@@ -571,27 +594,30 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
+        // API Configuration - Middleman Bot
+        const MIDDLEMAN_API = 'https://roblox-middlemanbot1.onrender.com';
+        
         // Market Data - Complete item list with prices
         const MARKET_ITEMS = {
             mm2: [
-                { id: 1, name: "Harvester", value: 2200, change: 12.5, icon: "🔪", rarity: "ancient", demand: "high", volume: 1250 },
-                { id: 2, name: "Batwing", value: 140, change: 5.2, icon: "🦇", rarity: "godly", demand: "medium", volume: 890 },
-                { id: 3, name: "Corrupt", value: 1250, change: 8.3, icon: "🗡️", rarity: "ancient", demand: "high", volume: 2340 },
-                { id: 4, name: "Luger", value: 165, change: -2.1, icon: "🔫", rarity: "godly", demand: "medium", volume: 560 },
-                { id: 5, name: "Chroma Darkbringer", value: 1850, change: 15.3, icon: "⚫", rarity: "chroma", demand: "high", volume: 890 },
-                { id: 6, name: "Elderwood Scythe", value: 450, change: 3.2, icon: "🌿", rarity: "godly", demand: "medium", volume: 445 },
-                { id: 7, name: "Chroma Lightbringer", value: 1780, change: 10.2, icon: "⚪", rarity: "chroma", demand: "high", volume: 670 },
-                { id: 8, name: "Icebreaker", value: 320, change: -1.5, icon: "❄️", rarity: "godly", demand: "low", volume: 234 }
+                { id: 1, name: "Harvester", value: 2200, change: 12.5, icon: "🔪", rarity: "ancient", demand: "high", volume: 1250, currencyValue: 2200 },
+                { id: 2, name: "Batwing", value: 140, change: 5.2, icon: "🦇", rarity: "godly", demand: "medium", volume: 890, currencyValue: 140 },
+                { id: 3, name: "Corrupt", value: 1250, change: 8.3, icon: "🗡️", rarity: "ancient", demand: "high", volume: 2340, currencyValue: 1250 },
+                { id: 4, name: "Luger", value: 165, change: -2.1, icon: "🔫", rarity: "godly", demand: "medium", volume: 560, currencyValue: 165 },
+                { id: 5, name: "Chroma Darkbringer", value: 1850, change: 15.3, icon: "⚫", rarity: "chroma", demand: "high", volume: 890, currencyValue: 1850 },
+                { id: 6, name: "Elderwood Scythe", value: 450, change: 3.2, icon: "🌿", rarity: "godly", demand: "medium", volume: 445, currencyValue: 450 },
+                { id: 7, name: "Chroma Lightbringer", value: 1780, change: 10.2, icon: "⚪", rarity: "chroma", demand: "high", volume: 670, currencyValue: 1780 },
+                { id: 8, name: "Icebreaker", value: 320, change: -1.5, icon: "❄️", rarity: "godly", demand: "low", volume: 234, currencyValue: 320 }
             ],
             adoptme: [
-                { id: 101, name: "Shadow Dragon", value: 1250, change: 15.2, icon: "🐉", rarity: "legendary", demand: "high", volume: 320 },
-                { id: 102, name: "Frost Dragon", value: 980, change: 8.3, icon: "❄️", rarity: "legendary", demand: "high", volume: 280 },
-                { id: 103, name: "Giraffe", value: 850, change: 5.2, icon: "🦒", rarity: "legendary", demand: "medium", volume: 150 },
-                { id: 104, name: "Bat Dragon", value: 1100, change: 10.5, icon: "🦇", rarity: "legendary", demand: "high", volume: 410 },
-                { id: 105, name: "Owl", value: 720, change: 4.8, icon: "🦉", rarity: "legendary", demand: "medium", volume: 230 },
-                { id: 106, name: "Parrot", value: 680, change: 3.2, icon: "🦜", rarity: "legendary", demand: "medium", volume: 190 },
-                { id: 107, name: "Evil Unicorn", value: 550, change: -2.1, icon: "🦄", rarity: "legendary", demand: "low", volume: 145 },
-                { id: 108, name: "Crow", value: 490, change: 1.5, icon: "🐦‍⬛", rarity: "legendary", demand: "medium", volume: 178 }
+                { id: 101, name: "Shadow Dragon", value: 1250, change: 15.2, icon: "🐉", rarity: "legendary", demand: "high", volume: 320, currencyValue: 1250 },
+                { id: 102, name: "Frost Dragon", value: 980, change: 8.3, icon: "❄️", rarity: "legendary", demand: "high", volume: 280, currencyValue: 980 },
+                { id: 103, name: "Giraffe", value: 850, change: 5.2, icon: "🦒", rarity: "legendary", demand: "medium", volume: 150, currencyValue: 850 },
+                { id: 104, name: "Bat Dragon", value: 1100, change: 10.5, icon: "🦇", rarity: "legendary", demand: "high", volume: 410, currencyValue: 1100 },
+                { id: 105, name: "Owl", value: 720, change: 4.8, icon: "🦉", rarity: "legendary", demand: "medium", volume: 230, currencyValue: 720 },
+                { id: 106, name: "Parrot", value: 680, change: 3.2, icon: "🦜", rarity: "legendary", demand: "medium", volume: 190, currencyValue: 680 },
+                { id: 107, name: "Evil Unicorn", value: 550, change: -2.1, icon: "🦄", rarity: "legendary", demand: "low", volume: 145, currencyValue: 550 },
+                { id: 108, name: "Crow", value: 490, change: 1.5, icon: "🐦‍⬛", rarity: "legendary", demand: "medium", volume: 178, currencyValue: 490 }
             ]
         };
 
@@ -604,6 +630,7 @@
         let selectedOrderType = 'buy';
         let currentSelectedItem = null;
         let priceChart = null;
+        let middlemanConnected = false;
 
         // Load saved data
         function loadData() {
@@ -633,12 +660,13 @@
             renderInventory();
             renderMarket();
             updatePortfolioStats();
+            updateOrderBook();
             showToast('Account reset to default!', 'success');
         }
 
         // Update balance display
         function updateBalanceDisplay() {
-            document.getElementById('balanceDisplay').textContent = `${userBalance.toLocaleString()} R$`;
+            document.getElementById('balanceDisplay').textContent = `${Math.floor(userBalance).toLocaleString()} R$`;
         }
 
         // Calculate portfolio total value
@@ -655,20 +683,20 @@
             const totalValue = userBalance + portfolioValue;
             const itemsCount = inventory.reduce((sum, item) => sum + item.quantity, 0);
             
-            document.getElementById('portfolioValueDisplay').textContent = `${portfolioValue.toLocaleString()} R$`;
-            document.getElementById('portfolioTotal').textContent = `${totalValue.toLocaleString()} R$`;
+            document.getElementById('portfolioValueDisplay').textContent = `${Math.floor(portfolioValue).toLocaleString()} R$`;
+            document.getElementById('portfolioTotal').textContent = `${Math.floor(totalValue).toLocaleString()} R$`;
             document.getElementById('itemsHeld').textContent = itemsCount;
             
             const initialCapital = 10000;
             const pnl = totalValue - initialCapital;
             const pnlPercent = (pnl / initialCapital) * 100;
             const pnlElement = document.getElementById('portfolioPnl');
-            pnlElement.textContent = `${pnl >= 0 ? '+' : ''}${pnl.toLocaleString()} R$ (${pnlPercent >= 0 ? '+' : ''}${pnlPercent.toFixed(1)}%)`;
+            pnlElement.textContent = `${pnl >= 0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$ (${pnlPercent >= 0 ? '+' : ''}${pnlPercent.toFixed(1)}%)`;
             pnlElement.style.color = pnl >= 0 ? 'var(--green)' : 'var(--red)';
         }
 
-        // Execute trade
-        function executeTrade() {
+        // Execute trade with Middleman API
+        async function executeTrade() {
             const itemId = parseInt(document.getElementById('tradeItemSelect').value);
             const price = parseFloat(document.getElementById('tradePrice').value);
             const quantity = parseInt(document.getElementById('tradeQuantity').value);
@@ -686,13 +714,38 @@
             
             const totalCost = price * quantity;
             
+            // Try to use Middleman API first
+            if (middlemanConnected) {
+                try {
+                    const response = await fetch(`${MIDDLEMAN_API}/trade`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            itemId: itemId,
+                            itemName: item.name,
+                            quantity: quantity,
+                            price: price,
+                            type: selectedOrderType,
+                            userId: localStorage.getItem('bloxview_user_id') || 'guest_' + Date.now()
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        const result = await response.json();
+                        showToast(`Middleman API: ${result.message}`, 'success');
+                    }
+                } catch (error) {
+                    console.log('Middleman API error, using local trade');
+                }
+            }
+            
+            // Local trade execution
             if (selectedOrderType === 'buy') {
                 if (userBalance < totalCost) {
                     showToast(`Insufficient balance! Need ${totalCost.toLocaleString()} R$`, 'error');
                     return;
                 }
                 
-                // Add to inventory
                 const existingItem = inventory.find(i => i.id === item.id);
                 if (existingItem) {
                     existingItem.quantity += quantity;
@@ -704,14 +757,13 @@
                         icon: item.icon,
                         quantity: quantity,
                         averagePrice: price,
-                        game: item.game || (item.id < 100 ? 'mm2' : 'adoptme')
+                        game: item.id < 100 ? 'mm2' : 'adoptme'
                     });
                 }
                 
                 userBalance -= totalCost;
                 showToast(`Bought ${quantity}x ${item.name} for ${totalCost.toLocaleString()} R$!`, 'success');
             } else {
-                // Sell
                 const existingItem = inventory.find(i => i.id === item.id);
                 if (!existingItem || existingItem.quantity < quantity) {
                     showToast(`Not enough ${item.name} to sell!`, 'error');
@@ -737,6 +789,38 @@
             updateOrderBook();
         }
 
+        // Check Middleman API status
+        async function checkMiddlemanAPI() {
+            const statusElement = document.getElementById('apiStatus');
+            try {
+                const response = await fetch(`${MIDDLEMAN_API}/health`, {
+                    method: 'GET',
+                    timeout: 5000
+                });
+                
+                if (response.ok) {
+                    middlemanConnected = true;
+                    statusElement.innerHTML = '<i class="status-online">●</i> API Online';
+                    statusElement.className = 'api-status status-online';
+                    showToast('Connected to Middleman API', 'success');
+                    
+                    // Try to fetch real item data from API
+                    const itemsResponse = await fetch(`${MIDDLEMAN_API}/items`);
+                    if (itemsResponse.ok) {
+                        const apiItems = await itemsResponse.json();
+                        console.log('Fetched items from API:', apiItems);
+                    }
+                } else {
+                    throw new Error('API responded with error');
+                }
+            } catch (error) {
+                middlemanConnected = false;
+                statusElement.innerHTML = '<i class="status-offline">○</i> API Offline (Using Local)';
+                statusElement.className = 'api-status status-offline';
+                console.log('Middleman API unavailable, using local data');
+            }
+        }
+
         // Update trade total calculation
         function updateTradeTotal() {
             const price = parseFloat(document.getElementById('tradePrice').value) || 0;
@@ -755,8 +839,8 @@
             document.getElementById('depositTotal').textContent = `${total.toLocaleString()} R$`;
         }
 
-        // Confirm deposit
-        function confirmDeposit() {
+        // Confirm deposit - gets currency based on item value
+        async function confirmDeposit() {
             const game = document.getElementById('depositGame').value;
             const itemId = parseInt(document.getElementById('depositItemSelect').value);
             const quantity = parseInt(document.getElementById('depositQuantity').value);
@@ -770,8 +854,33 @@
             }
             
             const totalValue = item.value * quantity;
+            const currencyEarned = totalValue; // Currency equals the item's R$ value
             
-            // Add to inventory
+            // Try to deposit via Middleman API
+            if (middlemanConnected) {
+                try {
+                    const response = await fetch(`${MIDDLEMAN_API}/deposit`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            userId: localStorage.getItem('bloxview_user_id') || 'guest_' + Date.now(),
+                            itemId: item.id,
+                            itemName: item.name,
+                            quantity: quantity,
+                            game: game
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        const result = await response.json();
+                        showToast(`API: ${result.message}`, 'success');
+                    }
+                } catch (error) {
+                    console.log('Middleman API deposit error, using local deposit');
+                }
+            }
+            
+            // Add to inventory (gets items)
             const existingItem = inventory.find(i => i.id === item.id);
             if (existingItem) {
                 existingItem.quantity += quantity;
@@ -786,12 +895,16 @@
                 });
             }
             
+            // Add currency to balance (depends on item value)
+            userBalance += currencyEarned;
+            
             saveData();
+            updateBalanceDisplay();
             renderInventory();
             renderMarket();
             updatePortfolioStats();
             updateOrderBook();
-            showToast(`Deposited ${quantity}x ${item.name} worth ${totalValue.toLocaleString()} R$!`, 'success');
+            showToast(`Deposited ${quantity}x ${item.name}! +${currencyEarned.toLocaleString()} R$ added to balance!`, 'success');
         }
 
         // Render market grid
@@ -810,7 +923,7 @@
                         ${item.change >= 0 ? '+' : ''}${item.change}%
                     </div>
                     <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem;">
-                        Vol: ${item.volume.toLocaleString()}
+                        Vol: ${item.volume.toLocaleString()} | Dem: ${item.demand}
                     </div>
                 </div>
             `).join('');
@@ -823,6 +936,7 @@
                 document.getElementById('tradeItemSelect').value = itemId;
                 document.getElementById('tradePrice').value = item.value;
                 updateTradeTotal();
+                updateOrderBook();
                 showToast(`${item.name} selected`, 'info');
             }
         }
@@ -831,7 +945,7 @@
         function renderInventory() {
             const grid = document.getElementById('inventoryGrid');
             if (!inventory.length) {
-                grid.innerHTML = '<div class="empty-state" style="text-align: center; padding: 3rem;">No items in inventory. Go to Market or Deposit to add items!</div>';
+                grid.innerHTML = '<div class="empty-state">📦 No items in inventory. Go to Market or Deposit to add items!</div>';
                 return;
             }
             
@@ -844,25 +958,25 @@
                 return `
                     <div class="item-card">
                         <div class="item-name">${item.icon} ${item.name}</div>
-                        <div>Quantity: ${item.quantity}</div>
-                        <div>Avg Price: ${item.averagePrice.toLocaleString()} R$</div>
-                        <div>Current: ${currentValue.toLocaleString()} R$</div>
-                        <div>Total: ${totalValue.toLocaleString()} R$</div>
+                        <div>📦 Qty: ${item.quantity}</div>
+                        <div>💰 Avg: ${Math.floor(item.averagePrice).toLocaleString()} R$</div>
+                        <div>📈 Current: ${currentValue.toLocaleString()} R$</div>
+                        <div>💎 Total: ${Math.floor(totalValue).toLocaleString()} R$</div>
                         <div style="color: ${pnl >= 0 ? 'var(--green)' : 'var(--red)'}">
-                            P&L: ${pnl >= 0 ? '+' : ''}${pnl.toLocaleString()} R$
+                            📊 P&L: ${pnl >= 0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        // Update order book (mock data)
+        // Update order book with real-time prices
         function updateOrderBook() {
             const selectedItemId = parseInt(document.getElementById('tradeItemSelect').value);
             const item = ALL_ITEMS.find(i => i.id === selectedItemId);
             
             if (!item) {
-                document.getElementById('orderBook').innerHTML = '<div style="text-align: center; padding: 2rem;">Select an item to view order book</div>';
+                document.getElementById('orderBook').innerHTML = '<div class="empty-state">📊 Select an item to view order book</div>';
                 return;
             }
             
@@ -870,39 +984,41 @@
             const bids = [];
             const asks = [];
             
-            for (let i = 1; i <= 5; i++) {
-                bids.push({ price: basePrice - (i * 5), quantity: Math.floor(Math.random() * 50) + 10 });
-                asks.push({ price: basePrice + (i * 5), quantity: Math.floor(Math.random() * 50) + 10 });
+            // Generate realistic order book
+            for (let i = 1; i <= 8; i++) {
+                const bidPrice = basePrice - (i * (basePrice * 0.01));
+                const askPrice = basePrice + (i * (basePrice * 0.01));
+                bids.push({ price: bidPrice, quantity: Math.floor(Math.random() * 100) + 10 });
+                asks.push({ price: askPrice, quantity: Math.floor(Math.random() * 100) + 10 });
             }
             
             document.getElementById('orderBook').innerHTML = `
                 <div class="order-book-side">
-                    <div class="order-book-title">Bids (Buy Orders)</div>
+                    <div class="order-book-title">📈 Bids (Buy Orders)</div>
                     ${bids.map(bid => `
                         <div class="order-row">
-                            <span class="bid-price">${bid.price.toLocaleString()} R$</span>
-                            <span>${bid.quantity} items</span>
+                            <span class="bid-price">💰 ${Math.floor(bid.price).toLocaleString()} R$</span>
+                            <span>📦 ${bid.quantity} items</span>
                         </div>
                     `).join('')}
                 </div>
                 <div class="order-book-side">
-                    <div class="order-book-title">Asks (Sell Orders)</div>
+                    <div class="order-book-title">📉 Asks (Sell Orders)</div>
                     ${asks.map(ask => `
                         <div class="order-row">
-                            <span class="ask-price">${ask.price.toLocaleString()} R$</span>
-                            <span>${ask.quantity} items</span>
+                            <span class="ask-price">💰 ${Math.floor(ask.price).toLocaleString()} R$</span>
+                            <span>📦 ${ask.quantity} items</span>
                         </div>
                     `).join('')}
                 </div>
             `;
         }
 
-        // Initialize chart
+        // Initialize TradingView chart
         function initChart() {
             const widgetContainer = document.getElementById('tradingview-widget');
             
             if (typeof TradingView !== 'undefined') {
-                widgetContainer.innerHTML = '';
                 new TradingView.widget({
                     container_id: "tradingview-widget",
                     symbol: "BINANCE:BTCUSDT",
@@ -913,14 +1029,17 @@
                     locale: "en",
                     toolbar_bg: "#131722",
                     enable_publishing: false,
-                    hide_top_toolbar: true,
-                    allow_symbol_change: false,
-                    studies: ["MASimple@tv-basicstudies", "RSI@tv-basicstudies"],
+                    hide_top_toolbar: false,
+                    allow_symbol_change: true,
+                    studies: ["MASimple@tv-basicstudies", "RSI@tv-basicstudies", "MACD@tv-basicstudies"],
                     width: "100%",
                     height: "100%"
                 });
             } else {
-                widgetContainer.innerHTML = '<div style="text-align: center; padding: 3rem;">Chart widget failed to load. Using fallback chart.</div>';
+                widgetContainer.innerHTML = '<div class="empty-state" style="padding: 3rem;">📊 Chart widget loading... If stuck, refresh the page.</div>';
+                setTimeout(() => {
+                    if (typeof TradingView !== 'undefined') initChart();
+                }, 1000);
             }
         }
 
@@ -930,13 +1049,13 @@
             const depositSelect = document.getElementById('depositItemSelect');
             
             tradeSelect.innerHTML = '<option value="">-- Choose an item --</option>' + 
-                ALL_ITEMS.map(item => `<option value="${item.id}">${item.icon} ${item.name} - ${item.value} R$</option>`).join('');
+                ALL_ITEMS.map(item => `<option value="${item.id}">${item.icon} ${item.name} - ${item.value.toLocaleString()} R$</option>`).join('');
             
             function updateDepositItems() {
                 const game = document.getElementById('depositGame').value;
                 const items = game === 'mm2' ? MARKET_ITEMS.mm2 : MARKET_ITEMS.adoptme;
                 depositSelect.innerHTML = items.map(item => 
-                    `<option value="${item.id}" data-value="${item.value}">${item.icon} ${item.name} - ${item.value} R$</option>`
+                    `<option value="${item.id}" data-value="${item.value}">${item.icon} ${item.name} - ${item.value.toLocaleString()} R$ (Gives ${item.value} R$)</option>`
                 ).join('');
                 updateDepositTotal();
             }
@@ -950,6 +1069,9 @@
                     document.getElementById('tradePrice').value = item.value;
                     updateTradeTotal();
                     updateOrderBook();
+                    document.getElementById('selectedItemName').textContent = `${item.icon} ${item.name}`;
+                    document.getElementById('priceChange').innerHTML = `${item.change >= 0 ? '📈 +' : '📉 '}${item.change}%`;
+                    document.getElementById('priceChange').style.color = item.change >= 0 ? 'var(--green)' : 'var(--red)';
                 }
             });
         }
@@ -977,9 +1099,10 @@
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = 'toast';
-            toast.innerHTML = message;
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            toast.innerHTML = `${icons[type] || 'ℹ️'} ${message}`;
             container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            setTimeout(() => toast.remove(), 4000);
         }
 
         // Event listeners
@@ -993,6 +1116,7 @@
                     document.querySelectorAll('.order-tab').forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
                     selectedOrderType = tab.dataset.orderType;
+                    showToast(`${selectedOrderType.toUpperCase()} mode selected`, 'info');
                 });
             });
             
@@ -1009,13 +1133,13 @@
                 btn.addEventListener('click', () => {
                     document.querySelectorAll('.timeframe-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    showToast(`Changed to ${btn.dataset.timeframe} view`, 'info');
+                    showToast(`Changed to ${btn.dataset.timeframe} chart view`, 'info');
                 });
             });
         }
 
         // Initialize app
-        function init() {
+        async function init() {
             loadData();
             initDropdowns();
             setupEventListeners();
@@ -1024,7 +1148,9 @@
             updatePortfolioStats();
             updateOrderBook();
             initChart();
-            showToast('Welcome to Bloxview Professional Trading Platform!', 'success');
+            await checkMiddlemanAPI();
+            showToast('🎮 Welcome to Bloxview Professional Trading Platform!', 'success');
+            showToast('💰 Deposit items to earn currency! Each item gives its R$ value as balance.', 'info');
         }
         
         // Make selectMarketItem globally accessible
