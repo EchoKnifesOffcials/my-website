@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Bloxview | Complete Trading Platform - MM2 & Adopt Me</title>
+    <title>Bloxview | MM2 & Adopt Me Trading Platform</title>
     
-    <!-- TradingView Widget Library -->
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <!-- Chart.js for custom Roblox item charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         * {
@@ -36,9 +37,10 @@
             color: var(--text-primary);
             line-height: 1.5;
             overflow-x: hidden;
+            padding-bottom: 70px;
         }
 
-        /* Navigation */
+        /* Top Navigation */
         .nav {
             position: sticky;
             top: 0;
@@ -66,11 +68,13 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            cursor: pointer;
         }
 
-        .nav-links {
+        /* Desktop Navigation Links */
+        .nav-links-desktop {
             display: flex;
-            gap: 1.5rem;
+            gap: 0.5rem;
             flex-wrap: wrap;
         }
 
@@ -79,9 +83,113 @@
             transition: all 0.2s;
             color: var(--text-secondary);
             font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
         }
 
         .nav-link:hover, .nav-link.active {
+            color: var(--blue);
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        /* Hamburger Menu Button */
+        .hamburger-menu {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .hamburger-menu:hover {
+            border-color: var(--blue);
+        }
+
+        /* Side Menu (Mobile) */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border);
+            padding: 5rem 1.5rem 2rem;
+            transition: right 0.3s ease;
+            z-index: 200;
+        }
+
+        .side-menu.open {
+            right: 0;
+        }
+
+        .side-menu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+
+        .side-menu a:hover {
+            color: var(--blue);
+        }
+
+        .side-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 199;
+        }
+
+        .side-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(17, 17, 24, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            display: none;
+            justify-content: space-around;
+            padding: 0.75rem 1rem;
+            z-index: 100;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+            font-size: 0.7rem;
+        }
+
+        .bottom-nav-item i {
+            font-size: 1.25rem;
+        }
+
+        .bottom-nav-item.active, .bottom-nav-item:hover {
             color: var(--blue);
         }
 
@@ -110,11 +218,21 @@
             color: var(--green);
         }
 
-        .user-avatar-small {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
+        .roblox-link-btn {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--blue);
+            color: var(--blue);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .roblox-link-btn:hover {
+            background: rgba(0, 243, 255, 0.2);
         }
 
         button {
@@ -132,7 +250,7 @@
             color: white;
         }
 
-        .btn-primary:hover:not(:disabled) {
+        .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 243, 255, 0.3);
         }
@@ -149,18 +267,6 @@
 
         .btn-success {
             background: linear-gradient(135deg, var(--green), #00cc66);
-            border: none;
-            color: var(--bg-primary);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, var(--red), #cc3355);
-            border: none;
-            color: white;
-        }
-
-        .btn-warning {
-            background: linear-gradient(135deg, var(--yellow), #ff8c00);
             border: none;
             color: var(--bg-primary);
         }
@@ -185,6 +291,101 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Home Page Styles */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.05), rgba(139, 92, 246, 0.05));
+            border-radius: 32px;
+            border: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card-large {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-card-large .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-card:hover {
+            border-color: var(--blue);
+            transform: translateY(-4px);
+        }
+
+        .action-card i {
+            font-size: 2rem;
+            color: var(--blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .dashboard-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .dashboard-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .trend-up { color: var(--green); }
+        .trend-down { color: var(--red); }
 
         /* Trading Layout */
         .trading-layout {
@@ -291,6 +492,7 @@
         .item-name {
             font-weight: 600;
             margin-bottom: 0.5rem;
+            font-size: 1.1rem;
         }
 
         .item-price {
@@ -342,14 +544,6 @@
             margin-bottom: 1.5rem;
         }
 
-        .stat-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 1rem;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -359,78 +553,39 @@
             gap: 1rem;
         }
 
-        h2, h3 {
-            font-size: 1.25rem;
+        h2 {
+            font-size: 1.5rem;
             font-weight: 600;
         }
 
-        .filter-bar {
-            margin-bottom: 1.5rem;
-        }
-
-        .search-input {
-            max-width: 400px;
-        }
-
-        .api-status {
-            display: inline-flex;
-            align-items: center;
+        .timeframe-buttons {
+            display: flex;
             gap: 0.5rem;
+        }
+
+        .timeframe-btn {
             padding: 0.25rem 0.75rem;
-            border-radius: 50px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
             font-size: 0.75rem;
         }
 
-        .status-online {
-            background: rgba(0, 255, 136, 0.2);
-            color: var(--green);
-        }
-
-        .status-offline {
-            background: rgba(255, 68, 102, 0.2);
-            color: var(--red);
-        }
-
-        .verification-badge {
-            background: var(--green);
+        .timeframe-btn.active {
+            background: var(--blue);
             color: var(--bg-primary);
-            padding: 0.2rem 0.5rem;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 600;
         }
 
-        .profile-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .profile-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--blue);
-            margin: 0 auto 1rem;
-        }
-
-        .loading-spinner {
-            border: 3px solid var(--border);
-            border-top-color: var(--blue);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        canvas {
+            max-height: 400px;
+            width: 100%;
         }
 
         .toast-container {
             position: fixed;
-            bottom: 2rem;
+            bottom: 80px;
             right: 2rem;
             z-index: 1000;
         }
@@ -504,34 +659,67 @@
             text-align: center;
         }
 
+        .flex { display: flex; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-4 { gap: 1rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 0.75rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .w-full { width: 100%; }
+        .text-center { text-align: center; }
+        .text-gray-400 { color: var(--text-secondary); }
+        .flex-1 { flex: 1; }
+
         @media (max-width: 1024px) {
             .trading-layout {
                 grid-template-columns: 1fr;
             }
-            .nav-links {
-                justify-content: center;
+            .nav-links-desktop {
+                display: none;
             }
-            .user-panel {
-                width: 100%;
-                justify-content: center;
+            .hamburger-menu {
+                display: block;
+            }
+            .bottom-nav {
+                display: flex;
+            }
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 <body>
+    <!-- Top Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <div class="logo">BLOXVIEW</div>
-            <div class="nav-links">
-                <a class="nav-link active" data-page="trade">Trade</a>
-                <a class="nav-link" data-page="market">Market</a>
-                <a class="nav-link" data-page="mm2">🔪 MM2 Items</a>
-                <a class="nav-link" data-page="adoptme">🐾 Adopt Me</a>
-                <a class="nav-link" data-page="inventory">📦 Inventory</a>
-                <a class="nav-link" data-page="portfolio">💼 Portfolio</a>
-                <a class="nav-link" data-page="deposit">💰 Deposit</a>
-                <a class="nav-link" data-page="profile">👤 Profile</a>
+            <div class="logo" data-page="home">BLOXVIEW</div>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links-desktop">
+                <a class="nav-link" data-page="home"><i class="fas fa-home"></i> Home</a>
+                <a class="nav-link" data-page="dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a class="nav-link" data-page="trade"><i class="fas fa-exchange-alt"></i> Trade</a>
+                <a class="nav-link" data-page="market"><i class="fas fa-store"></i> Market</a>
+                <a class="nav-link" data-page="mm2"><i class="fas fa-khanda"></i> MM2</a>
+                <a class="nav-link" data-page="adoptme"><i class="fas fa-paw"></i> Adopt Me</a>
+                <a class="nav-link" data-page="inventory"><i class="fas fa-box"></i> Inventory</a>
+                <a class="nav-link" data-page="portfolio"><i class="fas fa-chart-pie"></i> Portfolio</a>
+                <a class="nav-link" data-page="deposit"><i class="fas fa-download"></i> Deposit</a>
+                <a class="nav-link" data-page="profile"><i class="fas fa-user"></i> Profile</a>
             </div>
+            
+            <!-- Hamburger Menu Button -->
+            <div class="hamburger-menu" id="hamburgerBtn">
+                <i class="fas fa-bars"></i> Menu
+            </div>
+            
             <div class="user-panel">
                 <div class="balance-card">
                     <div class="balance-label">Balance</div>
@@ -541,33 +729,174 @@
                     <div class="balance-label">Portfolio Value</div>
                     <div class="balance-value" id="portfolioValueDisplay">0 R$</div>
                 </div>
-                <div id="userAvatarSmall" style="display: none;">
-                    <img id="smallAvatar" class="user-avatar-small" alt="Avatar">
+                <div class="roblox-link-btn" id="robloxLinkBtn">
+                    <i class="fab fa-roblox"></i> <span id="robloxLinkText">Link Roblox</span>
                 </div>
-                <div class="api-status" id="apiStatus">Checking API...</div>
                 <button class="btn-secondary" id="resetBtn">Reset</button>
             </div>
         </div>
     </nav>
 
+    <!-- Side Menu (Hamburger) -->
+    <div class="side-menu" id="sideMenu">
+        <a data-page="home"><i class="fas fa-home"></i> Home</a>
+        <a data-page="dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
+        <a data-page="trade"><i class="fas fa-exchange-alt"></i> Trade</a>
+        <a data-page="market"><i class="fas fa-store"></i> Market</a>
+        <a data-page="mm2"><i class="fas fa-khanda"></i> MM2 Items</a>
+        <a data-page="adoptme"><i class="fas fa-paw"></i> Adopt Me</a>
+        <a data-page="inventory"><i class="fas fa-box"></i> Inventory</a>
+        <a data-page="portfolio"><i class="fas fa-chart-pie"></i> Portfolio</a>
+        <a data-page="deposit"><i class="fas fa-download"></i> Deposit</a>
+        <a data-page="profile"><i class="fas fa-user"></i> Profile</a>
+        <hr style="margin: 1rem 0; border-color: var(--border);">
+        <div class="roblox-link-btn" id="sideRobloxLinkBtn" style="width: 100%; justify-content: center;">
+            <i class="fab fa-roblox"></i> Link Roblox Account
+        </div>
+    </div>
+    <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+
+    <!-- Bottom Navigation (Main 3 + Others in Hamburger) -->
+    <div class="bottom-nav" id="bottomNav">
+        <div class="bottom-nav-item" data-page="home"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="bottom-nav-item" data-page="dashboard"><i class="fas fa-chart-line"></i><span>Stats</span></div>
+        <div class="bottom-nav-item" data-page="trade"><i class="fas fa-exchange-alt"></i><span>Trade</span></div>
+        <div class="bottom-nav-item" id="bottomMenuBtn"><i class="fas fa-bars"></i><span>Menu</span></div>
+    </div>
+
     <main class="main-content">
+        <!-- HOME PAGE -->
+        <div id="homePage" class="page active">
+            <div class="hero">
+                <div>
+                    <div class="hero-badge" style="display: inline-block; background: rgba(0,243,255,0.1); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; margin-bottom: 1rem;">
+                        <i class="fas fa-crown"></i> #1 Roblox Trading Platform
+                    </div>
+                    <h1>Track, Trade,<br><span class="hero-gradient">Maximize Value</span></h1>
+                    <p>Real-time charts, price tracking, demand analysis for MM2 & Adopt Me items.</p>
+                    <div class="flex gap-4 mt-4">
+                        <button class="btn-primary" id="exploreTradeBtn">Start Trading <i class="fas fa-arrow-right"></i></button>
+                        <button class="btn-secondary" id="exploreMarketBtn">Explore Market</button>
+                    </div>
+                </div>
+                <div class="stats-grid" style="margin-top: 0;">
+                    <div class="stat-card-large">
+                        <div class="value" id="totalUsers">12.5K</div>
+                        <div>Active Traders</div>
+                    </div>
+                    <div class="stat-card-large">
+                        <div class="value" id="totalVolume">$2.4M</div>
+                        <div>Trading Volume</div>
+                    </div>
+                    <div class="stat-card-large">
+                        <div class="value" id="totalItems">20+</div>
+                        <div>Rare Items</div>
+                    </div>
+                    <div class="stat-card-large">
+                        <div class="value" id="uptime">99.9%</div>
+                        <div>Platform Uptime</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <div class="action-card" data-page="trade">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h3>Quick Trade</h3>
+                    <p class="text-gray-400">Buy & sell items instantly</p>
+                </div>
+                <div class="action-card" data-page="deposit">
+                    <i class="fas fa-download"></i>
+                    <h3>Deposit Items</h3>
+                    <p class="text-gray-400">Add items to your inventory</p>
+                </div>
+                <div class="action-card" data-page="market">
+                    <i class="fas fa-store"></i>
+                    <h3>Marketplace</h3>
+                    <p class="text-gray-400">Browse all items</p>
+                </div>
+                <div class="action-card" id="robloxLinkAction">
+                    <i class="fab fa-roblox"></i>
+                    <h3>Link Roblox</h3>
+                    <p class="text-gray-400">Verify your account</p>
+                </div>
+            </div>
+
+            <div class="section-header"><h2>🔥 Trending Items</h2></div>
+            <div class="items-grid" id="trendingGrid"></div>
+        </div>
+
+        <!-- DASHBOARD PAGE -->
+        <div id="dashboardPage" class="page">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-line"></i> Trading Dashboard</h2>
+                <button class="btn-secondary" id="refreshDashboardBtn"><i class="fas fa-sync"></i> Refresh</button>
+            </div>
+            
+            <div class="portfolio-summary">
+                <div class="stat-card">
+                    <div>💰 Total Balance</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--green);" id="dashBalance">0 R$</div>
+                </div>
+                <div class="stat-card">
+                    <div>📦 Portfolio Value</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--blue);" id="dashPortfolio">0 R$</div>
+                </div>
+                <div class="stat-card">
+                    <div>📊 Total P&L</div>
+                    <div style="font-size: 1.5rem; font-weight: 700;" id="dashPnl">0 R$</div>
+                </div>
+                <div class="stat-card">
+                    <div>🎯 Win Rate</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--yellow);" id="dashWinRate">0%</div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-fire"></i> Top Performing Items</h3>
+                    <div id="topPerformers"></div>
+                </div>
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-chart-line"></i> Recent Activity</h3>
+                    <div id="recentActivity"></div>
+                </div>
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-trophy"></i> Your Holdings</h3>
+                    <div id="holdingSummary"></div>
+                </div>
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-bell"></i> Market Alerts</h3>
+                    <div id="marketAlerts">
+                        <p class="text-gray-400">🔔 High demand: Harvester</p>
+                        <p class="text-gray-400">📈 Shadow Dragon up +15%</p>
+                        <p class="text-gray-400">💎 New items available</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- TRADE PAGE -->
-        <div id="tradePage" class="page active">
+        <div id="tradePage" class="page">
             <div class="trading-layout">
                 <div class="chart-section">
                     <div class="chart-header">
                         <div>
-                            <h2 id="selectedItemName">Select an Item</h2>
-                            <div id="priceChange" style="font-size: 0.875rem;"></div>
+                            <h2 id="selectedItemName">Harvester</h2>
+                            <div id="priceChange" style="font-size: 0.875rem; color: var(--green);">+12.5%</div>
                         </div>
-                        <div class="timeframe-selector" style="display: flex; gap: 0.5rem;">
-                            <button class="btn-secondary timeframe-btn" data-timeframe="1D">1D</button>
-                            <button class="btn-secondary timeframe-btn" data-timeframe="1W">1W</button>
-                            <button class="btn-secondary timeframe-btn active" data-timeframe="1M">1M</button>
-                            <button class="btn-secondary timeframe-btn" data-timeframe="3M">3M</button>
+                        <div class="timeframe-buttons">
+                            <button class="timeframe-btn" data-timeframe="7">1W</button>
+                            <button class="timeframe-btn active" data-timeframe="30">1M</button>
+                            <button class="timeframe-btn" data-timeframe="90">3M</button>
                         </div>
                     </div>
-                    <div id="tradingview-widget" style="height: 500px;"></div>
+                    <canvas id="itemChart" height="400"></canvas>
+                    <div class="price-stats" style="padding: 1rem; display: flex; gap: 2rem; border-top: 1px solid var(--border);">
+                        <span>📈 24h Volume: <span id="volumeDisplay">1,250</span></span>
+                        <span>🔥 Demand: <span id="demandDisplay">High</span></span>
+                        <span>📦 Stock: <span id="stockDisplay">342</span></span>
+                    </div>
                 </div>
                 <div class="trading-panel">
                     <div class="order-type-tabs">
@@ -605,16 +934,16 @@
         <div id="marketPage" class="page">
             <div class="section-header">
                 <h2>📊 Market Overview</h2>
-                <input type="text" id="marketSearch" placeholder="Search items..." class="price-input search-input" style="max-width: 300px;">
+                <input type="text" id="marketSearch" placeholder="Search items..." class="price-input" style="max-width: 300px;">
             </div>
             <div class="items-grid" id="marketGrid"></div>
         </div>
 
-        <!-- MM2 ITEMS PAGE -->
+        <!-- MM2 PAGE -->
         <div id="mm2Page" class="page">
             <div class="section-header">
                 <h2>🔪 Murder Mystery 2 Items</h2>
-                <input type="text" id="mm2Search" placeholder="Search MM2 items..." class="price-input search-input" style="max-width: 300px;">
+                <input type="text" id="mm2Search" placeholder="Search MM2 items..." class="price-input" style="max-width: 300px;">
             </div>
             <div class="items-grid" id="mm2Grid"></div>
         </div>
@@ -623,26 +952,25 @@
         <div id="adoptmePage" class="page">
             <div class="section-header">
                 <h2>🐾 Adopt Me Pets</h2>
-                <input type="text" id="adoptSearch" placeholder="Search Adopt Me pets..." class="price-input search-input" style="max-width: 300px;">
+                <input type="text" id="adoptSearch" placeholder="Search Adopt Me pets..." class="price-input" style="max-width: 300px;">
             </div>
             <div class="items-grid" id="adoptGrid"></div>
         </div>
 
-        <!-- INVENTORY PAGE (Deposited Items) -->
+        <!-- INVENTORY PAGE -->
         <div id="inventoryPage" class="page">
             <div class="section-header">
-                <h2>📦 My Deposited Items</h2>
+                <h2>📦 My Inventory</h2>
                 <button class="btn-primary" id="depositInventoryBtn">+ Deposit New</button>
             </div>
             <div class="items-grid" id="inventoryGrid"></div>
             <div id="inventoryEmpty" class="empty-state" style="display:none">
-                <i class="empty-icon">📦</i>
-                <p>No items in inventory. Go to Deposit page to add items!</p>
+                <p>📦 No items in inventory. Go to Deposit page to add items!</p>
                 <button class="btn-primary mt-4" id="emptyDepositBtn">Deposit Your First Item</button>
             </div>
         </div>
 
-        <!-- PORTFOLIO PAGE (Trading Stats) -->
+        <!-- PORTFOLIO PAGE -->
         <div id="portfolioPage" class="page">
             <div class="portfolio-summary">
                 <div class="stat-card">
@@ -698,30 +1026,30 @@
 
         <!-- PROFILE PAGE -->
         <div id="profilePage" class="page">
-            <div class="profile-header">
-                <img id="profileAvatar" class="profile-avatar" src="https://ui-avatars.com/api/?name=Guest&background=8b5cf6&color=fff" alt="Avatar">
-                <h2 id="profileUsername">Guest User</h2>
+            <div class="profile-header" style="text-align: center; margin-bottom: 2rem;">
+                <img id="profileAvatar" class="roblox-avatar-preview" src="https://ui-avatars.com/api/?name=Guest&background=8b5cf6&color=fff" alt="Avatar" style="width: 100px; height: 100px;">
+                <h2 id="profileUsername" class="mt-2">Guest User</h2>
                 <p id="profileStatus" class="text-gray-400">Not Verified</p>
-                <div id="profileVerificationBadge"></div>
-                <button class="btn-primary mt-4" id="verifyProfileBtn">Verify Roblox Account</button>
+                <div id="profileVerificationBadge" class="mt-2"></div>
+                <button class="btn-primary mt-4" id="verifyProfileBtn"><i class="fab fa-roblox"></i> Link Roblox Account</button>
             </div>
-            <div class="grid grid-cols-2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
                 <div class="stat-card">
                     <h3>📊 Trading Stats</h3>
-                    <div class="space-y-2 mt-3">
-                        <div class="flex justify-between"><span>Total Deposits</span><span id="profileDeposits">0</span></div>
-                        <div class="flex justify-between"><span>Total Trades</span><span id="profileTrades">0</span></div>
-                        <div class="flex justify-between"><span>Inventory Value</span><span id="profileInventoryValue">0 R$</span></div>
-                        <div class="flex justify-between"><span>Member Since</span><span id="profileMemberSince">Today</span></div>
+                    <div style="margin-top: 0.75rem;">
+                        <div style="display: flex; justify-content: space-between;"><span>Total Deposits</span><span id="profileDeposits">0</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Total Trades</span><span id="profileTrades">0</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Inventory Value</span><span id="profileInventoryValue">0 R$</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Member Since</span><span id="profileMemberSince">Today</span></div>
                     </div>
                 </div>
                 <div class="stat-card">
                     <h3>🔐 Roblox Identity</h3>
-                    <div class="space-y-2 mt-3">
-                        <div class="flex justify-between"><span>Roblox User</span><span id="profileRobloxUser">Not linked</span></div>
-                        <div class="flex justify-between"><span>User ID</span><span id="profileRobloxId">-</span></div>
-                        <div class="flex justify-between"><span>Verified</span><span id="profileVerifiedStatus">No</span></div>
-                        <div class="flex justify-between"><span>Trust Score</span><span id="profileTrust">0%</span></div>
+                    <div style="margin-top: 0.75rem;">
+                        <div style="display: flex; justify-content: space-between;"><span>Roblox User</span><span id="profileRobloxUser">Not linked</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>User ID</span><span id="profileRobloxId">-</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Verified</span><span id="profileVerifiedStatus">No</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Trust Score</span><span id="profileTrust">0%</span></div>
                     </div>
                 </div>
             </div>
@@ -730,31 +1058,31 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Verification Modal -->
-    <div id="verificationModal" class="modal">
+    <!-- Roblox Link Modal -->
+    <div id="robloxModal" class="modal">
         <div class="modal-content">
-            <h2 class="text-xl font-bold mb-2">🔐 Verify Your Roblox Identity</h2>
-            <p class="text-gray-400 mb-4">This ensures you're a real trader, not a bot</p>
-            <div id="step1Verification">
+            <h2 class="mb-2"><i class="fab fa-roblox"></i> Link Roblox Account</h2>
+            <p class="text-gray-400 mb-4">Verify your Roblox identity to unlock full features</p>
+            <div id="step1Roblox">
                 <div class="form-group">
                     <label>Enter your Roblox Username</label>
                     <input type="text" id="robloxUsername" placeholder="e.g., BuilderBoy" style="text-align: center;">
                 </div>
                 <button class="btn-primary w-full mt-4" id="fetchRobloxBtn">Fetch Profile</button>
             </div>
-            <div id="step2Verification" style="display: none;">
+            <div id="step2Roblox" style="display: none;">
                 <div style="text-align: center;">
                     <img id="verificationAvatar" class="roblox-avatar-preview" alt="Roblox Avatar">
                     <h3 id="verificationDisplayName"></h3>
                     <p id="verificationUsername" class="text-gray-400"></p>
                 </div>
                 <p class="mb-2 mt-3"><strong>Is this you?</strong></p>
-                <div class="flex gap-3" style="display: flex; gap: 1rem;">
+                <div class="flex gap-3">
                     <button class="btn-primary flex-1" id="confirmIdentityBtn">Yes, That's Me</button>
                     <button class="btn-danger flex-1" id="denyIdentityBtn">No, Wrong Account</button>
                 </div>
             </div>
-            <div id="step3Verification" style="display: none;">
+            <div id="step3Roblox" style="display: none;">
                 <div class="verification-code" id="verificationCodeDisplay"></div>
                 <p class="text-sm text-gray-400 mb-3">Copy this exact sentence into your Roblox profile bio</p>
                 <button class="btn-primary w-full" id="completeVerificationBtn">Verify Me</button>
@@ -763,34 +1091,22 @@
     </div>
 
     <script>
-        // API Configuration
-        const MIDDLEMAN_API = 'https://roblox-middlemanbot1.onrender.com';
-        
-        // Market Data
+        // Roblox Items Data
         const MARKET_ITEMS = {
             mm2: [
-                { id: 1, name: "Harvester", value: 2200, change: 12.5, icon: "🔪", rarity: "ancient", demand: "high", volume: 1250 },
-                { id: 2, name: "Batwing", value: 140, change: 5.2, icon: "🦇", rarity: "godly", demand: "medium", volume: 890 },
-                { id: 3, name: "Corrupt", value: 1250, change: 8.3, icon: "🗡️", rarity: "ancient", demand: "high", volume: 2340 },
-                { id: 4, name: "Luger", value: 165, change: -2.1, icon: "🔫", rarity: "godly", demand: "medium", volume: 560 },
-                { id: 5, name: "Chroma Darkbringer", value: 1850, change: 15.3, icon: "⚫", rarity: "chroma", demand: "high", volume: 890 },
-                { id: 6, name: "Elderwood Scythe", value: 450, change: 3.2, icon: "🌿", rarity: "godly", demand: "medium", volume: 445 },
-                { id: 7, name: "Chroma Lightbringer", value: 1780, change: 10.2, icon: "⚪", rarity: "chroma", demand: "high", volume: 670 },
-                { id: 8, name: "Icebreaker", value: 320, change: -1.5, icon: "❄️", rarity: "godly", demand: "low", volume: 234 },
-                { id: 9, name: "Candy", value: 280, change: 2.5, icon: "🍬", rarity: "godly", demand: "medium", volume: 456 },
-                { id: 10, name: "Sugar", value: 275, change: 1.8, icon: "🍭", rarity: "godly", demand: "medium", volume: 423 }
+                { id: 1, name: "Harvester", value: 2200, change: 12.5, icon: "🔪", rarity: "ancient", demand: "high", volume: 1250, stock: 342, trend: "bullish" },
+                { id: 2, name: "Batwing", value: 140, change: 5.2, icon: "🦇", rarity: "godly", demand: "medium", volume: 890, stock: 1250, trend: "stable" },
+                { id: 3, name: "Corrupt", value: 1250, change: 8.3, icon: "🗡️", rarity: "ancient", demand: "high", volume: 2340, stock: 89, trend: "bullish" },
+                { id: 4, name: "Luger", value: 165, change: -2.1, icon: "🔫", rarity: "godly", demand: "medium", volume: 560, stock: 2300, trend: "bearish" },
+                { id: 5, name: "Chroma Darkbringer", value: 1850, change: 15.3, icon: "⚫", rarity: "chroma", demand: "high", volume: 890, stock: 23, trend: "bullish" },
+                { id: 6, name: "Elderwood Scythe", value: 450, change: 3.2, icon: "🌿", rarity: "godly", demand: "medium", volume: 445, stock: 432, trend: "stable" }
             ],
             adoptme: [
-                { id: 101, name: "Shadow Dragon", value: 1250, change: 15.2, icon: "🐉", rarity: "legendary", demand: "high", volume: 320 },
-                { id: 102, name: "Frost Dragon", value: 980, change: 8.3, icon: "❄️", rarity: "legendary", demand: "high", volume: 280 },
-                { id: 103, name: "Giraffe", value: 850, change: 5.2, icon: "🦒", rarity: "legendary", demand: "medium", volume: 150 },
-                { id: 104, name: "Bat Dragon", value: 1100, change: 10.5, icon: "🦇", rarity: "legendary", demand: "high", volume: 410 },
-                { id: 105, name: "Owl", value: 720, change: 4.8, icon: "🦉", rarity: "legendary", demand: "medium", volume: 230 },
-                { id: 106, name: "Parrot", value: 680, change: 3.2, icon: "🦜", rarity: "legendary", demand: "medium", volume: 190 },
-                { id: 107, name: "Evil Unicorn", value: 550, change: -2.1, icon: "🦄", rarity: "legendary", demand: "low", volume: 145 },
-                { id: 108, name: "Crow", value: 490, change: 1.5, icon: "🐦‍⬛", rarity: "legendary", demand: "medium", volume: 178 },
-                { id: 109, name: "Arctic Reindeer", value: 380, change: 2.3, icon: "🦌", rarity: "legendary", demand: "medium", volume: 234 },
-                { id: 110, name: "Turtle", value: 320, change: 1.2, icon: "🐢", rarity: "legendary", demand: "medium", volume: 312 }
+                { id: 101, name: "Shadow Dragon", value: 1250, change: 15.2, icon: "🐉", rarity: "legendary", demand: "high", volume: 320, stock: 45, trend: "bullish" },
+                { id: 102, name: "Frost Dragon", value: 980, change: 8.3, icon: "❄️", rarity: "legendary", demand: "high", volume: 280, stock: 67, trend: "bullish" },
+                { id: 103, name: "Giraffe", value: 850, change: 5.2, icon: "🦒", rarity: "legendary", demand: "medium", volume: 150, stock: 89, trend: "stable" },
+                { id: 104, name: "Bat Dragon", value: 1100, change: 10.5, icon: "🦇", rarity: "legendary", demand: "high", volume: 410, stock: 34, trend: "bullish" },
+                { id: 105, name: "Owl", value: 720, change: 4.8, icon: "🦉", rarity: "legendary", demand: "medium", volume: 230, stock: 156, trend: "stable" }
             ]
         };
 
@@ -809,27 +1125,20 @@
             memberSince: new Date().toISOString()
         };
         let selectedOrderType = 'buy';
-        let middlemanConnected = false;
-        let pendingProfile = null;
-        let pendingVerificationCode = null;
+        let priceChart = null;
+        let currentChartItem = ALL_ITEMS[0];
+        let currentTimeframe = 30;
 
-        // Load saved data
+        // Load/Save Data
         function loadData() {
             const savedBalance = localStorage.getItem('bloxview_balance');
             if (savedBalance) userBalance = parseFloat(savedBalance);
-            
             const savedInventory = localStorage.getItem('bloxview_inventory');
             if (savedInventory) inventory = JSON.parse(savedInventory);
-            
             const savedTrades = localStorage.getItem('bloxview_trades');
             if (savedTrades) tradesHistory = JSON.parse(savedTrades);
-            
             const savedUser = localStorage.getItem('bloxview_user');
-            if (savedUser) {
-                const parsed = JSON.parse(savedUser);
-                currentUser = { ...currentUser, ...parsed };
-            }
-            
+            if (savedUser) currentUser = { ...currentUser, ...JSON.parse(savedUser) };
             updateBalanceDisplay();
         }
 
@@ -844,22 +1153,17 @@
             userBalance = 10000;
             inventory = [];
             tradesHistory = [];
-            currentUser = {
-                verified: false,
-                robloxUsername: null,
-                robloxDisplayName: null,
-                robloxId: null,
-                robloxAvatar: null,
-                memberSince: new Date().toISOString()
-            };
+            currentUser = { verified: false, robloxUsername: null, robloxDisplayName: null, robloxId: null, robloxAvatar: null, memberSince: new Date().toISOString() };
             saveData();
             updateBalanceDisplay();
             renderAll();
+            updateDashboard();
             showToast('Account reset to default!', 'success');
         }
 
         function updateBalanceDisplay() {
             document.getElementById('balanceDisplay').textContent = `${Math.floor(userBalance).toLocaleString()} R$`;
+            document.getElementById('dashBalance').textContent = `${Math.floor(userBalance).toLocaleString()} R$`;
         }
 
         function calculatePortfolioValue() {
@@ -873,8 +1177,8 @@
             const portfolioValue = calculatePortfolioValue();
             const totalValue = userBalance + portfolioValue;
             const itemsCount = inventory.reduce((sum, item) => sum + item.quantity, 0);
-            
             document.getElementById('portfolioValueDisplay').textContent = `${Math.floor(portfolioValue).toLocaleString()} R$`;
+            document.getElementById('dashPortfolio').textContent = `${Math.floor(portfolioValue).toLocaleString()} R$`;
             document.getElementById('portfolioTotal').textContent = `${Math.floor(totalValue).toLocaleString()} R$`;
             document.getElementById('itemsHeld').textContent = itemsCount;
             document.getElementById('tradesCount').textContent = tradesHistory.length;
@@ -885,96 +1189,93 @@
             const pnlElement = document.getElementById('portfolioPnl');
             pnlElement.textContent = `${pnl >= 0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$ (${pnlPercent >= 0 ? '+' : ''}${pnlPercent.toFixed(1)}%)`;
             pnlElement.style.color = pnl >= 0 ? 'var(--green)' : 'var(--red)';
+            document.getElementById('dashPnl').innerHTML = `${pnl >= 0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$`;
+            document.getElementById('dashPnl').style.color = pnl >= 0 ? 'var(--green)' : 'var(--red)';
             
-            // Update profile stats
+            const winRate = tradesHistory.length > 0 ? Math.floor(Math.random() * 30) + 65 : 0;
+            document.getElementById('dashWinRate').textContent = `${winRate}%`;
+            
             document.getElementById('profileDeposits').textContent = inventory.reduce((sum, i) => sum + i.quantity, 0);
             document.getElementById('profileTrades').textContent = tradesHistory.length;
             document.getElementById('profileInventoryValue').textContent = `${Math.floor(portfolioValue).toLocaleString()} R$`;
         }
 
-        async function executeTrade() {
+        function generateChartData(item, days) {
+            const labels = [];
+            const data = [];
+            const basePrice = item.value;
+            const trend = item.trend === 'bullish' ? 0.008 : (item.trend === 'bearish' ? -0.005 : 0.001);
+            for (let i = days; i >= 0; i--) {
+                if (days === 7) labels.push(`${i}d ago`);
+                else if (days === 30) labels.push(`${Math.floor(i/7)}w ago`);
+                else labels.push(`${Math.floor(i/30)}m ago`);
+                const volatility = 0.04;
+                const change = (Math.random() - 0.5) * volatility + trend;
+                const price = basePrice * (1 + change * (days - i) / days);
+                data.push(Math.max(price * 0.7, Math.min(price * 1.3, price)));
+            }
+            return { labels: labels.reverse(), data: data.reverse() };
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('itemChart').getContext('2d');
+            const chartData = generateChartData(currentChartItem, currentTimeframe);
+            if (priceChart) priceChart.destroy();
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: { labels: chartData.labels, datasets: [{ label: `${currentChartItem.name} Price (R$)`, data: chartData.data, borderColor: '#00f3ff', backgroundColor: 'rgba(0, 243, 255, 0.1)', tension: 0.4, fill: true, pointRadius: 2 }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#a0a0b0' } }, tooltip: { callbacks: { label: (ctx) => `${ctx.raw.toLocaleString()} R$` } } }, scales: { y: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0', callback: (v) => v.toLocaleString() + ' R$' } }, x: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0' } } } }
+            });
+        }
+
+        function updateChart() {
+            if (priceChart) {
+                const chartData = generateChartData(currentChartItem, currentTimeframe);
+                priceChart.data.labels = chartData.labels;
+                priceChart.data.datasets[0].data = chartData.data;
+                priceChart.data.datasets[0].label = `${currentChartItem.name} Price (R$)`;
+                priceChart.update();
+            }
+            document.getElementById('selectedItemName').textContent = currentChartItem.name;
+            document.getElementById('priceChange').innerHTML = `${currentChartItem.change >= 0 ? '+' : ''}${currentChartItem.change}%`;
+            document.getElementById('priceChange').style.color = currentChartItem.change >= 0 ? 'var(--green)' : 'var(--red)';
+            document.getElementById('volumeDisplay').textContent = currentChartItem.volume.toLocaleString();
+            document.getElementById('demandDisplay').textContent = currentChartItem.demand.charAt(0).toUpperCase() + currentChartItem.demand.slice(1);
+            document.getElementById('stockDisplay').textContent = currentChartItem.stock.toLocaleString();
+        }
+
+        function executeTrade() {
             const itemId = parseInt(document.getElementById('tradeItemSelect').value);
             const price = parseFloat(document.getElementById('tradePrice').value);
             const quantity = parseInt(document.getElementById('tradeQuantity').value);
-            
-            if (!itemId || isNaN(price) || price <= 0 || isNaN(quantity) || quantity <= 0) {
-                showToast('Please fill in all fields correctly', 'error');
-                return;
-            }
-            
+            if (!itemId || isNaN(price) || price <= 0 || isNaN(quantity) || quantity <= 0) { showToast('Please fill in all fields correctly', 'error'); return; }
             const item = ALL_ITEMS.find(i => i.id === itemId);
-            if (!item) {
-                showToast('Item not found', 'error');
-                return;
-            }
-            
+            if (!item) { showToast('Item not found', 'error'); return; }
             const totalCost = price * quantity;
-            
             if (selectedOrderType === 'buy') {
-                if (userBalance < totalCost) {
-                    showToast(`Insufficient balance! Need ${totalCost.toLocaleString()} R$`, 'error');
-                    return;
-                }
-                
+                if (userBalance < totalCost) { showToast(`Insufficient balance! Need ${totalCost.toLocaleString()} R$`, 'error'); return; }
                 const existingItem = inventory.find(i => i.id === item.id);
-                if (existingItem) {
-                    existingItem.quantity += quantity;
-                    existingItem.averagePrice = ((existingItem.averagePrice * (existingItem.quantity - quantity)) + (price * quantity)) / existingItem.quantity;
-                } else {
-                    inventory.push({
-                        id: item.id,
-                        name: item.name,
-                        icon: item.icon,
-                        quantity: quantity,
-                        averagePrice: price,
-                        game: item.id < 100 ? 'mm2' : 'adoptme'
-                    });
-                }
-                
+                if (existingItem) { existingItem.quantity += quantity; existingItem.averagePrice = ((existingItem.averagePrice * (existingItem.quantity - quantity)) + (price * quantity)) / existingItem.quantity; }
+                else { inventory.push({ id: item.id, name: item.name, icon: item.icon, quantity: quantity, averagePrice: price, game: item.id < 100 ? 'mm2' : 'adoptme' }); }
                 userBalance -= totalCost;
                 tradesHistory.push({ type: 'buy', item: item.name, quantity, price, total: totalCost, date: new Date().toISOString() });
                 showToast(`Bought ${quantity}x ${item.name} for ${totalCost.toLocaleString()} R$!`, 'success');
             } else {
                 const existingItem = inventory.find(i => i.id === item.id);
-                if (!existingItem || existingItem.quantity < quantity) {
-                    showToast(`Not enough ${item.name} to sell!`, 'error');
-                    return;
-                }
-                
+                if (!existingItem || existingItem.quantity < quantity) { showToast(`Not enough ${item.name} to sell!`, 'error'); return; }
                 existingItem.quantity -= quantity;
-                if (existingItem.quantity === 0) {
-                    const index = inventory.indexOf(existingItem);
-                    inventory.splice(index, 1);
-                }
-                
+                if (existingItem.quantity === 0) { const index = inventory.indexOf(existingItem); inventory.splice(index, 1); }
                 userBalance += totalCost;
                 tradesHistory.push({ type: 'sell', item: item.name, quantity, price, total: totalCost, date: new Date().toISOString() });
                 showToast(`Sold ${quantity}x ${item.name} for ${totalCost.toLocaleString()} R$!`, 'success');
             }
-            
             saveData();
             updateBalanceDisplay();
             renderAll();
+            updateDashboard();
             updateTradeTotal();
             updateOrderBook();
-        }
-
-        async function checkMiddlemanAPI() {
-            const statusElement = document.getElementById('apiStatus');
-            try {
-                const response = await fetch(`${MIDDLEMAN_API}/health`, { method: 'GET' });
-                if (response.ok) {
-                    middlemanConnected = true;
-                    statusElement.innerHTML = '● API Online';
-                    statusElement.className = 'api-status status-online';
-                } else {
-                    throw new Error('API offline');
-                }
-            } catch (error) {
-                middlemanConnected = false;
-                statusElement.innerHTML = '○ API Offline (Local)';
-                statusElement.className = 'api-status status-offline';
-            }
+            updatePortfolioStats();
         }
 
         function updateTradeTotal() {
@@ -995,186 +1296,90 @@
             const game = document.getElementById('depositGame').value;
             const itemId = parseInt(document.getElementById('depositItemSelect').value);
             const quantity = parseInt(document.getElementById('depositQuantity').value);
-            
             const items = game === 'mm2' ? MARKET_ITEMS.mm2 : MARKET_ITEMS.adoptme;
             const item = items.find(i => i.id === itemId);
-            
-            if (!item || quantity <= 0 || quantity > 100) {
-                showToast('Invalid deposit', 'error');
-                return;
-            }
-            
+            if (!item || quantity <= 0 || quantity > 100) { showToast('Invalid deposit', 'error'); return; }
             const totalValue = item.value * quantity;
-            
             const existingItem = inventory.find(i => i.id === item.id);
-            if (existingItem) {
-                existingItem.quantity += quantity;
-            } else {
-                inventory.push({
-                    id: item.id,
-                    name: item.name,
-                    icon: item.icon,
-                    quantity: quantity,
-                    averagePrice: item.value,
-                    game: game
-                });
-            }
-            
+            if (existingItem) existingItem.quantity += quantity;
+            else inventory.push({ id: item.id, name: item.name, icon: item.icon, quantity: quantity, averagePrice: item.value, game: game });
             userBalance += totalValue;
             saveData();
             updateBalanceDisplay();
             renderAll();
+            updateDashboard();
+            updatePortfolioStats();
             showToast(`Deposited ${quantity}x ${item.name}! +${totalValue.toLocaleString()} R$ added!`, 'success');
         }
 
         function renderMarket() {
             const searchTerm = document.getElementById('marketSearch')?.value.toLowerCase() || '';
             const filtered = ALL_ITEMS.filter(item => item.name.toLowerCase().includes(searchTerm));
-            const grid = document.getElementById('marketGrid');
-            if (grid) {
-                grid.innerHTML = filtered.map(item => `
-                    <div class="item-card" onclick="selectMarketItem(${item.id})">
-                        <div class="item-name">${item.icon} ${item.name}</div>
-                        <div class="item-price">${item.value.toLocaleString()} R$</div>
-                        <div class="item-change ${item.change >= 0 ? 'up' : 'down'}">${item.change >= 0 ? '+' : ''}${item.change}%</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Vol: ${item.volume} | Dem: ${item.demand}</div>
-                    </div>
-                `).join('');
-            }
+            document.getElementById('marketGrid').innerHTML = filtered.map(item => `<div class="item-card" onclick="selectMarketItem(${item.id})"><div class="item-name">${item.icon} ${item.name}</div><div class="item-price">${item.value.toLocaleString()} R$</div><div class="item-change ${item.change >= 0 ? 'up' : 'down'}">${item.change >= 0 ? '+' : ''}${item.change}%</div><div style="font-size:0.75rem;color:var(--text-secondary);">Vol: ${item.volume} | Dem: ${item.demand}</div></div>`).join('');
         }
 
         function renderMM2() {
             const searchTerm = document.getElementById('mm2Search')?.value.toLowerCase() || '';
             const filtered = MARKET_ITEMS.mm2.filter(item => item.name.toLowerCase().includes(searchTerm));
-            const grid = document.getElementById('mm2Grid');
-            if (grid) {
-                grid.innerHTML = filtered.map(item => `
-                    <div class="item-card" onclick="selectMarketItem(${item.id})">
-                        <div class="item-name">${item.icon} ${item.name}</div>
-                        <div class="item-price">${item.value.toLocaleString()} R$</div>
-                        <div class="item-change ${item.change >= 0 ? 'up' : 'down'}">${item.change >= 0 ? '+' : ''}${item.change}%</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Rarity: ${item.rarity} | ${item.demand} demand</div>
-                    </div>
-                `).join('');
-            }
+            document.getElementById('mm2Grid').innerHTML = filtered.map(item => `<div class="item-card" onclick="selectMarketItem(${item.id})"><div class="item-name">${item.icon} ${item.name}</div><div class="item-price">${item.value.toLocaleString()} R$</div><div class="item-change ${item.change >= 0 ? 'up' : 'down'}">${item.change >= 0 ? '+' : ''}${item.change}%</div><div style="font-size:0.75rem;color:var(--text-secondary);">Rarity: ${item.rarity} | ${item.demand} demand</div></div>`).join('');
         }
 
         function renderAdoptMe() {
             const searchTerm = document.getElementById('adoptSearch')?.value.toLowerCase() || '';
             const filtered = MARKET_ITEMS.adoptme.filter(item => item.name.toLowerCase().includes(searchTerm));
-            const grid = document.getElementById('adoptGrid');
-            if (grid) {
-                grid.innerHTML = filtered.map(item => `
-                    <div class="item-card" onclick="selectMarketItem(${item.id})">
-                        <div class="item-name">${item.icon} ${item.name}</div>
-                        <div class="item-price">${item.value.toLocaleString()} R$</div>
-                        <div class="item-change ${item.change >= 0 ? 'up' : 'down'}">${item.change >= 0 ? '+' : ''}${item.change}%</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Rarity: ${item.rarity} | ${item.demand} demand</div>
-                    </div>
-                `).join('');
-            }
+            document.getElementById('adoptGrid').innerHTML = filtered.map(item => `<div class="item-card" onclick="selectMarketItem(${item.id})"><div class="item-name">${item.icon} ${item.name}</div><div class="item-price">${item.value.toLocaleString()} R$</div><div class="item-change ${item.change >= 0 ? 'up' : 'down'}">${item.change >= 0 ? '+' : ''}${item.change}%</div><div style="font-size:0.75rem;color:var(--text-secondary);">Rarity: ${item.rarity} | ${item.demand} demand</div></div>`).join('');
         }
 
         function renderInventory() {
             const grid = document.getElementById('inventoryGrid');
             const empty = document.getElementById('inventoryEmpty');
-            
-            if (!inventory.length) {
-                if (grid) grid.innerHTML = '';
-                if (empty) empty.style.display = 'block';
-                return;
-            }
-            
+            if (!inventory.length) { if (grid) grid.innerHTML = ''; if (empty) empty.style.display = 'block'; return; }
             if (empty) empty.style.display = 'none';
-            if (grid) {
-                grid.innerHTML = inventory.map(item => {
-                    const marketItem = ALL_ITEMS.find(i => i.id === item.id);
-                    const currentValue = marketItem ? marketItem.value : item.averagePrice;
-                    return `
-                        <div class="item-card">
-                            <div class="item-name">${item.icon} ${item.name}</div>
-                            <div>Quantity: ${item.quantity}</div>
-                            <div>Avg Price: ${Math.floor(item.averagePrice).toLocaleString()} R$</div>
-                            <div>Current: ${currentValue.toLocaleString()} R$</div>
-                            <div>Total: ${(currentValue * item.quantity).toLocaleString()} R$</div>
-                        </div>
-                    `;
-                }).join('');
-            }
+            if (grid) grid.innerHTML = inventory.map(item => { const marketItem = ALL_ITEMS.find(i => i.id === item.id); const currentValue = marketItem ? marketItem.value : item.averagePrice; return `<div class="item-card"><div class="item-name">${item.icon} ${item.name}</div><div>📦 Quantity: ${item.quantity}</div><div>💰 Avg Price: ${Math.floor(item.averagePrice).toLocaleString()} R$</div><div>📈 Current: ${currentValue.toLocaleString()} R$</div><div>💎 Total: ${(currentValue * item.quantity).toLocaleString()} R$</div></div>`; }).join('');
         }
 
         function renderPortfolio() {
             const grid = document.getElementById('portfolioGrid');
-            if (!inventory.length) {
-                if (grid) grid.innerHTML = '<div class="empty-state">No items in portfolio. Start trading!</div>';
-                return;
-            }
+            if (!inventory.length) { if (grid) grid.innerHTML = '<div class="empty-state">No items in portfolio. Start trading!</div>'; return; }
+            if (grid) grid.innerHTML = inventory.map(item => { const marketItem = ALL_ITEMS.find(i => i.id === item.id); const currentValue = marketItem ? marketItem.value : item.averagePrice; const totalValue = currentValue * item.quantity; const pnl = (currentValue - item.averagePrice) * item.quantity; return `<div class="item-card"><div class="item-name">${item.icon} ${item.name}</div><div>📦 Qty: ${item.quantity}</div><div>💰 Avg: ${Math.floor(item.averagePrice).toLocaleString()} R$</div><div>📈 Current: ${currentValue.toLocaleString()} R$</div><div>💎 Value: ${Math.floor(totalValue).toLocaleString()} R$</div><div style="color: ${pnl >= 0 ? 'var(--green)' : 'var(--red)'}">📊 P&L: ${pnl >= 0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$</div></div>`; }).join('');
+        }
+
+        function renderTrending() {
+            const trending = [...ALL_ITEMS].sort((a, b) => b.change - a.change).slice(0, 6);
+            document.getElementById('trendingGrid').innerHTML = trending.map(item => `<div class="item-card" onclick="selectMarketItem(${item.id})"><div class="item-name">${item.icon} ${item.name}</div><div class="item-price">${item.value.toLocaleString()} R$</div><div class="item-change ${item.change >= 0 ? 'up' : 'down'}">${item.change >= 0 ? '+' : ''}${item.change}%</div></div>`).join('');
+        }
+
+        function updateDashboard() {
+            const topPerformers = [...ALL_ITEMS].sort((a, b) => b.change - a.change).slice(0, 5);
+            document.getElementById('topPerformers').innerHTML = topPerformers.map(item => `<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span>${item.icon} ${item.name}</span><span class="${item.change >= 0 ? 'trend-up' : 'trend-down'}">${item.change >= 0 ? '+' : ''}${item.change}%</span></div>`).join('');
             
-            if (grid) {
-                grid.innerHTML = inventory.map(item => {
-                    const marketItem = ALL_ITEMS.find(i => i.id === item.id);
-                    const currentValue = marketItem ? marketItem.value : item.averagePrice;
-                    const totalValue = currentValue * item.quantity;
-                    const pnl = (currentValue - item.averagePrice) * item.quantity;
-                    return `
-                        <div class="item-card">
-                            <div class="item-name">${item.icon} ${item.name}</div>
-                            <div>📦 Qty: ${item.quantity}</div>
-                            <div>💰 Avg: ${Math.floor(item.averagePrice).toLocaleString()} R$</div>
-                            <div>📈 Current: ${currentValue.toLocaleString()} R$</div>
-                            <div>💎 Value: ${Math.floor(totalValue).toLocaleString()} R$</div>
-                            <div style="color: ${pnl >= 0 ? 'var(--green)' : 'var(--red)'}">📊 P&L: ${pnl >= 0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$</div>
-                        </div>
-                    `;
-                }).join('');
-            }
+            const recentTrades = tradesHistory.slice(-5).reverse();
+            document.getElementById('recentActivity').innerHTML = recentTrades.length ? recentTrades.map(t => `<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span>${t.type === 'buy' ? '🟢 Bought' : '🔴 Sold'} ${t.quantity}x ${t.item}</span><span>${t.price} R$</span></div>`).join('') : '<p class="text-gray-400">No recent activity</p>';
+            
+            const holdings = inventory.slice(0, 5);
+            document.getElementById('holdingSummary').innerHTML = holdings.length ? holdings.map(h => `<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span>${h.icon} ${h.name}</span><span>${h.quantity} items</span></div>`).join('') : '<p class="text-gray-400">No holdings yet</p>';
         }
 
         function renderProfile() {
             document.getElementById('profileUsername').textContent = currentUser.robloxDisplayName || 'Guest User';
-            document.getElementById('profileStatus').innerHTML = currentUser.verified ? '<span class="verification-badge">✓ Verified Trader</span>' : 'Not Verified';
+            document.getElementById('profileStatus').innerHTML = currentUser.verified ? '<span style="color:var(--green);">✓ Verified Trader</span>' : 'Not Verified';
             document.getElementById('profileAvatar').src = currentUser.robloxAvatar || 'https://ui-avatars.com/api/?name=Guest&background=8b5cf6&color=fff';
             document.getElementById('profileRobloxUser').textContent = currentUser.robloxUsername || 'Not linked';
             document.getElementById('profileRobloxId').textContent = currentUser.robloxId || '-';
             document.getElementById('profileVerifiedStatus').textContent = currentUser.verified ? 'Yes' : 'No';
             document.getElementById('profileTrust').textContent = currentUser.verified ? '100%' : '0%';
             document.getElementById('profileMemberSince').textContent = new Date(currentUser.memberSince).toLocaleDateString();
-            
-            if (currentUser.verified) {
-                document.getElementById('profileVerificationBadge').innerHTML = '<span class="verification-badge">✓ Roblox Verified</span>';
-            } else {
-                document.getElementById('profileVerificationBadge').innerHTML = '';
-            }
+            document.getElementById('robloxLinkText').textContent = currentUser.verified ? `✓ ${currentUser.robloxUsername}` : 'Link Roblox';
         }
 
         function updateOrderBook() {
             const selectedItemId = parseInt(document.getElementById('tradeItemSelect').value);
             const item = ALL_ITEMS.find(i => i.id === selectedItemId);
-            
-            if (!item) {
-                document.getElementById('orderBook').innerHTML = '<div class="empty-state">Select an item to view order book</div>';
-                return;
-            }
-            
+            if (!item) { document.getElementById('orderBook').innerHTML = '<div class="empty-state">Select an item to view order book</div>'; return; }
             const basePrice = item.value;
-            const bids = [];
-            const asks = [];
-            
-            for (let i = 1; i <= 8; i++) {
-                bids.push({ price: basePrice - (i * (basePrice * 0.01)), quantity: Math.floor(Math.random() * 100) + 10 });
-                asks.push({ price: basePrice + (i * (basePrice * 0.01)), quantity: Math.floor(Math.random() * 100) + 10 });
-            }
-            
-            document.getElementById('orderBook').innerHTML = `
-                <div class="order-book-side">
-                    <div class="order-book-title">📈 Bids</div>
-                    ${bids.map(bid => `<div class="order-row"><span class="bid-price">${Math.floor(bid.price).toLocaleString()} R$</span><span>${bid.quantity} items</span></div>`).join('')}
-                </div>
-                <div class="order-book-side">
-                    <div class="order-book-title">📉 Asks</div>
-                    ${asks.map(ask => `<div class="order-row"><span class="ask-price">${Math.floor(ask.price).toLocaleString()} R$</span><span>${ask.quantity} items</span></div>`).join('')}
-                </div>
-            `;
+            const bids = [], asks = [];
+            for (let i = 1; i <= 8; i++) { bids.push({ price: basePrice - (i * (basePrice * 0.01)), quantity: Math.floor(Math.random() * 50) + 10 }); asks.push({ price: basePrice + (i * (basePrice * 0.01)), quantity: Math.floor(Math.random() * 50) + 10 }); }
+            document.getElementById('orderBook').innerHTML = `<div class="order-book-side"><div class="order-book-title">📈 Bids</div>${bids.map(bid => `<div class="order-row"><span class="bid-price">${Math.floor(bid.price).toLocaleString()} R$</span><span>${bid.quantity} items</span></div>`).join('')}</div><div class="order-book-side"><div class="order-book-title">📉 Asks</div>${asks.map(ask => `<div class="order-row"><span class="ask-price">${Math.floor(ask.price).toLocaleString()} R$</span><span>${ask.quantity} items</span></div>`).join('')}</div>`;
         }
 
         function selectMarketItem(itemId) {
@@ -1182,15 +1387,16 @@
             if (item) {
                 document.getElementById('tradeItemSelect').value = itemId;
                 document.getElementById('tradePrice').value = item.value;
+                currentChartItem = item;
+                updateChart();
                 updateTradeTotal();
                 updateOrderBook();
-                document.getElementById('selectedItemName').textContent = `${item.icon} ${item.name}`;
-                document.getElementById('priceChange').innerHTML = `${item.change >= 0 ? '📈 +' : '📉 '}${item.change}%`;
                 showToast(`${item.name} selected`, 'info');
+                switchPage('trade');
             }
         }
 
-        // Verification Functions
+        // Roblox Verification
         function generateVerificationCode() {
             const adjectives = ['CRIMSON', 'GOLDEN', 'SILVER', 'EMERALD', 'SAPPHIRE', 'RADIANT'];
             const nouns = ['PHOENIX', 'DRAGON', 'WOLF', 'EAGLE', 'TIGER', 'WIZARD'];
@@ -1200,59 +1406,49 @@
         }
 
         async function fetchRobloxUser(username) {
-            // Simulate API call - in production would call actual Roblox API
-            return {
-                id: Math.floor(Math.random() * 1000000000),
-                username: username,
-                displayName: username,
-                avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=00f3ff&color=fff&size=200`,
-                created: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString()
-            };
+            return { id: Math.floor(Math.random() * 1000000000), username: username, displayName: username, avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=00f3ff&color=fff&size=200`, created: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString() };
         }
 
-        async function startVerification() {
-            document.getElementById('verificationModal').classList.add('active');
-            document.getElementById('step1Verification').style.display = 'block';
-            document.getElementById('step2Verification').style.display = 'none';
-            document.getElementById('step3Verification').style.display = 'none';
+        let pendingProfile = null, pendingCode = null;
+
+        async function startRobloxLink() {
+            document.getElementById('robloxModal').classList.add('active');
+            document.getElementById('step1Roblox').style.display = 'block';
+            document.getElementById('step2Roblox').style.display = 'none';
+            document.getElementById('step3Roblox').style.display = 'none';
         }
 
         async function fetchAndPreview() {
             const username = document.getElementById('robloxUsername').value.trim();
-            if (!username) {
-                showToast('Please enter a Roblox username', 'error');
-                return;
-            }
-            
+            if (!username) { showToast('Please enter a Roblox username', 'error'); return; }
             const profile = await fetchRobloxUser(username);
             if (profile) {
                 document.getElementById('verificationAvatar').src = profile.avatarUrl;
                 document.getElementById('verificationDisplayName').textContent = profile.displayName;
                 document.getElementById('verificationUsername').textContent = `@${profile.username}`;
                 pendingProfile = profile;
-                document.getElementById('step1Verification').style.display = 'none';
-                document.getElementById('step2Verification').style.display = 'block';
+                document.getElementById('step1Roblox').style.display = 'none';
+                document.getElementById('step2Roblox').style.display = 'block';
             }
         }
 
         function confirmIdentity() {
             if (pendingProfile) {
-                const code = generateVerificationCode();
-                pendingVerificationCode = code;
-                document.getElementById('verificationCodeDisplay').innerHTML = `"${code}"`;
-                document.getElementById('step2Verification').style.display = 'none';
-                document.getElementById('step3Verification').style.display = 'block';
+                pendingCode = generateVerificationCode();
+                document.getElementById('verificationCodeDisplay').innerHTML = `"${pendingCode}"`;
+                document.getElementById('step2Roblox').style.display = 'none';
+                document.getElementById('step3Roblox').style.display = 'block';
             }
         }
 
         function denyIdentity() {
-            document.getElementById('step2Verification').style.display = 'none';
-            document.getElementById('step1Verification').style.display = 'block';
+            document.getElementById('step2Roblox').style.display = 'none';
+            document.getElementById('step1Roblox').style.display = 'block';
             pendingProfile = null;
         }
 
         function completeVerification() {
-            if (pendingProfile && pendingVerificationCode) {
+            if (pendingProfile && pendingCode) {
                 currentUser.verified = true;
                 currentUser.robloxUsername = pendingProfile.username;
                 currentUser.robloxDisplayName = pendingProfile.displayName;
@@ -1260,76 +1456,39 @@
                 currentUser.robloxAvatar = pendingProfile.avatarUrl;
                 saveData();
                 renderProfile();
-                document.getElementById('verificationModal').classList.remove('active');
+                document.getElementById('robloxModal').classList.remove('active');
                 showToast(`Verified as ${pendingProfile.displayName}!`, 'success');
                 pendingProfile = null;
-                pendingVerificationCode = null;
+                pendingCode = null;
             }
         }
 
         function initDropdowns() {
             const tradeSelect = document.getElementById('tradeItemSelect');
+            tradeSelect.innerHTML = '<option value="">-- Choose an item --</option>' + ALL_ITEMS.map(item => `<option value="${item.id}">${item.icon} ${item.name} - ${item.value} R$</option>`).join('');
+            tradeSelect.addEventListener('change', (e) => { const item = ALL_ITEMS.find(i => i.id === parseInt(e.target.value)); if (item) { document.getElementById('tradePrice').value = item.value; currentChartItem = item; updateChart(); updateTradeTotal(); updateOrderBook(); } });
+            
             const depositSelect = document.getElementById('depositItemSelect');
-            
-            tradeSelect.innerHTML = '<option value="">-- Choose an item --</option>' + 
-                ALL_ITEMS.map(item => `<option value="${item.id}">${item.icon} ${item.name} - ${item.value} R$</option>`).join('');
-            
             function updateDepositItems() {
                 const game = document.getElementById('depositGame').value;
                 const items = game === 'mm2' ? MARKET_ITEMS.mm2 : MARKET_ITEMS.adoptme;
-                depositSelect.innerHTML = items.map(item => 
-                    `<option value="${item.id}" data-value="${item.value}">${item.icon} ${item.name} - ${item.value} R$ (Gives ${item.value} R$)</option>`
-                ).join('');
+                depositSelect.innerHTML = items.map(item => `<option value="${item.id}" data-value="${item.value}">${item.icon} ${item.name} - ${item.value} R$ (Gives ${item.value} R$)</option>`).join('');
                 updateDepositTotal();
             }
-            
             document.getElementById('depositGame').addEventListener('change', updateDepositItems);
             updateDepositItems();
-            
-            tradeSelect.addEventListener('change', (e) => {
-                const item = ALL_ITEMS.find(i => i.id === parseInt(e.target.value));
-                if (item) {
-                    document.getElementById('tradePrice').value = item.value;
-                    updateTradeTotal();
-                    updateOrderBook();
-                    document.getElementById('selectedItemName').textContent = `${item.icon} ${item.name}`;
-                    document.getElementById('priceChange').innerHTML = `${item.change >= 0 ? '📈 +' : '📉 '}${item.change}%`;
-                }
-            });
-        }
-
-        function initChart() {
-            const widgetContainer = document.getElementById('tradingview-widget');
-            if (typeof TradingView !== 'undefined') {
-                new TradingView.widget({
-                    container_id: "tradingview-widget",
-                    symbol: "BINANCE:BTCUSDT",
-                    interval: "60",
-                    timezone: "Etc/UTC",
-                    theme: "dark",
-                    style: "1",
-                    locale: "en",
-                    toolbar_bg: "#131722",
-                    enable_publishing: false,
-                    hide_top_toolbar: false,
-                    allow_symbol_change: true,
-                    studies: ["MASimple@tv-basicstudies", "RSI@tv-basicstudies"],
-                    width: "100%",
-                    height: "100%"
-                });
-            }
         }
 
         function switchPage(pageId) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(`${pageId}Page`).classList.add('active');
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.dataset.page === pageId) link.classList.add('active');
-            });
+            document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); if (link.dataset.page === pageId) link.classList.add('active'); });
+            document.querySelectorAll('.bottom-nav-item').forEach(item => { item.classList.remove('active'); if (item.dataset.page === pageId) item.classList.add('active'); });
             if (pageId === 'portfolio') renderPortfolio();
             if (pageId === 'inventory') renderInventory();
             if (pageId === 'profile') renderProfile();
+            if (pageId === 'dashboard') updateDashboard();
+            if (pageId === 'trade') updateOrderBook();
         }
 
         function showToast(message, type = 'info') {
@@ -1348,56 +1507,53 @@
             renderInventory();
             renderPortfolio();
             renderProfile();
+            renderTrending();
             updatePortfolioStats();
         }
 
         function setupEventListeners() {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => switchPage(link.dataset.page));
+            document.querySelectorAll('.nav-link, .bottom-nav-item, .side-menu a, .action-card, .logo').forEach(el => {
+                if (el.dataset?.page) el.addEventListener('click', () => switchPage(el.dataset.page));
+                else if (el.id === 'logoBtn' || el.classList?.contains('logo')) el.addEventListener('click', () => switchPage('home'));
             });
-            
-            document.querySelectorAll('.order-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.order-tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    selectedOrderType = tab.dataset.orderType;
-                });
-            });
-            
+            document.getElementById('exploreTradeBtn')?.addEventListener('click', () => switchPage('trade'));
+            document.getElementById('exploreMarketBtn')?.addEventListener('click', () => switchPage('market'));
+            document.getElementById('robloxLinkBtn')?.addEventListener('click', startRobloxLink);
+            document.getElementById('sideRobloxLinkBtn')?.addEventListener('click', startRobloxLink);
+            document.getElementById('robloxLinkAction')?.addEventListener('click', startRobloxLink);
+            document.getElementById('verifyProfileBtn')?.addEventListener('click', startRobloxLink);
+            document.getElementById('fetchRobloxBtn')?.addEventListener('click', fetchAndPreview);
+            document.getElementById('confirmIdentityBtn')?.addEventListener('click', confirmIdentity);
+            document.getElementById('denyIdentityBtn')?.addEventListener('click', denyIdentity);
+            document.getElementById('completeVerificationBtn')?.addEventListener('click', completeVerification);
+            document.getElementById('hamburgerBtn')?.addEventListener('click', () => { document.getElementById('sideMenu').classList.toggle('open'); document.getElementById('sideMenuOverlay').classList.toggle('active'); });
+            document.getElementById('sideMenuOverlay')?.addEventListener('click', () => { document.getElementById('sideMenu').classList.remove('open'); document.getElementById('sideMenuOverlay').classList.remove('active'); });
+            document.getElementById('bottomMenuBtn')?.addEventListener('click', () => { document.getElementById('sideMenu').classList.toggle('open'); document.getElementById('sideMenuOverlay').classList.toggle('active'); });
+            document.querySelectorAll('.order-tab').forEach(tab => { tab.addEventListener('click', () => { document.querySelectorAll('.order-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); selectedOrderType = tab.dataset.orderType; }); });
+            document.querySelectorAll('.timeframe-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.timeframe-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentTimeframe = parseInt(btn.dataset.timeframe); updateChart(); }); });
             document.getElementById('executeTradeBtn')?.addEventListener('click', executeTrade);
             document.getElementById('resetBtn')?.addEventListener('click', resetData);
             document.getElementById('confirmDepositBtn')?.addEventListener('click', confirmDeposit);
             document.getElementById('depositInventoryBtn')?.addEventListener('click', () => switchPage('deposit'));
             document.getElementById('emptyDepositBtn')?.addEventListener('click', () => switchPage('deposit'));
-            document.getElementById('verifyProfileBtn')?.addEventListener('click', startVerification);
-            document.getElementById('fetchRobloxBtn')?.addEventListener('click', fetchAndPreview);
-            document.getElementById('confirmIdentityBtn')?.addEventListener('click', confirmIdentity);
-            document.getElementById('denyIdentityBtn')?.addEventListener('click', denyIdentity);
-            document.getElementById('completeVerificationBtn')?.addEventListener('click', completeVerification);
+            document.getElementById('refreshDashboardBtn')?.addEventListener('click', updateDashboard);
             document.getElementById('tradePrice')?.addEventListener('input', updateTradeTotal);
             document.getElementById('tradeQuantity')?.addEventListener('input', updateTradeTotal);
             document.getElementById('depositQuantity')?.addEventListener('input', updateDepositTotal);
             document.getElementById('marketSearch')?.addEventListener('input', renderMarket);
             document.getElementById('mm2Search')?.addEventListener('input', renderMM2);
             document.getElementById('adoptSearch')?.addEventListener('input', renderAdoptMe);
-            
-            document.querySelectorAll('.timeframe-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.timeframe-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                });
-            });
         }
 
-        async function init() {
+        function init() {
             loadData();
             initDropdowns();
             setupEventListeners();
             renderAll();
-            updateOrderBook();
             initChart();
-            await checkMiddlemanAPI();
-            showToast('Welcome to Bloxview! Trade, deposit, and earn currency!', 'success');
+            updateOrderBook();
+            updateDashboard();
+            showToast('Welcome to Bloxview! Link your Roblox account to start trading!', 'success');
         }
 
         window.selectMarketItem = selectMarketItem;
