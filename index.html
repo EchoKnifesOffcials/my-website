@@ -394,6 +394,20 @@
             margin: 1rem 0;
         }
 
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--cyan);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* Section Header */
         .section-header {
             display: flex;
@@ -918,9 +932,9 @@
                     <h3>Roblox Identity</h3>
                     <div class="space-y-2 mt-3">
                         <div class="flex justify-between"><span>Roblox Username</span><span id="profileRobloxUser">Not linked</span></div>
+                        <div class="flex justify-between"><span>Display Name</span><span id="profileDisplayName">-</span></div>
                         <div class="flex justify-between"><span>User ID</span><span id="profileRobloxId">-</span></div>
                         <div class="flex justify-between"><span>Account Age</span><span id="profileAccountAge">-</span></div>
-                        <div class="flex justify-between"><span>Verification Method</span><span id="profileVerifyMethod">-</span></div>
                     </div>
                 </div>
             </div>
@@ -946,17 +960,18 @@
             <div id="step1Verification">
                 <div class="form-group">
                     <label>Enter your Roblox Username</label>
-                    <input type="text" id="robloxUsername" placeholder="e.g., BuilderBoy123" style="text-align: center;">
+                    <input type="text" id="robloxUsername" placeholder="e.g., BuilderBoy" style="text-align: center;">
                 </div>
                 <button class="btn-primary w-full mt-4" id="fetchRobloxBtn">Fetch Profile <i class="fas fa-search"></i></button>
             </div>
             
             <div id="step2Verification" style="display: none;">
                 <div class="roblox-preview">
-                    <img id="verificationAvatar" class="roblox-avatar-preview" alt="Roblox Avatar">
+                    <div id="avatarLoading" style="display: none;" class="text-center mb-3"><div class="loading-spinner"></div> Loading avatar...</div>
+                    <img id="verificationAvatar" class="roblox-avatar-preview" alt="Roblox Avatar" style="display: none;">
                     <h3 id="verificationDisplayName"></h3>
                     <p id="verificationUsername" class="text-gray-400"></p>
-                    <div class="trust-badge mt-2"><i class="fas fa-check-circle"></i> Account created <span id="accountAge"></span></div>
+                    <div class="trust-badge mt-2" id="accountAgeBadge"></div>
                 </div>
                 <p class="mb-2"><strong>Is this you?</strong></p>
                 <div class="flex gap-3">
@@ -1035,7 +1050,7 @@
     </div>
 
     <script>
-        // Complete application with verification system
+        // Complete application with REAL Roblox API integration
         const App = {
             mm2Items: [],
             adoptItems: [],
@@ -1045,15 +1060,12 @@
                 signedIn: false, 
                 verified: false,
                 robloxUsername: null,
+                robloxDisplayName: null,
                 robloxId: null,
                 robloxAvatar: null,
                 verifiedSince: null,
                 verificationCode: null,
-                deposits: [],
-                rateLimit: {
-                    requests: 0,
-                    lastReset: Date.now()
-                }
+                deposits: []
             },
             selectedItem: null,
             priceChart: null,
@@ -1070,23 +1082,183 @@
                     this.lastRequestReset = Date.now();
                 }
                 this.requestCount++;
-                return this.requestCount <= 100; // 100 requests per hour
+                return this.requestCount <= 100;
             },
             
             // Generate random verification sentence (AI-generated style)
             generateVerificationCode() {
-                const adjectives = ['crimson', 'golden', 'silver', 'emerald', 'sapphire', 'radiant', 'shadow', 'phantom', 'eternal', 'mystic'];
-                const nouns = ['phoenix', 'dragon', 'wolf', 'eagle', 'tiger', 'wizard', 'knight', 'guardian', 'sentinel', 'prophet'];
-                const verbs = ['flies', 'hunts', 'shines', 'protects', 'guides', 'watches', 'dreams', 'rises', 'falls', 'endures'];
+                const adjectives = ['CRIMSON', 'GOLDEN', 'SILVER', 'EMERALD', 'SAPPHIRE', 'RADIANT', 'SHADOW', 'PHANTOM', 'ETERNAL', 'MYSTIC', 'BLAZING', 'FROSTBORN', 'THUNDER', 'NEBULA'];
+                const nouns = ['PHOENIX', 'DRAGON', 'WOLF', 'EAGLE', 'TIGER', 'WIZARD', 'KNIGHT', 'GUARDIAN', 'SENTINEL', 'PROPHET', 'LEGEND', 'MYTH'];
+                const verbs = ['FLIES', 'HUNTS', 'SHINES', 'PROTECTS', 'GUIDES', 'WATCHES', 'DREAMS', 'RISES', 'FALLS', 'ENDURES', 'REIGNS', 'AWAKENS'];
                 const numbers = Math.floor(Math.random() * 9000) + 1000;
                 
-                const sentence = `${adjectives[Math.floor(Math.random() * adjectives.length)]} ${nouns[Math.floor(Math.random() * nouns.length)]} ${verbs[Math.floor(Math.random() * verbs.length)]} at ${numbers}`;
-                return sentence.toUpperCase();
+                return `${adjectives[Math.floor(Math.random() * adjectives.length)]} ${nouns[Math.floor(Math.random() * nouns.length)]} ${verbs[Math.floor(Math.random() * verbs.length)]} AT ${numbers}`;
             },
             
             // Hash function for anti-tamper
             hashData(data) {
                 return CryptoJS.SHA256(data + "bloxview_secret_salt").toString();
+            },
+            
+            // REAL Roblox API calls
+            async fetchRobloxUserByUsername(username) {
+                try {
+                    // Step 1: Get user ID from username
+                    const userResponse = await fetch(`https://users.roblox.com/v1/users/search?keyword=${encodeURIComponent(username)}&limit=1`);
+                    const userData = await userResponse.json();
+                    
+                    if (!userData.data || userData.data.length === 0) {
+                        throw new Error('User not found');
+                    }
+                    
+                    const user = userData.data[0];
+                    
+                    // Step 2: Get detailed user info
+                    const detailResponse = await fetch(`https://users.roblox.com/v1/users/${user.id}`);
+                    const userDetail = await detailResponse.json();
+                    
+                    // Step 3: Get avatar thumbnail
+                    const avatarResponse = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${user.id}&size=420x420&format=Png&isCircular=false`);
+                    const avatarData = await avatarResponse.json();
+                    
+                    const avatarUrl = avatarData.data?.[0]?.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userDetail.displayName || username)}&background=00f3ff&color=fff&size=200`;
+                    
+                    return {
+                        id: userDetail.id,
+                        name: userDetail.name,
+                        displayName: userDetail.displayName,
+                        created: userDetail.created,
+                        avatarUrl: avatarUrl,
+                        isVerified: true
+                    };
+                } catch (error) {
+                    console.error('Roblox API error:', error);
+                    return null;
+                }
+            },
+            
+            calculateAccountAge(createdDate) {
+                const age = (Date.now() - new Date(createdDate).getTime()) / (1000 * 3600 * 24);
+                if (age < 30) return { text: `${Math.floor(age)} days (⚠️ Account too new - need 30+ days)`, valid: false };
+                return { text: `${Math.floor(age)} days old ✓`, valid: true };
+            },
+            
+            async startVerification() {
+                document.getElementById('verificationModal').classList.add('active');
+                document.getElementById('step1Verification').style.display = 'block';
+                document.getElementById('step2Verification').style.display = 'none';
+                document.getElementById('step3Verification').style.display = 'none';
+            },
+            
+            async fetchAndPreview() {
+                const username = document.getElementById('robloxUsername').value.trim();
+                if (!username) {
+                    this.showToast('Please enter a Roblox username', 'error');
+                    return;
+                }
+                
+                if (!this.checkRateLimit()) {
+                    this.showToast('Rate limit exceeded. Please wait.', 'error');
+                    return;
+                }
+                
+                this.showToast('Fetching profile from Roblox...', 'info');
+                
+                // Show loading state
+                const fetchBtn = document.getElementById('fetchRobloxBtn');
+                const originalText = fetchBtn.innerHTML;
+                fetchBtn.innerHTML = '<div class="loading-spinner"></div> Loading...';
+                fetchBtn.disabled = true;
+                
+                const profile = await this.fetchRobloxUserByUsername(username);
+                
+                fetchBtn.innerHTML = originalText;
+                fetchBtn.disabled = false;
+                
+                if (profile) {
+                    const ageCheck = this.calculateAccountAge(profile.created);
+                    if (!ageCheck.valid) {
+                        this.showToast(ageCheck.text, 'error');
+                        return;
+                    }
+                    
+                    // Show avatar with proper loading
+                    const avatarImg = document.getElementById('verificationAvatar');
+                    const loadingDiv = document.getElementById('avatarLoading');
+                    
+                    avatarImg.style.display = 'none';
+                    loadingDiv.style.display = 'block';
+                    
+                    avatarImg.onload = () => {
+                        loadingDiv.style.display = 'none';
+                        avatarImg.style.display = 'block';
+                    };
+                    
+                    avatarImg.src = profile.avatarUrl;
+                    document.getElementById('verificationDisplayName').textContent = profile.displayName;
+                    document.getElementById('verificationUsername').textContent = `@${profile.name}`;
+                    document.getElementById('accountAgeBadge').innerHTML = `<i class="fas fa-calendar-alt"></i> ${ageCheck.text}`;
+                    
+                    this.pendingProfile = profile;
+                    this.pendingUsername = profile.name;
+                    
+                    document.getElementById('step1Verification').style.display = 'none';
+                    document.getElementById('step2Verification').style.display = 'block';
+                } else {
+                    this.showToast('User not found. Check the username and try again.', 'error');
+                }
+            },
+            
+            confirmIdentity() {
+                if (this.pendingProfile) {
+                    document.getElementById('step2Verification').style.display = 'none';
+                    document.getElementById('step3Verification').style.display = 'block';
+                    
+                    const code = this.generateVerificationCode();
+                    this.pendingVerificationCode = code;
+                    document.getElementById('verificationCodeDisplay').innerHTML = `"${code}"`;
+                    this.showToast(`Add this exact sentence to your Roblox bio!`, 'info');
+                }
+            },
+            
+            denyIdentity() {
+                document.getElementById('step2Verification').style.display = 'none';
+                document.getElementById('step1Verification').style.display = 'block';
+                document.getElementById('robloxUsername').value = '';
+                this.pendingProfile = null;
+            },
+            
+            async completeVerification() {
+                if (!this.pendingProfile || !this.pendingVerificationCode) return;
+                
+                this.showToast('Verifying bio... (In production, this would check your Roblox bio)', 'info');
+                
+                // In production: This would call Roblox API to read the user's bio
+                // For demo: Simulate verification
+                setTimeout(() => {
+                    this.currentUser = {
+                        ...this.currentUser,
+                        signedIn: true,
+                        verified: true,
+                        robloxUsername: this.pendingProfile.name,
+                        robloxDisplayName: this.pendingProfile.displayName,
+                        robloxId: this.pendingProfile.id,
+                        robloxAvatar: this.pendingProfile.avatarUrl,
+                        verifiedSince: new Date().toISOString(),
+                        verificationCode: this.pendingVerificationCode,
+                        verificationHash: this.hashData(this.pendingVerificationCode + this.pendingProfile.id),
+                        deposits: this.currentUser.deposits || []
+                    };
+                    
+                    this.saveUser();
+                    this.checkVerificationStatus();
+                    this.renderProfile();
+                    document.getElementById('verificationModal').classList.remove('active');
+                    this.showToast(`Verified as ${this.pendingProfile.displayName}! You can now trade.`, 'success');
+                    
+                    this.pendingProfile = null;
+                    this.pendingVerificationCode = null;
+                }, 1500);
             },
             
             async init() {
@@ -1142,7 +1314,6 @@
                 const saved = localStorage.getItem('bloxview_user');
                 if (saved) {
                     const parsed = JSON.parse(saved);
-                    // Verify data integrity
                     if (parsed.dataHash === this.hashData(JSON.stringify(parsed.userData))) {
                         this.currentUser = parsed.userData;
                     }
@@ -1163,139 +1334,13 @@
                     if (banner) banner.style.display = 'none';
                     document.getElementById('loginBtn').innerHTML = '<i class="fas fa-check-circle"></i> Verified';
                     document.getElementById('userBadge').style.display = 'flex';
-                    document.getElementById('userName').textContent = this.currentUser.robloxUsername;
-                    document.getElementById('userAvatar').src = this.currentUser.robloxAvatar || 'https://www.roblox.com/headshot-thumbnail/image?userId=1&width=100&height=100&format=png';
+                    document.getElementById('userName').textContent = this.currentUser.robloxDisplayName || this.currentUser.robloxUsername;
+                    document.getElementById('userAvatar').src = this.currentUser.robloxAvatar;
                 } else {
                     if (banner && this.currentUser.signedIn) banner.style.display = 'flex';
                     document.getElementById('loginBtn').innerHTML = 'Sign In / Verify';
                     document.getElementById('userBadge').style.display = 'none';
                 }
-            },
-            
-            async fetchRobloxProfile(username) {
-                if (!this.checkRateLimit()) {
-                    this.showToast('Rate limit exceeded. Please wait.', 'error');
-                    return null;
-                }
-                
-                // Simulate Roblox API fetch (in production, use actual Roblox API)
-                // This is a simulation for demo purposes
-                const mockUsers = {
-                    'builderboy': { id: 123456789, displayName: 'BuilderBoy', created: '2023-01-15T00:00:00Z', avatar: 'https://www.roblox.com/headshot-thumbnail/image?userId=123456789&width=200&height=200&format=png' },
-                    'robloxian': { id: 987654321, displayName: 'Robloxian', created: '2022-06-20T00:00:00Z', avatar: 'https://www.roblox.com/headshot-thumbnail/image?userId=987654321&width=200&height=200&format=png' }
-                };
-                
-                const normalized = username.toLowerCase();
-                if (mockUsers[normalized]) {
-                    return mockUsers[normalized];
-                }
-                
-                // Generate mock data for any username (for demo)
-                const mockId = Math.floor(Math.random() * 1000000000);
-                const mockDate = new Date(Date.now() - Math.random() * 2 * 365 * 24 * 60 * 60 * 1000).toISOString();
-                return {
-                    id: mockId,
-                    displayName: username,
-                    created: mockDate,
-                    avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=00f3ff&color=fff&size=200`
-                };
-            },
-            
-            calculateAccountAge(createdDate) {
-                const age = (Date.now() - new Date(createdDate).getTime()) / (1000 * 3600 * 24);
-                if (age < 30) return { text: `${Math.floor(age)} days (⚠️ Too new)`, valid: false };
-                return { text: `${Math.floor(age)} days`, valid: true };
-            },
-            
-            async startVerification() {
-                document.getElementById('verificationModal').classList.add('active');
-                document.getElementById('step1Verification').style.display = 'block';
-                document.getElementById('step2Verification').style.display = 'none';
-                document.getElementById('step3Verification').style.display = 'none';
-            },
-            
-            async fetchAndPreview() {
-                const username = document.getElementById('robloxUsername').value.trim();
-                if (!username) {
-                    this.showToast('Please enter a Roblox username', 'error');
-                    return;
-                }
-                
-                this.showToast('Fetching profile...', 'info');
-                const profile = await this.fetchRobloxProfile(username);
-                
-                if (profile) {
-                    const ageCheck = this.calculateAccountAge(profile.created);
-                    if (!ageCheck.valid) {
-                        this.showToast('Account must be at least 30 days old to verify', 'error');
-                        return;
-                    }
-                    
-                    document.getElementById('verificationAvatar').src = profile.avatar;
-                    document.getElementById('verificationDisplayName').textContent = profile.displayName;
-                    document.getElementById('verificationUsername').textContent = `@${username}`;
-                    document.getElementById('accountAge').textContent = ageCheck.text;
-                    
-                    this.pendingProfile = profile;
-                    this.pendingUsername = username;
-                    
-                    document.getElementById('step1Verification').style.display = 'none';
-                    document.getElementById('step2Verification').style.display = 'block';
-                } else {
-                    this.showToast('User not found', 'error');
-                }
-            },
-            
-            confirmIdentity() {
-                if (this.pendingProfile) {
-                    document.getElementById('step2Verification').style.display = 'none';
-                    document.getElementById('step3Verification').style.display = 'block';
-                    
-                    const code = this.generateVerificationCode();
-                    this.pendingVerificationCode = code;
-                    document.getElementById('verificationCodeDisplay').innerHTML = `"${code}"`;
-                    this.showToast(`Add this exact sentence to your Roblox bio!`, 'info');
-                }
-            },
-            
-            denyIdentity() {
-                document.getElementById('step2Verification').style.display = 'none';
-                document.getElementById('step1Verification').style.display = 'block';
-                document.getElementById('robloxUsername').value = '';
-                this.pendingProfile = null;
-            },
-            
-            async completeVerification() {
-                if (!this.pendingProfile || !this.pendingVerificationCode) return;
-                
-                this.showToast('Verifying bio... (Simulated)', 'info');
-                
-                // In production, this would call Roblox API to read the user's bio
-                // For demo, we simulate success after 1.5 seconds
-                setTimeout(() => {
-                    // Simulate successful verification
-                    this.currentUser = {
-                        ...this.currentUser,
-                        signedIn: true,
-                        verified: true,
-                        robloxUsername: this.pendingUsername,
-                        robloxId: this.pendingProfile.id,
-                        robloxAvatar: this.pendingProfile.avatar,
-                        verifiedSince: new Date().toISOString(),
-                        verificationCode: this.pendingVerificationCode,
-                        verificationHash: this.hashData(this.pendingVerificationCode + this.pendingProfile.id),
-                        deposits: this.currentUser.deposits || []
-                    };
-                    
-                    this.saveUser();
-                    this.checkVerificationStatus();
-                    this.renderProfile();
-                    document.getElementById('verificationModal').classList.remove('active');
-                    this.showToast(`Verified as ${this.pendingUsername}! You can now trade.`, 'success');
-                    
-                    this.pendingProfile = null;
-                    this.pendingVerificationCode = null;
-                }, 1500);
             },
             
             addToInventory(item, quantity = 1) {
@@ -1625,33 +1670,39 @@
             },
             
             renderProfile() {
-                document.getElementById('profileUsername').textContent = this.currentUser.verified ? this.currentUser.robloxUsername : 'Guest User';
-                document.getElementById('profileStatus').innerHTML = this.currentUser.verified ? '<i class="fas fa-check-circle" style="color: var(--green);"></i> Verified Trader' : 'Not Verified';
-                document.getElementById('profileDeposits').textContent = this.currentUser.deposits?.length || 0;
-                document.getElementById('profileTrust').textContent = this.currentUser.verified ? '100%' : 'N/A';
-                document.getElementById('profileAvatar').src = this.currentUser.robloxAvatar || 'https://ui-avatars.com/api/?name=Guest&background=8b5cf6&color=fff';
-                
-                const totalValue = this.inventory.reduce((sum, item) => sum + (item.value * item.quantity), 0);
-                document.getElementById('profileValue').textContent = `${totalValue.toLocaleString()} R$`;
-                
-                if (this.currentUser.verified && this.currentUser.verifiedSince) {
-                    const date = new Date(this.currentUser.verifiedSince);
-                    document.getElementById('profileVerifiedSince').textContent = date.toLocaleDateString();
+                if (this.currentUser.verified) {
+                    document.getElementById('profileUsername').textContent = this.currentUser.robloxDisplayName || this.currentUser.robloxUsername;
+                    document.getElementById('profileStatus').innerHTML = '<i class="fas fa-check-circle" style="color: var(--green);"></i> Verified Trader';
+                    document.getElementById('profileAvatar').src = this.currentUser.robloxAvatar;
                     document.getElementById('profileRobloxUser').textContent = this.currentUser.robloxUsername;
+                    document.getElementById('profileDisplayName').textContent = this.currentUser.robloxDisplayName;
                     document.getElementById('profileRobloxId').textContent = this.currentUser.robloxId;
-                    document.getElementById('profileVerifyMethod').textContent = 'Bio Verification';
                     
-                    const age = (Date.now() - new Date(this.currentUser.verifiedSince).getTime()) / (1000 * 3600 * 24);
-                    document.getElementById('profileAccountAge').textContent = `Verified ${Math.floor(age)} days ago`;
-                    document.getElementById('profileTrustBadge').innerHTML = '<span class="trust-badge"><i class="fas fa-shield-alt"></i> Verified Account</span>';
+                    if (this.currentUser.verifiedSince) {
+                        const date = new Date(this.currentUser.verifiedSince);
+                        document.getElementById('profileVerifiedSince').textContent = date.toLocaleDateString();
+                        const age = (Date.now() - date.getTime()) / (1000 * 3600 * 24);
+                        document.getElementById('profileAccountAge').textContent = `Verified ${Math.floor(age)} days ago`;
+                    }
+                    
+                    document.getElementById('profileTrust').textContent = '100%';
+                    document.getElementById('profileTrustBadge').innerHTML = '<span class="trust-badge"><i class="fas fa-shield-alt"></i> Verified Roblox Account</span>';
                 } else {
-                    document.getElementById('profileVerifiedSince').textContent = 'Not verified';
+                    document.getElementById('profileUsername').textContent = 'Guest User';
+                    document.getElementById('profileStatus').innerHTML = 'Not Verified';
+                    document.getElementById('profileAvatar').src = 'https://ui-avatars.com/api/?name=Guest&background=8b5cf6&color=fff';
                     document.getElementById('profileRobloxUser').textContent = 'Not linked';
+                    document.getElementById('profileDisplayName').textContent = '-';
                     document.getElementById('profileRobloxId').textContent = '-';
+                    document.getElementById('profileVerifiedSince').textContent = 'Not verified';
                     document.getElementById('profileAccountAge').textContent = '-';
-                    document.getElementById('profileVerifyMethod').textContent = '-';
+                    document.getElementById('profileTrust').textContent = 'N/A';
                     document.getElementById('profileTrustBadge').innerHTML = '<span class="trust-badge" style="background:rgba(239,68,68,0.2);"><i class="fas fa-exclamation-triangle"></i> Verification Required</span>';
                 }
+                
+                document.getElementById('profileDeposits').textContent = this.currentUser.deposits?.length || 0;
+                const totalValue = this.inventory.reduce((sum, item) => sum + (item.value * item.quantity), 0);
+                document.getElementById('profileValue').textContent = `${totalValue.toLocaleString()} R$`;
             },
             
             showToast(message, type = 'info') {
