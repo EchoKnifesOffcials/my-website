@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Bloxview | MM2 & Adopt Me Trading Platform</title>
     
-    <!-- Chart.js for custom Roblox item charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -28,11 +28,10 @@
             --blue: #00f3ff;
             --purple: #8b5cf6;
             --yellow: #f59e0b;
-            --orange: #ff6b35;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.5;
@@ -40,7 +39,7 @@
             padding-bottom: 70px;
         }
 
-        /* Top Navigation */
+        /* Navigation */
         .nav {
             position: sticky;
             top: 0;
@@ -71,8 +70,8 @@
             cursor: pointer;
         }
 
-        /* Desktop Navigation Links */
-        .nav-links-desktop {
+        /* Desktop Navigation */
+        .desktop-nav {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
@@ -92,8 +91,8 @@
             background: rgba(0, 243, 255, 0.1);
         }
 
-        /* Hamburger Menu Button */
-        .hamburger-menu {
+        /* Mobile Components */
+        .hamburger {
             display: none;
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -101,14 +100,8 @@
             padding: 0.5rem 1rem;
             cursor: pointer;
             font-size: 1.25rem;
-            color: var(--text-primary);
         }
 
-        .hamburger-menu:hover {
-            border-color: var(--blue);
-        }
-
-        /* Side Menu (Mobile) */
         .side-menu {
             position: fixed;
             top: 0;
@@ -122,10 +115,7 @@
             z-index: 200;
         }
 
-        .side-menu.open {
-            right: 0;
-        }
-
+        .side-menu.open { right: 0; }
         .side-menu a {
             display: flex;
             align-items: center;
@@ -133,15 +123,11 @@
             padding: 1rem 0;
             cursor: pointer;
             color: var(--text-secondary);
-            transition: color 0.2s;
             text-decoration: none;
         }
+        .side-menu a:hover { color: var(--blue); }
 
-        .side-menu a:hover {
-            color: var(--blue);
-        }
-
-        .side-menu-overlay {
+        .side-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -153,13 +139,9 @@
             transition: all 0.3s;
             z-index: 199;
         }
+        .side-overlay.active { opacity: 1; visibility: visible; }
 
-        .side-menu-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Bottom Navigation Bar */
+        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -173,7 +155,6 @@
             padding: 0.75rem 1rem;
             z-index: 100;
         }
-
         .bottom-nav-item {
             display: flex;
             flex-direction: column;
@@ -181,118 +162,79 @@
             gap: 0.25rem;
             cursor: pointer;
             color: var(--text-secondary);
-            transition: color 0.2s;
             font-size: 0.7rem;
         }
+        .bottom-nav-item i { font-size: 1.25rem; }
+        .bottom-nav-item.active, .bottom-nav-item:hover { color: var(--blue); }
 
-        .bottom-nav-item i {
-            font-size: 1.25rem;
-        }
-
-        .bottom-nav-item.active, .bottom-nav-item:hover {
-            color: var(--blue);
-        }
-
+        /* User Panel */
         .user-panel {
             display: flex;
             align-items: center;
             gap: 1rem;
             flex-wrap: wrap;
         }
-
         .balance-card {
             background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 243, 255, 0.05));
             padding: 0.5rem 1rem;
             border-radius: 12px;
             border: 1px solid rgba(0, 255, 136, 0.3);
         }
+        .balance-label { font-size: 0.7rem; color: var(--text-secondary); }
+        .balance-value { font-weight: 700; font-size: 1rem; color: var(--green); }
 
-        .balance-label {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-        }
-
-        .balance-value {
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--green);
-        }
-
-        .roblox-link-btn {
+        .roblox-btn {
             background: rgba(0, 243, 255, 0.1);
             border: 1px solid var(--blue);
             color: var(--blue);
             padding: 0.4rem 1rem;
             border-radius: 20px;
             font-size: 0.8rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            cursor: pointer;
         }
+        .roblox-btn:hover { background: rgba(0, 243, 255, 0.2); }
 
-        .roblox-link-btn:hover {
-            background: rgba(0, 243, 255, 0.2);
-        }
-
+        /* Buttons */
         button {
             padding: 0.5rem 1.25rem;
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
             font-family: inherit;
         }
-
         .btn-primary {
             background: linear-gradient(135deg, var(--blue), var(--purple));
             border: none;
             color: white;
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 243, 255, 0.3);
-        }
-
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 243, 255, 0.3); }
         .btn-secondary {
             background: var(--bg-card);
             border: 1px solid var(--border);
             color: var(--text-primary);
         }
-
-        .btn-secondary:hover {
-            border-color: var(--blue);
-        }
-
+        .btn-secondary:hover { border-color: var(--blue); }
         .btn-success {
             background: linear-gradient(135deg, var(--green), #00cc66);
             border: none;
             color: var(--bg-primary);
         }
 
+        /* Main Content */
         .main-content {
             max-width: 1600px;
             margin: 0 auto;
             padding: 2rem;
             min-height: calc(100vh - 73px);
         }
+        .page { display: none; animation: fadeIn 0.3s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .page {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Home Page Styles */
+        /* Home Page */
         .hero {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -303,18 +245,8 @@
             border-radius: 32px;
             border: 1px solid var(--border);
         }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero-gradient {
-            background: linear-gradient(135deg, var(--blue), var(--purple));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero-gradient { background: linear-gradient(135deg, var(--blue), var(--purple)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
         .stats-grid {
             display: grid;
@@ -322,20 +254,14 @@
             gap: 1rem;
             margin-bottom: 2rem;
         }
-
-        .stat-card-large {
+        .stat-card {
             background: var(--bg-card);
             border-radius: 16px;
             padding: 1.5rem;
             text-align: center;
             border: 1px solid var(--border);
         }
-
-        .stat-card-large .value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--blue);
-        }
+        .stat-card .value { font-size: 2rem; font-weight: 700; color: var(--blue); }
 
         .quick-actions {
             display: grid;
@@ -343,7 +269,6 @@
             gap: 1rem;
             margin-bottom: 2rem;
         }
-
         .action-card {
             background: var(--bg-card);
             border-radius: 16px;
@@ -353,39 +278,8 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-
-        .action-card:hover {
-            border-color: var(--blue);
-            transform: translateY(-4px);
-        }
-
-        .action-card i {
-            font-size: 2rem;
-            color: var(--blue);
-            margin-bottom: 0.5rem;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .dashboard-card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid var(--border);
-        }
-
-        .dashboard-card h3 {
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .trend-up { color: var(--green); }
-        .trend-down { color: var(--red); }
+        .action-card:hover { border-color: var(--blue); transform: translateY(-4px); }
+        .action-card i { font-size: 2rem; color: var(--blue); margin-bottom: 0.5rem; }
 
         /* Trading Layout */
         .trading-layout {
@@ -393,14 +287,12 @@
             grid-template-columns: 1fr 380px;
             gap: 1.5rem;
         }
-
         .chart-section {
             background: var(--bg-card);
             border-radius: 16px;
             border: 1px solid var(--border);
             overflow: hidden;
         }
-
         .chart-header {
             padding: 1rem;
             border-bottom: 1px solid var(--border);
@@ -410,15 +302,13 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-
         .trading-panel {
             background: var(--bg-card);
             border-radius: 16px;
             border: 1px solid var(--border);
             padding: 1.5rem;
         }
-
-        .order-type-tabs {
+        .order-tabs {
             display: flex;
             gap: 0.5rem;
             margin-bottom: 1.5rem;
@@ -426,33 +316,18 @@
             padding: 0.25rem;
             border-radius: 12px;
         }
-
         .order-tab {
             flex: 1;
             padding: 0.75rem;
             text-align: center;
             cursor: pointer;
             border-radius: 8px;
-            transition: all 0.2s;
         }
+        .order-tab.active { background: var(--blue); color: var(--bg-primary); }
 
-        .order-tab.active {
-            background: var(--blue);
-            color: var(--bg-primary);
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
-        .price-input, .quantity-input, select {
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem; }
+        input, select {
             background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -461,12 +336,7 @@
             color: var(--text-primary);
             font-size: 1rem;
         }
-
-        .total-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--blue);
-        }
+        .total-value { font-size: 1.5rem; font-weight: 700; color: var(--blue); }
 
         .items-grid {
             display: grid;
@@ -474,7 +344,6 @@
             gap: 1rem;
             margin-top: 1rem;
         }
-
         .item-card {
             background: var(--bg-secondary);
             border-radius: 12px;
@@ -483,28 +352,9 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-
-        .item-card:hover {
-            border-color: var(--blue);
-            transform: translateY(-2px);
-        }
-
-        .item-name {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .item-price {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--blue);
-        }
-
-        .item-change {
-            font-size: 0.875rem;
-        }
-
+        .item-card:hover { border-color: var(--blue); transform: translateY(-2px); }
+        .item-name { font-weight: 600; margin-bottom: 0.5rem; }
+        .item-price { font-size: 1.25rem; font-weight: 700; color: var(--blue); }
         .item-change.up { color: var(--green); }
         .item-change.down { color: var(--red); }
 
@@ -514,35 +364,19 @@
             gap: 1rem;
             margin-top: 1rem;
         }
-
         .order-book-side {
             background: var(--bg-secondary);
             border-radius: 12px;
             padding: 1rem;
         }
-
-        .order-book-title {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
-
         .order-row {
             display: flex;
             justify-content: space-between;
             padding: 0.25rem 0;
             font-size: 0.875rem;
         }
-
         .bid-price { color: var(--green); }
         .ask-price { color: var(--red); }
-
-        .portfolio-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
 
         .section-header {
             display: flex;
@@ -552,36 +386,20 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
+        h2 { font-size: 1.5rem; font-weight: 600; }
 
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .timeframe-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-
+        .timeframe-buttons { display: flex; gap: 0.5rem; }
         .timeframe-btn {
             padding: 0.25rem 0.75rem;
             background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: 6px;
-            color: var(--text-secondary);
             cursor: pointer;
             font-size: 0.75rem;
         }
+        .timeframe-btn.active { background: var(--blue); color: var(--bg-primary); }
 
-        .timeframe-btn.active {
-            background: var(--blue);
-            color: var(--bg-primary);
-        }
-
-        canvas {
-            max-height: 400px;
-            width: 100%;
-        }
+        canvas { max-height: 400px; width: 100%; }
 
         .toast-container {
             position: fixed;
@@ -589,7 +407,6 @@
             right: 2rem;
             z-index: 1000;
         }
-
         .toast {
             background: var(--bg-secondary);
             border-left: 4px solid var(--blue);
@@ -598,17 +415,9 @@
             margin-top: 0.5rem;
             animation: slideIn 0.3s ease;
         }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-secondary);
-        }
+        .empty-state { text-align: center; padding: 3rem; color: var(--text-secondary); }
 
         .modal {
             display: none;
@@ -623,11 +432,7 @@
             align-items: center;
             justify-content: center;
         }
-
-        .modal.active {
-            display: flex;
-        }
-
+        .modal.active { display: flex; }
         .modal-content {
             background: var(--bg-secondary);
             border-radius: 24px;
@@ -638,8 +443,7 @@
             overflow-y: auto;
             border: 1px solid var(--border);
         }
-
-        .roblox-avatar-preview {
+        .avatar-preview {
             width: 100px;
             height: 100px;
             border-radius: 50%;
@@ -647,16 +451,13 @@
             object-fit: cover;
             border: 3px solid var(--blue);
         }
-
         .verification-code {
             background: rgba(0, 243, 255, 0.1);
             padding: 1rem;
             border-radius: 12px;
             font-family: monospace;
-            font-size: 1rem;
-            word-break: break-all;
-            margin: 1rem 0;
             text-align: center;
+            margin: 1rem 0;
         }
 
         .flex { display: flex; }
@@ -673,25 +474,12 @@
         .flex-1 { flex: 1; }
 
         @media (max-width: 1024px) {
-            .trading-layout {
-                grid-template-columns: 1fr;
-            }
-            .nav-links-desktop {
-                display: none;
-            }
-            .hamburger-menu {
-                display: block;
-            }
-            .bottom-nav {
-                display: flex;
-            }
-            .hero {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .trading-layout { grid-template-columns: 1fr; }
+            .desktop-nav { display: none; }
+            .hamburger { display: block; }
+            .bottom-nav { display: flex; }
+            .hero { grid-template-columns: 1fr; text-align: center; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
@@ -701,8 +489,7 @@
         <div class="nav-container">
             <div class="logo" data-page="home">BLOXVIEW</div>
             
-            <!-- Desktop Navigation -->
-            <div class="nav-links-desktop">
+            <div class="desktop-nav">
                 <a class="nav-link" data-page="home"><i class="fas fa-home"></i> Home</a>
                 <a class="nav-link" data-page="dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
                 <a class="nav-link" data-page="trade"><i class="fas fa-exchange-alt"></i> Trade</a>
@@ -715,29 +502,18 @@
                 <a class="nav-link" data-page="profile"><i class="fas fa-user"></i> Profile</a>
             </div>
             
-            <!-- Hamburger Menu Button -->
-            <div class="hamburger-menu" id="hamburgerBtn">
-                <i class="fas fa-bars"></i> Menu
-            </div>
+            <div class="hamburger" id="hamburgerBtn"><i class="fas fa-bars"></i> Menu</div>
             
             <div class="user-panel">
-                <div class="balance-card">
-                    <div class="balance-label">Balance</div>
-                    <div class="balance-value" id="balanceDisplay">10,000 R$</div>
-                </div>
-                <div class="balance-card">
-                    <div class="balance-label">Portfolio Value</div>
-                    <div class="balance-value" id="portfolioValueDisplay">0 R$</div>
-                </div>
-                <div class="roblox-link-btn" id="robloxLinkBtn">
-                    <i class="fab fa-roblox"></i> <span id="robloxLinkText">Link Roblox</span>
-                </div>
+                <div class="balance-card"><div class="balance-label">Balance</div><div class="balance-value" id="balanceDisplay">10,000 R$</div></div>
+                <div class="balance-card"><div class="balance-label">Portfolio</div><div class="balance-value" id="portfolioValueDisplay">0 R$</div></div>
+                <div class="roblox-btn" id="robloxLinkBtn"><i class="fab fa-roblox"></i> <span id="robloxLinkText">Link Roblox</span></div>
                 <button class="btn-secondary" id="resetBtn">Reset</button>
             </div>
         </div>
     </nav>
 
-    <!-- Side Menu (Hamburger) -->
+    <!-- Side Menu -->
     <div class="side-menu" id="sideMenu">
         <a data-page="home"><i class="fas fa-home"></i> Home</a>
         <a data-page="dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
@@ -750,13 +526,11 @@
         <a data-page="deposit"><i class="fas fa-download"></i> Deposit</a>
         <a data-page="profile"><i class="fas fa-user"></i> Profile</a>
         <hr style="margin: 1rem 0; border-color: var(--border);">
-        <div class="roblox-link-btn" id="sideRobloxLinkBtn" style="width: 100%; justify-content: center;">
-            <i class="fab fa-roblox"></i> Link Roblox Account
-        </div>
+        <div class="roblox-btn" id="sideRobloxLinkBtn" style="width: 100%; justify-content: center;"><i class="fab fa-roblox"></i> Link Roblox</div>
     </div>
-    <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+    <div class="side-overlay" id="sideOverlay"></div>
 
-    <!-- Bottom Navigation (Main 3 + Others in Hamburger) -->
+    <!-- Bottom Navigation -->
     <div class="bottom-nav" id="bottomNav">
         <div class="bottom-nav-item" data-page="home"><i class="fas fa-home"></i><span>Home</span></div>
         <div class="bottom-nav-item" data-page="dashboard"><i class="fas fa-chart-line"></i><span>Stats</span></div>
@@ -769,9 +543,7 @@
         <div id="homePage" class="page active">
             <div class="hero">
                 <div>
-                    <div class="hero-badge" style="display: inline-block; background: rgba(0,243,255,0.1); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; margin-bottom: 1rem;">
-                        <i class="fas fa-crown"></i> #1 Roblox Trading Platform
-                    </div>
+                    <div style="display: inline-block; background: rgba(0,243,255,0.1); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; margin-bottom: 1rem;"><i class="fas fa-crown"></i> #1 Roblox Trading Platform</div>
                     <h1>Track, Trade,<br><span class="hero-gradient">Maximize Value</span></h1>
                     <p>Real-time charts, price tracking, demand analysis for MM2 & Adopt Me items.</p>
                     <div class="flex gap-4 mt-4">
@@ -780,99 +552,36 @@
                     </div>
                 </div>
                 <div class="stats-grid" style="margin-top: 0;">
-                    <div class="stat-card-large">
-                        <div class="value" id="totalUsers">12.5K</div>
-                        <div>Active Traders</div>
-                    </div>
-                    <div class="stat-card-large">
-                        <div class="value" id="totalVolume">$2.4M</div>
-                        <div>Trading Volume</div>
-                    </div>
-                    <div class="stat-card-large">
-                        <div class="value" id="totalItems">20+</div>
-                        <div>Rare Items</div>
-                    </div>
-                    <div class="stat-card-large">
-                        <div class="value" id="uptime">99.9%</div>
-                        <div>Platform Uptime</div>
-                    </div>
+                    <div class="stat-card"><div class="value" id="totalUsers">12.5K</div><div>Active Traders</div></div>
+                    <div class="stat-card"><div class="value" id="totalVolume">$2.4M</div><div>Trading Volume</div></div>
+                    <div class="stat-card"><div class="value" id="totalItems">20+</div><div>Rare Items</div></div>
+                    <div class="stat-card"><div class="value" id="uptime">99.9%</div><div>Uptime</div></div>
                 </div>
             </div>
-
             <div class="quick-actions">
-                <div class="action-card" data-page="trade">
-                    <i class="fas fa-exchange-alt"></i>
-                    <h3>Quick Trade</h3>
-                    <p class="text-gray-400">Buy & sell items instantly</p>
-                </div>
-                <div class="action-card" data-page="deposit">
-                    <i class="fas fa-download"></i>
-                    <h3>Deposit Items</h3>
-                    <p class="text-gray-400">Add items to your inventory</p>
-                </div>
-                <div class="action-card" data-page="market">
-                    <i class="fas fa-store"></i>
-                    <h3>Marketplace</h3>
-                    <p class="text-gray-400">Browse all items</p>
-                </div>
-                <div class="action-card" id="robloxLinkAction">
-                    <i class="fab fa-roblox"></i>
-                    <h3>Link Roblox</h3>
-                    <p class="text-gray-400">Verify your account</p>
-                </div>
+                <div class="action-card" data-page="trade"><i class="fas fa-exchange-alt"></i><h3>Quick Trade</h3><p class="text-gray-400">Buy & sell instantly</p></div>
+                <div class="action-card" data-page="deposit"><i class="fas fa-download"></i><h3>Deposit Items</h3><p class="text-gray-400">Add to inventory</p></div>
+                <div class="action-card" data-page="market"><i class="fas fa-store"></i><h3>Marketplace</h3><p class="text-gray-400">Browse all items</p></div>
+                <div class="action-card" id="robloxLinkAction"><i class="fab fa-roblox"></i><h3>Link Roblox</h3><p class="text-gray-400">Verify account</p></div>
             </div>
-
             <div class="section-header"><h2>🔥 Trending Items</h2></div>
             <div class="items-grid" id="trendingGrid"></div>
         </div>
 
         <!-- DASHBOARD PAGE -->
         <div id="dashboardPage" class="page">
-            <div class="section-header">
-                <h2><i class="fas fa-chart-line"></i> Trading Dashboard</h2>
-                <button class="btn-secondary" id="refreshDashboardBtn"><i class="fas fa-sync"></i> Refresh</button>
+            <div class="section-header"><h2><i class="fas fa-chart-line"></i> Trading Dashboard</h2><button class="btn-secondary" id="refreshDashboardBtn"><i class="fas fa-sync"></i> Refresh</button></div>
+            <div class="stats-grid">
+                <div class="stat-card"><div>💰 Balance</div><div class="value" id="dashBalance">0 R$</div></div>
+                <div class="stat-card"><div>📦 Portfolio</div><div class="value" id="dashPortfolio">0 R$</div></div>
+                <div class="stat-card"><div>📊 P&L</div><div class="value" id="dashPnl">0 R$</div></div>
+                <div class="stat-card"><div>🎯 Win Rate</div><div class="value" id="dashWinRate">0%</div></div>
             </div>
-            
-            <div class="portfolio-summary">
-                <div class="stat-card">
-                    <div>💰 Total Balance</div>
-                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--green);" id="dashBalance">0 R$</div>
-                </div>
-                <div class="stat-card">
-                    <div>📦 Portfolio Value</div>
-                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--blue);" id="dashPortfolio">0 R$</div>
-                </div>
-                <div class="stat-card">
-                    <div>📊 Total P&L</div>
-                    <div style="font-size: 1.5rem; font-weight: 700;" id="dashPnl">0 R$</div>
-                </div>
-                <div class="stat-card">
-                    <div>🎯 Win Rate</div>
-                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--yellow);" id="dashWinRate">0%</div>
-                </div>
-            </div>
-
-            <div class="dashboard-grid">
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-fire"></i> Top Performing Items</h3>
-                    <div id="topPerformers"></div>
-                </div>
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-chart-line"></i> Recent Activity</h3>
-                    <div id="recentActivity"></div>
-                </div>
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-trophy"></i> Your Holdings</h3>
-                    <div id="holdingSummary"></div>
-                </div>
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-bell"></i> Market Alerts</h3>
-                    <div id="marketAlerts">
-                        <p class="text-gray-400">🔔 High demand: Harvester</p>
-                        <p class="text-gray-400">📈 Shadow Dragon up +15%</p>
-                        <p class="text-gray-400">💎 New items available</p>
-                    </div>
-                </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div class="stat-card"><h3><i class="fas fa-fire"></i> Top Performers</h3><div id="topPerformers"></div></div>
+                <div class="stat-card"><h3><i class="fas fa-history"></i> Recent Activity</h3><div id="recentActivity"></div></div>
+                <div class="stat-card"><h3><i class="fas fa-box"></i> Your Holdings</h3><div id="holdingSummary"></div></div>
+                <div class="stat-card"><h3><i class="fas fa-bell"></i> Alerts</h3><div id="marketAlerts"></div></div>
             </div>
         </div>
 
@@ -881,682 +590,451 @@
             <div class="trading-layout">
                 <div class="chart-section">
                     <div class="chart-header">
-                        <div>
-                            <h2 id="selectedItemName">Harvester</h2>
-                            <div id="priceChange" style="font-size: 0.875rem; color: var(--green);">+12.5%</div>
-                        </div>
-                        <div class="timeframe-buttons">
-                            <button class="timeframe-btn" data-timeframe="7">1W</button>
-                            <button class="timeframe-btn active" data-timeframe="30">1M</button>
-                            <button class="timeframe-btn" data-timeframe="90">3M</button>
-                        </div>
+                        <div><h2 id="selectedItemName">Harvester</h2><div id="priceChange" style="font-size: 0.875rem; color: var(--green);">+12.5%</div></div>
+                        <div class="timeframe-buttons"><button class="timeframe-btn" data-timeframe="7">1W</button><button class="timeframe-btn active" data-timeframe="30">1M</button><button class="timeframe-btn" data-timeframe="90">3M</button></div>
                     </div>
                     <canvas id="itemChart" height="400"></canvas>
-                    <div class="price-stats" style="padding: 1rem; display: flex; gap: 2rem; border-top: 1px solid var(--border);">
-                        <span>📈 24h Volume: <span id="volumeDisplay">1,250</span></span>
+                    <div style="padding: 1rem; display: flex; gap: 2rem; border-top: 1px solid var(--border);">
+                        <span>📈 Volume: <span id="volumeDisplay">1,250</span></span>
                         <span>🔥 Demand: <span id="demandDisplay">High</span></span>
                         <span>📦 Stock: <span id="stockDisplay">342</span></span>
                     </div>
                 </div>
                 <div class="trading-panel">
-                    <div class="order-type-tabs">
-                        <div class="order-tab active" data-order-type="buy">Buy</div>
-                        <div class="order-tab" data-order-type="sell">Sell</div>
-                    </div>
-                    <div class="form-group">
-                        <label>Select Item</label>
-                        <select id="tradeItemSelect">
-                            <option value="">-- Choose an item --</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Price (R$)</label>
-                        <input type="number" id="tradePrice" class="price-input" placeholder="Market price" step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label>Quantity</label>
-                        <input type="number" id="tradeQuantity" class="quantity-input" value="1" min="1" step="1">
-                    </div>
-                    <div class="form-group">
-                        <label>Total</label>
-                        <div class="total-value" id="tradeTotal">0 R$</div>
-                    </div>
+                    <div class="order-tabs"><div class="order-tab active" data-order-type="buy">Buy</div><div class="order-tab" data-order-type="sell">Sell</div></div>
+                    <div class="form-group"><label>Item</label><select id="tradeItemSelect"><option value="">-- Choose --</option></select></div>
+                    <div class="form-group"><label>Price (R$)</label><input type="number" id="tradePrice" placeholder="Price" step="0.01"></div>
+                    <div class="form-group"><label>Quantity</label><input type="number" id="tradeQuantity" value="1" min="1" step="1"></div>
+                    <div class="form-group"><label>Total</label><div class="total-value" id="tradeTotal">0 R$</div></div>
                     <button class="btn-primary" id="executeTradeBtn" style="width: 100%;">Execute Trade</button>
                 </div>
             </div>
-            <div style="margin-top: 1.5rem;">
-                <h3>Order Book</h3>
-                <div class="order-book" id="orderBook"></div>
-            </div>
+            <div style="margin-top: 1.5rem;"><h3>Order Book</h3><div class="order-book" id="orderBook"></div></div>
         </div>
 
         <!-- MARKET PAGE -->
         <div id="marketPage" class="page">
-            <div class="section-header">
-                <h2>📊 Market Overview</h2>
-                <input type="text" id="marketSearch" placeholder="Search items..." class="price-input" style="max-width: 300px;">
-            </div>
+            <div class="section-header"><h2>📊 Market Overview</h2><input type="text" id="marketSearch" placeholder="Search items..." style="max-width: 300px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem 1rem;"></div>
             <div class="items-grid" id="marketGrid"></div>
         </div>
 
         <!-- MM2 PAGE -->
         <div id="mm2Page" class="page">
-            <div class="section-header">
-                <h2>🔪 Murder Mystery 2 Items</h2>
-                <input type="text" id="mm2Search" placeholder="Search MM2 items..." class="price-input" style="max-width: 300px;">
-            </div>
+            <div class="section-header"><h2>🔪 MM2 Items</h2><input type="text" id="mm2Search" placeholder="Search MM2..." style="max-width: 300px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem 1rem;"></div>
             <div class="items-grid" id="mm2Grid"></div>
         </div>
 
         <!-- ADOPT ME PAGE -->
         <div id="adoptmePage" class="page">
-            <div class="section-header">
-                <h2>🐾 Adopt Me Pets</h2>
-                <input type="text" id="adoptSearch" placeholder="Search Adopt Me pets..." class="price-input" style="max-width: 300px;">
-            </div>
+            <div class="section-header"><h2>🐾 Adopt Me Pets</h2><input type="text" id="adoptSearch" placeholder="Search pets..." style="max-width: 300px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem 1rem;"></div>
             <div class="items-grid" id="adoptGrid"></div>
         </div>
 
         <!-- INVENTORY PAGE -->
         <div id="inventoryPage" class="page">
-            <div class="section-header">
-                <h2>📦 My Inventory</h2>
-                <button class="btn-primary" id="depositInventoryBtn">+ Deposit New</button>
-            </div>
+            <div class="section-header"><h2>📦 My Inventory</h2><button class="btn-primary" id="depositInventoryBtn">+ Deposit New</button></div>
             <div class="items-grid" id="inventoryGrid"></div>
-            <div id="inventoryEmpty" class="empty-state" style="display:none">
-                <p>📦 No items in inventory. Go to Deposit page to add items!</p>
-                <button class="btn-primary mt-4" id="emptyDepositBtn">Deposit Your First Item</button>
-            </div>
+            <div id="inventoryEmpty" class="empty-state" style="display:none"><p>📦 No items. Go deposit!</p><button class="btn-primary mt-4" id="emptyDepositBtn">Deposit First Item</button></div>
         </div>
 
         <!-- PORTFOLIO PAGE -->
         <div id="portfolioPage" class="page">
-            <div class="portfolio-summary">
-                <div class="stat-card">
-                    <div>Total Value</div>
-                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--blue);" id="portfolioTotal">0 R$</div>
-                </div>
-                <div class="stat-card">
-                    <div>Total P&L</div>
-                    <div style="font-size: 1.5rem; font-weight: 700;" id="portfolioPnl">0 R$</div>
-                </div>
-                <div class="stat-card">
-                    <div>Items Held</div>
-                    <div style="font-size: 1.5rem; font-weight: 700;" id="itemsHeld">0</div>
-                </div>
-                <div class="stat-card">
-                    <div>Trades Made</div>
-                    <div style="font-size: 1.5rem; font-weight: 700;" id="tradesCount">0</div>
-                </div>
+            <div class="stats-grid">
+                <div class="stat-card"><div>Total Value</div><div class="value" id="portfolioTotal">0 R$</div></div>
+                <div class="stat-card"><div>Total P&L</div><div class="value" id="portfolioPnl">0 R$</div></div>
+                <div class="stat-card"><div>Items Held</div><div class="value" id="itemsHeld">0</div></div>
+                <div class="stat-card"><div>Trades</div><div class="value" id="tradesCount">0</div></div>
             </div>
-            <h3>Your Trading Portfolio</h3>
+            <h3>Your Portfolio</h3>
             <div class="items-grid" id="portfolioGrid"></div>
         </div>
 
         <!-- DEPOSIT PAGE -->
         <div id="depositPage" class="page">
-            <div class="section-header">
-                <h2>💰 Deposit Items (Get Currency!)</h2>
-                <p class="text-gray-400">Each item gives you its R$ value as balance</p>
-            </div>
+            <div class="section-header"><h2>💰 Deposit Items</h2><p class="text-gray-400">Each item gives its R$ value as balance</p></div>
             <div class="trading-panel" style="max-width: 500px;">
-                <div class="form-group">
-                    <label>Select Game</label>
-                    <select id="depositGame">
-                        <option value="mm2">Murder Mystery 2</option>
-                        <option value="adoptme">Adopt Me</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Select Item</label>
-                    <select id="depositItemSelect"></select>
-                </div>
-                <div class="form-group">
-                    <label>Quantity</label>
-                    <input type="number" id="depositQuantity" value="1" min="1" step="1">
-                </div>
-                <div class="form-group">
-                    <label>Currency You'll Receive</label>
-                    <div class="total-value" id="depositTotal">0 R$</div>
-                </div>
+                <div class="form-group"><label>Game</label><select id="depositGame"><option value="mm2">MM2</option><option value="adoptme">Adopt Me</option></select></div>
+                <div class="form-group"><label>Item</label><select id="depositItemSelect"></select></div>
+                <div class="form-group"><label>Quantity</label><input type="number" id="depositQuantity" value="1" min="1"></div>
+                <div class="form-group"><label>You'll Receive</label><div class="total-value" id="depositTotal">0 R$</div></div>
                 <button class="btn-success" id="confirmDepositBtn" style="width: 100%;">Confirm Deposit</button>
             </div>
         </div>
 
         <!-- PROFILE PAGE -->
         <div id="profilePage" class="page">
-            <div class="profile-header" style="text-align: center; margin-bottom: 2rem;">
-                <img id="profileAvatar" class="roblox-avatar-preview" src="https://ui-avatars.com/api/?name=Guest&background=8b5cf6&color=fff" alt="Avatar" style="width: 100px; height: 100px;">
-                <h2 id="profileUsername" class="mt-2">Guest User</h2>
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <img id="profileAvatar" class="avatar-preview" src="https://ui-avatars.com/api/?name=Guest&background=8b5cf6&color=fff">
+                <h2 class="mt-2" id="profileUsername">Guest User</h2>
                 <p id="profileStatus" class="text-gray-400">Not Verified</p>
-                <div id="profileVerificationBadge" class="mt-2"></div>
-                <button class="btn-primary mt-4" id="verifyProfileBtn"><i class="fab fa-roblox"></i> Link Roblox Account</button>
+                <button class="btn-primary mt-4" id="verifyProfileBtn"><i class="fab fa-roblox"></i> Link Roblox</button>
             </div>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
-                <div class="stat-card">
-                    <h3>📊 Trading Stats</h3>
-                    <div style="margin-top: 0.75rem;">
-                        <div style="display: flex; justify-content: space-between;"><span>Total Deposits</span><span id="profileDeposits">0</span></div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Total Trades</span><span id="profileTrades">0</span></div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Inventory Value</span><span id="profileInventoryValue">0 R$</span></div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Member Since</span><span id="profileMemberSince">Today</span></div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <h3>🔐 Roblox Identity</h3>
-                    <div style="margin-top: 0.75rem;">
-                        <div style="display: flex; justify-content: space-between;"><span>Roblox User</span><span id="profileRobloxUser">Not linked</span></div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>User ID</span><span id="profileRobloxId">-</span></div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Verified</span><span id="profileVerifiedStatus">No</span></div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Trust Score</span><span id="profileTrust">0%</span></div>
-                    </div>
-                </div>
+                <div class="stat-card"><h3>📊 Trading Stats</h3><div style="margin-top: 0.75rem;"><div style="display: flex; justify-content: space-between;"><span>Deposits</span><span id="profileDeposits">0</span></div><div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Trades</span><span id="profileTrades">0</span></div><div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Value</span><span id="profileInventoryValue">0 R$</span></div></div></div>
+                <div class="stat-card"><h3>🔐 Roblox Identity</h3><div style="margin-top: 0.75rem;"><div style="display: flex; justify-content: space-between;"><span>Username</span><span id="profileRobloxUser">Not linked</span></div><div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Verified</span><span id="profileVerifiedStatus">No</span></div><div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Trust Score</span><span id="profileTrust">0%</span></div></div></div>
             </div>
         </div>
     </main>
 
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Roblox Link Modal -->
+    <!-- Roblox Modal -->
     <div id="robloxModal" class="modal">
         <div class="modal-content">
             <h2 class="mb-2"><i class="fab fa-roblox"></i> Link Roblox Account</h2>
-            <p class="text-gray-400 mb-4">Verify your Roblox identity to unlock full features</p>
-            <div id="step1Roblox">
-                <div class="form-group">
-                    <label>Enter your Roblox Username</label>
-                    <input type="text" id="robloxUsername" placeholder="e.g., BuilderBoy" style="text-align: center;">
-                </div>
-                <button class="btn-primary w-full mt-4" id="fetchRobloxBtn">Fetch Profile</button>
-            </div>
-            <div id="step2Roblox" style="display: none;">
-                <div style="text-align: center;">
-                    <img id="verificationAvatar" class="roblox-avatar-preview" alt="Roblox Avatar">
-                    <h3 id="verificationDisplayName"></h3>
-                    <p id="verificationUsername" class="text-gray-400"></p>
-                </div>
-                <p class="mb-2 mt-3"><strong>Is this you?</strong></p>
-                <div class="flex gap-3">
-                    <button class="btn-primary flex-1" id="confirmIdentityBtn">Yes, That's Me</button>
-                    <button class="btn-danger flex-1" id="denyIdentityBtn">No, Wrong Account</button>
-                </div>
-            </div>
-            <div id="step3Roblox" style="display: none;">
-                <div class="verification-code" id="verificationCodeDisplay"></div>
-                <p class="text-sm text-gray-400 mb-3">Copy this exact sentence into your Roblox profile bio</p>
-                <button class="btn-primary w-full" id="completeVerificationBtn">Verify Me</button>
-            </div>
+            <p class="text-gray-400 mb-4">Verify your identity to unlock features</p>
+            <div id="step1Modal"><div class="form-group"><label>Roblox Username</label><input type="text" id="robloxUsername" placeholder="Username"></div><button class="btn-primary w-full mt-4" id="fetchRobloxBtn">Fetch Profile</button></div>
+            <div id="step2Modal" style="display: none;"><div style="text-align: center;"><img id="verificationAvatar" class="avatar-preview"><h3 id="verificationDisplayName"></h3><p id="verificationUsername" class="text-gray-400"></p></div><div class="flex gap-3 mt-4"><button class="btn-primary flex-1" id="confirmIdentityBtn">Yes, That's Me</button><button class="btn-danger flex-1" id="denyIdentityBtn">No</button></div></div>
+            <div id="step3Modal" style="display: none;"><div class="verification-code" id="verificationCodeDisplay"></div><button class="btn-primary w-full" id="completeVerificationBtn">Verify Me</button></div>
         </div>
     </div>
 
     <script>
-        // Roblox Items Data
-        const MARKET_ITEMS = {
-            mm2: [
-                { id: 1, name: "Harvester", value: 2200, change: 12.5, icon: "🔪", rarity: "ancient", demand: "high", volume: 1250, stock: 342, trend: "bullish" },
-                { id: 2, name: "Batwing", value: 140, change: 5.2, icon: "🦇", rarity: "godly", demand: "medium", volume: 890, stock: 1250, trend: "stable" },
-                { id: 3, name: "Corrupt", value: 1250, change: 8.3, icon: "🗡️", rarity: "ancient", demand: "high", volume: 2340, stock: 89, trend: "bullish" },
-                { id: 4, name: "Luger", value: 165, change: -2.1, icon: "🔫", rarity: "godly", demand: "medium", volume: 560, stock: 2300, trend: "bearish" },
-                { id: 5, name: "Chroma Darkbringer", value: 1850, change: 15.3, icon: "⚫", rarity: "chroma", demand: "high", volume: 890, stock: 23, trend: "bullish" },
-                { id: 6, name: "Elderwood Scythe", value: 450, change: 3.2, icon: "🌿", rarity: "godly", demand: "medium", volume: 445, stock: 432, trend: "stable" }
-            ],
-            adoptme: [
-                { id: 101, name: "Shadow Dragon", value: 1250, change: 15.2, icon: "🐉", rarity: "legendary", demand: "high", volume: 320, stock: 45, trend: "bullish" },
-                { id: 102, name: "Frost Dragon", value: 980, change: 8.3, icon: "❄️", rarity: "legendary", demand: "high", volume: 280, stock: 67, trend: "bullish" },
-                { id: 103, name: "Giraffe", value: 850, change: 5.2, icon: "🦒", rarity: "legendary", demand: "medium", volume: 150, stock: 89, trend: "stable" },
-                { id: 104, name: "Bat Dragon", value: 1100, change: 10.5, icon: "🦇", rarity: "legendary", demand: "high", volume: 410, stock: 34, trend: "bullish" },
-                { id: 105, name: "Owl", value: 720, change: 4.8, icon: "🦉", rarity: "legendary", demand: "medium", volume: 230, stock: 156, trend: "stable" }
-            ]
-        };
+        // ITEMS DATA
+        const MM2_ITEMS = [
+            { id: 1, name: "Harvester", value: 2200, change: 12.5, icon: "🔪", rarity: "ancient", demand: "high", volume: 1250, stock: 342, trend: "bullish" },
+            { id: 2, name: "Batwing", value: 140, change: 5.2, icon: "🦇", rarity: "godly", demand: "medium", volume: 890, stock: 1250, trend: "stable" },
+            { id: 3, name: "Corrupt", value: 1250, change: 8.3, icon: "🗡️", rarity: "ancient", demand: "high", volume: 2340, stock: 89, trend: "bullish" },
+            { id: 4, name: "Luger", value: 165, change: -2.1, icon: "🔫", rarity: "godly", demand: "medium", volume: 560, stock: 2300, trend: "bearish" },
+            { id: 5, name: "Chroma Darkbringer", value: 1850, change: 15.3, icon: "⚫", rarity: "chroma", demand: "high", volume: 890, stock: 23, trend: "bullish" },
+            { id: 6, name: "Elderwood Scythe", value: 450, change: 3.2, icon: "🌿", rarity: "godly", demand: "medium", volume: 445, stock: 432, trend: "stable" }
+        ];
+        const ADOPT_ITEMS = [
+            { id: 101, name: "Shadow Dragon", value: 1250, change: 15.2, icon: "🐉", rarity: "legendary", demand: "high", volume: 320, stock: 45, trend: "bullish" },
+            { id: 102, name: "Frost Dragon", value: 980, change: 8.3, icon: "❄️", rarity: "legendary", demand: "high", volume: 280, stock: 67, trend: "bullish" },
+            { id: 103, name: "Giraffe", value: 850, change: 5.2, icon: "🦒", rarity: "legendary", demand: "medium", volume: 150, stock: 89, trend: "stable" },
+            { id: 104, name: "Bat Dragon", value: 1100, change: 10.5, icon: "🦇", rarity: "legendary", demand: "high", volume: 410, stock: 34, trend: "bullish" },
+            { id: 105, name: "Owl", value: 720, change: 4.8, icon: "🦉", rarity: "legendary", demand: "medium", volume: 230, stock: 156, trend: "stable" }
+        ];
+        const ALL_ITEMS = [...MM2_ITEMS, ...ADOPT_ITEMS];
 
-        const ALL_ITEMS = [...MARKET_ITEMS.mm2, ...MARKET_ITEMS.adoptme];
-
-        // App State
+        // APP STATE
         let userBalance = 10000;
         let inventory = [];
-        let tradesHistory = [];
-        let currentUser = {
-            verified: false,
-            robloxUsername: null,
-            robloxDisplayName: null,
-            robloxId: null,
-            robloxAvatar: null,
-            memberSince: new Date().toISOString()
-        };
+        let trades = [];
+        let currentUser = { verified: false, username: null, displayName: null, userId: null, avatar: null };
         let selectedOrderType = 'buy';
-        let priceChart = null;
         let currentChartItem = ALL_ITEMS[0];
         let currentTimeframe = 30;
+        let priceChart = null;
 
-        // Load/Save Data
+        // STORAGE
         function loadData() {
-            const savedBalance = localStorage.getItem('bloxview_balance');
-            if (savedBalance) userBalance = parseFloat(savedBalance);
-            const savedInventory = localStorage.getItem('bloxview_inventory');
-            if (savedInventory) inventory = JSON.parse(savedInventory);
-            const savedTrades = localStorage.getItem('bloxview_trades');
-            if (savedTrades) tradesHistory = JSON.parse(savedTrades);
-            const savedUser = localStorage.getItem('bloxview_user');
-            if (savedUser) currentUser = { ...currentUser, ...JSON.parse(savedUser) };
+            let b = localStorage.getItem('bb_balance'); if (b) userBalance = parseFloat(b);
+            let i = localStorage.getItem('bb_inventory'); if (i) inventory = JSON.parse(i);
+            let t = localStorage.getItem('bb_trades'); if (t) trades = JSON.parse(t);
+            let u = localStorage.getItem('bb_user'); if (u) currentUser = JSON.parse(u);
             updateBalanceDisplay();
         }
-
         function saveData() {
-            localStorage.setItem('bloxview_balance', userBalance);
-            localStorage.setItem('bloxview_inventory', JSON.stringify(inventory));
-            localStorage.setItem('bloxview_trades', JSON.stringify(tradesHistory));
-            localStorage.setItem('bloxview_user', JSON.stringify(currentUser));
+            localStorage.setItem('bb_balance', userBalance);
+            localStorage.setItem('bb_inventory', JSON.stringify(inventory));
+            localStorage.setItem('bb_trades', JSON.stringify(trades));
+            localStorage.setItem('bb_user', JSON.stringify(currentUser));
         }
-
-        function resetData() {
+        function resetAll() {
             userBalance = 10000;
             inventory = [];
-            tradesHistory = [];
-            currentUser = { verified: false, robloxUsername: null, robloxDisplayName: null, robloxId: null, robloxAvatar: null, memberSince: new Date().toISOString() };
+            trades = [];
+            currentUser = { verified: false, username: null, displayName: null, userId: null, avatar: null };
             saveData();
-            updateBalanceDisplay();
-            renderAll();
-            updateDashboard();
-            showToast('Account reset to default!', 'success');
+            renderEverything();
+            showToast('Account reset!', 'success');
         }
 
+        // HELPERS
         function updateBalanceDisplay() {
-            document.getElementById('balanceDisplay').textContent = `${Math.floor(userBalance).toLocaleString()} R$`;
-            document.getElementById('dashBalance').textContent = `${Math.floor(userBalance).toLocaleString()} R$`;
+            document.getElementById('balanceDisplay').innerHTML = `${Math.floor(userBalance).toLocaleString()} R$`;
+            document.getElementById('dashBalance').innerHTML = `${Math.floor(userBalance).toLocaleString()} R$`;
         }
-
-        function calculatePortfolioValue() {
-            return inventory.reduce((total, item) => {
-                const marketItem = ALL_ITEMS.find(i => i.id === item.id);
-                return total + (marketItem ? marketItem.value * item.quantity : 0);
-            }, 0);
+        function getPortfolioValue() {
+            return inventory.reduce((t, i) => { const item = ALL_ITEMS.find(x => x.id === i.id); return t + (item ? item.value * i.qty : 0); }, 0);
         }
-
         function updatePortfolioStats() {
-            const portfolioValue = calculatePortfolioValue();
-            const totalValue = userBalance + portfolioValue;
-            const itemsCount = inventory.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('portfolioValueDisplay').textContent = `${Math.floor(portfolioValue).toLocaleString()} R$`;
-            document.getElementById('dashPortfolio').textContent = `${Math.floor(portfolioValue).toLocaleString()} R$`;
-            document.getElementById('portfolioTotal').textContent = `${Math.floor(totalValue).toLocaleString()} R$`;
-            document.getElementById('itemsHeld').textContent = itemsCount;
-            document.getElementById('tradesCount').textContent = tradesHistory.length;
-            
-            const initialCapital = 10000;
-            const pnl = totalValue - initialCapital;
-            const pnlPercent = (pnl / initialCapital) * 100;
-            const pnlElement = document.getElementById('portfolioPnl');
-            pnlElement.textContent = `${pnl >= 0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$ (${pnlPercent >= 0 ? '+' : ''}${pnlPercent.toFixed(1)}%)`;
-            pnlElement.style.color = pnl >= 0 ? 'var(--green)' : 'var(--red)';
+            let portfolioVal = getPortfolioValue();
+            let totalVal = userBalance + portfolioVal;
+            let itemCount = inventory.reduce((s, i) => s + i.qty, 0);
+            document.getElementById('portfolioValueDisplay').innerHTML = `${Math.floor(portfolioVal).toLocaleString()} R$`;
+            document.getElementById('dashPortfolio').innerHTML = `${Math.floor(portfolioVal).toLocaleString()} R$`;
+            document.getElementById('portfolioTotal').innerHTML = `${Math.floor(totalVal).toLocaleString()} R$`;
+            document.getElementById('itemsHeld').innerHTML = itemCount;
+            document.getElementById('tradesCount').innerHTML = trades.length;
+            let pnl = totalVal - 10000;
+            let pnlElem = document.getElementById('portfolioPnl');
+            pnlElem.innerHTML = `${pnl >= 0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$`;
+            pnlElem.style.color = pnl >= 0 ? 'var(--green)' : 'var(--red)';
             document.getElementById('dashPnl').innerHTML = `${pnl >= 0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$`;
             document.getElementById('dashPnl').style.color = pnl >= 0 ? 'var(--green)' : 'var(--red)';
-            
-            const winRate = tradesHistory.length > 0 ? Math.floor(Math.random() * 30) + 65 : 0;
-            document.getElementById('dashWinRate').textContent = `${winRate}%`;
-            
-            document.getElementById('profileDeposits').textContent = inventory.reduce((sum, i) => sum + i.quantity, 0);
-            document.getElementById('profileTrades').textContent = tradesHistory.length;
-            document.getElementById('profileInventoryValue').textContent = `${Math.floor(portfolioValue).toLocaleString()} R$`;
+            document.getElementById('dashWinRate').innerHTML = trades.length ? `${Math.floor(Math.random() * 30) + 65}%` : '0%';
+            document.getElementById('profileDeposits').innerHTML = inventory.reduce((s, i) => s + i.qty, 0);
+            document.getElementById('profileTrades').innerHTML = trades.length;
+            document.getElementById('profileInventoryValue').innerHTML = `${Math.floor(portfolioVal).toLocaleString()} R$`;
         }
 
+        // CHART
         function generateChartData(item, days) {
-            const labels = [];
-            const data = [];
-            const basePrice = item.value;
-            const trend = item.trend === 'bullish' ? 0.008 : (item.trend === 'bearish' ? -0.005 : 0.001);
+            let labels = [], data = [];
             for (let i = days; i >= 0; i--) {
-                if (days === 7) labels.push(`${i}d ago`);
-                else if (days === 30) labels.push(`${Math.floor(i/7)}w ago`);
-                else labels.push(`${Math.floor(i/30)}m ago`);
-                const volatility = 0.04;
-                const change = (Math.random() - 0.5) * volatility + trend;
-                const price = basePrice * (1 + change * (days - i) / days);
+                if (days === 7) labels.push(`${i}d`);
+                else if (days === 30) labels.push(`${Math.floor(i/7)}w`);
+                else labels.push(`${Math.floor(i/30)}m`);
+                let trendFactor = item.trend === 'bullish' ? 0.008 : (item.trend === 'bearish' ? -0.005 : 0.001);
+                let change = (Math.random() - 0.5) * 0.04 + trendFactor;
+                let price = item.value * (1 + change * (days - i) / days);
                 data.push(Math.max(price * 0.7, Math.min(price * 1.3, price)));
             }
             return { labels: labels.reverse(), data: data.reverse() };
         }
-
         function initChart() {
-            const ctx = document.getElementById('itemChart').getContext('2d');
-            const chartData = generateChartData(currentChartItem, currentTimeframe);
+            let ctx = document.getElementById('itemChart').getContext('2d');
+            let chartData = generateChartData(currentChartItem, currentTimeframe);
             if (priceChart) priceChart.destroy();
             priceChart = new Chart(ctx, {
                 type: 'line',
-                data: { labels: chartData.labels, datasets: [{ label: `${currentChartItem.name} Price (R$)`, data: chartData.data, borderColor: '#00f3ff', backgroundColor: 'rgba(0, 243, 255, 0.1)', tension: 0.4, fill: true, pointRadius: 2 }] },
-                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#a0a0b0' } }, tooltip: { callbacks: { label: (ctx) => `${ctx.raw.toLocaleString()} R$` } } }, scales: { y: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0', callback: (v) => v.toLocaleString() + ' R$' } }, x: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0' } } } }
+                data: { labels: chartData.labels, datasets: [{ label: `${currentChartItem.name} Price (R$)`, data: chartData.data, borderColor: '#00f3ff', backgroundColor: 'rgba(0,243,255,0.1)', tension: 0.4, fill: true }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#a0a0b0' } } }, scales: { y: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0' } }, x: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0' } } } }
             });
         }
-
-        function updateChart() {
-            if (priceChart) {
-                const chartData = generateChartData(currentChartItem, currentTimeframe);
-                priceChart.data.labels = chartData.labels;
-                priceChart.data.datasets[0].data = chartData.data;
-                priceChart.data.datasets[0].label = `${currentChartItem.name} Price (R$)`;
-                priceChart.update();
-            }
-            document.getElementById('selectedItemName').textContent = currentChartItem.name;
+        function updateChartUI() {
+            let chartData = generateChartData(currentChartItem, currentTimeframe);
+            if (priceChart) { priceChart.data.labels = chartData.labels; priceChart.data.datasets[0].data = chartData.data; priceChart.update(); }
+            document.getElementById('selectedItemName').innerHTML = currentChartItem.name;
             document.getElementById('priceChange').innerHTML = `${currentChartItem.change >= 0 ? '+' : ''}${currentChartItem.change}%`;
             document.getElementById('priceChange').style.color = currentChartItem.change >= 0 ? 'var(--green)' : 'var(--red)';
-            document.getElementById('volumeDisplay').textContent = currentChartItem.volume.toLocaleString();
-            document.getElementById('demandDisplay').textContent = currentChartItem.demand.charAt(0).toUpperCase() + currentChartItem.demand.slice(1);
-            document.getElementById('stockDisplay').textContent = currentChartItem.stock.toLocaleString();
+            document.getElementById('volumeDisplay').innerHTML = currentChartItem.volume;
+            document.getElementById('demandDisplay').innerHTML = currentChartItem.demand.charAt(0).toUpperCase() + currentChartItem.demand.slice(1);
+            document.getElementById('stockDisplay').innerHTML = currentChartItem.stock;
         }
 
+        // TRADING
         function executeTrade() {
-            const itemId = parseInt(document.getElementById('tradeItemSelect').value);
-            const price = parseFloat(document.getElementById('tradePrice').value);
-            const quantity = parseInt(document.getElementById('tradeQuantity').value);
-            if (!itemId || isNaN(price) || price <= 0 || isNaN(quantity) || quantity <= 0) { showToast('Please fill in all fields correctly', 'error'); return; }
-            const item = ALL_ITEMS.find(i => i.id === itemId);
+            let itemId = parseInt(document.getElementById('tradeItemSelect').value);
+            let price = parseFloat(document.getElementById('tradePrice').value);
+            let qty = parseInt(document.getElementById('tradeQuantity').value);
+            if (!itemId || isNaN(price) || price <= 0 || isNaN(qty) || qty <= 0) { showToast('Invalid input', 'error'); return; }
+            let item = ALL_ITEMS.find(i => i.id === itemId);
             if (!item) { showToast('Item not found', 'error'); return; }
-            const totalCost = price * quantity;
+            let total = price * qty;
             if (selectedOrderType === 'buy') {
-                if (userBalance < totalCost) { showToast(`Insufficient balance! Need ${totalCost.toLocaleString()} R$`, 'error'); return; }
-                const existingItem = inventory.find(i => i.id === item.id);
-                if (existingItem) { existingItem.quantity += quantity; existingItem.averagePrice = ((existingItem.averagePrice * (existingItem.quantity - quantity)) + (price * quantity)) / existingItem.quantity; }
-                else { inventory.push({ id: item.id, name: item.name, icon: item.icon, quantity: quantity, averagePrice: price, game: item.id < 100 ? 'mm2' : 'adoptme' }); }
-                userBalance -= totalCost;
-                tradesHistory.push({ type: 'buy', item: item.name, quantity, price, total: totalCost, date: new Date().toISOString() });
-                showToast(`Bought ${quantity}x ${item.name} for ${totalCost.toLocaleString()} R$!`, 'success');
+                if (userBalance < total) { showToast(`Need ${total.toLocaleString()} R$`, 'error'); return; }
+                let existing = inventory.find(i => i.id === item.id);
+                if (existing) { existing.qty += qty; existing.avgPrice = ((existing.avgPrice * (existing.qty - qty)) + (price * qty)) / existing.qty; }
+                else { inventory.push({ id: item.id, name: item.name, icon: item.icon, qty: qty, avgPrice: price }); }
+                userBalance -= total;
+                trades.push({ type: 'buy', item: item.name, qty, price, total, time: Date.now() });
+                showToast(`Bought ${qty}x ${item.name} for ${total.toLocaleString()} R$`, 'success');
             } else {
-                const existingItem = inventory.find(i => i.id === item.id);
-                if (!existingItem || existingItem.quantity < quantity) { showToast(`Not enough ${item.name} to sell!`, 'error'); return; }
-                existingItem.quantity -= quantity;
-                if (existingItem.quantity === 0) { const index = inventory.indexOf(existingItem); inventory.splice(index, 1); }
-                userBalance += totalCost;
-                tradesHistory.push({ type: 'sell', item: item.name, quantity, price, total: totalCost, date: new Date().toISOString() });
-                showToast(`Sold ${quantity}x ${item.name} for ${totalCost.toLocaleString()} R$!`, 'success');
+                let existing = inventory.find(i => i.id === item.id);
+                if (!existing || existing.qty < qty) { showToast(`Not enough ${item.name}`, 'error'); return; }
+                existing.qty -= qty;
+                if (existing.qty === 0) inventory = inventory.filter(i => i.id !== item.id);
+                userBalance += total;
+                trades.push({ type: 'sell', item: item.name, qty, price, total, time: Date.now() });
+                showToast(`Sold ${qty}x ${item.name} for ${total.toLocaleString()} R$`, 'success');
             }
             saveData();
             updateBalanceDisplay();
-            renderAll();
-            updateDashboard();
+            renderEverything();
             updateTradeTotal();
             updateOrderBook();
             updatePortfolioStats();
         }
-
         function updateTradeTotal() {
-            const price = parseFloat(document.getElementById('tradePrice').value) || 0;
-            const quantity = parseInt(document.getElementById('tradeQuantity').value) || 0;
-            document.getElementById('tradeTotal').textContent = `${(price * quantity).toLocaleString()} R$`;
+            let price = parseFloat(document.getElementById('tradePrice').value) || 0;
+            let qty = parseInt(document.getElementById('tradeQuantity').value) || 0;
+            document.getElementById('tradeTotal').innerHTML = `${(price * qty).toLocaleString()} R$`;
+        }
+        function updateOrderBook() {
+            let itemId = parseInt(document.getElementById('tradeItemSelect').value);
+            let item = ALL_ITEMS.find(i => i.id === itemId);
+            if (!item) { document.getElementById('orderBook').innerHTML = '<div class="empty-state">Select an item</div>'; return; }
+            let bids = [], asks = [];
+            for (let i = 1; i <= 6; i++) {
+                bids.push({ price: item.value - (i * (item.value * 0.01)), qty: Math.floor(Math.random() * 50) + 10 });
+                asks.push({ price: item.value + (i * (item.value * 0.01)), qty: Math.floor(Math.random() * 50) + 10 });
+            }
+            document.getElementById('orderBook').innerHTML = `<div class="order-book-side"><div class="order-book-title">📈 Bids</div>${bids.map(b => `<div class="order-row"><span class="bid-price">${Math.floor(b.price)} R$</span><span>${b.qty} items</span></div>`).join('')}</div><div class="order-book-side"><div class="order-book-title">📉 Asks</div>${asks.map(a => `<div class="order-row"><span class="ask-price">${Math.floor(a.price)} R$</span><span>${a.qty} items</span></div>`).join('')}</div>`;
         }
 
+        // DEPOSIT
         function updateDepositTotal() {
-            const select = document.getElementById('depositItemSelect');
-            const selectedOption = select.options[select.selectedIndex];
-            const value = parseFloat(selectedOption?.dataset?.value || 0);
-            const quantity = parseInt(document.getElementById('depositQuantity').value) || 0;
-            document.getElementById('depositTotal').textContent = `${(value * quantity).toLocaleString()} R$`;
+            let select = document.getElementById('depositItemSelect');
+            let val = parseFloat(select.options[select.selectedIndex]?.dataset?.value || 0);
+            let qty = parseInt(document.getElementById('depositQuantity').value) || 0;
+            document.getElementById('depositTotal').innerHTML = `${(val * qty).toLocaleString()} R$`;
         }
-
         function confirmDeposit() {
-            const game = document.getElementById('depositGame').value;
-            const itemId = parseInt(document.getElementById('depositItemSelect').value);
-            const quantity = parseInt(document.getElementById('depositQuantity').value);
-            const items = game === 'mm2' ? MARKET_ITEMS.mm2 : MARKET_ITEMS.adoptme;
-            const item = items.find(i => i.id === itemId);
-            if (!item || quantity <= 0 || quantity > 100) { showToast('Invalid deposit', 'error'); return; }
-            const totalValue = item.value * quantity;
-            const existingItem = inventory.find(i => i.id === item.id);
-            if (existingItem) existingItem.quantity += quantity;
-            else inventory.push({ id: item.id, name: item.name, icon: item.icon, quantity: quantity, averagePrice: item.value, game: game });
+            let game = document.getElementById('depositGame').value;
+            let itemId = parseInt(document.getElementById('depositItemSelect').value);
+            let qty = parseInt(document.getElementById('depositQuantity').value);
+            let items = game === 'mm2' ? MM2_ITEMS : ADOPT_ITEMS;
+            let item = items.find(i => i.id === itemId);
+            if (!item || qty <= 0 || qty > 100) { showToast('Invalid deposit', 'error'); return; }
+            let totalValue = item.value * qty;
+            let existing = inventory.find(i => i.id === item.id);
+            if (existing) existing.qty += qty;
+            else inventory.push({ id: item.id, name: item.name, icon: item.icon, qty: qty, avgPrice: item.value });
             userBalance += totalValue;
             saveData();
             updateBalanceDisplay();
-            renderAll();
-            updateDashboard();
+            renderEverything();
             updatePortfolioStats();
-            showToast(`Deposited ${quantity}x ${item.name}! +${totalValue.toLocaleString()} R$ added!`, 'success');
+            showToast(`Deposited ${qty}x ${item.name}! +${totalValue.toLocaleString()} R$`, 'success');
         }
 
+        // RENDERING
         function renderMarket() {
-            const searchTerm = document.getElementById('marketSearch')?.value.toLowerCase() || '';
-            const filtered = ALL_ITEMS.filter(item => item.name.toLowerCase().includes(searchTerm));
-            document.getElementById('marketGrid').innerHTML = filtered.map(item => `<div class="item-card" onclick="selectMarketItem(${item.id})"><div class="item-name">${item.icon} ${item.name}</div><div class="item-price">${item.value.toLocaleString()} R$</div><div class="item-change ${item.change >= 0 ? 'up' : 'down'}">${item.change >= 0 ? '+' : ''}${item.change}%</div><div style="font-size:0.75rem;color:var(--text-secondary);">Vol: ${item.volume} | Dem: ${item.demand}</div></div>`).join('');
+            let search = document.getElementById('marketSearch')?.value.toLowerCase() || '';
+            let filtered = ALL_ITEMS.filter(i => i.name.toLowerCase().includes(search));
+            document.getElementById('marketGrid').innerHTML = filtered.map(i => `<div class="item-card" onclick="selectItem(${i.id})"><div class="item-name">${i.icon} ${i.name}</div><div class="item-price">${i.value.toLocaleString()} R$</div><div class="item-change ${i.change >= 0 ? 'up' : 'down'}">${i.change >= 0 ? '+' : ''}${i.change}%</div><div style="font-size:0.75rem">Vol: ${i.volume}</div></div>`).join('');
         }
-
         function renderMM2() {
-            const searchTerm = document.getElementById('mm2Search')?.value.toLowerCase() || '';
-            const filtered = MARKET_ITEMS.mm2.filter(item => item.name.toLowerCase().includes(searchTerm));
-            document.getElementById('mm2Grid').innerHTML = filtered.map(item => `<div class="item-card" onclick="selectMarketItem(${item.id})"><div class="item-name">${item.icon} ${item.name}</div><div class="item-price">${item.value.toLocaleString()} R$</div><div class="item-change ${item.change >= 0 ? 'up' : 'down'}">${item.change >= 0 ? '+' : ''}${item.change}%</div><div style="font-size:0.75rem;color:var(--text-secondary);">Rarity: ${item.rarity} | ${item.demand} demand</div></div>`).join('');
+            let search = document.getElementById('mm2Search')?.value.toLowerCase() || '';
+            let filtered = MM2_ITEMS.filter(i => i.name.toLowerCase().includes(search));
+            document.getElementById('mm2Grid').innerHTML = filtered.map(i => `<div class="item-card" onclick="selectItem(${i.id})"><div class="item-name">${i.icon} ${i.name}</div><div class="item-price">${i.value.toLocaleString()} R$</div><div class="item-change ${i.change >= 0 ? 'up' : 'down'}">${i.change >= 0 ? '+' : ''}${i.change}%</div><div style="font-size:0.75rem">${i.rarity} | ${i.demand}</div></div>`).join('');
         }
-
-        function renderAdoptMe() {
-            const searchTerm = document.getElementById('adoptSearch')?.value.toLowerCase() || '';
-            const filtered = MARKET_ITEMS.adoptme.filter(item => item.name.toLowerCase().includes(searchTerm));
-            document.getElementById('adoptGrid').innerHTML = filtered.map(item => `<div class="item-card" onclick="selectMarketItem(${item.id})"><div class="item-name">${item.icon} ${item.name}</div><div class="item-price">${item.value.toLocaleString()} R$</div><div class="item-change ${item.change >= 0 ? 'up' : 'down'}">${item.change >= 0 ? '+' : ''}${item.change}%</div><div style="font-size:0.75rem;color:var(--text-secondary);">Rarity: ${item.rarity} | ${item.demand} demand</div></div>`).join('');
+        function renderAdopt() {
+            let search = document.getElementById('adoptSearch')?.value.toLowerCase() || '';
+            let filtered = ADOPT_ITEMS.filter(i => i.name.toLowerCase().includes(search));
+            document.getElementById('adoptGrid').innerHTML = filtered.map(i => `<div class="item-card" onclick="selectItem(${i.id})"><div class="item-name">${i.icon} ${i.name}</div><div class="item-price">${i.value.toLocaleString()} R$</div><div class="item-change ${i.change >= 0 ? 'up' : 'down'}">${i.change >= 0 ? '+' : ''}${i.change}%</div><div style="font-size:0.75rem">${i.rarity} | ${i.demand}</div></div>`).join('');
         }
-
         function renderInventory() {
-            const grid = document.getElementById('inventoryGrid');
-            const empty = document.getElementById('inventoryEmpty');
-            if (!inventory.length) { if (grid) grid.innerHTML = ''; if (empty) empty.style.display = 'block'; return; }
-            if (empty) empty.style.display = 'none';
-            if (grid) grid.innerHTML = inventory.map(item => { const marketItem = ALL_ITEMS.find(i => i.id === item.id); const currentValue = marketItem ? marketItem.value : item.averagePrice; return `<div class="item-card"><div class="item-name">${item.icon} ${item.name}</div><div>📦 Quantity: ${item.quantity}</div><div>💰 Avg Price: ${Math.floor(item.averagePrice).toLocaleString()} R$</div><div>📈 Current: ${currentValue.toLocaleString()} R$</div><div>💎 Total: ${(currentValue * item.quantity).toLocaleString()} R$</div></div>`; }).join('');
+            let grid = document.getElementById('inventoryGrid');
+            let empty = document.getElementById('inventoryEmpty');
+            if (!inventory.length) { if(grid) grid.innerHTML = ''; if(empty) empty.style.display = 'block'; return; }
+            if(empty) empty.style.display = 'none';
+            grid.innerHTML = inventory.map(i => { let market = ALL_ITEMS.find(x => x.id === i.id); let curr = market ? market.value : i.avgPrice; return `<div class="item-card"><div class="item-name">${i.icon} ${i.name}</div><div>📦 Qty: ${i.qty}</div><div>💰 Avg: ${Math.floor(i.avgPrice).toLocaleString()} R$</div><div>📈 Current: ${curr.toLocaleString()} R$</div><div>💎 Total: ${(curr * i.qty).toLocaleString()} R$</div></div>`; }).join('');
         }
-
         function renderPortfolio() {
-            const grid = document.getElementById('portfolioGrid');
-            if (!inventory.length) { if (grid) grid.innerHTML = '<div class="empty-state">No items in portfolio. Start trading!</div>'; return; }
-            if (grid) grid.innerHTML = inventory.map(item => { const marketItem = ALL_ITEMS.find(i => i.id === item.id); const currentValue = marketItem ? marketItem.value : item.averagePrice; const totalValue = currentValue * item.quantity; const pnl = (currentValue - item.averagePrice) * item.quantity; return `<div class="item-card"><div class="item-name">${item.icon} ${item.name}</div><div>📦 Qty: ${item.quantity}</div><div>💰 Avg: ${Math.floor(item.averagePrice).toLocaleString()} R$</div><div>📈 Current: ${currentValue.toLocaleString()} R$</div><div>💎 Value: ${Math.floor(totalValue).toLocaleString()} R$</div><div style="color: ${pnl >= 0 ? 'var(--green)' : 'var(--red)'}">📊 P&L: ${pnl >= 0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$</div></div>`; }).join('');
+            let grid = document.getElementById('portfolioGrid');
+            if (!inventory.length) { grid.innerHTML = '<div class="empty-state">No items yet</div>'; return; }
+            grid.innerHTML = inventory.map(i => { let market = ALL_ITEMS.find(x => x.id === i.id); let curr = market ? market.value : i.avgPrice; let pnl = (curr - i.avgPrice) * i.qty; return `<div class="item-card"><div class="item-name">${i.icon} ${i.name}</div><div>📦 ${i.qty} items</div><div>💰 Avg: ${Math.floor(i.avgPrice).toLocaleString()} R$</div><div>📈 Current: ${curr.toLocaleString()} R$</div><div style="color:${pnl >=0 ? 'var(--green)' : 'var(--red)'}">📊 P&L: ${pnl >=0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$</div></div>`; }).join('');
         }
-
         function renderTrending() {
-            const trending = [...ALL_ITEMS].sort((a, b) => b.change - a.change).slice(0, 6);
-            document.getElementById('trendingGrid').innerHTML = trending.map(item => `<div class="item-card" onclick="selectMarketItem(${item.id})"><div class="item-name">${item.icon} ${item.name}</div><div class="item-price">${item.value.toLocaleString()} R$</div><div class="item-change ${item.change >= 0 ? 'up' : 'down'}">${item.change >= 0 ? '+' : ''}${item.change}%</div></div>`).join('');
+            let trending = [...ALL_ITEMS].sort((a,b) => b.change - a.change).slice(0,6);
+            document.getElementById('trendingGrid').innerHTML = trending.map(i => `<div class="item-card" onclick="selectItem(${i.id})"><div class="item-name">${i.icon} ${i.name}</div><div class="item-price">${i.value.toLocaleString()} R$</div><div class="item-change ${i.change >=0 ? 'up' : 'down'}">${i.change >=0 ? '+' : ''}${i.change}%</div></div>`).join('');
         }
-
-        function updateDashboard() {
-            const topPerformers = [...ALL_ITEMS].sort((a, b) => b.change - a.change).slice(0, 5);
-            document.getElementById('topPerformers').innerHTML = topPerformers.map(item => `<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span>${item.icon} ${item.name}</span><span class="${item.change >= 0 ? 'trend-up' : 'trend-down'}">${item.change >= 0 ? '+' : ''}${item.change}%</span></div>`).join('');
-            
-            const recentTrades = tradesHistory.slice(-5).reverse();
-            document.getElementById('recentActivity').innerHTML = recentTrades.length ? recentTrades.map(t => `<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span>${t.type === 'buy' ? '🟢 Bought' : '🔴 Sold'} ${t.quantity}x ${t.item}</span><span>${t.price} R$</span></div>`).join('') : '<p class="text-gray-400">No recent activity</p>';
-            
-            const holdings = inventory.slice(0, 5);
-            document.getElementById('holdingSummary').innerHTML = holdings.length ? holdings.map(h => `<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span>${h.icon} ${h.name}</span><span>${h.quantity} items</span></div>`).join('') : '<p class="text-gray-400">No holdings yet</p>';
+        function renderDashboard() {
+            let top = [...ALL_ITEMS].sort((a,b) => b.change - a.change).slice(0,5);
+            document.getElementById('topPerformers').innerHTML = top.map(i => `<div style="display:flex; justify-content:space-between; margin-bottom:0.5rem"><span>${i.icon} ${i.name}</span><span class="${i.change >=0 ? 'trend-up' : 'trend-down'}">${i.change >=0 ? '+' : ''}${i.change}%</span></div>`).join('');
+            let recent = trades.slice(-5).reverse();
+            document.getElementById('recentActivity').innerHTML = recent.length ? recent.map(t => `<div style="display:flex; justify-content:space-between; margin-bottom:0.5rem"><span>${t.type === 'buy' ? '🟢 Bought' : '🔴 Sold'} ${t.qty}x ${t.item}</span><span>${t.price} R$</span></div>`).join('') : '<p class="text-gray-400">No activity</p>';
+            let holdings = inventory.slice(0,5);
+            document.getElementById('holdingSummary').innerHTML = holdings.length ? holdings.map(h => `<div style="display:flex; justify-content:space-between; margin-bottom:0.5rem"><span>${h.icon} ${h.name}</span><span>${h.qty} items</span></div>`).join('') : '<p class="text-gray-400">No holdings</p>';
+            document.getElementById('marketAlerts').innerHTML = '<p class="text-gray-400">🔔 High demand: Harvester</p><p class="text-gray-400">📈 Shadow Dragon up +15%</p><p class="text-gray-400">💎 New items available</p>';
         }
-
         function renderProfile() {
-            document.getElementById('profileUsername').textContent = currentUser.robloxDisplayName || 'Guest User';
+            document.getElementById('profileUsername').innerHTML = currentUser.displayName || 'Guest User';
             document.getElementById('profileStatus').innerHTML = currentUser.verified ? '<span style="color:var(--green);">✓ Verified Trader</span>' : 'Not Verified';
-            document.getElementById('profileAvatar').src = currentUser.robloxAvatar || 'https://ui-avatars.com/api/?name=Guest&background=8b5cf6&color=fff';
-            document.getElementById('profileRobloxUser').textContent = currentUser.robloxUsername || 'Not linked';
-            document.getElementById('profileRobloxId').textContent = currentUser.robloxId || '-';
-            document.getElementById('profileVerifiedStatus').textContent = currentUser.verified ? 'Yes' : 'No';
-            document.getElementById('profileTrust').textContent = currentUser.verified ? '100%' : '0%';
-            document.getElementById('profileMemberSince').textContent = new Date(currentUser.memberSince).toLocaleDateString();
-            document.getElementById('robloxLinkText').textContent = currentUser.verified ? `✓ ${currentUser.robloxUsername}` : 'Link Roblox';
+            document.getElementById('profileAvatar').src = currentUser.avatar || 'https://ui-avatars.com/api/?name=Guest&background=8b5cf6&color=fff';
+            document.getElementById('profileRobloxUser').innerHTML = currentUser.username || 'Not linked';
+            document.getElementById('profileVerifiedStatus').innerHTML = currentUser.verified ? 'Yes' : 'No';
+            document.getElementById('profileTrust').innerHTML = currentUser.verified ? '100%' : '0%';
+            document.getElementById('robloxLinkText').innerHTML = currentUser.verified ? `✓ ${currentUser.username}` : 'Link Roblox';
         }
+        function renderEverything() { renderMarket(); renderMM2(); renderAdopt(); renderInventory(); renderPortfolio(); renderTrending(); renderDashboard(); renderProfile(); updatePortfolioStats(); }
 
-        function updateOrderBook() {
-            const selectedItemId = parseInt(document.getElementById('tradeItemSelect').value);
-            const item = ALL_ITEMS.find(i => i.id === selectedItemId);
-            if (!item) { document.getElementById('orderBook').innerHTML = '<div class="empty-state">Select an item to view order book</div>'; return; }
-            const basePrice = item.value;
-            const bids = [], asks = [];
-            for (let i = 1; i <= 8; i++) { bids.push({ price: basePrice - (i * (basePrice * 0.01)), quantity: Math.floor(Math.random() * 50) + 10 }); asks.push({ price: basePrice + (i * (basePrice * 0.01)), quantity: Math.floor(Math.random() * 50) + 10 }); }
-            document.getElementById('orderBook').innerHTML = `<div class="order-book-side"><div class="order-book-title">📈 Bids</div>${bids.map(bid => `<div class="order-row"><span class="bid-price">${Math.floor(bid.price).toLocaleString()} R$</span><span>${bid.quantity} items</span></div>`).join('')}</div><div class="order-book-side"><div class="order-book-title">📉 Asks</div>${asks.map(ask => `<div class="order-row"><span class="ask-price">${Math.floor(ask.price).toLocaleString()} R$</span><span>${ask.quantity} items</span></div>`).join('')}</div>`;
-        }
-
-        function selectMarketItem(itemId) {
-            const item = ALL_ITEMS.find(i => i.id === itemId);
-            if (item) {
+        // ITEM SELECTION
+        window.selectItem = function(itemId) {
+            let item = ALL_ITEMS.find(i => i.id === itemId);
+            if(item) {
                 document.getElementById('tradeItemSelect').value = itemId;
                 document.getElementById('tradePrice').value = item.value;
                 currentChartItem = item;
-                updateChart();
+                updateChartUI();
                 updateTradeTotal();
                 updateOrderBook();
                 showToast(`${item.name} selected`, 'info');
                 switchPage('trade');
             }
+        };
+
+        // NAVIGATION
+        function switchPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`${pageId}Page`).classList.add('active');
+            document.querySelectorAll('.nav-link, .bottom-nav-item').forEach(l => { l.classList.remove('active'); if(l.dataset?.page === pageId) l.classList.add('active'); });
+            if(pageId === 'portfolio') renderPortfolio();
+            if(pageId === 'inventory') renderInventory();
+            if(pageId === 'profile') renderProfile();
+            if(pageId === 'dashboard') renderDashboard();
+            if(pageId === 'trade') updateOrderBook();
         }
 
-        // Roblox Verification
-        function generateVerificationCode() {
-            const adjectives = ['CRIMSON', 'GOLDEN', 'SILVER', 'EMERALD', 'SAPPHIRE', 'RADIANT'];
-            const nouns = ['PHOENIX', 'DRAGON', 'WOLF', 'EAGLE', 'TIGER', 'WIZARD'];
-            const verbs = ['FLIES', 'HUNTS', 'SHINES', 'PROTECTS', 'GUIDES', 'WATCHES'];
-            const numbers = Math.floor(Math.random() * 9000) + 1000;
-            return `${adjectives[Math.floor(Math.random() * adjectives.length)]}_${nouns[Math.floor(Math.random() * nouns.length)]}_${verbs[Math.floor(Math.random() * verbs.length)]}_${numbers}`;
-        }
-
-        async function fetchRobloxUser(username) {
-            return { id: Math.floor(Math.random() * 1000000000), username: username, displayName: username, avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=00f3ff&color=fff&size=200`, created: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString() };
-        }
-
+        // ROBLOX VERIFICATION
         let pendingProfile = null, pendingCode = null;
+        function generateCode() { const a=['CRIMSON','GOLDEN','SILVER','EMERALD']; const b=['PHOENIX','DRAGON','WOLF']; const c=['FLIES','HUNTS','SHINES']; return `${a[Math.floor(Math.random()*a.length)]}_${b[Math.floor(Math.random()*b.length)]}_${c[Math.floor(Math.random()*c.length)]}_${Math.floor(Math.random()*9000+1000)}`; }
+        async function fetchRobloxUser(username) { return { id: Math.floor(Math.random()*1000000000), username, displayName: username, avatarUrl: `https://ui-avatars.com/api/?name=${username}&background=00f3ff&color=fff&size=200` }; }
+        function openRobloxModal() { document.getElementById('robloxModal').classList.add('active'); document.getElementById('step1Modal').style.display = 'block'; document.getElementById('step2Modal').style.display = 'none'; document.getElementById('step3Modal').style.display = 'none'; document.getElementById('robloxUsername').value = ''; }
+        async function fetchAndPreview() { let user = document.getElementById('robloxUsername').value.trim(); if(!user) { showToast('Enter username','error'); return; } let profile = await fetchRobloxUser(user); if(profile) { document.getElementById('verificationAvatar').src = profile.avatarUrl; document.getElementById('verificationDisplayName').innerHTML = profile.displayName; document.getElementById('verificationUsername').innerHTML = `@${profile.username}`; pendingProfile = profile; document.getElementById('step1Modal').style.display = 'none'; document.getElementById('step2Modal').style.display = 'block'; } }
+        function confirmIdentity() { if(pendingProfile) { pendingCode = generateCode(); document.getElementById('verificationCodeDisplay').innerHTML = `"${pendingCode}"`; document.getElementById('step2Modal').style.display = 'none'; document.getElementById('step3Modal').style.display = 'block'; } }
+        function denyIdentity() { document.getElementById('step2Modal').style.display = 'none'; document.getElementById('step1Modal').style.display = 'block'; pendingProfile = null; }
+        function completeVerification() { if(pendingProfile && pendingCode) { currentUser.verified = true; currentUser.username = pendingProfile.username; currentUser.displayName = pendingProfile.displayName; currentUser.userId = pendingProfile.id; currentUser.avatar = pendingProfile.avatarUrl; saveData(); renderProfile(); document.getElementById('robloxModal').classList.remove('active'); showToast(`Verified as ${pendingProfile.displayName}!`,'success'); pendingProfile=null; pendingCode=null; } }
 
-        async function startRobloxLink() {
-            document.getElementById('robloxModal').classList.add('active');
-            document.getElementById('step1Roblox').style.display = 'block';
-            document.getElementById('step2Roblox').style.display = 'none';
-            document.getElementById('step3Roblox').style.display = 'none';
-        }
-
-        async function fetchAndPreview() {
-            const username = document.getElementById('robloxUsername').value.trim();
-            if (!username) { showToast('Please enter a Roblox username', 'error'); return; }
-            const profile = await fetchRobloxUser(username);
-            if (profile) {
-                document.getElementById('verificationAvatar').src = profile.avatarUrl;
-                document.getElementById('verificationDisplayName').textContent = profile.displayName;
-                document.getElementById('verificationUsername').textContent = `@${profile.username}`;
-                pendingProfile = profile;
-                document.getElementById('step1Roblox').style.display = 'none';
-                document.getElementById('step2Roblox').style.display = 'block';
-            }
-        }
-
-        function confirmIdentity() {
-            if (pendingProfile) {
-                pendingCode = generateVerificationCode();
-                document.getElementById('verificationCodeDisplay').innerHTML = `"${pendingCode}"`;
-                document.getElementById('step2Roblox').style.display = 'none';
-                document.getElementById('step3Roblox').style.display = 'block';
-            }
-        }
-
-        function denyIdentity() {
-            document.getElementById('step2Roblox').style.display = 'none';
-            document.getElementById('step1Roblox').style.display = 'block';
-            pendingProfile = null;
-        }
-
-        function completeVerification() {
-            if (pendingProfile && pendingCode) {
-                currentUser.verified = true;
-                currentUser.robloxUsername = pendingProfile.username;
-                currentUser.robloxDisplayName = pendingProfile.displayName;
-                currentUser.robloxId = pendingProfile.id;
-                currentUser.robloxAvatar = pendingProfile.avatarUrl;
-                saveData();
-                renderProfile();
-                document.getElementById('robloxModal').classList.remove('active');
-                showToast(`Verified as ${pendingProfile.displayName}!`, 'success');
-                pendingProfile = null;
-                pendingCode = null;
-            }
-        }
-
+        // DROPDOWNS
         function initDropdowns() {
-            const tradeSelect = document.getElementById('tradeItemSelect');
-            tradeSelect.innerHTML = '<option value="">-- Choose an item --</option>' + ALL_ITEMS.map(item => `<option value="${item.id}">${item.icon} ${item.name} - ${item.value} R$</option>`).join('');
-            tradeSelect.addEventListener('change', (e) => { const item = ALL_ITEMS.find(i => i.id === parseInt(e.target.value)); if (item) { document.getElementById('tradePrice').value = item.value; currentChartItem = item; updateChart(); updateTradeTotal(); updateOrderBook(); } });
-            
-            const depositSelect = document.getElementById('depositItemSelect');
-            function updateDepositItems() {
-                const game = document.getElementById('depositGame').value;
-                const items = game === 'mm2' ? MARKET_ITEMS.mm2 : MARKET_ITEMS.adoptme;
-                depositSelect.innerHTML = items.map(item => `<option value="${item.id}" data-value="${item.value}">${item.icon} ${item.name} - ${item.value} R$ (Gives ${item.value} R$)</option>`).join('');
-                updateDepositTotal();
-            }
-            document.getElementById('depositGame').addEventListener('change', updateDepositItems);
+            let tradeSelect = document.getElementById('tradeItemSelect');
+            tradeSelect.innerHTML = '<option value="">-- Choose --</option>' + ALL_ITEMS.map(i => `<option value="${i.id}">${i.icon} ${i.name} - ${i.value} R$</option>`).join('');
+            tradeSelect.onchange = () => { let item = ALL_ITEMS.find(i => i.id === parseInt(tradeSelect.value)); if(item) { document.getElementById('tradePrice').value = item.value; currentChartItem = item; updateChartUI(); updateTradeTotal(); updateOrderBook(); } };
+            let depositSelect = document.getElementById('depositItemSelect');
+            function updateDepositItems() { let game = document.getElementById('depositGame').value; let items = game === 'mm2' ? MM2_ITEMS : ADOPT_ITEMS; depositSelect.innerHTML = items.map(i => `<option value="${i.id}" data-value="${i.value}">${i.icon} ${i.name} - ${i.value} R$</option>`).join(''); updateDepositTotal(); }
+            document.getElementById('depositGame').onchange = updateDepositItems;
             updateDepositItems();
         }
 
-        function switchPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            document.getElementById(`${pageId}Page`).classList.add('active');
-            document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); if (link.dataset.page === pageId) link.classList.add('active'); });
-            document.querySelectorAll('.bottom-nav-item').forEach(item => { item.classList.remove('active'); if (item.dataset.page === pageId) item.classList.add('active'); });
-            if (pageId === 'portfolio') renderPortfolio();
-            if (pageId === 'inventory') renderInventory();
-            if (pageId === 'profile') renderProfile();
-            if (pageId === 'dashboard') updateDashboard();
-            if (pageId === 'trade') updateOrderBook();
+        // EVENT LISTENERS
+        function setupEvents() {
+            document.querySelectorAll('.nav-link, .bottom-nav-item, .side-menu a, .action-card, .logo').forEach(el => { if(el.dataset?.page) el.onclick = () => switchPage(el.dataset.page); else if(el.classList?.contains('logo')) el.onclick = () => switchPage('home'); });
+            document.getElementById('exploreTradeBtn').onclick = () => switchPage('trade');
+            document.getElementById('exploreMarketBtn').onclick = () => switchPage('market');
+            document.getElementById('resetBtn').onclick = resetAll;
+            document.getElementById('robloxLinkBtn').onclick = openRobloxModal;
+            document.getElementById('sideRobloxLinkBtn').onclick = openRobloxModal;
+            document.getElementById('robloxLinkAction').onclick = openRobloxModal;
+            document.getElementById('verifyProfileBtn').onclick = openRobloxModal;
+            document.getElementById('fetchRobloxBtn').onclick = fetchAndPreview;
+            document.getElementById('confirmIdentityBtn').onclick = confirmIdentity;
+            document.getElementById('denyIdentityBtn').onclick = denyIdentity;
+            document.getElementById('completeVerificationBtn').onclick = completeVerification;
+            document.getElementById('executeTradeBtn').onclick = executeTrade;
+            document.getElementById('confirmDepositBtn').onclick = confirmDeposit;
+            document.getElementById('depositInventoryBtn').onclick = () => switchPage('deposit');
+            document.getElementById('emptyDepositBtn').onclick = () => switchPage('deposit');
+            document.getElementById('refreshDashboardBtn').onclick = renderDashboard;
+            document.getElementById('tradePrice').oninput = updateTradeTotal;
+            document.getElementById('tradeQuantity').oninput = updateTradeTotal;
+            document.getElementById('depositQuantity').oninput = updateDepositTotal;
+            document.getElementById('marketSearch').oninput = renderMarket;
+            document.getElementById('mm2Search').oninput = renderMM2;
+            document.getElementById('adoptSearch').oninput = renderAdopt;
+            document.querySelectorAll('.order-tab').forEach(t => { t.onclick = () => { document.querySelectorAll('.order-tab').forEach(ot => ot.classList.remove('active')); t.classList.add('active'); selectedOrderType = t.dataset.orderType; }; });
+            document.querySelectorAll('.timeframe-btn').forEach(b => { b.onclick = () => { document.querySelectorAll('.timeframe-btn').forEach(tb => tb.classList.remove('active')); b.classList.add('active'); currentTimeframe = parseInt(b.dataset.timeframe); updateChartUI(); }; });
+            // Mobile menu
+            document.getElementById('hamburgerBtn').onclick = () => { document.getElementById('sideMenu').classList.toggle('open'); document.getElementById('sideOverlay').classList.toggle('active'); };
+            document.getElementById('sideOverlay').onclick = () => { document.getElementById('sideMenu').classList.remove('open'); document.getElementById('sideOverlay').classList.remove('active'); };
+            document.getElementById('bottomMenuBtn').onclick = () => { document.getElementById('sideMenu').classList.toggle('open'); document.getElementById('sideOverlay').classList.toggle('active'); };
         }
 
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
+        // TOAST
+        function showToast(msg, type='info') {
+            let container = document.getElementById('toastContainer');
+            let toast = document.createElement('div');
             toast.className = 'toast';
-            toast.innerHTML = message;
+            toast.innerHTML = msg;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 4000);
         }
 
-        function renderAll() {
-            renderMarket();
-            renderMM2();
-            renderAdoptMe();
-            renderInventory();
-            renderPortfolio();
-            renderProfile();
-            renderTrending();
-            updatePortfolioStats();
-        }
-
-        function setupEventListeners() {
-            document.querySelectorAll('.nav-link, .bottom-nav-item, .side-menu a, .action-card, .logo').forEach(el => {
-                if (el.dataset?.page) el.addEventListener('click', () => switchPage(el.dataset.page));
-                else if (el.id === 'logoBtn' || el.classList?.contains('logo')) el.addEventListener('click', () => switchPage('home'));
-            });
-            document.getElementById('exploreTradeBtn')?.addEventListener('click', () => switchPage('trade'));
-            document.getElementById('exploreMarketBtn')?.addEventListener('click', () => switchPage('market'));
-            document.getElementById('robloxLinkBtn')?.addEventListener('click', startRobloxLink);
-            document.getElementById('sideRobloxLinkBtn')?.addEventListener('click', startRobloxLink);
-            document.getElementById('robloxLinkAction')?.addEventListener('click', startRobloxLink);
-            document.getElementById('verifyProfileBtn')?.addEventListener('click', startRobloxLink);
-            document.getElementById('fetchRobloxBtn')?.addEventListener('click', fetchAndPreview);
-            document.getElementById('confirmIdentityBtn')?.addEventListener('click', confirmIdentity);
-            document.getElementById('denyIdentityBtn')?.addEventListener('click', denyIdentity);
-            document.getElementById('completeVerificationBtn')?.addEventListener('click', completeVerification);
-            document.getElementById('hamburgerBtn')?.addEventListener('click', () => { document.getElementById('sideMenu').classList.toggle('open'); document.getElementById('sideMenuOverlay').classList.toggle('active'); });
-            document.getElementById('sideMenuOverlay')?.addEventListener('click', () => { document.getElementById('sideMenu').classList.remove('open'); document.getElementById('sideMenuOverlay').classList.remove('active'); });
-            document.getElementById('bottomMenuBtn')?.addEventListener('click', () => { document.getElementById('sideMenu').classList.toggle('open'); document.getElementById('sideMenuOverlay').classList.toggle('active'); });
-            document.querySelectorAll('.order-tab').forEach(tab => { tab.addEventListener('click', () => { document.querySelectorAll('.order-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); selectedOrderType = tab.dataset.orderType; }); });
-            document.querySelectorAll('.timeframe-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.timeframe-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentTimeframe = parseInt(btn.dataset.timeframe); updateChart(); }); });
-            document.getElementById('executeTradeBtn')?.addEventListener('click', executeTrade);
-            document.getElementById('resetBtn')?.addEventListener('click', resetData);
-            document.getElementById('confirmDepositBtn')?.addEventListener('click', confirmDeposit);
-            document.getElementById('depositInventoryBtn')?.addEventListener('click', () => switchPage('deposit'));
-            document.getElementById('emptyDepositBtn')?.addEventListener('click', () => switchPage('deposit'));
-            document.getElementById('refreshDashboardBtn')?.addEventListener('click', updateDashboard);
-            document.getElementById('tradePrice')?.addEventListener('input', updateTradeTotal);
-            document.getElementById('tradeQuantity')?.addEventListener('input', updateTradeTotal);
-            document.getElementById('depositQuantity')?.addEventListener('input', updateDepositTotal);
-            document.getElementById('marketSearch')?.addEventListener('input', renderMarket);
-            document.getElementById('mm2Search')?.addEventListener('input', renderMM2);
-            document.getElementById('adoptSearch')?.addEventListener('input', renderAdoptMe);
-        }
-
+        // INIT
         function init() {
             loadData();
             initDropdowns();
-            setupEventListeners();
-            renderAll();
+            setupEvents();
+            renderEverything();
             initChart();
             updateOrderBook();
-            updateDashboard();
-            showToast('Welcome to Bloxview! Link your Roblox account to start trading!', 'success');
+            showToast('Welcome to Bloxview! Link your Roblox account to verify.', 'success');
         }
-
-        window.selectMarketItem = selectMarketItem;
         init();
     </script>
 </body>
