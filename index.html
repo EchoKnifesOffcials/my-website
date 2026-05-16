@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Bloxview | MM2 & Adopt Me Trading Platform</title>
+    <title>Bloxview | Professional Trading Platform</title>
     
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js with Financial Extension for Candlesticks -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.0/dist/chartjs-chart-financial.min.js"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -28,6 +31,8 @@
             --blue: #00f3ff;
             --purple: #8b5cf6;
             --yellow: #f59e0b;
+            --up-candle: #00ff88;
+            --down-candle: #ff4466;
         }
 
         body {
@@ -39,7 +44,7 @@
             padding-bottom: 70px;
         }
 
-        /* Navigation */
+        /* Navigation - Mobile First */
         .nav {
             position: sticky;
             top: 0;
@@ -52,60 +57,45 @@
         .nav-container {
             max-width: 1600px;
             margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 0.75rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            gap: 0.5rem;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 800;
             background: linear-gradient(135deg, var(--blue), var(--purple));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             cursor: pointer;
+            white-space: nowrap;
         }
 
         /* Desktop Navigation */
         .desktop-nav {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .nav-link {
-            cursor: pointer;
-            transition: all 0.2s;
-            color: var(--text-secondary);
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--blue);
-            background: rgba(0, 243, 255, 0.1);
+            display: none;
         }
 
         /* Mobile Components */
         .hamburger {
-            display: none;
+            display: block;
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            padding: 0.5rem;
             cursor: pointer;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
+            line-height: 1;
         }
 
         .side-menu {
             position: fixed;
             top: 0;
-            right: -300px;
+            right: -280px;
             width: 280px;
             height: 100vh;
             background: var(--bg-secondary);
@@ -113,6 +103,7 @@
             padding: 5rem 1.5rem 2rem;
             transition: right 0.3s ease;
             z-index: 200;
+            overflow-y: auto;
         }
 
         .side-menu.open { right: 0; }
@@ -120,11 +111,13 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 1rem 0;
+            padding: 0.875rem 0;
             cursor: pointer;
             color: var(--text-secondary);
             text-decoration: none;
+            border-bottom: 1px solid var(--border);
         }
+        .side-menu a:last-child { border-bottom: none; }
         .side-menu a:hover { color: var(--blue); }
 
         .side-overlay {
@@ -133,13 +126,70 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s;
             z-index: 199;
         }
         .side-overlay.active { opacity: 1; visibility: visible; }
+
+        /* User Panel - Mobile Optimized */
+        .user-panel {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .balance-card {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 243, 255, 0.05));
+            padding: 0.3rem 0.6rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            text-align: center;
+        }
+        .balance-label { font-size: 0.6rem; color: var(--text-secondary); }
+        .balance-value { font-weight: 700; font-size: 0.8rem; color: var(--green); white-space: nowrap; }
+
+        .roblox-btn {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--blue);
+            color: var(--blue);
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            white-space: nowrap;
+        }
+        .roblox-btn:hover { background: rgba(0, 243, 255, 0.2); }
+
+        button {
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            border: none;
+            color: white;
+        }
+        .btn-secondary {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, var(--green), #00cc66);
+            border: none;
+            color: var(--bg-primary);
+        }
 
         /* Bottom Navigation */
         .bottom-nav {
@@ -150,84 +200,28 @@
             background: rgba(17, 17, 24, 0.95);
             backdrop-filter: blur(20px);
             border-top: 1px solid var(--border);
-            display: none;
+            display: flex;
             justify-content: space-around;
-            padding: 0.75rem 1rem;
+            padding: 0.5rem 0.5rem 0.7rem;
             z-index: 100;
         }
         .bottom-nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.25rem;
+            gap: 0.2rem;
             cursor: pointer;
             color: var(--text-secondary);
-            font-size: 0.7rem;
+            font-size: 0.6rem;
         }
-        .bottom-nav-item i { font-size: 1.25rem; }
+        .bottom-nav-item i { font-size: 1.2rem; }
         .bottom-nav-item.active, .bottom-nav-item:hover { color: var(--blue); }
-
-        /* User Panel */
-        .user-panel {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .balance-card {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 243, 255, 0.05));
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 255, 136, 0.3);
-        }
-        .balance-label { font-size: 0.7rem; color: var(--text-secondary); }
-        .balance-value { font-weight: 700; font-size: 1rem; color: var(--green); }
-
-        .roblox-btn {
-            background: rgba(0, 243, 255, 0.1);
-            border: 1px solid var(--blue);
-            color: var(--blue);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .roblox-btn:hover { background: rgba(0, 243, 255, 0.2); }
-
-        /* Buttons */
-        button {
-            padding: 0.5rem 1.25rem;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--blue), var(--purple));
-            border: none;
-            color: white;
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 243, 255, 0.3); }
-        .btn-secondary {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-        }
-        .btn-secondary:hover { border-color: var(--blue); }
-        .btn-success {
-            background: linear-gradient(135deg, var(--green), #00cc66);
-            border: none;
-            color: var(--bg-primary);
-        }
 
         /* Main Content */
         .main-content {
             max-width: 1600px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1rem;
             min-height: calc(100vh - 73px);
         }
         .page { display: none; animation: fadeIn 0.3s ease; }
@@ -236,56 +230,59 @@
 
         /* Home Page */
         .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
             background: linear-gradient(135deg, rgba(0, 243, 255, 0.05), rgba(139, 92, 246, 0.05));
-            border-radius: 32px;
+            border-radius: 24px;
             border: 1px solid var(--border);
+            text-align: center;
         }
-        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .hero p { font-size: 0.9rem; }
         .hero-gradient { background: linear-gradient(135deg, var(--blue), var(--purple)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
         .stat-card {
             background: var(--bg-card);
-            border-radius: 16px;
-            padding: 1.5rem;
+            border-radius: 14px;
+            padding: 1rem;
             text-align: center;
             border: 1px solid var(--border);
         }
-        .stat-card .value { font-size: 2rem; font-weight: 700; color: var(--blue); }
+        .stat-card .value { font-size: 1.3rem; font-weight: 700; color: var(--blue); }
+        .stat-card div:first-child { font-size: 0.7rem; color: var(--text-secondary); }
 
         .quick-actions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
         .action-card {
             background: var(--bg-card);
-            border-radius: 16px;
-            padding: 1.5rem;
+            border-radius: 14px;
+            padding: 1rem;
             text-align: center;
             border: 1px solid var(--border);
             cursor: pointer;
             transition: all 0.2s;
         }
-        .action-card:hover { border-color: var(--blue); transform: translateY(-4px); }
-        .action-card i { font-size: 2rem; color: var(--blue); margin-bottom: 0.5rem; }
+        .action-card i { font-size: 1.5rem; color: var(--blue); margin-bottom: 0.3rem; display: block; }
+        .action-card h3 { font-size: 0.85rem; }
 
-        /* Trading Layout */
+        /* Trading Layout - Mobile First */
         .trading-layout {
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
         .chart-section {
             background: var(--bg-card);
@@ -294,86 +291,93 @@
             overflow: hidden;
         }
         .chart-header {
-            padding: 1rem;
+            padding: 0.75rem;
             border-bottom: 1px solid var(--border);
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
+            gap: 0.5rem;
+        }
+        .chart-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
         }
         .trading-panel {
             background: var(--bg-card);
             border-radius: 16px;
             border: 1px solid var(--border);
-            padding: 1.5rem;
+            padding: 1rem;
         }
         .order-tabs {
             display: flex;
             gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             background: var(--bg-secondary);
             padding: 0.25rem;
-            border-radius: 12px;
+            border-radius: 10px;
         }
         .order-tab {
             flex: 1;
-            padding: 0.75rem;
+            padding: 0.5rem;
             text-align: center;
             cursor: pointer;
             border-radius: 8px;
+            font-size: 0.85rem;
         }
         .order-tab.active { background: var(--blue); color: var(--bg-primary); }
 
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem; }
+        .form-group { margin-bottom: 0.75rem; }
+        .form-group label { display: block; margin-bottom: 0.3rem; color: var(--text-secondary); font-size: 0.75rem; }
         input, select {
             background: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 0.75rem;
+            border-radius: 10px;
+            padding: 0.6rem;
             width: 100%;
             color: var(--text-primary);
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
-        .total-value { font-size: 1.5rem; font-weight: 700; color: var(--blue); }
+        .total-value { font-size: 1.2rem; font-weight: 700; color: var(--blue); }
 
         .items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 0.75rem;
             margin-top: 1rem;
         }
         .item-card {
             background: var(--bg-secondary);
             border-radius: 12px;
-            padding: 1rem;
+            padding: 0.75rem;
             border: 1px solid var(--border);
             cursor: pointer;
             transition: all 0.2s;
         }
-        .item-card:hover { border-color: var(--blue); transform: translateY(-2px); }
-        .item-name { font-weight: 600; margin-bottom: 0.5rem; }
-        .item-price { font-size: 1.25rem; font-weight: 700; color: var(--blue); }
+        .item-name { font-weight: 600; margin-bottom: 0.3rem; font-size: 0.9rem; }
+        .item-price { font-size: 1rem; font-weight: 700; color: var(--blue); }
+        .item-change { font-size: 0.7rem; }
         .item-change.up { color: var(--green); }
         .item-change.down { color: var(--red); }
 
         .order-book {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 0.75rem;
             margin-top: 1rem;
         }
         .order-book-side {
             background: var(--bg-secondary);
             border-radius: 12px;
-            padding: 1rem;
+            padding: 0.75rem;
         }
         .order-row {
             display: flex;
             justify-content: space-between;
-            padding: 0.25rem 0;
-            font-size: 0.875rem;
+            padding: 0.2rem 0;
+            font-size: 0.75rem;
         }
         .bid-price { color: var(--green); }
         .ask-price { color: var(--red); }
@@ -382,42 +386,48 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 0.5rem;
         }
-        h2 { font-size: 1.5rem; font-weight: 600; }
+        h2 { font-size: 1.2rem; font-weight: 600; }
+        h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
 
-        .timeframe-buttons { display: flex; gap: 0.5rem; }
-        .timeframe-btn {
-            padding: 0.25rem 0.75rem;
+        .timeframe-buttons, .chart-type-buttons { display: flex; gap: 0.3rem; }
+        .timeframe-btn, .chart-type-btn {
+            padding: 0.2rem 0.5rem;
             background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
         }
-        .timeframe-btn.active { background: var(--blue); color: var(--bg-primary); }
+        .timeframe-btn.active, .chart-type-btn.active { background: var(--blue); color: var(--bg-primary); }
 
-        canvas { max-height: 400px; width: 100%; }
+        canvas { max-height: 350px; width: 100%; }
 
         .toast-container {
             position: fixed;
             bottom: 80px;
-            right: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 1000;
+            width: 90%;
+            max-width: 300px;
         }
         .toast {
             background: var(--bg-secondary);
             border-left: 4px solid var(--blue);
-            padding: 1rem;
+            padding: 0.75rem;
             border-radius: 8px;
             margin-top: 0.5rem;
-            animation: slideIn 0.3s ease;
+            text-align: center;
+            font-size: 0.8rem;
+            animation: slideUp 0.3s ease;
         }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .empty-state { text-align: center; padding: 3rem; color: var(--text-secondary); }
+        .empty-state { text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.85rem; }
 
         .modal {
             display: none;
@@ -435,51 +445,63 @@
         .modal.active { display: flex; }
         .modal-content {
             background: var(--bg-secondary);
-            border-radius: 24px;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
+            border-radius: 20px;
+            padding: 1.5rem;
+            max-width: 90%;
+            width: 400px;
+            max-height: 85vh;
             overflow-y: auto;
             border: 1px solid var(--border);
         }
         .avatar-preview {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            margin: 0 auto 1rem;
+            margin: 0 auto 0.75rem;
             object-fit: cover;
             border: 3px solid var(--blue);
         }
         .verification-code {
             background: rgba(0, 243, 255, 0.1);
-            padding: 1rem;
-            border-radius: 12px;
+            padding: 0.75rem;
+            border-radius: 10px;
             font-family: monospace;
             text-align: center;
+            font-size: 0.8rem;
+            word-break: break-all;
             margin: 1rem 0;
         }
 
         .flex { display: flex; }
         .gap-3 { gap: 0.75rem; }
-        .gap-4 { gap: 1rem; }
         .mt-2 { margin-top: 0.5rem; }
         .mt-3 { margin-top: 0.75rem; }
         .mt-4 { margin-top: 1rem; }
         .mb-2 { margin-bottom: 0.5rem; }
-        .mb-4 { margin-bottom: 1rem; }
         .w-full { width: 100%; }
         .text-center { text-align: center; }
         .text-gray-400 { color: var(--text-secondary); }
         .flex-1 { flex: 1; }
 
-        @media (max-width: 1024px) {
-            .trading-layout { grid-template-columns: 1fr; }
-            .desktop-nav { display: none; }
-            .hamburger { display: block; }
-            .bottom-nav { display: flex; }
-            .hero { grid-template-columns: 1fr; text-align: center; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        /* Desktop Styles */
+        @media (min-width: 768px) {
+            .desktop-nav { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+            .hamburger { display: none; }
+            .bottom-nav { display: none; }
+            .hero { flex-direction: row; text-align: left; align-items: center; }
+            .hero h1 { font-size: 2.5rem; }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+            .quick-actions { grid-template-columns: repeat(4, 1fr); }
+            .trading-layout { flex-direction: row; }
+            .chart-section { flex: 2; }
+            .trading-panel { flex: 1; }
+            .main-content { padding: 1.5rem; }
+            .nav-container { padding: 0.75rem 1.5rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .desktop-nav { gap: 0.5rem; }
+            .stats-grid .value { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -502,12 +524,12 @@
                 <a class="nav-link" data-page="profile"><i class="fas fa-user"></i> Profile</a>
             </div>
             
-            <div class="hamburger" id="hamburgerBtn"><i class="fas fa-bars"></i> Menu</div>
+            <div class="hamburger" id="hamburgerBtn"><i class="fas fa-bars"></i></div>
             
             <div class="user-panel">
                 <div class="balance-card"><div class="balance-label">Balance</div><div class="balance-value" id="balanceDisplay">10,000 R$</div></div>
                 <div class="balance-card"><div class="balance-label">Portfolio</div><div class="balance-value" id="portfolioValueDisplay">0 R$</div></div>
-                <div class="roblox-btn" id="robloxLinkBtn"><i class="fab fa-roblox"></i> <span id="robloxLinkText">Link Roblox</span></div>
+                <div class="roblox-btn" id="robloxLinkBtn"><i class="fab fa-roblox"></i> <span id="robloxLinkText">Link</span></div>
                 <button class="btn-secondary" id="resetBtn">Reset</button>
             </div>
         </div>
@@ -543,26 +565,26 @@
         <div id="homePage" class="page active">
             <div class="hero">
                 <div>
-                    <div style="display: inline-block; background: rgba(0,243,255,0.1); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; margin-bottom: 1rem;"><i class="fas fa-crown"></i> #1 Roblox Trading Platform</div>
+                    <div style="display: inline-block; background: rgba(0,243,255,0.1); padding: 0.2rem 0.6rem; border-radius: 50px; font-size: 0.7rem; margin-bottom: 0.75rem;"><i class="fas fa-crown"></i> #1 Roblox Trading</div>
                     <h1>Track, Trade,<br><span class="hero-gradient">Maximize Value</span></h1>
-                    <p>Real-time charts, price tracking, demand analysis for MM2 & Adopt Me items.</p>
-                    <div class="flex gap-4 mt-4">
-                        <button class="btn-primary" id="exploreTradeBtn">Start Trading <i class="fas fa-arrow-right"></i></button>
-                        <button class="btn-secondary" id="exploreMarketBtn">Explore Market</button>
+                    <p style="font-size: 0.85rem;">Real-time charts for MM2 & Adopt Me items.</p>
+                    <div class="flex gap-3 mt-3" style="justify-content: center;">
+                        <button class="btn-primary" id="exploreTradeBtn">Trade <i class="fas fa-arrow-right"></i></button>
+                        <button class="btn-secondary" id="exploreMarketBtn">Market</button>
                     </div>
                 </div>
                 <div class="stats-grid" style="margin-top: 0;">
-                    <div class="stat-card"><div class="value" id="totalUsers">12.5K</div><div>Active Traders</div></div>
-                    <div class="stat-card"><div class="value" id="totalVolume">$2.4M</div><div>Trading Volume</div></div>
-                    <div class="stat-card"><div class="value" id="totalItems">20+</div><div>Rare Items</div></div>
+                    <div class="stat-card"><div class="value" id="totalUsers">12.5K</div><div>Traders</div></div>
+                    <div class="stat-card"><div class="value" id="totalVolume">$2.4M</div><div>Volume</div></div>
+                    <div class="stat-card"><div class="value" id="totalItems">20+</div><div>Items</div></div>
                     <div class="stat-card"><div class="value" id="uptime">99.9%</div><div>Uptime</div></div>
                 </div>
             </div>
             <div class="quick-actions">
-                <div class="action-card" data-page="trade"><i class="fas fa-exchange-alt"></i><h3>Quick Trade</h3><p class="text-gray-400">Buy & sell instantly</p></div>
-                <div class="action-card" data-page="deposit"><i class="fas fa-download"></i><h3>Deposit Items</h3><p class="text-gray-400">Add to inventory</p></div>
-                <div class="action-card" data-page="market"><i class="fas fa-store"></i><h3>Marketplace</h3><p class="text-gray-400">Browse all items</p></div>
-                <div class="action-card" id="robloxLinkAction"><i class="fab fa-roblox"></i><h3>Link Roblox</h3><p class="text-gray-400">Verify account</p></div>
+                <div class="action-card" data-page="trade"><i class="fas fa-exchange-alt"></i><h3>Quick Trade</h3></div>
+                <div class="action-card" data-page="deposit"><i class="fas fa-download"></i><h3>Deposit</h3></div>
+                <div class="action-card" data-page="market"><i class="fas fa-store"></i><h3>Market</h3></div>
+                <div class="action-card" id="robloxLinkAction"><i class="fab fa-roblox"></i><h3>Link Roblox</h3></div>
             </div>
             <div class="section-header"><h2>🔥 Trending Items</h2></div>
             <div class="items-grid" id="trendingGrid"></div>
@@ -570,14 +592,14 @@
 
         <!-- DASHBOARD PAGE -->
         <div id="dashboardPage" class="page">
-            <div class="section-header"><h2><i class="fas fa-chart-line"></i> Trading Dashboard</h2><button class="btn-secondary" id="refreshDashboardBtn"><i class="fas fa-sync"></i> Refresh</button></div>
+            <div class="section-header"><h2><i class="fas fa-chart-line"></i> Dashboard</h2><button class="btn-secondary" id="refreshDashboardBtn"><i class="fas fa-sync"></i></button></div>
             <div class="stats-grid">
                 <div class="stat-card"><div>💰 Balance</div><div class="value" id="dashBalance">0 R$</div></div>
                 <div class="stat-card"><div>📦 Portfolio</div><div class="value" id="dashPortfolio">0 R$</div></div>
                 <div class="stat-card"><div>📊 P&L</div><div class="value" id="dashPnl">0 R$</div></div>
                 <div class="stat-card"><div>🎯 Win Rate</div><div class="value" id="dashWinRate">0%</div></div>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
                 <div class="stat-card"><h3><i class="fas fa-fire"></i> Top Performers</h3><div id="topPerformers"></div></div>
                 <div class="stat-card"><h3><i class="fas fa-history"></i> Recent Activity</h3><div id="recentActivity"></div></div>
                 <div class="stat-card"><h3><i class="fas fa-box"></i> Your Holdings</h3><div id="holdingSummary"></div></div>
@@ -590,11 +612,21 @@
             <div class="trading-layout">
                 <div class="chart-section">
                     <div class="chart-header">
-                        <div><h2 id="selectedItemName">Harvester</h2><div id="priceChange" style="font-size: 0.875rem; color: var(--green);">+12.5%</div></div>
-                        <div class="timeframe-buttons"><button class="timeframe-btn" data-timeframe="7">1W</button><button class="timeframe-btn active" data-timeframe="30">1M</button><button class="timeframe-btn" data-timeframe="90">3M</button></div>
+                        <div><h2 id="selectedItemName">Harvester</h2><div id="priceChange" style="font-size: 0.7rem; color: var(--green);">+12.5%</div></div>
+                        <div class="chart-controls">
+                            <div class="chart-type-buttons">
+                                <button class="chart-type-btn active" data-chart-type="line"><i class="fas fa-chart-line"></i></button>
+                                <button class="chart-type-btn" data-chart-type="candle"><i class="fas fa-chart-bar"></i></button>
+                            </div>
+                            <div class="timeframe-buttons">
+                                <button class="timeframe-btn" data-timeframe="7">1W</button>
+                                <button class="timeframe-btn active" data-timeframe="30">1M</button>
+                                <button class="timeframe-btn" data-timeframe="90">3M</button>
+                            </div>
+                        </div>
                     </div>
-                    <canvas id="itemChart" height="400"></canvas>
-                    <div style="padding: 1rem; display: flex; gap: 2rem; border-top: 1px solid var(--border);">
+                    <canvas id="itemChart" height="350" style="min-height: 250px;"></canvas>
+                    <div style="padding: 0.75rem; display: flex; gap: 1rem; border-top: 1px solid var(--border); font-size: 0.7rem; flex-wrap: wrap;">
                         <span>📈 Volume: <span id="volumeDisplay">1,250</span></span>
                         <span>🔥 Demand: <span id="demandDisplay">High</span></span>
                         <span>📦 Stock: <span id="stockDisplay">342</span></span>
@@ -609,32 +641,32 @@
                     <button class="btn-primary" id="executeTradeBtn" style="width: 100%;">Execute Trade</button>
                 </div>
             </div>
-            <div style="margin-top: 1.5rem;"><h3>Order Book</h3><div class="order-book" id="orderBook"></div></div>
+            <div style="margin-top: 1rem;"><h3>Order Book</h3><div class="order-book" id="orderBook"></div></div>
         </div>
 
         <!-- MARKET PAGE -->
         <div id="marketPage" class="page">
-            <div class="section-header"><h2>📊 Market Overview</h2><input type="text" id="marketSearch" placeholder="Search items..." style="max-width: 300px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem 1rem;"></div>
+            <div class="section-header"><h2>📊 Market</h2><input type="text" id="marketSearch" placeholder="Search..." style="max-width: 200px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 0.4rem 0.8rem; font-size: 0.8rem;"></div>
             <div class="items-grid" id="marketGrid"></div>
         </div>
 
         <!-- MM2 PAGE -->
         <div id="mm2Page" class="page">
-            <div class="section-header"><h2>🔪 MM2 Items</h2><input type="text" id="mm2Search" placeholder="Search MM2..." style="max-width: 300px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem 1rem;"></div>
+            <div class="section-header"><h2>🔪 MM2 Items</h2><input type="text" id="mm2Search" placeholder="Search..." style="max-width: 200px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 0.4rem 0.8rem; font-size: 0.8rem;"></div>
             <div class="items-grid" id="mm2Grid"></div>
         </div>
 
         <!-- ADOPT ME PAGE -->
         <div id="adoptmePage" class="page">
-            <div class="section-header"><h2>🐾 Adopt Me Pets</h2><input type="text" id="adoptSearch" placeholder="Search pets..." style="max-width: 300px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem 1rem;"></div>
+            <div class="section-header"><h2>🐾 Adopt Me</h2><input type="text" id="adoptSearch" placeholder="Search..." style="max-width: 200px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 0.4rem 0.8rem; font-size: 0.8rem;"></div>
             <div class="items-grid" id="adoptGrid"></div>
         </div>
 
         <!-- INVENTORY PAGE -->
         <div id="inventoryPage" class="page">
-            <div class="section-header"><h2>📦 My Inventory</h2><button class="btn-primary" id="depositInventoryBtn">+ Deposit New</button></div>
+            <div class="section-header"><h2>📦 My Items</h2><button class="btn-primary" id="depositInventoryBtn">+ Deposit</button></div>
             <div class="items-grid" id="inventoryGrid"></div>
-            <div id="inventoryEmpty" class="empty-state" style="display:none"><p>📦 No items. Go deposit!</p><button class="btn-primary mt-4" id="emptyDepositBtn">Deposit First Item</button></div>
+            <div id="inventoryEmpty" class="empty-state" style="display:none"><p>📦 No items. Go deposit!</p><button class="btn-primary mt-3" id="emptyDepositBtn">Deposit First Item</button></div>
         </div>
 
         <!-- PORTFOLIO PAGE -->
@@ -651,8 +683,8 @@
 
         <!-- DEPOSIT PAGE -->
         <div id="depositPage" class="page">
-            <div class="section-header"><h2>💰 Deposit Items</h2><p class="text-gray-400">Each item gives its R$ value as balance</p></div>
-            <div class="trading-panel" style="max-width: 500px;">
+            <div class="section-header"><h2>💰 Deposit Items</h2><p class="text-gray-400" style="font-size: 0.7rem;">Get item value as balance</p></div>
+            <div class="trading-panel" style="max-width: 100%;">
                 <div class="form-group"><label>Game</label><select id="depositGame"><option value="mm2">MM2</option><option value="adoptme">Adopt Me</option></select></div>
                 <div class="form-group"><label>Item</label><select id="depositItemSelect"></select></div>
                 <div class="form-group"><label>Quantity</label><input type="number" id="depositQuantity" value="1" min="1"></div>
@@ -663,15 +695,15 @@
 
         <!-- PROFILE PAGE -->
         <div id="profilePage" class="page">
-            <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
                 <img id="profileAvatar" class="avatar-preview" src="https://ui-avatars.com/api/?name=Guest&background=8b5cf6&color=fff">
                 <h2 class="mt-2" id="profileUsername">Guest User</h2>
-                <p id="profileStatus" class="text-gray-400">Not Verified</p>
-                <button class="btn-primary mt-4" id="verifyProfileBtn"><i class="fab fa-roblox"></i> Link Roblox</button>
+                <p id="profileStatus" class="text-gray-400" style="font-size: 0.8rem;">Not Verified</p>
+                <button class="btn-primary mt-3" id="verifyProfileBtn" style="font-size: 0.8rem;"><i class="fab fa-roblox"></i> Link Roblox</button>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
-                <div class="stat-card"><h3>📊 Trading Stats</h3><div style="margin-top: 0.75rem;"><div style="display: flex; justify-content: space-between;"><span>Deposits</span><span id="profileDeposits">0</span></div><div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Trades</span><span id="profileTrades">0</span></div><div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Value</span><span id="profileInventoryValue">0 R$</span></div></div></div>
-                <div class="stat-card"><h3>🔐 Roblox Identity</h3><div style="margin-top: 0.75rem;"><div style="display: flex; justify-content: space-between;"><span>Username</span><span id="profileRobloxUser">Not linked</span></div><div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Verified</span><span id="profileVerifiedStatus">No</span></div><div style="display: flex; justify-content: space-between; margin-top: 0.5rem;"><span>Trust Score</span><span id="profileTrust">0%</span></div></div></div>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div class="stat-card"><h3>📊 Trading Stats</h3><div style="margin-top: 0.5rem;"><div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>Deposits</span><span id="profileDeposits">0</span></div><div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>Trades</span><span id="profileTrades">0</span></div><div style="display: flex; justify-content: space-between;"><span>Value</span><span id="profileInventoryValue">0 R$</span></div></div></div>
+                <div class="stat-card"><h3>🔐 Roblox</h3><div style="margin-top: 0.5rem;"><div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>Username</span><span id="profileRobloxUser">Not linked</span></div><div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>Verified</span><span id="profileVerifiedStatus">No</span></div><div style="display: flex; justify-content: space-between;"><span>Trust</span><span id="profileTrust">0%</span></div></div></div>
             </div>
         </div>
     </main>
@@ -681,44 +713,260 @@
     <!-- Roblox Modal -->
     <div id="robloxModal" class="modal">
         <div class="modal-content">
-            <h2 class="mb-2"><i class="fab fa-roblox"></i> Link Roblox Account</h2>
-            <p class="text-gray-400 mb-4">Verify your identity to unlock features</p>
-            <div id="step1Modal"><div class="form-group"><label>Roblox Username</label><input type="text" id="robloxUsername" placeholder="Username"></div><button class="btn-primary w-full mt-4" id="fetchRobloxBtn">Fetch Profile</button></div>
-            <div id="step2Modal" style="display: none;"><div style="text-align: center;"><img id="verificationAvatar" class="avatar-preview"><h3 id="verificationDisplayName"></h3><p id="verificationUsername" class="text-gray-400"></p></div><div class="flex gap-3 mt-4"><button class="btn-primary flex-1" id="confirmIdentityBtn">Yes, That's Me</button><button class="btn-danger flex-1" id="denyIdentityBtn">No</button></div></div>
-            <div id="step3Modal" style="display: none;"><div class="verification-code" id="verificationCodeDisplay"></div><button class="btn-primary w-full" id="completeVerificationBtn">Verify Me</button></div>
+            <h2 class="mb-2" style="font-size: 1.2rem;"><i class="fab fa-roblox"></i> Link Roblox</h2>
+            <p class="text-gray-400 mb-3" style="font-size: 0.8rem;">Verify your identity</p>
+            <div id="step1Modal"><div class="form-group"><label>Username</label><input type="text" id="robloxUsername" placeholder="Username"></div><button class="btn-primary w-full mt-3" id="fetchRobloxBtn">Fetch Profile</button></div>
+            <div id="step2Modal" style="display: none;"><div style="text-align: center;"><img id="verificationAvatar" class="avatar-preview"><h3 id="verificationDisplayName" style="font-size: 1rem;"></h3><p id="verificationUsername" class="text-gray-400" style="font-size: 0.8rem;"></p></div><div class="flex gap-3 mt-3"><button class="btn-primary flex-1" id="confirmIdentityBtn">Yes</button><button class="btn-danger flex-1" id="denyIdentityBtn">No</button></div></div>
+            <div id="step3Modal" style="display: none;"><div class="verification-code" id="verificationCodeDisplay"></div><button class="btn-primary w-full" id="completeVerificationBtn">Verify</button></div>
         </div>
     </div>
 
     <script>
-        // ITEMS DATA
+        // ============ SUPREME VALUES INTEGRATION (Simulated Real-time Updates) ============
+        // In production, replace with actual API call to Supreme Values
+        const SUPREME_VALUES_API = 'https://api.supremevalues.com/v1/items'; // Placeholder endpoint
+        
+        // Items Data with real-time update capability
         const MM2_ITEMS = [
-            { id: 1, name: "Harvester", value: 2200, change: 12.5, icon: "🔪", rarity: "ancient", demand: "high", volume: 1250, stock: 342, trend: "bullish" },
-            { id: 2, name: "Batwing", value: 140, change: 5.2, icon: "🦇", rarity: "godly", demand: "medium", volume: 890, stock: 1250, trend: "stable" },
-            { id: 3, name: "Corrupt", value: 1250, change: 8.3, icon: "🗡️", rarity: "ancient", demand: "high", volume: 2340, stock: 89, trend: "bullish" },
-            { id: 4, name: "Luger", value: 165, change: -2.1, icon: "🔫", rarity: "godly", demand: "medium", volume: 560, stock: 2300, trend: "bearish" },
-            { id: 5, name: "Chroma Darkbringer", value: 1850, change: 15.3, icon: "⚫", rarity: "chroma", demand: "high", volume: 890, stock: 23, trend: "bullish" },
-            { id: 6, name: "Elderwood Scythe", value: 450, change: 3.2, icon: "🌿", rarity: "godly", demand: "medium", volume: 445, stock: 432, trend: "stable" }
+            { id: 1, name: "Harvester", baseValue: 2200, change: 12.5, icon: "🔪", rarity: "ancient", demand: "high", volume: 1250, stock: 342, trend: "bullish" },
+            { id: 2, name: "Batwing", baseValue: 140, change: 5.2, icon: "🦇", rarity: "godly", demand: "medium", volume: 890, stock: 1250, trend: "stable" },
+            { id: 3, name: "Corrupt", baseValue: 1250, change: 8.3, icon: "🗡️", rarity: "ancient", demand: "high", volume: 2340, stock: 89, trend: "bullish" },
+            { id: 4, name: "Luger", baseValue: 165, change: -2.1, icon: "🔫", rarity: "godly", demand: "medium", volume: 560, stock: 2300, trend: "bearish" },
+            { id: 5, name: "Chroma Darkbringer", baseValue: 1850, change: 15.3, icon: "⚫", rarity: "chroma", demand: "high", volume: 890, stock: 23, trend: "bullish" },
+            { id: 6, name: "Elderwood Scythe", baseValue: 450, change: 3.2, icon: "🌿", rarity: "godly", demand: "medium", volume: 445, stock: 432, trend: "stable" }
         ];
         const ADOPT_ITEMS = [
-            { id: 101, name: "Shadow Dragon", value: 1250, change: 15.2, icon: "🐉", rarity: "legendary", demand: "high", volume: 320, stock: 45, trend: "bullish" },
-            { id: 102, name: "Frost Dragon", value: 980, change: 8.3, icon: "❄️", rarity: "legendary", demand: "high", volume: 280, stock: 67, trend: "bullish" },
-            { id: 103, name: "Giraffe", value: 850, change: 5.2, icon: "🦒", rarity: "legendary", demand: "medium", volume: 150, stock: 89, trend: "stable" },
-            { id: 104, name: "Bat Dragon", value: 1100, change: 10.5, icon: "🦇", rarity: "legendary", demand: "high", volume: 410, stock: 34, trend: "bullish" },
-            { id: 105, name: "Owl", value: 720, change: 4.8, icon: "🦉", rarity: "legendary", demand: "medium", volume: 230, stock: 156, trend: "stable" }
+            { id: 101, name: "Shadow Dragon", baseValue: 1250, change: 15.2, icon: "🐉", rarity: "legendary", demand: "high", volume: 320, stock: 45, trend: "bullish" },
+            { id: 102, name: "Frost Dragon", baseValue: 980, change: 8.3, icon: "❄️", rarity: "legendary", demand: "high", volume: 280, stock: 67, trend: "bullish" },
+            { id: 103, name: "Giraffe", baseValue: 850, change: 5.2, icon: "🦒", rarity: "legendary", demand: "medium", volume: 150, stock: 89, trend: "stable" },
+            { id: 104, name: "Bat Dragon", baseValue: 1100, change: 10.5, icon: "🦇", rarity: "legendary", demand: "high", volume: 410, stock: 34, trend: "bullish" },
+            { id: 105, name: "Owl", baseValue: 720, change: 4.8, icon: "🦉", rarity: "legendary", demand: "medium", volume: 230, stock: 156, trend: "stable" }
         ];
-        const ALL_ITEMS = [...MM2_ITEMS, ...ADOPT_ITEMS];
+        
+        // Merge items with dynamic value property
+        let ALL_ITEMS = [...MM2_ITEMS, ...ADOPT_ITEMS].map(item => ({
+            ...item,
+            value: item.baseValue,
+            lastUpdate: Date.now()
+        }));
 
-        // APP STATE
+        // Simulated Supreme Values API call - every 30 seconds
+        async function fetchSupremeValues() {
+            try {
+                // In production, replace with actual fetch to Supreme Values API
+                // const response = await fetch(SUPREME_VALUES_API);
+                // const data = await response.json();
+                
+                // Simulated price fluctuation based on trend and random market movement
+                const updatedItems = ALL_ITEMS.map(item => {
+                    // Calculate price change based on trend and random factor
+                    let trendFactor = item.trend === 'bullish' ? 0.02 : (item.trend === 'bearish' ? -0.01 : 0.005);
+                    let randomFactor = (Math.random() - 0.5) * 0.03;
+                    let percentChange = trendFactor + randomFactor;
+                    
+                    let newValue = item.baseValue * (1 + percentChange);
+                    newValue = Math.max(newValue, item.baseValue * 0.85); // Prevent dropping below 85% of base
+                    newValue = Math.min(newValue, item.baseValue * 1.3);  // Prevent going above 130% of base
+                    
+                    let changePercent = ((newValue - item.value) / item.value) * 100;
+                    
+                    return {
+                        ...item,
+                        value: Math.round(newValue),
+                        change: parseFloat((item.change + changePercent * 0.3).toFixed(1)),
+                        lastUpdate: Date.now()
+                    };
+                });
+                
+                ALL_ITEMS = updatedItems;
+                
+                // Update UI with new values
+                updateAllPricesInUI();
+                
+                showToast('📊 Item values updated from market data!', 'info');
+                
+            } catch (error) {
+                console.error('Failed to fetch Supreme Values:', error);
+                // Fallback: subtle random fluctuation
+                ALL_ITEMS = ALL_ITEMS.map(item => {
+                    let fluctuation = (Math.random() - 0.5) * 0.02;
+                    let newValue = item.value * (1 + fluctuation);
+                    return {
+                        ...item,
+                        value: Math.round(newValue),
+                        change: parseFloat((item.change + fluctuation * 5).toFixed(1))
+                    };
+                });
+                updateAllPricesInUI();
+            }
+        }
+        
+        // Update all displays when prices change
+        function updateAllPricesInUI() {
+            // Update trade dropdown values
+            const tradeSelect = document.getElementById('tradeItemSelect');
+            if (tradeSelect && tradeSelect.value) {
+                const selectedId = parseInt(tradeSelect.value);
+                const selectedItem = ALL_ITEMS.find(i => i.id === selectedId);
+                if (selectedItem) {
+                    document.getElementById('tradePrice').value = selectedItem.value;
+                    if (currentChartItem?.id === selectedId) {
+                        currentChartItem = selectedItem;
+                        updateChartUI();
+                    }
+                    updateTradeTotal();
+                    updateOrderBook();
+                }
+            }
+            
+            // Refresh all rendered grids
+            renderMarket();
+            renderMM2();
+            renderAdopt();
+            renderTrending();
+            renderInventory();
+            renderPortfolio();
+            updatePortfolioStats();
+            updateDashboard();
+            
+            // Update chart if needed
+            if (currentChartItem) {
+                const freshItem = ALL_ITEMS.find(i => i.id === currentChartItem.id);
+                if (freshItem) {
+                    currentChartItem = freshItem;
+                    updateChartUI();
+                }
+            }
+        }
+        
+        // Start auto-update interval (30 seconds)
+        let updateInterval = setInterval(() => {
+            fetchSupremeValues();
+        }, 30000); // 30 seconds
+        
+        // ============ CHART CONFIGURATION ============
+        let priceChart = null;
+        let currentChartItem = ALL_ITEMS[0];
+        let currentTimeframe = 30;
+        let currentChartType = 'line'; // 'line' or 'candle'
+        
+        // Generate candlestick data
+        function generateCandleData(item, days) {
+            const data = [];
+            const basePrice = item.value;
+            const trend = item.trend === 'bullish' ? 0.008 : (item.trend === 'bearish' ? -0.005 : 0.001);
+            
+            for (let i = days; i >= 0; i--) {
+                const trendEffect = trend * (days - i);
+                const volatility = 0.03;
+                const open = basePrice * (1 + (Math.random() - 0.5) * volatility + trendEffect);
+                const close = basePrice * (1 + (Math.random() - 0.5) * volatility + trendEffect);
+                const high = Math.max(open, close) * (1 + Math.random() * 0.02);
+                const low = Math.min(open, close) * (1 - Math.random() * 0.02);
+                
+                data.push({
+                    x: new Date(Date.now() - (days - i) * 24 * 60 * 60 * 1000),
+                    o: open,
+                    h: high,
+                    l: low,
+                    c: close
+                });
+            }
+            return data;
+        }
+        
+        // Generate line chart data
+        function generateLineData(item, days) {
+            const labels = [];
+            const data = [];
+            const basePrice = item.value;
+            const trend = item.trend === 'bullish' ? 0.008 : (item.trend === 'bearish' ? -0.005 : 0.001);
+            
+            for (let i = days; i >= 0; i--) {
+                if (days === 7) labels.push(`${i}d`);
+                else if (days === 30) labels.push(`${Math.floor(i/7)}w`);
+                else labels.push(`${Math.floor(i/30)}m`);
+                
+                const volatility = 0.04;
+                const change = (Math.random() - 0.5) * volatility + trend;
+                const price = basePrice * (1 + change * (days - i) / days);
+                data.push(Math.max(price * 0.7, Math.min(price * 1.3, price)));
+            }
+            return { labels: labels.reverse(), data: data.reverse() };
+        }
+        
+        function initChart() {
+            const ctx = document.getElementById('itemChart').getContext('2d');
+            if (priceChart) priceChart.destroy();
+            
+            if (currentChartType === 'candle') {
+                const candleData = generateCandleData(currentChartItem, currentTimeframe);
+                priceChart = new Chart(ctx, {
+                    type: 'candlestick',
+                    data: { datasets: [{
+                        label: `${currentChartItem.name} Price`,
+                        data: candleData,
+                        borderColor: '#00f3ff',
+                        backgroundColor: (ctx) => {
+                            const { o, c } = ctx.raw;
+                            return c >= o ? 'rgba(0, 255, 136, 0.3)' : 'rgba(255, 68, 102, 0.3)';
+                        },
+                        borderWidth: 1
+                    }] },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: { legend: { labels: { color: '#a0a0b0' } }, tooltip: { callbacks: { label: (ctx) => `O: ${ctx.raw.o.toFixed(0)} H: ${ctx.raw.h.toFixed(0)} L: ${ctx.raw.l.toFixed(0)} C: ${ctx.raw.c.toFixed(0)}` } } },
+                        scales: { y: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0' } }, x: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0' } } }
+                    }
+                });
+            } else {
+                const lineData = generateLineData(currentChartItem, currentTimeframe);
+                priceChart = new Chart(ctx, {
+                    type: 'line',
+                    data: { labels: lineData.labels, datasets: [{ label: `${currentChartItem.name} Price (R$)`, data: lineData.data, borderColor: '#00f3ff', backgroundColor: 'rgba(0,243,255,0.1)', tension: 0.4, fill: true, pointRadius: 2 }] },
+                    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#a0a0b0' } }, tooltip: { callbacks: { label: (ctx) => `${ctx.raw.toFixed(0)} R$` } } }, scales: { y: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0' } }, x: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0' } } } }
+                });
+            }
+        }
+        
+        function updateChartUI() {
+            if (priceChart) {
+                if (currentChartType === 'candle') {
+                    const newData = generateCandleData(currentChartItem, currentTimeframe);
+                    priceChart.data.datasets[0].data = newData;
+                    priceChart.data.datasets[0].label = `${currentChartItem.name} Price`;
+                } else {
+                    const newData = generateLineData(currentChartItem, currentTimeframe);
+                    priceChart.data.labels = newData.labels;
+                    priceChart.data.datasets[0].data = newData.data;
+                    priceChart.data.datasets[0].label = `${currentChartItem.name} Price (R$)`;
+                }
+                priceChart.update();
+            }
+            
+            document.getElementById('selectedItemName').innerHTML = currentChartItem.name;
+            document.getElementById('priceChange').innerHTML = `${currentChartItem.change >= 0 ? '+' : ''}${currentChartItem.change}%`;
+            document.getElementById('priceChange').style.color = currentChartItem.change >= 0 ? 'var(--green)' : 'var(--red)';
+            document.getElementById('volumeDisplay').innerHTML = currentChartItem.volume;
+            document.getElementById('demandDisplay').innerHTML = currentChartItem.demand.charAt(0).toUpperCase() + currentChartItem.demand.slice(1);
+            document.getElementById('stockDisplay').innerHTML = currentChartItem.stock;
+        }
+        
+        // Switch chart type
+        function setChartType(type) {
+            currentChartType = type;
+            initChart();
+        }
+        
+        // ============ APP STATE ============
         let userBalance = 10000;
         let inventory = [];
         let trades = [];
         let currentUser = { verified: false, username: null, displayName: null, userId: null, avatar: null };
         let selectedOrderType = 'buy';
-        let currentChartItem = ALL_ITEMS[0];
-        let currentTimeframe = 30;
-        let priceChart = null;
-
-        // STORAGE
+        
+        // Storage functions
         function loadData() {
             let b = localStorage.getItem('bb_balance'); if (b) userBalance = parseFloat(b);
             let i = localStorage.getItem('bb_inventory'); if (i) inventory = JSON.parse(i);
@@ -726,12 +974,14 @@
             let u = localStorage.getItem('bb_user'); if (u) currentUser = JSON.parse(u);
             updateBalanceDisplay();
         }
+        
         function saveData() {
             localStorage.setItem('bb_balance', userBalance);
             localStorage.setItem('bb_inventory', JSON.stringify(inventory));
             localStorage.setItem('bb_trades', JSON.stringify(trades));
             localStorage.setItem('bb_user', JSON.stringify(currentUser));
         }
+        
         function resetAll() {
             userBalance = 10000;
             inventory = [];
@@ -741,15 +991,17 @@
             renderEverything();
             showToast('Account reset!', 'success');
         }
-
-        // HELPERS
+        
+        // Helpers
         function updateBalanceDisplay() {
             document.getElementById('balanceDisplay').innerHTML = `${Math.floor(userBalance).toLocaleString()} R$`;
             document.getElementById('dashBalance').innerHTML = `${Math.floor(userBalance).toLocaleString()} R$`;
         }
+        
         function getPortfolioValue() {
             return inventory.reduce((t, i) => { const item = ALL_ITEMS.find(x => x.id === i.id); return t + (item ? item.value * i.qty : 0); }, 0);
         }
+        
         function updatePortfolioStats() {
             let portfolioVal = getPortfolioValue();
             let totalVal = userBalance + portfolioVal;
@@ -770,43 +1022,8 @@
             document.getElementById('profileTrades').innerHTML = trades.length;
             document.getElementById('profileInventoryValue').innerHTML = `${Math.floor(portfolioVal).toLocaleString()} R$`;
         }
-
-        // CHART
-        function generateChartData(item, days) {
-            let labels = [], data = [];
-            for (let i = days; i >= 0; i--) {
-                if (days === 7) labels.push(`${i}d`);
-                else if (days === 30) labels.push(`${Math.floor(i/7)}w`);
-                else labels.push(`${Math.floor(i/30)}m`);
-                let trendFactor = item.trend === 'bullish' ? 0.008 : (item.trend === 'bearish' ? -0.005 : 0.001);
-                let change = (Math.random() - 0.5) * 0.04 + trendFactor;
-                let price = item.value * (1 + change * (days - i) / days);
-                data.push(Math.max(price * 0.7, Math.min(price * 1.3, price)));
-            }
-            return { labels: labels.reverse(), data: data.reverse() };
-        }
-        function initChart() {
-            let ctx = document.getElementById('itemChart').getContext('2d');
-            let chartData = generateChartData(currentChartItem, currentTimeframe);
-            if (priceChart) priceChart.destroy();
-            priceChart = new Chart(ctx, {
-                type: 'line',
-                data: { labels: chartData.labels, datasets: [{ label: `${currentChartItem.name} Price (R$)`, data: chartData.data, borderColor: '#00f3ff', backgroundColor: 'rgba(0,243,255,0.1)', tension: 0.4, fill: true }] },
-                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#a0a0b0' } } }, scales: { y: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0' } }, x: { grid: { color: '#252530' }, ticks: { color: '#a0a0b0' } } } }
-            });
-        }
-        function updateChartUI() {
-            let chartData = generateChartData(currentChartItem, currentTimeframe);
-            if (priceChart) { priceChart.data.labels = chartData.labels; priceChart.data.datasets[0].data = chartData.data; priceChart.update(); }
-            document.getElementById('selectedItemName').innerHTML = currentChartItem.name;
-            document.getElementById('priceChange').innerHTML = `${currentChartItem.change >= 0 ? '+' : ''}${currentChartItem.change}%`;
-            document.getElementById('priceChange').style.color = currentChartItem.change >= 0 ? 'var(--green)' : 'var(--red)';
-            document.getElementById('volumeDisplay').innerHTML = currentChartItem.volume;
-            document.getElementById('demandDisplay').innerHTML = currentChartItem.demand.charAt(0).toUpperCase() + currentChartItem.demand.slice(1);
-            document.getElementById('stockDisplay').innerHTML = currentChartItem.stock;
-        }
-
-        // TRADING
+        
+        // Trading functions
         function executeTrade() {
             let itemId = parseInt(document.getElementById('tradeItemSelect').value);
             let price = parseFloat(document.getElementById('tradePrice').value);
@@ -839,11 +1056,13 @@
             updateOrderBook();
             updatePortfolioStats();
         }
+        
         function updateTradeTotal() {
             let price = parseFloat(document.getElementById('tradePrice').value) || 0;
             let qty = parseInt(document.getElementById('tradeQuantity').value) || 0;
             document.getElementById('tradeTotal').innerHTML = `${(price * qty).toLocaleString()} R$`;
         }
+        
         function updateOrderBook() {
             let itemId = parseInt(document.getElementById('tradeItemSelect').value);
             let item = ALL_ITEMS.find(i => i.id === itemId);
@@ -853,16 +1072,17 @@
                 bids.push({ price: item.value - (i * (item.value * 0.01)), qty: Math.floor(Math.random() * 50) + 10 });
                 asks.push({ price: item.value + (i * (item.value * 0.01)), qty: Math.floor(Math.random() * 50) + 10 });
             }
-            document.getElementById('orderBook').innerHTML = `<div class="order-book-side"><div class="order-book-title">📈 Bids</div>${bids.map(b => `<div class="order-row"><span class="bid-price">${Math.floor(b.price)} R$</span><span>${b.qty} items</span></div>`).join('')}</div><div class="order-book-side"><div class="order-book-title">📉 Asks</div>${asks.map(a => `<div class="order-row"><span class="ask-price">${Math.floor(a.price)} R$</span><span>${a.qty} items</span></div>`).join('')}</div>`;
+            document.getElementById('orderBook').innerHTML = `<div class="order-book-side"><div class="order-book-title">📈 Bids</div>${bids.map(b => `<div class="order-row"><span class="bid-price">${Math.floor(b.price)} R$</span><span>${b.qty}</span></div>`).join('')}</div><div class="order-book-side"><div class="order-book-title">📉 Asks</div>${asks.map(a => `<div class="order-row"><span class="ask-price">${Math.floor(a.price)} R$</span><span>${a.qty}</span></div>`).join('')}</div>`;
         }
-
-        // DEPOSIT
+        
+        // Deposit
         function updateDepositTotal() {
             let select = document.getElementById('depositItemSelect');
             let val = parseFloat(select.options[select.selectedIndex]?.dataset?.value || 0);
             let qty = parseInt(document.getElementById('depositQuantity').value) || 0;
             document.getElementById('depositTotal').innerHTML = `${(val * qty).toLocaleString()} R$`;
         }
+        
         function confirmDeposit() {
             let game = document.getElementById('depositGame').value;
             let itemId = parseInt(document.getElementById('depositItemSelect').value);
@@ -881,60 +1101,68 @@
             updatePortfolioStats();
             showToast(`Deposited ${qty}x ${item.name}! +${totalValue.toLocaleString()} R$`, 'success');
         }
-
-        // RENDERING
+        
+        // Rendering functions
         function renderMarket() {
             let search = document.getElementById('marketSearch')?.value.toLowerCase() || '';
             let filtered = ALL_ITEMS.filter(i => i.name.toLowerCase().includes(search));
-            document.getElementById('marketGrid').innerHTML = filtered.map(i => `<div class="item-card" onclick="selectItem(${i.id})"><div class="item-name">${i.icon} ${i.name}</div><div class="item-price">${i.value.toLocaleString()} R$</div><div class="item-change ${i.change >= 0 ? 'up' : 'down'}">${i.change >= 0 ? '+' : ''}${i.change}%</div><div style="font-size:0.75rem">Vol: ${i.volume}</div></div>`).join('');
+            document.getElementById('marketGrid').innerHTML = filtered.map(i => `<div class="item-card" onclick="selectItem(${i.id})"><div class="item-name">${i.icon} ${i.name}</div><div class="item-price">${i.value.toLocaleString()} R$</div><div class="item-change ${i.change >= 0 ? 'up' : 'down'}">${i.change >= 0 ? '+' : ''}${i.change}%</div><div style="font-size:0.65rem">Vol: ${i.volume}</div></div>`).join('');
         }
+        
         function renderMM2() {
             let search = document.getElementById('mm2Search')?.value.toLowerCase() || '';
-            let filtered = MM2_ITEMS.filter(i => i.name.toLowerCase().includes(search));
-            document.getElementById('mm2Grid').innerHTML = filtered.map(i => `<div class="item-card" onclick="selectItem(${i.id})"><div class="item-name">${i.icon} ${i.name}</div><div class="item-price">${i.value.toLocaleString()} R$</div><div class="item-change ${i.change >= 0 ? 'up' : 'down'}">${i.change >= 0 ? '+' : ''}${i.change}%</div><div style="font-size:0.75rem">${i.rarity} | ${i.demand}</div></div>`).join('');
+            let filtered = ALL_ITEMS.filter(i => i.id < 100 && i.name.toLowerCase().includes(search));
+            document.getElementById('mm2Grid').innerHTML = filtered.map(i => `<div class="item-card" onclick="selectItem(${i.id})"><div class="item-name">${i.icon} ${i.name}</div><div class="item-price">${i.value.toLocaleString()} R$</div><div class="item-change ${i.change >= 0 ? 'up' : 'down'}">${i.change >= 0 ? '+' : ''}${i.change}%</div><div style="font-size:0.65rem">${i.rarity}</div></div>`).join('');
         }
+        
         function renderAdopt() {
             let search = document.getElementById('adoptSearch')?.value.toLowerCase() || '';
-            let filtered = ADOPT_ITEMS.filter(i => i.name.toLowerCase().includes(search));
-            document.getElementById('adoptGrid').innerHTML = filtered.map(i => `<div class="item-card" onclick="selectItem(${i.id})"><div class="item-name">${i.icon} ${i.name}</div><div class="item-price">${i.value.toLocaleString()} R$</div><div class="item-change ${i.change >= 0 ? 'up' : 'down'}">${i.change >= 0 ? '+' : ''}${i.change}%</div><div style="font-size:0.75rem">${i.rarity} | ${i.demand}</div></div>`).join('');
+            let filtered = ALL_ITEMS.filter(i => i.id >= 100 && i.name.toLowerCase().includes(search));
+            document.getElementById('adoptGrid').innerHTML = filtered.map(i => `<div class="item-card" onclick="selectItem(${i.id})"><div class="item-name">${i.icon} ${i.name}</div><div class="item-price">${i.value.toLocaleString()} R$</div><div class="item-change ${i.change >= 0 ? 'up' : 'down'}">${i.change >= 0 ? '+' : ''}${i.change}%</div><div style="font-size:0.65rem">${i.rarity}</div></div>`).join('');
         }
+        
         function renderInventory() {
             let grid = document.getElementById('inventoryGrid');
             let empty = document.getElementById('inventoryEmpty');
             if (!inventory.length) { if(grid) grid.innerHTML = ''; if(empty) empty.style.display = 'block'; return; }
             if(empty) empty.style.display = 'none';
-            grid.innerHTML = inventory.map(i => { let market = ALL_ITEMS.find(x => x.id === i.id); let curr = market ? market.value : i.avgPrice; return `<div class="item-card"><div class="item-name">${i.icon} ${i.name}</div><div>📦 Qty: ${i.qty}</div><div>💰 Avg: ${Math.floor(i.avgPrice).toLocaleString()} R$</div><div>📈 Current: ${curr.toLocaleString()} R$</div><div>💎 Total: ${(curr * i.qty).toLocaleString()} R$</div></div>`; }).join('');
+            grid.innerHTML = inventory.map(i => { let market = ALL_ITEMS.find(x => x.id === i.id); let curr = market ? market.value : i.avgPrice; return `<div class="item-card"><div class="item-name">${i.icon} ${i.name}</div><div>Qty: ${i.qty}</div><div>Avg: ${Math.floor(i.avgPrice).toLocaleString()} R$</div><div>Now: ${curr.toLocaleString()} R$</div><div>Total: ${(curr * i.qty).toLocaleString()} R$</div></div>`; }).join('');
         }
+        
         function renderPortfolio() {
             let grid = document.getElementById('portfolioGrid');
             if (!inventory.length) { grid.innerHTML = '<div class="empty-state">No items yet</div>'; return; }
-            grid.innerHTML = inventory.map(i => { let market = ALL_ITEMS.find(x => x.id === i.id); let curr = market ? market.value : i.avgPrice; let pnl = (curr - i.avgPrice) * i.qty; return `<div class="item-card"><div class="item-name">${i.icon} ${i.name}</div><div>📦 ${i.qty} items</div><div>💰 Avg: ${Math.floor(i.avgPrice).toLocaleString()} R$</div><div>📈 Current: ${curr.toLocaleString()} R$</div><div style="color:${pnl >=0 ? 'var(--green)' : 'var(--red)'}">📊 P&L: ${pnl >=0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$</div></div>`; }).join('');
+            grid.innerHTML = inventory.map(i => { let market = ALL_ITEMS.find(x => x.id === i.id); let curr = market ? market.value : i.avgPrice; let pnl = (curr - i.avgPrice) * i.qty; return `<div class="item-card"><div class="item-name">${i.icon} ${i.name}</div><div>📦 ${i.qty}</div><div>💰 Avg: ${Math.floor(i.avgPrice).toLocaleString()} R$</div><div>📈 Now: ${curr.toLocaleString()} R$</div><div style="color:${pnl >=0 ? 'var(--green)' : 'var(--red)'}">P&L: ${pnl >=0 ? '+' : ''}${Math.floor(pnl).toLocaleString()} R$</div></div>`; }).join('');
         }
+        
         function renderTrending() {
             let trending = [...ALL_ITEMS].sort((a,b) => b.change - a.change).slice(0,6);
             document.getElementById('trendingGrid').innerHTML = trending.map(i => `<div class="item-card" onclick="selectItem(${i.id})"><div class="item-name">${i.icon} ${i.name}</div><div class="item-price">${i.value.toLocaleString()} R$</div><div class="item-change ${i.change >=0 ? 'up' : 'down'}">${i.change >=0 ? '+' : ''}${i.change}%</div></div>`).join('');
         }
-        function renderDashboard() {
+        
+        function updateDashboard() {
             let top = [...ALL_ITEMS].sort((a,b) => b.change - a.change).slice(0,5);
-            document.getElementById('topPerformers').innerHTML = top.map(i => `<div style="display:flex; justify-content:space-between; margin-bottom:0.5rem"><span>${i.icon} ${i.name}</span><span class="${i.change >=0 ? 'trend-up' : 'trend-down'}">${i.change >=0 ? '+' : ''}${i.change}%</span></div>`).join('');
+            document.getElementById('topPerformers').innerHTML = top.map(i => `<div style="display:flex; justify-content:space-between; margin-bottom:0.5rem"><span>${i.icon} ${i.name}</span><span class="${i.change >=0 ? 'trend-up' : 'trend-down'}" style="color:${i.change>=0?'var(--green)':'var(--red)'}">${i.change >=0 ? '+' : ''}${i.change}%</span></div>`).join('');
             let recent = trades.slice(-5).reverse();
             document.getElementById('recentActivity').innerHTML = recent.length ? recent.map(t => `<div style="display:flex; justify-content:space-between; margin-bottom:0.5rem"><span>${t.type === 'buy' ? '🟢 Bought' : '🔴 Sold'} ${t.qty}x ${t.item}</span><span>${t.price} R$</span></div>`).join('') : '<p class="text-gray-400">No activity</p>';
             let holdings = inventory.slice(0,5);
-            document.getElementById('holdingSummary').innerHTML = holdings.length ? holdings.map(h => `<div style="display:flex; justify-content:space-between; margin-bottom:0.5rem"><span>${h.icon} ${h.name}</span><span>${h.qty} items</span></div>`).join('') : '<p class="text-gray-400">No holdings</p>';
-            document.getElementById('marketAlerts').innerHTML = '<p class="text-gray-400">🔔 High demand: Harvester</p><p class="text-gray-400">📈 Shadow Dragon up +15%</p><p class="text-gray-400">💎 New items available</p>';
+            document.getElementById('holdingSummary').innerHTML = holdings.length ? holdings.map(h => `<div style="display:flex; justify-content:space-between; margin-bottom:0.5rem"><span>${h.icon} ${h.name}</span><span>${h.qty}</span></div>`).join('') : '<p class="text-gray-400">No holdings</p>';
+            document.getElementById('marketAlerts').innerHTML = '<p class="text-gray-400">🔔 High demand: Harvester</p><p class="text-gray-400">📈 Shadow Dragon up</p><p class="text-gray-400">💎 Market active</p>';
         }
+        
         function renderProfile() {
             document.getElementById('profileUsername').innerHTML = currentUser.displayName || 'Guest User';
-            document.getElementById('profileStatus').innerHTML = currentUser.verified ? '<span style="color:var(--green);">✓ Verified Trader</span>' : 'Not Verified';
+            document.getElementById('profileStatus').innerHTML = currentUser.verified ? '<span style="color:var(--green);">✓ Verified</span>' : 'Not Verified';
             document.getElementById('profileAvatar').src = currentUser.avatar || 'https://ui-avatars.com/api/?name=Guest&background=8b5cf6&color=fff';
             document.getElementById('profileRobloxUser').innerHTML = currentUser.username || 'Not linked';
             document.getElementById('profileVerifiedStatus').innerHTML = currentUser.verified ? 'Yes' : 'No';
             document.getElementById('profileTrust').innerHTML = currentUser.verified ? '100%' : '0%';
-            document.getElementById('robloxLinkText').innerHTML = currentUser.verified ? `✓ ${currentUser.username}` : 'Link Roblox';
+            document.getElementById('robloxLinkText').innerHTML = currentUser.verified ? `✓` : 'Link';
         }
-        function renderEverything() { renderMarket(); renderMM2(); renderAdopt(); renderInventory(); renderPortfolio(); renderTrending(); renderDashboard(); renderProfile(); updatePortfolioStats(); }
-
-        // ITEM SELECTION
+        
+        function renderEverything() { renderMarket(); renderMM2(); renderAdopt(); renderInventory(); renderPortfolio(); renderTrending(); updateDashboard(); renderProfile(); updatePortfolioStats(); }
+        
+        // Item selection
         window.selectItem = function(itemId) {
             let item = ALL_ITEMS.find(i => i.id === itemId);
             if(item) {
@@ -948,8 +1176,8 @@
                 switchPage('trade');
             }
         };
-
-        // NAVIGATION
+        
+        // Navigation
         function switchPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(`${pageId}Page`).classList.add('active');
@@ -957,11 +1185,11 @@
             if(pageId === 'portfolio') renderPortfolio();
             if(pageId === 'inventory') renderInventory();
             if(pageId === 'profile') renderProfile();
-            if(pageId === 'dashboard') renderDashboard();
+            if(pageId === 'dashboard') updateDashboard();
             if(pageId === 'trade') updateOrderBook();
         }
-
-        // ROBLOX VERIFICATION
+        
+        // Roblox Verification
         let pendingProfile = null, pendingCode = null;
         function generateCode() { const a=['CRIMSON','GOLDEN','SILVER','EMERALD']; const b=['PHOENIX','DRAGON','WOLF']; const c=['FLIES','HUNTS','SHINES']; return `${a[Math.floor(Math.random()*a.length)]}_${b[Math.floor(Math.random()*b.length)]}_${c[Math.floor(Math.random()*c.length)]}_${Math.floor(Math.random()*9000+1000)}`; }
         async function fetchRobloxUser(username) { return { id: Math.floor(Math.random()*1000000000), username, displayName: username, avatarUrl: `https://ui-avatars.com/api/?name=${username}&background=00f3ff&color=fff&size=200` }; }
@@ -970,8 +1198,8 @@
         function confirmIdentity() { if(pendingProfile) { pendingCode = generateCode(); document.getElementById('verificationCodeDisplay').innerHTML = `"${pendingCode}"`; document.getElementById('step2Modal').style.display = 'none'; document.getElementById('step3Modal').style.display = 'block'; } }
         function denyIdentity() { document.getElementById('step2Modal').style.display = 'none'; document.getElementById('step1Modal').style.display = 'block'; pendingProfile = null; }
         function completeVerification() { if(pendingProfile && pendingCode) { currentUser.verified = true; currentUser.username = pendingProfile.username; currentUser.displayName = pendingProfile.displayName; currentUser.userId = pendingProfile.id; currentUser.avatar = pendingProfile.avatarUrl; saveData(); renderProfile(); document.getElementById('robloxModal').classList.remove('active'); showToast(`Verified as ${pendingProfile.displayName}!`,'success'); pendingProfile=null; pendingCode=null; } }
-
-        // DROPDOWNS
+        
+        // Dropdowns
         function initDropdowns() {
             let tradeSelect = document.getElementById('tradeItemSelect');
             tradeSelect.innerHTML = '<option value="">-- Choose --</option>' + ALL_ITEMS.map(i => `<option value="${i.id}">${i.icon} ${i.name} - ${i.value} R$</option>`).join('');
@@ -981,8 +1209,8 @@
             document.getElementById('depositGame').onchange = updateDepositItems;
             updateDepositItems();
         }
-
-        // EVENT LISTENERS
+        
+        // Event Listeners
         function setupEvents() {
             document.querySelectorAll('.nav-link, .bottom-nav-item, .side-menu a, .action-card, .logo').forEach(el => { if(el.dataset?.page) el.onclick = () => switchPage(el.dataset.page); else if(el.classList?.contains('logo')) el.onclick = () => switchPage('home'); });
             document.getElementById('exploreTradeBtn').onclick = () => switchPage('trade');
@@ -1000,22 +1228,33 @@
             document.getElementById('confirmDepositBtn').onclick = confirmDeposit;
             document.getElementById('depositInventoryBtn').onclick = () => switchPage('deposit');
             document.getElementById('emptyDepositBtn').onclick = () => switchPage('deposit');
-            document.getElementById('refreshDashboardBtn').onclick = renderDashboard;
+            document.getElementById('refreshDashboardBtn').onclick = () => { updateDashboard(); showToast('Dashboard refreshed', 'info'); };
             document.getElementById('tradePrice').oninput = updateTradeTotal;
             document.getElementById('tradeQuantity').oninput = updateTradeTotal;
             document.getElementById('depositQuantity').oninput = updateDepositTotal;
             document.getElementById('marketSearch').oninput = renderMarket;
             document.getElementById('mm2Search').oninput = renderMM2;
             document.getElementById('adoptSearch').oninput = renderAdopt;
+            
+            // Chart type toggle
+            document.querySelectorAll('.chart-type-btn').forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll('.chart-type-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    setChartType(btn.dataset.chartType);
+                };
+            });
+            
             document.querySelectorAll('.order-tab').forEach(t => { t.onclick = () => { document.querySelectorAll('.order-tab').forEach(ot => ot.classList.remove('active')); t.classList.add('active'); selectedOrderType = t.dataset.orderType; }; });
             document.querySelectorAll('.timeframe-btn').forEach(b => { b.onclick = () => { document.querySelectorAll('.timeframe-btn').forEach(tb => tb.classList.remove('active')); b.classList.add('active'); currentTimeframe = parseInt(b.dataset.timeframe); updateChartUI(); }; });
+            
             // Mobile menu
             document.getElementById('hamburgerBtn').onclick = () => { document.getElementById('sideMenu').classList.toggle('open'); document.getElementById('sideOverlay').classList.toggle('active'); };
             document.getElementById('sideOverlay').onclick = () => { document.getElementById('sideMenu').classList.remove('open'); document.getElementById('sideOverlay').classList.remove('active'); };
             document.getElementById('bottomMenuBtn').onclick = () => { document.getElementById('sideMenu').classList.toggle('open'); document.getElementById('sideOverlay').classList.toggle('active'); };
         }
-
-        // TOAST
+        
+        // Toast
         function showToast(msg, type='info') {
             let container = document.getElementById('toastContainer');
             let toast = document.createElement('div');
@@ -1024,8 +1263,8 @@
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 4000);
         }
-
-        // INIT
+        
+        // Initialize
         function init() {
             loadData();
             initDropdowns();
@@ -1033,8 +1272,9 @@
             renderEverything();
             initChart();
             updateOrderBook();
-            showToast('Welcome to Bloxview! Link your Roblox account to verify.', 'success');
+            showToast('Welcome! Prices update every 30 seconds from market data.', 'success');
         }
+        
         init();
     </script>
 </body>
